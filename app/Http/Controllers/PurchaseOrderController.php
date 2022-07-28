@@ -1,0 +1,137 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\CategoryPO;
+use Illuminate\Http\Request;
+use App\Models\PurchaseOrder;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PoExport;
+use Carbon\Carbon;
+
+class PurchaseOrderController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function menu()
+    {
+        return view('purchaseOrder.menu');
+    }
+
+    public function index($id)
+    {
+        $data_company_po = CategoryPO::find($id);
+        $po = PurchaseOrder::where('po_id', $id)->get();
+        return view('purchaseOrder.index')
+            ->with('po', $po)
+            ->with('data_company_po', $data_company_po);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create($id)
+    {
+        $data_po = PurchaseOrder::all();
+        $data_company_po = CategoryPO::find($id);
+        // dd($data_company_po);
+        return view('purchaseOrder.create')
+            ->with('data_company_po', $data_company_po)
+            ->with('data_po', $data_po);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, $id)
+    {
+        $po = $request->except(['_token']);
+        // dd($po);
+        PurchaseOrder::insert([
+            "po_id" => $id,
+            "keterangan" => $request->keterangan,
+            "qty" => $request->qty,
+            "unit" => $request->unit,
+            "unit_price" => $request->unit_price,
+            "amount" => $request->qty * $request->unit_price
+        ]);
+        return redirect("purchase-order/" . $id)->with('success', 'Task Created Successfully!');
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $po_id, $id)
+    {
+        $data = CategoryPO::find($po_id);
+
+        $po = PurchaseOrder::where('id', $id)->first();
+        // dd($po);
+        return view('purchaseOrder.show')
+            ->with('po', $po)
+            ->with('data', $data);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $data = PurchaseOrder::find($id);
+
+        // dd($data);
+        $tes = PurchaseOrder::where("id", $id)->update([
+            "keterangan" => $request->keterangan,
+            "qty" => $request->qty,
+            "unit" => $request->unit,
+            "unit_price" => $request->unit_price,
+            "amount" => $request->qty * $request->unit_price
+        ]);
+        return redirect("purchase-order/" . $data->po_id);
+        // dd($data);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $item = PurchaseOrder::find($id);
+        $item->delete();
+        return redirect("purchase-order/" . $item->po_id)->with('success', 'Task Deleted Successfully!');
+    }
+
+    public function export($id)
+    {
+        return Excel::download(new PoExport($id), 'purchase order.xlsx');
+    }
+}
