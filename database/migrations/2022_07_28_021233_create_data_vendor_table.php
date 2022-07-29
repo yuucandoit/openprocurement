@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('data_vendors', function (Blueprint $table) {
-            $table->id();
+        Schema::create('data_vendor', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('dv_id')->default(0);
             $table->string('npwp');
-            $table->string('nama');
-            $table->string('no_telp');
-            $table->string('alamat');
-            $table->string('email');
             $table->enum('Pkp', ['PKP', 'Non-PKP']);
             $table->string('jenis_usaha');
             $table->timestamp('created_at')->useCurrent()->nullable();

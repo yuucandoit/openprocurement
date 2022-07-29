@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class DataVendor extends Model
 {
     use HasFactory;
-    
-    protected $guarded = ["id"];
+    protected $table = "data_vendor";
+    protected $fillable = [
+        'npwp',
+        'Pkp',
+        'jenis_usaha'
+    ];
+    protected $hidden;
 }

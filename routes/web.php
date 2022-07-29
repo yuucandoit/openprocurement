@@ -9,6 +9,7 @@ use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\PembelianBarangController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryDVController;
 use App\Http\Controllers\DataVendorController;
 use App\Models\DataVendor;
 use Illuminate\Support\Facades\Route;
@@ -120,33 +121,52 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
     });
 
-    // // Route untuk Data Vendor
-    // Route::group(['prefix' => 'data-vendor'], function () {
-    //     Route::get('/', [DataVendorController::class, 'index'])->name('data-vendor.index');
-    //     Route::get('/create', [DataVendorController::class, 'create'])->name('data-vendor.create');
-    //     Route::post('/store', [DataVendorController::class, 'store'])->name('data-vendor.store');
-    //     Route::get('/show/{id}', [DataVendorController::class, 'show'])->name('data-vendor.show');
-    //     Route::post('/update/{id}', [DataVendorController::class, 'update'])->name('data-vendor.update');
-    //     Route::post('/destroy/{id}', [DataVendorController::class, 'destroy'])->name('data-vendor.destroy');
-    // });
 
-    // // // Menu Purchase Order
-    // // Route::group(['prefix' => 'menu-data-vendor'], function () {
-    // //     Route::get('/', [CategoryPOController::class, 'index'])->name('menu-data-vendor.index');
-    // //     Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-data-vendor.create');
-    // //     Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-data-vendor.store');
-    // //     Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-data-vendor.destroy');
-    // //     Route::get('/accept/{id}', [CategoryPOController::class, 'accept'])->name('menu-data-vendor-accept');
-    // //     Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-data-vendor-denied');
-    // // });
+    // //Data Vendor
+    // Route::get('/data-vendor', [DataVendorController::class, 'index'])->name('datavendor.index');
+    // Route::get('/create-vendor', [DataVendorController::class, 'create'])->name('datavendor.create');
+    // Route::post('/store-vendor', [DataVendorController::class, 'store'])->name('datavendor.store');
+    // Route::get('/show-vendor/{id}', [DataVendorController::class, 'show'])->name('datavendor.show');
+    // Route::post('/update/{id}', [DataVendorController::class, 'update']);
+    // Route::get('/destroy/{id}', [DataVendorController::class, 'destroy']);
 
-    //Data Vendor
-    Route::get('/data-vendor', [DataVendorController::class, 'index'])->name('datavendor.index');
-    Route::get('/create-vendor', [DataVendorController::class, 'create'])->name('datavendor.create');
-    Route::post('/store-vendor', [DataVendorController::class, 'store'])->name('datavendor.store');
-    Route::get('/show-vendor/{id}', [DataVendorController::class, 'show'])->name('datavendor.show');
-    Route::post('/update/{id}', [DataVendorController::class, 'update']);
-    Route::get('/destroy/{id}', [DataVendorController::class, 'destroy']);
+    // Route untuk Data Vendor
+    Route::group(['prefix' => 'data-vendor'], function () {
+        Route::get('/{id}', [DataVendorController::class, 'index'])->name('data-vendor.index');
+        Route::get('/create/{id}', [DataVendorController::class, 'create'])->name('data-vendor.create');
+        Route::post('/store/{id}', [DataVendorController::class, 'store'])->name('data-vendor.store');
+        Route::get('/show/{id_company}/{id}', [DataVendorController::class, 'show'])->name('data-vendor.show');
+        Route::post('/update/{id}', [DataVendorController::class, 'update'])->name('data-vendor.update');
+        Route::post('/destroy/{id}', [DataVendorController::class, 'destroy'])->name('data-vendor.destroy');
+    });
+
+    // Menu Data vendor
+    Route::group(['prefix' => 'menu-data-vendor'], function () {
+        Route::get('/', [CategoryDVController::class, 'index'])->name('menu-data-vendor.index');
+        Route::get('/create', [CategoryDVController::class, 'create'])->name('menu-data-vendor.create');
+        Route::post('/store', [CategoryDVController::class, 'store'])->name('menu-data-vendor.store');
+        Route::put('/edit/{id}', [DataVendorController::class, 'edit']);
+        Route::get('/destroy/{id}', [CategoryDVController::class, 'destroy'])->name('menu-data-vendor.destroy');
+    });
+
+    // Route untuk Data Supplier
+    Route::group(['prefix' => 'data-supplier'], function () {
+        Route::get('/{id}', [DataVendorController::class, 'index'])->name('data-vendor.index');
+        Route::get('/create/{id}', [DataVendorController::class, 'create'])->name('data-vendor.create');
+        Route::post('/store/{id}', [DataVendorController::class, 'store'])->name('data-vendor.store');
+        Route::get('/show/{id_company}/{id}', [DataVendorController::class, 'show'])->name('data-vendor.show');
+        Route::post('/update/{id}', [DataVendorController::class, 'update'])->name('data-vendor.update');
+        Route::post('/destroy/{id}', [DataVendorController::class, 'destroy'])->name('data-vendor.destroy');
+    });
+
+    // Menu Data Supplier
+    Route::group(['prefix' => 'menu-data-supplier'], function () {
+        Route::get('/', [CategoryDVController::class, 'index'])->name('menu-data-vendor.index');
+        Route::get('/create', [CategoryDVController::class, 'create'])->name('menu-data-vendor.create');
+        Route::post('/store', [CategoryDVController::class, 'store'])->name('menu-data-vendor.store');
+        Route::put('/edit/{id}', [DataVendorController::class, 'edit']);
+        Route::get('/destroy/{id}', [CategoryDVController::class, 'destroy'])->name('menu-data-vendor.destroy');
+    });
 
     //admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -161,6 +181,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/quotation/{id}', [QuotationController::class, 'export'])->name('export-qt');
     Route::get('/export_excel/purchase_order/{id}', [PurchaseOrderController::class, 'export'])->name('export-po');
     Route::get('/export_excel/pembelian_barang/{id}', [PembelianBarangController::class, 'export'])->name('export-pb');
+    Route::get('/export_excel/vendor/{id}', [DataVendorController::class, 'export'])->name('export-dv   ');
 });
 
 Auth::routes();

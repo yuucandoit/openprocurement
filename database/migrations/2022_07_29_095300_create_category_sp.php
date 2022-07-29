@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category_d_v_s', function (Blueprint $table) {
+        Schema::create('category_sp', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_d_v_s');
+        Schema::dropIfExists('category_s_p_s');
     }
 };

@@ -97,7 +97,7 @@
                         </li>
                         <li class="sidebar-title">Data Vendor / Supplier</li>
                         <li class="sidebar-item {{ request()->is('*dataVendor*') ? 'active' : '' }}">
-                            <a href="{{ url('/data-vendor') }}" class='sidebar-link'>
+                            <a href="{{ url('/menu-data-vendor') }}" class='sidebar-link'>
                                 <i class="bi bi-vendor-x"></i>
                                 <span>Vendor</span>
                             </a>

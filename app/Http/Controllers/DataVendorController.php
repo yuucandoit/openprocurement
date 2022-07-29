@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DvExport;
+use App\Models\CategoryDV;
 use App\Models\DataVendor;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DataVendorController extends Controller
 {
@@ -12,10 +15,19 @@ class DataVendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function menu()
     {
-        $datavendor['datavendor'] = DataVendor::all();
-        return view('dataVendor.index',$datavendor);
+        return view('dataVendor.menu.index');
+    }
+
+    public function index($id)
+    {
+        $data_vendor = CategoryDV::find($id);
+        $dv = DataVendor::where('dv_id', $id)->get();
+        return view('dataVendor.index')
+            ->with('dv', $dv)
+            ->with('data_vendor', $data_vendor);
     }
 
     /**
@@ -23,9 +35,14 @@ class DataVendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('dataVendor.create');
+        $vendor = DataVendor::all();
+        $data_vendor = CategoryDV::find($id);
+        // dd($data_company_po);
+        return view('dataVendor.create')
+            ->with('data_vendor', $data_vendor)
+            ->with('vendor', $vendor);
     }
 
     /**
@@ -34,28 +51,18 @@ class DataVendorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request )
+    public function store(Request $request, $id)
     {
-        $request->validate([
-            "npwp" => 'required',
-            "nama" => 'required',
-            "no_telp" =>'required',
-            "alamat" => 'required',
-            "email" => 'required',
-            "pkp" => 'required',
-            "jenis_usaha" => 'required'
+        $dv = $request->except(['_token']);
+        // dd($po);
+       DataVendor::insert([
+            "dv_id" => $id,
+            "npwp" => $request->npwp,
+            "Pkp" => $request->Pkp,
+            "jenis_usaha" => $request->jenis_usaha,
         ]);
-        $datavendor = new DataVendor();
-        $datavendor->npwp = $request->npwp;
-        $datavendor->nama = $request->nama;
-        $datavendor->no_telp = $request->no_telp;
-        $datavendor->alamat = $request->alamat;
-        $datavendor->email = $request->email;
-        $datavendor->pkp = $request->pkp;
-        $datavendor->jenis_usaha = $request->jenis_usaha;
-        $datavendor->save();
 
-        return redirect()->route('datavendor.index')->with('success', 'Task Created Successfully!');
+        return redirect("data-vendor/" . $id)->with('success', 'Task Created Successfully!');
     }
 
     /**
@@ -64,10 +71,16 @@ class DataVendorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($dv_id ,$id)
     {
-        $datavendor = DataVendor::where('id', $id)->first();
-        return view('dataVendor.show')->with('datavendor',$datavendor);
+        $data = CategoryDV::find($dv_id);
+
+        $dv = DataVendor::where('id', $id)->first();
+        // dd($po);
+        return view('dataVendor.show')
+        ->with('dv', $dv)
+        ->with('data', $data);
+
     }
 
     /**
@@ -76,10 +89,9 @@ class DataVendorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(DataVendor $datavendor)
+    public function edit($id)
     {
-
-        return view('dataVendor.show',compact('datavendor'));
+        //
     }
 
     /**
@@ -91,26 +103,17 @@ class DataVendorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     "npwp" => 'required',
-        //     "nama" => 'required',
-        //     "no_telp" =>'required',
-        //     "alamat" => 'required',
-        //     "email" => 'required',
 
-        // ]);
-        $datavendor = DataVendor::find($id);
-        $data = DataVendor::where("id" ,$id)->update([
+        $data = DataVendor::find($id);
+
+        // dd($data);
+        $tes = DataVendor::where("id", $id)->update([
             "npwp" => $request->npwp,
-            "nama" => $request->nama,
-            "no_telp" =>$request->no_telp,
-            "alamat" => $request->alamat,
-            "email" => $request->email,
             "Pkp" => $request->Pkp,
             "jenis_usaha" => $request->jenis_usaha,
         ]);
-
-        return redirect('/data-vendor')->with('success', 'Task Created Successfully!');
+        return redirect("data-vendor/" . $data->dv_id);
+        // dd($data);
     }
 
     /**
@@ -124,5 +127,14 @@ class DataVendorController extends Controller
         $datavendor = DataVendor::find($id);
         $datavendor->delete();
         return redirect()->view('datavendor.index')->with('success','Task Deleted Successfully!');
+        $item = DataVendor::find($id);
+        $item->delete();
+        return redirect("data-vendor/" . $item->dv_id)->with('success', 'Task Deleted Successfully!');
+    }
+
+    public function export($id)
+    {
+        // dd('hallo');
+        return Excel::download(new DvExport($id), 'vendor.xlsx');
     }
 }
