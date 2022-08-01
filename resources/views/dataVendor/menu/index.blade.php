@@ -79,7 +79,7 @@
             </div>
         @endforeach
 
-        
+
 
         <div class="container-fluid">
             <div class="row">
@@ -130,8 +130,8 @@
                                         @endhasrole
                                         <td>
                                 <a href="{{ url('/data-vendor/' . $vendor->id) }}" class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                 <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                 data-bs-target="#modalUpdate{{ $vendor->id }}">Update</button>
+                                <a href="{{ url('/menu-data-vendor/edit/' . $vendor->id) }}"
+                                    class="btn btn-outline-info"><i class="bx bxs-edit"></i> Edit</a>
                                  <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                  data-bs-target="#modalDelete{{ $vendor->id }}">Delete</button>
 

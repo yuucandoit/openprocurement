@@ -145,7 +145,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [CategoryDVController::class, 'index'])->name('menu-data-vendor.index');
         Route::get('/create', [CategoryDVController::class, 'create'])->name('menu-data-vendor.create');
         Route::post('/store', [CategoryDVController::class, 'store'])->name('menu-data-vendor.store');
-        Route::put('/edit/{id}', [DataVendorController::class, 'edit']);
+        Route::get('/edit/{id}', [CategoryDVController::class, 'edit'])->name('menu-data-vendor.edit');
+        Route::post('/update/{id}', [CategoryDVController::class, 'update'])->name('menu-data-vendor.update');
         Route::get('/destroy/{id}', [CategoryDVController::class, 'destroy'])->name('menu-data-vendor.destroy');
     });
 

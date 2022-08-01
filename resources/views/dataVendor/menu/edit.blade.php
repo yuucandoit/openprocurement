@@ -10,34 +10,34 @@
                 <h5 class="card-title">Edit Vendor</h5>
 
                 <!-- Floating Labels Form -->
-                <form class="row g-3" action={{ url('/menu-data-vendor/update/' . $datavendor->id) }} method="POST"
+                <form class="row g-3" action={{ url('/menu-data-vendor/update/' . $dv->id) }} method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input type="text" class="form-control mt-3" id="floatingName" placeholder="Your Name"
-                                name="nama" value={{ $datavendor->nama }} >
+                                name="nama" value={{ $dv->nama }} >
                             <label for="floatingName">Name</label>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input type="text" class="form-control mt-3" id="floatingName" placeholder="No Telpon"
-                                name="no_telp" value={{ $datavendor->no_telp }} >
+                                name="no_telp" value={{ $dv->no_telp }} >
                             <label for="floatingName">Nomor Telpon</label>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="floatingAddress" placeholder="alamat"
-                                name="alamat" value={{ $datavendor->alamat }} >
+                                name="alamat" value={{ $dv->alamat }} >
                             <label for="floatingAddress">Alamat</label>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="floatingKeterangan" placeholder="Email"
-                                name="email" value="{{ $datavendor->email }}">
+                                name="email" value="{{ $dv->email }}">
                             <label for="floatingKeterangan">Email</label>
                         </div>
                     </div>

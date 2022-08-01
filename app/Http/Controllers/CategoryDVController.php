@@ -61,11 +61,7 @@ class CategoryDVController extends Controller
      */
     public function show($dv_id,$id)
     {
-        $data = CategoryDV::find($dv_id);
 
-        $dv = DataVendor::where('id', $id)->first();
-        // dd($po);
-        return view('dataVendor.menu.show');
     }
 
     /**
@@ -76,7 +72,12 @@ class CategoryDVController extends Controller
      */
     public function edit($id)
     {
-        //
+        //$data = CategoryDV::find($dv_id);
+
+        $dv = CategoryDV::where('id', $id)->first();
+        // dd($po);
+        return view('dataVendor.menu.edit')
+        ->with('dv' , $dv);
     }
 
     /**
@@ -97,7 +98,7 @@ class CategoryDVController extends Controller
             "alamat" => $request->alamat,
             "email" => $request->email,
         ]);
-        return redirect("menu-data-vendor/" . $data->user_id);
+        return redirect("menu-data-vendor/");
         // dd($data);
     }
 
