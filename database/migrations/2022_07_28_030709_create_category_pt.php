@@ -13,13 +13,23 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category_dv', function (Blueprint $table) {
+        Schema::create('category_pt', function (Blueprint $table) {
             $table->id();
             $table->string('user_id')->default('0');
             $table->string('nama');
-            $table->string('no_telp');
             $table->string('alamat');
+            $table->string('no_telp_kantor');
+            $table->string('website');
+            $table->string('nama_pic');
+            $table->string('no_telp_pic');
             $table->string('email');
+            $table->string('npwp_perusahaan');
+            $table->enum('Pkp', ['PKP', 'Non-PKP']);
+            $table->string('nib');
+            $table->string('bidang_usaha');
+            $table->string('no_rekening');
+            $table->enum('bank',['BCA(014)','Mandiri(008)','BNI(009)','BRI(002)', 'BTN(200)','Danamon(011)', 'Permata(013)', 'Maybank(016)']);
+            $table->string('nama_penerima');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

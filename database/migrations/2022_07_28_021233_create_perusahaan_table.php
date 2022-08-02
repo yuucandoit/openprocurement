@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('data_vendor', function (Blueprint $table) {
+        Schema::create('perusahaan', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('dv_id')->default(0);
+            $table->integer('pt_id')->default(0);
             $table->string('npwp');
-            $table->enum('Pkp', ['PKP', 'Non-PKP']);
+            $table->enum('pkp', ['PKP', 'Non-PKP']);
             $table->string('jenis_usaha');
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category_sp', function (Blueprint $table) {
+        Schema::create('private_person', function (Blueprint $table) {
             $table->id();
+            $table->integer('pp_id')->default(0);
+            $table->string('nama');
+            $table->string('alamat');
+            $table->string('nik');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_s_p_s');
+        Schema::dropIfExists('suppliers');
     }
 };

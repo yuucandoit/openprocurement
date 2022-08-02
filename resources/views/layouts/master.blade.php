@@ -96,16 +96,22 @@
                             </a>
                         </li>
                         <li class="sidebar-title">Data Vendor / Supplier</li>
-                        <li class="sidebar-item {{ request()->is('*dataVendor*') ? 'active' : '' }}">
-                            <a href="{{ url('/menu-data-vendor') }}" class='sidebar-link'>
-                                <i class="bi bi-vendor-x"></i>
-                                <span>Vendor</span>
+                        <li class="sidebar-item {{ request()->is('*perusahaan*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-perusahaan') }}" class='sidebar-link'>
+                                <i class="bi bi-building"></i>
+                                <span>Perusahaan</span>
                             </a>
                         </li>
-                        <li class="sidebar-item {{ request()->is('*dataSupplier*') ? 'active' : '' }}">
-                            <a href="{{ url('/datasupplier') }}" class='sidebar-link'>
-                                <i class="bi bi-calendar-x"></i>
-                                <span>Supplier</span>
+                        <li class="sidebar-item {{ request()->is('*private-person*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-private-person') }}" class='sidebar-link'>
+                                <i class="bi bi-person-lines-fill"></i>
+                                <span>Private Person</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item {{ request()->is('*ecommerce*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-ecommerce') }}" class='sidebar-link'>
+                                <i class="bi bi-cast"></i>
+                                <span>Ecommerce</span>
                             </a>
                         </li>
                         @hasrole('super admin')

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Exports\DvExport;
+use App\Exports\PTExport;
 use App\Models\CategoryDV;
+use App\Models\CategoryPT;
 use App\Models\DataVendor;
+use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
-class DataVendorController extends Controller
+class PerusahaanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,20 +19,28 @@ class DataVendorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function menu()
-    {
-        return view('dataVendor.menu.index');
-    }
+    // public function menu()
+    // {
+    //     return view('dataVendor.menu.index');
+    // }
 
     public function index($id)
     {
-        $data_vendor = CategoryDV::find($id);
-        $dv = DataVendor::where('dv_id', $id)->get();
+        /*$data_vendor*/  $data_perusahaan = CategoryPT::find($id);
+        /*$dv*/ $pt = Perusahaan::where('pt_id', $id)->get();
         return view('dataVendor.index')
-            ->with('dv', $dv)
-            ->with('data_vendor', $data_vendor);
+            ->with('pt', $pt)
+            ->with('data_vendor', $data_perusahaan);
     }
 
+    public function detail($id)
+    {
+        /*$data_vendor*/  $data_perusahaan = CategoryPT::find($id);
+        /*$dv*/ $pt = Perusahaan::where('pt_id', $id)->get();
+        return view('dataPerusahaan.detail')
+            ->with('pt', $pt)
+            ->with('data_perusahaan', $data_perusahaan);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -37,12 +48,12 @@ class DataVendorController extends Controller
      */
     public function create($id)
     {
-        $vendor = DataVendor::all();
-        $data_vendor = CategoryDV::find($id);
+       /*$vendor*/  $perusahaan = Perusahaan::all();
+        /*$data_vendor*/ $data_perusahaan = CategoryPT::find($id);
         // dd($data_company_po);
         return view('dataVendor.create')
-            ->with('data_vendor', $data_vendor)
-            ->with('vendor', $vendor);
+            ->with('data_perusahaan', $data_perusahaan)
+            ->with('perusahaan', $perusahaan);
     }
 
     /**
@@ -53,10 +64,18 @@ class DataVendorController extends Controller
      */
     public function store(Request $request, $id)
     {
+        //validasi formnya
+        $this->validate($request,[
+            'pt_id' => 'required',
+            'npwp' => 'required',
+            'Pkp' => 'required',
+            'jenis_usaha' => 'required',
+        ]);
+
         $dv = $request->except(['_token']);
         // dd($po);
-       DataVendor::insert([
-            "dv_id" => $id,
+       Perusahaan::insert([
+            "pt_id" => $id,
             "npwp" => $request->npwp,
             "Pkp" => $request->Pkp,
             "jenis_usaha" => $request->jenis_usaha,
@@ -71,11 +90,11 @@ class DataVendorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($dv_id ,$id)
+    public function show($pt_id ,$id)
     {
-        $data = CategoryDV::find($dv_id);
+        $data = CategoryPT::find($pt_id);
 
-        $dv = DataVendor::where('id', $id)->first();
+        $dv = Perusahaan::where('id', $id)->first();
         // dd($po);
         return view('dataVendor.show')
         ->with('dv', $dv)
@@ -104,15 +123,15 @@ class DataVendorController extends Controller
     public function update(Request $request, $id)
     {
 
-        $data = DataVendor::find($id);
+        $data = Perusahaan::find($id);
 
         // dd($data);
-        $tes = DataVendor::where("id", $id)->update([
+        $tes = Perusahaan::where("id", $id)->update([
             "npwp" => $request->npwp,
             "Pkp" => $request->Pkp,
             "jenis_usaha" => $request->jenis_usaha,
         ]);
-        return redirect("data-vendor/" . $data->dv_id);
+        return redirect("data-vendor/" . $data->pt_id);
         // dd($data);
     }
 
@@ -124,17 +143,17 @@ class DataVendorController extends Controller
      */
     public function destroy($id)
     {
-        $datavendor = DataVendor::find($id);
+        $datavendor = Perusahaan::find($id);
         $datavendor->delete();
         return redirect()->view('datavendor.index')->with('success','Task Deleted Successfully!');
-        $item = DataVendor::find($id);
+        $item = Perusahaan::find($id);
         $item->delete();
-        return redirect("data-vendor/" . $item->dv_id)->with('success', 'Task Deleted Successfully!');
+        return redirect("data-vendor/" . $item->pt_id)->with('success', 'Task Deleted Successfully!');
     }
 
     public function export($id)
     {
         // dd('hallo');
-        return Excel::download(new DvExport($id), 'vendor.xlsx');
+        return Excel::download(new PTExport($id), 'perusahaan.xlsx');
     }
 }

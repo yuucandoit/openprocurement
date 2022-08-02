@@ -26,11 +26,12 @@ class DvExport implements ShouldAutoSize, FromView
 
      public function view(): View
      {
-         $data['pembelian_barang'] = DataVendor::where('pb_id', $this->id)->get();
-         $data['category_pb'] = CategoryDV::where('id', $this->id)->first();
+         $data['data_vendor'] = DataVendor::where('dv_id', $this->id)->get();
+         $data['dv'] = DataVendor::where('id', $this->id)->first();
+         $data['category_dv'] = CategoryDV::where('id', $this->id)->first();
          $data['year'] = Carbon::now()->format('y');
          $data['month'] = Carbon::now()->format('m');
-         return view('exports.pembelianbarang', $data);
+         return view('exports.vendor', $data);
      }
 
      public function registerEvents(): array

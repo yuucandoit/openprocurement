@@ -13,8 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('category_pp', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id')->default('0');
+            $table->string('nama');
+            $table->string('alamat');
+            $table->string('nik');
+            $table->string('npwp_pp');
+            $table->enum('pkp',['PKP','Non-PKP']);
             $table->timestamps();
         });
     }
@@ -26,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('category_s_p_s');
     }
 };

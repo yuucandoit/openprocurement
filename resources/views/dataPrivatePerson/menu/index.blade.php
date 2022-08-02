@@ -12,22 +12,15 @@
                         <button style="color: white" type="button" class="" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action={{ url('/menu-data-vendor/store') }} id="formAdd" method="post"
+                    <form action={{ url('/menu-private-person/store') }} id="formAdd" method="post"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body container">
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control mt-2" id="floatingName" placeholder="Your Name"
+                                    <input type="text" class="form-control mt-2" id="floatingName" placeholder="Nama"
                                         name="nama">
-                                    <label for="floatingName">Nama Vendor</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4 mb-4" id="floatingNoTelpon"
-                                        placeholder="Address" name="no_telp">
-                                    <label for="floatingNoTelpon">Nomor Telepon</label>
+                                    <label for="floatingName">Nama Lengkap</label>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -39,9 +32,25 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input required type="email" class="form-control mt-4 mb-4" id="floatingEmail"
-                                        placeholder="Email" name="email">
-                                    <label for="floatingEmail">Email</label>
+                                    <input required type="text" class="form-control mt-4 mb-4" id="floatingNoTelpon"
+                                        placeholder="Nik" name="nik">
+                                    <label for="floatingNoTelpon">NIK</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input required type="text" class="form-control mt-4 mb-4" id="floatingNoTelpon"
+                                        placeholder="npwp_private_person" name="npwp_pp">
+                                    <label for="floatingNoTelpon">NPWP</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="form-select" id="floatingPKP" placeholder="PKP" name="pkp" >
+                                        <option value="PKP">PKP</option>
+                                        <option value="Non-PKP">Non-PKP</option>
+                                    </select>
+                                    <label for="floatingPKP">-- PKP / NON-PKP --</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -52,6 +61,7 @@
             </div>
         </div>
         </div>
+
 
         @foreach ($datadv as $a)
             <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
@@ -69,7 +79,7 @@
                             <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/menu-data-vendor/destroy/' . $a->id) }}">
+                            <form action="{{ url('/menu-private-person/destroy/' . $a->id) }}">
                                 <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                     Delete</button>
                             </form>
@@ -84,23 +94,25 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
-                    <h1>Data Vendor</h1>
+                    <h1>Data Private Person</h1>
                 </div>
 
                 <div class="card shadow mb-5">
                     <div class="card-body">
                         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                                 class="bx bx-list-plus"></i> Add+</button>
+                                <a href={{ url('#') }}
+                                {{-- /export_excel/vendor/' . $data_perusahaan->id --}}
+                                    class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
-                                    <th>No Telepon</th>
+                                    <th>Nama Lengkap</th>
                                     <th>Alamat</th>
-                                    <th>Email</th>
-                                    <th>Created At</th>
-                                    <th>Actions</th>
+                                    <th>NIK</th>
+                                    <th>NPWP</th>
+                                    <th>PKP</th>
                                     @hasrole('admin|super admin')
 
                                     @endhasrole
@@ -117,23 +129,23 @@
                                 $no = 1;
                             @endphp
                             <tbody>
-                                @foreach ($datadv as $vendor)
+                                @foreach ($datadv as $person)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $vendor->nama }}</td>
-                                        <td>{{ $vendor->no_telp }}</td>
-                                        <td>{{ $vendor->alamat }}</td>
-                                        <td>{{ $vendor->email }}</td>
-                                        <td>{{ $vendor->created_at }}</td>
+                                        <td>{{ $person->nama }}</td>
+                                        <td >{{ $person->alamat }}</td>
+                                        <td>{{ $person->nik }}</td>
+                                        <td>{{ $person->npwp_pp }}</td>
+                                        <td>{{ $person->pkp }}</td>
                                         @hasrole('admin|super admin')
 
                                         @endhasrole
                                         <td>
-                                <a href="{{ url('/data-vendor/' . $vendor->id) }}" class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                <a href="{{ url('/menu-data-vendor/edit/' . $vendor->id) }}"
-                                    class="btn btn-outline-info"><i class="bx bxs-edit"></i> Edit</a>
+                                <a href="{{ url('/private-person/detail/' . $person->id) }}" class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                <a href="{{ url('/menu-private-person/edit/' . $person->id) }}"
+                                    class="btn btn-outline-warning"><i class="bx bxs-edit"></i> Edit</a>
                                  <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                 data-bs-target="#modalDelete{{ $vendor->id }}">Delete</button>
+                                 data-bs-target="#modalDelete{{ $person->id }}">Delete</button>
 
 
                                         </td>
@@ -182,7 +194,7 @@
         <script>
             $(document).ready(function() {
 
-                $('.servideletebtn').click(function(e) {
+                $('.servidelet  ebtn').click(function(e) {
                     e.preventDefault();
                     alert('hello');
                 });

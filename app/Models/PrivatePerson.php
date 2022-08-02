@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DataVendor extends Model
+class PrivatePerson extends Model
 {
     use HasFactory;
-    protected $table = "data_vendor";
+    protected $table = 'private_person';
     protected $fillable = [
-        'npwp',
-        'Pkp',
-        'jenis_usaha'
+        'nama',
+        'alamat',
+        'nik',
     ];
     protected $hidden;
 }

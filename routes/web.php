@@ -10,8 +10,16 @@ use App\Http\Controllers\PembelianBarangController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryDVController;
+use App\Http\Controllers\CategoryEcommerceController;
+use App\Http\Controllers\CategoryPPController;
+use App\Http\Controllers\CategoryPTController;
 use App\Http\Controllers\DataVendorController;
+use App\Http\Controllers\EcommerceController;
+use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\PrivatePersonController;
+use App\Models\CategoryPT;
 use App\Models\DataVendor;
+use App\Models\PrivatePerson;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -130,43 +138,67 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::post('/update/{id}', [DataVendorController::class, 'update']);
     // Route::get('/destroy/{id}', [DataVendorController::class, 'destroy']);
 
-    // Route untuk Data Vendor
-    Route::group(['prefix' => 'data-vendor'], function () {
-        Route::get('/{id}', [DataVendorController::class, 'index'])->name('data-vendor.index');
-        Route::get('/create/{id}', [DataVendorController::class, 'create'])->name('data-vendor.create');
-        Route::post('/store/{id}', [DataVendorController::class, 'store'])->name('data-vendor.store');
-        Route::get('/show/{id_company}/{id}', [DataVendorController::class, 'show'])->name('data-vendor.show');
-        Route::post('/update/{id}', [DataVendorController::class, 'update'])->name('data-vendor.update');
-        Route::post('/destroy/{id}', [DataVendorController::class, 'destroy'])->name('data-vendor.destroy');
+    // Route untuk Data Vendor Perusahaan
+    Route::group(['prefix' => 'perusahaan'], function () {
+        Route::get('/{id}', [PerusahaanController::class, 'index'])->name('perusahaan.index');
+        Route::get('/detail/{id}', [PerusahaanController::class, 'detail'])->name('perusahaan.detail');
+        Route::get('/create/{id}', [PerusahaanController::class, 'create'])->name('perusahaan.create');
+        Route::post('/store/{id}', [PerusahaanController::class, 'store'])->name('perusahaan.store');
+        Route::get('/show/{id_company}/{id}', [PerusahaanController::class, 'show'])->name('perusahaan.show');
+        Route::post('/update/{id}', [PerusahaanController::class, 'update'])->name('perusahaan.update');
+        Route::post('/destroy/{id}', [PerusahaanController::class, 'destroy'])->name('perusahaan.destroy');
     });
 
-    // Menu Data vendor
-    Route::group(['prefix' => 'menu-data-vendor'], function () {
-        Route::get('/', [CategoryDVController::class, 'index'])->name('menu-data-vendor.index');
-        Route::get('/create', [CategoryDVController::class, 'create'])->name('menu-data-vendor.create');
-        Route::post('/store', [CategoryDVController::class, 'store'])->name('menu-data-vendor.store');
-        Route::get('/edit/{id}', [CategoryDVController::class, 'edit'])->name('menu-data-vendor.edit');
-        Route::post('/update/{id}', [CategoryDVController::class, 'update'])->name('menu-data-vendor.update');
-        Route::get('/destroy/{id}', [CategoryDVController::class, 'destroy'])->name('menu-data-vendor.destroy');
+    // Menu Data vendor perusahaan
+    Route::group(['prefix' => 'menu-perusahaan'], function () {
+        Route::get('/', [CategoryPTController::class, 'index'])->name('menu-perusahaan.index');
+        Route::get('/create', [CategoryPTController::class, 'create'])->name('menu-perusahaan.create');
+        Route::post('/store', [CategoryPTController::class, 'store'])->name('menu-perusahaan.store');
+        Route::get('/edit/{id}', [CategoryPTController::class, 'edit'])->name('menu-perusahaan.edit');
+        Route::post('/update/{id}', [CategoryPTController::class, 'update'])->name('menu-perusahaan.update');
+        Route::get('/destroy/{id}', [CategoryPTController::class, 'destroy'])->name('menu-perusahaan.destroy');
     });
 
-    // Route untuk Data Supplier
-    Route::group(['prefix' => 'data-supplier'], function () {
-        Route::get('/{id}', [DataVendorController::class, 'index'])->name('data-vendor.index');
-        Route::get('/create/{id}', [DataVendorController::class, 'create'])->name('data-vendor.create');
-        Route::post('/store/{id}', [DataVendorController::class, 'store'])->name('data-vendor.store');
-        Route::get('/show/{id_company}/{id}', [DataVendorController::class, 'show'])->name('data-vendor.show');
-        Route::post('/update/{id}', [DataVendorController::class, 'update'])->name('data-vendor.update');
-        Route::post('/destroy/{id}', [DataVendorController::class, 'destroy'])->name('data-vendor.destroy');
+    // Route untuk vendor Private Person
+    Route::group(['prefix' => 'private-person'], function () {
+        Route::get('/{id}', [PrivatePersonController::class, 'index'])->name('private-person.index');
+        Route::get('/detail/{id}', [PrivatePersonController::class, 'detail'])->name('perusahaan.detail');
+        Route::get('/create/{id}', [PrivatePersonController::class, 'create'])->name('private-person.create');
+        Route::post('/store/{id}', [PrivatePersonController::class, 'store'])->name('private-person.store');
+        Route::get('/show/{id_company}/{id}', [PrivatePersonController::class, 'show'])->name('private-person.show');
+        Route::post('/update/{id}', [PrivatePersonController::class, 'update'])->name('private-person.update');
+        Route::post('/destroy/{id}', [PrivatePersonController::class, 'destroy'])->name('private-person.destroy');
     });
 
-    // Menu Data Supplier
-    Route::group(['prefix' => 'menu-data-supplier'], function () {
-        Route::get('/', [CategoryDVController::class, 'index'])->name('menu-data-vendor.index');
-        Route::get('/create', [CategoryDVController::class, 'create'])->name('menu-data-vendor.create');
-        Route::post('/store', [CategoryDVController::class, 'store'])->name('menu-data-vendor.store');
-        Route::put('/edit/{id}', [DataVendorController::class, 'edit']);
-        Route::get('/destroy/{id}', [CategoryDVController::class, 'destroy'])->name('menu-data-vendor.destroy');
+    // Menu vendor menu Private Person
+    Route::group(['prefix' => 'menu-private-person'], function () {
+        Route::get('/', [CategoryPPController::class, 'index'])->name('menu-private-person.index');
+        Route::get('/create', [CategoryPPController::class, 'create'])->name('menu-private-person.create');
+        Route::post('/store', [CategoryPPController::class, 'store'])->name('menu-private-person.store');
+        Route::get('/edit/{id}', [CategoryPPController::class, 'edit'])->name('menu-private-person.edit');
+        Route::post('/update/{id}', [CategoryPPController::class, 'update'])->name('menu-private-person.update');
+        Route::get('/destroy/{id}', [CategoryPPController::class, 'destroy'])->name('menu-private-person.destroy');
+    });
+
+    // Route untuk vendor Ecommerce
+    Route::group(['prefix' => 'ecommerce'], function () {
+        Route::get('/{id}', [EcommerceController::class, 'index'])->name('ecommerce.index');
+        Route::get('/detail/{id}', [EcommerceController::class, 'detail'])->name('perusahaan.detail');
+        Route::get('/create/{id}', [EcommerceController::class, 'create'])->name('ecommerce.create');
+        Route::post('/store/{id}', [EcommerceController::class, 'store'])->name('ecommerce.store');
+        Route::get('/show/{id_company}/{id}', [EcommerceController::class, 'show'])->name('ecommerce.show');
+        Route::post('/update/{id}', [EcommerceController::class, 'update'])->name('ecommerce.update');
+        Route::post('/destroy/{id}', [EcommerceController::class, 'destroy'])->name('ecommerce.destroy');
+    });
+
+    // Menu vendor menu Ecommerce
+    Route::group(['prefix' => 'menu-ecommerce'], function () {
+        Route::get('/', [CategoryEcommerceController::class, 'index'])->name('menu-ecommerce.index');
+        Route::get('/create', [CategoryEcommerceController::class, 'create'])->name('menu-ecommerce.create');
+        Route::post('/store', [CategoryEcommerceController::class, 'store'])->name('menu-ecommerce.store');
+        Route::get('/edit/{id}', [CategoryEcommerceController::class, 'edit'])->name('menu-ecommerce.edit');
+        Route::post('/update/{id}', [CategoryEcommerceController::class, 'update'])->name('menu-ecommerce.update');
+        Route::get('/destroy/{id}', [CategoryEcommerceController::class, 'destroy'])->name('menu-ecommerce.destroy');
     });
 
     //admin
@@ -182,7 +214,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/quotation/{id}', [QuotationController::class, 'export'])->name('export-qt');
     Route::get('/export_excel/purchase_order/{id}', [PurchaseOrderController::class, 'export'])->name('export-po');
     Route::get('/export_excel/pembelian_barang/{id}', [PembelianBarangController::class, 'export'])->name('export-pb');
-    Route::get('/export_excel/vendor/{id}', [DataVendorController::class, 'export'])->name('export-dv   ');
+    Route::get('/export_excel/vendor/{id}', [DataVendorController::class, 'export'])->name('export-dv');
+    Route::get('/export_excel/perusahaan/{id}', [CategoryPTController::class, 'export'])->name('export-pt');
 });
 
 Auth::routes();

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CategoryDV;
-use App\Models\DataVendor;
+use App\Exports\DvExport;
+use App\Exports\PPExport;
+use App\Models\CategoryPP;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
-class CategoryDVController extends Controller
+class CategoryPPController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,12 +21,12 @@ class CategoryDVController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
-            $datadv = CategoryDV::where('user_id', Auth::user()->id)->get();
-            return view('dataVendor.menu.index')
+            $datadv = CategoryPP::where('user_id', Auth::user()->id)->get();
+            return view('dataPrivatePerson.menu.index')
                 ->with('datadv', $datadv);
         } else if ($check->role_id == 1 || $check->role_id == 3) {
-            $datadv = CategoryDV::all();
-            return view('dataVendor.menu.index')
+            $datadv = CategoryPP::all();
+            return view('dataPrivatePerson.menu.index')
                 ->with('datadv', $datadv);
         }
     }
@@ -34,9 +36,9 @@ class CategoryDVController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
     }
 
     /**
@@ -47,10 +49,19 @@ class CategoryDVController extends Controller
      */
     public function store(Request $request)
     {
-        $dv = $request->except(['_token']);
-        $dv['user_id'] = Auth::user()->id;
-        CategoryDV::insert($dv);
-        return redirect('menu-data-vendor/')->with('success', 'Task Created Successfully!');
+        //validasi formnya
+       $this->validate($request,[
+        'nama' => 'required',
+        'alamat' => 'required',
+        'nik' => 'required',
+        'npwp_pp' => 'required',
+        'pkp' => 'required',
+    ]);
+
+    $dv = $request->except(['_token']);
+    $dv['user_id'] = Auth::user()->id;
+    CategoryPP::insert($dv);
+    return redirect('menu-private-person/')->with('success', 'Task Created Successfully!');
     }
 
     /**
@@ -59,9 +70,9 @@ class CategoryDVController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($dv_id,$id)
+    public function show($id)
     {
-
+        //
     }
 
     /**
@@ -72,11 +83,8 @@ class CategoryDVController extends Controller
      */
     public function edit($id)
     {
-        //$data = CategoryDV::find($dv_id);
-
-        $dv = CategoryDV::where('id', $id)->first();
-        // dd($po);
-        return view('dataVendor.menu.edit')
+        $dv = CategoryPP::find($id);
+        return view('dataPrivatePerson.menu.edit')
         ->with('dv' , $dv);
     }
 
@@ -89,17 +97,17 @@ class CategoryDVController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = CategoryDV::find($id);
+        $data = CategoryPP::find($id);
 
         // dd($data);
-        $tes = CategoryDV::where("id", $id)->update([
+        $tes = CategoryPP::where("id", $id)->update([
             "nama" => $request->nama,
-            "no_telp" => $request->no_telp,
             "alamat" => $request->alamat,
-            "email" => $request->email,
+            "nik" => $request->nik,
+            "npwp_pp" => $request->npwp_pp,
+            "pkp" => $request->pkp,
         ]);
-        return redirect("menu-data-vendor/");
-        // dd($data);
+        return redirect("menu-private-person/");
     }
 
     /**
@@ -110,12 +118,13 @@ class CategoryDVController extends Controller
      */
     public function destroy($id)
     {
-
-        $data = CategoryDV::find($id);
-
-        DataVendor::find($id)->delete();
-
+        $data = CategoryPP::find($id);
         $data->delete();
-        return redirect('/menu-data-vendor')->with('success', 'Task Deleted Successfully!');
+        return redirect('/menu-private-person')->with('success', 'Task Deleted Successfully!');
+    }
+    public function export($id)
+    {
+        // dd('hallo');
+        return Excel::download(new PPExport($id), 'PrivatePerson.xlsx');
     }
 }

@@ -12,36 +12,22 @@
                         <button style="color: white" type="button" class="" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action={{ url('/menu-data-vendor/store') }} id="formAdd" method="post"
+                    <form action={{ url('/menu-ecommerce/store') }} id="formAdd" method="post"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body container">
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control mt-2" id="floatingName" placeholder="Your Name"
+                                    <input type="text" class="form-control mt-2" id="floatingName" placeholder="Nama"
                                         name="nama">
-                                    <label for="floatingName">Nama Vendor</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4 mb-4" id="floatingNoTelpon"
-                                        placeholder="Address" name="no_telp">
-                                    <label for="floatingNoTelpon">Nomor Telepon</label>
+                                    <label for="floatingName">Nama Ecommerce</label>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4 mb-4" id="floatingAlamat"
-                                        placeholder="Alamat" name="alamat">
-                                    <label for="floatingAlamat">Alamat</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <input required type="email" class="form-control mt-4 mb-4" id="floatingEmail"
-                                        placeholder="Email" name="email">
-                                    <label for="floatingEmail">Email</label>
+                                        placeholder="Link" name="link">
+                                    <label for="floatingAlamat">Link Penjual</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -52,6 +38,7 @@
             </div>
         </div>
         </div>
+
 
         @foreach ($datadv as $a)
             <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
@@ -69,7 +56,7 @@
                             <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/menu-data-vendor/destroy/' . $a->id) }}">
+                            <form action="{{ url('/menu-ecommerce/destroy/' . $a->id) }}">
                                 <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                     Delete</button>
                             </form>
@@ -79,28 +66,27 @@
             </div>
         @endforeach
 
-        
+
 
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
-                    <h1>Data Vendor</h1>
+                    <h1>Data Ecommerce</h1>
                 </div>
 
                 <div class="card shadow mb-5">
                     <div class="card-body">
                         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                                 class="bx bx-list-plus"></i> Add+</button>
+                                <a href={{ url('#') }}
+                                {{-- /export_excel/vendor/' . $data_perusahaan->id --}}
+                                    class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
-                                    <th>No Telepon</th>
-                                    <th>Alamat</th>
-                                    <th>Email</th>
-                                    <th>Created At</th>
-                                    <th>Actions</th>
+                                    <th>Nama Ecommerce</th>
+                                    <th>Link Penjual</th>
                                     @hasrole('admin|super admin')
 
                                     @endhasrole
@@ -117,23 +103,20 @@
                                 $no = 1;
                             @endphp
                             <tbody>
-                                @foreach ($datadv as $vendor)
+                                @foreach ($datadv as $ec)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $vendor->nama }}</td>
-                                        <td>{{ $vendor->no_telp }}</td>
-                                        <td>{{ $vendor->alamat }}</td>
-                                        <td>{{ $vendor->email }}</td>
-                                        <td>{{ $vendor->created_at }}</td>
+                                        <td>{{ $ec->nama }}</td>
+                                        <td><a href="{{ $ec->link }}">{{ $ec->link }}</a></td>
                                         @hasrole('admin|super admin')
 
                                         @endhasrole
                                         <td>
-                                <a href="{{ url('/data-vendor/' . $vendor->id) }}" class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                <a href="{{ url('/ecommerce/detail/' . $ec->id) }}" class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                <a href="{{ url('/menu-ecommerce/edit/' . $ec->id) }}"
+                                    class="btn btn-outline-warning"><i class="bx bxs-edit"></i> Edit</a>
                                  <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                 data-bs-target="#modalUpdate{{ $vendor->id }}">Update</button>
-                                 <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                 data-bs-target="#modalDelete{{ $vendor->id }}">Delete</button>
+                                 data-bs-target="#modalDelete{{ $ec->id }}">Delete</button>
 
 
                                         </td>
@@ -182,7 +165,7 @@
         <script>
             $(document).ready(function() {
 
-                $('.servideletebtn').click(function(e) {
+                $('.servidelet  ebtn').click(function(e) {
                     e.preventDefault();
                     alert('hello');
                 });

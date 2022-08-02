@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryDV extends Model
+class CategoryPP extends Model
 {
     use HasFactory;
-
-    protected $table = "category_dv";
+    protected $table = 'category_pp';
     protected $fillable = [
         'nama',
-        'no_telp',
         'alamat',
-        'email',
+        'nik',
+        'npwp_pp',
+        'pkp'
     ];
     protected $hidden;
 }
