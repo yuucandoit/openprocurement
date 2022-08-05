@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\DvExport;
 use App\Exports\PPExport;
+use App\Imports\PrivatePersonImport;
 use App\Models\CategoryPP;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -122,9 +123,38 @@ class CategoryPPController extends Controller
         $data->delete();
         return redirect('/menu-private-person')->with('success', 'Task Deleted Successfully!');
     }
-    public function export($id)
+
+    public function fileImportPP()
+    {
+        return view('dataPrivatePerson.menu.import');
+    }
+
+    public function fileImport(Request $request)
+    {
+        // validasi
+		$this->validate($request, [
+			'file' => 'required|mimes:csv,xls,xlsx'
+		]);
+
+		// menangkap file excel
+		$file = $request->file('file');
+
+		// membuat nama file unik
+		$nama_file = rand().$file->getClientOriginalName();
+
+		// upload ke folder file_siswa di dalam folder public
+		$file->move('file_pp',$nama_file);
+
+		// import data
+		Excel::import(new PrivatePersonImport, public_path('/file_pp/'.$nama_file));
+
+		// alihkan halaman kembali
+		return redirect('/menu-private-person');
+    }
+
+    public function export()
     {
         // dd('hallo');
-        return Excel::download(new PPExport($id), 'PrivatePerson.xlsx');
+        return Excel::download(new PPExport, 'PrivatePerson.xlsx');
     }
 }

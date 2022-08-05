@@ -24,6 +24,7 @@ class CategoryPT extends Model
         'bidang_usaha',
         'no_rekening',
         'bank',
+        'cabang_bank',
         'nama_penerima'
     ];
     protected $hidden;

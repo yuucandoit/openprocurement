@@ -2,15 +2,32 @@
 
 namespace App\Exports;
 
+use App\Models\CategoryEcommerce;
+use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class EcExport implements FromCollection
+class EcExport implements ShouldAutoSize, FromView
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function view(): View
     {
-        //
+        $data['category_ec'] = CategoryEcommerce::all();
+        $data['year'] = Carbon::now()->format('y');
+        $data['month'] = Carbon::now()->format('m');
+        return view('exports.ecommerce', $data);
     }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function(AfterSheet $event) {
+                $workSheet = $event->sheet->getDelegate();
+                $workSheet->freezePane('A3'); // freezing here
+            },
+        ];
+       }
 }
+

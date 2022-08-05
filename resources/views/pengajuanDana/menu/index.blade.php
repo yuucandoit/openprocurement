@@ -116,7 +116,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
-                    <h1>Pengajuan Dana</h1>
+                    <h1>Fund Submisson</h1>
                 </div>
 
                 <div class="card shadow mb-5">

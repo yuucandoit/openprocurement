@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CategorySPController extends Controller
+class PengajuanPembelianController extends Controller
 {
     /**
      * Display a listing of the resource.

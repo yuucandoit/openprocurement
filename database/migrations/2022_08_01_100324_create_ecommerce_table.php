@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer('ec_id')->default(0);
             $table->string('nama');
             $table->string('link');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

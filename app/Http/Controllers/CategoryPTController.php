@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PTExport;
+use App\Imports\PerusahaanImport;
 use App\Models\CategoryDV;
 use App\Models\CategoryPT;
 use App\Models\DataVendor;
@@ -156,9 +157,37 @@ class CategoryPTController extends Controller
         return redirect('/menu-perusahaan')->with('success', 'Task Deleted Successfully!');
     }
 
-    public function export($id)
+    public function fileImportPT()
+    {
+        return view('dataPerusahaan.menu.import');
+    }
+
+    public function fileImport(Request $request)
+    {
+        // validasi
+		$this->validate($request, [
+			'file' => 'required|mimes:csv,xls,xlsx'
+		]);
+
+		// menangkap file excel
+		$file = $request->file('file');
+
+		// membuat nama file unik
+		$nama_file = rand().$file->getClientOriginalName();
+
+		// upload ke folder file_siswa di dalam folder public
+		$file->move('file_pt',$nama_file);
+
+		// import data
+		Excel::import(new PerusahaanImport, public_path('/file_pt/'.$nama_file));
+
+		// alihkan halaman kembali
+		return redirect('/menu-perusahaan');
+    }
+
+    public function export()
     {
         // dd('hallo');
-        return Excel::download(new PTExport($id), 'data_pt.xlsx');
+        return Excel::download(new PTExport, 'data_pt.xlsx');
     }
 }

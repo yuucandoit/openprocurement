@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class CategoryPengajuanPembelian extends Model
+{
+    use HasFactory;
+    protected $table = 'category_pengajuan_pembelian';
+    protected $fillable = [
+        'id',
+        'pt_id',
+        'po_id',
+        'user_id',
+        'date_ps',
+        'ws',
+        'item',
+        'qty',
+        'ref',
+        'desc',
+        'purpose',
+        'priceperunit',
+        'send_to',
+        'date_send',
+        'proposed_supplier',
+        'created_at',
+        'updated_at'
+    ];
+}

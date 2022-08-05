@@ -119,6 +119,13 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
+                                    <input required type="text" class="form-control mt-4 mb-4" id="floatingCabangBank"
+                                        placeholder="Penerima" name="cabang_bank">
+                                    <label for="floatingCabangBank">Cabang Bank</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
                                     <input required type="text" class="form-control mt-4 mb-4" id="floatingNoTelpon"
                                         placeholder="Penerima" name="nama_penerima">
                                     <label for="floatingNoTelpon">Penerima</label>
@@ -198,8 +205,9 @@
                         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                                 class="bx bx-list-plus"></i> Add+</button>
                                 <a
-                                {{-- href={{ url('/export_excel/vendor/' . $datadv->id) }} --}}
+                                href={{ url('/export_excel/perusahaan/' ) }}
                                     class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
+                                    <a href={{ url('file-import-pt') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Import From Excel</a>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
@@ -263,8 +271,6 @@
                                     class="btn btn-outline-warning"><i class="bx bxs-edit"></i> Edit</a>
                                  <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                  data-bs-target="#modalDelete{{ $vendor->id }}">Delete</button>
-
-
                                         </td>
                                         {{-- @hasrole('admin|super admin')
                                             @if ($vendor->status == 'Accepted')

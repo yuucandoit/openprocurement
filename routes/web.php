@@ -11,12 +11,14 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryDVController;
 use App\Http\Controllers\CategoryEcommerceController;
+use App\Http\Controllers\CategoryPengajuanPembelianController;
 use App\Http\Controllers\CategoryPPController;
 use App\Http\Controllers\CategoryPTController;
 use App\Http\Controllers\DataVendorController;
 use App\Http\Controllers\EcommerceController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PrivatePersonController;
+use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\DataVendor;
 use App\Models\PrivatePerson;
@@ -130,14 +132,6 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
 
-    // //Data Vendor
-    // Route::get('/data-vendor', [DataVendorController::class, 'index'])->name('datavendor.index');
-    // Route::get('/create-vendor', [DataVendorController::class, 'create'])->name('datavendor.create');
-    // Route::post('/store-vendor', [DataVendorController::class, 'store'])->name('datavendor.store');
-    // Route::get('/show-vendor/{id}', [DataVendorController::class, 'show'])->name('datavendor.show');
-    // Route::post('/update/{id}', [DataVendorController::class, 'update']);
-    // Route::get('/destroy/{id}', [DataVendorController::class, 'destroy']);
-
     // Route untuk Data Vendor Perusahaan
     Route::group(['prefix' => 'perusahaan'], function () {
         Route::get('/{id}', [PerusahaanController::class, 'index'])->name('perusahaan.index');
@@ -201,6 +195,27 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [CategoryEcommerceController::class, 'destroy'])->name('menu-ecommerce.destroy');
     });
 
+    // Pengajuan Pembelian
+    Route::group(['prefix' => 'pengajuan-pembelian'], function () {
+        Route::get('/{id}', [PengajuanDanaController::class, 'index'])->name('pengajuan-pembelian.index');
+        Route::get('/create/{id}', [PengajuanDanaController::class, 'create'])->name('pengajuan-pembelian.create');
+        Route::post('/store/{id}', [PengajuanDanaController::class, 'store'])->name('pengajuan-pembelian.store');
+        Route::get('/show/{id_pd}/{id}', [PengajuanDanaController::class, 'show'])->name('pengajuan-pembelian.show');
+        Route::post('/update/{id}', [PengajuanDanaController::class, 'update'])->name('pengajuan-pembelian.update');
+        Route::get('/destroy/{id}', [PengajuanDanaController::class, 'destroy'])->name('pengajuan-pembelian.destroy');
+    });
+
+
+    // Menu Pengajuan dana
+    Route::group(['prefix' => 'menu-pengajuan-pembelian'], function () {
+        Route::get('/', [CategoryPengajuanPembelianController::class, 'index'])->name('menu-pengajuan-pembelian.index');
+        Route::get('/create', [CategoryPengajuanPembelianController::class, 'create'])->name('menu-pengajuan-pembelian.create');
+        Route::post('/store', [CategoryPengajuanPembelianController::class, 'store'])->name('menu-pengajuan-pembelian.store');
+        Route::get('/destroy/{id}', [CategoryPengajuanPembelianController::class, 'destroy'])->name('menu-pengajuan-pembelian.destroy');
+        Route::get('/accept/{id}', [CategoryPengajuanPembelianController::class, 'accept'])->name('menu-pengajuan-pembelian-accept');
+        Route::get('/denied/{id}', [CategoryPengajuanPembelianController::class, 'denied'])->name('menu-pengajuan-pembelian-denied');
+    });
+
     //admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/create-admin', [AdminController::class, 'create']);
@@ -215,7 +230,23 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/purchase_order/{id}', [PurchaseOrderController::class, 'export'])->name('export-po');
     Route::get('/export_excel/pembelian_barang/{id}', [PembelianBarangController::class, 'export'])->name('export-pb');
     Route::get('/export_excel/vendor/{id}', [DataVendorController::class, 'export'])->name('export-dv');
-    Route::get('/export_excel/perusahaan/{id}', [CategoryPTController::class, 'export'])->name('export-pt');
+    Route::get('/export_excel/perusahaan', [CategoryPTController::class, 'export'])->name('export-pt');
+    Route::get('/export_excel/private_person', [CategoryPPController::class, 'export'])->name('export-pp');
+    Route::get('/export_excel/ecommerce', [CategoryEcommerceController::class, 'export'])->name('export-ec');
+
+    //Route Import Private Person
+    Route::get('file-import-pp', [CategoryPPController::class, 'fileImportPP']);
+    Route::post('file-import', [CategoryPPController::class, 'fileImport'])->name('file-import');
+
+    //Route Import Perusahaan
+    Route::get('file-import-pt', [CategoryPTController::class, 'fileImportPT']);
+    Route::post('file-import-perusahaan', [CategoryPTController::class, 'fileImport'])->name('file-import');
+
+    //Route Import Ecommerce
+    Route::get('file-import-ec', [CategoryEcommerceController::class, 'fileImportEC']);
+    Route::post('file-import-ecommerce', [CategoryEcommerceController::class, 'fileImport'])->name('file-import');
+
+
 });
 
 Auth::routes();

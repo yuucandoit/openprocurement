@@ -117,6 +117,13 @@
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="floatingKeterangan" placeholder="Email"
+                                name="cabang_bank" value="{{ $dv->cabang_bank }}">
+                            <label for="floatingKeterangan">Cabang Bank</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingKeterangan" placeholder="Email"
                                 name="nama_penerima" value="{{ $dv->nama_penerima }}">
                             <label for="floatingKeterangan">Nama Penerima</label>
                         </div>

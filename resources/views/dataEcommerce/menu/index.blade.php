@@ -78,9 +78,9 @@
                     <div class="card-body">
                         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                                 class="bx bx-list-plus"></i> Add+</button>
-                                <a href={{ url('#') }}
-                                {{-- /export_excel/vendor/' . $data_perusahaan->id --}}
+                                <a href={{ url('/export_excel/ecommerce') }}
                                     class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
+                                    <a href={{ url('file-import-ec') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Import From Excel</a>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>

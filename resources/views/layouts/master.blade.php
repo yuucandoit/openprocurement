@@ -61,6 +61,16 @@
                         </div>
                     </div>
                 </div>
+                <style>
+                       .container_gtranslate{
+                        padding:5px;
+                        text-align:center   ;
+                       }
+                </style>
+                <div class="container_gtranslate">
+                    Translate This Page :
+                    <div id="google_translate" ></div>
+                </div>
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Dashboard</li>
@@ -72,15 +82,21 @@
                             </a>
                         </li>
                         <li class="sidebar-title">Menu</li>
+                        <li class="sidebar-item {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-pengajuan-pembelian') }}" class='sidebar-link'>
+                                <i class="bi bi-file-text"></i>
+                                <span>Purchase Sumbission</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-purchase-order') }}" class='sidebar-link'>
                                 <i class="bi bi-calendar-x"></i>
                                 <span>Purchase Order</span>
                             </a>
                         </li>
-                        <li class="sidebar-item {{ request()->is('*pengajuan-dana') ? 'active' : '' }}">
+                        <li class="sidebar-item {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pengajuan-dana') }}" class='sidebar-link'>
-                                <i class="bi bi-cash-coin"></i> <span>Pengajuan Dana</span>
+                                <i class="bi bi-cash-coin"></i> <span>Fund Submission</span>
                             </a>
                         </li>
                         <li class="sidebar-item {{ request()->is('*quotation*') ? 'active' : '' }}">
@@ -150,6 +166,12 @@
 
         </div>
     </div>
+    <script type="text/javascript">
+        function googleTranslateInit() {
+            new google.translate.TranslateElement({pageLanguange: 'id'}, 'google_translate');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateInit"></script>
     <script src={{ asset('assets/js/app.js') }}></script>
     <script src={{ asset('assets/js/pages/dashboard.js') }}></script>
     <script src={{ asset('assets/js/extensions/simple-datatables.js') }}></script>

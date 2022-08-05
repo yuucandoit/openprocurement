@@ -13,22 +13,14 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class PTExport implements ShouldAutoSize, FromView
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function __construct($id)
-    {
-        $this->id = $id;
-    }
+
 
     public function view(): View
     {
-        $data['perusahaan'] = Perusahaan::where('pt_id', $this->id)->get();
-        $data['dv'] = Perusahaan::where('id', $this->id)->first();
-        $data['category_pt'] = CategoryPT::where('id', $this->id)->first();
+        $data['category_pt'] = CategoryPT::all();
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
-        return view('exports.vendor', $data);
+        return view('exports.perusahaan', $data);
     }
 
     public function registerEvents(): array

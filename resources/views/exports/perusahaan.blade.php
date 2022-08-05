@@ -17,24 +17,29 @@
             <td style="border: 1px solid black"><strong>Bidang</strong></td>
             <td style="border: 1px solid black"><strong>No Rekening</strong></td>
             <td style="border: 1px solid black"><strong>Bank</strong></td>
+            <td style="border: 1px solid black"><strong>Cabang Bank</strong></td>
             <td style="border: 1px solid black"><strong>Nama Penerima</strong></td>
         </tr>
     </thead>
     <tbody>
+        @foreach ($category_pt as $pt)
         <tr>
-            <td style="border: 1px solid black">{{ $category_pt->nama }}</td>
-            <td style="border: 1px solid black">{{ $category_pt->alamat }}</td>
-            <td style="border: 1px solid black">{{ $category_pt->no_telp_kantor }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->nama_pic }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->no_telp_pic }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->email }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->npwp_perusahaan }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->Pkp }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->nib }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->bidang_usaha }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->no_rekening }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->bank }} </td>
-            <td style="border: 1px solid black">{{ $category_pt->nama_penerima }} </td>
+            <td style="border: 1px solid black">{{ $pt->nama }}</td>
+            <td style="border: 1px solid black">{{ $pt->alamat }}</td>
+            <td style="border: 1px solid black">{{ $pt->no_telp_kantor }} </td>
+            <td style="border: 1px solid black">{{ $pt->website }} </td>
+            <td style="border: 1px solid black">{{ $pt->nama_pic }} </td>
+            <td style="border: 1px solid black">{{ $pt->no_telp_pic }} </td>
+            <td style="border: 1px solid black">{{ $pt->email }} </td>
+            <td style="border: 1px solid black">{{ $pt->npwp_perusahaan }} </td>
+            <td style="border: 1px solid black">{{ $pt->Pkp }} </td>
+            <td style="border: 1px solid black">{{ $pt->nib }} </td>
+            <td style="border: 1px solid black">{{ $pt->bidang_usaha }} </td>
+            <td style="border: 1px solid black">{{ $pt->no_rekening }} </td>
+            <td style="border: 1px solid black">{{ $pt->bank }} </td>
+            <td style="border: 1px solid black">{{ $pt->cabang_bank }} </td>
+            <td style="border: 1px solid black">{{ $pt->nama_penerima }} </td>
         </tr>
+        @endforeach
     </tbody>
 </table>
