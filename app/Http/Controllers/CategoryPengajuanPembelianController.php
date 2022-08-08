@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPO;
+use App\Models\CategoryPT;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,27 +21,19 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
-            $datapt = DB::table('category_pt')
-            ->join('category_pengajuan_pembelian', 'category_pengajuan_pembelian.pt_id', '=' , 'category_pt.id')
-            ->get();
-            $datapo = DB::table('category_po')
-            ->join('category_pengajuan_pembelian', 'category_pengajuan_pembelian.po_id', '=' , 'category_po.id')
-            ->get();
+            $datapt = CategoryPT::all();
+            $datapo = CategoryPO::all();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
             return view('pengajuanPembelian.menu.index')
-                ->with('datapt', $datapt)
+                ->with('datapt',$datapt)
                 ->with('datapo', $datapo)
                 ->with('datadv', $datadv);
         } else if ($check->role_id == 1 || $check->role_id == 3) {
-            $datapt = DB::table('category_pt')
-            ->join('category_pengajuan_pembelian', 'category_pengajuan_pembelian.pt_id', '=' , 'category_pt.id')
-            ->get();
-            $datapo = DB::table('category_po')
-            ->join('category_pengajuan_pembelian', 'category_pengajuan_pembelian.po_id', '=' , 'category_po.id')
-            ->get();
+            $datapt = CategoryPT::all();
+            $datapo = CategoryPO::all();
             $datadv = CategoryPengajuanPembelian::all();
             return view('pengajuanPembelian.menu.index')
-                ->with('datapt', $datapt)
+                ->with('datapt',$datapt)
                 ->with('datapo', $datapo)
                 ->with('datadv', $datadv);
         }
@@ -63,27 +57,12 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function store(Request $request)
     {
-        //validasi formnya
-        $this->validate($request,[
-            'pt_id' => 'required',
-            'po_id' => 'required',
-            'date_ps' => 'required',
-            'ws' => 'required',
-            'item' => 'required',
-            'qty' => 'required',
-            'ref' => 'required',
-            'desc' => 'required',
-            'purpose' => 'required',
-            'priceperunit' => 'required',
-            'send_to' => 'required',
-            'date_send' => 'required',
-            'proposed_supplier' => 'required',
-        ]);
-
+        $dv = CategoryPT::all();
+        $dv = CategoryPO::all();
         $dv = $request->except(['_token']);
         $dv['user_id'] = Auth::user()->id;
         CategoryPengajuanPembelian::insert($dv);
-        return redirect('menu-perusahaan/')->with('success', 'Task Created Successfully!');
+        return redirect('menu-pengajuan-pembelian/')->with('success', 'Task Created Successfully!');
     }
 
     /**

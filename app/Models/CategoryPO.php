@@ -18,4 +18,8 @@ class CategoryPO extends Model
         'created_at',
         'updated_at'
     ];
+    public function pengajuanpembelian()
+    {
+        return $this->hasMany(PengajuanPembelian::class);
+    }
 }

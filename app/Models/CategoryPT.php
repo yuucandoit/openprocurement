@@ -27,5 +27,9 @@ class CategoryPT extends Model
         'cabang_bank',
         'nama_penerima'
     ];
-    protected $hidden;
+
+    public function pengajuanpembelian()
+    {
+        return $this->hasMany(PengajuanPembelian::class);
+    }
 }

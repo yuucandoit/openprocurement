@@ -16,6 +16,7 @@ use App\Http\Controllers\CategoryPPController;
 use App\Http\Controllers\CategoryPTController;
 use App\Http\Controllers\DataVendorController;
 use App\Http\Controllers\EcommerceController;
+use App\Http\Controllers\PengajuanPembelianController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PrivatePersonController;
 use App\Models\CategoryPP;
@@ -197,16 +198,16 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Pengajuan Pembelian
     Route::group(['prefix' => 'pengajuan-pembelian'], function () {
-        Route::get('/{id}', [PengajuanDanaController::class, 'index'])->name('pengajuan-pembelian.index');
-        Route::get('/create/{id}', [PengajuanDanaController::class, 'create'])->name('pengajuan-pembelian.create');
-        Route::post('/store/{id}', [PengajuanDanaController::class, 'store'])->name('pengajuan-pembelian.store');
-        Route::get('/show/{id_pd}/{id}', [PengajuanDanaController::class, 'show'])->name('pengajuan-pembelian.show');
-        Route::post('/update/{id}', [PengajuanDanaController::class, 'update'])->name('pengajuan-pembelian.update');
-        Route::get('/destroy/{id}', [PengajuanDanaController::class, 'destroy'])->name('pengajuan-pembelian.destroy');
+        Route::get('/{id}', [PengajuanPembelianController::class, 'index'])->name('pengajuan-pembelian.index');
+        Route::get('/create/{id}', [PengajuanPembelianController::class, 'create'])->name('pengajuan-pembelian.create');
+        Route::post('/store/{id}', [PengajuanPembelianController::class, 'store'])->name('pengajuan-pembelian.store');
+        Route::get('/show/{id_pd}/{id}', [PengajuanPembelianController::class, 'show'])->name('pengajuan-pembelian.show');
+        Route::post('/update/{id}', [PengajuanPembelianController::class, 'update'])->name('pengajuan-pembelian.update');
+        Route::get('/destroy/{id}', [PengajuanPembelianController::class, 'destroy'])->name('pengajuan-pembelian.destroy');
     });
 
 
-    // Menu Pengajuan dana
+    // Menu Pengajuan pembelian
     Route::group(['prefix' => 'menu-pengajuan-pembelian'], function () {
         Route::get('/', [CategoryPengajuanPembelianController::class, 'index'])->name('menu-pengajuan-pembelian.index');
         Route::get('/create', [CategoryPengajuanPembelianController::class, 'create'])->name('menu-pengajuan-pembelian.create');

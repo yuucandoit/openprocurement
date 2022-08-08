@@ -28,4 +28,14 @@ class CategoryPengajuanPembelian extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function perusahaan()
+    {
+        return $this->belongsTo(CategoryPT::class);
+    }
+
+    public function po()
+    {
+        return $this->belongsTo(CategoryPO::class);
+    }
 }

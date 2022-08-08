@@ -108,7 +108,7 @@
                         <li class="sidebar-item {{ request()->is('*pembelian-barang*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pembelian-barang') }}" class='sidebar-link'>
                                 <i class="bi bi-currency-dollar"></i>
-                                <span>Pembelian Barang</span>
+                                <span>Purchase of goods</span>
                             </a>
                         </li>
                         <li class="sidebar-title">Data Vendor / Supplier</li>

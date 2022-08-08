@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('category_pengajuan_pembelian', function (Blueprint $table) {
             $table->id();
-            $table->integer('pt_id')->default('0');
-            $table->integer('po_id')->default('0');
+            $table->foreignId('pt_id')->constrained('category_pt');
+            $table->foreignId('po_id')->constrained('category_po');
             $table->integer('user_id')->default('0');
             $table->string('status')->default('pending')->nullable();
             $table->date('date_ps');
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('purpose');
             $table->string('priceperunit');
             $table->string('send_to');
-            $table->string('date_send');
+            $table->date('date_send');
             $table->string('proposed_supplier');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
