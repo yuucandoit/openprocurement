@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PPBExport;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPT;
@@ -9,6 +10,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryPengajuanPembelianController extends Controller
 {
@@ -23,7 +25,7 @@ class CategoryPengajuanPembelianController extends Controller
         if ($check->role_id == 2) {
             $datapt = CategoryPT::all();
             $datapo = CategoryPO::all();
-            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
+            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('pt')->with('po')->get();
             return view('pengajuanPembelian.menu.index')
                 ->with('datapt',$datapt)
                 ->with('datapo', $datapo)
@@ -39,6 +41,12 @@ class CategoryPengajuanPembelianController extends Controller
         }
     }
 
+    public function detail($id)
+    {
+        /*$data_vendor*/  $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        return view('pengajuanPembelian.menu.detail')
+            ->with('data_pengajuan', $data_pengajuan);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -57,8 +65,6 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function store(Request $request)
     {
-        $dv = CategoryPT::all();
-        $dv = CategoryPO::all();
         $dv = $request->except(['_token']);
         $dv['user_id'] = Auth::user()->id;
         CategoryPengajuanPembelian::insert($dv);
@@ -84,8 +90,10 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function edit(Request $request ,$id)
     {
+        $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
-        return view('dataPerusahaan.menu.edit')
+        return view('pengajuanPembelian.menu.edit')
+        ->with('datapt', $datapt)
         ->with('dv' , $dv);
     }
 
@@ -103,7 +111,6 @@ class CategoryPengajuanPembelianController extends Controller
         // dd($data);
         $tes = CategoryPengajuanPembelian::where("id", $id)->update([
             "pt_id" => $request->pt_id,
-            "po_id" => $request->alpo_idamat,
             "date_ps" => $request->date_ps,
             "ws" => $request->ws,
             "item" => $request->item,
@@ -116,7 +123,7 @@ class CategoryPengajuanPembelianController extends Controller
             "date_send" => $request->date_send,
             "proposed_supplier" => $request->proposed_supplier,
         ]);
-        return redirect("menu-perusahaan/");
+        return redirect("menu-pengajuan-pembelian/");
     }
 
     /**
@@ -129,6 +136,28 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->delete();
-        return redirect('/menu-perusahaan')->with('success', 'Task Deleted Successfully!');
+        return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');
+    }
+
+    public function export($id)
+    {
+        return Excel::download(new PPBExport($id), 'pengajuan_pembelian.xlsx');
+    }
+
+    public function accept($id)
+    {
+        $data = CategoryPengajuanPembelian::find($id);
+        // dd($data);
+        $data->status = 'Accepted';
+        $data->save();
+        return redirect()->back();
+    }
+
+    public function reject($id)
+    {
+        $data = CategoryPengajuanPembelian::find($id);
+        $data->status = 'Rejected';
+        $data->save();
+        return redirect()->back();
     }
 }

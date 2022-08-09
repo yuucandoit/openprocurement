@@ -26,6 +26,13 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo-dash">
                             <img src="{{ asset('assets/images/logo.svg') }}" style="height: 100%; width: 80%;">
+                            <div class="eproc" style="font-size:13px; padding-left: 45px; padding-bottom:0px; user-select:none;
+                            -moz-user-select:none;
+                            -ms-user-select:none;
+                            -khtml-user-select:none;
+                            -webkit-user-select:none;">
+                                E-PROC
+                            </div>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -85,7 +92,7 @@
                         <li class="sidebar-item {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pengajuan-pembelian') }}" class='sidebar-link'>
                                 <i class="bi bi-file-text"></i>
-                                <span>Purchase Sumbission</span>
+                                <span>Purchase Submission</span>
                             </a>
                         </li>
                         <li class="sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">

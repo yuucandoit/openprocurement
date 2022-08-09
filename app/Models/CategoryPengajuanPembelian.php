@@ -29,7 +29,7 @@ class CategoryPengajuanPembelian extends Model
         'updated_at'
     ];
 
-    public function perusahaan()
+    public function pt()
     {
         return $this->belongsTo(CategoryPT::class);
     }

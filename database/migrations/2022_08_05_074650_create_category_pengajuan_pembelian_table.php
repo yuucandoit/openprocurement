@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('category_pengajuan_pembelian', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pt_id')->constrained('category_pt');
-            $table->foreignId('po_id')->constrained('category_po');
+            $table->foreignId('pt_id')->constrained('category_pt')->onDelete('cascade');
             $table->integer('user_id')->default('0');
             $table->string('status')->default('pending')->nullable();
             $table->date('date_ps');
-            $table->enum('ws', ['GA', 'Purchasing']); //Who Submitted(ws)
+            $table->string('ws'); //Who Submitted(ws)
             $table->string('item');
             $table->string('qty');
             $table->string('ref');

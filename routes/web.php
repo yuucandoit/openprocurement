@@ -210,11 +210,14 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Pengajuan pembelian
     Route::group(['prefix' => 'menu-pengajuan-pembelian'], function () {
         Route::get('/', [CategoryPengajuanPembelianController::class, 'index'])->name('menu-pengajuan-pembelian.index');
+        Route::get('/detail/{id}', [CategoryPengajuanPembelianController::class, 'detail'])->name('menu-pengajuan-pembelian.detail');
         Route::get('/create', [CategoryPengajuanPembelianController::class, 'create'])->name('menu-pengajuan-pembelian.create');
         Route::post('/store', [CategoryPengajuanPembelianController::class, 'store'])->name('menu-pengajuan-pembelian.store');
+        Route::post('/update/{id}', [CategoryPengajuanPembelianController::class, 'update'])->name('menu-pengajuan-pembelian.update');
+        Route::get('/edit/{id}', [CategoryPengajuanPembelianController::class, 'edit'])->name('menu-pengajuan-pembelian.edit');
         Route::get('/destroy/{id}', [CategoryPengajuanPembelianController::class, 'destroy'])->name('menu-pengajuan-pembelian.destroy');
         Route::get('/accept/{id}', [CategoryPengajuanPembelianController::class, 'accept'])->name('menu-pengajuan-pembelian-accept');
-        Route::get('/denied/{id}', [CategoryPengajuanPembelianController::class, 'denied'])->name('menu-pengajuan-pembelian-denied');
+        Route::get('/reject/{id}', [CategoryPengajuanPembelianController::class, 'reject'])->name('menu-pengajuan-pembelian-reject');
     });
 
     //admin
@@ -234,6 +237,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/perusahaan', [CategoryPTController::class, 'export'])->name('export-pt');
     Route::get('/export_excel/private_person', [CategoryPPController::class, 'export'])->name('export-pp');
     Route::get('/export_excel/ecommerce', [CategoryEcommerceController::class, 'export'])->name('export-ec');
+    Route::get('/export_excel/pengajuan_pembelian/{id}', [CategoryPengajuanPembelianController::class, 'export'])->name('export-ppb');
 
     //Route Import Private Person
     Route::get('file-import-pp', [CategoryPPController::class, 'fileImportPP']);

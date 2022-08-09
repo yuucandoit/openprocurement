@@ -26,17 +26,6 @@
                                     <label for="floatingPKP">-- Company --</label>
                                 </div>
                             </div>
-
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <select class="form-select mt-2 mb-2" id="floatingPKP" placeholder="No.Po" name="po_id">
-                                        @foreach ($datapo as $po)
-                                        <option value="{{ $po->id }}">{{ $po->id }}{{ \Carbon\Carbon::parse($po->from_date)->format('dmy') }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="floatingPKP">-- No.Po --</label>
-                                </div>
-                            </div>
                             <div class="col-6">
                                 <div class="form-floating">
                                     <input required type="date"
@@ -67,11 +56,9 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-floating">
-                                    <select class="form-select mt-4" id="floatingPKP" placeholder="Who Submitted" name="ws" >
-                                        <option value="GA">GA</option>
-                                        <option value="Purchasing">Purchasing</option>
-                                    </select>
-                                    <label for="floatingPKP">-- Who Submitted --</label>
+                                    <input type="text" class="form-control mt-4" id="floatingws"
+                                        placeholder="Who Submitted" name="ws">
+                                    <label for="floatingws">Who Submitted</label>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -155,7 +142,7 @@
                         <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                     </div>
                     <div class="modal-footer">
-                        <form action="{{ url('/menu-perusahaan/destroy/' . $a->id) }}">
+                        <form action="{{ url('/menu-pengajuan-pembelian/destroy/' . $a->id) }}">
                             <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                 Delete</button>
                         </form>
@@ -181,7 +168,7 @@
                             <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/menu-perusahaan/destroy/' . $a->id) }}">
+                            <form action="{{ url('/menu-pengajuan-pembelian/destroy/' . $a->id) }}">
                                 <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                     Delete</button>
                             </form>
@@ -203,27 +190,23 @@
                     <div class="card-body">
                         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                                 class="bx bx-list-plus"></i> Add+</button>
-                                <a
+                                {{-- <a
                                 href={{ url('/export_excel/perusahaan/' ) }}
                                     class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
-                                    <a href={{ url('file-import-pt') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Import From Excel</a>
+                                    <a href={{ url('file-import-pt') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Import From Excel</a> --}}
                                     <table class="table table-striped" id="table1">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
                                                 <th>Company</th>
-                                                <th>PR.Nomor</th>
                                                 <th>Date</th>
                                                 <th>Who Filed</th>
-                                                <th>Item</th>
-                                                <th>Qty</th>
-                                                <th>Ref</th>
                                                 <th>Description</th>
-                                                <th>Purpose</th>
+                                                {{-- <th>Purpose</th>
                                                 <th>Price Per Unit</th>
                                                 <th>Sent to</th>
                                                 <th>Delivery Date</th>
-                                                <th>Suggested supplier</th>
+                                                <th>Suggested supplier</th> --}}
                                                 @hasrole('admin|super admin')
                                                     <th>Status</th>
                                                 @endhasrole
@@ -240,37 +223,40 @@
                                         @php
                                             $no = 1;
                                         @endphp
-                                        {{-- @foreach ($data as $pengajuan) --}}
-                                            {{-- @php
-                                            dd($categorypd);
-                                        @endphp --}}
+                                        @foreach ($datadv as $ppembelian)
+
                                             <tr>
-                                                {{-- <td>{{ $no++ }}</td> --}}
-                                                {{-- <td>{{ $pengajuan->subject }}</td> --}}
-                                                {{-- <td>{{ $pengajuan->name }}</td> --}}
-                                                {{-- <td>{{ $pengajuan->created_at }}</td> --}}
-                                                {{-- <td>{{ $pengajuan->tujuan }}</td> --}}
-                                                {{-- <td>{{ $pengajuan->lokasi }}</td> --}}
-                                                {{-- <td>{{ $pengajuan->jangka_waktu }}</td> --}}
-                                                {{-- <td>{{ $pengajuan->nominal }}</td> --}}
-                                                {{-- <td>{{ $pengajuan->no_rek }}</td> --}}
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ $ppembelian->pt->nama }}</td>
+                                                <td>{{ $ppembelian->date_ps }}</td>
+                                                <td>{{ $ppembelian->ws }}</td>
+                                                <td>{{ $ppembelian->desc }}</td>
                                                 @hasrole('admin|super admin')
-                                                    {{-- <td>
-                                                        <b>{{ $pengajuan->status }}</b>
-                                                    </td> --}}
+                                                   <td>
+                                                        <b>{{ $ppembelian->status }}</b>
+                                                    </td>
                                                 @endhasrole
-                                                {{-- <td>
-                                                    {{-- <a href="{{ url('/pengajuan-dana/' . $pengajuan->id) }}"
-                                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a> --}}
-                                                    {{-- <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                        data-bs-target="#modalDelete{{ $pengajuan->id }}">Delete</button> --}}
-                                                {{-- </td>  --}}
+                                                <td>
+                                                    <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"
+                                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                                        @if ($ppembelian->status == 'Accepted' )
+
+                                                        @else
+                                                        <a href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"
+                                                            class="btn btn-outline-warning"><i class="bx bxs-edit"></i> Edit</a>
+                                                        @endif
+
+
+
+                                                    <button class="btn btn-outline-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#modalDelete{{ $ppembelian->id }}">Delete</button>
+                                                </td>
                                                 @hasrole('user')
-                                                    {{-- <td> <a class="badge {{ $pengajuan->status == 'pending' ? 'bg-warning' : ($pengajuan->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1" --}}
-                                                            style="color: white; font-size:18">{{ $pengajuan->status }}</a></td>
+                                                    <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
+                                                            style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
                                                 @endhasrole
-                                                {{-- @hasrole('admin|super admin')
-                                                    @if ($pengajuan->status == 'Accepted')
+                                                 @hasrole('admin|super admin')
+                                                    @if ($ppembelian->status == 'Accepted')
                                                         <td>
                                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                                 class="btn btn-success" onclick="return"><b>Accepted</b></a>
@@ -279,13 +265,13 @@
                                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                                 class="btn btn-danger" onclick="return">Reject</a>
                                                         </td>
-                                                    @elseif($pengajuan->status == 'pending')
+                                                    @elseif($ppembelian->status == 'pending')
                                                         <td>
-                                                            <a href="{{ url('menu-pengajuan-dana/accept', $pengajuan->id) }}"
+                                                            <a href="{{ url('menu-pengajuan-pembelian/accept', $ppembelian->id) }}"
                                                                 class="btn btn-success" onclick="return">Accept</a>
                                                         </td>
                                                         <td>
-                                                            <a href="{{ url('menu-pengajuan-dana/Reject', $pengajuan->id) }}"
+                                                            <a href="{{ url('menu-pengajuan-pembelian/reject', $ppembelian->id) }}"
                                                                 class="btn btn-danger" onclick="return">Reject</a>
                                                         </td>
                                                     @else
@@ -299,22 +285,22 @@
                                                         </td>
                                                     @endif
                                                 @endhasrole
-                                            </tr> --}}
-                                        {{-- @endforeach --}}
+                                            </tr>
+                                         @endforeach
                                     </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <script>
-            $(document).ready(function() {
+                    <script>
+                        $(document).ready(function() {
 
-                $('.servidelet  ebtn').click(function(e) {
-                    e.preventDefault();
-                    alert('hello');
-                });
+                            $('.servidelet  ebtn').click(function(e) {
+                                e.preventDefault();
+                                alert('hello');
+                            });
 
-            });
-        </script>
-    </section>
-@endsection
+                        });
+                    </script>
+                </section>
+            @endsection
