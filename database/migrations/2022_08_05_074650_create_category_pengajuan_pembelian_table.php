@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('purpose');
             $table->string('priceperunit');
             $table->string('send_to');
-            $table->date('date_send');
+            $table->enum('dateline',['Urgent','≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);
             $table->string('proposed_supplier');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

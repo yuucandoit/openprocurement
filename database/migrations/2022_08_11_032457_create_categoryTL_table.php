@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category_po', function (Blueprint $table) {
+        Schema::create('categoryTL', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->default('0');
-            $table->string('name');
-            $table->string('address');
-            $table->string('status')->default('pending')->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_po');
+        Schema::dropIfExists('category_t_l_s');
     }
 };

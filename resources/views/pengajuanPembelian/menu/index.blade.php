@@ -1,4 +1,4 @@
-<title>Purchase Submission</title>
+<title>Pengajuan Pembelian</title>
 
 @extends('layouts.master')
 
@@ -42,16 +42,14 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-floating">
-                                    <input required type="date"
-                                        class="form-control @error('date_send') is-invalid @enderror mt-2 "
-                                        id="floatingTanggal" placeholder="Tanggal" name="date_send"
-                                        value="{{ old('date_send', date('Y-m-d')) }}">
-                                    <label for="floatingTanggal">Date send</label>
-                                    @error('date_send')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+                                    <select class="form-select mt-2" id="floatingdateline" placeholder="Dateline" name="dateline" >
+                                        <option value="Urgent">Urgent</option>
+                                        <option value="≤3Jam">≤ 3 Jam</option>
+                                        <option value="≤24Jam">≤ 24 Jam</option>
+                                        <option value="≤2Hari">≤ 2 Hari</option>
+                                        <option value="SesuaiPo">Sesuai PO</option>
+                                    </select>
+                                    <label for="floatingdateline">-- Date Line --</label>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -183,7 +181,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
-                    <h1>Purchase Submission</h1>
+                    <h1>Pengajuan Pembelian</h1>
                 </div>
 
                 <div class="card shadow mb-5">
@@ -255,36 +253,7 @@
                                                     <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
                                                             style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
                                                 @endhasrole
-                                                 @hasrole('admin|super admin')
-                                                    @if ($ppembelian->status == 'Accepted')
-                                                        <td>
-                                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                                class="btn btn-success" onclick="return"><b>Accepted</b></a>
-                                                        </td>
-                                                        <td>
-                                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                                class="btn btn-danger" onclick="return">Reject</a>
-                                                        </td>
-                                                    @elseif($ppembelian->status == 'pending')
-                                                        <td>
-                                                            <a href="{{ url('menu-pengajuan-pembelian/accept', $ppembelian->id) }}"
-                                                                class="btn btn-success" onclick="return">Accept</a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ url('menu-pengajuan-pembelian/reject', $ppembelian->id) }}"
-                                                                class="btn btn-danger" onclick="return">Reject</a>
-                                                        </td>
-                                                    @else
-                                                        <td>
-                                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                                class="btn btn-success" onclick="return">Accept</a>
-                                                        </td>
-                                                        <td>
-                                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                                class="btn btn-danger" onclick="return"><b>Rejected</b></a>
-                                                        </td>
-                                                    @endif
-                                                @endhasrole
+                                            
                                             </tr>
                                          @endforeach
                                     </table>

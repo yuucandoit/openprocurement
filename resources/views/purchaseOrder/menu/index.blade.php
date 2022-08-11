@@ -73,23 +73,24 @@
 
                 <div class="card shadow mb-5">
                     <div class="card-body">
-                        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
-                                class="bx bx-list-plus"></i> Add+</button>
+                        {{-- <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
+                                class="bx bx-list-plus"></i> Add+</button> --}}
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Name</th>
-                                    <th>Address</th>
+                                    <th>Send To</th>
                                     <th>Date</th>
-                                    @hasrole('admin|super admin')
+                                     @hasrole('purchasing')
                                         <th>Status</th>
                                     @endhasrole
+                                    {{--
                                     <th>Action</th>
                                     @hasrole('admin|super admin')
                                         <th>Accept</th>
                                         <th>Reject</th>
-                                    @endhasrole
+                                    @endhasrole --}}
                                     @hasrole('user')
                                         <th>Status</th>
                                     @endhasrole
@@ -99,13 +100,13 @@
                                 $no = 1;
                             @endphp
                             <tbody>
-                                @foreach ($datapo as $purchase)
+                                @foreach ($datappb as $purchase)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $purchase->name }}</td>
-                                        <td>{{ $purchase->address }}</td>
+                                        <td>{{ $purchase->ws }}</td>
+                                        <td>{{ $purchase->send_to }}</td>
                                         <td>{{ $purchase->created_at }}</td>
-                                        @hasrole('admin|super admin')
+                                        @hasrole('purchasing')
                                             <td>
                                                 <b>{{ $purchase->status }}</b>
                                             </td>

@@ -20,6 +20,9 @@
             <th style="border: 1px solid black">No. PR</th>
             <th style="border: 1px solid black" colspan="3">PB/{{ $category_ppb->id }}/SII/{{ $month }}/{{ $year }}</th>
         </tr>
+        <tr>
+            <th></th>
+        </tr>
 
         <tr>
             <td></td>
@@ -114,19 +117,28 @@
             <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $category_ppb->priceperunit }}</td>
         </tr>
 
-
+        <tr>
+            <td></td>
+        </tr>
 
         <tr>
-            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="4" rowspan="2"><strong>DIKIRIMKAN KE:</strong></td>
+            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="19" rowspan="2"><strong>DIKIRIMKAN KE:</strong></td>
             <td style="text-align: right ; border: 1px solid black" colspan="4" rowspan="2">{{$category_ppb->send_to}}</td>
         </tr>
         <tr>
-            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="4" rowspan="2"><strong>TANGGAL PENGIRIMAN :</strong></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="19" rowspan="2"><strong>TANGGAL PENGIRIMAN :</strong></td>
             <td style="text-align: right ; border: 1px solid black" colspan="4" rowspan="2">{{$category_ppb->date_send}}</td>
         </tr>
 
         <tr>
-            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="4" rowspan="2"><strong>PEMASOK YANG DIUSULKAN :</strong></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="19" rowspan="2"><strong>PEMASOK YANG DIUSULKAN :</strong></td>
             <td style="text-align: right ; border: 1px solid black" colspan="4" rowspan="2">{{ $category_ppb->proposed_supplier }}</td>
         </tr>
         <tr>

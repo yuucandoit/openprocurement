@@ -64,7 +64,7 @@
                             </svg>
                         </div>
                         <div class="sidebar-toggler  x">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                            <a href="" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                         </div>
                     </div>
                 </div>
@@ -89,10 +89,37 @@
                             </a>
                         </li>
                         <li class="sidebar-title">Menu</li>
+                        @hasrole('user')
                         <li class="sidebar-item {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pengajuan-pembelian') }}" class='sidebar-link'>
                                 <i class="bi bi-file-text"></i>
-                                <span>Purchase Submission</span>
+                                <span>Pengajuan Pembelian</span>
+                            </a>
+                        </li>
+                        @endhasrole
+                        @hasrole('purchasing')
+                        <li class="sidebar-item {{ request()->is('*task-list*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-task-list') }}" class='sidebar-link'>
+                                <i class="bi bi-calendar-x"></i>
+                                <span>Task List</span>
+                                <style>
+                                    .notification{
+                                    background: red;
+                                    height: 25px;
+                                    width: 25px;
+                                   align-items: right;
+                                    border-radius: 50%;
+                                    color: white;
+                                    display: inline-block;
+                                    text-align: center;
+                                    }
+                                    .notification:empty {
+                                    display: none;
+}
+                                </style>
+                                <span class="notification">
+                                    <p></p>
+                                </span>
                             </a>
                         </li>
                         <li class="sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">
@@ -101,23 +128,25 @@
                                 <span>Purchase Order</span>
                             </a>
                         </li>
-                        <li class="sidebar-item {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
-                            <a href="{{ url('/menu-pengajuan-dana') }}" class='sidebar-link'>
-                                <i class="bi bi-cash-coin"></i> <span>Fund Submission</span>
-                            </a>
-                        </li>
                         <li class="sidebar-item {{ request()->is('*quotation*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-quotation') }}" class='sidebar-link'>
                                 <i class="bi bi-receipt"></i>
                                 <span>Quotation</span>
                             </a>
                         </li>
+                        <li class="sidebar-item {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-pengajuan-dana') }}" class='sidebar-link'>
+                                <i class="bi bi-cash-coin"></i> <span>Pengajuan Dana</span>
+                            </a>
+                        </li>
+                        @endhasrole
                         <li class="sidebar-item {{ request()->is('*pembelian-barang*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pembelian-barang') }}" class='sidebar-link'>
                                 <i class="bi bi-currency-dollar"></i>
-                                <span>Purchase of goods</span>
+                                <span>Pembelian Barang</span>
                             </a>
                         </li>
+                        @hasrole('admin')
                         <li class="sidebar-title">Data Vendor / Supplier</li>
                         <li class="sidebar-item {{ request()->is('*perusahaan*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-perusahaan') }}" class='sidebar-link'>
@@ -137,6 +166,7 @@
                                 <span>Ecommerce</span>
                             </a>
                         </li>
+                        @endhasrole
                         @hasrole('super admin')
                             <li class="sidebar-title">Admin</li>
                             <li class="sidebar-item {{ request()->is('*admin*') ? 'active' : '' }}">
@@ -164,7 +194,7 @@
         </div>
         <div id="main">
             <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
+                <a href="" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
                 </a>
             </header>

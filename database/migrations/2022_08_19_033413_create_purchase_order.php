@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('purchase_order', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
             $table->integer('po_id')->default(0);
             $table->string('keterangan');
             $table->bigInteger('qty');

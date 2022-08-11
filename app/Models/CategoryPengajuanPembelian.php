@@ -38,4 +38,9 @@ class CategoryPengajuanPembelian extends Model
     {
         return $this->belongsTo(CategoryPO::class);
     }
+
+    public function tl()
+    {
+        return $this->hasMany(CategoryTL::class);
+    }
 }

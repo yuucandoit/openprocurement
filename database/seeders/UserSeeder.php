@@ -37,5 +37,21 @@ class UserSeeder extends Seeder
         ]);
 
         $super_admin->assignRole('super admin');
+
+        $purchasing = User::create([
+            'name' => 'Divisi Purchasing',
+            'email' => 'purchasing@role.test',
+            'password' => bcrypt('password')
+        ]);
+
+        $purchasing->assignRole('purchasing');
+
+        $finance = User::create([
+            'name' => 'Divisi Finance',
+            'email' => 'finance@role.test',
+            'password' => bcrypt('password')
+        ]);
+
+        $finance->assignRole('finance');
     }
 }

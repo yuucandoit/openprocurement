@@ -14,6 +14,7 @@ use App\Http\Controllers\CategoryEcommerceController;
 use App\Http\Controllers\CategoryPengajuanPembelianController;
 use App\Http\Controllers\CategoryPPController;
 use App\Http\Controllers\CategoryPTController;
+use App\Http\Controllers\CategoryTaskListController;
 use App\Http\Controllers\DataVendorController;
 use App\Http\Controllers\EcommerceController;
 use App\Http\Controllers\PengajuanPembelianController;
@@ -220,6 +221,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/reject/{id}', [CategoryPengajuanPembelianController::class, 'reject'])->name('menu-pengajuan-pembelian-reject');
     });
 
+    // Menu Purchase Order
+    Route::group(['prefix' => 'menu-task-list'], function () {
+        Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
+        Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
+        Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
+        Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
+        Route::get('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
+    });
     //admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/create-admin', [AdminController::class, 'create']);

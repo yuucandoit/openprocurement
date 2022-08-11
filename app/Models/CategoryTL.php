@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryPO extends Model
+class CategoryTL extends Model
 {
     use HasFactory;
-    protected $table = 'category_po';
+    protected $table = 'categorytl';
     protected $fillable = [
         'id',
+        'ppb_id',
         'user_id',
-        'name',
-        'address',
-        'status',
-        'created_at',
-        'updated_at'
     ];
+
     public function ppb()
     {
         return $this->belongsTo(CategoryPengajuanPembelian::class);
