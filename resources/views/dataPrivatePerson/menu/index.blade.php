@@ -103,6 +103,7 @@
                                 class="bx bx-list-plus"></i> Add+</button>
                         <a href={{ url('/export_excel/private_person') }} class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
                         <a href={{ url('file-import-pp') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Import From Excel</a>
+                        <a href={{ url('/file_pp/contohdata_pp') }} class="btn btn-warning mb-3 mr-1" style="align-self: flex-end"> Contoh Excel</a>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>

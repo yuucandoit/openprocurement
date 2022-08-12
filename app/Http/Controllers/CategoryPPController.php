@@ -9,6 +9,8 @@ use App\Models\CategoryPP;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryPPController extends Controller
@@ -30,6 +32,14 @@ class CategoryPPController extends Controller
             return view('dataPrivatePerson.menu.index')
                 ->with('datadv', $datadv);
         }
+    }
+
+
+    function getFile($filename){
+        $file=Storage::disk('public')->get($filename);
+
+        return (new Response($file, 200))
+              ->header('Content-Type', 'image/jpeg');
     }
 
     /**

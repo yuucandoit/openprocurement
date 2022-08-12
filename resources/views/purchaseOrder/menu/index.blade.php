@@ -101,58 +101,26 @@
                             @endphp
                             <tbody>
                                 @foreach ($datappb as $purchase)
+                                @if ($purchase->status == 'Accepted' )
+
+
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $purchase->ws }}</td>
                                         <td>{{ $purchase->send_to }}</td>
                                         <td>{{ $purchase->created_at }}</td>
                                         @hasrole('purchasing')
-                                            <td>
-                                                <b>{{ $purchase->status }}</b>
-                                            </td>
-                                        @endhasrole
+                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
+                                            style="color: white; font-size:18">{{ $purchase->status }}</a></td>
+
                                         <td>
                                             <a href="{{ url('/purchase-order/' . $purchase->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                             <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete{{ $purchase->id }}">Delete</button>
-
-
                                         </td>
-                                        @hasrole('admin|super admin')
-                                            @if ($purchase->status == 'Accepted')
-                                                <td>
-                                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                        class="btn btn-success" onclick="return"><b>Accepted</b></a>
-                                                </td>
-                                                <td>
-                                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                        class="btn btn-danger" onclick="return">Reject</a>
-                                                </td>
-                                            @elseif($purchase->status == 'pending')
-                                                <td>
-                                                    <a href="{{ url('menu-purchase-order/accept', $purchase->id) }}"
-                                                        class="btn btn-success" onclick="return">Accept</a>
-                                                </td>
-                                                <td>
-                                                    <a href="{{ url('menu-purchase-order/Reject', $purchase->id) }}"
-                                                        class="btn btn-danger" onclick="return">Reject</a>
-                                                </td>
-                                            @else
-                                                <td>
-                                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                        class="btn btn-success" onclick="return">Accept</a>
-                                                </td>
-                                                <td>
-                                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                        class="btn btn-danger" onclick="return"><b>Rejected</b></a>
-                                                </td>
-                                            @endif
                                         @endhasrole
-                                        @hasrole('user')
-                                            <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
-                                                    style="color: white; font-size:18">{{ $purchase->status }}</a></td>
-                                        @endhasrole
+                                    @endif
                                     </tr>
                                 @endforeach
                             </tbody>
