@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td>Date Send</td>
-                    <td>{{ $data_pengajuan->date_send }}</td>
+                    <td>{{ $data_pengajuan->dateline }}</td>
                 </tr>
                 <tr>
                     <td>Proposed Supplier</td>

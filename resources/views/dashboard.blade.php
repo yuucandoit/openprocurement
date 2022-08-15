@@ -4,16 +4,103 @@
 
 @section('main')
     <section>
-        <div class="container-fluid">
+        <div class="container-fluid dashboard-default-sec">
             <div class="row">
-                <div>
-                    <h1>Dashboard</h1>
+                <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                    <div class="card income-card card-secondary">
+                      <div class="card-body text-center">
+                        <div class="round-box">
+                            <i class="iconly-boldShow"></i>
+                        </div>
+                        <h6 class="text-muted font-semibold">Purchase Order</h6>
+                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPO::count() }}
+                        </h6>
+                        <div class="parrten">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                    <div class="card income-card card-secondary">
+                      <div class="card-body text-center">
+                        <div class="round-box">
+                            <i class="iconly-boldProfile"></i>
+                        </div>
+                        <h6 class="text-muted font-semibold">Pengajuan Dana</h6>
+                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPD::count() }}
+                        </h6>
+                        <div class="parrten">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                    <div class="card income-card card-secondary">
+                      <div class="card-body text-center">
+                        <div class="round-box">
+                            <i class="iconly-boldBookmark"></i>
+                        </div>
+                        <h6 class="text-muted font-semibold">Pembelian Barang</h6>
+                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPB::count() }}
+                        </h6>
+                        <div class="parrten">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                    <div class="card income-card card-secondary">
+                      <div class="card-body text-center">
+                        <div class="round-box">
+                            <i class="iconly-boldAdd-User"></i>
+                        </div>
+                        <h6 class="text-muted font-semibold">Pengajuan Pembelian</h6>
+                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPengajuanPembelian::count() }}
+                        </h6>
+                        <div class="parrten">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-4 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                    <div class="card income-card card-secondary">
+                      <div class="card-body text-center">
+                        <div class="round-box">
+                            <img class="img-90 rounded-circle" src="../assets/images/dashboard/1.png" alt="">
+                        </div>
+                        <h3 class="font-light">Welcome Back, {{ auth()->user()->name }}!!</h3>
+                        <p>Welcome to the Solusi Intek Indonesia Family! we are glad that you are visite this dashboard. we will be happy to help you grow your business.</p>
+                        <div class="parrten">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-full ">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4>Grafik Bulanan</h4>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="Po"></canvas>
+                        </div>
+                    </div>
                 </div>
-                <div class="page-content mt-4">
+
+                {{-- <div class="page-content mt-4">
                     <section class="row">
                         <div class="col-12 col-lg-8">
                             <div class="row">
-                                <div class="col-6 col-lg-3 col-md-6">
+                                <div class="col-xl-3 col-md-5 col-sm-6">
                                     <div class="card shadow">
                                         <div class="card-body px-3 py-4-5">
                                             <div class="row">
@@ -31,7 +118,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-lg-3 col-md-6">
+                                <div class="col-xl-3 col-md-3 col-sm-6">
                                     <div class="card shadow">
                                         <div class="card-body px-3 py-4-5">
                                             <div class="row">
@@ -49,12 +136,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-lg-3 col-md-6">
+                                <div class="col-xl-3 col-md-3 col-sm-6">
                                     <div class="card shadow">
                                         <div class="card-body px-3 py-4-5">
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <div class="stats-icon green">
+                                                    <div class="stats-icon-green">
                                                         <i class="iconly-boldAdd-User"></i>
                                                     </div>
                                                 </div>
@@ -68,12 +155,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-lg-3 col-md-6">
+                                <div class="col-xl-3 col-md-3 col-sm-6">
                                     <div class="card shadow">
                                         <div class="card-body px-3 py-4-5">
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <div class="stats-icon red">
+                                                    <div class="stats-icon-red">
                                                         <i class="iconly-boldBookmark"></i>
                                                     </div>
                                                 </div>
@@ -82,25 +169,6 @@
                                                     <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPB::count() }}
                                                     </h6>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="col-6 col-lg-12 col-md-6">
-                                <div class="card shadow">
-                                    <div class="card-body py-4 px-5">
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar avatar-xl">
-                                                <img src="assets/images/faces/1.jpg" alt="Face 1">
-                                            </div>
-                                            <div class="ms-3 name">
-                                                <h3 class="font-bold">
-                                                    {{ \Auth::user()->name ?? 'None' }}
-                                                </h3>
-                                                <h6 class="text-muted mb-0">{{ \Auth::user()->email ?? 'None' }}</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -118,50 +186,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            {{-- <div class="col-12 col-lg-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Recent Messages</h4>
-                        </div>
-                        <div class="card-content pb-4">
-                            <div class="recent-message d-flex px-4 py-3">
-                                <div class="avatar avatar-lg">
-                                    <img src="assets/images/faces/4.jpg">
-                                </div>
-                                <div class="name ms-4">
-                                    <h5 class="mb-1">Hank Schrader</h5>
-                                    <h6 class="text-muted mb-0">@johnducky</h6>
-                                </div>
-                            </div>
-                            <div class="recent-message d-flex px-4 py-3">
-                                <div class="avatar avatar-lg">
-                                    <img src="assets/images/faces/5.jpg">
-                                </div>
-                                <div class="name ms-4">
-                                    <h5 class="mb-1">Dean Winchester</h5>
-                                    <h6 class="text-muted mb-0">@imdean</h6>
-                                </div>
-                            </div>
-                            <div class="recent-message d-flex px-4 py-3">
-                                <div class="avatar avatar-lg">
-                                    <img src="assets/images/faces/1.jpg">
-                                </div>
-                                <div class="name ms-4">
-                                    <h5 class="mb-1">John Dodol</h5>
-                                    <h6 class="text-muted mb-0">@dodoljohn</h6>
-                                </div>
-                            </div>
-                            <div class="px-4">
-                                <button class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'>Start
-                                    Conversation</button>
-                            </div>
-                        </div>
-                    </div> --}}
-    </section>
-    </div>
+                </div> --}}
 
+        </div>
+    </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

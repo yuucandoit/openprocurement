@@ -4,6 +4,7 @@
 
 @section('main')
     <section>
+
         <div class="modal fade" id="modalAdd" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -176,8 +177,6 @@
             </div>
         @endforeach
 
-
-
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
@@ -192,6 +191,7 @@
                                 href={{ url('/export_excel/perusahaan/' ) }}
                                     class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
                                     <a href={{ url('file-import-pt') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Import From Excel</a> --}}
+
                                     <table class="table table-striped" id="table1">
                                         <thead>
                                             <tr>
@@ -253,7 +253,7 @@
                                                     <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
                                                             style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
                                                 @endhasrole
-                                            
+
                                             </tr>
                                          @endforeach
                                     </table>
