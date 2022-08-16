@@ -82,7 +82,7 @@
                                     <th>Name</th>
                                     <th>Send To</th>
                                     <th>Date</th>
-                                     @hasrole('purchasing')
+                                     @hasrole('purchasing|super admin')
                                         <th>Status</th>
                                     @endhasrole
                                     {{--
@@ -109,7 +109,7 @@
                                         <td>{{ $purchase->ws }}</td>
                                         <td>{{ $purchase->send_to }}</td>
                                         <td>{{ $purchase->created_at }}</td>
-                                        @hasrole('purchasing')
+                                        @hasrole('purchasing|super admin')
                                         <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
                                             style="color: white; font-size:18">{{ $purchase->status }}</a></td>
 

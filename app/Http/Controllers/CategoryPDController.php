@@ -21,7 +21,7 @@ class CategoryPDController extends Controller
             $datapd = CategoryPD::where('user_id', Auth::user()->id)->get();
             return view('pengajuanDana.menu.index')
                 ->with('datapd', $datapd);
-        } else if ($check->role_id == 1 || $check->role_id == 3) {
+        } else if ($check->role_id == 1 || $check->role_id == 4) {
             $datapd = CategoryPD::all();
             return view('pengajuanDana.menu.index')
                 ->with('datapd', $datapd);

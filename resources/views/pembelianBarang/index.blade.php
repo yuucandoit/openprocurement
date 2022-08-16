@@ -39,7 +39,7 @@
 
                 <div class="card shadow mb-5">
                     <div class="card-body">
-                        @hasrole('user|super admin')
+                        @hasrole('user|super admin|admin')
                             <a href="{{ url('/pembelian-barang/create/' . $menu_pb->id) }}" class="btn btn-primary mb-3"><i
                                     class="bx bx-list-plus"></i> Add+</a>
                         @endhasrole

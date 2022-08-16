@@ -22,7 +22,7 @@ class CategoryQuotationController extends Controller
             $dataqt = CategoryQuotation::where('user_id', Auth::user()->id)->get();
             return view('quotation.menu.index')
                 ->with('dataqt', $dataqt);
-        } else if ($check->role_id == 1 || $check->role_id == 3) {
+        } else if ($check->role_id == 1 || $check->role_id == 4) {
             $dataqt = CategoryQuotation::all();
             return view('quotation.menu.index')
                 ->with('dataqt', $dataqt);

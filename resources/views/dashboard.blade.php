@@ -9,9 +9,47 @@
                 <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
                     <div class="card income-card card-secondary">
                       <div class="card-body text-center">
+                        <a href="{{ route('menu-pengajuan-pembelian.index') }}">
+                        <div class="round-box">
+                            <i class="iconly-boldAdd-User"></i>
+                        </div>
+                        </a>
+                        <h6 class="text-muted font-semibold">Pengajuan Pembelian</h6>
+                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPengajuanPembelian::count() }}
+                        </h6>
+                        <div class="parrten">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                    <div class="card income-card card-secondary">
+                      <div class="card-body text-center">
+                        <a href="{{ route('menu-task-list.index') }}">
+                            <div class="round-box">
+                                <i class="iconly-boldAdd-User"></i>
+                            </div>
+                            </a>
+                        <h6 class="text-muted font-semibold">Task List</h6>
+                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryTL::count() }}
+                        </h6>
+                        <div class="parrten">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                    <div class="card income-card card-secondary">
+                      <div class="card-body text-center">
+                        <a href="{{ route('menu-purchase-order.index') }}">
                         <div class="round-box">
                             <i class="iconly-boldShow"></i>
                         </div>
+                        </a>
                         <h6 class="text-muted font-semibold">Purchase Order</h6>
                         <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPO::count() }}
                         </h6>
@@ -24,9 +62,11 @@
                   <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
                     <div class="card income-card card-secondary">
                       <div class="card-body text-center">
+                        <a href="{{ route('menu-pengajuan-dana.index') }}">
                         <div class="round-box">
                             <i class="iconly-boldProfile"></i>
                         </div>
+                        </a>
                         <h6 class="text-muted font-semibold">Pengajuan Dana</h6>
                         <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPD::count() }}
                         </h6>
@@ -37,7 +77,7 @@
                     </div>
                   </div>
 
-                  <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                  {{-- <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
                     <div class="card income-card card-secondary">
                       <div class="card-body text-center">
                         <div class="round-box">
@@ -51,23 +91,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
-                    <div class="card income-card card-secondary">
-                      <div class="card-body text-center">
-                        <div class="round-box">
-                            <i class="iconly-boldAdd-User"></i>
-                        </div>
-                        <h6 class="text-muted font-semibold">Pengajuan Pembelian</h6>
-                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPengajuanPembelian::count() }}
-                        </h6>
-                        <div class="parrten">
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  </div> --}}
 
                   <div class="col-xl-4 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
                     <div class="card income-card card-secondary">

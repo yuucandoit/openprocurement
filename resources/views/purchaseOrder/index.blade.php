@@ -13,7 +13,7 @@
                             <h2 class="modal-title" style="color: white">Delete</h2>
                             <button style="color: white" type="button" class="" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
-                        </div>  
+                        </div>
                         <div class="modal-body mx-5 mb-3">
                             <span class="warning">
                                 <img src="assets/images/warning.png">
@@ -34,7 +34,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
-                    <h1>{{ $data_company_po->name }}</h1>
+                    <h1>{{ $data_company_po->nama }}</h1>
                 </div>
                 <div class="card shadow mb-5">
                     <div class="card-body">

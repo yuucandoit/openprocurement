@@ -37,7 +37,7 @@
                 </div>
                 <div class="card shadow mb-5">
                     <div class="card-body">
-                        @hasrole('user|super admin')
+                        @hasrole('user|super admin|purchasing')
                             <a href="{{ url('quotation/create/' . $data_company->id) }}" class="btn btn-primary mb-3"
                                 style="align-self: flex-end"><i class="bx bx-list-plus"></i> Add+</a>
                         @endhasrole

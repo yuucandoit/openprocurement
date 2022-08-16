@@ -212,7 +212,7 @@
                                                 @hasrole('user')
                                                     <th>status</th>
                                                 @endhasrole
-                                                @hasrole('admin|super admin')
+                                                @hasrole('admin|')
                                                     <th>Accept</th>
                                                     <th>Reject</th>
                                                 @endhasrole
@@ -249,7 +249,7 @@
                                                     <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                                         data-bs-target="#modalDelete{{ $ppembelian->id }}">Delete</button>
                                                 </td>
-                                                @hasrole('user')
+                                                @hasrole('user|super admin')
                                                     <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
                                                             style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
                                                 @endhasrole

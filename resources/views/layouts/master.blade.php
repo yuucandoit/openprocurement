@@ -55,12 +55,12 @@
       <div class="page-main-header">
         <div class="main-header-right row m-0">
           <div class="main-header-left">
-            <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" style="height: 30px;" src="{{ asset('assets/images/logo.svg') }}" alt=""></a><div class="eproc" style="font-size: 10px; padding-left:40px; font-weight:bolder; user-select:none;
+            <div class="logo-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid" style="height: 30px;" src="{{ asset('assets/images/logo.svg') }}" alt=""></a><div class="eproc" style="font-size: 10px; padding-left:40px; font-weight:bolder; user-select:none;
               -moz-user-select:none;
               -ms-user-select:none;
               -khtml-user-select:none;
               -webkit-user-select:none">E-Proc</div></div>
-            <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid" style="height: 30px;" src="{{ asset('assets/images/logo.svg') }}" alt=""></a><div class="eproc" style="font-size: 10px; padding-left:40px; font-weight:bolder; user-select:none;
+            <div class="dark-logo-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid" style="height: 30px;" src="{{ asset('assets/images/logo.svg') }}" alt=""></a><div class="eproc" style="font-size: 10px; padding-left:40px; font-weight:bolder; user-select:none;
                 -moz-user-select:none;
                 -ms-user-select:none;
                 -khtml-user-select:none;
@@ -142,9 +142,9 @@
                       <h6>Components             </h6>
                     </div>
                   </li>
-                  <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="box"></i><span>Menu</span></a>
+                  <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="bell"></i><span>Menu</span></a>
                     <ul class="nav-submenu menu-content">
-                        @hasrole('user')
+                        @hasrole('user|super admin')
                         <li class=" {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pengajuan-pembelian') }}" >
                                 <i class="bi bi-file-text"></i>
@@ -152,11 +152,12 @@
                             </a>
                         </li>
                         @endhasrole
-                        @hasrole('purchasing')
+                        @hasrole('purchasing|super admin')
                         <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-task-list') }}" >
                                 <i class="bi bi-calendar-x"></i>
                                 <span>Task List</span>
+                                <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated">{{ \App\Models\CategoryPengajuanPembelian::count() }}</span></div>
                             </a>
                         </li>
                         <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }}">
@@ -165,12 +166,12 @@
                                 <span>Purchase Order</span>
                             </a>
                         </li>
-                        <li class=" {{ request()->is('*quotation*') ? 'active' : '' }}">
+                        {{-- <li class=" {{ request()->is('*quotation*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-quotation') }}" >
                                 <i class="bi bi-receipt"></i>
                                 <span>Quotation</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class=" {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pengajuan-dana') }}" >
                                 <i class="bi bi-cash-coin"></i> <span>Pengajuan Dana</span>
@@ -183,7 +184,17 @@
                                 <span>Pembelian Barang</span>
                             </a>
                         </li>
-                        @hasrole('admin')
+                    </ul>
+                  </li>
+                  @hasrole('admin|super admin')
+                  <li class="sidebar-main-title">
+                    <div>
+                      <h6>Data Master             </h6>
+                    </div>
+                  </li>
+                  <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="box"></i><span>Data Vendor/ Supplier</span></a>
+                    <ul class="nav-submenu menu-content">
+
                         <li class="sidebar-title">Data Vendor / Supplier</li>
                         <li class=" {{ request()->is('*perusahaan*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-perusahaan') }}" >
@@ -203,9 +214,78 @@
                                 <span>Ecommerce</span>
                             </a>
                         </li>
-                        @endhasrole
+
                     </ul>
                   </li>
+                  @endhasrole
+                  {{-- @hasrole('super admin')
+                  <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="bell"></i><span>Menu</span></a>
+                    <ul class="nav-submenu menu-content">
+
+                        <li class=" {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-pengajuan-pembelian') }}" >
+                                <i class="bi bi-file-text"></i>
+                                <span>Pengajuan Pembelian</span>
+                            </a>
+                        </li>
+                        <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-task-list') }}" >
+                                <i class="bi bi-calendar-x"></i>
+                                <span>Task List</span>
+                                <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated">{{ \App\Models\CategoryPengajuanPembelian::count() }}</span></div>
+                            </a>
+                        </li>
+                        <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-purchase-order') }}" >
+                                <i class="bi bi-calendar-x"></i>
+                                <span>Purchase Order</span>
+                            </a>
+                        </li>
+                        <li class=" {{ request()->is('*quotation*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-quotation') }}" >
+                                <i class="bi bi-receipt"></i>
+                                <span>Quotation</span>
+                            </a>
+                        </li>
+                        <li class=" {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-pengajuan-dana') }}" >
+                                <i class="bi bi-cash-coin"></i> <span>Pengajuan Dana</span>
+                            </a>
+                        </li>
+                        <li class=" {{ request()->is('*pembelian-barang*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-pembelian-barang') }}" >
+                                <i class="bi bi-currency-dollar"></i>
+                                <span>Pembelian Barang</span>
+                            </a>
+                        </li>
+                    </ul>
+                  </li>
+                  <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="box"></i><span>Data Master</span></a>
+                    <ul class="nav-submenu menu-content">
+
+                        <li class="sidebar-title">Data Vendor / Supplier</li>
+                        <li class=" {{ request()->is('*perusahaan*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-perusahaan') }}" >
+                                <i class="bi bi-building"></i>
+                                <span>Perusahaan</span>
+                            </a>
+                        </li>
+                        <li class=" {{ request()->is('*private-person*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-private-person') }}" >
+                                <i class="bi bi-person-lines-fill"></i>
+                                <span>Private Person</span>
+                            </a>
+                        </li>
+                        <li class=" {{ request()->is('*ecommerce*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-ecommerce') }}" >
+                                <i class="bi bi-cast"></i>
+                                <span>Ecommerce</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                  </li>
+                  @endhasrole --}}
           </nav>
         </header>
         <body>
@@ -220,10 +300,11 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-6 footer-copyright">
-                <p class="mb-0">Copyright 2021-22 © viho All rights reserved.</p>
+                <h5 class="mb-0"><img src="{{ asset('assets/images/intek.png') }}" alt="" width="30" class="fluid">&nbsp;
+                  SOLUSI INTEK INDONESIA</h5>
               </div>
               <div class="col-md-6">
-                <p class="pull-right mb-0">Hand crafted & made with <i class="fa fa-heart font-secondary"></i></p>
+                <p class="pull-right mb-0">Copyright &copy; 2022 | PT SOLUSI INTEK INDONESIA</p>
               </div>
             </div>
           </div>

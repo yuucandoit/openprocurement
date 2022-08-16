@@ -18,7 +18,7 @@ class CategoryPOController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4) {
+        if ($check->role_id == 4 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
             $datapo = CategoryPO::all();
             return view('purchaseOrder.menu.index')
