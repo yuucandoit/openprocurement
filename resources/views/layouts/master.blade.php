@@ -152,12 +152,20 @@
                             </a>
                         </li>
                         @endhasrole
+                        @hasrole('super user|super admin')
+                        <li class=" {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-taskList-atasan') }}" >
+                                <i class="bi bi-file-text"></i>
+                                <span>Task List</span>
+                            </a>
+                        </li>
+                        @endhasrole
                         @hasrole('purchasing|super admin')
                         <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-task-list') }}" >
                                 <i class="bi bi-calendar-x"></i>
                                 <span>Task List</span>
-                                <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated">{{ \App\Models\CategoryPengajuanPembelian::count() }}</span></div>
+                                <div class="notification-box"></span></div>
                             </a>
                         </li>
                         <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }}">
@@ -178,12 +186,12 @@
                             </a>
                         </li>
                         @endhasrole
-                        <li class=" {{ request()->is('*pembelian-barang*') ? 'active' : '' }}">
+                        {{-- <li class=" {{ request()->is('*pembelian-barang*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pembelian-barang') }}" >
                                 <i class="bi bi-currency-dollar"></i>
                                 <span>Pembelian Barang</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                   </li>
                   @hasrole('admin|super admin')
@@ -194,8 +202,6 @@
                   </li>
                   <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="box"></i><span>Data Vendor/ Supplier</span></a>
                     <ul class="nav-submenu menu-content">
-
-                        <li class="sidebar-title">Data Vendor / Supplier</li>
                         <li class=" {{ request()->is('*perusahaan*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-perusahaan') }}" >
                                 <i class="bi bi-building"></i>

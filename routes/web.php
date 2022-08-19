@@ -20,6 +20,7 @@ use App\Http\Controllers\EcommerceController;
 use App\Http\Controllers\PengajuanPembelianController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PrivatePersonController;
+use App\Http\Controllers\TaskListAtasanController;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\DataVendor;
@@ -126,6 +127,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Purchase Order
     Route::group(['prefix' => 'menu-purchase-order'], function () {
         Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
+        Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
         Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
         Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
         Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
@@ -221,7 +223,18 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/reject/{id}', [CategoryPengajuanPembelianController::class, 'reject'])->name('menu-pengajuan-pembelian-reject');
     });
 
-    // Menu Purchase Order
+    // Menu Task list atasan
+    Route::group(['prefix' => 'menu-taskList-atasan'], function () {
+        Route::get('/', [TaskListAtasanController::class, 'index'])->name('menu-taskList-atasan.index');
+        Route::get('/detail/{id}', [TaskListAtasanController::class, 'detail'])->name('menu-taskList-atasan.detail');
+        Route::post('/update/{id}', [TaskListAtasanController::class, 'update'])->name('menu-pengajuan-pembelian.update');
+        Route::get('/edit/{id}', [TaskListAtasanController::class, 'edit'])->name('menu-pengajuan-pembelian.edit');
+        Route::get('/destroy/{id}', [TaskListAtasanController::class, 'destroy'])->name('menu-taskList-atasan.destroy');
+        Route::get('/accept_atasan/{id}', [TaskListAtasanController::class, 'accept_atasan'])->name('menu-taskList-atasan-accept_atasan');
+        Route::get('/reject/{id}', [TaskListAtasanController::class, 'reject'])->name('menu-taskList-atasan-reject');
+    });
+
+    // Menu Task list po
     Route::group(['prefix' => 'menu-task-list'], function () {
         Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
         Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');

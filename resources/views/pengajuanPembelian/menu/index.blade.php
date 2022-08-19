@@ -17,16 +17,6 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="row modal-body container">
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <select class="form-select mt-2" id="floatingPKP" placeholder="Company" name="pt_id">
-                                        @foreach ($datapt as $pt)
-                                        <option value="{{ $pt->id }}">{{ $pt->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="floatingPKP">-- Company --</label>
-                                </div>
-                            </div>
                             <div class="col-6">
                                 <div class="form-floating">
                                     <input required type="date"
@@ -67,32 +57,25 @@
                                     <label for="floatingNoTelpon">Purpose</label>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-4">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4" id="floatingitem"
                                         placeholder="Item" name="item">
                                     <label for="floatingitem">Item</label>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-4">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4" id="floatingNoTelpon"
                                         placeholder="Quantity" name="qty">
                                     <label for="floatingNoTelpon">Qty</label>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-4">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4" id="floatingEmail"
                                         placeholder="PricePerUnit" name="priceperunit">
                                     <label for="floatingEmail">Price/Unit</label>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4" id="floatingNoTelpon"
-                                        placeholder="Ref" name="ref">
-                                    <label for="floatingNoTelpon">Ref</label>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -111,9 +94,13 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4 mb-4" id="floatingNoTelpon"
-                                        placeholder="PS" name="proposed_supplier">
-                                    <label for="floatingNoTelpon">Proposed Supplier</label>
+                                    <select class="form-select mt-4" id="floatingdateline" placeholder="proposed_supplier" name="proposed_supplier" >
+                                        <option value="Perusahaan">Perusahaan</option>
+                                        <option value="OrangPribadi">Orang Pribadi</option>
+                                        <option value="Ecommerce">Ecommerce</option>
+                                        <option value="Unknown">Unknown</option>
+                                    </select>
+                                    <label for="floatingdateline">-- Proposed Supplier --</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -196,7 +183,6 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Company</th>
                                                 <th>Date</th>
                                                 <th>Who Filed</th>
                                                 <th>Description</th>
@@ -212,10 +198,6 @@
                                                 @hasrole('user')
                                                     <th>status</th>
                                                 @endhasrole
-                                                @hasrole('admin|')
-                                                    <th>Accept</th>
-                                                    <th>Reject</th>
-                                                @endhasrole
                                             </tr>
                                         </thead>
                                         @php
@@ -225,10 +207,9 @@
 
                                             <tr>
                                                 <td>{{ $no++ }}</td>
-                                                <td>{{ $ppembelian->pt->nama }}</td>
                                                 <td>{{ $ppembelian->date_ps }}</td>
                                                 <td>{{ $ppembelian->ws }}</td>
-                                                <td>{{ $ppembelian->desc }}</td>
+                                                <td><a href="{{ $ppembelian->desc }}" target="_blank">{{ $ppembelian->desc }}</a></td>
                                                 @hasrole('admin|super admin')
                                                    <td>
                                                         <b>{{ $ppembelian->status }}</b>
@@ -250,7 +231,7 @@
                                                         data-bs-target="#modalDelete{{ $ppembelian->id }}">Delete</button>
                                                 </td>
                                                 @hasrole('user|super admin')
-                                                    <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
+                                                    <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Rejected by Super user' || 'Rejected by Purchasing' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                             style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
                                                 @endhasrole
 

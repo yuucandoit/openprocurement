@@ -55,7 +55,7 @@
             class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
     @endif
     <div class="back mt-4">
-        <a type="reset" class="btn btn-danger" href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
+        <a type="reset" class="btn btn-danger" href="{{ url('/menu-purchase-order/') }}">Back</a>
     </div>
     </section>
 @endsection

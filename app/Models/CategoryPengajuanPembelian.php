@@ -43,4 +43,8 @@ class CategoryPengajuanPembelian extends Model
     {
         return $this->hasMany(CategoryTL::class);
     }
+    public function tl_atasan()
+    {
+        return $this->hasMany(TaskListAtasan::class);
+    }
 }

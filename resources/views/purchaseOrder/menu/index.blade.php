@@ -101,27 +101,25 @@
                             @endphp
                             <tbody>
                                 @foreach ($datappb as $purchase)
-                                @if ($purchase->status == 'Accepted' )
-
-
+                                @if ($purchase->status == 'Accepted by Purchasing' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $purchase->ws }}</td>
                                         <td>{{ $purchase->send_to }}</td>
                                         <td>{{ $purchase->created_at }}</td>
                                         @hasrole('purchasing|super admin')
-                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
+                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $purchase->status }}</a></td>
 
                                         <td>
-                                            <a href="{{ url('/purchase-order/' . $purchase->id) }}"
+                                            <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                             <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete{{ $purchase->id }}">Delete</button>
                                         </td>
                                         @endhasrole
-                                    @endif
                                     </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

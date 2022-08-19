@@ -110,7 +110,6 @@ class CategoryPengajuanPembelianController extends Controller
 
         // dd($data);
         $tes = CategoryPengajuanPembelian::where("id", $id)->update([
-            "pt_id" => $request->pt_id,
             "date_ps" => $request->date_ps,
             "ws" => $request->ws,
             "item" => $request->item,
@@ -144,6 +143,15 @@ class CategoryPengajuanPembelianController extends Controller
         return Excel::download(new PPBExport($id), 'pengajuan_pembelian.xlsx');
     }
 
+    public function accept_atasan($id)
+    {
+        $data = CategoryPengajuanPembelian::find($id);
+        // dd($data);
+        $data->status = 'Accepted';
+        $data->save();
+        return redirect()->back();
+    }
+
     public function accept($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
@@ -160,4 +168,5 @@ class CategoryPengajuanPembelianController extends Controller
         $data->save();
         return redirect()->back();
     }
+
 }

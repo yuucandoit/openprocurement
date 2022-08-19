@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $admin = User::create([
-            'name' => 'Admin Role',
+            'name' => 'Admin',
             'email' => 'admin@role.test',
             'password' => bcrypt('password')
         ]);
@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         $admin->assignRole('admin');
 
         $user = User::create([
-            'name' => 'User Role',
+            'name' => 'User',
             'email' => 'user@role.test',
             'password' => bcrypt('password')
         ]);
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
         $user->assignRole('user');
 
         $super_admin = User::create([
-            'name' => 'Super Admin Role',
+            'name' => 'Super Admin',
             'email' => 'superadmin@role.test',
             'password' => bcrypt('password')
         ]);
@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
         $super_admin->assignRole('super admin');
 
         $purchasing = User::create([
-            'name' => 'Divisi Purchasing',
+            'name' => 'Purchasing',
             'email' => 'purchasing@role.test',
             'password' => bcrypt('password')
         ]);
@@ -47,11 +47,27 @@ class UserSeeder extends Seeder
         $purchasing->assignRole('purchasing');
 
         $finance = User::create([
-            'name' => 'Divisi Finance',
+            'name' => 'Finance',
             'email' => 'finance@role.test',
             'password' => bcrypt('password')
         ]);
 
         $finance->assignRole('finance');
+
+        $super_user = User::create([
+            'name' => 'Sindu Irawan',
+            'email' => 'sindu@role.test',
+            'password' => bcrypt('password')
+        ]);
+
+        $super_user->assignRole('super user');
+
+        $super_user = User::create([
+            'name' => 'Bayu',
+            'email' => 'bayu@role.test',
+            'password' => bcrypt('password')
+        ]);
+
+        $super_user->assignRole('super user');
     }
 }

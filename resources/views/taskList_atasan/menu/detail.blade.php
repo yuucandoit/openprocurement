@@ -5,6 +5,7 @@
 @section('main')
     <section>
         <div class="container-fluid">
+            <a type="reset" class="btn btn-danger mb-2" href="{{ url('/menu-taskList-atasan/') }}">Back</a>
             <div class="row">
                 <div class="card shadow mb-5">
                     <div class="card-body text-center">
@@ -53,37 +54,38 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            @hasrole('purchasing')
-                            @if ($data_pengajuan->status == 'Accepted by Purchasing')
-                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                        class="btn btn-success text-center" onclick="return"><b>Accepted</b></a>
+                            <div class="mt-3">
+                                @hasrole('super user')
+                                @if ($data_pengajuan->status == 'Accepted by Super user')
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                            class="btn btn-success text-center" onclick="return"><b>Accepted</b></a>
 
-                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                        class="btn btn-danger text-center" onclick="return">Reject</a>
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                            class="btn btn-danger text-center" onclick="return">Reject</a>
 
-                            @elseif($data_pengajuan->status == 'Accepted by Super user')
-                                    <a href="{{ url('menu-task-list/accept', $data_pengajuan->id) }}"
-                                        class="btn btn-success text-center" onclick="return">Accept</a>
+                                @elseif($data_pengajuan->status == 'pending')
+                                        <a href="{{ url('menu-taskList-atasan/accept_atasan', $data_pengajuan->id) }}"
+                                            class="btn btn-success text-center" onclick="return">Accept</a>
 
-                                    <a href="{{ url('menu-task-list/reject', $data_pengajuan->id) }}"
-                                        class="btn btn-danger text-center" onclick="return">Reject</a>
-                            @else
-                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                        class="btn btn-success text-center" onclick="return">Accept</a>
+                                        <a href="{{ url('menu-taskList-atasan/reject', $data_pengajuan->id) }}"
+                                            class="btn btn-danger text-center" onclick="return">Reject</a>
+                                @else
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                            class="btn btn-successtext-center" onclick="return">Accept</a>
 
-                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                        class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                            class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
 
-                            @endif
-                        @endhasrole
+                                @endif
+                            @endhasrole
+                            </div>
                         </div>
                     </div>
                     </div>
                 </div>
         @if ($data_pengajuan->status == 'Accepted')
-         <a href={{ url('#'){{--('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id)--}} }}
-            class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
+         {{-- <a href=url('#')('/export_excel/pengajuan_pembelian/'.$data_pengajuan->id)
+            class="btn btn-success" style="align-self: flex-end"> Export to Excel</a> --}}
     @endif
-        <a type="reset" class="btn btn-danger" href="{{ url('/menu-task-list/') }}">Back</a>
     </section>
 @endsection

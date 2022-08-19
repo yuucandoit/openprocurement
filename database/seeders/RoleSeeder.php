@@ -34,5 +34,9 @@ class RoleSeeder extends Seeder
             'name' => 'finance',
             'guard_name' => 'web',
         ]);
+        Role::create([
+            'name' => 'super user',
+            'guard_name' => 'web',
+        ]);
     }
 }

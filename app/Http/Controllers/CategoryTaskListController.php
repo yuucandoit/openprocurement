@@ -102,7 +102,7 @@ class CategoryTaskListController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        $data->status = 'Accepted';
+        $data->status = 'Accepted by Purchasing';
         $data->save();
         return redirect()->back();
     }
@@ -110,7 +110,7 @@ class CategoryTaskListController extends Controller
     public function reject($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Rejected';
+        $data->status = 'Rejected by Purchasing';
         $data->save();
         return redirect()->back();
     }

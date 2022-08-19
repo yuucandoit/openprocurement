@@ -15,20 +15,18 @@ return new class extends Migration
     {
         Schema::create('category_pengajuan_pembelian', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pt_id')->constrained('category_pt')->onDelete('cascade');
             $table->integer('user_id')->default('0');
             $table->string('status')->default('pending')->nullable();
             $table->date('date_ps');
             $table->string('ws'); //Who Submitted(ws)
             $table->string('item');
             $table->string('qty');
-            $table->string('ref');
             $table->string('desc');
             $table->string('purpose');
             $table->string('priceperunit');
             $table->string('send_to');
             $table->enum('dateline',['Urgent','≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);
-            $table->string('proposed_supplier');
+            $table->enum('proposed_supplier',['Perusahaan','OrangPribadi','Ecommerce','Unknown']);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
