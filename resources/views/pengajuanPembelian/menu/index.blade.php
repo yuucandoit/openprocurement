@@ -34,7 +34,6 @@
                             <div class="col-6">
                                 <div class="form-floating">
                                     <select class="form-select mt-2" id="floatingdateline" placeholder="Dateline" name="dateline" >
-                                        <option value="Urgent">Urgent</option>
                                         <option value="≤3Jam">≤ 3 Jam</option>
                                         <option value="≤24Jam">≤ 24 Jam</option>
                                         <option value="≤2Hari">≤ 2 Hari</option>
@@ -78,6 +77,36 @@
                                     <label for="floatingEmail">Price/Unit</label>
                                 </div>
                             </div>
+                            {{-- <div class="col-2">
+                            <button class=" btn btn-success add-more" type="button">
+                                <i class="glyphicon glyphicon-plus"></i> Add
+                              </button>
+                            </div>
+
+                            <div class="copy invisible">
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <input required type="text" class="form-control mt-4" id="floatingitem"
+                                            placeholder="Item" name="item">
+                                        <label for="floatingitem">Item</label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <input required type="text" class="form-control mt-4" id="floatingNoTelpon"
+                                            placeholder="Quantity" name="qty">
+                                        <label for="floatingNoTelpon">Qty</label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <input required type="text" class="form-control mt-4" id="floatingEmail"
+                                            placeholder="PricePerUnit" name="priceperunit">
+                                        <label for="floatingEmail">Price/Unit</label>
+                                    </div>
+                                </div>
+                            </div>
+ --}}
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
@@ -231,7 +260,7 @@
                                                         data-bs-target="#modalDelete{{ $ppembelian->id }}">Delete</button>
                                                 </td>
                                                 @hasrole('user|super admin')
-                                                    <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Rejected by Super user' || 'Rejected by Purchasing' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                    <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1"
                                                             style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
                                                 @endhasrole
 
@@ -251,6 +280,22 @@
                             });
 
                         });
+                    </script>
+                    <!-- fungsi javascript untuk menampilkan form dinamis  -->
+                    <!-- penjelasan :
+                    saat tombol add-more ditekan, maka akan memunculkan div dengan class copy -->
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $(".add-more").click(function(){
+                            var html = $(".copy").html();
+                            $(".after-add-more").after(html);
+                        });
+
+                        // saat tombol remove di klik control group akan dihapus
+                        $("body").on("click",".remove",function(){
+                            $(this).parents(".control-group").remove();
+                        });
+                    });
                     </script>
                 </section>
             @endsection

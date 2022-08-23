@@ -48,8 +48,8 @@
     <section>
       <div class="container-fluid p-0">
         <div class="row m-0">
-          <div class="col-xl-5"><img class="bg-img-cover bg-center" src="{{ asset('assets/images/11116.jpg') }}" alt="looginpage"></div>
-          <div class="col-xl-7 p-0">
+          <div class="col-xl-7"><img class="bg-img-cover bg-center" src="{{ asset('assets/images/11116.jpg') }}" alt="looginpage"></div>
+          <div class="col-xl-5 p-0">
             <div class="login-card">
               <form class="theme-form login-form" method="POST" action="{{ route('register') }}">
                 @csrf

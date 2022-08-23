@@ -25,8 +25,13 @@ return new class extends Migration
             $table->string('purpose');
             $table->string('priceperunit');
             $table->string('send_to');
-            $table->enum('dateline',['Urgent','≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);
+            $table->enum('dateline',['≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);
             $table->enum('proposed_supplier',['Perusahaan','OrangPribadi','Ecommerce','Unknown']);
+            $table->string('no_rek')->nullable();
+            $table->string('no_telp')->nullable();
+            $table->string('quotation')->nullable();
+            $table->string('address')->nullable();
+            $table->string('npwp')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

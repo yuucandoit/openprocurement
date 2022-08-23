@@ -22,6 +22,11 @@ class CategoryPengajuanPembelian extends Model
         'desc',
         'purpose',
         'priceperunit',
+        'total',
+        'no_rek',
+        'quotation',
+        'address',
+        'npwp',
         'send_to',
         'date_send',
         'proposed_supplier',
@@ -46,5 +51,10 @@ class CategoryPengajuanPembelian extends Model
     public function tl_atasan()
     {
         return $this->hasMany(TaskListAtasan::class);
+    }
+
+    public function datapo()
+    {
+        return $this->hasMany(CategoryPO::class);
     }
 }

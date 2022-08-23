@@ -19,7 +19,10 @@ return new class extends Migration
             $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
             $table->string('name');
             $table->string('address');
-            $table->string('status')->default('pending')->nullable();
+            $table->string('no_telp');
+            $table->string('no_npwp');
+            $table->string('quotation');
+            // $table->string('status')->default('pending')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

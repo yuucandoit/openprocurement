@@ -13,16 +13,6 @@
                 <form class="row g-2" action={{ url('/menu-pengajuan-pembelian/update/' . $dv->id) }} method="POST"
                     enctype="multipart/form-data">
                     @csrf
-                        <div class="col-12">
-                                <div class="form-floating">
-                                    <select class="form-select mt-2" id="floatingPKP" placeholder="Company" name="pt_id">
-                                        @foreach ($datapt as $pt)
-                                        <option value="{{ $pt->id }}">{{ $pt->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="floatingPKP">-- Company --</label>
-                                </div>
-                            </div>
                             <div class="col-6">
                                 <div class="form-floating">
                                     <input required type="date"
@@ -39,16 +29,13 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-floating">
-                                    <input required type="date"
-                                        class="form-control @error('date_send') is-invalid @enderror mt-2 "
-                                        id="floatingTanggal" placeholder="Tanggal" name="date_send"
-                                        value="{{ old('date_send', date('Y-m-d')) }}">
-                                    <label for="floatingTanggal">Date send</label>
-                                    @error('date_send')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+                                    <select class="form-select mt-2" id="floatingdateline" placeholder="Dateline" name="dateline" value="{{ $dv->dateline }}">
+                                        <option value="≤3Jam">≤ 3 Jam</option>
+                                        <option value="≤24Jam">≤ 24 Jam</option>
+                                        <option value="≤2Hari">≤ 2 Hari</option>
+                                        <option value="SesuaiPo">Sesuai PO</option>
+                                    </select>
+                                    <label for="floatingdateline">-- Date Line --</label>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -86,13 +73,6 @@
                                     <label for="floatingEmail">Price/Unit</label>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4" id="floatingNoTelpon"
-                                        placeholder="Ref" name="ref" value="{{ $dv->ref }}">
-                                    <label for="floatingNoTelpon">Ref</label>
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
@@ -109,8 +89,12 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4 mb-4" id="floatingNoTelpon"
-                                        placeholder="PS" name="proposed_supplier" value="{{ $dv->proposed_supplier }}">
+                                    <select class="form-select mt-4" id="floatingdateline" placeholder="proposed_supplier" name="proposed_supplier" value="{{ $dv->proposed_supplier }}">
+                                        <option value="Perusahaan">Perusahaan</option>
+                                        <option value="OrangPribadi">Orang Pribadi</option>
+                                        <option value="Ecommerce">Ecommerce</option>
+                                        <option value="Unknown">Unknown</option>
+                                    </select>
                                     <label for="floatingNoTelpon">Proposed Supplier</label>
                                 </div>
                             </div>

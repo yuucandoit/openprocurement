@@ -17,11 +17,11 @@ class CategoryPDController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 2) {
+        if ($check->role_id == 5) {
             $datapd = CategoryPD::where('user_id', Auth::user()->id)->get();
             return view('pengajuanDana.menu.index')
                 ->with('datapd', $datapd);
-        } else if ($check->role_id == 1 || $check->role_id == 4) {
+        } else if ($check->role_id == 3 || $check->role_id == 5) {
             $datapd = CategoryPD::all();
             return view('pengajuanDana.menu.index')
                 ->with('datapd', $datapd);

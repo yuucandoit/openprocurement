@@ -1,4 +1,4 @@
-<title>Pengajuan dana</title>
+<title>Pengajuan Pembelian</title>
 @extends('layouts.master')
 
 @section('main')
@@ -65,7 +65,7 @@
                             <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/pengajuan-dana/destroy/' . $a->id) }}">
+                            <form action="{{ url('/pengajuan-pembelian/destroy/' . $a->id) }}">
                                 <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                     Delete</button>
                             </form>

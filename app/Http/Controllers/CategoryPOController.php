@@ -77,7 +77,11 @@ class CategoryPOController extends Controller
      */
     public function edit($id)
     {
-        //
+        $datapt = CategoryPO::all();
+        $dv = CategoryPengajuanPembelian::find($id);
+        return view('purchaseOrder.menu.edit')
+        ->with('datapt', $datapt)
+        ->with('dv' , $dv);
     }
 
     /**
@@ -89,7 +93,16 @@ class CategoryPOController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = CategoryPengajuanPembelian::find($id);
+
+        // dd($data);
+        $tes = CategoryPengajuanPembelian::where("id", $id)->update([
+            "address" => $request->address,
+            "no_telp" => $request->no_telp,
+            "npwp" => $request->npwp,
+            "quotation" => $request->quotation,
+        ]);
+        return redirect("menu-purchase-order/");
     }
 
     /**
@@ -100,16 +113,16 @@ class CategoryPOController extends Controller
      */
     public function destroy($id)
     {
-        $data = CategoryPO::find($id);
+        $data = CategoryPengajuanPembelian::find($id);
         $data->delete();
         return redirect('/menu-purchase-order')->with('success', 'Task Deleted Successfully!');
     }
 
-    public function accept($id)
+    public function selesai($id)
     {
-        $data = CategoryPO::find($id);
+        $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        $data->status = 'Accepted';
+        $data->status = 'Selesai Di proses Purchasing';
         $data->save();
         return redirect()->back();
     }
@@ -117,7 +130,7 @@ class CategoryPOController extends Controller
     public function Reject($id)
     {
         $data = CategoryPO::find($id);
-        $data->status = 'Rejected';
+        $data->status = 'Rejected By Purchasing';
         $data->save();
         return redirect()->back();
     }

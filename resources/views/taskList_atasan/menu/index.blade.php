@@ -50,7 +50,7 @@
                                     $no = 1;
                                     @endphp
                                      @foreach ($datappb as $ppb)
-                                     @if ($ppb->status == 'pending' )
+                                     @if ($ppb->status == 'pending' || 'Accepted by Super user' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>

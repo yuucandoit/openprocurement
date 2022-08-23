@@ -12,6 +12,7 @@ class CategoryPO extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'ppb_id',
         'name',
         'address',
         'status',

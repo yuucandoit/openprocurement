@@ -7,8 +7,8 @@
     <meta name="description" content="viho admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, viho admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="{{ asset('../assets/images/favicon.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('../assets/images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/intek.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/images/intek.png') }}" type="image/x-icon">
     <title>viho - Premium Admin Template</title>
     <!-- Google font-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -59,12 +59,12 @@
               -moz-user-select:none;
               -ms-user-select:none;
               -khtml-user-select:none;
-              -webkit-user-select:none">E-Proc</div></div>
+              -webkit-user-select:none">E-Procurement</div></div>
             <div class="dark-logo-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid" style="height: 30px;" src="{{ asset('assets/images/logo.svg') }}" alt=""></a><div class="eproc" style="font-size: 10px; padding-left:40px; font-weight:bolder; user-select:none;
                 -moz-user-select:none;
                 -ms-user-select:none;
                 -khtml-user-select:none;
-                -webkit-user-select:none">E-Proc</div></div>
+                -webkit-user-select:none">E-Procurement</div></div>
             <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center" id="sidebar-toggle"></i></div>
           </div>
           <div class="left-menu-header col">
@@ -180,6 +180,8 @@
                                 <span>Quotation</span>
                             </a>
                         </li> --}}
+                        @endhasrole
+                        @hasrole('finance')
                         <li class=" {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pengajuan-dana') }}" >
                                 <i class="bi bi-cash-coin"></i> <span>Pengajuan Dana</span>

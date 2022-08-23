@@ -130,8 +130,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
         Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
         Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
+        Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
+        Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
         Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
-        Route::get('/accept/{id}', [CategoryPOController::class, 'accept'])->name('menu-purchase-order-accept');
+        Route::get('/selesai/{id}', [CategoryPOController::class, 'selesai'])->name('menu-purchase-order-selesai');
         Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
     });
 
@@ -236,6 +238,15 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Menu Task list po
     Route::group(['prefix' => 'menu-task-list'], function () {
+        Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
+        Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
+        Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
+        Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
+        Route::get('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
+    });
+
+    // Menu Task list
+    Route::group(['prefix' => 'menu-tasklist-finance'], function () {
         Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
         Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
         Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');

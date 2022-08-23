@@ -39,8 +39,8 @@
         </div>
         </div>
 
-        @foreach ($datapo as $a)
-            <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
+        @foreach ($datappb as $purchase)
+            <div class="modal fade" id="modalDelete{{ $purchase->id }}"  tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-danger">
@@ -55,7 +55,7 @@
                             <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/menu-purchase-order/destroy/' . $a->id) }}">
+                            <form action="{{ url('/menu-purchase-order/destroy/' . $purchase->id) }}">
                                 <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                     Delete</button>
                             </form>
@@ -94,6 +94,7 @@
                                     @hasrole('user')
                                         <th>Status</th>
                                     @endhasrole
+                                    <th>Function</th>
                                 </tr>
                             </thead>
                             @php
@@ -114,7 +115,10 @@
                                         <td>
                                             <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                            <button class="btn btn-outline-danger" data-bs-toggle="modal"
+                                            <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
+                                                class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
+
+                                                <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete{{ $purchase->id }}">Delete</button>
                                         </td>
                                         @endhasrole
