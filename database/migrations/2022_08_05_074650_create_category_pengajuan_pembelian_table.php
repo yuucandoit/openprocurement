@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->default('0');
             $table->string('status')->default('pending')->nullable();
+            $table->foreignId('atasan')->constrained('users');
             $table->date('date_ps');
             $table->string('ws'); //Who Submitted(ws)
             $table->string('item');

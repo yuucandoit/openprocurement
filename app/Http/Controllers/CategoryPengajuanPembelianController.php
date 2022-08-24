@@ -7,6 +7,7 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPT;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,19 +25,19 @@ class CategoryPengajuanPembelianController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
             $datapt = CategoryPT::all();
-            $datapo = CategoryPO::all();
+            $atasan['atasan'] = User::whereIn('id',[6,7,8,9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('pt')->with('po')->get();
             return view('pengajuanPembelian.menu.index')
                 ->with('datapt',$datapt)
-                ->with('datapo', $datapo)
+                ->with('atasan', $atasan)
                 ->with('datadv', $datadv);
         } else if ($check->role_id == 1 || $check->role_id == 3) {
             $datapt = CategoryPT::all();
-            $datapo = CategoryPO::all();
+            $atasan = User::whereIn('id',[6,7,8,9])->get();
             $datadv = CategoryPengajuanPembelian::all();
             return view('pengajuanPembelian.menu.index')
                 ->with('datapt',$datapt)
-                ->with('datapo', $datapo)
+                ->with('atasan', $atasan)
                 ->with('datadv', $datadv);
         }
     }
@@ -44,7 +45,9 @@ class CategoryPengajuanPembelianController extends Controller
     public function detail($id)
     {
         /*$data_vendor*/  $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $atasan = User::whereIn('id',[6,7,8,9])->get();
         return view('pengajuanPembelian.menu.detail')
+            ->with('atasan', $atasan)
             ->with('data_pengajuan', $data_pengajuan);
     }
     /**

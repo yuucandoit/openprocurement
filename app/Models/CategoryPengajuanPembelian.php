@@ -11,10 +11,9 @@ class CategoryPengajuanPembelian extends Model
     protected $table = 'category_pengajuan_pembelian';
     protected $fillable = [
         'id',
-        'pt_id',
-        'po_id',
         'user_id',
         'date_ps',
+        'atasan',
         'ws',
         'item',
         'qty',
@@ -42,6 +41,10 @@ class CategoryPengajuanPembelian extends Model
     public function po()
     {
         return $this->belongsTo(CategoryPO::class);
+    }
+    public function ss()
+    {
+        return $this->hasMany(User::class);
     }
 
     public function tl()

@@ -77,36 +77,6 @@
                                     <label for="floatingEmail">Price/Unit</label>
                                 </div>
                             </div>
-                            {{-- <div class="col-2">
-                            <button class=" btn btn-success add-more" type="button">
-                                <i class="glyphicon glyphicon-plus"></i> Add
-                              </button>
-                            </div>
-
-                            <div class="copy invisible">
-                                <div class="col-4">
-                                    <div class="form-floating">
-                                        <input required type="text" class="form-control mt-4" id="floatingitem"
-                                            placeholder="Item" name="item">
-                                        <label for="floatingitem">Item</label>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-floating">
-                                        <input required type="text" class="form-control mt-4" id="floatingNoTelpon"
-                                            placeholder="Quantity" name="qty">
-                                        <label for="floatingNoTelpon">Qty</label>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-floating">
-                                        <input required type="text" class="form-control mt-4" id="floatingEmail"
-                                            placeholder="PricePerUnit" name="priceperunit">
-                                        <label for="floatingEmail">Price/Unit</label>
-                                    </div>
-                                </div>
-                            </div>
- --}}
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
@@ -130,6 +100,16 @@
                                         <option value="Unknown">Unknown</option>
                                     </select>
                                     <label for="floatingdateline">-- Proposed Supplier --</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12   ">
+                                <div class="form-floating">
+                                    <select class="form-select mt-2" id="floatingproposedto" placeholder="Proposed To" name="atasan" >
+                                        @foreach ($atasan as $sui)
+                                        <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="floatingproposedto">-- Diajukan Ke --</label>
                                 </div>
                             </div>
                             <div class="modal-footer">

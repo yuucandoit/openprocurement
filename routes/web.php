@@ -21,6 +21,7 @@ use App\Http\Controllers\PengajuanPembelianController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PrivatePersonController;
 use App\Http\Controllers\TaskListAtasanController;
+use App\Http\Controllers\TaskListFinanceController;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\DataVendor;
@@ -245,13 +246,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
     });
 
-    // Menu Task list
+    // Menu Task list finance
     Route::group(['prefix' => 'menu-tasklist-finance'], function () {
-        Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
-        Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
-        Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
-        Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
-        Route::get('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
+        Route::get('/', [TaskListFinanceController::class, 'index'])->name('menu-tasklist-finance.index');
+        Route::get('/detail/{id}', [TaskListFinanceController::class, 'detail'])->name('menu-tasklist-finance.detail');
+        Route::get('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
+        Route::get('/accept/{id}', [TaskListFinanceController::class, 'accept'])->name('menu-tasklist-finance-accept');
+        Route::get('/reject/{id}', [TaskListFinanceController::class, 'reject'])->name('menu-tasklist-finance-reject');
     });
     //admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
