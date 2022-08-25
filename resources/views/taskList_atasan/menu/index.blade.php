@@ -36,8 +36,7 @@
                         <div class="card shadow mb-5">
                             <div class="card-body">
                                 <h3>Task List</h3>
-                                @foreach ($datappb as $ppb)
-                                @if ($ppb->atasan === 6)
+                                @if (Auth::user()->id === 6)
                                 <table class="table table-striped" id="table1">
                                     <thead>
                                         <tr>
@@ -51,6 +50,8 @@
                                     @php
                                     $no = 1;
                                     @endphp
+                                    @foreach ($datappb as $ppb)
+                                    @if ($ppb->atasan == 6)
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
@@ -65,91 +66,28 @@
                                         <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                     </tr>
-                                </table>
-                                @endif
-                                @endforeach
-
-                                @foreach ($datappb as $ppb)
-                                @if ($ppb->atasan === 7)
-                                <table class="table table-striped" id="table1">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Request By</th>
-                                            <th>Function</th>
-                                        </tr>
-                                    </thead>
-                                    @php
-                                    $no = 1;
-                                    @endphp
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                                        <td>{{ $ppb->dateline }}</td>
-                                        <td>{{ $ppb->ws }}</td>
-                                        <td>
-                                        <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                        <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
-                                        </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                                    </tr>
-                                </table>
-                                @endif
-                                @endforeach
-
-                                @foreach ($datappb as $ppb)
-                                @if ($ppb->atasan === 8)
-                                <table class="table table-striped" id="table1">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Request By</th>
-                                            <th>Function</th>
-                                        </tr>
-                                    </thead>
-                                    @php
-                                    $no = 1;
-                                    @endphp
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                                        <td>{{ $ppb->dateline }}</td>
-                                        <td>{{ $ppb->ws }}</td>
-                                        <td>
-                                        <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                        <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
-                                        </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                                        </tr>
-                                    </table>
                                     @endif
                                     @endforeach
+                                    </table>
+                                    @endif
 
-                                @foreach ($datappb as $ppb)
-                                @if ($ppb->atasan === 9)
-                                <table class="table table-striped" id="table1">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Request By</th>
-                                            <th>Function</th>
-                                        </tr>
-                                    </thead>
+
+                                    @if (Auth::user()->id === 7)
+                                    <table class="table table-striped" id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Date Line</th>
+                                                <th>Request By</th>
+                                                <th>Function</th>
+                                            </tr>
+                                        </thead>
                                     @php
                                     $no = 1;
                                     @endphp
+                                    @foreach ($datappb as $ppb)
+                                    @if ($ppb->atasan == 7)
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
@@ -164,9 +102,80 @@
                                         <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                     </tr>
+                                    @endif
+                                    @endforeach
+                                    </table>
+                                    @endif
+
+                                    @if (Auth::user()->id === 8)
+                                    <table class="table table-striped" id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Date Line</th>
+                                                <th>Request By</th>
+                                                <th>Function</th>
+                                            </tr>
+                                        </thead>
+                                    @php
+                                    $no = 1;
+                                    @endphp
+                                    @foreach ($datappb as $ppb)
+                                    @if ($ppb->atasan == 8)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                        <td>{{ $ppb->dateline }}</td>
+                                        <td>{{ $ppb->ws }}</td>
+                                        <td>
+                                        <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                        <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
+                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
+                                        </td>
+                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        </tr>
+                                        @endif
+                                        @endforeach
+                                        </table>
+                                        @endif
+
+                                     @if (Auth::user()->id === 9)
+                                    <table class="table table-striped" id="table1">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Date Line</th>
+                                                <th>Request By</th>
+                                                <th>Function</th>
+                                            </tr>
+                                        </thead>
+                                    @php
+                                    $no = 1;
+                                    @endphp
+                                    @foreach ($datappb as $ppb)
+                                    @if ($ppb->atasan == 9)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                        <td>{{ $ppb->dateline }}</td>
+                                        <td>{{ $ppb->ws }}</td>
+                                        <td>
+                                        <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                        <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
+                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
+                                        </td>
+                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
                                 </table>
                                 @endif
-                                @endforeach
                             </div>
                         </div>
                     </div>

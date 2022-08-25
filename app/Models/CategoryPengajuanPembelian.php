@@ -13,7 +13,6 @@ class CategoryPengajuanPembelian extends Model
         'id',
         'user_id',
         'date_ps',
-        'atasan',
         'ws',
         'item',
         'qty',
@@ -44,7 +43,7 @@ class CategoryPengajuanPembelian extends Model
     }
     public function ss()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function tl()

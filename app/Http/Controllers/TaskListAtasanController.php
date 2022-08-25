@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\Role;
-use App\Models\TaskListAtasan as ModelsTaskListAtasan;
+use App\Models\TaskListAtasan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +20,7 @@ class TaskListAtasanController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
-            $datadv = ModelsTaskListAtasan::all();
+            $datadv = TaskListAtasan::all();
             return view('taskList_atasan.menu.index')
             ->with('datappb', $datappb)
             ->with('datadv', $datadv);
