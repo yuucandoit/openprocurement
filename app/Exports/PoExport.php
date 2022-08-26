@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryQuotation;
 use App\Models\PurchaseOrder;
@@ -28,8 +29,8 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
     public function view(): View
     {
         $data['purchase_order'] = PurchaseOrder::where('po_id', $this->id)->get();
-        $data['category_po'] = CategoryPO::where('id', $this->id)->first();
-        $data['category_q'] = CategoryQuotation::where('id', $this->id)->first();
+        $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
+        $data['category_q'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
         $data['day'] = Carbon::now()->format('d');
         $data['year2'] = Carbon::now()->format('Y');
         $data['year'] = Carbon::now()->format('y');

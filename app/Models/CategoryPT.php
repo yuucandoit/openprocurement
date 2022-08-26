@@ -32,4 +32,9 @@ class CategoryPT extends Model
     {
         return $this->hasMany(PengajuanPembelian::class);
     }
+
+    public function po()
+    {
+        return $this->hasMany(PurchaseOrder::class);
+    }
 }

@@ -18,6 +18,10 @@ return new class extends Migration
             $table->integer('user_id')->default('0');
             $table->string('status')->default('pending')->nullable();
             $table->foreignId('atasan')->constrained('users');
+            $table->foreignId('pt_id')->nullable()->constrained('category_pt');
+            $table->foreignId('op_id')->nullable()->constrained('category_pp');
+            $table->foreignId('ec_id')->nullable()->constrained('category_ecommerce');
+            $table->string('vendor')->nullable() ;
             $table->date('date_ps');
             $table->string('ws'); //Who Submitted(ws)
             $table->string('item');

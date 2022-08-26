@@ -95,31 +95,79 @@
                             <label for="floatingdateline">-- Proposed Supplier --</label>
                         </div>
                     </div>
+                    @if ($dv->proposed_supplier == 'Perusahaan')
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select class="form-select mt-1" id="floatingdateline" placeholder="Vendor" name="pt_id">
+                                @foreach ($pt as $p)
+                                <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingdateline">-- Perusahaan --</label>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if ($dv->proposed_supplier == 'OrangPribadi')
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select class="form-select mt-1" id="floatingdateline" placeholder="Vendor" name="op_id">
+                                @foreach ($op as $o)
+                                <option value="{{ $o->id}}">{{ $o->nama }}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingdateline">-- Orang Pribadi --</label>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if ($dv->proposed_supplier == 'Ecommerce')
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select class="form-select mt-1" id="floatingdateline" placeholder="Vendor" name="ec_id">
+                                @foreach ($ec as $e)
+                                <option value="{{ $e->id }}">{{ $e->nama }}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingdateline">-- Ecommerce --</label>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if ($dv->proposed_supplier == 'Unknown')
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
-                                placeholder="bidang usaha" name="address" >
+                                placeholder="Vendor" name="vendor" >
+                            <label for="floatingNoTelpon">Vendor</label>
+                        </div>
+                    </div>
+                    @endif
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
+                                placeholder="Address" name="address" >
                             <label for="floatingNoTelpon">Alamat</label>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
-                                placeholder="bidang usaha" name="no_telp" >
+                                placeholder="No_Telp" name="no_telp" >
                             <label for="floatingNoTelpon">Nomor Telpon</label>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
-                                placeholder="bidang usaha" name="npwp" >
+                                placeholder="NPWP" name="npwp" >
                             <label for="floatingNoTelpon">NPWP</label>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
-                                placeholder="bidang usaha" name="quotation" >
+                                placeholder="Quotation" name="quotation" >
                             <label for="floatingNoTelpon">Quotation</label>
                         </div>
                     </div>

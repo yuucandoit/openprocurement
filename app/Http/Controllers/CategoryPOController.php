@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryEcommerce;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
+use App\Models\CategoryPP;
+use App\Models\CategoryPT;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
@@ -20,9 +23,15 @@ class CategoryPOController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
+            $pt = CategoryPT::all();
+            $op = CategoryPP::all();
+            $ec = CategoryEcommerce::all();
             $datapo = CategoryPO::all();
             return view('purchaseOrder.menu.index')
-                ->with('datappb', $datappb)
+                ->with('pt',$pt)
+                ->with('op',$op)
+                ->with('ec',$ec)
+                ->with('datappb',$datappb)
                 ->with('datapo', $datapo);
         }
     }
@@ -77,10 +86,14 @@ class CategoryPOController extends Controller
      */
     public function edit($id)
     {
-        $datapt = CategoryPO::all();
+        $pt = CategoryPT::all();
+        $op = CategoryPP::all();
+        $ec = CategoryEcommerce::all();
         $dv = CategoryPengajuanPembelian::find($id);
         return view('purchaseOrder.menu.edit')
-        ->with('datapt', $datapt)
+        ->with('pt', $pt)
+        ->with('op',$op)
+        ->with('ec',$ec)
         ->with('dv' , $dv);
     }
 
@@ -97,6 +110,10 @@ class CategoryPOController extends Controller
 
         // dd($data);
         $tes = CategoryPengajuanPembelian::where("id", $id)->update([
+            "pt_id" => $request->pt_id,
+            "op_id" => $request->op_id,
+            "ec_id" => $request->ec_id,
+            "vendor" => $request->vendor,
             "address" => $request->address,
             "no_telp" => $request->no_telp,
             "npwp" => $request->npwp,

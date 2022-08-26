@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PPBExport;
+use App\Models\CategoryEcommerce;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
+use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\Role;
 use App\Models\User;
@@ -25,18 +27,26 @@ class CategoryPengajuanPembelianController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
             $datapt = CategoryPT::all();
-            $atasan['atasan'] = User::whereIn('id',[6,7,8,9])->get();
-            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('pt')->with('po')->get();
+            $dataop = CategoryPP::all();
+            $dataec = CategoryEcommerce::all();
+            $atasan = User::whereIn('id',[6,7,8,9])->get();
+            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
             return view('pengajuanPembelian.menu.index')
                 ->with('datapt',$datapt)
+                ->with('dataop',$dataop)
+                ->with('dataec',$dataec)
                 ->with('atasan', $atasan)
                 ->with('datadv', $datadv);
         } else if ($check->role_id == 1 || $check->role_id == 3) {
             $datapt = CategoryPT::all();
+            $dataop = CategoryPP::all();
+            $dataec = CategoryEcommerce::all();
             $atasan = User::whereIn('id',[6,7,8,9])->get();
             $datadv = CategoryPengajuanPembelian::all();
             return view('pengajuanPembelian.menu.index')
                 ->with('datapt',$datapt)
+                ->with('dataop',$dataop)
+                ->with('dataec',$dataec)
                 ->with('atasan', $atasan)
                 ->with('datadv', $datadv);
         }
@@ -117,12 +127,11 @@ class CategoryPengajuanPembelianController extends Controller
             "ws" => $request->ws,
             "item" => $request->item,
             "qty" => $request->qty,
-            "ref" => $request->ref,
             "desc" => $request->desc,
             "purpose" => $request->purpose,
             "priceperunit" => $request->priceperunit,
             "send_to" => $request->send_to,
-            "date_send" => $request->date_send,
+            "dateline" => $request->dateline,
             "proposed_supplier" => $request->proposed_supplier,
         ]);
         return redirect("menu-pengajuan-pembelian/");

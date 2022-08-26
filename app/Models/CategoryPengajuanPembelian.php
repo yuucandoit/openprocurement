@@ -13,10 +13,12 @@ class CategoryPengajuanPembelian extends Model
         'id',
         'user_id',
         'date_ps',
+        'pt_id',
+        'op_id',
+        'ec_id',
         'ws',
         'item',
         'qty',
-        'ref',
         'desc',
         'purpose',
         'priceperunit',
@@ -26,7 +28,7 @@ class CategoryPengajuanPembelian extends Model
         'address',
         'npwp',
         'send_to',
-        'date_send',
+        'dateline',
         'proposed_supplier',
         'created_at',
         'updated_at'
@@ -37,9 +39,13 @@ class CategoryPengajuanPembelian extends Model
         return $this->belongsTo(CategoryPT::class);
     }
 
-    public function po()
+    public function op()
     {
-        return $this->belongsTo(CategoryPO::class);
+        return $this->belongsTo(CategoryPP::class);
+    }
+    public function ec()
+    {
+        return $this->belongsTo(CategoryEcommerce::class);
     }
     public function ss()
     {
@@ -55,8 +61,4 @@ class CategoryPengajuanPembelian extends Model
         return $this->hasMany(TaskListAtasan::class);
     }
 
-    public function datapo()
-    {
-        return $this->hasMany(CategoryPO::class);
-    }
 }

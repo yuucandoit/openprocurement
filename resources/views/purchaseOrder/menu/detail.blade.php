@@ -65,9 +65,32 @@
                                                 <td>NPWP</td>
                                                 <td>{{ $data_pengajuan->npwp }}</td>
                                             </tr>
+                                            @if ($data_pengajuan->pt_id)
+                                                        <tr>
+                                                            <td>Perusahaan</td>
+                                                            <td>{{ $data_pengajuan->pt->nama }}</td>
+                                                        </tr>
+                                            @endif
+                                            @if ($data_pengajuan->proposed_supplier == 'OrangPribadi')
+                                                        <tr>
+                                                            <td>Orang Pribadi</td>
+                                                            <td>{{ $data_pengajuan->op->nama }}</td>
+                                                        </tr>
+                                            @endif
+                                            @if ($data_pengajuan->proposed_supplier == 'Ecommerce')
+                                                        <tr>
+                                                            <td>Ecommerce</td>
+                                                            <td>{{ $data_pengajuan->ec->nama }}</td>
+                                                        </tr>
+                                            @endif
+                                            @if ($data_pengajuan->proposed_supplier == 'Unknown')
+                                                <tr>
+                                                    <td>Supplier / Vendor</td>
+                                                    <td>{{ $data_pengajuan->vendor }}</td>
+                                                </tr>
+                                            @endif
                                         </tbody>
                                     </table>
-
                                             @if ($data_pengajuan->status == 'Selesai Di proses Purchasing')
                                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
                                             data-bs-target="#modalSelesai" disabled>Terselesaikan</button>
@@ -90,7 +113,7 @@
                                                             <h2 style="text-align: center"> Are you sure to set this task Done? </h2>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <form action="{{ url('  menu-purchase-order/selesai', $data_pengajuan->id)  }}">
+                                                            <form action="{{ url('menu-purchase-order/selesai', $data_pengajuan->id)  }}">
                                                                 <button type="submit" class="btn btn-success"><i class="bx bx-trash"></i>
                                                                     Selesai</button>
                                                             </form>
@@ -102,10 +125,9 @@
                                     </div>
                                 </div>
                             </div>
-                            @if ($data_pengajuan->status == 'Accepted')
-                            <a href={{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}
-                                class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
-                            @endif
+
+                            <a href={{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }}
+                                class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
 
                         <div class="back mt-4">
                             <a type="reset" class="btn btn-danger" href="{{ url('/menu-purchase-order/') }}">Back</a>
