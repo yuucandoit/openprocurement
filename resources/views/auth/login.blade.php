@@ -58,8 +58,9 @@
             <!-- page-wrapper Start-->
             <section>
               <div class="container-fluid">
+                <img class="bg-img-cover bg-center" src="{{ asset('assets/images/BG-E-Procurement-Intek.jpg') }}" alt="looginpage">
                 <div class="row">
-                  <div class="col-xl-7"><img class="bg-img-cover bg-center" src="../assets/images/30663.jpg" alt="looginpage"></div>
+                  <div class="col-xl-7"></div>
                   <div class="col-xl-5 p-0">
                     <div class="login-card column">
                       <form class="theme-form login-form needs-validation" method="POST" action="{{ route('login') }}">

@@ -47,8 +47,9 @@
     <!-- page-wrapper Start-->
     <section>
       <div class="container-fluid p-0">
+        <img class="bg-img-cover bg-center" src="{{ asset('assets/images/BG-E-Procurement-Intek.jpg') }}" alt="looginpage">
         <div class="row m-0">
-          <div class="col-xl-7"><img class="bg-img-cover bg-center" src="{{ asset('assets/images/11116.jpg') }}" alt="looginpage"></div>
+          <div class="col-xl-7"></div>
           <div class="col-xl-5 p-0">
             <div class="login-card">
               <form class="theme-form login-form" method="POST" action="{{ route('register') }}">

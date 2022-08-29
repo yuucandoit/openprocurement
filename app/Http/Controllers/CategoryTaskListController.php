@@ -27,6 +27,18 @@ class CategoryTaskListController extends Controller
         }
     }
 
+    public function history()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 4 ||$check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::all();
+            $datadv = CategoryTL::all();
+            return view('taskList.menu.history')
+            ->with('datappb', $datappb)
+            ->with('datadv', $datadv);
+        }
+    }
+
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);

@@ -15,7 +15,7 @@
                         </div>
                         </a>
                         <h6 class="text-muted font-semibold">Pengajuan Pembelian</h6>
-                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPengajuanPembelian::count() }}
+                        {{-- <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPengajuanPembelian::count() }} --}}
                         </h6>
                         <div class="parrten">
 
@@ -33,7 +33,7 @@
                             </div>
                             </a>
                         <h6 class="text-muted font-semibold">Task List</h6>
-                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryTL::count() }}
+                        {{-- <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryTL::count() }} --}}
                         </h6>
                         <div class="parrten">
 
@@ -51,7 +51,7 @@
                         </div>
                         </a>
                         <h6 class="text-muted font-semibold">Purchase Order</h6>
-                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPO::count() }}
+                        {{-- <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPO::count() }} --}}
                         </h6>
                         <div class="parrten">
                         </div>
@@ -68,7 +68,7 @@
                         </div>
                         </a>
                         <h6 class="text-muted font-semibold">Pengajuan Dana</h6>
-                        <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPD::count() }}
+                        {{-- <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPD::count() }} --}}
                         </h6>
                         <div class="parrten">
 

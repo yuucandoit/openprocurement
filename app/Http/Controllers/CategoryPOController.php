@@ -36,6 +36,24 @@ class CategoryPOController extends Controller
         }
     }
 
+    public function history()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 4 || $check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::all();
+            $pt = CategoryPT::all();
+            $op = CategoryPP::all();
+            $ec = CategoryEcommerce::all();
+            $datapo = CategoryPO::all();
+            return view('purchaseOrder.menu.history')
+                ->with('pt',$pt)
+                ->with('op',$op)
+                ->with('ec',$ec)
+                ->with('datappb',$datappb)
+                ->with('datapo', $datapo);
+        }
+    }
+
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);

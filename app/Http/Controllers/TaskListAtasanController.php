@@ -27,6 +27,18 @@ class TaskListAtasanController extends Controller
         }
     }
 
+    public function history()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::all();
+            $datadv = TaskListAtasan::all();
+            return view('taskList_atasan.menu.history')
+            ->with('datappb', $datappb)
+            ->with('datadv', $datadv);
+        }
+    }
+
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);

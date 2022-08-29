@@ -128,6 +128,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Purchase Order
     Route::group(['prefix' => 'menu-purchase-order'], function () {
         Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
+        Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
         Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
         Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
         Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
@@ -229,6 +230,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list atasan
     Route::group(['prefix' => 'menu-taskList-atasan'], function () {
         Route::get('/', [TaskListAtasanController::class, 'index'])->name('menu-taskList-atasan.index');
+        Route::get('/history', [TaskListAtasanController::class, 'history'])->name('menu-taskList-atasan.history');
         Route::get('/detail/{id}', [TaskListAtasanController::class, 'detail'])->name('menu-taskList-atasan.detail');
         Route::post('/update/{id}', [TaskListAtasanController::class, 'update'])->name('menu-pengajuan-pembelian.update');
         Route::get('/edit/{id}', [TaskListAtasanController::class, 'edit'])->name('menu-pengajuan-pembelian.edit');
@@ -240,6 +242,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list po
     Route::group(['prefix' => 'menu-task-list'], function () {
         Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
+        Route::get('/history', [CategoryTaskListController::class, 'history'])->name('menu-task-list.history');
         Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
         Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
         Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
@@ -249,6 +252,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list finance
     Route::group(['prefix' => 'menu-tasklist-finance'], function () {
         Route::get('/', [TaskListFinanceController::class, 'index'])->name('menu-tasklist-finance.index');
+        Route::get('/history', [TaskListFinanceController::class, 'history'])->name('menu-tasklist-finance.history');
         Route::get('/detail/{id}', [TaskListFinanceController::class, 'detail'])->name('menu-tasklist-finance.detail');
         Route::get('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
         Route::get('/accept/{id}', [TaskListFinanceController::class, 'accept'])->name('menu-tasklist-finance-accept');

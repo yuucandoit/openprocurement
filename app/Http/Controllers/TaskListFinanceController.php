@@ -18,7 +18,7 @@ class TaskListFinanceController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 3 ||$check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::all();
             $datadv = TaskListFinance::all();
             return view('taskList_finance.menu.index')
@@ -27,6 +27,17 @@ class TaskListFinanceController extends Controller
         }
     }
 
+    public function history()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 ||$check->role_id == 5) {
+            $datappb = CategoryPengajuanPembelian::all();
+            $datadv = TaskListFinance::all();
+            return view('taskList_finance.menu.history')
+            ->with('datappb', $datappb)
+            ->with('datadv', $datadv);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
