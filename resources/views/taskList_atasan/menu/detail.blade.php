@@ -26,11 +26,27 @@
                                     </tr>
                                     <tr>
                                         <td>Item</td>
-                                        <td>{{ $data_pengajuan->item }}</td>
+                                        @foreach ($pengajuan as $p)
+                                        <td>{{ $p->item }}</td>
+                                        @endforeach
                                     </tr>
                                     <tr>
                                         <td>Qty</td>
-                                        <td>{{ $data_pengajuan->qty }}</td>
+                                        @foreach ($pengajuan as $p)
+                                        <td>{{ $p->qty }}</td>
+                                        @endforeach
+                                    </tr>
+                                    <tr>
+                                        <td>Price Unit</td>
+                                        @foreach ($pengajuan as $p)
+                                        <td>{{ number_format($p->unit_price) }}</td>
+                                        @endforeach
+                                    </tr>
+                                    <tr>
+                                        <td>Price Unit</td>
+                                        @foreach ($pengajuan as $p)
+                                        <td>{{ number_format($p->total )}}</td>
+                                        @endforeach
                                     </tr>
                                     <tr>
                                         <td>Description</td>
@@ -39,10 +55,6 @@
                                     <tr>
                                         <td>Purpose</td>
                                         <td>{{ $data_pengajuan->purpose }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Price Unit</td>
-                                        <td>{{ $data_pengajuan->priceperunit }}</td>
                                     </tr>
                                     <tr>
                                         <td>Send To</td>
@@ -65,7 +77,7 @@
 
                                 @elseif($data_pengajuan->status == 'pending')
                                         <a href="{{ url('menu-taskList-atasan/accept_atasan', $data_pengajuan->id) }}"
-                                            class="btn btn-success text-center" onclick="return">Accept</a>
+                                          class="btn btn-success text-center" onclick="return">Accept</a>
 
                                         <a href="{{ url('menu-taskList-atasan/reject', $data_pengajuan->id) }}"
                                             class="btn btn-danger text-center" onclick="return">Reject</a>

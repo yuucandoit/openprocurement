@@ -11,7 +11,7 @@
                         <button style="color: white" type="button" class="" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form class="row g-3" action="{{ url('pengajuan-dana/store/' . $data_pd->id) }}" id="formAdd"
+                    <form class="row g-3" action="{{ url('pengajuan-pembelian/store/' . $data_pd->id) }}" id="formAdd"
                         method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body container">
@@ -35,13 +35,22 @@
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="number" class="form-control mt-4" id="floatingName" placeholder="Harga"
-                                            name="harga">
+                                            name="unit_price">
                                         <label>Harga</label>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="form-select mt-2" id="floatingdateline" placeholder="matauang" name="matauang" >
+                                        <option value="USD">USD</option>
+                                        <option value="RP">RP</option>
+                                    </select>
+                                    <label for="floatingdateline">-- Mata Uang --</label>
+                                </div>
+                            </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-outline-primary btn_add mt-3">Save changes</button>
+                                <button type="submit" class="btn btn-outline-primary btn_add mt-3">Add Item</button>
                             </div>
                         </div>
                     </form>
@@ -78,7 +87,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
-                    <h1>{{ $data_pd->name }}</h1>
+                    <h1>{{ $data_pd->ws }}</h1>
                 </div>
 
                 <div class="card shadow mb-5">
@@ -110,12 +119,12 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $dataPengajuan->item }}</td>
                                     <td>{{ $dataPengajuan->qty }}</td>
-                                    <td>{{ $dataPengajuan->harga }}</td>
-                                    <td>{{ $dataPengajuan->total }}</td>
+                                    <td>{{ number_format(  $dataPengajuan->unit_price )}}</td>
+                                    <td>{{ number_format( $dataPengajuan->total )}}</td>
                                     <td>
-                                        <a href="{{ url('/pengajuan-dana/show/' . $data_pd->id . '/' . $dataPengajuan->id) }}"
+                                        <a href="{{ url('/pengajuan-pembelian/show/' . $data_pd->id . '/' . $dataPengajuan->id) }}"
                                             class="btn shadow btn-outline-info">Edit</a>
-                                        <a href="{{ url('/pengajuan-dana/destroy/' . $dataPengajuan->id) }}"
+                                        <a href="{{ url('/pengajuan-pembelian/destroy/' . $dataPengajuan->id) }}"
                                             class="btn shadow btn-outline-danger"
                                             onclick="return confirm ('Are you sure want to delete this item?')">Delete</a>
                                     </td>

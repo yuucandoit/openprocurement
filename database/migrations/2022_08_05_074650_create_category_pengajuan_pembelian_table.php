@@ -24,11 +24,8 @@ return new class extends Migration
             $table->string('vendor')->nullable() ;
             $table->date('date_ps');
             $table->string('ws'); //Who Submitted(ws)
-            $table->string('item');
-            $table->string('qty');
             $table->string('desc');
             $table->string('purpose');
-            $table->string('priceperunit');
             $table->string('send_to');
             $table->enum('dateline',['≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);
             $table->enum('proposed_supplier',['Perusahaan','OrangPribadi','Ecommerce','Unknown']);

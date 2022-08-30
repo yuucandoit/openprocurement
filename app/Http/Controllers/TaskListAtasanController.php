@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\TaskListAtasan;
 use Illuminate\Http\Request;
@@ -42,7 +43,9 @@ class TaskListAtasanController extends Controller
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        return view('taskList_atasan.menu.detail    ')
+        $pengajuan = PengajuanPembelian::all();
+        return view('taskList_atasan.menu.detail')
+            ->with('pengajuan', $pengajuan)
             ->with('data_pengajuan', $data_pengajuan);
     }
     /**

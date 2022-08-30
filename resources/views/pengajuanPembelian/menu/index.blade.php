@@ -56,42 +56,21 @@
                                     <label for="floatingNoTelpon">Purpose</label>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4" id="floatingitem"
-                                        placeholder="Item" name="item">
-                                    <label for="floatingitem">Item</label>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4" id="floatingNoTelpon"
-                                        placeholder="Quantity" name="qty">
-                                    <label for="floatingNoTelpon">Qty</label>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4" id="floatingEmail"
-                                        placeholder="PricePerUnit" name="priceperunit">
-                                    <label for="floatingEmail">Price/Unit</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
+                            <div class="col-12">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
                                         placeholder="desc" name="desc">
                                     <label for="floatingNoTelpon">Description</label>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-12">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
                                         placeholder="bidang usaha" name="send_to">
                                     <label for="floatingNoTelpon">Send To</label>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-12">
                                 <div class="form-floating">
                                     <select class="form-select mt-4" id="floatingdateline" placeholder="proposed_supplier" name="proposed_supplier" >
                                         <option value="Perusahaan">Perusahaan</option>
@@ -102,7 +81,7 @@
                                     <label for="floatingdateline">-- Proposed Supplier --</label>
                                 </div>
                             </div>
-                            <div class="col-md-12   ">
+                            <div class="col-12   ">
                                 <div class="form-floating">
                                     <select class="form-select mt-2" id="floatingproposedto" placeholder="Proposed To" name="atasan" >
                                         @foreach ($atasan as $sui)
@@ -225,6 +204,8 @@
                                                     </td>
                                                 @endhasrole
                                                 <td>
+                                                    <a href="{{ url('pengajuan-pembelian/' .  $ppembelian->id) }}"
+                                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Add Item</a>
                                                     <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"
                                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                                         @if ($ppembelian->status == 'Accepted' )

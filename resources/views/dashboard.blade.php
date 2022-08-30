@@ -93,7 +93,7 @@
                     </div>
                   </div> --}}
 
-                  <div class="col-xl-4 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                  {{-- <div class="col-xl-4 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
                     <div class="card income-card card-secondary">
                       <div class="card-body text-center">
                         <div class="round-box">
@@ -106,7 +106,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> --}}
 
 
                   <div class="col-full ">

@@ -113,6 +113,8 @@
                                             style="color: white; font-size:18">{{ $purchase->status }}</a></td>
 
                                         <td>
+                                            <a href="{{ url('/purchase-order/index/' . $purchase->id) }}"
+                                                class="btn btn-outline-info"><i class="bx bx-detail"></i> Add Item</a>
                                             <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                             <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"

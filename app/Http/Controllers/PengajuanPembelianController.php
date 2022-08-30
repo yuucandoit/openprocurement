@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryEcommerce;
+use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPP;
+use App\Models\CategoryPT;
+use App\Models\PengajuanPembelian;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengajuanPembelianController extends Controller
 {
@@ -11,9 +19,13 @@ class PengajuanPembelianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $data_pd = CategoryPengajuanPembelian::find($id);
+        $pd = PengajuanPembelian::where('pp_id', $id)->get();
+        return view('pengajuanPembelian.index')
+            ->with('pd', $pd)
+            ->with('data_pd', $data_pd);
     }
 
     /**
@@ -32,9 +44,18 @@ class PengajuanPembelianController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $dv = $request->except(['_token']);
+        PengajuanPembelian::insert([
+            "pp_id" => $id,
+            "matauang" => $request->matauang,
+            "item" => $request->item,
+            "qty" => $request->qty,
+            "unit_price" => $request->unit_price,
+            "total" => $request->qty * $request->unit_price
+        ]);
+        return redirect("pengajuan-pembelian/" . $id)->with('success', 'Task Created Successfully!');
     }
 
     /**
@@ -54,9 +75,13 @@ class PengajuanPembelianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $pp_id)
     {
-        //
+        $pp = PengajuanPembelian::find($pp_id);
+        $category_pp = CategoryPengajuanPembelian::where('id', $id)->first();
+        return view('pengajuanPembelian.edit')
+        ->with('pp', $pp)
+        ->with('category_pp' , $category_pp);
     }
 
     /**
@@ -68,7 +93,16 @@ class PengajuanPembelianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = PengajuanPembelian::find($id);
+        // dd($item);
+        PengajuanPembelian::where('id', $id)->update([
+            "matauang" => $request->matauang,
+            "item" => $request->item,
+            "qty" => $request->qty,
+            "unit_price" => $request->unit_price,
+            "total" => $request->qty * $request->unit_price
+        ]);
+        return redirect("pengajuan-pembelian/" . $item->pp_id);
     }
 
     /**
@@ -79,6 +113,8 @@ class PengajuanPembelianController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete = PengajuanPembelian::find($id);
+        $delete->delete();
+        return redirect('pengajuan-pembelian/' . $delete->pd_id)->with('success', 'Task Deleted Successfully!');
     }
 }

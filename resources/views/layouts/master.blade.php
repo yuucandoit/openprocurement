@@ -425,6 +425,7 @@
     <script src="{{ asset('../assets/js/theme-customizer/customizer.js') }}"></script>
     <!-- login js-->
     <!-- Plugin used-->
+    @yield('scripts')
   </body>
 </html>
 

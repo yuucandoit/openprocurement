@@ -21,7 +21,7 @@ class PembelianBarangController extends Controller
     {
         $menu_pb = CategoryPB::find($id);
         $pb = PembelianBarang::where('pb_id', $id)->get();
-        return view('pembelianBarang.index')
+        return view('pembelianBaran.index')
             ->with('pb', $pb)
             ->with('menu_pb', $menu_pb);
     }

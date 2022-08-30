@@ -8,6 +8,7 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -55,9 +56,11 @@ class CategoryPengajuanPembelianController extends Controller
     public function detail($id)
     {
         /*$data_vendor*/  $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $pengajuan = PengajuanPembelian::all();
         $atasan = User::whereIn('id',[6,7,8,9])->get();
         return view('pengajuanPembelian.menu.detail')
             ->with('atasan', $atasan)
+            ->with('pengajuan', $pengajuan)
             ->with('data_pengajuan', $data_pengajuan);
     }
     /**

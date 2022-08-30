@@ -25,7 +25,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control mt-4" id="floatingName"
+                                        <input type="text" class="form-control mt-4" id="floatingName"
                                             placeholder="Jumlah" name="qty">
                                         <label>Jumlah</label>
                                     </div>
@@ -34,7 +34,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control mt-4" id="floatingName" placeholder="Harga"
+                                        <input type="text" class="form-control mt-4" id="floatingName" placeholder="Harga"
                                             name="harga">
                                         <label>Harga</label>
                                     </div>
@@ -110,8 +110,8 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $dataPengajuan->item }}</td>
                                     <td>{{ $dataPengajuan->qty }}</td>
-                                    <td>{{ $dataPengajuan->harga }}</td>
-                                    <td>{{ $dataPengajuan->total }}</td>
+                                    <td>{{ number_format($dataPengajuan->harga) }}</td>
+                                    <td>{{ number_format($dataPengajuan->total) }}</td>
                                     <td>
                                         <a href="{{ url('/pengajuan-dana/show/' . $data_pd->id . '/' . $dataPengajuan->id) }}"
                                             class="btn shadow btn-outline-info">Edit</a>

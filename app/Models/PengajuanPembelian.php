@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class PengajuanPembelian extends Model
 {
     use HasFactory;
+    protected $table = 'pengajuan_pembelian';
+    protected $fillable = [
+        'pp_id',
+        'matauang',
+        'item',
+        'qty',
+        'unit_price',
+        'created_at',
+        'updated_at',
+    ];
 }
