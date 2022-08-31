@@ -11,7 +11,6 @@ class PengajuanPembelian extends Model
     protected $table = 'pengajuan_pembelian';
     protected $fillable = [
         'pp_id',
-        'matauang',
         'item',
         'qty',
         'unit_price',

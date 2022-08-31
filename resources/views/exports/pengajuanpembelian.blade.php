@@ -21,6 +21,10 @@
             <th style="border: 1px solid black" colspan="3">PB/{{ $category_ppb->id }}/SII/{{ $month }}/{{ $year }}</th>
         </tr>
         <tr>
+            <th style="border: 1px solid black">No. Quotation</th>
+            <th style="border: 1px solid black" colspan="3">QPB/{{ $category_ppb->id }}/SII/{{ $month }}/{{ $year }}/{{ $day }}</th>
+        </tr>
+        <tr>
             <th></th>
         </tr>
 
@@ -32,9 +36,9 @@
 
     <tbody>
             <tr>
-                <th style="border: 1px solid black" colspan="3">Perusahaan</th>
+                <th style="border: 1px solid black" colspan="4">Yang Mengajukan</th>
                 <th style="border: 1px solid black">:</th>
-                <th style="border: 1px solid black" colspan="14">{{ $category_ppb->pt->nama }}</th>
+                <th style="border: 1px solid black" colspan="14">{{ $category_ppb->ws }}</th>
             </tr>
 
         <tr>
@@ -42,9 +46,9 @@
         </tr>
 
         <tr>
-            <td style="border: 1px solid black" colspan="3">Nama Pemohon</td>
+            <td style="border: 1px solid black" colspan="4">Divisi</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="14">{{ $category_ppb->ws }}</td>
+            <td style="border: 1px solid black" colspan="14">{{ $category_ppb->divisi }}</td>
         </tr>
         <tr>
             <td></td>
@@ -83,13 +87,11 @@
         </tr>
 
         <tr>
-            <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="2">NO</td>
+            <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="4">NO</td>
             <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="6">Item</td>
             <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">Quantity</td>
-            <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">Ref</td>
-            <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">description</td>
-            <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">Purpose</td>
             <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">Price Unit</td>
+            <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">Total</td>
         </tr>
 
         <tr>
@@ -107,22 +109,27 @@
         {{-- @php
             $total += $pb->total;
         @endphp --}}
+        @foreach ($ppb as $item)
         <tr>
-            <td style="text-align: center ; border: 1px solid black" colspan="2">{{ $no++ }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="6">{{ $category_ppb->item }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $category_ppb->qty }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $category_ppb->ref }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $category_ppb->desc }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $category_ppb->purpose }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $category_ppb->priceperunit }}</td>
+            <td style="text-align: center ; border: 1px solid black" colspan="4">{{ $no++ }}</td>
+            <td style="text-align: center ; border: 1px solid black" colspan="6">{{ $item->item }}</td>
+            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $item->qty }}</td>
+            @if ($item->matauang == 'RP')
+            <td style="text-align: center ; border: 1px solid black" colspan="3">RP. {{ number_format($item->unit_price) }}</td>
+            <td style="text-align: center ; border: 1px solid black" colspan="3">RP. {{ number_format($item->total) }}</td>
+            @endif
+            @if ($item->matauang == 'USD')
+            <td style="text-align: center ; border: 1px solid black" colspan="3">$ {{ number_format($item->unit_price) }}</td>
+            <td style="text-align: center ; border: 1px solid black" colspan="3">$ {{ number_format($item->total) }}</td>
+            @endif
         </tr>
-
+        @endforeach
         <tr>
             <td></td>
         </tr>
 
         <tr>
-            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="19" rowspan="2"><strong>DIKIRIMKAN KE:</strong></td>
+            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="15" rowspan="2"><strong>DIKIRIMKAN KE:</strong></td>
             <td style="text-align: right ; border: 1px solid black" colspan="4" rowspan="2">{{$category_ppb->send_to}}</td>
         </tr>
         <tr>
@@ -130,7 +137,7 @@
         </tr>
 
         <tr>
-            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="19" rowspan="2"><strong>TANGGAL PENGIRIMAN :</strong></td>
+            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="15" rowspan="2"><strong>TANGGAL PENGIRIMAN :</strong></td>
             <td style="text-align: right ; border: 1px solid black" colspan="4" rowspan="2">{{$category_ppb->date_send}}</td>
         </tr>
 
@@ -138,7 +145,7 @@
             <td></td>
         </tr>
         <tr>
-            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="19" rowspan="2"><strong>PEMASOK YANG DIUSULKAN :</strong></td>
+            <td style=" ; border: 1px solid black ; font-size: 12px" colspan="15" rowspan="2"><strong>PEMASOK YANG DIUSULKAN :</strong></td>
             <td style="text-align: right ; border: 1px solid black" colspan="4" rowspan="2">{{ $category_ppb->proposed_supplier }}</td>
         </tr>
         <tr>
@@ -160,7 +167,7 @@
         <tr>
             <td style="border: 1px solid black ; text-align: center" colspan="5">Diajukan Oleh</td>
             <td></td>
-            <td style="border: 1px solid black ; text-align: center" colspan="12">Diperiksa Dan Disetujui Oleh,</td>
+            <td style="border: 1px solid black ; text-align: center" colspan="5">Diperiksa Dan Disetujui Oleh,</td>
         </tr>
 
         <tr>
@@ -177,8 +184,10 @@
 
         <tr>
             <td style="border: 1px solid black">Nama</td>
-            <td style="border: 1px solid black" colspan="4"></td>
+            <td style="border: 1px solid black" colspan="4">{{ $category_ppb->ws }}</td>
             <td></td>
+            <td style="border: 1px solid black">Nama</td>
+            <td style="border: 1px solid black" colspan="4">..Nama Atasan..</td>
 
     </tbody>
 

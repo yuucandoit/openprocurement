@@ -79,7 +79,7 @@ class PengajuanPembelianController extends Controller
     {
         $pp = PengajuanPembelian::find($pp_id);
         $category_pp = CategoryPengajuanPembelian::where('id', $id)->first();
-        return view('pengajuanPembelian.edit')
+        return view('pengajuanPembelian.show')
         ->with('pp', $pp)
         ->with('category_pp' , $category_pp);
     }

@@ -59,6 +59,13 @@
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
+                                        placeholder="desc" name="divisi">
+                                    <label for="floatingNoTelpon">Divisi</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
                                         placeholder="desc" name="desc">
                                     <label for="floatingNoTelpon">Description</label>
                                 </div>
@@ -162,10 +169,12 @@
                     <div class="card-body">
                         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                                 class="bx bx-list-plus"></i> Add+</button>
-                                {{-- <a
-                                href={{ url('/export_excel/perusahaan/' ) }}
+                                @foreach ($datadv as $p)
+                                <a
+                                href={{ url('/export_excel/pengajuan_pembelian/' . $p->id ) }}
                                     class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
-                                    <a href={{ url('file-import-pt') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Import From Excel</a> --}}
+                                    {{-- <a href={{ url('file-import-pt') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Import From Excel</a> --}}
+                                    @endforeach
 
                                     <table class="table table-striped" id="table1">
                                         <thead>

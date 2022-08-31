@@ -42,10 +42,6 @@
                             <a href="{{ url('purchase-order/create/' . $data_company_po->id) }}"
                                 class="btn btn-primary mb-3"><i class="bx bx-list-plus"></i> Add+</a>
                         @endhasrole
-                        @if ($data_company_po->status == 'Accepted')
-                            <a href={{ url('/export_excel/purchase_order/' . $data_company_po->id) }}
-                                class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
-                        @endif
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>

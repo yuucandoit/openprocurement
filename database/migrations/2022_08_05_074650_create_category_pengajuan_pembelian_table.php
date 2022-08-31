@@ -24,10 +24,12 @@ return new class extends Migration
             $table->string('vendor')->nullable() ;
             $table->date('date_ps');
             $table->string('ws'); //Who Submitted(ws)
+            $table->string('divisi');
             $table->string('desc');
             $table->string('purpose');
             $table->string('send_to');
             $table->enum('dateline',['≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);
+            $table->time('dateline_time')->nullable();
             $table->enum('proposed_supplier',['Perusahaan','OrangPribadi','Ecommerce','Unknown']);
             $table->string('no_rek')->nullable();
             $table->string('no_telp')->nullable();

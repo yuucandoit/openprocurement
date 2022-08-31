@@ -208,7 +208,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/{id}', [PengajuanPembelianController::class, 'index'])->name('pengajuan-pembelian.index');
         Route::get('/create/{id}', [PengajuanPembelianController::class, 'create'])->name('pengajuan-pembelian.create');
         Route::post('/store/{id}', [PengajuanPembelianController::class, 'store'])->name('pengajuan-pembelian.store');
-        Route::get('/show/{id_pd}/{id}', [PengajuanPembelianController::class, 'show'])->name('pengajuan-pembelian.show');
+        Route::get('/edit/{pp_id}/{id}', [PengajuanPembelianController::class, 'edit'])->name('pengajuan-pembelian.edit');
         Route::post('/update/{id}', [PengajuanPembelianController::class, 'update'])->name('pengajuan-pembelian.update');
         Route::get('/destroy/{id}', [PengajuanPembelianController::class, 'destroy'])->name('pengajuan-pembelian.destroy');
     });

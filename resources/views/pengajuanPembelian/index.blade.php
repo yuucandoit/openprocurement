@@ -15,6 +15,15 @@
                         method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body container">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <select class="form-select mt-4" id="floatingdateline" placeholder="Mata Uang" name="matauang" >
+                                        <option value="USD">USD</option>
+                                        <option value="RP">RP</option>
+                                    </select>
+                                    <label for="floatingdateline">-- Mata Uang --</label>
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control mt-2" id="floatingSubject" placeholder="Item"
@@ -38,15 +47,6 @@
                                             name="unit_price">
                                         <label>Harga</label>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <select class="form-select mt-2" id="floatingdateline" placeholder="matauang" name="matauang" >
-                                        <option value="USD">USD</option>
-                                        <option value="RP">RP</option>
-                                    </select>
-                                    <label for="floatingdateline">-- Mata Uang --</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -119,10 +119,16 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $dataPengajuan->item }}</td>
                                     <td>{{ $dataPengajuan->qty }}</td>
-                                    <td>{{ number_format(  $dataPengajuan->unit_price )}}</td>
-                                    <td>{{ number_format( $dataPengajuan->total )}}</td>
+                                    @if ($dataPengajuan->matauang == 'RP')
+                                    <td>RP.{{ number_format(  $dataPengajuan->unit_price )}}</td>
+                                    <td>RP.{{ number_format( $dataPengajuan->total )}}</td>
+                                    @endif
+                                    @if ($dataPengajuan->matauang == 'USD')
+                                    <td>$ {{ number_format(  $dataPengajuan->unit_price )}}</td>
+                                    <td>$ {{ number_format( $dataPengajuan->total )}}</td>
+                                    @endif
                                     <td>
-                                        <a href="{{ url('/pengajuan-pembelian/show/' . $data_pd->id . '/' . $dataPengajuan->id) }}"
+                                        <a href="{{ url('/pengajuan-pembelian/edit/' . $data_pd->id . '/' . $dataPengajuan->id) }}"
                                             class="btn shadow btn-outline-info">Edit</a>
                                         <a href="{{ url('/pengajuan-pembelian/destroy/' . $dataPengajuan->id) }}"
                                             class="btn shadow btn-outline-danger"

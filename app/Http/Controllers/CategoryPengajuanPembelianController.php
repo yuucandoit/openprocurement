@@ -128,13 +128,11 @@ class CategoryPengajuanPembelianController extends Controller
         $tes = CategoryPengajuanPembelian::where("id", $id)->update([
             "date_ps" => $request->date_ps,
             "ws" => $request->ws,
-            "item" => $request->item,
-            "qty" => $request->qty,
-            "desc" => $request->desc,
             "purpose" => $request->purpose,
             "priceperunit" => $request->priceperunit,
             "send_to" => $request->send_to,
             "dateline" => $request->dateline,
+            "divisi" => $request->divisi,
             "proposed_supplier" => $request->proposed_supplier,
         ]);
         return redirect("menu-pengajuan-pembelian/");

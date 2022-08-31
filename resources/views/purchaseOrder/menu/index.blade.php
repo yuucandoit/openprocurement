@@ -73,6 +73,11 @@
 
                 <div class="card shadow mb-5">
                     <div class="card-body">
+                        @foreach ($datappb as $purchase)
+                        <a href={{ url('/export_excel/purchase_order/' . $purchase->id) }}
+                            class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
+
+                        @endforeach
                         {{-- <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                                 class="bx bx-list-plus"></i> Add+</button> --}}
                         <table class="table table-striped" id="table1">

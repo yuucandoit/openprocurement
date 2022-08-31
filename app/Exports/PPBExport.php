@@ -27,8 +27,10 @@ class PPBExport implements WithColumnFormatting, FromView, WithCustomStartCell, 
     {
         $data['category_pt'] = CategoryPT::all();
         $data['category_ppb'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
+        $data['ppb'] = PengajuanPembelian::where('pp_id', $this->id)->get();
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
+        $data['day'] = Carbon::now()->format('d');
         return view('exports.pengajuanpembelian', $data);
     }
 
