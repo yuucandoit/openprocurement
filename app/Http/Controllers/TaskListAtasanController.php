@@ -6,6 +6,7 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\TaskListAtasan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -134,7 +135,22 @@ class TaskListAtasanController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        $data->status = 'Accepted by Super user' ;
+        if($data->dateline == '≤3Jam'){
+            $data->dateline_time = ('03:00:00');
+            $data->updated_at = Carbon::now();
+            $data->approved_at = now();
+            $data->status = 'Accepted by Super user';
+        }elseif($data->dateline == '≤24Jam'){
+            $data->dateline_time = ('24:00:00');
+            $data->updated_at = Carbon::now();
+            $data->approved_at = now();
+            $data->status = 'Accepted by Super user';
+        }elseif($data->dateline == '≤2Hari'){
+            $data->dateline_time = ('48:00:00');
+            $data->updated_at = Carbon::now();
+            $data->approved_at = now();
+            $data->status = 'Accepted by Super user';
+        }
         $data->save();
         return redirect()->back();
     }

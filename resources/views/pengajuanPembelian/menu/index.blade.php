@@ -169,13 +169,6 @@
                     <div class="card-body">
                         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                                 class="bx bx-list-plus"></i> Add+</button>
-                                @foreach ($datadv as $p)
-                                <a
-                                href={{ url('/export_excel/pengajuan_pembelian/' . $p->id ) }}
-                                    class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
-                                    {{-- <a href={{ url('file-import-pt') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Import From Excel</a> --}}
-                                    @endforeach
-
                                     <table class="table table-striped" id="table1">
                                         <thead>
                                             <tr>

@@ -375,7 +375,7 @@
                   SOLUSI INTEK INDONESIA</h5>
               </div>
               <div class="col-md-6">
-                <p class="pull-right mb-0">Copyright &copy; 2022 | PT SOLUSI INTEK INDONESIA</p>
+                <p class="pull-right mb-0">Copyright &copy; 2022 | PT SOLUSI INTEK INDONESIA | E-Procurement</p>
               </div>
             </div>
           </div>
@@ -420,6 +420,13 @@
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
     <!-- Plugins JS Ends-->
+{{-- 
+    <!-- JS Zuramai-->
+    <script src="{{ asset('assets/js_zuramai/extensions/jquery.js') }}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+    <script src="{{ asset('assets/js_zuramai/extensions/datatables.js') }}"></script>
+    <!-- JS Zuramai Ends--> --}}
+
     <!-- Theme js-->
     <script src="{{ asset('../assets/js/script.js') }}"></script>
     <script src="{{ asset('../assets/js/theme-customizer/customizer.js') }}"></script>

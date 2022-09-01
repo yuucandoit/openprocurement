@@ -20,30 +20,35 @@
                                         <td>Who Submitted</td>
                                         <td>{{ $data_pengajuan->ws }}</td>
                                     </tr>
+                                    @foreach ($pengajuan as $p)
                                     <tr>
-                                        <td>Item</td>
-                                        @foreach ( $pengajuan as $p)
+                                        <td>Item {{ $p->id }}</td>
                                         <td>{{ $p->item }}</td>
-                                        @endforeach
                                     </tr>
                                     <tr>
                                         <td>Qty</td>
-                                        @foreach ($pengajuan as $p)
                                         <td>{{ $p->qty }}</td>
-                                        @endforeach
                                     </tr>
+                                    @if ($p->matauang == 'RP')
                                     <tr>
                                         <td>Price</td>
-                                        @foreach ($pengajuan as $p)
-                                        <td>{{ number_format($p->unit_price) }}</td>
-                                        @endforeach
+                                        <td>RP. {{ number_format($p->unit_price) }}</td>
                                     </tr>
                                     <tr>
                                         <td>Total</td>
-                                        @foreach ($pengajuan as $p)
-                                        <td>{{ number_format($p->total) }}</td>
-                                        @endforeach
+                                        <td>RP. {{ number_format($p->total) }}</td>
                                     </tr>
+                                    @elseif ($p->matauang == 'USD')
+                                    <tr>
+                                        <td>Price</td>
+                                        <td>$ {{ number_format($p->unit_price) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>$ {{ number_format($p->total) }}</td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
                                     <tr>
                                         <td>Description</td>
                                         <td>{{ $data_pengajuan->desc }}</td>
@@ -67,15 +72,15 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="button text-center mb-2">
+                            {{-- @if ($data_pengajuan->status == '') --}}
+                                 <a href={{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}
+                                     class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
+                             {{-- @endif --}}
+                             <a type="reset" class="btn btn-danger" href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
+                         </div>
                    </div>
              </div>
         </div>
-                        @if ($data_pengajuan->status == 'Accepted')
-                        <a href={{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}
-                            class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
-                    @endif
-                    <div class="back mt-4">
-                        <a type="reset" class="btn btn-danger" href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
-                    </div>
-                    </section>
-                @endsection
+  </section>
+  @endsection

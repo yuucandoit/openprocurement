@@ -39,6 +39,7 @@
                                     <th>No</th>
                                     <th>Description</th>
                                     <th>Date Line</th>
+                                    <th>Countdown</th>
                                     <th>Request By</th>
                                     <th>Function</th>
                                 </tr>
@@ -51,7 +52,8 @@
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $ppb->desc }}</td>
-                                        <td id="countdown-{{ $ppb->id }}">{{ $ppb->dateline }}</td>
+                                        <td>{{ $ppb->dateline }}</td>
+                                        <td id="countdown-{{ $ppb->id }}"></td>
                                         <td>{{ $ppb->ws }}</td>
                                         <td>
                                             <a href="{{ url('menu-task-list/detail/' . $ppb->id) }}"

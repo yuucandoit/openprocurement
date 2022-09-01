@@ -56,7 +56,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function detail($id)
     {
         /*$data_vendor*/  $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        $pengajuan = PengajuanPembelian::all();
+        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         $atasan = User::whereIn('id',[6,7,8,9])->get();
         return view('pengajuanPembelian.menu.detail')
             ->with('atasan', $atasan)
