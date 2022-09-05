@@ -33,7 +33,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-floating">
-                                    <select class="form-select mt-2" id="floatingdateline" placeholder="Dateline" name="dateline" >
+                                    <select class="form-select mt-2" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" >
                                         <option value="≤3Jam">≤ 3 Jam</option>
                                         <option value="≤24Jam">≤ 24 Jam</option>
                                         <option value="≤2Hari">≤ 2 Hari</option>
@@ -65,16 +65,8 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
-                                        placeholder="desc" name="desc">
+                                    <textarea required name="desc" id="floatingNoTelpon" class="form-control mt-4" cols="50" rows="30"></textarea>
                                     <label for="floatingNoTelpon">Description</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
-                                        placeholder="bidang usaha" name="send_to">
-                                    <label for="floatingNoTelpon">Send To</label>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -95,9 +87,76 @@
                                         <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="floatingproposedto">-- Diajukan Ke --</label>
+                                    <label for="floatingproposedto">-- Approved By --</label>
                                 </div>
                             </div>
+                            <div class="mx-2">
+                                 <div class=" form-group m-t-15 m-checkbox-inline mb-0 ">
+                                    <div class="col-sm-12">
+                                        <h5>Send To</h5>
+                                    </div>
+                                 <div class="radio radio-primary col-md-6">
+                                    <input id="tebet" type="radio" name="send_to" value="Tebet">
+                                    <label for="tebet">Tebet</label>
+                                 </div>
+                                <div class="radio radio-primary col-md-6">
+                                    <input id="cikunir" type="radio" name="send_to" value="Cikunir">
+                                    <label for="cikunir">Cikunir</label>
+                                </div>
+                            </div>
+                        </div>
+
+                            <table class="table table-bordered mt-4 mx-2" id="dynamicAddRemove">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Price-per-unit</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" />
+                                    </td>
+                                    <td><input type="text" name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control" />
+                                    </td>
+                                    <td><input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control" />
+                                    </td>
+                                    <td><input type="hidden" name="addMoreInputFields[0][total]" placeholder="Input Price" />
+                                    </td>
+                                    <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">+AddItem</button></td>
+                                </tr>
+                            </table>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <select class="form-select mt-4 mb-4" id="floatingdateline" placeholder="Mata Uang" name="matauang" >
+                                        <option value="USD">USD</option>
+                                        <option value="RP">RP</option>
+                                    </select>
+                                    <label for="floatingdateline">-- Currency --</label>
+                                </div>
+                            </div>
+
+                            {{-- <div class="col-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control mt-4 mb-3" id="floatingSubject" placeholder="Item"
+                                        name="item">
+                                    <label>Item</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control mt-4 mb-3" id="floatingName"
+                                            placeholder="Jumlah" name="qty">
+                                        <label>Quantity</label>
+                                    </div>
+                            </div>
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control mt-4 mb-3" id="floatingName" placeholder="Harga"
+                                            name="unit_price">
+                                        <label>Price Per Unit</label>
+                                    </div>
+                                </div> --}}
+
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
                             </div>
@@ -133,7 +192,7 @@
         </div>
     @endforeach
 
-        @foreach ($datadv as $a)
+        {{-- @foreach ($datadv as $a)
             <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -157,7 +216,7 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+        @endforeach --}}
 
         <div class="container-fluid">
             <div class="row">
@@ -259,6 +318,25 @@
                             $(this).parents(".control-group").remove();
                         });
                     });
+                    </script>
+
+                    <!-- JavaScript -->
+                    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+                    <script type="text/javascript">
+                        var i = 0;
+                        $("#dynamic-ar").click(function () {
+                            ++i;
+                            $("#dynamicAddRemove").append('<tr><td><input type="text" name="addMoreInputFields[' + i +
+                                '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
+                                '][qty]" placeholder="Input Quantity" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
+                                '][unit_price]" placeholder="Input Price" class="form-control" /></td> <td><input type="hidden" name="addMoreInputFields[' + i +
+                                '][total]" placeholder="Input Price" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+                                );
+                        });
+                        $(document).on('click', '.remove-input-field', function () {
+                            $(this).parents('tr').remove();
+                        });
                     </script>
                 </section>
             @endsection

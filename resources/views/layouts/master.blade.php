@@ -420,7 +420,7 @@
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
     <!-- Plugins JS Ends-->
-{{-- 
+{{--
     <!-- JS Zuramai-->
     <script src="{{ asset('assets/js_zuramai/extensions/jquery.js') }}"></script>
     <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>

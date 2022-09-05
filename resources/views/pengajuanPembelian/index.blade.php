@@ -139,6 +139,9 @@
                         </table>
                     </div>
                 </div>
+                <div class="btn">
+                <a href="/menu-pengajuan-pembelian" class="btn btn-danger text-center mb-3" style="align-self: flex-end">Back</a>
+            </div>
             </div>
         </div>
         <script>

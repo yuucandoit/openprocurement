@@ -25,8 +25,9 @@ return new class extends Migration
             $table->date('date_ps');
             $table->string('ws'); //Who Submitted(ws)
             $table->string('divisi');
-            $table->string('desc');
+            $table->text('desc');
             $table->string('purpose');
+            $table->enum('matauang',['USD','RP']);
             $table->string('send_to');
             $table->enum('dateline',['≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);
             $table->time('dateline_time')->nullable();
