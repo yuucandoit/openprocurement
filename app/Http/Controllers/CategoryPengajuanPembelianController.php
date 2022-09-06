@@ -81,43 +81,39 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'date_ps' => 'required',
-        //     'dateline' => 'required',
-        //     'ws' => 'required',
-        //     'purpose' => 'required',
-        //     'divisi' => 'required',
-        //     'desc' => 'required',
-        //     'atasan' => 'required',
-        //     'send_to' => 'required',
-        // ]);
-        // $depo = CategoryPengajuanPembelian::insert([
-        //     'date_ps' => $request->date_ps,
-        //     'dateline' => $request->dateline,
-        //     'ws' => $request->ws,
-        //     'purpose' => $request->purpose,
-        //     'divisi' => $request->divisi,
-        //     'desc' => $request->desc,
-        //     'proposed_supplier' => $request->proposed_supplier,
-        //     'atasan' => $request->atasan,
-        //     'send_to' => $request->send_to,
-        // ]);
-
         $data = $request->all();
 
-        //masi error disini
+        $pengajuan = CategoryPengajuanPembelian::create([
+            'user_id' =>  Auth::user()->id,
+            'date_ps' => $request->date_ps,
+            'dateline' => $request->dateline,
+            'ws' => $request->ws,
+            'purpose' => $request->purpose,
+            'divisi' => $request->divisi,
+            'desc' => $request->desc,
+            'atasan' => $request->atasan,
+            'matauang' => $request->matauang,
+            'proposed_supplier' => $request->proposed_supplier,
+            'send_to' => $request->send_to
+       ]);
 
-        $this->validate($request, [
+        $request->validate([
             'addMoreInputFields.*.item' => 'required',
-            'addMoreInputFields.*.item' => 'required',
-            'addMoreInputFields.*.qty' => 'required|integer',
-            'addMoreInputFields.*.unit_price' => 'required|integer',
-            'addMoreInputFields.*.total' => 'integer',
+            'addMoreInputFields.*.qty' => 'required',
+            'addMoreInputFields.*.unit_price' => 'required'
         ]);
-        foreach ($request->addMoreInputFields as $key => $value) {
-           return PengajuanPembelian::insert($value);
+
+        foreach($request->addMoreInputFields as $item ) {
+             PengajuanPembelian::create([
+            'pp_id'         => $pengajuan->id,
+            'item'          => $item['item'],
+            'qty'           => $item['qty'],
+            'unit_price'    => $item['unit_price'],
+            'total'         => $item['qty'] * $item['unit_price'],
+        ]);
         }
-        return redirect('menu-pengajuan-pembelian/')->with('success', 'Task Created Successfully!');
+
+        return redirect()->back()->with('success', 'Task Created Successfully!');
     }
 
     /**

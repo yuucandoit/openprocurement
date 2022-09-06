@@ -90,6 +90,15 @@
                                     <label for="floatingproposedto">-- Approved By --</label>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <select class="form-select mt-2 mb-4" id="floatingdateline" placeholder="Mata Uang" name="matauang" >
+                                        <option value="USD">USD</option>
+                                        <option value="RP">RP</option>
+                                    </select>
+                                    <label for="floatingdateline">-- Currency --</label>
+                                </div>
+                            </div>
                             <div class="mx-2">
                                  <div class=" form-group m-t-15 m-checkbox-inline mb-0 ">
                                     <div class="col-sm-12">
@@ -120,20 +129,9 @@
                                     </td>
                                     <td><input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control" />
                                     </td>
-                                    <td><input type="hidden" name="addMoreInputFields[0][total]" placeholder="Input Price" />
-                                    </td>
                                     <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">+AddItem</button></td>
                                 </tr>
                             </table>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <select class="form-select mt-4 mb-4" id="floatingdateline" placeholder="Mata Uang" name="matauang" >
-                                        <option value="USD">USD</option>
-                                        <option value="RP">RP</option>
-                                    </select>
-                                    <label for="floatingdateline">-- Currency --</label>
-                                </div>
-                            </div>
 
                             {{-- <div class="col-4">
                                 <div class="form-floating">
@@ -265,8 +263,6 @@
                                                     </td>
                                                 @endhasrole
                                                 <td>
-                                                    <a href="{{ url('pengajuan-pembelian/' .  $ppembelian->id) }}"
-                                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Add Item</a>
                                                     <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"
                                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                                         @if ($ppembelian->status == 'Accepted' )
@@ -330,8 +326,7 @@
                             $("#dynamicAddRemove").append('<tr><td><input type="text" name="addMoreInputFields[' + i +
                                 '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
                                 '][qty]" placeholder="Input Quantity" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
-                                '][unit_price]" placeholder="Input Price" class="form-control" /></td> <td><input type="hidden" name="addMoreInputFields[' + i +
-                                '][total]" placeholder="Input Price" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+                                '][unit_price]" placeholder="Input Unit Price" class="form-control" /></td> <td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
                                 );
                         });
                         $(document).on('click', '.remove-input-field', function () {

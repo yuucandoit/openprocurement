@@ -14,6 +14,7 @@ class PengajuanPembelian extends Model
         'item',
         'qty',
         'unit_price',
+        'total',
         'created_at',
         'updated_at',
     ];

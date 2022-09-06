@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('pengajuan_pembelian', function (Blueprint $table) {
             $table->id();
             $table->integer('pp_id')->default('0');
-            $table->enum('matauang',['USD','RP']);
             $table->string('item');
             $table->bigInteger('qty');
             $table->bigInteger('unit_price');
