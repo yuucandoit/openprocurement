@@ -17,6 +17,7 @@ class CategoryPengajuanPembelian extends Model
         'op_id',
         'ec_id',
         'atasan',
+        'matauang',
         'ws',
         'desc',
         'purpose',

@@ -44,7 +44,7 @@ class TaskListAtasanController extends Controller
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        $pengajuan = PengajuanPembelian::all();
+        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         return view('taskList_atasan.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('data_pengajuan', $data_pengajuan);

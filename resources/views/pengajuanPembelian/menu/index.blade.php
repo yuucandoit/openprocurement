@@ -129,6 +129,8 @@
                                     </td>
                                     <td><input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control" />
                                     </td>
+                                    <td style="display: none;"><input type="text" name="addMoreInputFields[0][total]" class="form-control" />
+                                    </td>
                                     <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">+AddItem</button></td>
                                 </tr>
                             </table>
@@ -316,7 +318,7 @@
                     });
                     </script>
 
-                    <!-- JavaScript -->
+                    <!-- JavaScript Item -->
                     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
                     <script type="text/javascript">
@@ -326,7 +328,8 @@
                             $("#dynamicAddRemove").append('<tr><td><input type="text" name="addMoreInputFields[' + i +
                                 '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
                                 '][qty]" placeholder="Input Quantity" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
-                                '][unit_price]" placeholder="Input Unit Price" class="form-control" /></td> <td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+                                '][unit_price]" placeholder="Input Unit Price" class="form-control" /></td> <td style="display: none;"><input type="text" name="addMoreInputFields[' + i +
+                                '][total]" class="form-control" /></td> <td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
                                 );
                         });
                         $(document).on('click', '.remove-input-field', function () {

@@ -25,30 +25,6 @@
                                         <td>{{ $data_pengajuan->ws }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Item</td>
-                                        @foreach ($pengajuan as $p)
-                                        <td>{{ $p->item }}</td>
-                                        @endforeach
-                                    </tr>
-                                    <tr>
-                                        <td>Qty</td>
-                                        @foreach ($pengajuan as $p)
-                                        <td>{{ $p->qty }}</td>
-                                        @endforeach
-                                    </tr>
-                                    <tr>
-                                        <td>Price Unit</td>
-                                        @foreach ($pengajuan as $p)
-                                        <td>{{ number_format($p->unit_price) }}</td>
-                                        @endforeach
-                                    </tr>
-                                    <tr>
-                                        <td>Price Unit</td>
-                                        @foreach ($pengajuan as $p)
-                                        <td>{{ number_format($p->total )}}</td>
-                                        @endforeach
-                                    </tr>
-                                    <tr>
                                         <td>Description</td>
                                         <td>{{ $data_pengajuan->desc }}</td>
                                     </tr>
@@ -64,6 +40,31 @@
                                         <td>Date Line</td>
                                         <td>{{ $data_pengajuan->dateline }}</td>
                                     </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-bordered mt-4 mb-4">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Price-per-unit</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pengajuan as $p)
+                                    <tr>
+                                        <td>{{ $p->item }}</td>
+                                        <td>{{ $p->qty }}</td>
+                                    @if ($data_pengajuan->matauang == 'RP')
+                                        <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}</td>
+                                        <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
+                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                        <td style="text-align:right;">$ {{ number_format($p->unit_price) }}</td>
+                                        <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
+                                    @endif
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <div class="mt-3">

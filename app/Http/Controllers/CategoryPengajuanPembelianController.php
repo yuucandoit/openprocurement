@@ -137,8 +137,10 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
+        $item = PengajuanPembelian::where('pp_id', $id)->get();
         return view('pengajuanPembelian.menu.edit')
         ->with('datapt', $datapt)
+        ->with('item', $item)
         ->with('dv' , $dv);
     }
 
@@ -158,14 +160,29 @@ class CategoryPengajuanPembelianController extends Controller
             "date_ps" => $request->date_ps,
             "ws" => $request->ws,
             "purpose" => $request->purpose,
-            "priceperunit" => $request->priceperunit,
             "send_to" => $request->send_to,
             "dateline" => $request->dateline,
             "divisi" => $request->divisi,
             "proposed_supplier" => $request->proposed_supplier,
         ]);
-        return redirect("menu-pengajuan-pembelian/");
+
+        $request->validate([
+            'addMoreInputFields.*.item' => 'required',
+            'addMoreInputFields.*.qty' => 'required',
+            'addMoreInputFields.*.unit_price' => 'required'
+        ]);
+
+
+        foreach($request->addMoreInputFields as $item ) {
+             PengajuanPembelian::where("id", $id)->update([
+            'item'          => $item['item'],
+            'qty'           => $item['qty'],
+            'unit_price'    => $item['unit_price'],
+            'total'         => $item['qty'] * $item['unit_price'],
+        ]);
     }
+        return redirect("menu-pengajuan-pembelian/");
+}
 
     /**
      * Remove the specified resource from storage.
@@ -175,6 +192,8 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function destroy($id)
     {
+        $data1 = PengajuanPembelian::where('pp_id', $id);
+        $data1->delete();
         $data = CategoryPengajuanPembelian::find($id);
         $data->delete();
         return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryTL;
+use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,8 +43,11 @@ class CategoryTaskListController extends Controller
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        // dd($pengajuan);
         return view('taskList.menu.detail')
-            ->with('data_pengajuan', $data_pengajuan);
+        ->with('pengajuan', $pengajuan)
+        ->with('data_pengajuan', $data_pengajuan);
     }
     /**
      * Show the form for creating a new resource.
