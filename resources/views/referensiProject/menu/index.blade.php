@@ -51,12 +51,9 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-floating">
-                                    <select class="form-select selectpicker mt-4" id="floatingproposedto" placeholder="Purpose" name="purpose" data-live-search="true">
-                                        @foreach ($purpose as $p)
-                                        <option value="{{ $p->id }}">{{ $p->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="floatingproposedto">-- Purpose --</label>
+                                    <input type="text" class="form-control mt-4 " id="floatingNoTelpon"
+                                        placeholder="Purpose" name="purpose">
+                                    <label for="floatingNoTelpon">Purpose</label>
                                 </div>
                             </div>
                             <div class="col-12">

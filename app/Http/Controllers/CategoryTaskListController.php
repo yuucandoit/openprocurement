@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryTL;
 use App\Models\PengajuanPembelian;
+use App\Models\ReferensiNamaProject;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +22,10 @@ class CategoryTaskListController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
+            $purpose = ReferensiNamaProject::all();
             $datadv = CategoryTL::all();
             return view('taskList.menu.index')
+            ->with('purpose', $purpose)
             ->with('datappb', $datappb)
             ->with('datadv', $datadv);
         }
@@ -42,10 +45,12 @@ class CategoryTaskListController extends Controller
 
     public function detail($id)
     {
-        $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $data_pengajuan = CategoryPengajuanPembelian::find($id)->with('tujuan')->get();
+        $purpose = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         // dd($pengajuan);
         return view('taskList.menu.detail')
+        ->with('purpose',$purpose)
         ->with('pengajuan', $pengajuan)
         ->with('data_pengajuan', $data_pengajuan);
     }

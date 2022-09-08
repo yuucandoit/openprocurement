@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('vendor')->nullable() ;
             $table->date('date_ps');
             $table->string('ws'); //Who Submitted(ws)
-            $table->string('divisi');
+            $table->enum('department',['R&D','Production','Support_Workshop','Project','Business_Development','Product','Finance','Tax','Human_Resource','Purchasing','GA','Legal']);
             $table->text('desc');
-            $table->string('purpose');
+            $table->foreignId('purpose')->constrained('referensi_nama_project');
             $table->enum('matauang',['USD','RP']);
             $table->string('send_to');
             $table->enum('dateline',['≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);

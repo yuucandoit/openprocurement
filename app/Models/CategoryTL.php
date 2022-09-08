@@ -19,4 +19,8 @@ class CategoryTL extends Model
     {
         return $this->belongsTo(CategoryPengajuanPembelian::class);
     }
+    public function tujuan()
+    {
+        return $this->belongsTo(ReferensiNamaProject::class);
+    }
 }

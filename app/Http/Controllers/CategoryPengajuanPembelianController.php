@@ -9,6 +9,7 @@ use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\PengajuanPembelian;
+use App\Models\ReferensiNamaProject;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,25 +31,29 @@ class CategoryPengajuanPembelianController extends Controller
             $datapt = CategoryPT::all();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
+            $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id',[6,7,8,9])->get();
-            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
+            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('tujuan')->get();
             return view('pengajuanPembelian.menu.index')
                 ->with('datapt',$datapt)
                 ->with('dataop',$dataop)
                 ->with('dataec',$dataec)
                 ->with('atasan', $atasan)
+                ->with('purpose', $purpose)
                 ->with('datadv', $datadv);
         } else if ($check->role_id == 1 || $check->role_id == 3) {
             $datapt = CategoryPT::all();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
+            $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id',[6,7,8,9])->get();
-            $datadv = CategoryPengajuanPembelian::all();
+            $datadv = CategoryPengajuanPembelian::all()->with('tujuan');
             return view('pengajuanPembelian.menu.index')
                 ->with('datapt',$datapt)
                 ->with('dataop',$dataop)
                 ->with('dataec',$dataec)
                 ->with('atasan', $atasan)
+                ->with('purpose', $purpose)
                 ->with('datadv', $datadv);
         }
     }
@@ -58,9 +63,11 @@ class CategoryPengajuanPembelianController extends Controller
         /*$data_vendor*/  $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         $atasan = User::whereIn('id',[6,7,8,9])->get();
+        $purpose = ReferensiNamaProject::all();
         return view('pengajuanPembelian.menu.detail')
             ->with('atasan', $atasan)
             ->with('pengajuan', $pengajuan)
+            ->with('purpose', $purpose)
             ->with('data_pengajuan', $data_pengajuan);
     }
     /**
@@ -89,7 +96,7 @@ class CategoryPengajuanPembelianController extends Controller
             'dateline' => $request->dateline,
             'ws' => $request->ws,
             'purpose' => $request->purpose,
-            'divisi' => $request->divisi,
+            'department' => $request->department,
             'desc' => $request->desc,
             'atasan' => $request->atasan,
             'matauang' => $request->matauang,
@@ -137,9 +144,11 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
+        $purpose = ReferensiNamaProject::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
         return view('pengajuanPembelian.menu.edit')
         ->with('datapt', $datapt)
+        ->with('purpose', $purpose)
         ->with('item', $item)
         ->with('dv' , $dv);
     }
@@ -162,7 +171,7 @@ class CategoryPengajuanPembelianController extends Controller
             "purpose" => $request->purpose,
             "send_to" => $request->send_to,
             "dateline" => $request->dateline,
-            "divisi" => $request->divisi,
+            "department" => $request->department,
             "proposed_supplier" => $request->proposed_supplier,
         ]);
 

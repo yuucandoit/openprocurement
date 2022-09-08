@@ -8,43 +8,45 @@
             <div class="row">
                 <div class="card shadow mb-5">
                     <div class="card-body text-center">
-                        <h1>Detail Dari {{ $data_pengajuan->ws }}</h1>
+                        @foreach ($data_pengajuan as $dp)
+                        <h1>Detail Dari {{ $dp->ws }}</h1>
                             <table class="table table-bordered mt-4">
                                 <tbody>
                                     <tr>
                                         <td>Proposed Supplier</td>
-                                        <td>{{ $data_pengajuan->proposed_supplier }}</td>
+                                        <td>{{ $dp->proposed_supplier }}</td>
                                     </tr>
                                     <tr>
                                         <td>Date</td>
-                                        <td>{{ $data_pengajuan->date_ps }}</td>
+                                        <td>{{ $dp->date_ps }}</td>
                                     </tr>
                                     <tr>
                                         <td>Who Submitted</td>
-                                        <td>{{ $data_pengajuan->ws }}</td>
+                                        <td>{{ $dp->ws }}</td>
                                     </tr>
                                     <tr>
                                         <td>Description</td>
-                                        <td>{{ $data_pengajuan->desc }}</td>
+                                        <td>{{ $dp->desc }}</td>
                                     </tr>
                                     <tr>
                                         <td>Purpose</td>
-                                        <td>{{ $data_pengajuan->purpose }}</td>
+                                        <td>{{ $dp->tujuan->nama }}</td>
                                     </tr>
                                     <tr>
                                         <td>Price Unit</td>
-                                        <td>{{ $data_pengajuan->priceperunit }}</td>
+                                        <td>{{ $dp->priceperunit }}</td>
                                     </tr>
                                     <tr>
                                         <td>Send To</td>
-                                        <td>{{ $data_pengajuan->send_to }}</td>
+                                        <td>{{ $dp->send_to }}</td>
                                     </tr>
                                     <tr>
                                         <td>Date Line</td>
-                                        <td>{{ $data_pengajuan->dateline }}</td>
+                                        <td>{{ $dp->dateline }}</td>
                                     </tr>
                                 </tbody>
                             </table>
+                            @endforeach
                             <table class="table table-bordered mt-4 mb-4">
                                 <thead>
                                     <tr class="text-center">
@@ -59,30 +61,33 @@
                                     <tr>
                                         <td>{{ $p->item }}</td>
                                         <td>{{ $p->qty }}</td>
-                                    @if ($data_pengajuan->matauang == 'RP')
+                                    @foreach ($data_pengajuan as $dp)
+                                    @if ($dp->matauang == 'RP')
                                         <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}</td>
                                         <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
-                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                    @elseif ($dp->matauang == 'USD')
                                         <td style="text-align:right;">$ {{ number_format($p->unit_price) }}</td>
                                         <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
                                     @endif
+                                    @endforeach
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                             @hasrole('purchasing')
-                            @if ($data_pengajuan->status == 'Accepted by Purchasing')
+                            @foreach ($data_pengajuan as $dp)
+                            @if ($dp->status == 'Accepted by Purchasing')
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-success text-center" onclick="return"><b>Accepted</b></a>
 
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-danger text-center" onclick="return">Reject</a>
 
-                            @elseif($data_pengajuan->status == 'Accepted by Super user')
-                                    <a href="{{ url('menu-task-list/accept', $data_pengajuan->id) }}"
+                            @elseif($dp->status == 'Accepted by Super user')
+                                    <a href="{{ url('menu-task-list/accept', $dp->id) }}"
                                         class="btn btn-success text-center" onclick="return">Accept</a>
 
-                                    <a href="{{ url('menu-task-list/reject', $data_pengajuan->id) }}"
+                                    <a href="{{ url('menu-task-list/reject', $dp->id) }}"
                                         class="btn btn-danger text-center" onclick="return">Reject</a>
                             @else
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
@@ -91,16 +96,16 @@
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
 
-                            @endif
+                             @endif
+                             @endforeach
                         @endhasrole
                         </div>
                     </div>
                     </div>
                 </div>
-        @if ($data_pengajuan->status == 'Accepted')
+
          <a href={{ url('#'){{--('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id)--}} }}
             class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
-    @endif
         <a type="reset" class="btn btn-danger" href="{{ url('/menu-task-list/') }}">Back</a>
     </section>
 @endsection

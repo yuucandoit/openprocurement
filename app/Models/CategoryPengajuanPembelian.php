@@ -60,4 +60,10 @@ class CategoryPengajuanPembelian extends Model
         return $this->hasMany(TaskListAtasan::class);
     }
 
+
+    public function tujuan()
+    {
+        return $this->belongsTo(ReferensiNamaProject::class);
+    }
+
 }
