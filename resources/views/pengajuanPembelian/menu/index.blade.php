@@ -49,19 +49,33 @@
                                     <label for="floatingws">Who Submitted</label>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="form-floating">
-                                    <select class="form-select selectpicker mt-4" id="floatingproposedto" placeholder="Purpose" name="purpose" data-live-search="true">
+                            {{-- css hide --}}
+                            <style>
+                                .hide {
+                                    width: 0;
+                                    height: 0;
+                                    opacity: 0;
+                                }
+                                .page {
+                                    width: 360px;
+                                    height: 60px;
+                                }
+                            </style>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-select page mt-4" id="pageSelector" placeholder="Purpose" name="purpose" >
+                                        <option value="" disabled selected hidden>Purpose</option>
                                         @foreach ($purpose as $p)
                                         <option value="{{ $p->id }}">{{ $p->nama }}</option>
                                         @endforeach
+                                        <option value="custom">Custom</option>
                                     </select>
-                                    <label for="floatingproposedto">-- Purpose --</label>
-                                </div>
+                                    <input type="text" class="hide form-control mt-2" placeholder="Input Project" name="nama" id="customInput">
                             </div>
+                        </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <select class="form-select mt-4" id="floatingdepartment" placeholder="department" name="department" >
+                                    <select class="form-select mt-2" id="floatingdepartment" placeholder="department" name="department" >
                                         <option value="Business_Development"    >Business Development   </option>
                                         <option value="Finance"                 >Finance                </option>
                                         <option value="GA"                      >GA                     </option>
@@ -134,6 +148,7 @@
                                 <tr>
                                     <th>Item</th>
                                     <th>Qty</th>
+                                    <th>Category</th>
                                     <th>Price-per-unit</th>
                                     <th>Action</th>
                                 </tr>
@@ -141,6 +156,14 @@
                                     <td><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" />
                                     </td>
                                     <td><input type="text" name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <select class="form-select" placeholder="Kategori" name="addMoreInputFields[0][kategori]" >
+                                            <option value="Pcs"  >Pcs   </option>
+                                            <option value="Lusin">Lusin </option>
+                                            <option value="Box"  >Box   </option>
+                                            <option value="Unit" >Unit  </option>
+                                        </select>
                                     </td>
                                     <td><input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control" />
                                     </td>
@@ -342,7 +365,8 @@
                             ++i;
                             $("#dynamicAddRemove").append('<tr><td><input type="text" name="addMoreInputFields[' + i +
                                 '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
-                                '][qty]" placeholder="Input Quantity" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
+                                '][qty]" placeholder="Input Quantity" class="form-control" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
+                                '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' + i +
                                 '][unit_price]" placeholder="Input Unit Price" class="form-control" /></td> <td style="display: none;"><input type="text" name="addMoreInputFields[' + i +
                                 '][total]" class="form-control" /></td> <td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
                                 );
@@ -351,5 +375,19 @@
                             $(this).parents('tr').remove();
                         });
                     </script>
+
+                    <script type="text/javascript">
+                        var pageSelector = document.getElementById('pageSelector');
+                        var customInput = document.getElementById('customInput');
+
+                        pageSelector.addEventListener('change', function(){
+                            if(this.value == "custom") {
+                                customInput.classList.remove('hide');
+                            } else {
+                                customInput.classList.add('hide');
+                            }
+                        })
+                    </script>
+
                 </section>
             @endsection

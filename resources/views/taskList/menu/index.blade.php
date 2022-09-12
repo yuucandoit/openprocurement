@@ -40,6 +40,7 @@
                                     <th>Description</th>
                                     <th>Date Line</th>
                                     <th>Countdown</th>
+                                    <th>Warning</th>
                                     <th>Request By</th>
                                     <th>Function</th>
                                 </tr>
@@ -54,6 +55,23 @@
                                         <td>{{ $ppb->desc }}</td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td id="countdown-{{ $ppb->id }}"></td>
+                                        @if ($ppb->dateline == '≤3Jam')
+                                            @if ($ppb->dateline_time == '03 :00:00')
+                                            <td> <a class="badge bg-success" style="font-size: 18"><i class="bx bx-detail"></i>yahaha Suram</a></td>
+                                            @elseif ($ppb->dateline_time == '02:00:01')
+                                            <td> <a class="badge bg-warning" style="font-size: 18"><i class="bx bx-detail"></i>yahaha hayyuk</a></td>
+                                            @elseif ($ppb->dateline_time == '01:00:01')
+                                            <td> <a class="badge bg-danger" style="font-size: 18"><i class="bx bx-detail"></i>yahaha deadline</a></td>
+                                            @elseif ($ppb->dateline_time == '00:05:00')
+                                            <td> <a class="badge bg-dark" style="font-size: 18"><i class="bx bx-detail"></i>yahaha habis</a></td>
+                                            @endif
+                                        @endif
+                                        @if ($ppb->dateline == '≤24Jam')
+
+                                        @endif
+                                        @if ($ppb->dateline == '≤2Hari')
+
+                                        @endif
                                         <td>{{ $ppb->ws }}</td>
                                         <td>
                                             <a href="{{ url('menu-task-list/detail/' . $ppb->id) }}"
@@ -79,7 +97,7 @@
 
         // FOR CALCULATE REMAINING DEADLINE TIME 😃
         const remainingTime = (data) => {
-            const { approved_at, dateline_time } = data;
+            const { approved_at, dateline_time , datetime } = data;
             const approvedAt    = new Date(approved_at);
             const dueDateTime   = new Date(`1970-01-01T${dateline_time}Z`);
             const dueDateAt     = new Date(approvedAt.getTime() + dueDateTime.getTime());

@@ -30,11 +30,8 @@
                                     </tr>
                                     <tr>
                                         <td>Purpose</td>
-                                        <td>{{ $dp->tujuan->nama }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Price Unit</td>
-                                        <td>{{ $dp->priceperunit }}</td>
+                                        <td></td>
+                                        {{-- <td>{{ $dp->tujuan->nama }}</td> --}}
                                     </tr>
                                     <tr>
                                         <td>Send To</td>

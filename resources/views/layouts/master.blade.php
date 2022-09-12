@@ -132,11 +132,13 @@
                       <h6>Dashboard             </h6>
                     </div>
                   </li>
-                  <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="home"></i><span>Dashboard</span></a>
-                    <ul class="nav-submenu menu-content">
-                      <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                    </ul>
-                  </li>
+                  <li class="sidebar-item {{ request()->is('*dashboard*') ? 'active' : '' }}">
+                    <a href="{{ url('/dashboard') }}" class='sidebar-link'>
+                        <i class="bi bi-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
                   <li class="sidebar-main-title">
                     <div>
                       <h6>Menu             </h6>

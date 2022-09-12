@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryQuotation;
+use App\Models\PengajuanPembelian;
 use App\Models\PurchaseOrder;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
@@ -30,7 +31,7 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
     {
         $data['purchase_order'] = PurchaseOrder::where('po_id', $this->id)->get();
         $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
-        $data['category_q'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
+        $data['category_q'] = PengajuanPembelian::where('pp_id', $this->id)->first();
         $data['day'] = Carbon::now()->format('d');
         $data['year2'] = Carbon::now()->format('Y');
         $data['year'] = Carbon::now()->format('y');

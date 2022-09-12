@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('pp_id')->default('0');
             $table->string('item');
             $table->bigInteger('qty');
+            $table->enum('kategori', ['Pcs', 'Lusin', 'Box', 'Unit']);
             $table->bigInteger('unit_price');
             $table->bigInteger('total');
             $table->timestamp('created_at')->useCurrent();

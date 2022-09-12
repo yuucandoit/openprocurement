@@ -13,6 +13,7 @@ class PengajuanPembelian extends Model
         'pp_id',
         'item',
         'qty',
+        'kategori',
         'unit_price',
         'total',
         'all_cost',
