@@ -151,7 +151,6 @@
                                     <th>Category</th>
                                     <th>Price-per-unit</th>
                                     <th>Total</th>
-                                    <th></th>
                                 </tr>
                                 <tr>
                                     <td><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" />
@@ -166,44 +165,24 @@
                                             <option value="Unit" >Unit  </option>
                                         </select>
                                     </td>
-                                    <td><input type="text"  name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end rupiah form-calc form-cost"/>
+                                    <td><input type="text"  name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost"/>
                                     </td>
                                     <td ><input type="text" name="addMoreInputFields[0][total]" class="form-control form-line"/>
                                     </td>
                                 </tr>
                             </table>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered mx-2">
                             <tr>
-                                <td class="text-right">All Total</td>
+                                <td><input class="mt-1 pull-right check-box" type="checkbox"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                            </tr>
+                            <tr>
+                                <td class="text-end">All Total :</td>
                                 <td id="total"></td>
                             </tr>
                         </table>
                             <div class="mt-2">
                             <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">+AddItem</button>
                         </div>
-
-                            {{-- <div class="col-4">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control mt-4 mb-3" id="floatingSubject" placeholder="Item"
-                                        name="item">
-                                    <label>Item</label>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                    <div class="form-floating">
-                                        <input type="number" class="form-control mt-4 mb-3" id="floatingName"
-                                            placeholder="Jumlah" name="qty">
-                                        <label>Quantity</label>
-                                    </div>
-                            </div>
-                                <div class="col-4">
-                                    <div class="form-floating">
-                                        <input type="number" class="form-control mt-4 mb-3" id="floatingName" placeholder="Harga"
-                                            name="unit_price">
-                                        <label>Price Per Unit</label>
-                                    </div>
-                                </div> --}}
-
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
                             </div>
@@ -282,11 +261,6 @@
                                                 <th>Date</th>
                                                 <th>Who Filed</th>
                                                 <th>Description</th>
-                                                {{-- <th>Purpose</th>
-                                                <th>Price Per Unit</th>
-                                                <th>Sent to</th>
-                                                <th>Delivery Date</th>
-                                                <th>Suggested supplier</th> --}}
                                                 @hasrole('admin|super admin')
                                                     <th>Status</th>
                                                 @endhasrole
@@ -376,12 +350,22 @@
                     $(document).ready(function() {
                         $(".order-entry").on("keyup", ".form-calc", function() {
                             var parent = $(this).closest("tr");
-                            parseInt(parent.find(".form-line").val((parent.find(".form-qty").val() * parent.find(".form-cost").val()) .toFixed(0)));
+                            parent.find(".form-line").val((parent.find(".form-qty").val() * parent.find(".form-cost").val()) .toFixed(0));
                             var total = 0;
                             $(".form-line").each(function(){
                                 total += parseInt($(this).val()||0);
                             });
-                            $("#total").text(total.toFixed(0));
+                            var checkbox =  document.querySelector(".check-box");
+                            checkbox.addEventListener('change', (event) =>{
+                                if(event.currentTarget.checked){
+                                    totalppn = total * 11 / 100;
+                                    $("#total").text(totalppn);
+                                }
+                                else{
+                                    $("#total").text(total.toFixed(0));
+                                }
+                            })
+
                         });
                     });
 
@@ -394,7 +378,7 @@
                                 '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
                                 '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
                                 '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' + i +
-                                '][unit_price]" placeholder="Input Price" class="form-control text-right form-calc form-cost"/></td> <td><input type="text" name="addMoreInputFields[' + i +
+                                '][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost"/></td> <td><input type="text" name="addMoreInputFields[' + i +
                                 '][total]" class="form-control form-line" /></td></tr>'
                                 );
                         });
