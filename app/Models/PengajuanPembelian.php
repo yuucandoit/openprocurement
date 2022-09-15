@@ -16,7 +16,6 @@ class PengajuanPembelian extends Model
         'kategori',
         'unit_price',
         'total',
-        'all_cost',
         'created_at',
         'updated_at',
     ];

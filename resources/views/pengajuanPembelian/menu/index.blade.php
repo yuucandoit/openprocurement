@@ -173,11 +173,11 @@
                             </table>
                             <table class="table table-bordered mx-2">
                             <tr>
-                                <td><input class="mt-1 pull-right check-box" type="checkbox"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                <td><input class="mt-1 pull-right check-box" type="checkbox" name="ppn"  value="1"><label class="pull-right mx-2"> PPN 11% :</label></td>
                             </tr>
                             <tr>
-                                <td class="text-end">All Total :</td>
-                                <td id="total"></td>
+                                <td class="text-end">Grand Total :</td>
+                                <td class="total text-end"><input style="display: none;" class="total" type="text" name="grand_total"></td>
                             </tr>
                         </table>
                             <div class="mt-2">
@@ -359,10 +359,10 @@
                             checkbox.addEventListener('change', (event) =>{
                                 if(event.currentTarget.checked){
                                     totalppn = total * 11 / 100;
-                                    $("#total").text(totalppn);
+                                    $(".total").text(totalppn);
                                 }
                                 else{
-                                    $("#total").text(total.toFixed(0));
+                                    $(".total").text(total.toFixed(0));
                                 }
                             })
 

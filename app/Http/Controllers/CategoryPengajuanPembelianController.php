@@ -129,18 +129,19 @@ class CategoryPengajuanPembelianController extends Controller
             'addMoreInputFields.*.qty' => 'required',
             'addMoreInputFields.*.unit_price' => 'required'
         ]);
+
         foreach($request->addMoreInputFields as $item ) {
-            $unit_price = str_replace("." , "" , explode('Rp. ', $item['unit_price'])[1]);
+            $unit_price = $item['unit_price'];
             PengajuanPembelian::create([
             'pp_id'             => $pengajuan->id,
             'item'              => $item['item'],
             'qty'               => $item['qty'],
             'kategori'          => $item['kategori'],
-            'unit_price'        => (int)$unit_price,
-            'total'             => $item['qty'] * (int)$unit_price,
+            'unit_price'        => $unit_price,
+            'total'             => $item['total'],
         ]);
         }
-
+        
         return redirect()->back()->with('success', 'Task Created Successfully!');
     }
 
