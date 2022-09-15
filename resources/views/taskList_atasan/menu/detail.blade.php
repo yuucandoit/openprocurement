@@ -30,7 +30,7 @@
                                     </tr>
                                     <tr>
                                         <td>Purpose</td>
-                                        <td>{{ $data_pengajuan->purpose }}</td>
+                                        <td>{{ $data_pengajuan->referensi->nama }}</td>
                                     </tr>
                                     <tr>
                                         <td>Send To</td>

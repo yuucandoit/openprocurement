@@ -1,4 +1,4 @@
-<title>Data Pengajuan</title>
+<title>Detail Purchase Order</title>
 
 @extends('layouts.master')
 
@@ -22,24 +22,12 @@
                                                 <td>{{ $data_pengajuan->ws }}</td>
                                             </tr>
                                             <tr>
-                                                <td>Item</td>
-                                                <td>{{ $data_pengajuan->item }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Qty</td>
-                                                <td>{{ $data_pengajuan->qty }}</td>
-                                            </tr>
-                                            <tr>
                                                 <td>Description</td>
                                                 <td>{{ $data_pengajuan->desc }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Purpose</td>
                                                 <td>{{ $data_pengajuan->purpose }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Price Unit</td>
-                                                <td>{{ $data_pengajuan->priceperunit }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Send To</td>
@@ -89,6 +77,33 @@
                                                     <td>{{ $data_pengajuan->vendor }}</td>
                                                 </tr>
                                             @endif
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered mt-4 mb-4">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>Item</th>
+                                                <th>Qty</th>
+                                                <th>Kategori</th>
+                                                <th>Price-per-unit</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($pengajuan as $p)
+                                            <tr>
+                                                <td>{{ $p->item }}</td>
+                                                <td>{{ $p->qty }}</td>
+                                                <td>{{ $p->kategori }}</td>
+                                            @if ($data_pengajuan->matauang == 'RP')
+                                                <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}</td>
+                                                <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
+                                            @elseif ($data_pengajuan->matauang == 'USD')
+                                                <td style="text-align:right;">$ {{ number_format($p->unit_price) }}</td>
+                                                <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
+                                            @endif
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                             @if ($data_pengajuan->status == 'Selesai Di proses Purchasing')

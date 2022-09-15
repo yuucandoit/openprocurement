@@ -1,4 +1,4 @@
-<title>Purchase Submission</title>
+<title>Purchase Order</title>
 
 @extends('layouts.master')
 
@@ -41,6 +41,7 @@
                                     <th>Date Line</th>
                                     <th>Countdown</th>
                                     <th>Warning</th>
+                                    <th>Approved At</th>
                                     <th>Request By</th>
                                     <th>Function</th>
                                 </tr>
@@ -49,21 +50,21 @@
                                 $no = 1;
                             @endphp
                             @foreach ($datappb as $ppb)
-                                @if ($ppb->status == 'Accepted by Super user' || 'Accepted by Purchasing')
+                                @if ($ppb->status == 'Accepted by Super user')
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $ppb->desc }}</td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td id="countdown-{{ $ppb->id }}"></td>
-                                        @if ($ppb->dateline == '≤3Jam')
-                                            @if ($ppb->dateline_time == '03 :00:00')
-                                            <td> <a class="badge bg-success" style="font-size: 18"><i class="bx bx-detail"></i>yahaha Suram</a></td>
+                                      <td>  @if ($ppb->dateline == '≤3Jam')
+                                            @if ($ppb->dateline_time == '03:00:00')
+                                            <a class="badge bg-success" style="font-size: 18"><i class="bx bx-detail"></i>yahaha Suram</a>
                                             @elseif ($ppb->dateline_time == '02:00:01')
-                                            <td> <a class="badge bg-warning" style="font-size: 18"><i class="bx bx-detail"></i>yahaha hayyuk</a></td>
+                                            <a class="badge bg-warning" style="font-size: 18"><i class="bx bx-detail"></i>yahaha hayyuk</a>
                                             @elseif ($ppb->dateline_time == '01:00:01')
-                                            <td> <a class="badge bg-danger" style="font-size: 18"><i class="bx bx-detail"></i>yahaha deadline</a></td>
+                                            <a class="badge bg-danger" style="font-size: 18"><i class="bx bx-detail"></i>yahaha deadline</a>
                                             @elseif ($ppb->dateline_time == '00:05:00')
-                                            <td> <a class="badge bg-dark" style="font-size: 18"><i class="bx bx-detail"></i>yahaha habis</a></td>
+                                            <a class="badge bg-dark" style="font-size: 18"><i class="bx bx-detail"></i>yahaha habis</a>
                                             @endif
                                         @endif
                                         @if ($ppb->dateline == '≤24Jam')
@@ -72,6 +73,8 @@
                                         @if ($ppb->dateline == '≤2Hari')
 
                                         @endif
+                                    </td>
+                                    <td>{{ $ppb->approved_at }}</td>
                                         <td>{{ $ppb->ws }}</td>
                                         <td>
                                             <a href="{{ url('menu-task-list/detail/' . $ppb->id) }}"

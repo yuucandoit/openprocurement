@@ -33,7 +33,7 @@ class CategoryPengajuanPembelianController extends Controller
             $dataec = CategoryEcommerce::all();
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id',[6,7,8,9])->get();
-            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
+            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('referensi')->get();
             return view('pengajuanPembelian.menu.index')
                 ->with('datapt',$datapt)
                 ->with('dataop',$dataop)
@@ -47,7 +47,7 @@ class CategoryPengajuanPembelianController extends Controller
             $dataec = CategoryEcommerce::all();
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id',[6,7,8,9])->get();
-            $datadv = CategoryPengajuanPembelian::all();
+            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('referensi')->get();
             return view('pengajuanPembelian.menu.index')
                 ->with('datapt',$datapt)
                 ->with('dataop',$dataop)
@@ -60,7 +60,7 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function detail($id)
     {
-        /*$data_vendor*/  $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        /*$data_vendor*/  $data_pengajuan = CategoryPengajuanPembelian::find($id)->with('referensi')->first();
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         $atasan = User::whereIn('id',[6,7,8,9])->get();
         $purpose = ReferensiNamaProject::all();
@@ -90,10 +90,10 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $data = $request->all();
 
-        $project = ReferensiNamaProject::create([
-            'nama' => $request->nama,
-        ]);
         if($request->purpose == "custom"){
+            $project = ReferensiNamaProject::create([
+                'nama' => $request->nama,
+            ]);
            $pengajuan = CategoryPengajuanPembelian::create([
                 'user_id' =>  Auth::user()->id,
                 'date_ps' => $request->date_ps,
@@ -129,15 +129,15 @@ class CategoryPengajuanPembelianController extends Controller
             'addMoreInputFields.*.qty' => 'required',
             'addMoreInputFields.*.unit_price' => 'required'
         ]);
-
         foreach($request->addMoreInputFields as $item ) {
-             PengajuanPembelian::create([
+            $unit_price = str_replace("." , "" , explode('Rp. ', $item['unit_price'])[1]);
+            PengajuanPembelian::create([
             'pp_id'             => $pengajuan->id,
             'item'              => $item['item'],
             'qty'               => $item['qty'],
             'kategori'          => $item['kategori'],
-            'unit_price'        => $item['unit_price'],
-            'total'             => $item['qty'] * $item['unit_price'],
+            'unit_price'        => (int)$unit_price,
+            'total'             => $item['qty'] * (int)$unit_price,
         ]);
         }
 
@@ -185,7 +185,7 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
 
-        // dd($data);
+        dd($data);
         $tes = CategoryPengajuanPembelian::where("id", $id)->update([
             "date_ps" => $request->date_ps,
             "ws" => $request->ws,

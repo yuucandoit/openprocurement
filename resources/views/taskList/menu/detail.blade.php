@@ -1,4 +1,4 @@
-<title>Data Pengajuan</title>
+<title>Detail Purchasing</title>
 
 @extends('layouts.master')
 
@@ -8,42 +8,40 @@
             <div class="row">
                 <div class="card shadow mb-5">
                     <div class="card-body text-center">
-                        @foreach ($data_pengajuan as $dp)
-                        <h1>Detail Dari {{ $dp->ws }}</h1>
+                        <h1>Detail Dari {{ $data_pengajuan->ws }}</h1>
                             <table class="table table-bordered mt-4">
                                 <tbody>
                                     <tr>
                                         <td>Proposed Supplier</td>
-                                        <td>{{ $dp->proposed_supplier }}</td>
+                                        <td>{{ $data_pengajuan->proposed_supplier }}</td>
                                     </tr>
                                     <tr>
                                         <td>Date</td>
-                                        <td>{{ $dp->date_ps }}</td>
+                                        <td>{{ $data_pengajuan->date_ps }}</td>
                                     </tr>
                                     <tr>
                                         <td>Who Submitted</td>
-                                        <td>{{ $dp->ws }}</td>
+                                        <td>{{ $data_pengajuan->ws }}</td>
                                     </tr>
                                     <tr>
                                         <td>Description</td>
-                                        <td>{{ $dp->desc }}</td>
+                                        <td>{{ $data_pengajuan->desc }}</td>
                                     </tr>
                                     <tr>
                                         <td>Purpose</td>
-                                        <td></td>
-                                        {{-- <td>{{ $dp->tujuan->nama }}</td> --}}
+                                        <td> {{ $data_pengajuan->referensi->nama }}</td>
+                                        {{-- <td>{{ $data_pengajuan->tujuan->nama }}</td> --}}
                                     </tr>
                                     <tr>
                                         <td>Send To</td>
-                                        <td>{{ $dp->send_to }}</td>
+                                        <td>{{ $data_pengajuan->send_to }}</td>
                                     </tr>
                                     <tr>
                                         <td>Date Line</td>
-                                        <td>{{ $dp->dateline }}</td>
+                                        <td>{{ $data_pengajuan->dateline }}</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            @endforeach
                             <table class="table table-bordered mt-4 mb-4">
                                 <thead>
                                     <tr class="text-center">
@@ -58,33 +56,30 @@
                                     <tr>
                                         <td>{{ $p->item }}</td>
                                         <td>{{ $p->qty }}</td>
-                                    @foreach ($data_pengajuan as $dp)
-                                    @if ($dp->matauang == 'RP')
+                                    @if ($data_pengajuan->matauang == 'RP')
                                         <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}</td>
                                         <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
-                                    @elseif ($dp->matauang == 'USD')
+                                    @elseif ($data_pengajuan->matauang == 'USD')
                                         <td style="text-align:right;">$ {{ number_format($p->unit_price) }}</td>
                                         <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
                                     @endif
-                                    @endforeach
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                             @hasrole('purchasing')
-                            @foreach ($data_pengajuan as $dp)
-                            @if ($dp->status == 'Accepted by Purchasing')
+                            @if ($data_pengajuan->status == 'Accepted by Purchasing')
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-success text-center" onclick="return"><b>Accepted</b></a>
 
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-danger text-center" onclick="return">Reject</a>
 
-                            @elseif($dp->status == 'Accepted by Super user')
-                                    <a href="{{ url('menu-task-list/accept', $dp->id) }}"
+                            @elseif($data_pengajuan->status == 'Accepted by Super user')
+                                    <a href="{{ url('menu-task-list/accept', $data_pengajuan->id) }}"
                                         class="btn btn-success text-center" onclick="return">Accept</a>
 
-                                    <a href="{{ url('menu-task-list/reject', $dp->id) }}"
+                                    <a href="{{ url('menu-task-list/reject', $data_pengajuan->id) }}"
                                         class="btn btn-danger text-center" onclick="return">Reject</a>
                             @else
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
@@ -94,7 +89,6 @@
                                         class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
 
                              @endif
-                             @endforeach
                         @endhasrole
                         </div>
                     </div>

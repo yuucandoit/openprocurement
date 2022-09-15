@@ -1,4 +1,4 @@
-<title>Edit Vendor</title>
+<title>Edit Data</title>
 
 @extends('layouts.master')
 

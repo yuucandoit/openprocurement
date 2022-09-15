@@ -11,7 +11,6 @@
                         <h1>Detail Dari {{ $data_pengajuan->ws }}</h1>
                             <table class="table table-bordered mt-4" style="">
                                 <tbody>
-
                                     <tr>
                                         <td>Date</td>
                                         <td>{{ $data_pengajuan->date_ps }}</td>
@@ -20,42 +19,13 @@
                                         <td>Who Submitted</td>
                                         <td>{{ $data_pengajuan->ws }}</td>
                                     </tr>
-                                    @foreach ($pengajuan as $p)
-                                    <tr>
-                                        <td>Item {{ $p->id }}</td>
-                                        <td>{{ $p->item }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Qty</td>
-                                        <td>{{ $p->qty }}</td>
-                                    </tr>
-                                    @if ($p->matauang == 'RP')
-                                    <tr>
-                                        <td>Price</td>
-                                        <td>RP. {{ number_format($p->unit_price) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total</td>
-                                        <td>RP. {{ number_format($p->total) }}</td>
-                                    </tr>
-                                    @elseif ($p->matauang == 'USD')
-                                    <tr>
-                                        <td>Price</td>
-                                        <td>$ {{ number_format($p->unit_price) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total</td>
-                                        <td>$ {{ number_format($p->total) }}</td>
-                                    </tr>
-                                    @endif
-                                    @endforeach
                                     <tr>
                                         <td>Description</td>
                                         <td>{{ $data_pengajuan->desc }}</td>
                                     </tr>
                                     <tr>
                                         <td>Purpose</td>
-                                        <td>{{ $data_pengajuan->purpose }}</td>
+                                        <td>{{ $data_pengajuan->referensi->nama }}</td>
                                     </tr>
                                     <tr>
                                         <td>Send To</td>
@@ -71,6 +41,31 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <table class="table table-bordered mt-4 mb-4">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Price-per-unit</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($pengajuan as $p)
+                                        <tr>
+                                            <td>{{ $p->item }}</td>
+                                            <td>{{ $p->qty }}</td>
+                                        @if ($data_pengajuan->matauang == 'RP')
+                                            <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}</td>
+                                            <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
+                                        @elseif ($data_pengajuan->matauang == 'USD')
+                                            <td style="text-align:right;">$ {{ number_format($p->unit_price) }}</td>
+                                            <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
+                                        @endif
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                         </div>
                         <div class="button text-center mb-2">
                             {{-- @if ($data_pengajuan->status == '') --}}

@@ -1,4 +1,4 @@
-<title>Purchase Submission</title>
+<title>Task List Atasan</title>
 
 @extends('layouts.master')
 

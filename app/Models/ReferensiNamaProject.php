@@ -13,8 +13,8 @@ class ReferensiNamaProject extends Model
         'nama'
     ];
 
-    public function tujuan()
+    public function pengajuanpembelian()
     {
-        return $this->hasMany(CategoryPengajuanPembelian::class);
+        return $this->hasMany(CategoryPengajuanPembelian::class, 'purpose');
     }
 }

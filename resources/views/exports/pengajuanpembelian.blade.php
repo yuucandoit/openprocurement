@@ -46,9 +46,9 @@
         </tr>
 
         <tr>
-            <td style="border: 1px solid black" colspan="4">Divisi</td>
+            <td style="border: 1px solid black" colspan="4">Department</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="14">{{ $category_ppb->divisi }}</td>
+            <td style="border: 1px solid black" colspan="14">{{ $category_ppb->department }}</td>
         </tr>
         <tr>
             <td></td>
@@ -90,6 +90,7 @@
             <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="4">NO</td>
             <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="6">Item</td>
             <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">Quantity</td>
+            <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">Type</td>
             <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">Price Unit</td>
             <td style="text-align: center ; border:1px solid black" rowspan="3" colspan="3">Total</td>
         </tr>
@@ -114,11 +115,12 @@
             <td style="text-align: center ; border: 1px solid black" colspan="4">{{ $no++ }}</td>
             <td style="text-align: center ; border: 1px solid black" colspan="6">{{ $item->item }}</td>
             <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $item->qty }}</td>
-            @if ($item->matauang == 'RP')
+            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $item->kategori }}</td>
+            @if ($category_ppb->matauang == 'RP')
             <td style="text-align: center ; border: 1px solid black" colspan="3">RP. {{ number_format($item->unit_price) }}</td>
             <td style="text-align: center ; border: 1px solid black" colspan="3">RP. {{ number_format($item->total) }}</td>
             @endif
-            @if ($item->matauang == 'USD')
+            @if ($category_ppb->matauang == 'USD')
             <td style="text-align: center ; border: 1px solid black" colspan="3">$ {{ number_format($item->unit_price) }}</td>
             <td style="text-align: center ; border: 1px solid black" colspan="3">$ {{ number_format($item->total) }}</td>
             @endif

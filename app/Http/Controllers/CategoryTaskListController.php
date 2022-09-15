@@ -45,7 +45,7 @@ class CategoryTaskListController extends Controller
 
     public function detail($id)
     {
-        $data_pengajuan = CategoryPengajuanPembelian::find($id)->with('tujuan')->get();
+        $data_pengajuan = CategoryPengajuanPembelian::find($id)->with('referensi')->first();
         $purpose = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         // dd($pengajuan);

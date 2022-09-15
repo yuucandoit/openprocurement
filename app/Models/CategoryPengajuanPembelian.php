@@ -61,9 +61,9 @@ class CategoryPengajuanPembelian extends Model
     }
 
 
-    public function tujuan()
+    public function referensi()
     {
-        return $this->belongsTo(ReferensiNamaProject::class);
+        return $this->belongsTo(ReferensiNamaProject::class, 'purpose');
     }
 
 }

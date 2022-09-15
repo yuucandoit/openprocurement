@@ -7,6 +7,7 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\PengajuanPembelian;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
@@ -57,8 +58,10 @@ class CategoryPOController extends Controller
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         return view('purchaseOrder.menu.detail')
-            ->with('data_pengajuan', $data_pengajuan);
+        ->with('pengajuan', $pengajuan)
+        ->with('data_pengajuan', $data_pengajuan);
     }
 
     /**

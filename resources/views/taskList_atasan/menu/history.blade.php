@@ -1,4 +1,4 @@
-<title>Purchase Submission</title>
+<title>History Task list</title>
 
 @extends('layouts.master')
 
@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="card shadow mb-5">
                             <div class="card-body">
-                                <h3>Task List</h3>
+                                <h3>History</h3>
                                 @if (Auth::user()->id === 6)
                                 <table class="table table-striped" id="table1">
                                     <thead>
@@ -44,6 +44,7 @@
                                             <th>Description</th>
                                             <th>Date Line</th>
                                             <th>Request By</th>
+                                            <th>Approved At</th>
                                             <th>Function</th>
                                         </tr>
                                     </thead>
@@ -57,14 +58,15 @@
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td>{{ $ppb->ws }}</td>
+                                        <td>{{ $ppb->approved_at }}</td>
                                         <td>
                                         <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        {{-- <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td> --}}
                                     </tr>
                                     @endif
                                     @endforeach
@@ -80,6 +82,7 @@
                                                 <th>Description</th>
                                                 <th>Date Line</th>
                                                 <th>Request By</th>
+                                                <th>Approved At</th>
                                                 <th>Function</th>
                                             </tr>
                                         </thead>
@@ -93,14 +96,15 @@
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td>{{ $ppb->ws }}</td>
+                                        <td>{{ $ppb->approved_at }}</td>
                                         <td>
                                         <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        {{-- <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td> --}}
                                     </tr>
                                     @endif
                                     @endforeach
@@ -115,6 +119,7 @@
                                                 <th>Description</th>
                                                 <th>Date Line</th>
                                                 <th>Request By</th>
+                                                <th>Approved At</th>
                                                 <th>Function</th>
                                             </tr>
                                         </thead>
@@ -128,14 +133,15 @@
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td>{{ $ppb->ws }}</td>
+                                        <td>{{ $ppb->approved_at }}</td>
                                         <td>
                                         <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        {{-- <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td> --}}
                                         </tr>
                                         @endif
                                         @endforeach
@@ -150,6 +156,7 @@
                                                 <th>Description</th>
                                                 <th>Date Line</th>
                                                 <th>Request By</th>
+                                                <th>Approved At</th>
                                                 <th>Function</th>
                                             </tr>
                                         </thead>
@@ -163,14 +170,15 @@
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td>{{ $ppb->ws }}</td>
+                                        <td>{{ $ppb->approved_at }}</td>
                                         <td>
                                         <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        {{-- <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td> --}}
                                     </tr>
                                     @endif
                                     @endforeach

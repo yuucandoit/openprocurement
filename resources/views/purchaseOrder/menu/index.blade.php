@@ -74,8 +74,8 @@
                 <div class="card shadow mb-5">
                     <div class="card-body">
                         @foreach ($datappb as $purchase)
-                        <a href={{ url('/export_excel/purchase_order/' . $purchase->id) }}
-                            class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
+                        {{-- <a href={{ url('/export_excel/purchase_order/' . $purchase->id) }}
+                            class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a> --}}
 
                         @endforeach
                         {{-- <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
@@ -86,6 +86,8 @@
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Send To</th>
+                                    <th>Date Line</th>
+                                    <th>Countdown</th>
                                     <th>Date</th>
                                      @hasrole('purchasing|super admin')
                                         <th>Status</th>
@@ -112,15 +114,15 @@
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $purchase->ws }}</td>
                                         <td>{{ $purchase->send_to }}</td>
+                                        <td>{{ $purchase->dateline }}</td>
+                                        <td id="countdown-{{ $purchase->id }}"></td>
                                         <td>{{ $purchase->created_at }}</td>
                                         @hasrole('purchasing|super admin')
                                         <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $purchase->status }}</a></td>
 
                                         <td>
-                                            <a href="{{ url('/purchase-order/index/' . $purchase->id) }}"
-                                                class="btn btn-outline-info"><i class="bx bx-detail"></i> Add Item</a>
-                                            <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
+                                           <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                             <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
                                                 class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
@@ -149,4 +151,50 @@
             });
         </script>
     </section>
+@endsection
+@section('scripts')
+    <script>
+        const data = @json($datappb);
+        const item =data[0];
+        console.log(data);
+
+        // FOR CALCULATE REMAINING DEADLINE TIME 😃
+        const remainingTime = (data) => {
+            const { approved_at, dateline_time , datetime } = data;
+            const approvedAt    = new Date(approved_at);
+            const dueDateTime   = new Date(`1970-01-01T${dateline_time}Z`);
+            const dueDateAt     = new Date(approvedAt.getTime() + dueDateTime.getTime());
+            const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+
+            console.log(remainingTime.getTime());
+            if(remainingTime.getTime() < 1) return "Waktu Anda Sudah Habis";
+
+            const hours   = remainingTime.getUTCHours().toString();
+            const minutes = remainingTime.getUTCMinutes().toString();
+            const seconds = remainingTime.getUTCSeconds().toString();
+
+            return (
+                (hours.length   == 1 ? `0${hours}:`   : `${hours}:`) +
+                (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
+                (seconds.length == 1 ? `0${seconds}:` : `${seconds}`)
+            );
+        }
+
+        // FOR HANDLE REWRITE ELEMENT 😃
+        const countdownHandle = (elmnt, item) => {
+            elmnt.innerText = remainingTime(item);
+        }
+
+        // FOR INITIALIZE COUNTDOWN 😃
+        const initCountdown = (data) => {
+            data.forEach(item => {
+                if(!item.approved_at) return;
+                setInterval(() => countdownHandle(document.querySelector(
+                    `#countdown-${item.id}`
+                ), item), 1000);
+            });
+        }
+
+        initCountdown(data);
+    </script>
 @endsection
