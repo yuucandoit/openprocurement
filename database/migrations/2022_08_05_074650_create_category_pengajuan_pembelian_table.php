@@ -32,12 +32,7 @@ return new class extends Migration
             $table->enum('dateline',['≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);
             $table->time('dateline_time')->nullable();
             $table->enum('proposed_supplier',['Perusahaan','OrangPribadi','Ecommerce','Unknown']);
-            $table->string('warning')->nullable();
-            $table->string('no_rek')->nullable();
-            $table->string('no_telp')->nullable();
-            $table->string('quotation')->nullable();
-            $table->string('address')->nullable();
-            $table->string('npwp')->nullable();
+            $table->boolean('ppn')->nullable()->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

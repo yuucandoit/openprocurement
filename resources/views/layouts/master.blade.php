@@ -150,7 +150,7 @@
                         <li class=" {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pengajuan-pembelian') }}" >
                                 <i class="bi bi-file-text"></i>
-                                <span>Pengajuan Pembelian</span>
+                                <span>Purchase Submission</span>
                             </a>
                         </li>
                         @endhasrole
@@ -224,6 +224,21 @@
                         </li> --}}
                     </ul>
                   </li>
+
+                  @hasrole('admin')
+                  <li class="sidebar-main-title">
+                    <div>
+                      <h6>Admin             </h6>
+                    </div>
+                  </li>
+                  <li class="sidebar-item {{ request()->is('*admin*') ? 'active' : '' }}">
+                      <a href="{{ url('/admin') }}" class='sidebar-link'>
+                          <i class="bi bi-person-workspace"></i>
+                          <span>Admin</span>
+                      </a>
+                  </li>
+              @endhasrole
+
 
                   <li class="sidebar-main-title">
                     <div>

@@ -42,7 +42,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <table class="table table-bordered mt-4 mb-4">
+                            <table class="table table-bordered mt-4 mb-4 order-entry">
                                 <thead>
                                     <tr class="text-center">
                                         <th>Item</th>
@@ -55,10 +55,10 @@
                                     @foreach ($pengajuan as $p)
                                     <tr>
                                         <td>{{ $p->item }}</td>
-                                        <td>{{ $p->qty }}</td>
+                                        <td >{{ $p->qty }}</td>
                                     @if ($data_pengajuan->matauang == 'RP')
-                                        <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}</td>
-                                        <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
+                                        <td style="text-align:right;" >RP. {{ number_format($p->unit_price) }}</td>
+                                        <td style="text-align:right;" >RP. {{ number_format($p->total) }}</td>
                                     @elseif ($data_pengajuan->matauang == 'USD')
                                         <td style="text-align:right;">$ {{ number_format($p->unit_price) }}</td>
                                         <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
@@ -66,6 +66,36 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
+                            </table>
+                            <table class="table table-bordered ">
+                                <tr>
+                                    <td><input class="mt-1 pull-right check-box" type="checkbox" value="{{ $data_pengajuan->ppn }}" @if ($data_pengajuan->ppn == 1)
+                                        @checked(true)
+                                        @else
+                                    @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-end">Grand Total :</td>
+                                    @if ($data_pengajuan->ppn == 1)
+                                    @foreach ($total as $t)
+                                    @if ($data_pengajuan->matauang == 'RP')
+                                    <td style="text-align:right;" >RP. {{ number_format($t->grand_total) }}</td>
+                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                    <td style="text-align:right;">$ {{ number_format($t->grand_total) }}</td>
+                                    @endif
+                                 @endforeach
+
+                                    @else
+                                    @foreach ($total_tnpa_ppn as $tpn)
+                                    @if ($data_pengajuan->matauang == 'RP')
+                                    <td style="text-align:right;" >RP. {{ number_format($tpn->grand_total) }}</td>
+                                @elseif ($data_pengajuan->matauang == 'USD')
+                                    <td style="text-align:right;">$ {{ number_format($tpn->grand_total) }}</td>
+                                @endif
+                                @endforeach
+
+                                    @endif
+                                </tr>
                             </table>
                             <div class="mt-3">
                                 @hasrole('super user')
@@ -100,5 +130,34 @@
          {{-- <a href=url('#')('/export_excel/pengajuan_pembelian/'.$data_pengajuan->id)
             class="btn btn-success" style="align-self: flex-end"> Export to Excel</a> --}}
     @endif
+
     </section>
 @endsection
+
+
+<!-- JavaScript Item -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+     $(document).ready(function() {
+            $(".order-entry").on("keyup", ".form-calc", function() {
+                var parent = $(this).closest("tr");
+                parent.find(".form-line").val((parent.find(".form-qty").val() * parent.find(".form-cost").val()) .toFixed(0));
+                var total = 0;
+                $(".form-line").each(function(){
+                    total += parseInt($(this).val()||0);
+                });
+                var checkbox =  document.querySelector(".check-box");
+                checkbox.addEventListener('change', (event) =>{
+                    if(event.currentTarget.checked){
+                        totalppn = total * 11 / 100;
+                        $(".total").text(totalppn);
+                    }
+                    else{
+                        $(".total").text(total.toFixed(0));
+                    }
+                })
+
+            });
+        });
+</script>

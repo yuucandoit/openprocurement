@@ -1,4 +1,4 @@
-<title>Pengajuan Pembelian</title>
+<title>Purchase Submission</title>
 
 @extends('layouts.master')
 
@@ -9,7 +9,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h2 class="modal-title" style="color: white">Add Form</h2>
+                        <h2 class="modal-title" style="color: white">Purchase Submission Form</h2>
                         <button style="color: white" type="button" class="" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -165,7 +165,7 @@
                                             <option value="Unit" >Unit  </option>
                                         </select>
                                     </td>
-                                    <td><input type="text"  name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost"/>
+                                    <td><input type="text" name="addMoreInputFields[0][unit_price]" id="rupiah" placeholder="Input Price" class="form-control text-end form-calc form-cost"  />
                                     </td>
                                     <td ><input type="text" name="addMoreInputFields[0][total]" class="form-control form-line"/>
                                     </td>
@@ -173,7 +173,7 @@
                             </table>
                             <table class="table table-bordered mx-2">
                             <tr>
-                                <td><input class="mt-1 pull-right check-box" type="checkbox" name="ppn"  value="1"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                <td><input class="mt-1 pull-right check-box" type="checkbox" name="ppn" value="1" {{ old('ppn',0) === 1 ? 'checked' : '' }}><label class="pull-right mx-2"> PPN 11% :</label></td>
                             </tr>
                             <tr>
                                 <td class="text-end">Grand Total :</td>
@@ -343,7 +343,12 @@
                     <!-- JavaScript Item -->
                     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+                    <script src="jquery.maskMoney.js" type="text/javascript"></script>
                     <script type="text/javascript">
+
+                            $(document).ready(function(){
+                                $('#rupiah').maskMoney();
+                            });
 
                     //Math
 
@@ -388,30 +393,30 @@
 
                     //Convert To Rupiah
 
-                    var rupiah = document.querySelector(".rupiah");
-                        rupiah.addEventListener('keyup', function(e) {
-                        // tambahkan 'Rp.' pada saat form di ketik
-                        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                        rupiah.value = formatRupiah(this.value, "Rp. ");
-                        });
+                    // var rupiah = document.querySelector(".rupiah");
+                    //     rupiah.addEventListener('keyup', function(e) {
+                    //     // tambahkan 'Rp.' pada saat form di ketik
+                    //     // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                    //     rupiah.value = formatRupiah(this.value, "Rp. ");
+                    //     });
 
-                        /* Fungsi formatRupiah */
-                        function formatRupiah(angka, prefix) {
-                        var number_string = angka.replace(/[^,\d]/g, ""),
-                            split = number_string.split(","),
-                            sisa = split[0].length % 3,
-                            rupiah = split[0].substr(0, sisa),
-                            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                    //     /* Fungsi formatRupiah */
+                    //     function formatRupiah(angka, prefix) {
+                    //     var number_string = angka.replace(/[^,\d]/g, ""),
+                    //         split = number_string.split(","),
+                    //         sisa = split[0].length % 3,
+                    //         rupiah = split[0].substr(0, sisa),
+                    //         ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                        if (ribuan) {
-                            separator = sisa ? "." : "";
-                            rupiah += separator + ribuan.join(".");
-                        }
+                    //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                    //     if (ribuan) {
+                    //         separator = sisa ? "." : "";
+                    //         rupiah += separator + ribuan.join(".");
+                    //     }
 
-                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-                        }
+                    //     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                    //     return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+                    //     }
 
 
                     </script>

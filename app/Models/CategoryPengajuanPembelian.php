@@ -29,6 +29,7 @@ class CategoryPengajuanPembelian extends Model
         'send_to',
         'dateline',
         'proposed_supplier',
+        'ppn',
         'created_at',
         'updated_at'
     ];

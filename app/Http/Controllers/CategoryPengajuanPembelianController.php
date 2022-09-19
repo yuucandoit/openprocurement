@@ -105,7 +105,8 @@ class CategoryPengajuanPembelianController extends Controller
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
                 'proposed_supplier' => $request->proposed_supplier,
-                'send_to' => $request->send_to
+                'send_to' => $request->send_to,
+                'ppn' => $request->ppn,
             ]);
        }else{
         $pengajuan = CategoryPengajuanPembelian::create([
@@ -119,7 +120,8 @@ class CategoryPengajuanPembelianController extends Controller
             'atasan' => $request->atasan,
             'matauang' => $request->matauang,
             'proposed_supplier' => $request->proposed_supplier,
-            'send_to' => $request->send_to
+            'send_to' => $request->send_to,
+            'ppn' => $request->ppn,
         ]);
        }
 
@@ -141,7 +143,7 @@ class CategoryPengajuanPembelianController extends Controller
             'total'             => $item['total'],
         ]);
         }
-        
+
         return redirect()->back()->with('success', 'Task Created Successfully!');
     }
 

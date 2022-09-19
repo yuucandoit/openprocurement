@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('kategori', ['Pcs', 'Lusin', 'Box', 'Unit']);
             $table->bigInteger('unit_price');
             $table->bigInteger('total');
+            $table->bigInteger('grand_total')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
