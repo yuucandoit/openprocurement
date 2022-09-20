@@ -77,7 +77,11 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function create()
     {
-        //
+        $atasan = User::whereIn('id',[6,7,8,9])->get();
+        $purpose = ReferensiNamaProject::all();
+        return view('pengajuanPembelian.menu.create')
+            ->with('atasan', $atasan)
+            ->with('purpose', $purpose);
     }
 
     /**
