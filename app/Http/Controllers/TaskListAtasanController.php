@@ -45,8 +45,10 @@ class TaskListAtasanController extends Controller
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
-        $total = PengajuanPembelian::selectRaw('SUM(total * 11 /100) as grand_total')->get();
-        $total_tnpa_ppn = PengajuanPembelian::selectRaw('SUM(total) as grand_total')->get();
+        $total = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        // $total = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100)')->groupBy('pp_id' , $id)->get();
+        // $total_tnpa_ppn = PengajuanPembelian::selectRaw('pp_id,SUM(total)')->groupBy('pp_id', $id)->get();
         return view('taskList_atasan.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('total', $total)

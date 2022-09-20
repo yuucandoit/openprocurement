@@ -178,6 +178,7 @@
                     <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">+AddItem</button>
                 </div>
                     <div class="modal-footer">
+                        <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-danger mt-3">Back</a>
                         <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
                     </div>
             </form>

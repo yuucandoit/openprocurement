@@ -148,7 +148,7 @@ class CategoryPengajuanPembelianController extends Controller
         ]);
         }
 
-        return redirect()->back()->with('success', 'Task Created Successfully!');
+        return redirect('menu-pengajuan-pembelian/')->with('success', 'Task Created Successfully!');
     }
 
     /**

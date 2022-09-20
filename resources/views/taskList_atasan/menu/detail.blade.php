@@ -74,28 +74,31 @@
                                         @else
                                     @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                 </tr>
+                                @if ($data_pengajuan->ppn == 1)
                                 <tr>
                                     <td class="text-end">Grand Total :</td>
-                                    @if ($data_pengajuan->ppn == 1)
-                                    @foreach ($total as $t)
-                                    @if ($data_pengajuan->matauang == 'RP')
-                                    <td style="text-align:right;" >RP. {{ number_format($t->grand_total) }}</td>
-                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                    <td style="text-align:right;">$ {{ number_format($t->grand_total) }}</td>
-                                    @endif
-                                 @endforeach
 
-                                    @else
+                                    @foreach ($total as $t)
+                                    {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
+                                    @if ($data_pengajuan->matauang == 'RP')
+                                    <td style="text-align:right;" >RP. {{ number_format($t->total) }}</td>
+
+                                    {{-- jika mata uang yang di pilih USD Maka Return $    --}}
+                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                    <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
+                                    @endif
+                                    @endforeach
+
+                                    @elseif ($data_pengajuan->ppn == 0)
                                     @foreach ($total_tnpa_ppn as $tpn)
                                     @if ($data_pengajuan->matauang == 'RP')
-                                    <td style="text-align:right;" >RP. {{ number_format($tpn->grand_total) }}</td>
+                                    <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
                                 @elseif ($data_pengajuan->matauang == 'USD')
-                                    <td style="text-align:right;">$ {{ number_format($tpn->grand_total) }}</td>
+                                    <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
                                 @endif
                                 @endforeach
-
-                                    @endif
                                 </tr>
+                                @endif
                             </table>
                             <div class="mt-3">
                                 @hasrole('super user')
@@ -144,9 +147,6 @@
                 var parent = $(this).closest("tr");
                 parent.find(".form-line").val((parent.find(".form-qty").val() * parent.find(".form-cost").val()) .toFixed(0));
                 var total = 0;
-                $(".form-line").each(function(){
-                    total += parseInt($(this).val()||0);
-                });
                 var checkbox =  document.querySelector(".check-box");
                 checkbox.addEventListener('change', (event) =>{
                     if(event.currentTarget.checked){
@@ -157,6 +157,9 @@
                         $(".total").text(total.toFixed(0));
                     }
                 })
+                $(".form-line").each(function(){
+                    total += parseInt($(this).val()||0);
+                });
 
             });
         });
