@@ -66,8 +66,67 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                        </div>
-                        <div class="button text-center mb-2">
+                                <table class="table table-bordered ">
+                                    <tr>
+                                        <td><input class="mt-1 pull-right check-box" type="checkbox" value="{{ $data_pengajuan->ppn }}" @if ($data_pengajuan->ppn == 1)
+                                            @checked(true)
+                                            @else
+                                        @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            {{-- Ketika gamake ppn  --}}
+                                            @if ($data_pengajuan->ppn == 0)
+                                                @foreach ($total_tnpa_ppn as $tpn)
+                                                {{-- Ketika mata uang yang dipilih RP --}}
+                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                    RP. {{ number_format($tpn->total) }}
+                                                    {{-- Ketika mata uang yang dipilih USD --}}
+                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                    $ {{ number_format($tpn->total) }}
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            {{-- End Gamake ppn --}}
+                                            {{-- Ketika make ppn --}}
+                                            @if ($data_pengajuan->ppn == 1)
+                                                @foreach ($total_tnpa_ppn as $tpn)
+                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                    RP. {{ number_format($tpn->total) }} x 11%
+                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                    $ {{ number_format($tpn->total) }} x 11%
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            {{-- End make ppn --}}
+                                        </td>
+                                    </tr>
+                                    @if ($data_pengajuan->ppn == 1)
+                                    <tr>
+                                        <td class="text-end">Grand Total :</td>
+
+                                        @foreach ($total as $t)
+                                        {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
+                                        @if ($data_pengajuan->matauang == 'RP')
+                                        <td style="text-align:right;" >RP. {{ number_format($t->total) }}</td>
+
+                                        {{-- jika mata uang yang di pilih USD Maka Return $    --}}
+                                        @elseif ($data_pengajuan->matauang == 'USD')
+                                        <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
+                                        @endif
+                                        @endforeach
+
+                                        @elseif ($data_pengajuan->ppn == 0)
+                                        @foreach ($total_tnpa_ppn as $tpn)
+                                        @if ($data_pengajuan->matauang == 'RP')
+                                        <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
+                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                        <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
+                                    @endif
+                                    @endforeach
+                                    </tr>
+                                    @endif
+                                </table>
+                        <div class="button text-center mb-2 mt-4">
                             {{-- @if ($data_pengajuan->status == '') --}}
                                  <a href={{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}
                                      class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>

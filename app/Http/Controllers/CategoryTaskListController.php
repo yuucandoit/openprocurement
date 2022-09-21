@@ -45,13 +45,17 @@ class CategoryTaskListController extends Controller
 
     public function detail($id)
     {
-        $data_pengajuan = CategoryPengajuanPembelian::find($id)->with('referensi')->first();
+        $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $purpose = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        $total = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         // dd($pengajuan);
         return view('taskList.menu.detail')
         ->with('purpose',$purpose)
         ->with('pengajuan', $pengajuan)
+        ->with('total', $total)
+        ->with('total_tnpa_ppn', $total_tnpa_ppn)
         ->with('data_pengajuan', $data_pengajuan);
     }
     /**

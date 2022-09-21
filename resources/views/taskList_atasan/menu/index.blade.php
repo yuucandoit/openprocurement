@@ -36,6 +36,44 @@
                         <div class="card shadow mb-5">
                             <div class="card-body">
                                 <h3>Task List</h3>
+
+                                @if (Auth::user()->id === 3)
+                                <table class="table table-striped" id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Description</th>
+                                            <th>Date Line</th>
+                                            <th>Request By</th>
+                                            <th>Function</th>
+                                        </tr>
+                                    </thead>
+                                    @php
+                                    $no = 1;
+                                    @endphp
+                                    @foreach ($datappb as $ppb)
+                                    @if ($ppb->status == 'pending')
+                                    <tr>
+                                        @if ($ppb->atasan == 3)
+                                        <td>{{ $no++ }}</td>
+                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                        <td>{{ $ppb->dateline }}</td>
+                                        <td>{{ $ppb->ws }}</td>
+                                        <td>
+                                        <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                        <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
+                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
+                                        </td>
+                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @endif
+                                    </tr>
+                                    @endif
+                                    @endforeach
+                                    </table>
+                                    @endif
+
                                 @if (Auth::user()->id === 6)
                                 <table class="table table-striped" id="table1">
                                     <thead>
@@ -51,8 +89,9 @@
                                     $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->atasan == 6)
+                                    @if ($ppb->status == 'pending')
                                     <tr>
+                                        @if ($ppb->atasan == 6)
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
@@ -65,6 +104,7 @@
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @endif
                                     </tr>
                                     @endif
                                     @endforeach
@@ -87,8 +127,9 @@
                                     $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->atasan == 7)
+                                    @if ($ppb->status == 'pending')
                                     <tr>
+                                        @if ($ppb->atasan == 7)
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
@@ -101,6 +142,7 @@
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @endif
                                     </tr>
                                     @endif
                                     @endforeach
@@ -122,8 +164,9 @@
                                     $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->atasan == 8)
+                                    @if ($ppb->status == 'pending')
                                     <tr>
+                                        @if ($ppb->atasan == 8)
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
@@ -136,6 +179,7 @@
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @endif
                                         </tr>
                                         @endif
                                         @endforeach
@@ -157,8 +201,9 @@
                                     $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->atasan == 9)
+                                    @if ($ppb->status == 'pending')
                                     <tr>
+                                        @if ($ppb->atasan == 9)
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
@@ -171,6 +216,7 @@
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @endif
                                     </tr>
                                     @endif
                                     @endforeach

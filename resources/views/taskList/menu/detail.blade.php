@@ -67,7 +67,40 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            @hasrole('purchasing')
+                            <table class="table table-bordered ">
+                                <tr>
+                                    <td><input class="mt-1 pull-right check-box" type="checkbox" value="{{ $data_pengajuan->ppn }}" @if ($data_pengajuan->ppn == 1)
+                                        @checked(true)
+                                        @else
+                                    @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                </tr>
+                                @if ($data_pengajuan->ppn == 1)
+                                <tr>
+                                    <td class="text-end">Grand Total :</td>
+
+                                    @foreach ($total as $t)
+                                    {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
+                                    @if ($data_pengajuan->matauang == 'RP')
+                                    <td style="text-align:right;" >RP. {{ number_format($t->total) }}</td>
+
+                                    {{-- jika mata uang yang di pilih USD Maka Return $    --}}
+                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                    <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
+                                    @endif
+                                    @endforeach
+
+                                    @elseif ($data_pengajuan->ppn == 0)
+                                    @foreach ($total_tnpa_ppn as $tpn)
+                                    @if ($data_pengajuan->matauang == 'RP')
+                                    <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
+                                @elseif ($data_pengajuan->matauang == 'USD')
+                                    <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
+                                @endif
+                                @endforeach
+                                </tr>
+                                @endif
+                            </table>
+                            @hasrole('purchasing|super admin')
                             @if ($data_pengajuan->status == 'Accepted by Purchasing')
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-success text-center" onclick="return"><b>Accepted</b></a>

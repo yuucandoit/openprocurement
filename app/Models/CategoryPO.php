@@ -16,9 +16,11 @@ class CategoryPO extends Model
         'pt_id',
         'op_id',
         'ec_id',
-        'name',
+        'vendor',
+        'atasan_po',
         'address',
-        'status',
+        'no_telp',
+        'no_npwp',
         'created_at',
         'updated_at'
     ];

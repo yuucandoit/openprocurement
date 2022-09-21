@@ -8,6 +8,7 @@ use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\PengajuanPembelian;
+use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
@@ -59,8 +60,12 @@ class CategoryPOController extends Controller
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        $total = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         return view('purchaseOrder.menu.detail')
         ->with('pengajuan', $pengajuan)
+        ->with('total', $total)
+        ->with('total_tnpa_ppn', $total_tnpa_ppn)
         ->with('data_pengajuan', $data_pengajuan);
     }
 
@@ -130,15 +135,15 @@ class CategoryPOController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
 
         // dd($data);
-        $tes = CategoryPengajuanPembelian::where("id", $id)->update([
+        $tes = CategoryPO::where("id", $id)->update([
             "pt_id" => $request->pt_id,
             "op_id" => $request->op_id,
             "ec_id" => $request->ec_id,
             "vendor" => $request->vendor,
+            "atasan_po" => $request->atasan_po,
             "address" => $request->address,
             "no_telp" => $request->no_telp,
             "npwp" => $request->npwp,
-            "quotation" => $request->quotation,
         ]);
         return redirect("menu-purchase-order/");
     }

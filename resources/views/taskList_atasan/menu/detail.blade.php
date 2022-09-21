@@ -72,7 +72,34 @@
                                     <td><input class="mt-1 pull-right check-box" type="checkbox" value="{{ $data_pengajuan->ppn }}" @if ($data_pengajuan->ppn == 1)
                                         @checked(true)
                                         @else
-                                    @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                    @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label>
+                                </td>
+                                <td style="text-align:right;">
+                                    {{-- Ketika gamake ppn  --}}
+                                    @if ($data_pengajuan->ppn == 0)
+                                        @foreach ($total_tnpa_ppn as $tpn)
+                                        {{-- Ketika mata uang yang dipilih RP --}}
+                                            @if ($data_pengajuan->matauang == 'RP')
+                                            RP. {{ number_format($tpn->total) }}
+                                            {{-- Ketika mata uang yang dipilih USD --}}
+                                            @elseif ($data_pengajuan->matauang == 'USD')
+                                            $ {{ number_format($tpn->total) }}
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                    {{-- End Gamake ppn --}}
+                                    {{-- Ketika make ppn --}}
+                                    @if ($data_pengajuan->ppn == 1)
+                                        @foreach ($total_tnpa_ppn as $tpn)
+                                            @if ($data_pengajuan->matauang == 'RP')
+                                            RP. {{ number_format($tpn->total) }} x 11%
+                                            @elseif ($data_pengajuan->matauang == 'USD')
+                                            $ {{ number_format($tpn->total) }} x 11%
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                    {{-- End make ppn --}}
+                                </td>
                                 </tr>
                                 @if ($data_pengajuan->ppn == 1)
                                 <tr>
@@ -101,7 +128,7 @@
                                 @endif
                             </table>
                             <div class="mt-3">
-                                @hasrole('super user')
+                                @hasrole('super user|super admin')
                                 @if ($data_pengajuan->status == 'Accepted by Super user')
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                             class="btn btn-success text-center" onclick="return"><b>Accepted</b></a>

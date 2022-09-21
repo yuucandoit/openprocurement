@@ -17,12 +17,15 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->default('0');
             $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
-            $table->string('name');
+            $table->foreignId('atasan_po')->constrained('users');
+            $table->foreignId('pt_id')->nullable()->constrained('category_pt');
+            $table->foreignId('op_id')->nullable()->constrained('category_pp');
+            $table->foreignId('ec_id')->nullable()->constrained('category_ecommerce');
+            $table->string('vendor')->nullable();
+            // $table->string('name');
             $table->string('address');
             $table->string('no_telp');
             $table->string('no_npwp');
-            $table->string('quotation');
-            // $table->string('status')->default('pending')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

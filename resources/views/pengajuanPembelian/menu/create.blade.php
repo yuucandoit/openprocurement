@@ -3,7 +3,6 @@
 
 @section('main')
     <section>
-
         <div class="card shadow mb-5">
             <div class="card-body">
                 <h5 class="card-title">Form Purchase Submision</h5>
