@@ -166,7 +166,12 @@
                     </table>
                     <table class="table table-bordered mx-2">
                     <tr>
+                        <td><label class="pull-right mx-2"> DPP :</label></td>
+                        <td class="total_A text-end"><input style="display: none;" class="total_A" type="text" name="total_a"></td>
+                    </tr>
+                    <tr>
                         <td><input class="mt-1 pull-right check-box" type="checkbox" name="ppn" value="1" {{ old('ppn',0) === 1 ? 'checked' : '' }}><label class="pull-right mx-2"> PPN 11% :</label></td>
+                        <td class="ppn text-end"><input style="display: none;" class="ppn" type="text" name="ppn"></td>
                     </tr>
                     <tr>
                         <td class="text-end">Grand Total :</td>
@@ -205,11 +210,14 @@
                  $(".form-line").each(function(){
                      total += parseInt($(this).val()||0);
                  });
+                 $(".total_A").text(total.toFixed(0));
                  var checkbox =  document.querySelector(".check-box");
                  checkbox.addEventListener('change', (event) =>{
                      if(event.currentTarget.checked){
                          totalppn = total * 11 / 100;
-                         $(".total").text(totalppn);
+                         grandtotal = total + totalppn;
+                         $(".ppn").text(totalppn);
+                         $(".total").text(grandtotal);
                      }
                      else{
                          $(".total").text(total.toFixed(0));

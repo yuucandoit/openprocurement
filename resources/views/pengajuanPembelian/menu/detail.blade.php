@@ -68,11 +68,24 @@
                                 </table>
                                 <table class="table table-bordered ">
                                     <tr>
+                                        <td><label class="pull-right mx-2"> DPP :</label></td>
+                                        <td style="text-align: right;">
+                                            @foreach ($dpp as $d)
+                                            {{-- Ketika mata uang yang dipilih RP --}}
+                                                @if ($data_pengajuan->matauang == 'RP')
+                                                RP. {{ number_format($d->total) }}
+                                                {{-- Ketika mata uang yang dipilih USD --}}
+                                                @elseif ($data_pengajuan->matauang == 'USD')
+                                                $ {{ number_format($d->total) }}
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td><input class="mt-1 pull-right check-box" type="checkbox" value="{{ $data_pengajuan->ppn }}" @if ($data_pengajuan->ppn == 1)
                                             @checked(true)
                                             @else
-                                        @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label>
-                                        </td>
+                                        @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                         <td style="text-align:right;">
                                             {{-- Ketika gamake ppn  --}}
                                             @if ($data_pengajuan->ppn == 0)
@@ -90,14 +103,28 @@
                                             {{-- Ketika make ppn --}}
                                             @if ($data_pengajuan->ppn == 1)
                                                 @foreach ($total_tnpa_ppn as $tpn)
-                                                    @if ($data_pengajuan->matauang == 'RP')
-                                                    RP. {{ number_format($tpn->total) }} x 11%
-                                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                                    $ {{ number_format($tpn->total) }} x 11%
-                                                    @endif
+                                                        @if ($data_pengajuan->matauang == 'RP')
+                                                           RP. {{ number_format($tpn->total) }} x 11%
+                                                             @elseif ($data_pengajuan->matauang == 'USD')
+                                                            $ {{ number_format($tpn->total) }} x 11%
+                                                        @endif
                                                 @endforeach
                                             @endif
                                             {{-- End make ppn --}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="pull-right mx-2"> Total PPN :</label></td>
+                                        <td style="text-align: right;">
+                                            @foreach ($ppn as $p)
+                                            {{-- Ketika mata uang yang dipilih RP --}}
+                                                @if ($data_pengajuan->matauang == 'RP')
+                                                RP. {{ number_format($p->total) }}
+                                                {{-- Ketika mata uang yang dipilih USD --}}
+                                                @elseif ($data_pengajuan->matauang == 'USD')
+                                                $ {{ number_format($p->total) }}
+                                                @endif
+                                            @endforeach
                                         </td>
                                     </tr>
                                     @if ($data_pengajuan->ppn == 1)

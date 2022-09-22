@@ -31,7 +31,12 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
     {
         $data['purchase_order'] = PurchaseOrder::where('po_id', $this->id)->get();
         $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
-        $data['category_q'] = PengajuanPembelian::where('pp_id', $this->id)->first();
+        $data['id'] = PengajuanPembelian::where('pp_id', $this->id)->get()->first();
+        $data['category_q'] = PengajuanPembelian::where('pp_id', $this->id)->get();
+        $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
         $data['day'] = Carbon::now()->format('d');
         $data['year2'] = Carbon::now()->format('Y');
         $data['year'] = Carbon::now()->format('y');

@@ -60,10 +60,14 @@ class CategoryPOController extends Controller
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
-        $total = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total_tnpa_ppn = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         return view('purchaseOrder.menu.detail')
         ->with('pengajuan', $pengajuan)
+        ->with('dpp', $dpp)
+        ->with('ppn', $ppn)
         ->with('total', $total)
         ->with('total_tnpa_ppn', $total_tnpa_ppn)
         ->with('data_pengajuan', $data_pengajuan);
@@ -112,15 +116,25 @@ class CategoryPOController extends Controller
      */
     public function edit($id)
     {
-        $pt = CategoryPT::all();
-        $op = CategoryPP::all();
-        $ec = CategoryEcommerce::all();
-        $dv = CategoryPengajuanPembelian::find($id);
+        $pt                 = CategoryPT::all();
+        $op                 = CategoryPP::all();
+        $ec                 = CategoryEcommerce::all();
+        $dv                 = CategoryPengajuanPembelian::find($id);
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         return view('purchaseOrder.menu.edit')
         ->with('pt', $pt)
         ->with('op',$op)
         ->with('ec',$ec)
-        ->with('dv' , $dv);
+        ->with('dv' , $dv)
+        ->with('pengajuan', $pengajuan)
+        ->with('dpp', $dpp)
+        ->with('ppn', $ppn)
+        ->with('total', $total)
+        ->with('total_tnpa_ppn', $total_tnpa_ppn);
     }
 
     /**
