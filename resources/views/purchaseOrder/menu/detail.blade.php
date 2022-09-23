@@ -195,15 +195,15 @@
                                     </table>
                                             @if ($data_pengajuan->status == 'Selesai Di proses Purchasing')
                                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                            data-bs-target="#modalSelesai" disabled>Terselesaikan</button>
+                                            data-bs-target="#modalSelesai" disabled>Approval Request Has Been Sent to Super User</button>
                                             @else
                                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                            data-bs-target="#modalSelesai">Selesaikan</button>
+                                            data-bs-target="#modalSelesai">Send Approval Request To Super User</button>
                                             @endif
                                             <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content">
-                                                        <div class="modal-header bg-warning">
+                                                        <div class="modal-header bg-danger">
                                                             <h2 class="modal-title" style="color: white">Selesai</h2>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
@@ -215,9 +215,13 @@
                                                             <h2 style="text-align: center"> Are you sure to set this task Done? </h2>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <form action="{{ url('menu-purchase-order/selesai', $data_pengajuan->id)  }}">
-                                                                <button type="submit" class="btn btn-success"><i class="bx bx-trash"></i>
-                                                                    Selesai</button>
+                                                            <form action="">
+
+                                                            </form>
+                                                            <form action="{{ url('menu-purchase-order/ajukan_keatasan', $data_pengajuan->id)  }}">
+                                                                <button type="submit" class="btn btn-outline-success"><i class="bx bx-trash"></i>
+                                                                    Send Approval Request To Super User
+                                                                </button>
                                                             </form>
                                                         </div>
                                                     </div>

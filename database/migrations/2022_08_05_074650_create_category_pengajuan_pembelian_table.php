@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('atasan')->constrained('users');
             $table->date('date_ps');
             $table->string('ws'); //Who Submitted(ws)
-            $table->enum('department',['R&D','Production','Support_Workshop','Project','Business_Development','Product','Finance','Tax','Human_Resource','Purchasing','GA','Legal']);
+            $table->enum('department',['R&D','Production','Support_Workshop','Project','Business_Development','Product','Finance','Tax','Human_Resource','Purchasing','GA','Legal', 'Programmer']);
             $table->text('desc');
             $table->foreignId('purpose')->constrained('referensi_nama_project');
             $table->enum('matauang',['USD','RP']);

@@ -11,12 +11,12 @@ class CategoryPO extends Model
     protected $table = 'category_po';
     protected $fillable = [
         'id',
-        'user_id',
         'ppb_id',
-        'pt_id',
-        'op_id',
-        'ec_id',
+        'pt_id' ,
+        'op_id' ,
+        'ec_id' ,
         'vendor',
+        'term_conditions',
         'atasan_po',
         'address',
         'no_telp',
@@ -41,5 +41,9 @@ class CategoryPO extends Model
     public function ec()
     {
         return $this->belongsTo(CategoryEcommerce::class);
+    }
+    public function term()
+    {
+        return $this->belongsTo(TermsAndConditions::class, 'Term_conditions');
     }
 }

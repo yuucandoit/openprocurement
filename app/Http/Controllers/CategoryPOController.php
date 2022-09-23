@@ -11,6 +11,8 @@ use App\Models\PengajuanPembelian;
 use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use App\Models\TermsAndConditions;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryPOController extends Controller
@@ -119,6 +121,8 @@ class CategoryPOController extends Controller
         $pt                 = CategoryPT::all();
         $op                 = CategoryPP::all();
         $ec                 = CategoryEcommerce::all();
+        $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
+        $terms              = TermsAndConditions::all();
         $dv                 = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -130,6 +134,8 @@ class CategoryPOController extends Controller
         ->with('op',$op)
         ->with('ec',$ec)
         ->with('dv' , $dv)
+        ->with('atasan' , $atasan)
+        ->with('terms' , $terms)
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
         ->with('ppn', $ppn)
@@ -148,17 +154,116 @@ class CategoryPOController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
 
-        // dd($data);
-        $tes = CategoryPO::where("id", $id)->update([
-            "pt_id" => $request->pt_id,
-            "op_id" => $request->op_id,
-            "ec_id" => $request->ec_id,
-            "vendor" => $request->vendor,
-            "atasan_po" => $request->atasan_po,
-            "address" => $request->address,
-            "no_telp" => $request->no_telp,
-            "npwp" => $request->npwp,
-        ]);
+        if($data->proposed_supplier == 'Perusahaan'){
+            if($request->term_conditions == "custom"){
+                // dd($data);
+                $term = TermsAndConditions::create([
+                    "term_condition" => $request->term_condition,
+                ]);
+                $tes = CategoryPO::create([
+                    "ppb_id" => $data->id,
+                    "pt_id" => $request->pt_id,
+                    "term_conditions" => $term->id,
+                    "atasan_po" => $request->atasan_po,
+                    "address" => $request->address,
+                    "no_telp" => $request->no_telp,
+                    "no_npwp" => $request->no_npwp,
+                ]);
+            } else {
+                $tes = CategoryPO::create([
+                    "ppb_id" => $data->id,
+                    "pt_id" => $request->pt_id,
+                    "term_conditions" => $request->term_conditions,
+                    "atasan_po" => $request->atasan_po,
+                    "address" => $request->address,
+                    "no_telp" => $request->no_telp,
+                    "no_npwp" => $request->no_npwp,
+                ]);
+            }
+
+        } elseif($data->proposed_supplier == 'OrangPribadi'){
+            if($request->term_conditions == "custom"){
+                // dd($data);
+                $term = TermsAndConditions::create([
+                    "term_condition" => $request->term_condition,
+                ]);
+                $tes = CategoryPO::create([
+                    "ppb_id" => $data->id,
+                    "op_id" => $request->op_id,
+                    "term_conditions" => $term->id,
+                    "atasan_po" => $request->atasan_po,
+                    "address" => $request->address,
+                    "no_telp" => $request->no_telp,
+                    "no_npwp" => $request->no_npwp,
+                ]);
+            } else {
+                $tes = CategoryPO::create([
+                    "ppb_id" => $data->id,
+                    "op_id" => $request->op_id,
+                    "term_conditions" => $request->term_conditions,
+                    "atasan_po" => $request->atasan_po,
+                    "address" => $request->address,
+                    "no_telp" => $request->no_telp,
+                    "no_npwp" => $request->no_npwp,
+                ]);
+            }
+        } elseif($data->proposed_supplier == 'Ecommerce'){
+            if($request->term_conditions == "custom"){
+                // dd($data);
+                $term = TermsAndConditions::create([
+                    "term_condition" => $request->term_condition,
+                ]);
+                $tes = CategoryPO::create([
+                    "ppb_id" => $data->id,
+                    "ec_id" => $request->ec_id ,
+                    "term_conditions" => $term->id,
+                    "atasan_po" => $request->atasan_po,
+                    "address" => $request->address,
+                    "no_telp" => $request->no_telp,
+                    "no_npwp" => $request->no_npwp,
+                ]);
+            } else {
+                $tes = CategoryPO::create([
+                    "ppb_id" => $data->id,
+                    "ec_id" => $request->ec_id,
+                    "term_conditions" => $request->term_conditions,
+                    "atasan_po" => $request->atasan_po,
+                    "address" => $request->address,
+                    "no_telp" => $request->no_telp,
+                    "no_npwp" => $request->no_npwp,
+                ]);
+            }
+        }elseif($data->proposed_supplier == 'Unknown'){
+            if($request->term_conditions == "custom"){
+                // dd($data);
+                $term = TermsAndConditions::create([
+                    "term_condition" => $request->term_condition,
+                ]);
+                $tes = CategoryPO::create([
+                    "ppb_id" => $data->id,
+                    "vendor" => $request->vendor,
+                    "term_conditions" => $term->id,
+                    "atasan_po" => $request->atasan_po,
+                    "address" => $request->address,
+                    "no_telp" => $request->no_telp,
+                    "no_npwp" => $request->no_npwp,
+                ]);
+            } else {
+                $tes = CategoryPO::create([
+                    "ppb_id" => $data->id,
+                    "vendor" => $request->vendor,
+                    "term_conditions" => $request->term_conditions,
+                    "atasan_po" => $request->atasan_po,
+                    "address" => $request->address,
+                    "no_telp" => $request->no_telp,
+                    "no_npwp" => $request->no_npwp,
+                ]);
+            }
+
+        }
+
+    // dd($data_all
+
         return redirect("menu-purchase-order/");
     }
 
@@ -175,11 +280,11 @@ class CategoryPOController extends Controller
         return redirect('/menu-purchase-order')->with('success', 'Task Deleted Successfully!');
     }
 
-    public function selesai($id)
+    public function ajukan_keatasan($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        $data->status = 'Selesai Di proses Purchasing';
+        $data->status = 'Waiting For PO Approval';
         $data->save();
         return redirect()->back();
     }

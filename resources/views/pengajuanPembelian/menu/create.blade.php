@@ -74,6 +74,7 @@
                                 <option value="GA"                      >GA                     </option>
                                 <option value="Human_Resource"          >Human Resource         </option>
                                 <option value="Legal"                   >Legal                  </option>
+                                <option value="Programmer"              >Programmer             </option>
                                 <option value="Project"                 >Project                </option>
                                 <option value="Product"                 >Product                </option>
                                 <option value="Production"              >Production             </option>

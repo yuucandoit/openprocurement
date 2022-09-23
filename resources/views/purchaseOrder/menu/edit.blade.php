@@ -1,4 +1,4 @@
-<title>Edit Vendor</title>
+<title>Update Data</title>
 
 @extends('layouts.master')
 
@@ -8,21 +8,16 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Update Data</h5>
-
-                <!-- Floating Labels Form -->
-                <form class="row g-2" action={{ url('/menu-purchase-order/update/' . $dv->id) }} method="POST"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <div class="col-6">
+                    <div class="col-md-12">
                         <div class="form-floating">
                             <input type="date"
-                                class="form-control"
+                                    class="form-control"
                                 id="floatingTanggal" placeholder="Tanggal" name="date_ps"
                                 value="{{ old('date_ps', date('Y-m-d')) }}" disabled >
                             <label for="floatingTanggal">Date</label>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-12">
                         <div class="form-floating">
                             <select class="form-select mt-1" id="floatingdateline" placeholder="Dateline" name="dateline" value="{{ $dv->dateline }}" disabled>
                                 <option value="Urgent">Urgent</option>
@@ -34,14 +29,14 @@
                             <label for="floatingdateline">-- Date Line --</label>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-12">
                         <div class="form-floating">
                             <input type="text" class="form-control mt-1" id="floatingws "
                                 placeholder="Who Submitted" name="ws" value="{{ $dv->ws }}" disabled>
                             <label for="floatingws">Who Submitted</label>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-12">
                         <div class="form-floating">
                             <input type="text" class="form-control mt-1 " id="floatingNoTelpon"
                                 placeholder="Purpose" name="purpose" value="{{ $dv->purpose }}" disabled>
@@ -70,8 +65,8 @@
                             <label for="floatingdateline">-- Proposed Supplier --</label>
                         </div>
                     </div>
-                    <table class="table table-bordered mt-4 mb-4">
-                        <thead>
+                    <table class="table table-bordered mt-4 mb-4" >
+                        <thead class="table-secondary">
                             <tr class="text-center">
                                 <th>Item</th>
                                 <th>Qty</th>
@@ -184,11 +179,14 @@
                         </tr>
                         @endif
                     </table>
-
+                     <!-- Floating Labels Form -->
+                <form class="row g-2" action={{ url('/menu-purchase-order/update/' . $dv->id) }} method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
                     @if ($dv->proposed_supplier == 'Perusahaan')
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <select class="form-select mt-1" id="floatingdateline" placeholder="Vendor" name="pt_id">
+                            <select class="form-select mt-4" id="floatingdateline" placeholder="Vendor" name="pt_id">
                                 @foreach ($pt as $p)
                                 <option value="{{ $p->id }}">{{ $p->nama }}</option>
                                 @endforeach
@@ -201,7 +199,7 @@
                     @if ($dv->proposed_supplier == 'OrangPribadi')
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <select class="form-select mt-1" id="floatingdateline" placeholder="Vendor" name="op_id">
+                            <select class="form-select mt-4" id="floatingdateline" placeholder="Vendor" name="op_id">
                                 @foreach ($op as $o)
                                 <option value="{{ $o->id}}">{{ $o->nama }}</option>
                                 @endforeach
@@ -214,7 +212,7 @@
                     @if ($dv->proposed_supplier == 'Ecommerce')
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <select class="form-select mt-1" id="floatingdateline" placeholder="Vendor" name="ec_id">
+                            <select class="form-select mt-4" id="floatingdateline" placeholder="Vendor" name="ec_id">
                                 @foreach ($ec as $e)
                                 <option value="{{ $e->id }}">{{ $e->nama }}</option>
                                 @endforeach
@@ -227,7 +225,7 @@
                     @if ($dv->proposed_supplier == 'Unknown')
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
+                            <input required type="text" class="form-control mt-4 " id="floatingNoTelpon"
                                 placeholder="Vendor" name="vendor" >
                             <label for="floatingNoTelpon">Vendor</label>
                         </div>
@@ -235,31 +233,58 @@
                     @endif
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
+                            <select class="form-select mt-2" id="floatingproposedto" placeholder="Proposed To" name="atasan_po" >
+                                @foreach ($atasan as $sui)
+                                <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingproposedto">-- Approved To --</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
                                 placeholder="Address" name="address" >
                             <label for="floatingNoTelpon">Alamat</label>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
+                            <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
                                 placeholder="No_Telp" name="no_telp" >
                             <label for="floatingNoTelpon">Nomor Telpon</label>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
-                                placeholder="NPWP" name="npwp" >
+                            <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
+                                placeholder="NPWP" name="no_npwp" >
                             <label for="floatingNoTelpon">NPWP</label>
                         </div>
                     </div>
+
+                     {{-- css hide --}}
+                     <style>
+                        .hide {
+                            width: 0;
+                            height: 0;
+                            opacity: 0;
+                        }
+                        .page {
+                            height: 58px;
+                        }
+                    </style>
+
                     <div class="col-md-12">
-                        <div class="form-floating">
-                            <input required type="text" class="form-control mt-1 " id="floatingNoTelpon"
-                                placeholder="Quotation" name="quotation" >
-                            <label for="floatingNoTelpon">Quotation</label>
-                        </div>
+                        <div class="form-group">
+                            <select class="form-select page mt-4" id="pageSelector" placeholder="Terms and Conditions" name="term_conditions" >
+                                <option value="" disabled selected hidden>Terms And Conditions</option>
+                                    @foreach ($terms as $t)
+                                      <option value="{{ $t->id }}">{{ $t->nama }}</option>
+                                    @endforeach
+                                <option value="custom">+ Add Terms & Conditions</option>
+                            </select>
+                        <textarea class="hide form-control mt-2" name="term_condition" id="customInput" cols="30" rows="10" placeholder="Input Terms And Conditions"></textarea>
                     </div>
 
                     <div class="text-center">
@@ -271,5 +296,17 @@
             </div>
         </div>
 
+        <script type="text/javascript">
+            var pageSelector = document.getElementById('pageSelector');
+            var customInput = document.getElementById('customInput');
+
+            pageSelector.addEventListener('change', function(){
+                if(this.value == "custom") {
+                    customInput.classList.remove('hide');
+                } else {
+                    customInput.classList.add('hide');
+                }
+            })
+        </script>
     </section>
 @endsection

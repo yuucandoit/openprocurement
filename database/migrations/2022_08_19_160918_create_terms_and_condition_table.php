@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('terms_and_condition', function (Blueprint $table) {
             $table->id();
-            $table->integer('purchase_id')->default(0);
-            $table->string('term_condition');
+            $table->text('term_condition');
             $table->timestamps();
         });
     }
