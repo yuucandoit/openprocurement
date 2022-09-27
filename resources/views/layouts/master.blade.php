@@ -268,7 +268,7 @@
                         <li class=" {{ request()->is('*perusahaan*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-perusahaan') }}" >
                                 <i class="icofont icofont-building-alt" style="font-size: 20;"></i>
-                                <span>Perusahaan</span>
+                                <span>Company</span>
                             </a>
                         </li>
                         <li class=" {{ request()->is('*private-person*') ? 'active' : '' }} mt-3">

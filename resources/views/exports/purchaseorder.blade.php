@@ -429,7 +429,7 @@
 
         <tr>
             <td></td>
-            <td style="font-size: 14">{{ $cpo->term->term_condition }}</td>
+            <td style="font-size: 14; mso-data-placement:same-cell;">{{ preg_replace("/\r|\n/","<br style=\"mso-data-placement:same-cell;\" />",)$cpo->term->term_condition }}</td>
             <td></td>
             <td></td>
             <td></td>

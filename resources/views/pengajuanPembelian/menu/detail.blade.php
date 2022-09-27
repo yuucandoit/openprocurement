@@ -1,4 +1,4 @@
-<title>Data Pengajuan</title>
+<title>Detail Purchase Submission</title>
 
 @extends('layouts.master')
 
@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="card shadow mb-5">
                     <div class="card-body text-center">
-                        <h1>Detail Dari {{ $data_pengajuan->ws }}</h1>
+                        <h1>Detail {{ $data_pengajuan->ws }}</h1>
                             <table class="table table-bordered mt-4" style="">
                                 <tbody>
                                     <tr>
