@@ -132,7 +132,7 @@
                       <h6>Dashboard</h6>
                     </div>
                   </li>
-                  <li class="sidebar-item {{ request()->is('*dashboard*') ? 'active' : '' }}">
+                  <li class="sidebar-item {{ request()->is('*/dashboard*') ? 'active' : '' }}">
                     <a href="{{ url('/dashboard') }}" class='sidebar-link'>
                         <i class="icofont icofont-dashboard font-dark" style="font-size: 20"></i> &nbsp;
                         <span>Dashboard</span>
@@ -144,52 +144,34 @@
                       <h6>Menu</h6>
                     </div>
                   </li>
-                  <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)">
-                    <i class="icofont icofont-bill-alt font-dark" style="font-size: 20"></i> &nbsp;
-                    <span>Purchase Submision</span></a>
-                    <ul class="nav-submenu menu-content">
                         @hasrole('user|super admin|super user')
-                        <li class=" {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                        <li class="sidebar-item  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pengajuan-pembelian') }}" >
+                                <i class="icofont icofont-paper font-dark" style="font-size: 20; "></i>
                                 <span>Purchase Submission</span>
                             </a>
                         </li>
                         @endhasrole
-                    </ul>
-                </li>
-                <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)">
-                    <i class="icofont icofont-bill-alt font-dark" style="font-size: 20"></i> &nbsp;
-                    <span>Purchase Order</span></a>
-                    <ul class="nav-submenu menu-content">
-                        @hasrole('super user|purchasing|super admin')
-                        <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+
+                        @hasrole('purchasing|super admin')
+                        <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }} mt-3">
                             <a href="{{ url('/menu-purchase-order') }}" >
-                                <i class="bi bi-calendar-x"></i>
+                                <i class="icofont icofont-ui-calendar" style="font-size: 20; "></i>
                                 <span>Purchase Order</span>
                             </a>
                         </li>
                         @endhasrole
-                    </ul>
-                </li>
-
-
-                <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)">
-                    <i class="icofont icofont-bill-alt font-dark" style="font-size: 20"></i> &nbsp;
-                    <span>Pengajuan Dana</span></a>
-                    <ul class="nav-submenu menu-content">
-                        @hasrole('super user|finance|super admin')
-                        <li class=" {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
+                        @hasrole('finance|super admin')
+                        <li class=" {{ request()->is('*pengajuan-dana*') ? 'active' : '' }} mt-3">
                             <a href="{{ url('/menu-pengajuan-dana') }}" >
-                                <i class="bi bi-cash-coin"></i> <span>Pengajuan Dana</span>
+                                <i class="icofont icofont-coins" style="font-size: 20; "></i>
+                                <span>Fund Submission</span>
                             </a>
                         </li>
                         @endhasrole
-                    </ul>
-                </li>
-
-
-                        <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)">
-                            <i class="icofont icofont-bill-alt font-dark" style="font-size: 20"></i> &nbsp;
+            @hasrole('super user|super admin')
+                        <li class="dropdown mt-2"><a class="nav-link menu-title" href="javascript:void(0)">
+                            <i class="icofont icofont-tasks-alt font-dark" style="font-size: 20"></i> &nbsp;
                             <span>Task List</span></a>
                             <ul class="nav-submenu menu-content">
                                 @hasrole('super user|super admin')
@@ -201,7 +183,7 @@
                                 </li>
                                 @endhasrole
                                 @hasrole('super user|super admin')
-                                    <li class=" {{ request()->is('*task-list-atasan*') ? 'active' : '' }}">
+                                    <li class=" {{ request()->is('*task-list-atasan-po*') ? 'active' : '' }}">
                                         <a href="{{ url('/menu-taskList-atasan-po') }}" >
                                             <i class="bi bi-file-text"></i>
                                             <span>Task List Atasan Po</span>
@@ -218,7 +200,7 @@
                                 </li>
                                 @endhasrole
                                 @hasrole('finance|super admin')
-                                <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
+                                <li class=" {{ request()->is('*task-list-finance*') ? 'active' : '' }}">
                                     <a href="{{ url('/menu-tasklist-finance') }}" >
                                         <i class="bi bi-calendar-x"></i>
                                         <span>Task List Finance</span>
@@ -228,46 +210,7 @@
                                 @endhasrole
                             </ul>
                         </li>
-
-                        {{-- <li class="dropdown">
-                            <i class="icofont icofont-bill-alt font-dark" style="font-size: 20"></i> &nbsp;
-                            ul
-                            @hasrole('super user|super admin')
-                            <li class=" {{ request()->is('*task-list-atasan*') ? 'active' : '' }}">
-                                <a href="{{ url('/menu-taskList-atasan') }}" >
-                                    <i class="bi bi-file-text"></i>
-                                    <span>Task List Atasan</span>
-                                </a>
-                            </li>
-                            @endhasrole
-                            @hasrole('super user|super admin')
-                            <li class=" {{ request()->is('*task-list-atasan*') ? 'active' : '' }}">
-                                <a href="{{ url('/menu-taskList-atasan-po') }}" >
-                                    <i class="bi bi-file-text"></i>
-                                    <span>Task List Atasan Po</span>
-                                </a>
-                            </li>
-                            @endhasrole
-                            @hasrole('purchasing|super admin')
-                        <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
-                            <a href="{{ url('/menu-task-list') }}" >
-                                <i class="bi bi-calendar-x"></i>
-                                <span>Task List Purchasing</span>
-                                <div class="notification-box"></span></div>
-                            </a>
-                        </li>
                         @endhasrole
-                        @hasrole('finance|super admin')
-                        <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
-                            <a href="{{ url('/menu-tasklist-finance') }}" >
-                                <i class="bi bi-calendar-x"></i>
-                                <span>Task List Finance</span>
-                                <div class="notification-box"></span></div>
-                            </a>
-                        </li>
-                        @endhasrole
-                    </ul>
-                  </li> --}}
 
                   @hasrole('admin')
                   <li class="sidebar-main-title">
@@ -277,7 +220,7 @@
                   </li>
                   <li class="sidebar-item {{ request()->is('*admin*') ? 'active' : '' }}">
                       <a href="{{ url('/admin') }}" class='sidebar-link'>
-                          <i class="bi bi-person-workspace"></i>
+                          <i class="bi bi-person-workspace" ></i>
                           <span>Admin</span>
                       </a>
                   </li>
@@ -289,14 +232,10 @@
                       <h6>History</h6>
                     </div>
                   </li>
-              <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)">
-                <i class="icofont icofont-history font-dark" style="font-size: 20"></i> &nbsp;
-                </i><span>History</span></a>
-                <ul class="nav-submenu menu-content">
                   @hasrole('super user|super admin')
-                <li class=" {{ request()->is('*task-list-atasan-history*') ? 'active' : '' }}">
+                <li class=" {{ request()->is('*/menu-taskList-atasan/history*') ? 'active' : '' }}">
                     <a href="{{ url('/menu-taskList-atasan/history') }}" >
-                        <i class="bi bi-file-text"></i>
+                        <i class="icofont icofont-history" style="font-size: 20;"></i>
                         <span>History Atasan</span>
                     </a>
                 </li>
@@ -304,53 +243,46 @@
                   @endhasrole
 
                   @hasrole('purchasing|super admin')
-                  <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                  <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }} mt-3">
                     <a href="{{ url('/menu-purchase-order/history') }}" >
-                        <i class="bi bi-calendar-x"></i>
+                        <i class="icofont icofont-history" style="font-size: 20;"></i>
                         <span>History Purchase Order</span>
                     </a>
                  </li>
                   @endhasrole
 
                   @hasrole('finance|super admin')
-                  <li class=" {{ request()->is('*finance*') ? 'active' : '' }}">
+                  <li class=" {{ request()->is('*finance*') ? 'active' : '' }} mt-3">
                     <a href="{{ url('/menu-tasklist-finance/history') }}" >
-                        <i class="bi bi-calendar-x"></i>
+                        <i class="icofont icofont-history" style="font-size: 20;"></i>
                         <span>History Finance</span>
                     </a>
                  </li>
                   @endhasrole
-                 </li>
-                </ul>
                   @hasrole('admin|super admin')
                   <li class="sidebar-main-title">
                     <div>
                       <h6>Data Master             </h6>
                     </div>
                   </li>
-                  <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="box"></i><span>Data Vendor/ Supplier</span></a>
-                    <ul class="nav-submenu menu-content">
                         <li class=" {{ request()->is('*perusahaan*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-perusahaan') }}" >
-                                <i class="bi bi-building"></i>
+                                <i class="icofont icofont-building-alt" style="font-size: 20;"></i>
                                 <span>Perusahaan</span>
                             </a>
                         </li>
-                        <li class=" {{ request()->is('*private-person*') ? 'active' : '' }}">
+                        <li class=" {{ request()->is('*private-person*') ? 'active' : '' }} mt-3">
                             <a href="{{ url('/menu-private-person') }}" >
-                                <i class="bi bi-person-lines-fill"></i>
+                                <i class="icofont icofont-user-alt-5" style="font-size: 20;"></i>
                                 <span>Private Person</span>
                             </a>
                         </li>
-                        <li class=" {{ request()->is('*ecommerce*') ? 'active' : '' }}">
+                        <li class=" {{ request()->is('*ecommerce*') ? 'active' : '' }} mt-3">
                             <a href="{{ url('/menu-ecommerce') }}" >
-                                <i class="bi bi-cast"></i>
+                                <i class="icofont icofont-cart-alt" style="font-size: 20;"></i>
                                 <span>Ecommerce</span>
                             </a>
                         </li>
-
-                    </ul>
-                  </li>
                   @endhasrole
                   {{-- @hasrole('super admin')
                   <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="bell"></i><span>Menu</span></a>

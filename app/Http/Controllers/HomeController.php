@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryPB;
 use App\Models\CategoryPD;
+use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -32,11 +33,13 @@ class HomeController extends Controller
         $quotation=CategoryQuotation::where('created_at','like',$this_year.'%')->get();
         $pengajuan_dana=CategoryPD::where('created_at','like',$this_year.'%')->get();
         $pembelian_barang=CategoryPB::where('created_at','like',$this_year.'%')->get();
+        $purchase_submission=CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->get();
         $purchase_order=CategoryPO::where('created_at','like',$this_year.'%')->get();
         for ($i=1;$i<=12;$i++){
             $data_qu[(int)$i]=0;
             $data_pd[(int)$i]=0;
             $data_pb[(int)$i]=0;
+            $data_ps[(int)$i]=0;
             $data_po[(int)$i]=0;
         }
         foreach($quotation as $c){
@@ -55,13 +58,18 @@ class HomeController extends Controller
             $check=explode('-',$c->created_at)[1];
             $data_po[(int)$check]+=1;
         }
+        foreach($purchase_submission as $c){
+            $check=explode('-',$c->created_at)[1];
+            $data_po[(int)$check]+=1;
+        }
         // dd($data_pb);
         // dd($data_month);
         return view('dashboard')
             ->with('data_qu', $data_qu)
             ->with('data_pd', $data_pd)
             ->with('data_pb', $data_pb)
-            ->with('data_po', $data_po);
+            ->with('data_po', $data_po)
+            ->with('data_ps', $data_ps);
 
         }
     }

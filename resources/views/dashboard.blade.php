@@ -5,80 +5,83 @@
 @section('main')
     <section>
         <div class="container-fluid">
-            <div class="row">
-                <div>
-                    <h1>Dashboard</h1>
-                </div>
-
-                 <div class="page-content mt-4">
-                    <section class="row">
-                        <div class="col-sm-3">
-                            <div class="card shadow alert alert-primary" role="alert">
-                              <div class="card-body text-center">
-                                <div class="round-box font-warning">
-                                    <div class="inner">
-                            <i class="icofont icofont-paper" style="font-size: 30;"></i>
-                        </div>
-                        </div>
-                             <h6 class="text-muted font-light">Pengajuan Pembelian</h6>
-                              <h6>{{ \App\Models\CategoryPengajuanPembelian::count() }}</h6>
-                          <div class="parrten" style="background-color: #C0C0C0">
-                             <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="small-box-footer">Info lengkap<i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-             <div class="col-sm-3">
-                  <div class="card shadow alert alert-info" role="alert">
-                       <div class="card-body text-center">
-                             <div class="round-box font-warning">
-                                    <div class="inner">
-                                 <i class="icofont icofont-tasks-alt" style="font-size: 30;"></i>
-                             </div>
-                        </div>
-                <h6 class="text-muted font-light">Task List</h6>
-                    <h6>{{ \App\Models\CategoryTL::count() }}</h6>
-                         <div class="parrten" style="background-color: #C0C0C0">
-                             <a href="{{ route('menu-task-list.index') }}" class="small-box-footer">Info lengkap<i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                <div class="col-sm-3">
-                  <div class="card shadow alert alert-danger" role="alert">
-                       <div class="card-body text-center">
-                             <div class="round-box font-warning">
-                                    <div class="inner">
-                                 <i class="icofont icofont-ui-calendar" style="font-size: 30;"></i>
-                             </div>
-                        </div>
-                <h6 class="text-muted font-light">Purchase Order</h6>
-                    <h6>{{ \App\Models\CategoryPO::count() }}</h6>
-                         <div class="parrten" style="background-color: #C0C0C0">
-                             <a href="{{ route('menu-purchase-order.index') }}" class="small-box-footer">Info lengkap<i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                   <div class="col-sm-3">
-                  <div class="card shadow alert alert-dark" role="alert">
-                       <div class="card-body text-center">
-                             <div class="round-box font-warning">
-                                    <div class="inner">
-                                 <i class=" icofont icofont-coins" style="font-size: 30;"></i>
-                             </div>
-                        </div>
-                <h6 class="text-muted font-light">Submission Fund</h6>
-                    <h6>{{ \App\Models\CategoryPD::count() }}</h6>
-                         <div class="parrten" style="background-color: #C0C0C0">
-                             <a href="{{ route('menu-pengajuan-dana.index') }}" class="small-box-footer">Info lengkap<i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+            <!-- Content Row -->
+               <div class="row">
+                 <div>
+                   <h1>Dashboard</h1>
+           </div>
+           <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2" style="border-left: 10px solid blue;">
+                      <div class="card-body">
+                           <div class="row no-gutters align-items-center">
+                               <div class="col mr-2">
+                                 <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="small-box-footer">
+                                   <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1" style="font-weight: bold;">Purchase Submission</div>
+                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\CategoryPengajuanPembelian::count() }}</div>
+                                     </div></a>
+                                         <div class="col-auto font-warning">
+                                             <i class="icofont icofont-paper" style="font-size: 40;"></i>
+                                                 </div>
+                                          </div>
+                                       </div>
+                                     </div>
+                                 </div>
+         
+                                 <!-- Earnings (Monthly) Card Example -->
+                                 <div class="col-xl-3 col-md-6 mb-4">
+                                     <div class="card border-left-success shadow h-100 py-2" style="border-left: 10px solid green;">
+                                         <div class="card-body">
+                                             <div class="row no-gutters align-items-center">
+                                                 <div class="col mr-2">
+                                                     <a href="{{ route('menu-task-list.index') }}" class="small-box-footer">
+                                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-weight: bold;">Task List</div>
+                                                 <div class="h5 mb-0 font-weight-bold text-success">{{ \App\Models\CategoryPengajuanPembelian::where('status','Accepted by Purchasing')->count() }}</div>
+                                                 </div></a>
+                                                 <div class="col-auto font-warning">
+                                                     <i class="icofont icofont-tasks-alt" style="font-size: 40;"></i>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+         
+                                 <!-- Earnings (Monthly) Card Example -->
+                                 <div class="col-xl-3 col-md-6 mb-4">
+                                     <div class="card border-left-success shadow h-100 py-2" style="border-left: 10px solid red;">
+                                         <div class="card-body">
+                                             <div class="row no-gutters align-items-center">
+                                                 <div class="col mr-2">
+                                                     <a href="{{ route('menu-purchase-order.index') }}" class="small-box-footer">
+                                                     <div class="text-xs font-weight-bold text-danger text-uppercase mb-1" style="font-weight: bold;">Purchase Order</div>
+                                                 <div class="h5 mb-0 font-weight-bold text-danger">{{ \App\Models\CategoryPO::count() }}</div>
+                                                 </div></a>
+                                                 <div class="col-auto font-warning">
+                                                     <i class="icofont icofont-ui-calendar" style="font-size: 40;"></i>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+         
+                                   <!-- Earnings (Monthly) Card Example -->
+                                 <div class="col-xl-3 col-md-6 mb-4">
+                                     <div class="card border-left-success shadow h-100 py-2" style="border-left: 10px solid yellow;">
+                                         <div class="card-body">
+                                             <div class="row no-gutters align-items-center">
+                                                 <div class="col mr-2">
+                                                     <a href="{{ route('menu-pengajuan-dana.index') }}" class="small-box-footer">
+                                                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="font-weight: bold;">Fund Submision</div>
+                                                 <div class="h5 mb-0 font-weight-bold text-warning">{{ \App\Models\CategoryPD::count() }}</div>
+                                                 </div></a>
+                                                 <div class="col-auto font-warning">
+                                                     <i class="icofont icofont-coins" style="font-size: 40;"></i>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             <!-- Content Row -->
 
                   {{-- <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
                     <div class="card income-card card-secondary">
@@ -112,9 +115,9 @@
                   </div> --}}
 
                   <div class="col-full">
-                    <div class="card bg-light">
-                        <div class="card-header bg-light">
-                            <h4>Grafik Bulanan</h4>
+                    <div class="card ">
+                        <div class="card-header">
+                            <h4>Monthly Chart</h4>
                         </div>
                         <div class="card-body card-block">
                             <canvas id="Po"></canvas>
@@ -239,7 +242,19 @@
 
         const dataPo = {
             labels: labels,
-            datasets: [{
+            datasets: [
+                {
+                    label: 'Purchase Submission',
+                    backgroundColor: 'rgba(150, 148, 255, 0.9)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_ps as $ps)
+                            {{ $ps }},
+                        @endforeach
+                    ],
+                },
+                {
                     label: 'Purchase Order',
                     backgroundColor: 'rgba(150, 148, 255, 0.9)',
                     borderColor: 'rgb(150, 148, 255)',
@@ -251,35 +266,13 @@
                     ],
                 },
                 {
-                    label: 'Pengajuan Dana',
+                    label: 'Fund Submission',
                     backgroundColor: 'rgba(87, 212, 255, 0.9)',
                     borderColor: 'rgb(93, 218, 180)',
                     borderRadius: 5,
                     data: [
                         @foreach ($data_pd as $pd)
                             {{ $pd }},
-                        @endforeach
-                    ],
-                },
-                {
-                    label: 'Quotation',
-                    backgroundColor: 'rgba(93, 255, 190, 0.9)',
-                    borderColor: 'rgb(255, 121, 118)',
-                    borderRadius: 5,
-                    data: [
-                        @foreach ($data_qu as $qu)
-                            {{ $qu }},
-                        @endforeach
-                    ],
-                },
-                {
-                    label: 'Pembelian Barang',
-                    backgroundColor: 'rgba(255, 131, 118, 0.9)',
-                    borderColor: 'rgb(87, 202, 235)',
-                    borderRadius: 5,
-                    data: [
-                        @foreach ($data_pb as $pb)
-                            {{ $pb }},
                         @endforeach
                     ],
                 },

@@ -88,44 +88,15 @@
                                         @else
                                     @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                     <td style="text-align:right;">
-                                        {{-- Ketika gamake ppn  --}}
-                                        @if ($data_pengajuan->ppn == 0)
-                                            @foreach ($total_tnpa_ppn as $tpn)
-                                            {{-- Ketika mata uang yang dipilih RP --}}
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                RP. {{ number_format($tpn->total) }}
-                                                {{-- Ketika mata uang yang dipilih USD --}}
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                $ {{ number_format($tpn->total) }}
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        {{-- End Gamake ppn --}}
-                                        {{-- Ketika make ppn --}}
-                                        @if ($data_pengajuan->ppn == 1)
-                                            @foreach ($total_tnpa_ppn as $tpn)
-                                                    @if ($data_pengajuan->matauang == 'RP')
-                                                       RP. {{ number_format($tpn->total) }} x 11%
-                                                         @elseif ($data_pengajuan->matauang == 'USD')
-                                                        $ {{ number_format($tpn->total) }} x 11%
-                                                    @endif
-                                            @endforeach
-                                        @endif
-                                        {{-- End make ppn --}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label class="pull-right mx-2"> Total PPN :</label></td>
-                                    <td style="text-align: right;">
                                         @foreach ($ppn as $p)
-                                            {{-- Ketika mata uang yang dipilih RP --}}
-                                            @if ($data_pengajuan->matauang == 'RP')
-                                            RP. {{ number_format($p->total) }}
-                                            {{-- Ketika mata uang yang dipilih USD --}}
-                                            @elseif ($data_pengajuan->matauang == 'USD')
-                                            $ {{ number_format($p->total) }}
-                                            @endif
-                                        @endforeach
+                                        {{-- Ketika mata uang yang dipilih RP --}}
+                                        @if ($data_pengajuan->matauang == 'RP')
+                                        RP. {{ number_format($p->total) }}
+                                        {{-- Ketika mata uang yang dipilih USD --}}
+                                        @elseif ($data_pengajuan->matauang == 'USD')
+                                        $ {{ number_format($p->total) }}
+                                        @endif
+                                    @endforeach
                                     </td>
                                 </tr>
                                 @if ($data_pengajuan->ppn == 1)
