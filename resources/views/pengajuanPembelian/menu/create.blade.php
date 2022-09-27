@@ -39,7 +39,7 @@
                     <div class="col-6">
                         <div class="form-floating">
                             <input type="text" class="form-control mt-4" id="floatingws"
-                                placeholder="Who Submitted" name="ws">
+                                placeholder="Who Submitted" name="ws" required>
                             <label for="floatingws">Who Submitted</label>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                     </style>
                     <div class="col-6">
                         <div class="form-group">
-                            <select class="form-select page mt-4" id="pageSelector" placeholder="Purpose" name="purpose" >
+                            <select class="form-select page mt-4" id="pageSelector" placeholder="Purpose" name="purpose" required>
                                 <option value="" disabled selected hidden>Purpose</option>
                                 @foreach ($purpose as $p)
                                 <option value="{{ $p->id }}">{{ $p->nama }}</option>
@@ -68,7 +68,7 @@
                 </div>
                     <div class="col-6">
                         <div class="form-floating">
-                            <select class="form-select mt-2" id="floatingdepartment" placeholder="department" name="department" >
+                            <select class="form-select mt-2" id="floatingdepartment" placeholder="department" name="department" required>
                                 <option value="Business_Development"    >Business Development   </option>
                                 <option value="Finance"                 >Finance                </option>
                                 <option value="GA"                      >GA                     </option>
@@ -88,13 +88,13 @@
                     </div>
                     <div class="col-6">
                         <div class="form-floating">
-                            <textarea required name="desc" id="floatingNoTelpon" class="form-control mt-2" cols="50" rows="30"></textarea>
+                            <textarea required name="desc" id="floatingNoTelpon" class="form-control mt-2" cols="50" rows="30" required></textarea>
                             <label for="floatingNoTelpon">Description</label>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-floating">
-                            <select class="form-select mt-4" id="floatingdateline" placeholder="proposed_supplier" name="proposed_supplier" >
+                            <select class="form-select mt-4" id="floatingdateline" placeholder="proposed_supplier" name="proposed_supplier" required>
                                 <option value="Perusahaan">Perusahaan</option>
                                 <option value="OrangPribadi">Orang Pribadi</option>
                                 <option value="Ecommerce">Ecommerce</option>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-6   ">
                         <div class="form-floating">
-                            <select class="form-select mt-4" id="floatingproposedto" placeholder="Proposed To" name="atasan" >
+                            <select class="form-select mt-4" id="floatingproposedto" placeholder="Proposed To" name="atasan" required>
                                 @foreach ($atasan as $sui)
                                 <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                 @endforeach
@@ -119,18 +119,18 @@
                                 <h5>Send To</h5>
                             </div>
                          <div class="radio radio-primary col-md-6">
-                            <input id="tebet" type="radio" name="send_to" value="Tebet">
+                            <input id="tebet" type="radio" name="send_to" value="Tebet" required>
                             <label for="tebet">Tebet</label>
                          </div>
                         <div class="radio radio-primary col-md-6">
-                            <input id="cikunir" type="radio" name="send_to" value="Cikunir">
+                            <input id="cikunir" type="radio" name="send_to" value="Cikunir" required>
                             <label for="cikunir">Cikunir</label>
                         </div>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-floating">
-                        <select class="form-select mt-4 mb-4" id="floatingdateline" placeholder="Mata Uang" name="matauang" >
+                        <select class="form-select mt-4 mb-4" id="floatingdateline" placeholder="Mata Uang" name="matauang" required>
                             <option value="USD">USD</option>
                             <option value="RP">RP</option>
                         </select>
@@ -147,19 +147,19 @@
                             <th>Total</th>
                         </tr>
                         <tr>
-                            <td><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" />
+                            <td><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" required/>
                             </td>
-                            <td><input type="text"  name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" />
+                            <td><input type="text"  name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" required/>
                             </td>
                             <td>
-                                <select class="form-select" placeholder="Kategori" name="addMoreInputFields[0][kategori]" >
+                                <select class="form-select" placeholder="Kategori" name="addMoreInputFields[0][kategori]" required>
                                     <option value="Pcs"  >Pcs   </option>
                                     <option value="Lusin">Lusin </option>
                                     <option value="Box"  >Box   </option>
                                     <option value="Unit" >Unit  </option>
                                 </select>
                             </td>
-                            <td><input type="text" name="addMoreInputFields[0][unit_price]" id="rupiah" placeholder="Input Price" class="form-control text-end form-calc form-cost"  />
+                            <td><input type="text" name="addMoreInputFields[0][unit_price]" id="rupiah" placeholder="Input Price" class="form-control text-end form-calc form-cost" required/>
                             </td>
                             <td ><input type="text" name="addMoreInputFields[0][total]" class="form-control form-line"/>
                             </td>
