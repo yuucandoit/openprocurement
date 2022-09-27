@@ -109,7 +109,7 @@
                             @endphp
                             <tbody>
                                 @foreach ($datappb as $purchase)
-                                @if ($purchase->status == 'Accepted by Purchasing' )
+                                @if ($purchase->status == 'Accepted by Purchasing'|| 'Approved by Super user' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $purchase->ws }}</td>

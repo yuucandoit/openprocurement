@@ -429,7 +429,7 @@
 
         <tr>
             <td></td>
-            <td style="font-size: 14">1. 50% Deposit in advance once confirm the order</td>
+            <td style="font-size: 14">{{ $cpo->term->term_condition }}</td>
             <td></td>
             <td></td>
             <td></td>
@@ -437,19 +437,19 @@
 
         <tr>
             <td></td>
-            <td style="font-size: 14; text-align: center;" colspan="2">The Rest 50% payment before Shipping  </td>
+            <td style="font-size: 14; text-align: center;" colspan="2"> </td>
             <td></td>
         </tr>
 
         <tr>
             <td></td>
-            <td style="font-size: 14">2. Delivery Time : Ex-Work Fakctory</td>
+            <td style="font-size: 14"></td>
             <td></td>
         </tr>
 
         <tr>
             <td></td>
-            <td style="font-size: 14">3. Delivery Time : about 4-6 weeks after receiving payment</td>
+            <td style="font-size: 14"></td>
             <td></td>
         </tr>
 

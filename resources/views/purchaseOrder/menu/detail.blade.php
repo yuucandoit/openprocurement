@@ -193,7 +193,7 @@
                                         </tr>
                                         @endif
                                     </table>
-                                            @if ($data_pengajuan->status == 'Selesai Di proses Purchasing')
+                                            @if ($data_pengajuan->status == 'Waiting For PO Approval')
                                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
                                             data-bs-target="#modalSelesai" disabled>Approval Request Has Been Sent to Super User</button>
                                             @else

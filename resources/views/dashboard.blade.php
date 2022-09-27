@@ -4,74 +4,77 @@
 
 @section('main')
     <section>
-        <div class="container-fluid dashboard-default-sec">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
-                    <div class="card income-card card-secondary">
-                      <div class="card-body text-center">
-                        <a href="{{ route('menu-pengajuan-pembelian.index') }}">
-                        <div class="round-box">
-                            <i class="iconly-boldAdd-User"></i>
+                <div>
+                    <h1>Dashboard</h1>
+                </div>
+
+                 <div class="page-content mt-4">
+                    <section class="row">
+                        <div class="col-sm-3">
+                            <div class="card shadow alert alert-primary" role="alert">
+                              <div class="card-body text-center">
+                                <div class="round-box font-warning">
+                                    <div class="inner">
+                            <i class="icofont icofont-paper" style="font-size: 30;"></i>
                         </div>
-                        </a>
-                        <h6 class="text-muted font-semibold">Pengajuan Pembelian</h6>
-                        {{-- <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPengajuanPembelian::count() }} --}}
-                        </h6>
-                        <div class="parrten">
-
                         </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
-                    <div class="card income-card card-secondary">
-                      <div class="card-body text-center">
-                        <a href="{{ route('menu-task-list.index') }}">
-                            <div class="round-box">
-                                <i class="iconly-boldAdd-User"></i>
-                            </div>
-                            </a>
-                        <h6 class="text-muted font-semibold">Task List</h6>
-                        {{-- <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryTL::count() }} --}}
-                        </h6>
-                        <div class="parrten">
-
+                             <h6 class="text-muted font-light">Pengajuan Pembelian</h6>
+                              <h6>{{ \App\Models\CategoryPengajuanPembelian::count() }}</h6>
+                          <div class="parrten" style="background-color: #C0C0C0">
+                             <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="small-box-footer">Info lengkap<i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
-                    <div class="card income-card card-secondary">
-                      <div class="card-body text-center">
-                        <a href="{{ route('menu-purchase-order.index') }}">
-                        <div class="round-box">
-                            <i class="iconly-boldShow"></i>
+             <div class="col-sm-3">
+                  <div class="card shadow alert alert-info" role="alert">
+                       <div class="card-body text-center">
+                             <div class="round-box font-warning">
+                                    <div class="inner">
+                                 <i class="icofont icofont-tasks-alt" style="font-size: 30;"></i>
+                             </div>
                         </div>
-                        </a>
-                        <h6 class="text-muted font-semibold">Purchase Order</h6>
-                        {{-- <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPO::count() }} --}}
-                        </h6>
-                        <div class="parrten">
+                <h6 class="text-muted font-light">Task List</h6>
+                    <h6>{{ \App\Models\CategoryTL::count() }}</h6>
+                         <div class="parrten" style="background-color: #C0C0C0">
+                             <a href="{{ route('menu-task-list.index') }}" class="small-box-footer">Info lengkap<i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-xl-2 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
-                    <div class="card income-card card-secondary">
-                      <div class="card-body text-center">
-                        <a href="{{ route('menu-pengajuan-dana.index') }}">
-                        <div class="round-box">
-                            <i class="iconly-boldProfile"></i>
+                <div class="col-sm-3">
+                  <div class="card shadow alert alert-danger" role="alert">
+                       <div class="card-body text-center">
+                             <div class="round-box font-warning">
+                                    <div class="inner">
+                                 <i class="icofont icofont-ui-calendar" style="font-size: 30;"></i>
+                             </div>
                         </div>
-                        </a>
-                        <h6 class="text-muted font-semibold">Pengajuan Dana</h6>
-                        {{-- <h6 class="font-extrabold mb-0">{{ \App\Models\CategoryPD::count() }} --}}
-                        </h6>
-                        <div class="parrten">
+                <h6 class="text-muted font-light">Purchase Order</h6>
+                    <h6>{{ \App\Models\CategoryPO::count() }}</h6>
+                         <div class="parrten" style="background-color: #C0C0C0">
+                             <a href="{{ route('menu-purchase-order.index') }}" class="small-box-footer">Info lengkap<i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
+                   <div class="col-sm-3">
+                  <div class="card shadow alert alert-dark" role="alert">
+                       <div class="card-body text-center">
+                             <div class="round-box font-warning">
+                                    <div class="inner">
+                                 <i class=" icofont icofont-coins" style="font-size: 30;"></i>
+                             </div>
+                        </div>
+                <h6 class="text-muted font-light">Submission Fund</h6>
+                    <h6>{{ \App\Models\CategoryPD::count() }}</h6>
+                         <div class="parrten" style="background-color: #C0C0C0">
+                             <a href="{{ route('menu-pengajuan-dana.index') }}" class="small-box-footer">Info lengkap<i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
                     </div>
@@ -108,15 +111,15 @@
                     </div>
                   </div> --}}
 
-
-                  <div class="col-full ">
-                    <div class="card shadow">
-                        <div class="card-header">
+                  <div class="col-full">
+                    <div class="card bg-light">
+                        <div class="card-header bg-light">
                             <h4>Grafik Bulanan</h4>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body card-block">
                             <canvas id="Po"></canvas>
                         </div>
+                    </div>
                     </div>
                 </div>
 

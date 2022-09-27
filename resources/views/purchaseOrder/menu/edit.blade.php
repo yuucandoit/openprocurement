@@ -280,7 +280,7 @@
                             <select class="form-select page mt-4" id="pageSelector" placeholder="Terms and Conditions" name="term_conditions" >
                                 <option value="" disabled selected hidden>Terms And Conditions</option>
                                     @foreach ($terms as $t)
-                                      <option value="{{ $t->id }}">{{ $t->nama }}</option>
+                                      <option value="{{ $t->id }}">{{ $t->term_conditon }}</option>
                                     @endforeach
                                 <option value="custom">+ Add Terms & Conditions</option>
                             </select>

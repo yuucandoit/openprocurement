@@ -21,6 +21,7 @@ use App\Http\Controllers\PengajuanPembelianController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PrivatePersonController;
 use App\Http\Controllers\TaskListAtasanController;
+use App\Http\Controllers\TasklistAtasanPoController;
 use App\Http\Controllers\TaskListFinanceController;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
@@ -125,21 +126,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/destroy/{id}', [PurchaseOrderController::class, 'destroy'])->name('purchase-order.destroy');
     });
 
-    // Menu Purchase Order
-    Route::group(['prefix' => 'menu-purchase-order'], function () {
-        Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
-        Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
-        Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
-        Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
-        Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
-        Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
-        Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
-        Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
-        Route::get('/ajukan_keatasan/{id}', [CategoryPOController::class, 'ajukan_keatasan'])->name('menu-purchase-order-ajukan_keatasan');
-        Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
-    });
-
-
     // Route untuk Data Vendor Perusahaan
     Route::group(['prefix' => 'perusahaan'], function () {
         Route::get('/{id}', [PerusahaanController::class, 'index'])->name('perusahaan.index');
@@ -227,7 +213,19 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/reject/{id}', [CategoryPengajuanPembelianController::class, 'reject'])->name('menu-pengajuan-pembelian-reject');
     });
 
-    // Menu Task list atasan
+    // Menu Task list atasan Purchase Order
+    Route::group(['prefix' => 'menu-taskList-atasan-po'], function () {
+        Route::get('/', [TasklistAtasanPoController::class, 'index'])->name('menu-taskList-atasan.index');
+        Route::get('/history', [TasklistAtasanPoController::class, 'history'])->name('menu-taskList-atasan.history');
+        Route::get('/detail/{id}', [TasklistAtasanPoController::class, 'detail'])->name('menu-taskList-atasan.detail');
+        Route::post('/update/{id}', [TasklistAtasanPoController::class, 'update'])->name('menu-pengajuan-pembelian.update');
+        Route::get('/edit/{id}', [TasklistAtasanPoController::class, 'edit'])->name('menu-pengajuan-pembelian.edit');
+        Route::get('/destroy/{id}', [TasklistAtasanPoController::class, 'destroy'])->name('menu-taskList-atasan.destroy');
+        Route::get('/accept_atasan/{id}', [TasklistAtasanPoController::class, 'accept_atasan'])->name('menu-taskList-atasan-accept_atasan');
+        Route::get('/reject/{id}', [TasklistAtasanPoController::class, 'reject'])->name('menu-taskList-atasan-reject');
+    });
+
+    // Menu Task list atasan Pengajuan Pembelian
     Route::group(['prefix' => 'menu-taskList-atasan'], function () {
         Route::get('/', [TaskListAtasanController::class, 'index'])->name('menu-taskList-atasan.index');
         Route::get('/history', [TaskListAtasanController::class, 'history'])->name('menu-taskList-atasan.history');
@@ -247,6 +245,34 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
         Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
         Route::get('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
+    });
+
+    // Menu Purchase Order
+    Route::group(['prefix' => 'menu-purchase-order'], function () {
+        Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
+        Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
+        Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
+        Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
+        Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
+        Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
+        Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
+        Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
+        Route::get('/ajukan_keatasan/{id}', [CategoryPOController::class, 'ajukan_keatasan'])->name('menu-purchase-order-ajukan_keatasan');
+        Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
+    });
+
+    // Menu Purchase Order2
+    Route::group(['prefix' => 'menu-purchase-order-2'], function () {
+        Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
+        Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
+        Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
+        Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
+        Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
+        Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
+        Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
+        Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
+        Route::get('/ajukan_keatasan/{id}', [CategoryPOController::class, 'ajukan_keatasan'])->name('menu-purchase-order-ajukan_keatasan');
+        Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
     });
 
     // Menu Task list finance

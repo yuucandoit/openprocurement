@@ -10795,10 +10795,10 @@ strong {
     -webkit-transition: 0.4s;
     transition: 0.4s; }
   .default-according.style-1 button[aria-expanded="true"]:before {
-    content: "";
+    content: "瞽?;
     font-family: IcoFont; }
   .default-according.style-1 button[aria-expanded="false"]:before {
-    content: "";
+    content: "瞽?;
     font-family: IcoFont; }
 
 @media (max-width: 480px) {
@@ -10857,8 +10857,9 @@ strong {
 
 .login-form {
   padding: 30px;
+  border-radius: 20px;
   width: 450px;
-  background-color: #fff;
+  background-color: #90caf9;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -24995,7 +24996,7 @@ body.dark-sidebar .main-navbar ul.nav-pills {
   .kanban-board .kanban-drag {
     background: rgba(36, 105, 92, 0.05); }
 
-.kanban-board header {
+.kanban-board headlineer {
   padding: 20px 20px 0; }
 
 .kanban-item {

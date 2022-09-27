@@ -29,8 +29,9 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
 
     public function view(): View
     {
-        $data['purchase_order'] = PurchaseOrder::where('po_id', $this->id)->get();
-        $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
+
+        $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->get()->first();
+        $data['cpo'] = CategoryPO::where('ppb_id', $this->id)->get()->first();
         $data['id'] = PengajuanPembelian::where('pp_id', $this->id)->get()->first();
         $data['category_q'] = PengajuanPembelian::where('pp_id', $this->id)->get();
         $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
@@ -53,7 +54,7 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
             'C' => 40,
             'D' => 10,
             'E' => 10,
-            'F' => 16,
+            'F' => 10,
             'G' => 16
         ];
     }
@@ -69,6 +70,7 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
 
         return $drawing;
     }
+
 
     public function startCell(): string
     {

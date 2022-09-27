@@ -10,10 +10,11 @@ class TermsAndConditions extends Model
     use HasFactory;
     protected $table = 'terms_and_condition';
     protected $fillable = [
+        'id',
         'term_condition',
     ];
 
-    public function term()
+    public function po()
     {
         return $this->hasMany(CategoryPO::class, 'term_conditions');
     }

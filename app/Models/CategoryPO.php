@@ -44,6 +44,6 @@ class CategoryPO extends Model
     }
     public function term()
     {
-        return $this->belongsTo(TermsAndConditions::class, 'Term_conditions');
+        return $this->belongsTo(TermsAndConditions::class, 'term_conditions');
     }
 }

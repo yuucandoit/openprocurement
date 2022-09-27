@@ -29,6 +29,7 @@ return new class extends Migration
             $table->time('dateline_time')->nullable();
             $table->enum('proposed_supplier',['Perusahaan','OrangPribadi','Ecommerce','Unknown']);
             $table->boolean('ppn')->nullable()->default(false);
+            $table->string('image');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
