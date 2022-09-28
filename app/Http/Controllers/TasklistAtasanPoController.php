@@ -133,7 +133,7 @@ class TasklistAtasanPoController extends Controller
         $data->status = 'Approved by Super user';
         $data->image = '/public/images/victor.jpeg';
         $data->save();
-        return redirect()->back();
+        return redirect('menu-taskList-atasan-po');
     }
 
     public function reject($id)

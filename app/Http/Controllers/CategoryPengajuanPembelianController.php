@@ -28,6 +28,7 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
+            $user = User::where('id', Auth::user()->id)->get();
             $datapt = CategoryPT::all();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
@@ -35,6 +36,7 @@ class CategoryPengajuanPembelianController extends Controller
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('referensi')->get();
             return view('pengajuanPembelian.menu.index')
+                ->with('user', $user)
                 ->with('datapt', $datapt)
                 ->with('dataop', $dataop)
                 ->with('dataec', $dataec)
@@ -42,6 +44,7 @@ class CategoryPengajuanPembelianController extends Controller
                 ->with('purpose', $purpose)
                 ->with('datadv', $datadv);
         } else if ($check->role_id == 1 || $check->role_id == 3) {
+            $user = User::where('id', Auth::user()->id)->get();
             $datapt = CategoryPT::all();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
@@ -49,6 +52,7 @@ class CategoryPengajuanPembelianController extends Controller
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('referensi')->get();
             return view('pengajuanPembelian.menu.index')
+                ->with('user', $user)
                 ->with('datapt', $datapt)
                 ->with('dataop', $dataop)
                 ->with('dataec', $dataec)
@@ -117,7 +121,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'desc' => $request->desc,
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
-                'proposed_supplier' => $request->proposed_supplier,
+                // 'proposed_supplier' => $request->proposed_supplier,
                 'send_to' => $request->send_to,
                 'ppn' => $request->ppn,
             ]);
@@ -132,7 +136,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'desc' => $request->desc,
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
-                'proposed_supplier' => $request->proposed_supplier,
+                // 'proposed_supplier' => $request->proposed_supplier,
                 'send_to' => $request->send_to,
                 'ppn' => $request->ppn,
             ]);
@@ -146,7 +150,7 @@ class CategoryPengajuanPembelianController extends Controller
         ]);
 
         foreach ($request->addMoreInputFields as $item) {
-            $unit_price = $item['unit_price'];
+            $unit_price = str_replace(".", "", explode('Rp. ', $item['unit_price'])[1]);
             PengajuanPembelian::create([
                 'pp_id'             => $pengajuan->id,
                 'item'              => $item['item'],
@@ -201,7 +205,8 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
 
-        dd($data);
+        // dd($data);
+
         $tes = CategoryPengajuanPembelian::where("id", $id)->update([
             "date_ps" => $request->date_ps,
             "ws" => $request->ws,

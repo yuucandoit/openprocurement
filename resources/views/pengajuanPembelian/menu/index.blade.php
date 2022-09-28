@@ -30,7 +30,7 @@
         </div>
     @endforeach
 
-        {{-- @foreach ($datadv as $a)
+        <!-- @foreach ($datadv as $a)
             <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -54,77 +54,104 @@
                     </div>
                 </div>
             </div>
-        @endforeach --}}
+        @endforeach -->
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="py-3">
-                    <h1>Purchase Submission</h1>
+        <!-- Page Sidebar Ends-->
+          <div class="container-fluid">
+            <div class="page-header">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h1>Purchase Submission</h1>
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item">Purchase Submission</li>
+                  </ol>
                 </div>
+                <div class="col-sm-6">
+                  <!-- Bookmark Start-->
+                  <div class="bookmark">
+                    <ul>
+                      <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                      <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                      <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                      <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                      <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                        <form class="form-inline search-form">
+                          <div class="form-group form-control-search">
+                            <input type="text" placeholder="Search..">
+                          </div>
+                        </form>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- Bookmark Ends-->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-header">
+                    <a href="{{ url('menu-pengajuan-pembelian/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
+                  </div>
+                  <div class="card-body">
+                    <div class="dt-ext table-responsive">
+                      <table class="display" id="responsive">
+                        <thead>
+                          <tr style="text-align: center;">
+                            <th>No</th>
+                            <th>Date</th>
+                            <th>Who Filed</th>
+                            <th>Description</th>
+                            @hasrole('admin|super admin')
+                            <th>Status</th>
+                            @endhasrole
+                            <th>Action</th>
+                                @hasrole('user')
+                            <th>Status</th>
+                               @endhasrole
+                          </tr>
+                        </thead>
+                        <tbody>
+                      @php
+                        $no = 1;
+                     @endphp
+                    @foreach ($datadv as $ppembelian)
+                    {{-- @if ($ppembelian->status == '') --}}
+                   <tr style="text-align: center;">
+                      <td>{{ $no++ }}</td>
+                      <td>{{ $ppembelian->date_ps }}</td>
+                      <td>{{ $ppembelian->ws }}</td>
+                      <td><a href="{{ $ppembelian->desc }}" target="_blank">{{ $ppembelian->desc }}</a></td>
+                      @hasrole('admin|super admin')
+                      <td><b>{{ $ppembelian->status }}</b></td>
+                       @endhasrole
+                      <td>
+                          <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                          @if ($ppembelian->status == 'Accepted' )
 
-                <div class="card shadow mb-5">
-                    <div class="card-body">
-                        <a href="{{ url('menu-pengajuan-pembelian/create/') }}" class="btn btn-primary mb-3" ><i
-                                class="bx bx-list-plus"></i> Add+</a>
-                                    <table class="table table-striped" id="table1">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Date</th>
-                                                <th>Who Filed</th>
-                                                <th>Description</th>
-                                                @hasrole('admin|super admin')
-                                                    <th>Status</th>
-                                                @endhasrole
-                                                <th>Action</th>
-                                                @hasrole('user')
-                                                    <th>status</th>
-                                                @endhasrole
-                                            </tr>
-                                        </thead>
-                                        @php
-                                            $no = 1;
-                                        @endphp
-                                        @foreach ($datadv as $ppembelian)
-                                        {{-- @if ($ppembelian->status == '') --}}
-                                            <tr>
-                                                <td>{{ $no++ }}</td>
-                                                <td>{{ $ppembelian->date_ps }}</td>
-                                                <td>{{ $ppembelian->ws }}</td>
-                                                <td><a href="{{ $ppembelian->desc }}" target="_blank">{{ $ppembelian->desc }}</a></td>
-                                                @hasrole('admin|super admin')
-                                                   <td>
-                                                        <b>{{ $ppembelian->status }}</b>
-                                                    </td>
-                                                @endhasrole
-                                                <td>
-                                                    <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"
-                                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                                        @if ($ppembelian->status == 'Accepted' )
+                           @else
+                            <a href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}" class="btn btn-outline-warning"><i class="bx bxs-edit"></i> Edit</a>
+                            @endif
 
-                                                        @else
-                                                        <a href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"
-                                                            class="btn btn-outline-warning"><i class="bx bxs-edit"></i> Edit</a>
-                                                        @endif
+                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ppembelian->id }}">Delete</button>
+                      </td>
+                      @hasrole('user|super admin')
+                       <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
+                      @endhasrole
 
-
-
-                                                    <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                        data-bs-target="#modalDelete{{ $ppembelian->id }}">Delete</button>
-                                                </td>
-                                                @hasrole('user|super admin')
-                                                    <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1"
-                                                            style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
-                                                @endhasrole
-
-                                            </tr>
-                                            {{-- @endif --}}
-                                         @endforeach
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                    </tr>
+                     {{-- @endif --}}
+                     @endforeach
+                     </tfoot>
+                      </table>
                     </div>
+                  </div>
+                </div>
+              </div>
                     <script>
                         $(document).ready(function() {
 

@@ -160,7 +160,7 @@ class TaskListAtasanController extends Controller
             $data->status = 'Accepted by Super user';
         }
         $data->save();
-        return redirect()->back();
+        return redirect("menu-taskList-atasan/");
     }
 
     public function reject($id)

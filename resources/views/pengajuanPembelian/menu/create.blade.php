@@ -38,8 +38,8 @@
                     </div>
                     <div class="col-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control mt-4" id="floatingws"
-                                placeholder="Who Submitted" name="ws" required>
+                            <input type="text" class="form-control mt-2" id="floatingws"
+                                placeholder="Who Submitted" name="ws" value="" required>
                             <label for="floatingws">Who Submitted</label>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                     </style>
                     <div class="col-6">
                         <div class="form-group">
-                            <select class="form-select page mt-4" id="pageSelector" placeholder="Purpose" name="purpose" required>
+                            <select class="form-select page mt-2    " id="pageSelector" placeholder="Purpose" name="purpose" required>
                                 <option value="" disabled selected hidden>Purpose</option>
                                 @foreach ($purpose as $p)
                                 <option value="{{ $p->id }}">{{ $p->nama }}</option>
@@ -68,7 +68,7 @@
                 </div>
                     <div class="col-6">
                         <div class="form-floating">
-                            <select class="form-select mt-2" id="floatingdepartment" placeholder="department" name="department" required>
+                            <select class="form-select " id="floatingdepartment" placeholder="department" name="department" required>
                                 <option value="Business_Development"    >Business Development   </option>
                                 <option value="Finance"                 >Finance                </option>
                                 <option value="GA"                      >GA                     </option>
@@ -88,13 +88,13 @@
                     </div>
                     <div class="col-6">
                         <div class="form-floating">
-                            <textarea required name="desc" id="floatingNoTelpon" class="form-control mt-2" cols="50" rows="30" required></textarea>
+                            <textarea required name="desc" id="floatingNoTelpon" class="form-control " cols="50" rows="30" required></textarea>
                             <label for="floatingNoTelpon">Description</label>
                         </div>
                     </div>
-                    <div class="col-6">
+                    {{-- <div class="col-6">
                         <div class="form-floating">
-                            <select class="form-select mt-4" id="floatingdateline" placeholder="proposed_supplier" name="proposed_supplier" required>
+                            <select class="form-select mt-2     " id="floatingdateline" placeholder="proposed_supplier" name="proposed_supplier" required>
                                 <option value="Perusahaan">Perusahaan</option>
                                 <option value="OrangPribadi">Orang Pribadi</option>
                                 <option value="Ecommerce">Ecommerce</option>
@@ -102,10 +102,10 @@
                             </select>
                             <label for="floatingdateline">-- Proposed Supplier --</label>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-6   ">
                         <div class="form-floating">
-                            <select class="form-select mt-4" id="floatingproposedto" placeholder="Proposed To" name="atasan" required>
+                            <select class="form-select mt-2     " id="floatingproposedto" placeholder="Proposed To" name="atasan" required>
                                 @foreach ($atasan as $sui)
                                 <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                 @endforeach
@@ -114,7 +114,16 @@
                         </div>
                     </div>
                     <div class="col-6">
-                         <div class=" form-group m-t-15 m-checkbox-inline mb-0 ">
+                        <div class="form-floating">
+                            <select class="form-select mt-2      mb-4" id="floatingdateline" placeholder="Mata Uang" name="matauang" required>
+                                <option value="USD">USD</option>
+                                <option value="RP">RP</option>
+                            </select>
+                            <label for="floatingdateline">-- Currency --</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                         <div class=" form-group m-checkbox-inline mb-0 ">
                             <div class="col-6">
                                 <h5>Send To</h5>
                             </div>
@@ -126,15 +135,6 @@
                             <input id="cikunir" type="radio" name="send_to" value="Cikunir" required>
                             <label for="cikunir">Cikunir</label>
                         </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-floating">
-                        <select class="form-select mt-4 mb-4" id="floatingdateline" placeholder="Mata Uang" name="matauang" required>
-                            <option value="USD">USD</option>
-                            <option value="RP">RP</option>
-                        </select>
-                        <label for="floatingdateline">-- Currency --</label>
                     </div>
                 </div>
 
@@ -159,7 +159,7 @@
                                     <option value="Unit" >Unit  </option>
                                 </select>
                             </td>
-                            <td><input type="text" name="addMoreInputFields[0][unit_price]" id="rupiah" placeholder="Input Price" class="form-control text-end form-calc form-cost" required/>
+                            <td><input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" required/>
                             </td>
                             <td ><input type="text" name="addMoreInputFields[0][total]" class="form-control form-line"/>
                             </td>
@@ -197,16 +197,43 @@
          <script src="jquery.maskMoney.js" type="text/javascript"></script>
          <script type="text/javascript">
 
-                 $(document).ready(function(){
-                     $('#rupiah').maskMoney();
-                 });
 
          //Math
 
          $(document).ready(function() {
+
+            //Convert To Rupiah
+
+         var rupiah = document.querySelector(".rupiah");
+             rupiah.addEventListener('keyup', function(e) {
+             // tambahkan 'Rp.' pada saat form di ketik
+             // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+             rupiah.value = formatRupiah(this.value, "Rp. ");
+             });
+
+             /* Fungsi formatRupiah */
+             function formatRupiah(angka, prefix) {
+             var number_string = angka.replace(/[^,\d]/g, ""),
+                 split = number_string.split(","),
+                 sisa = split[0].length % 3,
+                 rupiah = split[0].substr(0, sisa),
+                 ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+             // tambahkan titik jika yang di input sudah menjadi angka ribuan
+             if (ribuan) {
+                 separator = sisa ? "." : "";
+                 rupiah += separator + ribuan.join(".");
+             }
+
+             rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+             return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+             }
+
              $(".order-entry").on("keyup", ".form-calc", function() {
                  var parent = $(this).closest("tr");
-                 parent.find(".form-line").val((parent.find(".form-qty").val() * parent.find(".form-cost").val()) .toFixed(0));
+                 var str = parent.find(".form-cost").val();
+                 var res = str.replace(/\D/g, "");
+                 parent.find(".form-line").val((parent.find(".form-qty").val() * res) .toFixed(0));
                  var total = 0;
                  $(".form-line").each(function(){
                      total += parseInt($(this).val()||0);
@@ -233,45 +260,44 @@
          var i = 0;
              $("#dynamic-ar").click(function () {
                  ++i;
-                 $("#dynamicAddRemove").append('<tr><td><input type="text" name="addMoreInputFields[' + i +
-                     '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
-                     '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
-                     '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' + i +
-                     '][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost"/></td> <td><input type="text" name="addMoreInputFields[' + i +
-                     '][total]" class="form-control form-line" /></td></tr>'
+                 $("#dynamicAddRemove").append(
+
+                    '<tr><td><input type="text" name="addMoreInputFields[' + i +
+                    '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
+                    '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
+                    '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' + i +
+                    '][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah"/></td> <td><input type="text" name="addMoreInputFields[' + i +
+                    '][total]" class="form-control form-line" /></td></tr>'
                      );
+                      var rupiah = document.querySelectorAll(".rupiah");
+                        rupiah.forEach((item) => {
+                            item.addEventListener('keyup', function(e) {
+                                // tambahkan 'Rp.' pada saat form di ketik
+                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                            item.value = formatRupiah(this.value, "Rp. ");
+                        });
+                        });
+                    /* Fungsi formatRupiah */
+                        function formatRupiah(angka, prefix) {
+                        var number_string = angka.replace(/[^,\d]/g, ""),
+                            split = number_string.split(","),
+                            sisa = split[0].length % 3,
+                            rupiah = split[0].substr(0, sisa),
+                            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                        if (ribuan) {
+                            separator = sisa ? "." : "";
+                            rupiah += separator + ribuan.join(".");
+                        }
+
+                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+                        }
              });
              $(document).on('click', '.remove-input-field', function () {
                  $(this).parents('tr').remove();
              });
-
-         //Convert To Rupiah
-
-         // var rupiah = document.querySelector(".rupiah");
-         //     rupiah.addEventListener('keyup', function(e) {
-         //     // tambahkan 'Rp.' pada saat form di ketik
-         //     // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-         //     rupiah.value = formatRupiah(this.value, "Rp. ");
-         //     });
-
-         //     /* Fungsi formatRupiah */
-         //     function formatRupiah(angka, prefix) {
-         //     var number_string = angka.replace(/[^,\d]/g, ""),
-         //         split = number_string.split(","),
-         //         sisa = split[0].length % 3,
-         //         rupiah = split[0].substr(0, sisa),
-         //         ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-         //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
-         //     if (ribuan) {
-         //         separator = sisa ? "." : "";
-         //         rupiah += separator + ribuan.join(".");
-         //     }
-
-         //     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-         //     return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-         //     }
-
 
          </script>
 

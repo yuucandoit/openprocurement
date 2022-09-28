@@ -25,7 +25,7 @@ class CategoryPengajuanPembelian extends Model
         'npwp',
         'send_to',
         'dateline',
-        'proposed_supplier',
+        // 'proposed_supplier',
         'ppn',
         'created_at',
         'updated_at'

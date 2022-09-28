@@ -122,11 +122,10 @@
                                             style="color: white; font-size:18">{{ $purchase->status }}</a></td>
 
                                         <td>
+                                            <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
+                                                class="btn btn-outline-warning"><i class="bx bx-edit"></i> Add+</a>
                                            <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                            <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
-                                                class="btn btn-outline-warning"><i class="bx bx-edit"></i> Update</a>
-
                                                 <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete{{ $purchase->id }}">Delete</button>
                                         </td>

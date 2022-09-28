@@ -132,7 +132,7 @@ class CategoryTaskListController extends Controller
         // dd($data);
         $data->status = 'Accepted by Purchasing';
         $data->save();
-        return redirect()->back();
+        return redirect('menu-task-list');
     }
 
     public function reject($id)

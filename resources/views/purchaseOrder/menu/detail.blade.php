@@ -37,46 +37,21 @@
                                                 <td>Date Send</td>
                                                 <td>{{ $data_pengajuan->dateline }}</td>
                                             </tr>
-                                            <tr>
-                                                <td>Proposed Supplier</td>
-                                                <td>{{ $data_pengajuan->proposed_supplier }}</td>
-                                            </tr>
+                                            @foreach ($datapo as $po)
                                             <tr>
                                                 <td>Contact No</td>
-                                                <td>{{ $data_pengajuan->no_telp }}</td>
+                                                <td>{{ $po->no_telp }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Quotation</td>
-                                                <td>{{ $data_pengajuan->quotation }}</td>
+                                                <td>{{ $po->quotation }}</td>
                                             </tr>
                                             <tr>
                                                 <td>NPWP</td>
-                                                <td>{{ $data_pengajuan->npwp }}</td>
+                                                <td>{{ $po->no_npwp }}</td>
                                             </tr>
-                                            @if ($data_pengajuan->pt_id)
-                                                        <tr>
-                                                            <td>Perusahaan</td>
-                                                            <td>{{ $data_pengajuan->pt->nama }}</td>
-                                                        </tr>
-                                            @endif
-                                            @if ($data_pengajuan->proposed_supplier == 'OrangPribadi')
-                                                        <tr>
-                                                            <td>Orang Pribadi</td>
-                                                            <td>{{ $data_pengajuan->op->nama }}</td>
-                                                        </tr>
-                                            @endif
-                                            @if ($data_pengajuan->proposed_supplier == 'Ecommerce')
-                                                        <tr>
-                                                            <td>Ecommerce</td>
-                                                            <td>{{ $data_pengajuan->ec->nama }}</td>
-                                                        </tr>
-                                            @endif
-                                            @if ($data_pengajuan->proposed_supplier == 'Unknown')
-                                                <tr>
-                                                    <td>Supplier / Vendor</td>
-                                                    <td>{{ $data_pengajuan->vendor }}</td>
-                                                </tr>
-                                            @endif
+
+                                            @endforeach
                                         </tbody>
                                     </table>
                                     <table class="table table-bordered mt-4 mb-4">
@@ -127,35 +102,6 @@
                                                 @else
                                             @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                             <td style="text-align:right;">
-                                                {{-- Ketika gamake ppn  --}}
-                                                @if ($data_pengajuan->ppn == 0)
-                                                    @foreach ($total_tnpa_ppn as $tpn)
-                                                    {{-- Ketika mata uang yang dipilih RP --}}
-                                                        @if ($data_pengajuan->matauang == 'RP')
-                                                        RP. {{ number_format($tpn->total) }}
-                                                        {{-- Ketika mata uang yang dipilih USD --}}
-                                                        @elseif ($data_pengajuan->matauang == 'USD')
-                                                        $ {{ number_format($tpn->total) }}
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                                {{-- End Gamake ppn --}}
-                                                {{-- Ketika make ppn --}}
-                                                @if ($data_pengajuan->ppn == 1)
-                                                    @foreach ($total_tnpa_ppn as $tpn)
-                                                            @if ($data_pengajuan->matauang == 'RP')
-                                                               RP. {{ number_format($tpn->total) }} x 11%
-                                                                 @elseif ($data_pengajuan->matauang == 'USD')
-                                                                $ {{ number_format($tpn->total) }} x 11%
-                                                            @endif
-                                                    @endforeach
-                                                @endif
-                                                {{-- End make ppn --}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label class="pull-right mx-2"> Total PPN :</label></td>
-                                            <td style="text-align: right;">
                                                 @foreach ($ppn as $p)
                                                 {{-- Ketika mata uang yang dipilih RP --}}
                                                     @if ($data_pengajuan->matauang == 'RP')

@@ -21,6 +21,7 @@ class CategoryPO extends Model
         'address',
         'no_telp',
         'no_npwp',
+        'quotation',
         'created_at',
         'updated_at'
     ];

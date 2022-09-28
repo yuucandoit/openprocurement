@@ -4,13 +4,15 @@
 
 @section('main')
     <section>
-
-        <div class="card">
-            <div class="card-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header pb-0">
                 <h5 class="card-title">Edit Data</h5>
-
+                <div class="card-body">
                 <!-- Floating Labels Form -->
-                <form class="row g-2" action={{ url('/menu-pengajuan-pembelian/update/' . $dv->id) }} method="POST"
+                <form class="row g-3" action={{ url('/menu-pengajuan-pembelian/update/' . $dv->id) }} method="POST"
                     enctype="multipart/form-data">
                     @csrf
                             <div class="col-6">
@@ -129,8 +131,11 @@
                         <a type="reset" class="btn btn-danger mt-4" href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
                     </div>
                 </form>
-
+                          </div>
+                     </div>
+                 </div>
             </div>
+        </div>
         </div>
          <!-- JavaScript Item -->
          <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('ec_id')->nullable()->constrained('category_ecommerce');
             $table->string('vendor')->nullable();
             $table->foreignId('term_conditions')->constrained('terms_and_condition');
-            // $table->string('name');
+            $table->string('quotation');
             $table->string('address');
             $table->string('no_telp');
             $table->string('no_npwp');
