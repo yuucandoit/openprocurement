@@ -156,7 +156,7 @@
                       <h6>Menu</h6>
                     </div>
                   </li>
-                        @hasrole('user|super admin|super user')
+                        @hasrole('user|super admin')
                         <li class="sidebar-item  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
                             <a href="{{ url('/menu-pengajuan-pembelian') }}" >
                                 <i class="icofont icofont-paper font-dark" style="font-size: 20; "></i>
@@ -181,7 +181,7 @@
                             </a>
                         </li>
                         @endhasrole
-            @hasrole('super user|super admin')
+                        @hasrole('super user|super admin|purchasing|finance')
                         <li class="dropdown mt-2"><a class="nav-link menu-title" href="javascript:void(0)">
                             <i class="icofont icofont-tasks-alt font-dark" style="font-size: 20"></i> &nbsp;
                             <span>Task List</span></a>
@@ -190,7 +190,7 @@
                                 <li class=" {{ request()->is('*task-list-atasan*') ? 'active' : '' }}">
                                     <a href="{{ url('/menu-taskList-atasan') }}" >
                                         <i class="bi bi-file-text"></i>
-                                        <span>Task List Atasan</span>
+                                        <span>Task List Super User</span>
                                     </a>
                                 </li>
                                 @endhasrole
@@ -198,7 +198,7 @@
                                     <li class=" {{ request()->is('*task-list-atasan-po*') ? 'active' : '' }}">
                                         <a href="{{ url('/menu-taskList-atasan-po') }}" >
                                             <i class="bi bi-file-text"></i>
-                                            <span>Task List Atasan Po</span>
+                                            <span>Task List Super User Po</span>
                                         </a>
                                     </li>
                                 @endhasrole
@@ -248,7 +248,7 @@
                 <li class=" {{ request()->is('*/menu-taskList-atasan/history*') ? 'active' : '' }}">
                     <a href="{{ url('/menu-taskList-atasan/history') }}" >
                         <i class="icofont icofont-history" style="font-size: 20;"></i>
-                        <span>History Atasan</span>
+                        <span>History Super User</span>
                     </a>
                 </li>
 
