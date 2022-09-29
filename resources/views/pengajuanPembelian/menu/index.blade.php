@@ -30,32 +30,6 @@
         </div>
     @endforeach
 
-        <!-- @foreach ($datadv as $a)
-            <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h2 class="modal-title" style="color: white">Delete</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mx-5 mb-3">
-                            <span class="warning">
-                                <img src="assets/images/warning.png">
-                            </span>
-                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
-                        </div>
-                        <div class="modal-footer">
-                            <form action="{{ url('/menu-pengajuan-pembelian/destroy/' . $a->id) }}">
-                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
-                                    Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach -->
-
         <!-- Page Sidebar Ends-->
           <div class="container-fluid">
             <div class="page-header">
@@ -151,6 +125,20 @@
                     </div>
                   </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="u-pearls-sm  row mb-7">
+                            <div class="u-pearl current col-4"><span class="u-pearl-number">1</span><span class="u-pearl-title">Add Purchase Submission</span></div>
+                            <div class="u-pearl col-4"><span class="u-pearl-number">2</span><span class="u-pearl-title">Approval Super User For PS</span></div>
+                            <div class="u-pearl col-4"><span class="u-pearl-number">3</span><span class="u-pearl-title">Task List Purchasing</span></div>
+                            <div class="u-pearl col-4"><span class="u-pearl-number">4</span><span class="u-pearl-title">Purchase Order</span></div>
+                            <div class="u-pearl col-4"><span class="u-pearl-number">5</span><span class="u-pearl-title">Approval Super User For PO</span></div>
+                            <div class="u-pearl col-4"><span class="u-pearl-number">6</span><span class="u-pearl-title">Prepare For Fund Submission</span></div>
+                            <div class="u-pearl col-4"><span class="u-pearl-number">7</span><span class="u-pearl-title">Paid</span></div>
+                            <div class="u-pearl col-4"><span class="u-pearl-number">7</span><span class="u-pearl-title">Done</span></div>
+                        </div>
+                </div>
+                  </div>
               </div>
                     <script>
                         $(document).ready(function() {

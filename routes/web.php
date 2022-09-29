@@ -303,6 +303,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/ecommerce', [CategoryEcommerceController::class, 'export'])->name('export-ec');
     Route::get('/export_excel/pengajuan_pembelian/{id}', [CategoryPengajuanPembelianController::class, 'export'])->name('export-ppb');
 
+
+    //Route Export PDF
+    Route::get('/exportpdf/po/{id}',[PurchaseOrderController::class, 'exportpdf'])->name('export_po.pdf');
+
     //Route Import Private Person
     Route::get('file-import-pp', [CategoryPPController::class, 'fileImportPP']);
     Route::post('file-import', [CategoryPPController::class, 'fileImport'])->name('file-import');

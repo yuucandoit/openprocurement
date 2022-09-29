@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Exports;
+use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPO;
+use App\Models\CategoryQuotation;
+use App\Models\PengajuanPembelian;
+use App\Models\PurchaseOrder;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
+use Maatwebsite\Excel\Concerns\FromView;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithDrawings;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Carbon\Carbon;
+
+class PoPDFExport implements  ShouldAutoSize, FromView, WithCustomStartCell, WithColumnWidths, WithDrawings
+{
+    // RETURN VIEWS
+
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
+
+    public function view(): View
+    {
+
+        $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->get()->first();
+        $data['cpo'] = CategoryPO::where('ppb_id', $this->id)->get()->first();
+        $data['id'] = PengajuanPembelian::where('pp_id', $this->id)->get()->first();
+        $data['category_q'] = PengajuanPembelian::where('pp_id', $this->id)->get();
+        $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        // dd($data);
+        $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['day'] = Carbon::now()->format('d');
+        $data['year2'] = Carbon::now()->format('Y');
+        $data['year'] = Carbon::now()->format('y');
+        $data['month'] = Carbon::now()->format('m');
+        return view('exports.purchaseorderpdf', $data);
+    }
+
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 3,
+            'B' => 15,
+            'C' => 40,
+            'D' => 10,
+            'E' => 10,
+            'F' => 10,
+            'G' => 16
+        ];
+    }
+
+    public function drawings()
+    {
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('This is my logo');
+        $drawing->setPath(public_path('assets/images/intek.png'));
+        $drawing->setHeight(80);
+        $drawing->setCoordinates('B2');
+
+        return $drawing;
+    }
+
+    public function startCell(): string
+    {
+        return 'E3';
+    }
+
+}

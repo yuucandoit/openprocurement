@@ -178,8 +178,15 @@
                                 </div>
                             </div>
 
-                            <a href={{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }}
-                                class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
+                        @if ($data_pengajuan->status == 'Accepted by Purchasing')
+                        <a href={{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }}
+                            class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
+                        @endif
+
+                        @if ($data_pengajuan->status == 'Approved by Super user')
+                        <a href={{ url('/exportpdf/po/' . $data_pengajuan->id) }}
+                            class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Export to PDF</a>
+                        @endif
 
                         <div class="back mt-4">
                             <a type="reset" class="btn btn-danger" href="{{ url('/menu-purchase-order/') }}">Back</a>

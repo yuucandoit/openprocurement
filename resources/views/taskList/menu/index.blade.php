@@ -58,13 +58,13 @@
                                         <td id="countdown-{{ $ppb->id }}"></td>
                                       <td>  @if ($ppb->dateline == '≤3Jam')
                                             @if ($ppb->dateline_time == '03:00:00')
-                                            <a class="badge bg-success" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development stage</a>
+                                            <a class="badge bg-success" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
                                             @elseif ($ppb->dateline_time == '02:00:01')
-                                            <a class="badge bg-warning" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development stage</a>
+                                            <a class="badge bg-warning" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
                                             @elseif ($ppb->dateline_time == '01:00:01')
-                                            <a class="badge bg-danger" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development stage</a>
+                                            <a class="badge bg-danger" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
                                             @elseif ($ppb->dateline_time == '00:05:00')
-                                            <a class="badge bg-dark" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development stage</a>
+                                            <a class="badge bg-dark" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
                                             @endif
                                         @endif
                                         @if ($ppb->dateline == '≤24Jam')
