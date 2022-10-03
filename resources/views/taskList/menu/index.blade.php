@@ -106,7 +106,8 @@
             const dueDateAt     = new Date(approvedAt.getTime() + dueDateTime.getTime());
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
 
-            console.log(remainingTime.getTime());
+            // console.log(remainingTime.getTime());
+            if(remainingTime.getTime())
             if(remainingTime.getTime() < 1) return "Waktu Anda Sudah Habis";
 
             const hours   = remainingTime.getUTCHours().toString();

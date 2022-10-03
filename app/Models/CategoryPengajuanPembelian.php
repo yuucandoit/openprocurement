@@ -18,7 +18,7 @@ class CategoryPengajuanPembelian extends Model
         'ws',
         'desc',
         'purpose',
-        'divisi',
+        'department',
         'no_rek',
         'quotation',
         'address',

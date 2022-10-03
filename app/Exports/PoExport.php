@@ -67,7 +67,7 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
         $drawing->setPath(public_path('assets/images/intek.png'));
         $drawing->setHeight(110);
         $drawing->setCoordinates('B2');
-
+        
         return $drawing;
     }
 

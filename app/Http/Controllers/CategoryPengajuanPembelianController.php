@@ -106,6 +106,27 @@ class CategoryPengajuanPembelianController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+       $request->validate([
+            'purpose' => 'required',
+            'date_ps' => 'required',
+            'dateline'=> 'required',
+            'ws'      => 'required',
+            'department'=>'required',
+            'desc'  => 'required',
+            'atasan' => 'required',
+            'mata_uang'=>'required',
+            'send_to'=>'required',
+        ],[
+            'purpose.required' => 'The Purpose field is required.',
+            'date_ps.required' => 'The Date field is required.',
+            'dateline.required' => 'The Date Line field is required.',
+            'ws.required' => 'The Who Submitted field is required.',
+            'department.required' => 'The Department field is required.',
+            'desc.required' => 'The Description field is required.',
+            'atasan.required' => 'The Super User field is required.',
+            'mata_uang.required' => 'The Currency field is required.',
+            'send_to.required' => 'The Send To field is required.',
+        ]);
 
         if ($request->purpose == "custom") {
             $project = ReferensiNamaProject::create([

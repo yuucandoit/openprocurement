@@ -12,35 +12,57 @@
                 @csrf
                 <div class="row modal-body container">
                     <div class="col-6">
-                        <div class="form-floating">
-                            <input required type="date"
+                        <div class="form-floating" >
+                            <input type="date"
                                 class="form-control @error('date_ps') is-invalid @enderror mt-2 "
                                 id="floatingTanggal" placeholder="Tanggal" name="date_ps"
                                 value="{{ old('date_ps', date('Y-m-d')) }}">
                             <label for="floatingTanggal">Date</label>
-                            @error('date_ps')
+                                @error('date_ps')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
-                            @enderror
+                                @enderror
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-floating">
-                            <select class="form-select mt-2" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" >
+                        <div class="form-floating" >
+                            <select class="form-select mt-2 @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline"=">
+                                <option value=""disabled selected hidden>Select Date line</option>
                                 <option value="≤3Jam">≤ 3 Jam</option>
                                 <option value="≤24Jam">≤ 24 Jam</option>
                                 <option value="≤2Hari">≤ 2 Hari</option>
                                 <option value="SesuaiPo">Sesuai PO</option>
                             </select>
                             <label for="floatingdateline">-- Date Line --</label>
+
+                                @error('dateline')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control mt-2" id="floatingws"
-                                placeholder="Who Submitted" name="ws" value="" required>
-                            <label for="floatingws">Who Submitted</label>
+                        <div class="form-floating" >
+                            <select class="form-select mt-2 @error('ws') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws"=">
+                                <option value=""disabled selected hidden>Who Submitted</option>
+                                <option value="Brian"           >   Brian           </option>
+                                <option value="User"            >   User            </option>
+                                <option value="Kobo Kanaeru"    >   Kobo Kanaeru    </option>
+                                <option value="Awan"            >   Awan            </option>
+                                <option value="Echo Prasetyo"   >   Echo Prasetyo   </option>
+                                <option value="Syachroni"       >   Syachroni       </option>
+                            </select>
+                            <label for="floatingwhosubmitted">-- Who Submitted --</label>
+
+                                @error('ws')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+
                         </div>
                     </div>
                     {{-- css hide --}}
@@ -55,20 +77,28 @@
                         }
                     </style>
                     <div class="col-6">
-                        <div class="form-group">
-                            <select class="form-select page mt-2    " id="pageSelector" placeholder="Purpose" name="purpose" required>
+                        <div class="form-group" >
+                            <select class="form-select page mt-2 @error('purpose') is-invalid @enderror" id="pageSelector" placeholder="Purpose" name="purpose"=">
                                 <option value="" disabled selected hidden>Purpose</option>
                                 @foreach ($purpose as $p)
                                 <option value="{{ $p->id }}">{{ $p->nama }}</option>
                                 @endforeach
                                 <option value="custom">+ Add Project</option>
                             </select>
-                            <input type="text" class="hide form-control mt-2" placeholder="Input Project" name="nama" id="customInput">
+                            <input type="text" class="hide form-control mt-2" placeholder="Input Project" name="nama" id="customInput" />
+
+                                @error('purpose')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+
                     </div>
-                </div>
+              </div>
                     <div class="col-6">
-                        <div class="form-floating">
-                            <select class="form-select " id="floatingdepartment" placeholder="department" name="department" required>
+                        <div class="form-floating" >
+                            <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department"=">
+                                <option value="" disabled selected hidden>Department            </option>
                                 <option value="Business_Development"    >Business Development   </option>
                                 <option value="Finance"                 >Finance                </option>
                                 <option value="GA"                      >GA                     </option>
@@ -84,17 +114,31 @@
                                 <option value="Tax"                     >Tax                    </option>
                             </select>
                             <label for="floatingdepartment">-- Department --</label>
+
+                                @error('department')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-floating">
-                            <textarea required name="desc" id="floatingNoTelpon" class="form-control " cols="50" rows="30" required></textarea>
-                            <label for="floatingNoTelpon">Description</label>
+                        <div class="form-floating" >
+                            <textarea name="desc" id="floatingDesc" class="form-control @error('desc') is-invalid @enderror" cols="50" rows="30"=></textarea>
+                            <label for="floatingDesc">Description</label>
+
+                                @error('desc')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+
                         </div>
                     </div>
                     {{-- <div class="col-6">
                         <div class="form-floating">
-                            <select class="form-select mt-2     " id="floatingdateline" placeholder="proposed_supplier" name="proposed_supplier" required>
+                            <select class="form-select mt-2     " id="floatingdateline" placeholder="proposed_supplier" name="proposed_supplier">
                                 <option value="Perusahaan">Perusahaan</option>
                                 <option value="OrangPribadi">Orang Pribadi</option>
                                 <option value="Ecommerce">Ecommerce</option>
@@ -104,35 +148,48 @@
                         </div>
                     </div> --}}
                     <div class="col-6   ">
-                        <div class="form-floating">
-                            <select class="form-select mt-2     " id="floatingproposedto" placeholder="Proposed To" name="atasan" required>
+                        <div class="form-floating" >
+                            <select class="form-select mt-2  @error('atasan') is-invalid @enderror" id="floatingproposedto" placeholder="Proposed To" name="atasan">
+                                <option value="" disabled selected hidden>Proposed To</option>
                                 @foreach ($atasan as $sui)
                                 <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                 @endforeach
                             </select>
                             <label for="floatingproposedto">-- Approved By --</label>
+                                @error('atasan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-floating">
-                            <select class="form-select mt-2      mb-4" id="floatingdateline" placeholder="Mata Uang" name="matauang" required>
+                        <div class="form-floating" >
+                            <select class="form-select mt-2 mb-4 @error('mata_uang') is-invalid @enderror" id="floatingdateline" placeholder="Mata Uang" name="matauang">
+                                <option value="" disabled selected hidden>Currency</option>
                                 <option value="USD">USD</option>
                                 <option value="RP">RP</option>
                             </select>
                             <label for="floatingdateline">-- Currency --</label>
+                                @error('mata_uang')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                         </div>
                     </div>
                     <div class="col-6">
-                         <div class=" form-group m-checkbox-inline mb-0 ">
+                         <div class=" form-group m-checkbox-inline mb-0 @error('send_to') is-invalid @enderror" >
                             <div class="col-6">
                                 <h5>Send To</h5>
                             </div>
-                         <div class="radio radio-primary col-md-6">
-                            <input id="tebet" type="radio" name="send_to" value="Tebet" required>
+                         <div class="radio radio-primary col-md-6" required>
+                            <input id="tebet" type="radio" name="send_to" value="Tebet" required/>
                             <label for="tebet">Tebet</label>
                          </div>
                         <div class="radio radio-primary col-md-6">
-                            <input id="cikunir" type="radio" name="send_to" value="Cikunir" required>
+                            <input id="cikunir" type="radio" name="send_to" value="Cikunir" required/>
                             <label for="cikunir">Cikunir</label>
                         </div>
                     </div>
@@ -147,19 +204,20 @@
                             <th>Total</th>
                         </tr>
                         <tr>
-                            <td><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" required/>
+                            <td><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control  " required/>
                             </td>
-                            <td><input type="text"  name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" required/>
+                            <td><input type="number"  name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty  " required/>
                             </td>
                             <td>
-                                <select class="form-select" placeholder="Kategori" name="addMoreInputFields[0][kategori]" required>
+                                <select class="form-select " placeholder="Kategori" name="addMoreInputFields[0][kategori]" required>
                                     <option value="Pcs"  >Pcs   </option>
                                     <option value="Lusin">Lusin </option>
                                     <option value="Box"  >Box   </option>
                                     <option value="Unit" >Unit  </option>
                                 </select>
                             </td>
-                            <td><input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" required/>
+
+                            <td><input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah " required/>
                             </td>
                             <td ><input type="text" name="addMoreInputFields[0][total]" class="form-control form-line"/>
                             </td>
