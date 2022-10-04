@@ -267,20 +267,6 @@
 
                         <li class="sidebar-main-title">
                           <div>
-                            <h6>Account Pages</h6>
-                          </div>
-                        </li>
-                        @hasrole('user|super admin')
-                        <li class="sidebar-item  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
-                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
-                            <i data-feather="user"></i>
-                            <span>Profile</span>
-                          </a>
-                        </li>
-                        @endhasrole
-
-                        <li class="sidebar-main-title">
-                          <div>
                             <h6>Settings</h6>
                           </div>
                         </li>
@@ -289,15 +275,6 @@
                           <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
                             <i data-feather="settings"></i>
                             <span>General Settings</span>
-                          </a>
-                        </li>
-                        @endhasrole
-
-                        @hasrole('user|super admin')
-                        <li class="sidebar-item  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
-                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
-                            <i data-feather="calendar"></i>
-                            <span>Calender</span>
                           </a>
                         </li>
                         @endhasrole
@@ -318,6 +295,15 @@
                         @endhasrole
 
                         @hasrole('purchasing|super admin')
+                        <li class=" sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-purchase-order/history') }}" >
+                            <i data-feather="activity"></i>
+                            <span>History Purchase Order</span>
+                          </a>
+                        </li>
+                        @endhasrole
+
+                        @hasrole('user|super admin')
                         <li class=" sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                           <a class="nav-link menu-title link-nav" href="{{ url('/menu-purchase-order/history') }}" >
                             <i data-feather="activity"></i>

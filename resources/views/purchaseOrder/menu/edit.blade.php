@@ -156,6 +156,16 @@
                     @csrf
                     <div class="col-md-12">
                         <div class="form-floating">
+                            <select class="form-select mt-2" id="floatingproposedto" placeholder="Proposed To" name="atasan_po">
+                                @foreach ($atasan as $sui)
+                                <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingproposedto">-- Approved To --</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-floating">
                             <select class="form-select mt-2" id="floatingproposedto" placeholder="Proposed To" name="atasan_po" >
                                 @foreach ($atasan as $sui)
                                 <option value="{{ $sui->id }}">{{ $sui->name }}</option>

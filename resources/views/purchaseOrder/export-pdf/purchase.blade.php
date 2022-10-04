@@ -1,495 +1,223 @@
-<table>
-
-    <thead>
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td style="vertical-align: center;
-                font-size: 14;
-                font-weight: bold;
-                background-color: #ffffff;"
-                rowspan="2">
-                PT.SOLUSI INTEK INDONESIA
-            </td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="vertical-align: center;
-                text-align: center;
-                "rowspan="6">
-                </td>
-            <td style="vertical-align: center;
-                text-align: center;
-                font-size: 30;
-                background-color: #29465B;
-                font-weight: bold;
-                 color: #ffffff"
-                rowspan="3" colspan="6">PURCHASE ORDER</td>
-            <td rowspan="3"></td>
-            <td rowspan="3"></td>
-            <td rowspan="3"></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td rowspan="2">
-                <p>
-                    Head Office : Emerald Commercial Blok UB No. 50 Summarecon Bekasi Telp. 021-89454790 </p>
-            </td>
-        </tr>
-
-        <tr>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td rowspan="3">
-                <p>Mkt Office : Jl Tebet Barat dalam raya No. 31, Tebet Barat, Jakarta Selatan, Telp 021-21383852</p>
-            </td>
-            <td colspan="6"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="text-align: center;
-                 background-color: #29465B;
-                 color: #ffffff;
-                 border: 1px solid black;
-                 font-size: 14;"
-                 colspan="2">
-                 <strong>Date</strong>
-             </td>
-
-             <td style="text-align: center;
-                  background-color: #29465B;
-                  color: #ffffff;
-                  border: 1px solid black;
-                  font-size: 14;"
-                  colspan="2">
-                  <strong>No PO</strong>
-            </td>
-
-             <td style="text-align: center;
-                 background-color: #29465B;
-                 color: #ffffff;
-                 border: 1px solid black;
-                 font-size: 14;"
-                 colspan="2">
-                 <strong>Quot No</strong>
-             </td>
-
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-              @php
-            use Carbon\Carbon;
-            $date=Carbon::parse($category_po->created_at)->format('d/m/Y');
-            @endphp
-            <td style="text-align: center;
-                border: 1px solid black;
-                font-size: 14;"
-                rowspan="1" colspan="2">{{ $date }}</td>
-
-            <td style="text-align: center;
-                border: 1px solid black;
-                font-size: 14;"
-                rowspan="1" colspan="2">{{ $category_po->id }}/PO/SII/{{ $month }}/{{ $year }}</td>
-
-            <td style="text-align: center;
-                border: 1px solid black;
-                font-size: 14;"
-                rowspan="1" colspan="2">Q{{ $year2 }}{{ $month }}{{ $day }}{{ $id->id }}</td>
-
-            <td></td>
-        </tr>
-
-       <tr>
-            <td colspan="2"></td>
-            <td></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-        </tr>
-
-        <tr>
-            <td colspan="2"></td>
-              <td></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-        </tr>
-
-        <tr>
-            <td colspan="2"></td>
-              <td></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-        </tr>
-
-        <tr>
-            <td colspan="5"></td>
-            <td style="background-color: #29465B;
-                color: #ffffff;
-                text-align: center;
-                font-size: 12;
-                font-weight: bold;
-                border: 2px solid black" colspan="4">Send To :</td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="background-color: #29465B;
-                color: #ffffff;
-                font-size: 14;
-                text-align: center;
-                font-weight: bold;
-                border: 2px solid black" colspan="2">Vendor</td>
-
-            <td colspan="2"></td>
-
-            <td style="border: 2px solid black;
-                vertical-align: center;
-                text-align: center;
-                font-size: 14;"
-                colspan="4" rowspan="2">{{ $category_po->send_to }}</td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 12;
-                border-right: 2px solid black;
-                border-left: 2px solid black;">
-                <strong>Name</strong>
-            </td>
-
-            <td style="border-right: 2px solid black;"></td>
-            <td colspan="2"></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 12;
-                border-right: 2px solid black;
-                border-left: 2px solid black;">
-                <strong>Company</strong>
-            </td>
-
-            <td style="border-right: 2px solid black;"></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-            <td colspan="2">
-            </td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 12;
-                border-right: 2px solid black;
-                border-left: 2px solid black;">
-                <strong>Adress</strong>
-            </td>
-
-            <td style="border-right: 2px solid black;"></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 12;
-                border-right: 2px solid black;
-                border-left: 2px solid black;">
-                <strong>Phone</strong>
-            </td>
-
-            <td style="border-right:
-                2px solid black;">
-                </td>
-
-            <td colspan="2"></td>
-
-            <td style="background-color: #29465B;
-                color: #ffffff;
-                text-align: center;
-                font-size: 12;
-                font-weight: bold;
-                border: 2px solid black"
-                colspan="4">Alamat :</td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 12;
-                border-right: 2px solid black;
-                border-left: 2px solid left;
-                border-bottom: 2px solid black;">
-                <strong>Email Adress</strong>
-            </td>
-
-            <td style="border-bottom: 2px solid black;
-                border-right: 2px solid black;">
-            </td>
-
-            <td colspan="2"></td>
-            <td style="font-size: 14;
-                 vertical-align: center;
-                 border: 2px solid black;
-                 text-align: center;"
-                 rowspan="2" colspan="4"><p>{{ $category_po->address }}</p></td>
-        </tr>
-
-        <tr>
-            <td colspan="5"></td>
-            <td colspan="4"></td>
-        </tr>
-
-        <tr>
-            <td colspan="9"></td>
-            <td></td>
-        </tr>
-
-
-        <tr>
-            <td></td>
-            <td style="font-size: 12; font-weight: bold;" colspan="8">Please find below quotation for your inquiries :</td>
-        </tr>
-
-    </thead>
-
-
-    {{-- @php
-            dd($quotation);
-        @endphp --}}
-    <tbody>
-
-        <tr>
-            <td></td>
-            <td style="background-color: #29465B;
-                color: #ffffff; font-weight: bold;
-                font-size: 14; text-align: center;
-                border: 1px solid black;">No</td>
-
-            <td style="background-color: #29465B;
-                color: #ffffff;
-                font-weight: bold;
-                font-size: 14;
-                text-align: center;
-                border: 1px solid black;">Item</td>
-
-            <td style="background-color: #29465B;
-                 color: #ffffff;
-                 font-weight: bold;
-                 font-size: 14;
-                 text-align: center;
-                 border: 1px solid black;">Qty</td>
-
-            <td style="background-color: #29465B;
-                color: #ffffff;
-                font-weight: bold;
-                font-size: 14;
-                text-align: center;
-                border: 1px solid black;">Unit</td>
-
-            <td style="background-color: #29465B;
-                color: #ffffff;
-                font-weight: bold;
-                font-size: 14;
-                text-align: center;
-                border: 1px solid black;"
-                colspan="2">Unit Price (Rp)</td>
-
-            <td style="background-color: #29465B;
-                color: #ffffff;
-                font-weight: bold;
-                font-size: 14;
-                text-align: center;
-                border: 1px solid black;" colspan="2">Amount (Rp)</td>
-        </tr>
-
-        @php
-            $no = 1;
-            $data = 0;
-        @endphp
-        {{-- @foreach ($purchase_order as $po)
-            @php
-                $data+=$po->amount;
-            @endphp
-            <tr>
-                <td></td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $no++ }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->keterangan }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->qty }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->unit }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->unit_price }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->amount }}</td>
-            </tr>
-        @endforeach --}}
-
-            @foreach ($category_q as $q)
-           <tr>
-                <td></td>
-                <td style="border: 3px solid black; font-size: 14; text-align: center;">{{ $no++ }}</td>
-                <td style="border: 3px solid black; font-size: 14;">{{ $q->item }}</td>
-                <td style="border: 3px solid black; font-size: 14; text-align: center;">{{ $q->qty }}</td>
-                <td style="border: 3px solid black; font-size: 14; text-align: center;">{{ $q->kategori }}</td>
-                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($q->unit_price) }}</td>
-                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($q->total) }}</td>
-            </tr>
-            @endforeach
-
-            {{-- <tr>
-                <td></td>
-                <td>3</td>
-                <td>TEst</td>
-                <td>3</td>
-                <td>coba-coba</td>
-                <td>2000</td>
-                <td>6000</td>
-            </tr> --}}
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style="border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2"><strong>DPP</strong></td>
-            @foreach ($dpp as $d)
-            @if ($category_po->matauang == "RP")
-            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">RP.{{ number_format( $d->total )}}</td>
-            @elseif ($category_po->matauang == "USD")
-            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">$ {{ number_format($d->total) }}</td>
-            @endif
-            @endforeach
-        </tr>
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style="border: 1px solid black; font-size: 14; font-weight: bold;" colspan="2"><strong>PPN 11%</strong></td>
-            @foreach ($ppn as $p)
-            @if ($category_po->matauang == "RP")
-            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">RP.{{ number_format( $p->total )}}</td>
-            @elseif ($category_po->matauang == "USD")
-            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">$ {{ number_format($p->total) }}</td>
-            @endif
-            @endforeach
-        </tr>
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style="border: 1px solid black; font-size: 14; font-weight: bold;" colspan="2"><strong>Total</strong></td>
-                 @if ($category_po->ppn == 0)
-                     @foreach ($total_tnp_ppn as $tpn)
-                        @if ($category_po->matauang == "RP")
-                        <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">Rp.{{$tpn->total}}</td>
-                        @elseif ($category_po->matauang == "USD")
-                        <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">$ {{$tpn->total}}</td>
-                        @endif
-                     @endforeach
-                @elseif($category_po->ppn == 1)
-                    @foreach ($total as $t)
-                        @if ($category_po->matauang == "RP")
-                            <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">Rp. {{ number_format($t->total)}}</td>
-                            @elseif ($category_po->matauang == "USD")
-                            <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">$.{{number_format($t->total)}}</td>
-                        @endif
-                    @endforeach
-             @endif
-        </tr>
-
-        <tr>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 14; font-weight: bold; font-family: calibri(body);" colspan="2">Term and Payment Detail</td>
-            <td></td>
-            <td></td>
-            <td style="text-align: center; font-weight: bold; font-size: 14; font-family: calibri (body);" colspan="4"><strong>Thank you for your business!</strong></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            {{-- <td style="font-size: 14; mso-data-placement:same-cell;">{{ preg_replace("/\r|\n/","<br style=\"mso-data-placement:same-cell;\" />",)$cpo->term->term_condition }}</td> --}}
-            <td style="font-size: 14;">{!!  nl2br($cpo->term->term_condition) !!}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 14; text-align: center;" colspan="2"> </td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 14"></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 14"></td>
-            <td></td>
-        </tr>
-
-         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style="text-align: center; font-size: 14; font-weight: bold; text-decoration: underline; font-family: calibri (body);" colspan="4"> <ins>Victor</ins></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style="text-align: center; font-size: 14; font-weight: bold;" colspan="4">Director</td>
-        </tr>
-
-        <tr>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-        </tr>
-
-    </tbody>
-
-</table>
+<link rel="stylesheet" href="{{ public_path('ets/css/shared/iconly.css') }}">
+<!-- Flag icon-->
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/flag-icon.css') }}">
+<!-- Feather icon-->
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/feather-icon.css') }}">
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/animate.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/chartist.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/date-picker.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/prism.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/vector-map.css') }}">
+<!-- Plugins css Ends-->
+<!-- Bootstrap css-->
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/bootstrap.css') }}">
+<!-- App css-->
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/style.css') }}">
+<link id="color" rel="stylesheet" href="{{ public_path('assets/css/color-1.css') }}" media="screen">
+<!-- Responsive css-->
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/responsive.css') }}">
+
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/datatables.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/datatable-extension.css') }}">
+<!-- Plugins css Ends-->
+<!-- Bootstrap css-->
+<!-- App css-->
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/style.css') }}">
+<link id="color" rel="stylesheet" href="{{ public_path('assets/css/color-1.css') }}" media="screen">
+<!-- Responsive css-->
+<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/responsive.css') }}">
+
+<!-- Container-fluid starts-->
+<div class="container invoice">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div>
+                            <div class="row invo-header">
+                                <div class="col-sm-6">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img class="media-object"
+                                                    style="width: 60px;"
+                                                    src="{{ public_path('assets/images/intek.png') }}  "
+                                                    alt=""></div>
+                                        <div class="media-body m-l-20">
+                                            <h4 class="media-heading f-w-600">Viho</h4>
+                                            <p>hello@viho.in<br><span class="digits">289-335-6503</span></p>
+                                        </div>
+                                    </div>
+                                    <!-- End Info-->
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="text-md-end text-xs-center">
+                                        <h3>Invoice #<span class="digits counter">1069</span></h3>
+                                        <p>Issued: May<span class="digits"> 27, 2015</span><br> Payment Due: June <span
+                                                class="digits">27, 2015</span></p>
+                                    </div>
+                                    <!-- End Title                                 -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End InvoiceTop-->
+                        <div class="row invo-profile">
+                            <div class="col-xl-4">
+                                <div class="media">
+                                    <div class="media-body m-l-20">
+                                        <h4 class="media-heading f-w-600">Johan Deo</h4>
+                                        <p>JohanDeo@gmail.com<br><span class="digits">555-555-5555</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-8">
+                                <div class="text-xl-end" id="project">
+                                    <h6>Project Description</h6>
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.It is a
+                                        long established fact that a reader will be distracted by the readable content
+                                        of a page when looking at its layout.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Invoice Mid-->
+                        <div>
+                            <div class="table-responsive invoice-table" id="table">
+                                <table class="table table-bordered table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td class="item">
+                                                <h6 class="p-2 mb-0">Item Description</h6>
+                                            </td>
+                                            <td class="Hours">
+                                                <h6 class="p-2 mb-0">Hours</h6>
+                                            </td>
+                                            <td class="Rate">
+                                                <h6 class="p-2 mb-0">Rate</h6>
+                                            </td>
+                                            <td class="subtotal">
+                                                <h6 class="p-2 mb-0">Sub-total</h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>Lorem Ipsum</label>
+                                                <p class="m-0">Lorem Ipsum is simply dummy text of the printing and
+                                                    typesetting industry.</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">5</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">$75</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">$375.00</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>Lorem Ipsum</label>
+                                                <p class="m-0">Lorem Ipsum is simply dummy text of the printing and
+                                                    typesetting industry.</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">3</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">$75</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">$225.00</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>Lorem Ipsum</label>
+                                                <p class="m-0">Lorem Ipsum is simply dummy text of the printing and
+                                                    typesetting industry.</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">10</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">$75</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">$750.00</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>Lorem Ipsum</label>
+                                                <p class="m-0">Lorem Ipsum is simply dummy text of the printing and
+                                                    typesetting industry.</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">10</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">$75</p>
+                                            </td>
+                                            <td>
+                                                <p class="itemtext digits">$750.00</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="itemtext"></p>
+                                            </td>
+                                            <td>
+                                                <p class="m-0">HST</p>
+                                            </td>
+                                            <td>
+                                                <p class="m-0 digits">13%</p>
+                                            </td>
+                                            <td>
+                                                <p class="m-0 digits">$419.25</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="Rate">
+                                                <h6 class="mb-0 p-2">Total</h6>
+                                            </td>
+                                            <td class="payment digits">
+                                                <h6 class="mb-0 p-2">$3,644.25</h6>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- End Table-->
+                            <div class="row mt-3">
+                                <div class="col-md-8">
+                                    <div>
+                                        <p class="legal"><strong>Thank you for your business!</strong>  Payment is
+                                            expected within 31 days; please process this invoice within that time. There
+                                            will be a 5% interest charge per month on late invoices.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <form class="text-end invo-pal">
+                                        <input type="image" src="../assets/images/other-images/paypal.png"
+                                            name="submit" alt="PayPal - The safer, easier way to pay online!">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End InvoiceBot-->
+                    </div>
+                    <div class="col-sm-12 text-center mt-3">
+                        <button class="btn btn btn-primary me-2" type="button" onclick="myFunction()">Print</button>
+                        <button class="btn btn-secondary" type="button">Cancel</button>
+                    </div>
+                    <!-- End Invoice-->
+                    <!-- End Invoice Holder-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

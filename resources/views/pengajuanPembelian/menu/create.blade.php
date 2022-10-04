@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-6">
                         <div class="form-floating" >
-                            <select class="form-select mt-2 @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline"=">
+                            <select class="form-select mt-2 @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline">
                                 <option value=""disabled selected hidden>Select Date line</option>
                                 <option value="≤3Jam">≤ 3 Jam</option>
                                 <option value="≤24Jam">≤ 24 Jam</option>
@@ -166,13 +166,13 @@
                     </div>
                     <div class="col-6">
                         <div class="form-floating" >
-                            <select class="form-select mt-2 mb-4 @error('mata_uang') is-invalid @enderror" id="floatingdateline" placeholder="Mata Uang" name="matauang">
+                            <select class="form-select mt-2 mb-4 @error('matauang') is-invalid @enderror" id="floatingdateline" placeholder="Mata Uang" name="matauang">
                                 <option value="" disabled selected hidden>Currency</option>
                                 <option value="USD">USD</option>
                                 <option value="RP">RP</option>
                             </select>
                             <label for="floatingdateline">-- Currency --</label>
-                                @error('mata_uang')
+                                @error('matauang')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

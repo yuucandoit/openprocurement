@@ -213,6 +213,14 @@ class CategoryPOController extends Controller
         $data->save();
         return redirect('menu-purchase-order');
     }
+    public function ajukan_dana($id)
+    {
+        $data = CategoryPengajuanPembelian::find($id);
+        // dd($data);
+        $data->status = 'Submitted For Purchase Funding';
+        $data->save();
+        return redirect('menu-purchase-order');
+    }
 
     public function Reject($id)
     {

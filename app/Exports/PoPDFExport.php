@@ -30,6 +30,7 @@ class PoPDFExport implements  ShouldAutoSize, FromView, WithCustomStartCell, Wit
     {
 
         $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->get()->first();
+        $data['pp'] = CategoryPengajuanPembelian::where('id',$this->id)->get();
         $data['cpo'] = CategoryPO::where('ppb_id', $this->id)->get()->first();
         $data['id'] = PengajuanPembelian::where('pp_id', $this->id)->get()->first();
         $data['category_q'] = PengajuanPembelian::where('pp_id', $this->id)->get();

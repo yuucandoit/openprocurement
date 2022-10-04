@@ -17,4 +17,10 @@ class CategoryPP extends Model
         'pkp'
     ];
     protected $hidden;
+
+    
+    public function vendors()
+    {
+        return $this->morphMany(CategoryPO::class, 'vendortable');
+    }
 }

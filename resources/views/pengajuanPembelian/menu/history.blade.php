@@ -1,4 +1,4 @@
-<title>Purchase order</title>
+<title>History Purchase Submission</title>
 
 @extends('layouts.master')
 
@@ -68,28 +68,29 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
-                    <div class="setting-primary">
-                        <i class="fa fa-info"></i>
-                    </div>
-                    <div class="col-md-4">
-                        <h1>Purchase Order A</h1>
-                    </div>
+                    <h1>Purchase Order</h1>
                 </div>
 
                 <div class="card shadow mb-5">
                     <div class="card-body">
+                        {{-- <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
+                                class="bx bx-list-plus"></i> Add+</button> --}}
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Send To</th>
-                                    <th>Date Line</th>
-                                    <th>Countdown</th>
                                     <th>Date</th>
                                      @hasrole('purchasing|super admin')
                                         <th>Status</th>
                                     @endhasrole
+                                    {{--
+                                    <th>Action</th>
+                                    @hasrole('admin|super admin')
+                                        <th>Accept</th>
+                                        <th>Reject</th>
+                                    @endhasrole --}}
                                     @hasrole('user')
                                         <th>Status</th>
                                     @endhasrole
@@ -101,86 +102,22 @@
                             @endphp
                             <tbody>
                                 @foreach ($datappb as $purchase)
-                                @if ($purchase->status == 'Accepted by Purchasing' )
+                                @if ($purchase->status == 'Selesai Di proses Purchasing' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $purchase->ws }}</td>
                                         <td>{{ $purchase->send_to }}</td>
-                                        <td>{{ $purchase->dateline }}</td>
-                                        <td id="countdown-{{ $purchase->id }}"></td>
                                         <td>{{ $purchase->created_at }}</td>
                                         @hasrole('purchasing|super admin')
                                         <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $purchase->status }}</a></td>
 
                                         <td>
-                                            <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
-                                                class="btn btn-outline-warning"><i class="bx bx-edit"></i> Add+</a>
-                                           <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
+                                            <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                                <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                data-bs-target="#modalDelete{{ $purchase->id }}">Delete</button>
-                                        </td>
-                                        @endhasrole
-                                    </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                            {{-- <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
+                                                class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a> --}}
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="py-3">
-                    <div class="setting-primary">
-                        <i class="fa fa-info"></i>
-                    </div>
-                    <h1>Purchase Order B</h1>
-                </div>
-
-                <div class="card shadow mb-5">
-                    <div class="card-body">
-                        <table class="table table-striped" id="table1">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>Send To</th>
-                                    <th>Date Line</th>
-                                    <th>Countdown</th>
-                                    <th>Date</th>
-                                     @hasrole('purchasing|super admin')
-                                        <th>Status</th>
-                                    @endhasrole
-                                    @hasrole('user')
-                                        <th>Status</th>
-                                    @endhasrole
-                                    <th>Function</th>
-                                </tr>
-                            </thead>
-                            @php
-                                $no = 1;
-                            @endphp
-                            <tbody>
-                                @foreach ($datappb as $purchase)
-                                @if ($purchase->status == 'Approved by Super user' )
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $purchase->ws }}</td>
-                                        <td>{{ $purchase->send_to }}</td>
-                                        <td>{{ $purchase->dateline }}</td>
-                                        <td id="countdown-{{ $purchase->id }}"></td>
-                                        <td>{{ $purchase->created_at }}</td>
-                                        @hasrole('purchasing|super admin')
-                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $purchase->status }}</a></td>
-
-                                        <td>
-                                           <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
-                                                class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                                 <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete{{ $purchase->id }}">Delete</button>
                                         </td>
@@ -205,50 +142,4 @@
             });
         </script>
     </section>
-@endsection
-@section('scripts')
-    <script>
-        const data = @json($datappb);
-        const item =data[0];
-        console.log(data);
-
-        // FOR CALCULATE REMAINING DEADLINE TIME 😃
-        const remainingTime = (data) => {
-            const { approved_at, dateline_time , datetime } = data;
-            const approvedAt    = new Date(approved_at);
-            const dueDateTime   = new Date(`1970-01-01T${dateline_time}Z`);
-            const dueDateAt     = new Date(approvedAt.getTime() + dueDateTime.getTime());
-            const remainingTime = new Date(dueDateAt.getTime() - Date.now());
-
-            console.log(remainingTime.getTime());
-            if(remainingTime.getTime() < 1) return "Your time is up";
-
-            const hours   = remainingTime.getUTCHours().toString();
-            const minutes = remainingTime.getUTCMinutes().toString();
-            const seconds = remainingTime.getUTCSeconds().toString();
-
-            return (
-                (hours.length   == 1 ? `0${hours}:`   : `${hours}:`) +
-                (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
-                (seconds.length == 1 ? `0${seconds}:` : `${seconds}`)
-            );
-        }
-
-        // FOR HANDLE REWRITE ELEMENT 😃
-        const countdownHandle = (elmnt, item) => {
-            elmnt.innerText = remainingTime(item);
-        }
-
-        // FOR INITIALIZE COUNTDOWN 😃
-        const initCountdown = (data) => {
-            data.forEach(item => {
-                if(!item.approved_at) return;
-                setInterval(() => countdownHandle(document.querySelector(
-                    `#countdown-${item.id}`
-                ), item), 1000);
-            });
-        }
-
-        initCountdown(data);
-    </script>
 @endsection

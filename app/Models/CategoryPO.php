@@ -12,10 +12,8 @@ class CategoryPO extends Model
     protected $fillable = [
         'id',
         'ppb_id',
-        'pt_id' ,
-        'op_id' ,
-        'ec_id' ,
-        'vendor',
+        'vendor_id',
+        'vendor_type',
         'term_conditions',
         'atasan_po',
         'address',
@@ -46,5 +44,9 @@ class CategoryPO extends Model
     public function term()
     {
         return $this->belongsTo(TermsAndConditions::class, 'term_conditions');
+    }
+    public function vendortable()
+    {
+        return $this->morphTo();
     }
 }

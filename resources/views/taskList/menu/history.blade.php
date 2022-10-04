@@ -50,7 +50,7 @@
                                     $no = 1;
                                     @endphp
                                      @foreach ($datappb as $ppb)
-                                     @if ($ppb->status == 'Accepted by Purchasing' )
+                                     @if ($ppb->status == 'Done' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $ppb->desc }}</td>

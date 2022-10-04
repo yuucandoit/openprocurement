@@ -10,6 +10,7 @@ use App\Exports\PoExport;
 use App\Exports\PoPDFExport;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\PengajuanPembelian;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf;
@@ -143,20 +144,24 @@ class PurchaseOrderController extends Controller
     public function exportpdf($id)
     {
         // $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->get()->first();
-        // $data['cpo'] = CategoryPO::where('ppb_id', $this->id)->get()->first();
-        // $data['id'] = PengajuanPembelian::where('pp_id', $this->id)->get()->first();
-        // $data['category_q'] = PengajuanPembelian::where('pp_id', $this->id)->get();
-        // $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
-        // $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
-        // $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
-        // $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
-        // $data['day'] = Carbon::now()->format('d');
-        // $data['year2'] = Carbon::now()->format('Y');
-        // $data['year'] = Carbon::now()->format('y');
-        // $data['month'] = Carbon::now()->format('m');
+        $data['cpo'] = CategoryPO::where('ppb_id', $id)->get()->first();
+        $data['id'] = PengajuanPembelian::where('pp_id', $id)->get()->first();
+        $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
+        $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['day'] = Carbon::now()->format('d');
+        $data['year2'] = Carbon::now()->format('Y');
+        $data['year'] = Carbon::now()->format('y');
+        $data['month'] = Carbon::now()->format('m');
+        $data['image'] = 
+
+        $pdf = PDF::loadView('purchaseOrder.export-pdf.purchase', ['data'=> $data,])->setpaper('A4', 'potrait');
+        return $pdf->download('PurchaseOrder.pdf');
 
         // $pdf = Dompdf::loadView('export-pdf.purchase', ['data' => $data]);
-        return Excel::download(new PoPDFExport($id),'PurchaseOrder.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        // return Excel::download(new PoPDFExport($id),'PurchaseOrder.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
     }
 }

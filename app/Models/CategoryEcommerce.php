@@ -14,4 +14,9 @@ class CategoryEcommerce extends Model
         'link',
     ];
     protected $hidden;
+
+    public function vendors()
+    {
+        return $this->morphMany(CategoryPO::class, 'vendortable');
+    }
 }

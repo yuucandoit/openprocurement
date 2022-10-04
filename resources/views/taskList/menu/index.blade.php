@@ -108,7 +108,7 @@
 
             // console.log(remainingTime.getTime());
             if(remainingTime.getTime())
-            if(remainingTime.getTime() < 1) return "Waktu Anda Sudah Habis";
+            if(remainingTime.getTime() < 1) return "Your time is up";
 
             const hours   = remainingTime.getUTCHours().toString();
             const minutes = remainingTime.getUTCMinutes().toString();

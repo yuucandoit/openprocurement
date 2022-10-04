@@ -83,6 +83,16 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('purpose', $purpose)
             ->with('data_pengajuan', $data_pengajuan);
     }
+
+    public function history()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::all();
+            return view('pengajuanpembelian')
+            ->with('datappb', $datappb);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -114,7 +124,7 @@ class CategoryPengajuanPembelianController extends Controller
             'department'=>'required',
             'desc'  => 'required',
             'atasan' => 'required',
-            'mata_uang'=>'required',
+            'matauang'=>'required',
             'send_to'=>'required',
         ],[
             'purpose.required' => 'The Purpose field is required.',
