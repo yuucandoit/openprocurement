@@ -146,36 +146,47 @@
                 </ul>
               </div>
 
+              <!--Nav-->
               <nav>
                 <div class="main-navbar">
                   <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
-                  <div id="mainnav">
+                  <div id="mainnav">           
                     <ul class="nav-menu custom-scrollbar">
                       <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                       </li>
-
                       <li class="sidebar-main-title">
                         <div>
                           <h6>Home</h6>
                         </div>
                       </li>
 
-                      <li class="sidebar-item {{ request()->is('*/dashboard*') ? 'active' : '' }}">
+                      <li class="dropdown {{ request()->is('*/dashboard*') ? 'active' : '' }}">
                         <a class="nav-link menu-title link-nav" href="{{ url('/dashboard') }}">
                           <i data-feather="home"></i>
                           <span>Dashboard</span>
                         </a>
                       </li>
 
+                      <!--Menu-->
+                      @hasrole('super admin')
                       <li class="sidebar-main-title">
                         <div>
                           <h6>Menu</h6>
                         </div>
                       </li>
+                      @endhasrole 
+
+                      @hasrole('user')
+                      <li class="sidebar-main-title">
+                        <div>
+                          <h6>Menu</h6>
+                        </div>
+                      </li>
+                      @endhasrole 
 
                       @hasrole('user|super admin')
-                      <li class="sidebar-item  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                      <li class="dropdown  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
                         <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
                           <i data-feather="file-text"></i>
                           <span>Purchase Submission </span>
@@ -183,23 +194,42 @@
                       </li>
                       @endhasrole
 
+                      @hasrole('purchasing')
+                      <li class="sidebar-main-title">
+                        <div>
+                          <h6>Menu</h6>
+                        </div>
+                      </li>
+                      @endhasrole 
+
                       @hasrole('purchasing|super admin')
-                      <li class="sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                      <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                         <a class="nav-link menu-title link-nav" href="{{ url('/menu-purchase-order') }}" >
                           <i data-feather="file-text"></i>
                           <span>Purchase Order</span>
                         </a>
                       </li>
                       @endhasrole
+
+                      @hasrole('finance')
+                      <li class="sidebar-main-title">
+                        <div>
+                          <h6>Menu</h6>
+                        </div>
+                      </li>
+                      @endhasrole 
+
                       @hasrole('finance|super admin')
-                      <li class="sidebar-item {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
+                      <li class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
                         <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-dana') }}" >
                           <i data-feather="dollar-sign"></i>
                           <span> Fund Submission</span>
                         </a>
                       </li>
                       @endhasrole
+                      <!--Menu-->
 
+                      <!--TaskList-->
                       @hasrole('super user|super admin|purchasing|finance')
                       <li class="sidebar-main-title">
                         <div>
@@ -249,7 +279,9 @@
                           </ul>
                         </li>
                         @endhasrole
+                        <!--End TaskList-->
 
+                        <!--Admin-->
                         @hasrole('admin')
                         <li class="sidebar-main-title">
                           <div>
@@ -264,47 +296,35 @@
                           </a>
                         </li>
                         @endhasrole
+                        <!--End Admin-->
 
-                        <li class="sidebar-main-title">
-                          <div>
-                            <h6>Settings</h6>
-                          </div>
-                        </li>
-                        @hasrole('user|super admin')
-                        <li class="sidebar-item  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
-                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
-                            <i data-feather="settings"></i>
-                            <span>General Settings</span>
-                          </a>
-                        </li>
-                        @endhasrole
-
+                        <!--History-->
                         <li class="sidebar-main-title">
                           <div>
                             <h6>History</h6>
                           </div>
                         </li>
-                        @hasrole('super user|super admin')
-                        <li class="sidebar-item {{ request()->is('*/menu-taskList-atasan/history*') ? 'active' : '' }}">
+
+                        @hasrole('user|super admin')
+                        <li class="dropdown {{ request()->is('*/menu-taskList-atasan/history*') ? 'active' : '' }}">
                           <a class="nav-link menu-title link-nav" href="{{ url('/menu-taskList-atasan/history') }}" >
-                            <i class="icofont icofont-history" style="font-size: 20;"></i>
+                            <i data-feather="activity"></i>
+                            <span>History Purchase Submission</span>
+                          </a>
+                        </li>
+                        @endhasrole
+
+                        @hasrole('super user|super admin')
+                        <li class="dropdown {{ request()->is('*/menu-taskList-atasan/history*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-taskList-atasan/history') }}" >
+                            <i data-feather="activity"></i>
                             <span>History Super User</span>
                           </a>
                         </li>
-
                         @endhasrole
 
                         @hasrole('purchasing|super admin')
-                        <li class=" sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-purchase-order/history') }}" >
-                            <i data-feather="activity"></i>
-                            <span>History Purchase Order</span>
-                          </a>
-                        </li>
-                        @endhasrole
-
-                        @hasrole('user|super admin')
-                        <li class=" sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                        <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                           <a class="nav-link menu-title link-nav" href="{{ url('/menu-purchase-order/history') }}" >
                             <i data-feather="activity"></i>
                             <span>History Purchase Order</span>
@@ -313,213 +333,324 @@
                         @endhasrole
 
                         @hasrole('finance|super admin')
-                        <li class=" {{ request()->is('*finance*') ? 'active' : '' }} mt-3">
-                          <a href="{{ url('/menu-tasklist-finance/history') }}" >
+                        <li class=" dropdowns {{ request()->is('*finance*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-tasklist-finance/history') }}" >
                             <i data-feather="activity"></i>
                             <span>History Finance</span>
                           </a>
                         </li>
                         @endhasrole
+                        <!--End History-->
+
+                        <!--Data Master--> 
                         @hasrole('admin|super admin')
                         <li class="sidebar-main-title">
                           <div>
                             <h6>Data Master</h6>
                           </div>
                         </li>
-                        <li class=" {{ request()->is('*perusahaan*') ? 'active' : '' }}">
-                          <a href="{{ url('/menu-perusahaan') }}" >
-                            <i class="icofont icofont-building-alt" style="font-size: 20;"></i>
-                            <span>Company</span>
+                        <li class="dropdown {{ request()->is('*perusahaan*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-perusahaan') }}" >
+                            <i class="icofont icofont-building-alt"></i>
+                            <span> &nbsp;&nbsp;&nbsp;&nbsp; Company</span>
                           </a>
                         </li>
-                        <li class=" {{ request()->is('*private-person*') ? 'active' : '' }} mt-3">
-                          <a href="{{ url('/menu-private-person') }}" >
-                            <i class="icofont icofont-user-alt-5" style="font-size: 20;"></i>
+                        <li class="dropdown {{ request()->is('*private-person*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-private-person') }}" >
+                            <i data-feather="user-check"></i>
                             <span>Private Person</span>
                           </a>
                         </li>
-                        <li class=" {{ request()->is('*ecommerce*') ? 'active' : '' }} mt-3">
-                          <a href="{{ url('/menu-ecommerce') }}" >
-                            <i class="icofont icofont-cart-alt" style="font-size: 20;"></i>
+                        <li class="dropdown {{ request()->is('*ecommerce*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-ecommerce') }}" >
+                            <i data-feather="shopping-cart"></i>
                             <span>Ecommerce</span>
                           </a>
                         </li>
                         @endhasrole
-                        {{-- @hasrole('super admin')
-                        <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="bell"></i><span>Menu</span></a>
-                          <ul class="nav-submenu menu-content">
+                        <!--end Data Master-->
 
-                            <li class=" {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
-                              <a href="{{ url('/menu-pengajuan-pembelian') }}" >
-                                <i class="bi bi-file-text"></i>
-                                <span>Pengajuan Pembelian</span>
-                              </a>
-                            </li>
-                            <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
-                              <a href="{{ url('/menu-task-list') }}" >
-                                <i class="bi bi-calendar-x"></i>
-                                <span>Task List</span>
-                                <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated">{{ \App\Models\CategoryPengajuanPembelian::count() }}</span></div>
-                              </a>
-                            </li>
-                            <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                              <a href="{{ url('/menu-purchase-order') }}" >
-                                <i class="bi bi-calendar-x"></i>
-                                <span>Purchase Order</span>
-                              </a>
-                            </li>
-                            <li class=" {{ request()->is('*quotation*') ? 'active' : '' }}">
-                              <a href="{{ url('/menu-quotation') }}" >
-                                <i class="bi bi-receipt"></i>
-                                <span>Quotation</span>
-                              </a>
-                            </li>
-                            <li class=" {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
-                              <a href="{{ url('/menu-pengajuan-dana') }}" >
-                                <i class="bi bi-cash-coin"></i> <span>Pengajuan Dana</span>
-                              </a>
-                            </li>
-                            <li class=" {{ request()->is('*pembelian-barang*') ? 'active' : '' }}">
-                              <a href="{{ url('/menu-pembelian-barang') }}" >
-                                <i class="bi bi-currency-dollar"></i>
-                                <span>Pembelian Barang</span>
-                              </a>
-                            </li>
-                          </ul>
+                        <!--Settings-->
+                        <li class="sidebar-main-title">
+                          <div>
+                            <h6>Settings</h6>
+                          </div>
                         </li>
-                        <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="box"></i><span>Data Master</span></a>
-                          <ul class="nav-submenu menu-content">
 
-                            <li class="sidebar-title">Data Vendor / Supplier</li>
-                            <li class=" {{ request()->is('*perusahaan*') ? 'active' : '' }}">
-                              <a href="{{ url('/menu-perusahaan') }}" >
-                                <i class="bi bi-building"></i>
-                                <span>Perusahaan</span>
-                              </a>
-                            </li>
-                            <li class=" {{ request()->is('*private-person*') ? 'active' : '' }}">
-                              <a href="{{ url('/menu-private-person') }}" >
-                                <i class="bi bi-person-lines-fill"></i>
-                                <span>Private Person</span>
-                              </a>
-                            </li>
-                            <li class=" {{ request()->is('*ecommerce*') ? 'active' : '' }}">
-                              <a href="{{ url('/menu-ecommerce') }}" >
-                                <i class="bi bi-cast"></i>
-                                <span>Ecommerce</span>
-                              </a>
-                            </li>
-
-                          </ul>
+                        @hasrole('user')
+                        <li class="dropdown {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
+                            <i data-feather="settings"></i>
+                            <span>General Settings</span>
+                          </a>
                         </li>
-                        @endhasrole --}}
-                      </nav>
-                    </header>
-                    <!-- Page Sidebar Ends-->
-                    <div class="page-body">
-                      <div id="main">
-                        @yield('main')
-                      </div>
+                        @endhasrole
+
+                        @hasrole('user')
+                        <li class="dropdown {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
+                            <i data-feather="calendar"></i>
+                            <span>Calender</span>
+                          </a>
+                        </li>
+                        @endhasrole
+
+                        @hasrole('super user')
+                        <li class="dropdown {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
+                            <i data-feather="settings"></i>
+                            <span>General Settings</span>
+                          </a>
+                        </li>
+                        @endhasrole
+
+                        @hasrole('super user')
+                        <li class="dropdown {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
+                            <i data-feather="calendar"></i>
+                            <span>Calender</span>
+                          </a>
+                        </li>
+                        @endhasrole
+
+                        @hasrole('purchasing')
+                        <li class="dropdown {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
+                            <i data-feather="settings"></i>
+                            <span>General Settings</span>
+                          </a>
+                        </li>
+                        @endhasrole
+
+                        @hasrole('finance')
+                        <li class="dropdown {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
+                            <i data-feather="settings"></i>
+                            <span>General Settings</span>
+                          </a>
+                        </li>
+                        @endhasrole
+
+                        @hasrole('finance')
+                        <li class="dropdown {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
+                            <i data-feather="calendar"></i>
+                            <span>Calender</span>
+                          </a>
+                        </li>
+                        @endhasrole
+
+                        @hasrole('super admin')
+                        <li class="dropdown {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
+                            <i data-feather="settings"></i>
+                            <span>General Settings</span>
+                          </a>
+                        </li>
+                        @endhasrole
+
+                        @hasrole('super admin')
+                        <li class="dropdown {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
+                            <i data-feather="calendar"></i>
+                            <span>Calender</span>
+                          </a>
+                        </li>
+                        @endhasrole
+                      </ul>
                     </div>
-                    <!-- footer start-->
+                    <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+                  </div>
+                </nav>
+              </header>
+              <!--End Settings-->
 
-                    <footer class="footer">
-                      <div class="container-fluid">
-                        <div class="row">
-                          <div class="col-md-6 footer-copyright">
-                            <h5 style="font-weight: bold;" class="mb-0"><img src="{{ asset('assets/images/intek.png') }}" alt="" width="30" class="fluid">&nbsp;
-                            SOLUSI INTEK INDONESIA</h5>
-                          </div>
-                          <div class="col-md-6">
-                            <p class="pull-right mb-0">Copyright &copy; 2022 | PT SOLUSI INTEK INDONESIA | <mark style="background-color: #29465B; color: #ffffff">E-Procurement</mark></p>
-                          </div>
+               <!--- @hasrole('super admin')
+                      <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="bell"></i><span>Menu</span></a>
+                        <ul class="nav-submenu menu-content">
+
+                          <li class=" {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-pengajuan-pembelian') }}" >
+                              <i class="bi bi-file-text"></i>
+                              <span>Pengajuan Pembelian</span>
+                            </a>
+                          </li>
+                          <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-task-list') }}" >
+                              <i class="bi bi-calendar-x"></i>
+                              <span>Task List</span>
+                              <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated">{{ \App\Models\CategoryPengajuanPembelian::count() }}</span></div>
+                            </a>
+                          </li>
+                          <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-purchase-order') }}" >
+                              <i class="bi bi-calendar-x"></i>
+                              <span>Purchase Order</span>
+                            </a>
+                          </li>
+                          <li class=" {{ request()->is('*quotation*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-quotation') }}" >
+                              <i class="bi bi-receipt"></i>
+                              <span>Quotation</span>
+                            </a>
+                          </li>
+                          <li class=" {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-pengajuan-dana') }}" >
+                              <i class="bi bi-cash-coin"></i> <span>Pengajuan Dana</span>
+                            </a>
+                          </li>
+                          <li class=" {{ request()->is('*pembelian-barang*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-pembelian-barang') }}" >
+                              <i class="bi bi-currency-dollar"></i>
+                              <span>Pembelian Barang</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="box"></i><span>Data Master</span></a>
+                        <ul class="nav-submenu menu-content">
+
+                          <li class="sidebar-title">Data Vendor / Supplier</li>
+                          <li class=" {{ request()->is('*perusahaan*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-perusahaan') }}" >
+                              <i class="bi bi-building"></i>
+                              <span>Perusahaan</span>
+                            </a>
+                          </li>
+                          <li class=" {{ request()->is('*private-person*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-private-person') }}" >
+                              <i class="bi bi-person-lines-fill"></i>
+                              <span>Private Person</span>
+                            </a>
+                          </li>
+                          <li class=" {{ request()->is('*ecommerce*') ? 'active' : '' }}">
+                            <a href="{{ url('/menu-ecommerce') }}" >
+                              <i class="bi bi-cast"></i>
+                              <span>Ecommerce</span>
+                            </a>
+                          </li>
+
+                        </ul>
+                      </li>
+                      @endhasrole --->
+
+
+
+
+
+                      <!-- Page Sidebar Ends-->
+                      <div class="page-body">
+                        <div id="main">
+                          @yield('main')
                         </div>
                       </div>
-                    </footer>
+                      <!-- footer start-->
+
+                      <footer class="footer">
+                        <div class="container-fluid">
+                          <div class="row">
+                            <div class="col-md-6 footer-copyright">
+                              <h5 style="font-weight: bold;" class="mb-0"><img src="{{ asset('assets/images/intek.png') }}" alt="" width="30" class="fluid">&nbsp;
+                              SOLUSI INTEK INDONESIA</h5>
+                            </div>
+                            <div class="col-md-6">
+                              <p class="pull-right mb-0">Copyright &copy; 2022 | PT SOLUSI INTEK INDONESIA | <mark style="background-color: #29465B; color: #ffffff">E-Procurement</mark></p>
+                            </div>
+                          </div>
+                        </div>
+                      </footer>
+                    </div>
                   </div>
-                </div>
-                <!-- latest jquery-->
-                <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
-                <!-- feather icon js-->
-                <script src="{{ asset('../assets/js/icons/feather-icon/feather.min.js') }}"></script>
-                <script src="{{ asset('../assets/js/icons/feather-icon/feather-icon.js') }}"></script>
-                <!-- Sidebar jquery-->
-                <script src="{{ asset('../assets/js/sidebar-menu.js') }}"></script>
-                <script src="{{ asset('../assets/js/config.js') }}"></script>
-                <!-- Bootstrap js-->
-                <script src="{{ asset('../assets/js/bootstrap/popper.min.js') }}"></script>
-                <script src="{{ asset('../assets/js/bootstrap/bootstrap.min.js') }}"></script>
-                <!-- Plugins JS start-->
-                <script src="{{ asset('../assets/js/chart/chartist/chartist.js') }}"></script>
-                <script src="{{ asset('../assets/js/chart/chartist/chartist-plugin-tooltip.js') }}"></script>
-                <script src="{{ asset('../assets/js/chart/knob/knob.min.js') }}"></script>
-                <script src="{{ asset('../assets/js/chart/knob/knob-chart.js') }}"></script>
-                <script src="{{ asset('../assets/js/chart/apex-chart/apex-chart.js') }}"></script>
-                <script src="{{ asset('../assets/js/chart/apex-chart/stock-prices.js') }}"></script>
-                <script src="{{ asset('../assets/js/prism/prism.min.js') }}"></script>
-                <script src="{{ asset('../assets/js/clipboard/clipboard.min.js') }}"></script>
-                <script src="{{ asset('../assets/js/counter/jquery.waypoints.min.js') }}"></script>
-                <script src="{{ asset('../assets/js/counter/jquery.counterup.min.js') }}"></script>
-                <script src="{{ asset('../assets/js/counter/counter-custom.js') }}"></script>
-                <script src="{{ asset('../assets/js/custom-card/custom-card.js') }}"></script>
-                <script src="{{ asset('../assets/js/notify/bootstrap-notify.min.js') }}"></script>
-                <script src="{{ asset('../assets/js/vector-map/jquery-jvectormap-2.0.2.min.js') }}"></script>
-                <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-world-mill-en.js') }}"></script>
-                <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-us-aea-en.js') }}"></script>
-                <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-uk-mill-en.js') }}"></script>
-                <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-au-mill.js') }}"></script>
-                <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-chicago-mill-en.js') }}"></script>
-                <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-in-mill.js') }}"></script>
-                <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-asia-mill.js') }}"></script>
-                <script src="{{ asset('../assets/js/dashboard/default.js') }}"></script>
-                <script src="{{ asset('../assets/js/notify/index.js') }}"></script>
-                <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.js') }}"></script>
-                <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
-                <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
-                <!-- Plugins JS Ends-->
-                {{--
-                  <!-- JS Zuramai-->
-                  <script src="{{ asset('assets/js_zuramai/extensions/jquery.js') }}"></script>
-                  <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-                  <script src="{{ asset('assets/js_zuramai/extensions/datatables.js') }}"></script>
-                  <!-- JS Zuramai Ends--> --}}
-
-                  <!-- Theme js-->
-                  <script src="{{ asset('../assets/js/script.js') }}"></script>
-                  <script src="{{ asset('../assets/js/theme-customizer/customizer.js') }}"></script>
-                  <!-- login js-->
-                  <!-- Plugin used-->
+                  <!-- latest jquery-->
+                  <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
+                  <!-- feather icon js-->
+                  <script src="{{ asset('../assets/js/icons/feather-icon/feather.min.js') }}"></script>
+                  <script src="{{ asset('../assets/js/icons/feather-icon/feather-icon.js') }}"></script>
+                  <!-- Sidebar jquery-->
+                  <script src="{{ asset('../assets/js/sidebar-menu.js') }}"></script>
+                  <script src="{{ asset('../assets/js/config.js') }}"></script>
+                  <!-- Bootstrap js-->
+                  <script src="{{ asset('../assets/js/bootstrap/popper.min.js') }}"></script>
+                  <script src="{{ asset('../assets/js/bootstrap/bootstrap.min.js') }}"></script>
                   <!-- Plugins JS start-->
-                  <script src="{{ asset('../assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.buttons.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/jszip.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.colVis.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/pdfmake.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/vfs_fonts.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.select.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.html5.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.print.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.scroller.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/datatable/datatable-extension/custom.js') }}"></script>
-                  <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
-                  <script src="{{ asset('assets/Js/jam.js') }}"></script>
-                  <script src="{{ asset('../assets/js/chart/chartjs/chart.min.js') }}"></script>
-                  <script src="{{ asset('../assets/js/chart/chartjs/chart.custom.js') }}"></script>
-                  <script src="{{ asset('../assets/js/form-wizard/form-wizard-three.js') }}"></script>
-                  <script src="{{ asset('../assets/js/form-wizard/jquery.backstretch.min.js') }}"></script>
-
+                  <script src="{{ asset('../assets/js/chart/chartist/chartist.js') }}"></script>
+                  <script src="{{ asset('../assets/js/chart/chartist/chartist-plugin-tooltip.js') }}"></script>
+                  <script src="{{ asset('../assets/js/chart/knob/knob.min.js') }}"></script>
+                  <script src="{{ asset('../assets/js/chart/knob/knob-chart.js') }}"></script>
+                  <script src="{{ asset('../assets/js/chart/apex-chart/apex-chart.js') }}"></script>
+                  <script src="{{ asset('../assets/js/chart/apex-chart/stock-prices.js') }}"></script>
+                  <script src="{{ asset('../assets/js/prism/prism.min.js') }}"></script>
+                  <script src="{{ asset('../assets/js/clipboard/clipboard.min.js') }}"></script>
+                  <script src="{{ asset('../assets/js/counter/jquery.waypoints.min.js') }}"></script>
+                  <script src="{{ asset('../assets/js/counter/jquery.counterup.min.js') }}"></script>
+                  <script src="{{ asset('../assets/js/counter/counter-custom.js') }}"></script>
+                  <script src="{{ asset('../assets/js/custom-card/custom-card.js') }}"></script>
+                  <script src="{{ asset('../assets/js/notify/bootstrap-notify.min.js') }}"></script>
+                  <script src="{{ asset('../assets/js/vector-map/jquery-jvectormap-2.0.2.min.js') }}"></script>
+                  <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-world-mill-en.js') }}"></script>
+                  <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-us-aea-en.js') }}"></script>
+                  <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-uk-mill-en.js') }}"></script>
+                  <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-au-mill.js') }}"></script>
+                  <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-chicago-mill-en.js') }}"></script>
+                  <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-in-mill.js') }}"></script>
+                  <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-asia-mill.js') }}"></script>
+                  <script src="{{ asset('../assets/js/dashboard/default.js') }}"></script>
+                  <script src="{{ asset('../assets/js/notify/index.js') }}"></script>
+                  <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.js') }}"></script>
+                  <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
+                  <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
                   <!-- Plugins JS Ends-->
-                  <!-- Theme js-->
+                  {{--
+                    <!-- JS Zuramai-->
+                    <script src="{{ asset('assets/js_zuramai/extensions/jquery.js') }}"></script>
+                    <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+                    <script src="{{ asset('assets/js_zuramai/extensions/datatables.js') }}"></script>
+                    <!-- JS Zuramai Ends--> --}}
 
-                  @yield('scripts')
-                </body>
-                </html>
+                    <!-- Theme js-->
+                    <script src="{{ asset('../assets/js/script.js') }}"></script>
+                    <script src="{{ asset('../assets/js/theme-customizer/customizer.js') }}"></script>
+                    <!-- login js-->
+                    <!-- Plugin used-->
+                    <!-- Plugins JS start-->
+                    <script src="{{ asset('../assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.buttons.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/jszip.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.colVis.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/pdfmake.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/vfs_fonts.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.select.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.html5.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.print.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.scroller.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/datatable/datatable-extension/custom.js') }}"></script>
+                    <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
+                    <script src="{{ asset('assets/Js/jam.js') }}"></script>
+                    <script src="{{ asset('../assets/js/chart/chartjs/chart.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/chart/chartjs/chart.custom.js') }}"></script>
+                    <script src="{{ asset('../assets/js/form-wizard/form-wizard-three.js') }}"></script>
+                    <script src="{{ asset('../assets/js/form-wizard/jquery.backstretch.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/height-equal.js') }}"></script>
+                    <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
+
+                    <script src="{{ asset('../assets/js/prism/prism.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/clipboard/clipboard.min.js') }}"></script>
+                    <script src="{{ asset('../assets/js/custom-card/custom-card.js"></script>
+                    <!-- Plugins JS Ends-->
+
+
+                    <!-- Plugins JS Ends-->
+                    <!-- Theme js-->
+
+                    @yield('scripts')
+                  </body>
+                  </html>
