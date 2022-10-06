@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('category_pengajuan_pembelian', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->default('0');
-            $table->string('status')->default('pending')->nullable();
+            $table->string('status')->default('Awaiting Purchase Submission Approval')->nullable();
             $table->foreignId('atasan')->constrained('users');
             $table->date('date_ps');
             $table->string('ws'); //Who Submitted(ws)

@@ -165,7 +165,7 @@
                                         <td>{{ $ppb->dateline }}</td>
                                         <td>{{ $ppb->ws }}</td>
                                         <td>
-                                        <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                        <a href="{{ url('menu-taskList-atasan-po/detail/' .  $ppb->id) }}"
                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>

@@ -12,8 +12,8 @@ class CategoryPO extends Model
     protected $fillable = [
         'id',
         'ppb_id',
-        'vendor_id',
-        'vendor_type',
+        // 'vendor_id',
+        // 'vendor_type',
         'term_conditions',
         'atasan_po',
         'address',

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
             $table->foreignId('atasan_po')->constrained('users');
-            $table->morphs('vendor');
+            // $table-> ('vendor')
             $table->foreignId('term_conditions')->constrained('terms_and_condition');
             $table->string('quotation');
             $table->string('address');

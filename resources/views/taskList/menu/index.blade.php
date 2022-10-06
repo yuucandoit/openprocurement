@@ -50,7 +50,7 @@
                                 $no = 1;
                             @endphp
                             @foreach ($datappb as $ppb)
-                                @if ($ppb->status == 'Accepted by Super user')
+                                @if ($ppb->status == 'Purchase Submission Approved')
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $ppb->desc }}</td>
@@ -93,6 +93,7 @@
 @endsection
 
 @section('scripts')
+    {{-- <script src="{{  }}"></script> --}}
     <script>
         const data = @json($datappb);
         const item =data[0];
@@ -106,7 +107,7 @@
             const dueDateAt     = new Date(approvedAt.getTime() + dueDateTime.getTime());
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
 
-            // console.log(remainingTime.getTime());
+            console.log(remainingTime.getTime());
             if(remainingTime.getTime())
             if(remainingTime.getTime() < 1) return "Your time is up";
 

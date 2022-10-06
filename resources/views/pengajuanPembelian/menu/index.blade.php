@@ -114,7 +114,7 @@
                             <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ppembelian->id }}">Delete</button>
                       </td>
                       @hasrole('user|super admin')
-                       <td> <a class="badge {{ $ppembelian->status == 'pending' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
+                       <td> <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
                       @endhasrole
 
                     </tr>

@@ -52,7 +52,7 @@
                                     $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'pending')
+                                    @if ($ppb->status == 'Awaiting Purchase Submission Approval')
                                     <tr>
                                         @if ($ppb->atasan == 3)
                                         <td>{{ $no++ }}</td>
@@ -65,7 +65,7 @@
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                         @endif
                                     </tr>
@@ -89,7 +89,7 @@
                                     $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'pending')
+                                    @if ($ppb->status == 'Awaiting Purchase Submission Approval')
                                     <tr>
                                         @if ($ppb->atasan == 6)
                                         <td>{{ $no++ }}</td>
@@ -102,7 +102,7 @@
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                         @endif
                                     </tr>
@@ -127,7 +127,7 @@
                                     $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'pending')
+                                    @if ($ppb->status == 'Awaiting Purchase Submission Approval')
                                     <tr>
                                         @if ($ppb->atasan == 7)
                                         <td>{{ $no++ }}</td>
@@ -140,7 +140,7 @@
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                         @endif
                                     </tr>
@@ -164,7 +164,7 @@
                                     $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'pending')
+                                    @if ($ppb->status == 'Awaiting Purchase Submission Approval')
                                     <tr>
                                         @if ($ppb->atasan == 8)
                                         <td>{{ $no++ }}</td>
@@ -177,7 +177,7 @@
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                         @endif
                                         </tr>
@@ -201,7 +201,7 @@
                                     $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'pending')
+                                    @if ($ppb->status == 'Awaiting Purchase Submission Approval')
                                     <tr>
                                         @if ($ppb->atasan == 9)
                                         <td>{{ $no++ }}</td>
@@ -214,7 +214,7 @@
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                         @endif
                                     </tr>

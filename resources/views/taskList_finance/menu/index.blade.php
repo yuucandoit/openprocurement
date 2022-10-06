@@ -50,19 +50,19 @@
                                     $no = 1;
                                     @endphp
                                      @foreach ($datappb as $ppb)
-                                     @if ($ppb->status == 'Selesai Di proses Purchasing' )
+                                     @if ($ppb->status == 'Submitted For Purchase Funding' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td>{{ $ppb->ws }}</td>
                                         <td>
-                                        <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                        <a href="{{ url('menu-tasklist-finance/detail/' .  $ppb->id) }}"
                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $ppb->status == 'Submitted For Purchase Funding' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                     </tr>
                                     @endif

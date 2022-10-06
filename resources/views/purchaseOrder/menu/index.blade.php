@@ -1,4 +1,4 @@
-<title>Purchase order</title>
+    <title>Purchase order</title>
 
 @extends('layouts.master')
 
@@ -101,7 +101,7 @@
                             @endphp
                             <tbody>
                                 @foreach ($datappb as $purchase)
-                                @if ($purchase->status == 'Accepted by Purchasing' )
+                                @if ($purchase->status == 'Purchase Proses' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $purchase->ws }}</td>
@@ -110,7 +110,7 @@
                                         <td id="countdown-{{ $purchase->id }}"></td>
                                         <td>{{ $purchase->created_at }}</td>
                                         @hasrole('purchasing|super admin')
-                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $purchase->status == 'Purchase Proses' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $purchase->status }}</a></td>
 
                                         <td>

@@ -183,30 +183,7 @@
                       </li>
                       @endhasrole
 
-                      @hasrole('purchasing|super admin')
-                      <li class="sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-purchase-order') }}" >
-                          <i data-feather="file-text"></i>
-                          <span>Purchase Order</span>
-                        </a>
-                      </li>
-                      @endhasrole
-                      @hasrole('finance|super admin')
-                      <li class="sidebar-item {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
-                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-dana') }}" >
-                          <i data-feather="dollar-sign"></i>
-                          <span> Fund Submission</span>
-                        </a>
-                      </li>
-                      @endhasrole
-
                       @hasrole('super user|super admin|purchasing|finance')
-                      <li class="sidebar-main-title">
-                        <div>
-                          <h6>Tasks</h6>
-                        </div>
-                      </li>
-
                       <li class="dropdown">
                         <a class="nav-link menu-title" href="javascript:void(0)">
                           <i data-feather="check-circle"></i>
@@ -250,6 +227,24 @@
                         </li>
                         @endhasrole
 
+                    @hasrole('purchasing|super admin')
+                      <li class="sidebar-item {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-purchase-order') }}" >
+                          <i data-feather="file-text"></i>
+                          <span>Purchase Order</span>
+                        </a>
+                      </li>
+                      @endhasrole
+
+                      @hasrole('finance|super admin')
+                      <li class="sidebar-item {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
+                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-dana') }}" >
+                          <i data-feather="dollar-sign"></i>
+                          <span> Fund Submission</span>
+                        </a>
+                      </li>
+                      @endhasrole
+
                         @hasrole('admin')
                         <li class="sidebar-main-title">
                           <div>
@@ -265,12 +260,13 @@
                         </li>
                         @endhasrole
 
+                        @hasrole('user|super admin')
                         <li class="sidebar-main-title">
                           <div>
                             <h6>Settings</h6>
                           </div>
                         </li>
-                        @hasrole('user|super admin')
+
                         <li class="sidebar-item  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
                           <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-pembelian') }}" >
                             <i data-feather="settings"></i>

@@ -1,4 +1,4 @@
-<title>Data Pengajuan</title>
+<title>Detail Task List PO</title>
 
 @extends('layouts.master')
 
@@ -9,13 +9,9 @@
             <div class="row">
                 <div class="card shadow mb-5">
                     <div class="card-body text-center">
-                        <h1>Detail Dari {{ $data_pengajuan->ws }}</h1>
+                        <h1>Detail From {{ $data_pengajuan->ws }}</h1>
                             <table class="table table-bordered mt-4">
                                 <tbody>
-                                    <tr>
-                                        <td>Proposed Supplier</td>
-                                        <td>{{ $data_pengajuan->proposed_supplier }}</td>
-                                    </tr>
                                     <tr>
                                         <td>Date</td>
                                         <td>{{ $data_pengajuan->date_ps }}</td>

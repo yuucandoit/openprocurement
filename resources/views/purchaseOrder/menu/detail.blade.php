@@ -141,11 +141,11 @@
                         {{-- Start Modal Approval --}}
                         @if ($data_pengajuan->status == 'Waiting For PO Approval')
                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                data-bs-target="#modalSelesai" disabled>Approval Request Has Been Sent to Super
-                                User</button>
-                        @elseif ($data_pengajuan->status == 'Accepted by Purchasing')
+                                data-bs-target="#modalSelesai" disabled>Approval Request Sent
+                                </button>
+                        @elseif ($data_pengajuan->status == 'Purchase Proses')
                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                data-bs-target="#modalSelesai">Send Approval Request To Super User</button>
+                                data-bs-target="#modalSelesai">Send Approval Request For Purchase Order</button>
                         @endif
 
                         @if ($data_pengajuan->status == 'Submitted For Purchase Funding')
@@ -174,20 +174,20 @@
                                     {{-- End Modal Approval --}}
 
                                     <div class="modal-footer">
-                                        @if ($data_pengajuan->status == 'Accepted by Purchasing')
-                                            <form
+                                        @if ($data_pengajuan->status == 'Purchase Proses')
+                                            <form class="text-center"
                                                 action="{{ url('menu-purchase-order/ajukan_keatasan', $data_pengajuan->id) }}">
-                                                <button type="submit" class="btn btn-outline-danger"><i
+                                                <button type="submit" class="btn btn-outline-danger "><i
                                                         class="bx bx-trash"></i>
-                                                    Send Approval Request To Super User
+                                                    Send Approval Request For Purchase Order
                                                 </button>
                                             </form>
                                         @endif
 
                                         @if ($data_pengajuan->status == 'Approved by Super user')
-                                            <form
+                                            <form class="text-center"
                                                 action="{{ url('menu-purchase-order/ajukan_dana', $data_pengajuan->id) }}">
-                                                <button type="submit" class="btn btn-outline-danger"><i
+                                                <button type="submit" class="btn btn-outline-danger "><i
                                                         class="bx bx-trash"></i>
                                                     Apply For Purchase Funding
                                                 </button>
@@ -202,18 +202,19 @@
             </div>
         </div>
 
-        @if ($data_pengajuan->status == 'Accepted by Purchasing')
+        @if ($data_pengajuan->status == 'Purchase Proses')
             <a href={{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }} class="btn btn-success mb-3 mr-1"
                 style="align-self: flex-end"> Export to Excel</a>
+
+            <a type="reset" class="btn btn-danger mb-3 mr-1" href="{{ url('/menu-purchase-order/') }}">Back</a>
         @endif
 
         @if ($data_pengajuan->status == 'Approved by Super user')
             <a href={{ url('/exportpdf/po/' . $data_pengajuan->id) }} class="btn btn-danger mb-3 mr-1"
                 style="align-self: flex-end"> Export to PDF</a>
+
+            <a type="reset" class="btn btn-danger mb-3 mr-1" href="{{ url('/menu-purchase-order/') }}">Back</a>
         @endif
 
-        <div class="back mt-4">
-            <a type="reset" class="btn btn-danger" href="{{ url('/menu-purchase-order/') }}">Back</a>
-        </div>
     </section>
 @endsection

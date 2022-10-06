@@ -147,17 +147,17 @@ class TaskListAtasanController extends Controller
             $data->dateline_time = ('03:00:00');
             $data->updated_at = Carbon::now();
             $data->approved_at = now();
-            $data->status = 'Accepted by Super user';
+            $data->status = 'Purchase Submission Approved' ;
         }elseif($data->dateline == '≤24Jam'){
             $data->dateline_time = ('24:00:00');
             $data->updated_at = Carbon::now();
             $data->approved_at = now();
-            $data->status = 'Accepted by Super user';
+            $data->status = 'Purchase Submission Approved';
         }elseif($data->dateline == '≤2Hari'){
             $data->dateline_time = ('48:00:00');
             $data->updated_at = Carbon::now();
             $data->approved_at = now();
-            $data->status = 'Accepted by Super user';
+            $data->status = 'Purchase Submission Approved';
         }
         $data->save();
         return redirect("menu-taskList-atasan/");
@@ -166,7 +166,7 @@ class TaskListAtasanController extends Controller
     public function reject($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Rejected by Super user';
+        $data->status = 'Purchase Submission Rejected';
         $data->save();
         return redirect()->back();
     }

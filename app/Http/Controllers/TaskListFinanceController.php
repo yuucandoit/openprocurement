@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\TaskListFinance;
 use Illuminate\Http\Request;
@@ -37,6 +38,23 @@ class TaskListFinanceController extends Controller
             ->with('datappb', $datappb)
             ->with('datadv', $datadv);
         }
+    }
+
+    public function detail($id)
+    {
+        $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        return view('taskList_finance.menu.detail')
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('data_pengajuan', $data_pengajuan);
     }
     /**
      * Show the form for creating a new resource.

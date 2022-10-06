@@ -130,7 +130,7 @@ class CategoryTaskListController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        $data->status = 'Accepted by Purchasing';
+        $data->status = 'Purchase Proses';
         $data->save();
         return redirect('menu-task-list');
     }

@@ -84,35 +84,6 @@
                                 @else
                             @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                             <td style="text-align:right;">
-                                {{-- Ketika gamake ppn  --}}
-                                @if ($dv->ppn == 0)
-                                    @foreach ($total_tnpa_ppn as $tpn)
-                                    {{-- Ketika mata uang yang dipilih RP --}}
-                                        @if ($dv->matauang == 'RP')
-                                        RP. {{ number_format($tpn->total) }}
-                                        {{-- Ketika mata uang yang dipilih USD --}}
-                                        @elseif ($dv->matauang == 'USD')
-                                        $ {{ number_format($tpn->total) }}
-                                        @endif
-                                    @endforeach
-                                @endif
-                                {{-- End Gamake ppn --}}
-                                {{-- Ketika make ppn --}}
-                                @if ($dv->ppn == 1)
-                                    @foreach ($total_tnpa_ppn as $tpn)
-                                            @if ($dv->matauang == 'RP')
-                                               RP. {{ number_format($tpn->total) }} x 11%
-                                                 @elseif ($dv->matauang == 'USD')
-                                                $ {{ number_format($tpn->total) }} x 11%
-                                            @endif
-                                    @endforeach
-                                @endif
-                                {{-- End make ppn --}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label class="pull-right mx-2"> Total PPN :</label></td>
-                            <td style="text-align: right;">
                                 @foreach ($ppn as $p)
                                 {{-- Ketika mata uang yang dipilih RP --}}
                                     @if ($dv->matauang == 'RP')
@@ -124,6 +95,7 @@
                                 @endforeach
                             </td>
                         </tr>
+
                         @if ($dv->ppn == 1)
                         <tr>
                             <td class="text-end">Grand Total :</td>
@@ -154,7 +126,7 @@
                 <form class="row g-2" action={{ url('/menu-purchase-order/update/' . $dv->id) }} method="POST"
                     enctype="multipart/form-data">
                     @csrf
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                         <div class="form-floating">
                             <select class="form-select mt-2" id="floatingproposedto" placeholder="Proposed To" name="atasan_po">
                                 @foreach ($atasan as $sui)
@@ -163,7 +135,7 @@
                             </select>
                             <label for="floatingproposedto">-- Approved To --</label>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-12">
                         <div class="form-floating">
                             <select class="form-select mt-2" id="floatingproposedto" placeholder="Proposed To" name="atasan_po" >

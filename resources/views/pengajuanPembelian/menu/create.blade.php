@@ -46,14 +46,21 @@
                     </div>
                     <div class="col-6">
                         <div class="form-floating" >
-                            <select class="form-select mt-2 @error('ws') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws"=">
+                            <select class="form-select mt-2 @error('ws') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws">
                                 <option value=""disabled selected hidden>Who Submitted</option>
-                                <option value="Brian"           >   Brian           </option>
-                                <option value="User"            >   User            </option>
-                                <option value="Kobo Kanaeru"    >   Kobo Kanaeru    </option>
-                                <option value="Awan"            >   Awan            </option>
-                                <option value="Echo Prasetyo"   >   Echo Prasetyo   </option>
-                                <option value="Syachroni"       >   Syachroni       </option>
+                                <option value="Business_Development"    >Business Development   </option>
+                                <option value="Finance"                 >Finance                </option>
+                                <option value="GA"                      >GA                     </option>
+                                <option value="Human_Resource"          >Human Resource         </option>
+                                <option value="Legal"                   >Legal                  </option>
+                                <option value="Programmer"              >Programmer             </option>
+                                <option value="Project"                 >Project                </option>
+                                <option value="Product"                 >Product                </option>
+                                <option value="Production"              >Production             </option>
+                                <option value="Purchasing"              >Purchasing             </option>
+                                <option value="R&D"                     >R&D                    </option>
+                                <option value="Support_Workshop"        >Support Workshop       </option>
+                                <option value="Tax"                     >Tax                    </option>
                             </select>
                             <label for="floatingwhosubmitted">-- Who Submitted --</label>
 
@@ -78,7 +85,7 @@
                     </style>
                     <div class="col-6">
                         <div class="form-group" >
-                            <select class="form-select page mt-2 @error('purpose') is-invalid @enderror" id="pageSelector" placeholder="Purpose" name="purpose"=">
+                            <select class="form-select page mt-2 @error('purpose') is-invalid @enderror" id="pageSelector" placeholder="Purpose" name="purpose">
                                 <option value="" disabled selected hidden>Purpose</option>
                                 @foreach ($purpose as $p)
                                 <option value="{{ $p->id }}">{{ $p->nama }}</option>
@@ -97,7 +104,7 @@
               </div>
                     <div class="col-6">
                         <div class="form-floating" >
-                            <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department"=">
+                            <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department">
                                 <option value="" disabled selected hidden>Department            </option>
                                 <option value="Business_Development"    >Business Development   </option>
                                 <option value="Finance"                 >Finance                </option>
@@ -125,7 +132,7 @@
                     </div>
                     <div class="col-6">
                         <div class="form-floating" >
-                            <textarea name="desc" id="floatingDesc" class="form-control @error('desc') is-invalid @enderror" cols="50" rows="30"=></textarea>
+                            <textarea name="desc" id="floatingDesc" class="form-control @error('desc') is-invalid @enderror" cols="50" rows="30"></textarea>
                             <label for="floatingDesc">Description</label>
 
                                 @error('desc')
@@ -219,18 +226,18 @@
 
                             <td><input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah " required/>
                             </td>
-                            <td ><input type="text" name="addMoreInputFields[0][total]" class="form-control form-line"/>
+                            <td ><input type="text" name="addMoreInputFields[0][total]" class="form-control form-line text-end"/>
                             </td>
                         </tr>
                     </table>
                     <table class="table table-bordered mx-2">
                     <tr>
                         <td><label class="pull-right mx-2"> DPP :</label></td>
-                        <td class="total_A text-end"><input style="display: none;" class="total_A" type="text" name="total_a"></td>
+                        <td class="total_A text-end"><input style="display: none;" class="total_A rupiah" type="text" name="total_a"></td>
                     </tr>
                     <tr>
                         <td><input class="mt-1 pull-right check-box" type="checkbox" name="ppn" value="1" {{ old('ppn',0) === 1 ? 'checked' : '' }}><label class="pull-right mx-2"> PPN 11% :</label></td>
-                        <td class="ppn text-end"><input style="display: none;" class="ppn" type="text" name="ppn"></td>
+                        <td class="ppn text-end"><input style="display: none;" class="ppn rupiah" type="text" name="ppn"></td>
                     </tr>
                     <tr>
                         <td class="text-end">Grand Total :</td>
@@ -239,7 +246,7 @@
                 </table>
                     <div class="mt-2">
                     <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">+AddItem</button>
-                </div>
+                    </div>
                     <div class="modal-footer">
                         <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-danger mt-3">Back</a>
                         <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
@@ -291,22 +298,24 @@
                  var parent = $(this).closest("tr");
                  var str = parent.find(".form-cost").val();
                  var res = str.replace(/\D/g, "");
-                 parent.find(".form-line").val((parent.find(".form-qty").val() * res) .toFixed(0));
+                 parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
                  var total = 0;
                  $(".form-line").each(function(){
                      total += parseInt($(this).val()||0);
                  });
-                 $(".total_A").text(total.toFixed(0));
+                 $(".total_A").text(total.toLocaleString('en-US'));
                  var checkbox =  document.querySelector(".check-box");
                  checkbox.addEventListener('change', (event) =>{
                      if(event.currentTarget.checked){
                          totalppn = total * 11 / 100;
                          grandtotal = total + totalppn;
-                         $(".ppn").text(totalppn);
-                         $(".total").text(grandtotal);
+                         $(".ppn").text(totalppn.toLocaleString('en-US'));
+                         $(".total").text(grandtotal.toLocaleString('en-US'));
                      }
                      else{
-                         $(".total").text(total.toFixed(0));
+                        totalppn = total * 0;
+                        $(".ppn").text(totalppn);
+                         $(".total").text(total.toLocaleString('en-US'));
                      }
                  })
 
@@ -325,7 +334,7 @@
                     '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
                     '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' + i +
                     '][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah"/></td> <td><input type="text" name="addMoreInputFields[' + i +
-                    '][total]" class="form-control form-line" /></td></tr>'
+                    '][total]" class="form-control form-line text-end" /></td></tr>'
                      );
                       var rupiah = document.querySelectorAll(".rupiah");
                         rupiah.forEach((item) => {

@@ -50,7 +50,7 @@ class CategoryPengajuanPembelianController extends Controller
             $dataec = CategoryEcommerce::all();
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
-            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('referensi')->get();
+            $datadv = CategoryPengajuanPembelian::all();
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
                 ->with('datapt', $datapt)
@@ -187,7 +187,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'item'              => $item['item'],
                 'qty'               => $item['qty'],
                 'kategori'          => $item['kategori'],
-                'unit_price'        => $unit_price,
+                'unit_price'        => (int)$unit_price,
                 'total'             => $item['total'],
             ]);
         }
@@ -214,11 +214,13 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
         $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
         $purpose = ReferensiNamaProject::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
         return view('pengajuanPembelian.menu.edit')
+            ->with('atasan', $atasan)
             ->with('datapt', $datapt)
             ->with('purpose', $purpose)
             ->with('item', $item)
@@ -245,7 +247,6 @@ class CategoryPengajuanPembelianController extends Controller
             "send_to" => $request->send_to,
             "dateline" => $request->dateline,
             "department" => $request->department,
-            "proposed_supplier" => $request->proposed_supplier,
         ]);
 
         $request->validate([
@@ -287,29 +288,29 @@ class CategoryPengajuanPembelianController extends Controller
         return Excel::download(new PPBExport($id), 'pengajuan_pembelian.xlsx');
     }
 
-    public function accept_atasan($id)
-    {
-        $data = CategoryPengajuanPembelian::find($id);
-        // dd($data);
-        $data->status = 'Accepted';
-        $data->save();
-        return redirect()->back();
-    }
+    // public function accept_atasan($id)
+    // {
+    //     $data = CategoryPengajuanPembelian::find($id);
+    //     // dd($data);
+    //     $data->status = 'Accepted';
+    //     $data->save();
+    //     return redirect()->back();
+    // }
 
-    public function accept($id)
-    {
-        $data = CategoryPengajuanPembelian::find($id);
-        // dd($data);
-        $data->status = 'Accepted';
-        $data->save();
-        return redirect()->back();
-    }
+    // public function accept($id)
+    // {
+    //     $data = CategoryPengajuanPembelian::find($id);
+    //     // dd($data);
+    //     $data->status = 'Accepted';
+    //     $data->save();
+    //     return redirect()->back();
+    // }
 
-    public function reject($id)
-    {
-        $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Rejected';
-        $data->save();
-        return redirect()->back();
-    }
+    // public function reject($id)
+    // {
+    //     $data = CategoryPengajuanPembelian::find($id);
+    //     $data->status = 'Rejected';
+    //     $data->save();
+    //     return redirect()->back();
+    // }
 }

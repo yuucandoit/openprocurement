@@ -110,6 +110,7 @@
                                         @endforeach
 
                                         @elseif ($data_pengajuan->ppn == 0)
+                                        <td class="text-end">Grand Total :</td>
                                         @foreach ($total_tnpa_ppn as $tpn)
                                         @if ($data_pengajuan->matauang == 'RP')
                                         <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
