@@ -148,13 +148,12 @@
                                 data-bs-target="#modalSelesai">Send Approval Request For Purchase Order</button>
                         @endif
 
-                        @if ($data_pengajuan->status == 'Submitted For Purchase Funding')
+                        @if ($data_pengajuan->status == 'Invoicing Process')
                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                data-bs-target="#modalSelesai" disabled>Approval Request Has Been Sent to Super
-                                User</button>
-                        @elseif ($data_pengajuan->status == 'Approved by Super user')
+                                data-bs-target="#modalSelesai" disabled>Successfully send data</button>
+                        @elseif ($data_pengajuan->status == 'PO Approved')
                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                data-bs-target="#modalSelesai">Apply For Purchase Funding</button>
+                                data-bs-target="#modalSelesai">Apply For Invoicing Process</button>
                         @endif
 
                         <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
@@ -184,7 +183,7 @@
                                             </form>
                                         @endif
 
-                                        @if ($data_pengajuan->status == 'Approved by Super user')
+                                        @if ($data_pengajuan->status == 'PO Approved')
                                             <form class="text-center"
                                                 action="{{ url('menu-purchase-order/ajukan_dana', $data_pengajuan->id) }}">
                                                 <button type="submit" class="btn btn-outline-danger "><i
@@ -209,7 +208,7 @@
             <a type="reset" class="btn btn-danger mb-3 mr-1" href="{{ url('/menu-purchase-order/') }}">Back</a>
         @endif
 
-        @if ($data_pengajuan->status == 'Approved by Super user')
+        @if ($data_pengajuan->status == 'PO Approved')
             <a href={{ url('/exportpdf/po/' . $data_pengajuan->id) }} class="btn btn-danger mb-3 mr-1"
                 style="align-self: flex-end"> Export to PDF</a>
 

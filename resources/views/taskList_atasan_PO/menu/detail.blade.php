@@ -125,20 +125,20 @@
                                 @hasrole('super user|super admin')
                                 @if ($data_pengajuan->status == 'Approved by Super user')
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                            class="btn btn-success text-center" onclick="return"><b>Accepted</b></a>
+                                            class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
 
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                             class="btn btn-danger text-center" onclick="return">Reject</a>
 
                                 @elseif($data_pengajuan->status == 'Waiting For PO Approval')
                                         <a href="{{ url('menu-taskList-atasan-po/accept_atasan', $data_pengajuan->id) }}"
-                                          class="btn btn-success text-center" onclick="return">Accept</a>
+                                          class="btn btn-success text-center" onclick="return">Approve</a>
 
                                         <a href="{{ url('menu-taskList-atasan-po/reject', $data_pengajuan->id) }}"
                                             class="btn btn-danger text-center" onclick="return">Reject</a>
                                 @else
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                            class="btn btn-successtext-center" onclick="return">Accept</a>
+                                            class="btn btn-successtext-center" onclick="return">Approve</a>
 
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                             class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>

@@ -110,7 +110,7 @@
                                         <td id="countdown-{{ $purchase->id }}"></td>
                                         <td>{{ $purchase->created_at }}</td>
                                         @hasrole('purchasing|super admin')
-                                        <td> <a class="badge {{ $purchase->status == 'Purchase Proses' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $purchase->status == '' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $purchase->status }}</a></td>
 
                                         <td>
@@ -166,7 +166,7 @@
                             @endphp
                             <tbody>
                                 @foreach ($datappb as $purchase)
-                                @if ($purchase->status == 'Approved by Super user' )
+                                @if ($purchase->status == 'PO Approved' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $purchase->ws }}</td>

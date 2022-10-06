@@ -50,7 +50,7 @@
                                     $no = 1;
                                     @endphp
                                      @foreach ($datappb as $ppb)
-                                     @if ($ppb->status == 'Submitted For Purchase Funding' )
+                                     @if ($ppb->status == 'Invoicing Process' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
@@ -62,7 +62,7 @@
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                             class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
-                                        <td> <a class="badge {{ $ppb->status == 'Submitted For Purchase Funding' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                     </tr>
                                     @endif

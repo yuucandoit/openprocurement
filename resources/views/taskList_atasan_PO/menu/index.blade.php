@@ -54,6 +54,8 @@
                                     @foreach ($datappb as $ppb)
                                     @if ($ppb->status == 'Waiting For PO Approval')
                                     <tr>
+                                        @foreach ($data_atasan as $dt)
+                                        @if ($dt->atasan_po == 3)
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
@@ -66,6 +68,8 @@
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @endif
+                                        @endforeach
                                     </tr>
                                     @endif
                                     @endforeach
@@ -89,6 +93,8 @@
                                     @foreach ($datappb as $ppb)
                                     @if ($ppb->status == 'Waiting For PO Approval')
                                     <tr>
+                                        @foreach ($data_atasan as $dt)
+                                        @if ($dt->atasan_po == 6)
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
@@ -101,6 +107,8 @@
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @endif
+                                        @endforeach
                                     </tr>
                                     @endif
                                     @endforeach
@@ -125,6 +133,8 @@
                                     @foreach ($datappb as $ppb)
                                     @if ($ppb->status == 'Waiting For PO Approval')
                                     <tr>
+                                        @foreach ($data_atasan as $dt)
+                                        @if ($data_atasan->atasan_po == 7)
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
@@ -137,6 +147,8 @@
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @endif
+                                        @endforeach
                                     </tr>
                                     @endif
                                     @endforeach
@@ -160,6 +172,8 @@
                                     @foreach ($datappb as $ppb)
                                     @if ($ppb->status == 'Waiting For PO Approval')
                                     <tr>
+                                        @foreach ( $data_atasan as $dt )
+                                        @if ($dt->atasan_po == 8)
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
@@ -172,6 +186,8 @@
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @endif
+                                        @endforeach
                                         </tr>
                                         @endif
                                         @endforeach
@@ -195,6 +211,8 @@
                                     @foreach ($datappb as $ppb)
                                     @if ($ppb->status == 'Waiting For PO Approval')
                                     <tr>
+                                        @foreach ($data_atasan as $dt)
+                                    @if ($dt->atasan_po == 9)
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
@@ -207,6 +225,8 @@
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                    @endif
+                                        @endforeach
                                     </tr>
                                     @endif
                                     @endforeach

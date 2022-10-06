@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPO;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\TaskListAtasanPO;
@@ -22,9 +23,11 @@ class TasklistAtasanPoController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
-            $datappb = CategoryPengajuanPembelian::all();
+            $data_atasan = CategoryPO::whereIn('atasan_po',[3, 6, 7, 8, 9])->get();
             $datadv = TaskListAtasanPO::all();
+            // dd($data_atasan);
             return view('taskList_atasan_po.menu.index')
+            ->with('data_atasan', $data_atasan)
             ->with('datappb', $datappb)
             ->with('datadv', $datadv);
         }
@@ -130,7 +133,7 @@ class TasklistAtasanPoController extends Controller
     public function accept_atasan($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Approved by Super user';
+        $data->status = 'PO Approved';
         $data->image = '/public/images/victor.jpeg';
         $data->save();
         return redirect('menu-taskList-atasan-po');

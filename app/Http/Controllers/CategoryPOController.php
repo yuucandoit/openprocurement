@@ -217,7 +217,7 @@ class CategoryPOController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        $data->status = 'Submitted For Purchase Funding';
+        $data->status = 'Invoicing Process';
         $data->save();
         return redirect('menu-purchase-order');
     }
