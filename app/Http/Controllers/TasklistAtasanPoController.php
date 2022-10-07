@@ -134,7 +134,7 @@ class TasklistAtasanPoController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'PO Approved';
-        $data->image = '/public/images/victor.jpeg';
+        $data->image = 'tandatangancontoh.png';
         $data->save();
         return redirect('menu-taskList-atasan-po');
     }

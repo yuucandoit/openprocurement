@@ -10,8 +10,10 @@ use App\Exports\PoExport;
 use App\Exports\PoPDFExport;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\PengajuanPembelian;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf;
 
@@ -144,6 +146,8 @@ class PurchaseOrderController extends Controller
     public function exportpdf($id)
     {
         // $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->get()->first();
+        $data['cpp'] = CategoryPengajuanPembelian::where('id',$id)->get();
+
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->get()->first();
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->get()->first();
         $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
@@ -155,9 +159,8 @@ class PurchaseOrderController extends Controller
         $data['year2'] = Carbon::now()->format('Y');
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
-        $data['image'] = 
-
-        $pdf = PDF::loadView('purchaseOrder.export-pdf.purchase', ['data'=> $data,])->setpaper('A4', 'potrait');
+        //dd($data['cpp']);
+        $pdf = PDF::loadView('purchaseOrder.export-pdf.purchase', $data)->setpaper('A4', 'potrait');
         return $pdf->download('PurchaseOrder.pdf');
 
         // $pdf = Dompdf::loadView('export-pdf.purchase', ['data' => $data]);

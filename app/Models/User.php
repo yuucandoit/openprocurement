@@ -23,6 +23,10 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function po()
+    {
+        return $this->hasMany(CategoryPO::class, 'atasan_po');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -45,6 +45,10 @@ class CategoryPO extends Model
     {
         return $this->belongsTo(TermsAndConditions::class, 'term_conditions');
     }
+    public function atasans()
+    {
+        return $this->belongsTo(User::class, 'atasan_po');
+    }
     public function vendortable()
     {
         return $this->morphTo();

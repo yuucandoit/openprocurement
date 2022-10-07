@@ -140,12 +140,14 @@
                     </div>
                     <h1>Purchase Order B</h1>
                 </div>
-
                 <div class="card shadow mb-5">
                     <div class="card-body">
+                        <button disabled type="button" class="btn btn-danger" style="margin-bottom: 1rem;" href=""
+                        onclick="exportSelectedFile()" id="button-export-terpilih">Export Selected File</button>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
+                                    <th><input type="checkbox" id="head-cb"></th>
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Send To</th>
@@ -168,6 +170,7 @@
                                 @foreach ($datappb as $purchase)
                                 @if ($purchase->status == 'PO Approved' )
                                     <tr>
+                                        <td><input type="checkbox" name="" id=""></td>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $purchase->ws }}</td>
                                         <td>{{ $purchase->send_to }}</td>
