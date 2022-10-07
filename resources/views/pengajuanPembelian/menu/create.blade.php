@@ -87,34 +87,34 @@
               <div class="form-group">
                 <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted :</label>
                 <select class="form-select page @error('purpose') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws" required="">
-                    <option value="" disabled selected hidden>Who Submitted</option>
-                    <option value="Business_Development"    >Business Development   </option>
-                    <option value="Finance"                 >Finance                </option>
-                    <option value="GA"                      >GA                     </option>
-                    <option value="Human_Resource"          >Human Resource         </option>
-                    <option value="Legal"                   >Legal                  </option>
-                    <option value="Programmer"              >Programmer             </option>
-                    <option value="Project"                 >Project                </option>
-                    <option value="Product"                 >Product                </option>
-                    <option value="Production"              >Production             </option>
-                    <option value="Purchasing"              >Purchasing             </option>
-                    <option value="R&D"                     >R&D                    </option>
-                    <option value="Support_Workshop"        >Support Workshop       </option>
-                    <option value="Tax"                     >Tax                    </option>
-                  </select>
+                  <option value="" disabled selected hidden>Who Submitted</option>
+                  <option value="Business_Development"    >Business Development   </option>
+                  <option value="Finance"                 >Finance                </option>
+                  <option value="GA"                      >GA                     </option>
+                  <option value="Human_Resource"          >Human Resource         </option>
+                  <option value="Legal"                   >Legal                  </option>
+                  <option value="Programmer"              >Programmer             </option>
+                  <option value="Project"                 >Project                </option>
+                  <option value="Product"                 >Product                </option>
+                  <option value="Production"              >Production             </option>
+                  <option value="Purchasing"              >Purchasing             </option>
+                  <option value="R&D"                     >R&D                    </option>
+                  <option value="Support_Workshop"        >Support Workshop       </option>
+                  <option value="Tax"                     >Tax                    </option>
+                </select>
               </div>
             </div>
 
             {{-- css hide --}}
             <style>
-                .hide {
-                    width: 0;
-                    height: 0;
-                    opacity: 0;
-                }
-                .page {
-                    height: 50px;
-                }
+              .hide {
+                width: 0;
+                height: 0;
+                opacity: 0;
+              }
+              .page {
+                height: 50px;
+              }
             </style>
             {{-- End Css Hide --}}
 
@@ -192,75 +192,90 @@
           </div>
         </div>
 
-      <div class="col-md-6">
-       <div class=" form-group m-checkbox-inline mb-0 @error('send_to') is-invalid @enderror" >
-        <div class="col-6">
-          <label><i class="fa fa-send"></i> Send To :</label>
-        </div>
-        <div class="radio radio-primary col-md-6" required>
-          <input id="tebet" type="radio" name="send_to" value="Tebet" required/>
-          <label for="tebet">Tebet</label>
-        </div>
-        <div class="radio radio-primary col-md-6">
-          <input id="cikunir" type="radio" name="send_to" value="Cikunir" required/>
-          <label for="cikunir">Cikunir</label>
+        <div class="col-md-6">
+         <div class=" form-group m-checkbox-inline mb-0 @error('send_to') is-invalid @enderror" >
+          <div class="col-6">
+            <label><i class="fa fa-send"></i> Send To :</label>
+          </div>
+          <div class="radio radio-primary col-md-6" required>
+            <input id="tebet" type="radio" name="send_to" value="Tebet" required/>
+            <label for="tebet">Tebet</label>
+          </div>
+          <div class="radio radio-primary col-md-6">
+            <input id="cikunir" type="radio" name="send_to" value="Cikunir" required/>
+            <label for="cikunir">Cikunir</label>
+          </div>
         </div>
       </div>
-    </div>
-    <hr>
-    <table class="table table-bordered mt-2 mx-2 order-entry" id="dynamicAddRemove">
-      <tr style="text-align: center;">
-        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
-        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
-        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Category</th>
-        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Price-per-unit</th>
-        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th>
-      </tr>
-      <tr>
-        <td><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control  " required/>
-        </td>
-        <td><input type="number"  name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty  " required/>
-        </td>
-        <td>
-          <select class="form-select " placeholder="Kategori" name="addMoreInputFields[0][kategori]" required>
-            <option selected="" disabled="" value="">Select Category</option>
-            <option value="Pcs"  >Pcs   </option>
-            <option value="Lusin">Lusin </option>
-            <option value="Box"  >Box   </option>
-            <option value="Unit" >Unit  </option>
-          </select>
-        </td>
-        <td><input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah " required/>
-        </td>
-        <td ><input type="text" name="addMoreInputFields[0][total]" class="form-control form-line" required="" />
-        </td>
-      </tr>
-    </table>
-    <br>
-    <table class="table table-bordered mx-2">
-      <tr>
-        <td><label class="pull-right mx-2"> DPP :</label></td>
-        <td class="total_A text-end"><input style="display: none;" class="total_A" type="text" name="total_a"></td>
-      </tr>
-      <tr>
-        <td><input class="mt-1 pull-right check-box" type="checkbox" name="ppn" value="1" {{ old('ppn',0) === 1 ? 'checked' : '' }}><label class="pull-right mx-2"> PPN 11% :</label></td>
-        <td class="ppn text-end"><input style="display: none;" class="ppn" type="text" name="ppn"></td>
-      </tr>
-      <tr>
-        <td class="text-end">Grand Total :</td>
-        <td class="total text-end"><input style="display: none;" class="total" type="text" name="grand_total"></td>
-      </tr>
-    </table>
-    <div class="mt-2">
-      <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">+AddItem</button>
-    </div>
-    <br>
-    <div class="modal-footer">
-      <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-danger-gradien mt-3">Back</a>
-      <button type="submit" class="btn btn-primary-gradien btn_add mt-3">Submit</button>
-    </div>
-  </form>
-</div>
+      <hr>
+      <table class="table table-bordered mt-2 mx-2 order-entry" id="dynamicAddRemove">
+        <tr style="text-align: center;">
+          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
+          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
+          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Category</th>
+          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Price-per-unit</th>
+          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th>
+        </tr>
+        <tr>
+          <td class="text"><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" style="text-align: center;" required/>
+          </td>
+          <td><input type="number"  name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
+          </td>
+          <td>
+            <select class="form-select " placeholder="Kategori" name="addMoreInputFields[0][kategori]" required>
+              <option selected="" disabled="" value="">Select Category</option>
+              <option value="Pcs"  >Pcs   </option>
+              <option value="Lusin">Lusin </option>
+              <option value="Box"  >Box   </option>
+              <option value="Unit" >Unit  </option>
+            </select>
+          </td>
+          <td>
+            <input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" required/>
+          </td>
+          <td>
+            <input type="text" name="addMoreInputFields[0][total]" class="form-control form-line" style="text-align: right;" required="" />
+          </td>
+        </tr>
+      </table>
+      <br>
+      <table class="table table-bordered mx-2">
+        <tr>
+          <td>
+            <label class="pull-right mx-2" style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; DPP :</label>
+          </td>
+          <td class="total_A text-end">
+            <input style="display: none;" class="total_A" type="text" name="total_a">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input class="mt-1 pull-right check-box" type="checkbox" name="ppn" value="1" {{ old('ppn',0) === 1 ? 'checked' : '' }}>
+            <label class="pull-right mx-2" style="font-weight: bold;"> PPN 11% </label>
+          </td>
+          <td class="ppn text-end">
+            <input style="display: none;" class="ppn" type="text" name="ppn">
+          </td>
+        </tr>
+        <tr>
+          <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+          <td class="total text-end">
+            <input style="display: none;" class="total" type="text" name="grand_total">
+          </td>
+        </tr>
+      </table>
+      <div class="mt-2">
+        <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary"> AddItem 
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-danger-gradien mt-3">Back</a>
+        <button type="submit" class="btn btn-primary-gradien btn_add mt-3">Submit</button>
+      </div>
+    </form>
+  </div>
 </div>
 </div>
 </div>
@@ -314,9 +329,9 @@
                else{
                 totalppn = total * 0;
                 $(".ppn").text(totalppn);
-                 $(".total").text(total.toLocaleString('en-US'));
-               }
-             })
+                $(".total").text(total.toLocaleString('en-US'));
+              }
+            })
            });
          });
          //Add Form
