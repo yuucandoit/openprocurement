@@ -48,33 +48,35 @@
                             </thead>
                             @php
                                 $no = 1;
+                                $approvedPPB = [];
                             @endphp
                             @foreach ($datappb as $ppb)
                                 @if ($ppb->status == 'Purchase Submission Approved')
-                                    <tr>
+                                    @php $approvedPPB[] =$ppb; @endphp
+
+                                    <tr id="ppb-{{ $ppb->id }}">
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $ppb->desc }}</td>
                                         <td>{{ $ppb->dateline }}</td>
-                                        <td id="countdown-{{ $ppb->id }}"></td>
-                                      <td>  @if ($ppb->dateline == '≤3Jam')
-                                            @if ($ppb->dateline_time == '03:00:00')
-                                            <a class="badge bg-success" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
-                                            @elseif ($ppb->dateline_time == '02:00:01')
-                                            <a class="badge bg-warning" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
-                                            @elseif ($ppb->dateline_time == '01:00:01')
-                                            <a class="badge bg-danger" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
-                                            @elseif ($ppb->dateline_time == '00:05:00')
-                                            <a class="badge bg-dark" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
-                                            @endif
-                                        @endif
-                                        @if ($ppb->dateline == '≤24Jam')
-
-                                        @endif
-                                        @if ($ppb->dateline == '≤2Hari')
-
-                                        @endif
-                                    </td>
-                                    <td>{{ $ppb->approved_at }}</td>
+                                        <td class="ppb-countdown"></td>
+                                        <td>
+                                            <a class="badge badge-lable" style="font-size: 18">
+                                                <i class="bx bx-detail"></i>
+                                                This Label is Unfinished, Under development
+                                            </a>
+                                            {{-- @if ($ppb->dateline == '≤3Jam')
+                                                @if ($ppb->dateline_time == '03:00:00')
+                                                <a class="badge bg-success" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
+                                                @elseif ($ppb->dateline_time == '02:00:01')
+                                                <a class="badge bg-warning" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
+                                                @elseif ($ppb->dateline_time == '01:00:01')
+                                                <a class="badge bg-danger" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
+                                                @elseif ($ppb->dateline_time == '00:05:00')
+                                                <a class="badge bg-dark" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
+                                                @endif
+                                            @endif --}}
+                                        </td>
+                                        <td>{{ $ppb->approved_at }}</td>
                                         <td>{{ $ppb->ws }}</td>
                                         <td>
                                             <a href="{{ url('menu-task-list/detail/' . $ppb->id) }}"
@@ -95,25 +97,39 @@
 @section('scripts')
     {{-- <script src="{{  }}"></script> --}}
     <script>
-        const data = @json($datappb);
+        const data = @json($approvedPPB);
         const item =data[0];
         console.log(data);
 
         // FOR CALCULATE REMAINING DEADLINE TIME 😃
-        const remainingTime = (data) => {
+        const remainingTime = (data, elmnt) => {
             const { approved_at, dateline_time , datetime } = data;
             const approvedAt    = new Date(approved_at);
             const dueDateTime   = new Date(`1970-01-01T${dateline_time}Z`);
             const dueDateAt     = new Date(approvedAt.getTime() + dueDateTime.getTime());
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
 
-            console.log(remainingTime.getTime());
-            if(remainingTime.getTime())
             if(remainingTime.getTime() < 1) return "Your time is up";
 
+            let colors    = [];
+            const lable   = elmnt.querySelector('.badge-lable');
             const hours   = remainingTime.getUTCHours().toString();
             const minutes = remainingTime.getUTCMinutes().toString();
             const seconds = remainingTime.getUTCSeconds().toString();
+
+            if(data.dateline == '≤3Jam') colors = [
+                [1, 'bg-danger'],
+                [2, 'bg-warning'],
+                [3, 'bg-success'],
+            ]
+            if(data.dateline == '24Jam') colors = [
+                [8, 'bg-danger'],
+                [16, 'bg-warning'],
+                [24, 'bg-success'],
+            ]
+
+            lable.classList.remove('bg-danger'); lable.classList.remove('bg-warning'); lable.classList.remove('bg-success');
+            lable.classList.add(colors.find(item => item[0] > hours)[1]);
 
             return (
                 (hours.length   == 1 ? `0${hours}:`   : `${hours}:`) +
@@ -124,7 +140,8 @@
 
         // FOR HANDLE REWRITE ELEMENT 😃
         const countdownHandle = (elmnt, item) => {
-            elmnt.innerText = remainingTime(item);
+            const countdownElmnt     = elmnt.querySelector('.ppb-countdown');
+            countdownElmnt.innerText = remainingTime(item, elmnt);
         }
 
         // FOR INITIALIZE COUNTDOWN 😃
@@ -132,7 +149,7 @@
             data.forEach(item => {
                 if(!item.approved_at) return;
                 setInterval(() => countdownHandle(document.querySelector(
-                    `#countdown-${item.id}`
+                    `#ppb-${item.id}`
                 ), item), 1000);
             });
         }
