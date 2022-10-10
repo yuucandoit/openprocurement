@@ -27,6 +27,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(CategoryPO::class, 'atasan_po');
     }
+
+    public function ppb()
+    {
+        return $this->hasMany(CategoryPengajuanPembelian::class, 'atasan');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

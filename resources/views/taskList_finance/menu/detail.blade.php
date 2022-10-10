@@ -123,23 +123,23 @@
                             @endif
                         </table>
                             <div class="mt-3">
-                                @hasrole('super user')
-                                @if ($data_pengajuan->status == 'Accepted by Super user')
+                                @hasrole('finance')
+                                @if ($data_pengajuan->status == 'Unpaid')
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                            class="btn btn-success text-center" onclick="return"><b>Accepted</b></a>
+                                            class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
 
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                             class="btn btn-danger text-center" onclick="return">Reject</a>
 
-                                @elseif($data_pengajuan->status == 'pending')
-                                        <a href="{{ url('menu-taskList-atasan/accept_atasan', $data_pengajuan->id) }}"
-                                            class="btn btn-success text-center" onclick="return">Accept</a>
+                                @elseif($data_pengajuan->status == 'Invoicing Process')
+                                        <a href="{{ url('menu-tasklist-finance/approve', $data_pengajuan->id) }}"
+                                            class="btn btn-success text-center" onclick="return">Approve</a>
 
-                                        <a href="{{ url('menu-taskList-atasan/reject', $data_pengajuan->id) }}"
+                                        <a href="{{ url('menu-tasklist-finance/reject', $data_pengajuan->id) }}"
                                             class="btn btn-danger text-center" onclick="return">Reject</a>
                                 @else
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                            class="btn btn-successtext-center" onclick="return">Accept</a>
+                                            class="btn btn-successtext-center" onclick="return">Approve</a>
 
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                             class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>

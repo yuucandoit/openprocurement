@@ -59,8 +59,6 @@
                                         <td>
                                         <a href="{{ url('menu-tasklist-finance/detail/' .  $ppb->id) }}"
                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                        <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
                                         </td>
                                         <td> <a class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>

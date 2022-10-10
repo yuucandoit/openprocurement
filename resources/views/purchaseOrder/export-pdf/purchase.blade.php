@@ -79,7 +79,7 @@
                               <label>{{ $q->item }}</label>
                             </td>
                             <td>
-                              <p class="itemtext digits">{{ $q->qty }}</p>
+                              <p class="itemtext digits text-center">{{ $q->qty }}</p>
                             </td>
                             <td>
                               <p class="itemtext digits">{{ $q->kategori }}</p>

@@ -121,4 +121,20 @@ class TaskListFinanceController extends Controller
     {
         //
     }
+
+    public function approve($id)
+    {
+        $data = CategoryPengajuanPembelian::find($id);
+        $data->status = 'Unpaid';
+        $data->save();
+        return redirect('menu-tasklist-finance');
+    }
+
+    public function reject($id)
+    {
+        $data = CategoryPengajuanPembelian::find($id);
+        $data->status = 'Rejected by Finance';
+        $data->save();
+        return redirect('menu-tasklist-finance')->back();
+    }
 }

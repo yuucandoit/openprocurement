@@ -61,8 +61,7 @@
                                         <td class="ppb-countdown"></td>
                                         <td>
                                             <a class="badge badge-lable" style="font-size: 18">
-                                                <i class="bx bx-detail"></i>
-                                                This Label is Unfinished, Under development
+                                                Complete This Task!
                                             </a>
                                             {{-- @if ($ppb->dateline == '≤3Jam')
                                                 @if ($ppb->dateline_time == '03:00:00')
@@ -118,14 +117,22 @@
             const seconds = remainingTime.getUTCSeconds().toString();
 
             if(data.dateline == '≤3Jam') colors = [
+                [0, 'bg-dark'],
                 [1, 'bg-danger'],
                 [2, 'bg-warning'],
                 [3, 'bg-success'],
             ]
-            if(data.dateline == '24Jam') colors = [
+            if(data.dateline == '≤24Jam') colors = [
+                [0, 'bg-dark'],
                 [8, 'bg-danger'],
                 [16, 'bg-warning'],
                 [24, 'bg-success'],
+            ]
+            if(data.dateline == '≤2Hari') colors = [
+                [0, 'bg-dark'],
+                [16, 'bg-danger'],
+                [32, 'bg-warning'],
+                [48, 'bg-success'],
             ]
 
             lable.classList.remove('bg-danger'); lable.classList.remove('bg-warning'); lable.classList.remove('bg-success');

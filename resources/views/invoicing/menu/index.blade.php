@@ -1,4 +1,4 @@
-    <title>Purchase order</title>
+    <title>Invoicing</title>
 
 @extends('layouts.master')
 
@@ -67,19 +67,17 @@
 
         <div class="container-fluid">
             <div class="row">
-                    <div class="col-md-4 setting-primary mt-1">
-                        <i class="fa fa-info"></i>
-                    </div>
-                    <div class="col-md-4">
-                        <h1>Purchase Order</h1>
-                    </div>
-
-
+                <div class="py-3">
+                    <h1>Invoicing Page</h1>
+                </div>
                 <div class="card shadow mb-5">
                     <div class="card-body">
+                        <button disabled type="button" class="btn btn-danger" style="margin-bottom: 1rem;" href=""
+                        onclick="exportSelectedFile()" id="button-export-terpilih">Export Selected File</button>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
+                                    <th><input type="checkbox" id="head-cb"></th>
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Send To</th>
@@ -102,9 +100,10 @@
                             @endphp
                             <tbody>
                                 @foreach ($datappb as $ppb)
-                                @if ($ppb->status == 'Purchase Proses' )
-                                @php $approvedPPB[] =$ppb; @endphp
+                                    @if ($ppb->status == 'PO Approved')
+                                    @php $approvedPPB[] =$ppb; @endphp
                                     <tr id="ppb-{{ $ppb->id }}">
+                                        <td><input type="checkbox" name="" id=""></td>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $ppb->ws }}</td>
                                         <td>{{ $ppb->send_to }}</td>
@@ -117,13 +116,11 @@
                                         </td>
                                         <td>{{ $ppb->created_at }}</td>
                                         @hasrole('purchasing|super admin')
-                                        <td> <a class="badge {{ $ppb->status == '' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
 
                                         <td>
-                                            <a href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"
-                                                class="btn btn-outline-warning"><i class="bx bx-edit"></i> Add+</a>
-                                           <a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"
+                                           <a href="{{ url('/purchase-funding-submission/detail/' . $ppb->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                                 <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete{{ $ppb->id }}">Delete</button>
@@ -138,7 +135,6 @@
                 </div>
             </div>
         </div>
-
         <script>
             $(document).ready(function() {
 

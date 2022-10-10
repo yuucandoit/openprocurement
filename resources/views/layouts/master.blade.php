@@ -150,7 +150,7 @@
               <nav>
                 <div class="main-navbar">
                   <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
-                  <div id="mainnav">           
+                  <div id="mainnav">
                     <ul class="nav-menu custom-scrollbar">
                       <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
@@ -175,7 +175,7 @@
                           <h6>Menu</h6>
                         </div>
                       </li>
-                      @endhasrole 
+                      @endhasrole
 
                       @hasrole('user')
                       <li class="sidebar-main-title">
@@ -183,7 +183,7 @@
                           <h6>Menu</h6>
                         </div>
                       </li>
-                      @endhasrole 
+                      @endhasrole
 
                       @hasrole('user|super admin')
                       <li class="dropdown  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
@@ -200,13 +200,19 @@
                           <h6>Menu</h6>
                         </div>
                       </li>
-                      @endhasrole 
+                      @endhasrole
 
                       @hasrole('purchasing|super admin')
                       <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                         <a class="nav-link menu-title link-nav" href="{{ url('/menu-purchase-order') }}" >
                           <i data-feather="file-text"></i>
                           <span>Purchase Order</span>
+                        </a>
+                        </li>
+                      <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                        <a class="nav-link menu-title link-nav" href="{{ url('/invoicing') }}" >
+                          <i data-feather="file-text"></i>
+                          <span>Invoicing</span>
                         </a>
                       </li>
                       @endhasrole
@@ -217,7 +223,7 @@
                           <h6>Menu</h6>
                         </div>
                       </li>
-                      @endhasrole 
+                      @endhasrole
 
                       @hasrole('finance|super admin')
                       <li class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
@@ -342,7 +348,7 @@
                         @endhasrole
                         <!--End History-->
 
-                        <!--Data Master--> 
+                        <!--Data Master-->
                         @hasrole('admin|super admin')
                         <li class="sidebar-main-title">
                           <div>

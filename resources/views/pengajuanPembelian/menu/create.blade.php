@@ -265,7 +265,7 @@
         </tr>
       </table>
       <div class="mt-2">
-        <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary"> AddItem 
+        <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary"> AddItem
           <i class="fa fa-plus"></i>
         </button>
       </div>
@@ -340,11 +340,11 @@
            ++i;
            $("#dynamicAddRemove").append(
             '<tr><td><input type="text" name="addMoreInputFields[' + i +
-            '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
-            '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
+            '][item]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="text" name="addMoreInputFields[' + i +
+            '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
             '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' + i +
             '][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah"/></td> <td><input type="text" name="addMoreInputFields[' + i +
-            '][total]" class="form-control form-line" /></td></tr>'
+            '][total]" class="form-control form-line" style="text-align: right;" /></td></tr>'
             );
            var rupiah = document.querySelectorAll(".rupiah");
            rupiah.forEach((item) => {

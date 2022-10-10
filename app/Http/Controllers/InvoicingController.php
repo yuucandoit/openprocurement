@@ -15,7 +15,7 @@ use App\Models\TermsAndConditions;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class CategoryPOController extends Controller
+class InvoicingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,7 +31,7 @@ class CategoryPOController extends Controller
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
             $datapo = CategoryPO::all();
-            return view('purchaseOrder.menu.index')
+            return view('invoicing.menu.index')
                 ->with('pt',$pt)
                 ->with('op',$op)
                 ->with('ec',$ec)
@@ -49,7 +49,7 @@ class CategoryPOController extends Controller
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
             $datapo = CategoryPO::all();
-            return view('purchaseOrder.menu.history')
+            return view('invoicing.menu.history')
                 ->with('pt',$pt)
                 ->with('op',$op)
                 ->with('ec',$ec)
@@ -67,7 +67,7 @@ class CategoryPOController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        return view('purchaseOrder.menu.detail')
+        return view('invoicing.menu.detail')
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
         ->with('datapo', $datapo)
@@ -95,10 +95,7 @@ class CategoryPOController extends Controller
      */
     public function store(Request $request)
     {
-        $po = $request->except(['_token']);
-        $po['user_id'] = Auth::user()->id;
-        CategoryPO::insert($po);
-        return redirect('menu-purchase-order/')->with('success', 'Task Created Successfully!');
+        //
     }
 
     /**
@@ -132,7 +129,7 @@ class CategoryPOController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        return view('purchaseOrder.menu.edit')
+        return view('invoicing.menu.edit')
         ->with('pt', $pt)
         ->with('op',$op)
         ->with('ec',$ec)
@@ -185,11 +182,7 @@ class CategoryPOController extends Controller
                     "quotation" => $request->quotation,
                 ]);
             }
-
-
-    // dd($data_all
-
-        return redirect("menu-purchase-order/");
+        return redirect("/purchase-funding-submission");
     }
 
     /**
@@ -202,16 +195,16 @@ class CategoryPOController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->delete();
-        return redirect('/menu-purchase-order')->with('success', 'Task Deleted Successfully!');
+        return redirect('/purchase-funding-submission')->with('success', 'Task Deleted Successfully!');
     }
 
-    public function ajukan_keatasan($id)
+    public function ajukan_dana($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        $data->status = 'Waiting For PO Approval';
+        $data->status = 'Invoicing Process';
         $data->save();
-        return redirect('menu-purchase-order');
+        return redirect('/purchase-funding-submission');
     }
 
     public function Reject($id)
@@ -219,6 +212,6 @@ class CategoryPOController extends Controller
         $data = CategoryPO::find($id);
         $data->status = 'Rejected By Purchasing';
         $data->save();
-        return redirect('menu-purchase-order');
+        return redirect('/purchase-funding-submission');
     }
 }

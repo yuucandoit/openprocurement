@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPT;
 use App\Models\PengajuanPembelian;
+use App\Models\ReferensiNamaProject;
 use App\Models\Role;
 use App\Models\TaskListAtasan;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -97,9 +100,18 @@ class TaskListAtasanController extends Controller
      */
     public function edit($id)
     {
+        $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
+        $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
+        $purpose = ReferensiNamaProject::all();
+        $item = PengajuanPembelian::where('pp_id', $id)->get();
         return view('taskList_atasan.menu.edit')
-        ->with('dv' , $dv);
+            ->with('atasan', $atasan)
+            ->with('datapt', $datapt)
+            ->with('purpose', $purpose)
+            ->with('item', $item)
+            ->with('dv', $dv);
+
     }
 
     /**
@@ -114,18 +126,88 @@ class TaskListAtasanController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
 
         // dd($data);
-        $tes = CategoryPengajuanPembelian::where("id", $id)->update([
-            "date_ps" => $request->date_ps,
-            "ws" => $request->ws,
-            "item" => $request->item,
-            "qty" => $request->qty,
-            "desc" => $request->desc,
-            "purpose" => $request->purpose,
-            "priceperunit" => $request->priceperunit,
-            "send_to" => $request->send_to,
-            "dateline" => $request->dateline,
-            "proposed_supplier" => $request->proposed_supplier,
+        $request->validate([
+            'purpose' => 'required',
+            'date_ps' => 'required',
+            'dateline'=> 'required',
+            'ws'      => 'required',
+            'department'=>'required',
+            'desc'  => 'required',
+            'atasan' => 'required',
+            'matauang'=>'required',
+            'send_to'=>'required',
+        ],[
+            'purpose.required' => 'The Purpose field is required.',
+            'date_ps.required' => 'The Date field is required.',
+            'dateline.required' => 'The Date Line field is required.',
+            'ws.required' => 'The Who Submitted field is required.',
+            'department.required' => 'The Department field is required.',
+            'desc.required' => 'The Description field is required.',
+            'atasan.required' => 'The Super User field is required.',
+            'mata_uang.required' => 'The Currency field is required.',
+            'send_to.required' => 'The Send To field is required.',
         ]);
+
+        if ($request->purpose == "custom") {
+            $project = ReferensiNamaProject::where("id", $id)->update([
+                'nama' => $request->nama,
+            ]);
+            $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
+                'user_id' =>  Auth::user()->id,
+                'date_ps' => $request->date_ps,
+                'dateline' => $request->dateline,
+                'ws' => $request->ws,
+                'purpose' => $project->id,
+                'department' => $request->department,
+                'desc' => $request->desc,
+                'atasan' => $request->atasan,
+                'matauang' => $request->matauang,
+                // 'proposed_supplier' => $request->proposed_supplier,
+                'send_to' => $request->send_to,
+                'ppn' => $request->ppn,
+            ]);
+        } else {
+            $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
+                'user_id' =>  Auth::user()->id,
+                'date_ps' => $request->date_ps,
+                'dateline' => $request->dateline,
+                'ws' => $request->ws,
+                'purpose' => $request->purpose,
+                'department' => $request->department,
+                'desc' => $request->desc,
+                'atasan' => $request->atasan,
+                'matauang' => $request->matauang,
+                // 'proposed_supplier' => $request->proposed_supplier,
+                'send_to' => $request->send_to,
+                'ppn' => $request->ppn,
+            ]);
+        }
+
+        // $tes = CategoryPengajuanPembelian::where("id", $id)->update([
+        //     "date_ps" => $request->date_ps,
+        //     "ws" => $request->ws,
+        //     "purpose" => $request->purpose,
+        //     "send_to" => $request->send_to,
+        //     "dateline" => $request->dateline,
+        //     "department" => $request->department,
+        // ]);
+
+        $request->validate([
+            'addMoreInputFields.*.item' => 'required',
+            'addMoreInputFields.*.qty' => 'required',
+            'addMoreInputFields.*.unit_price' => 'required'
+        ]);
+
+
+        foreach ($request->addMoreInputFields as $item) {
+            PengajuanPembelian::where("id", $id)->update([
+                'item'          => $item['item'],
+                'qty'           => $item['qty'],
+                'kategori'      => $item['kategori'],
+                'unit_price'    => $item['unit_price'],
+                'total'         => $item['qty'] * $item['unit_price'],
+            ]);
+        }
         return redirect("menu-taskList-atasan/");
     }
 

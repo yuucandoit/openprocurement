@@ -139,13 +139,12 @@
                             @endif
                         </table>
                         {{-- Start Modal Approval --}}
-                        @if ($data_pengajuan->status == 'Waiting For PO Approval')
+                        @if ($data_pengajuan->status == 'Invoicing Process')
                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                data-bs-target="#modalSelesai" disabled>Approval Request Sent
-                                </button>
-                        @elseif ($data_pengajuan->status == 'Purchase Proses')
+                                data-bs-target="#modalSelesai" disabled>Successfully send data</button>
+                        @elseif ($data_pengajuan->status == 'PO Approved')
                             <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                data-bs-target="#modalSelesai">Send Approval Request For Purchase Order</button>
+                                data-bs-target="#modalSelesai">Apply For Invoicing Process</button>
                         @endif
 
                         <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
@@ -165,12 +164,12 @@
                                     {{-- End Modal Approval --}}
 
                                     <div class="modal-footer">
-                                        @if ($data_pengajuan->status == 'Purchase Proses')
+                                        @if ($data_pengajuan->status == 'PO Approved')
                                             <form class="text-center"
-                                                action="{{ url('menu-purchase-order/ajukan_keatasan', $data_pengajuan->id) }}">
+                                                action="{{ url('purchase-funding-submission/ajukan_dana', $data_pengajuan->id) }}">
                                                 <button type="submit" class="btn btn-outline-danger "><i
                                                         class="bx bx-trash"></i>
-                                                    Send Approval Request For Purchase Order
+                                                    Apply For Purchase Funding
                                                 </button>
                                             </form>
                                         @endif
@@ -183,18 +182,11 @@
             </div>
         </div>
 
-        @if ($data_pengajuan->status == 'Purchase Proses')
-            <a href={{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }} class="btn btn-success mb-3 mr-1"
-                style="align-self: flex-end"> Export to Excel</a>
-
-            <a type="reset" class="btn btn-danger mb-3 mr-1" href="{{ url('/menu-purchase-order/') }}">Back</a>
-        @endif
-
         @if ($data_pengajuan->status == 'PO Approved')
             <a href={{ url('/exportpdf/po/' . $data_pengajuan->id) }} class="btn btn-danger mb-3 mr-1"
                 style="align-self: flex-end"> Export to PDF</a>
 
-            <a type="reset" class="btn btn-danger mb-3 mr-1" href="{{ url('/menu-purchase-order/') }}">Back</a>
+            <a type="reset" class="btn btn-danger mb-3 mr-1" href="{{ url('/purchase-funding-submission/') }}">Back</a>
         @endif
 
     </section>

@@ -21,7 +21,7 @@
                                             <input type="date"
                                                 class="form-control @error('date_ps') is-invalid @enderror mt-2 "
                                                 id="floatingTanggal" placeholder="Tanggal" name="date_ps"
-                                                value="{{ old('date_ps', date('Y-m-d')) }}">
+                                                value="{{ old('date_ps', date('Y-m-d')) }}" required>
                                             <label for="floatingTanggal">Date</label>
                                             @error('date_ps')
                                                 <div class="invalid-feedback">
@@ -33,8 +33,8 @@
                                     <div class="col-6">
                                         <div class="form-floating">
                                             <select class="form-select mt-2 @error('dateline') is-invalid @enderror"
-                                                id="floatingdateline" placeholder="Dateline" name="dateline">
-                                                <option value=""disabled selected hidden>{{ $dv->dateline }}</option>
+                                                id="floatingdateline" placeholder="Dateline" name="dateline" required>
+                                                <option value="{{ $dv->dateline }}" selected hidden>{{ $dv->dateline }}</option>
                                                 <option value="≤3Jam">≤ 3 Jam</option>
                                                 <option value="≤24Jam">≤ 24 Jam</option>
                                                 <option value="≤2Hari">≤ 2 Hari</option>
@@ -53,8 +53,8 @@
                                     <div class="col-6">
                                         <div class="form-floating">
                                             <select class="form-select mt-2 @error('ws') is-invalid @enderror"
-                                                id="floatingwhosubmitted" placeholder="Who Submitted" name="ws">
-                                                <option value=""disabled selected hidden>{{ $dv->ws }}</option>
+                                                id="floatingwhosubmitted" placeholder="Who Submitted" name="ws" required>
+                                                <option value="{{ $dv->ws }}"selected hidden>{{ $dv->ws }}</option>
                                                 <option value="Business_Development">Business Development </option>
                                                 <option value="Finance">Finance </option>
                                                 <option value="GA">GA </option>
@@ -95,7 +95,7 @@
                                         <div class="form-group">
                                             <select class="form-select page mt-2 @error('purpose') is-invalid @enderror"
                                                 id="pageSelector" placeholder="Purpose" name="purpose">
-                                                <option value="" disabled selected hidden>{{ $dv->referensi->nama }}
+                                                <option value="{{ $dv->referensi->nama }}" selected hidden>{{ $dv->referensi->nama }}
                                                 </option>
                                                 @foreach ($purpose as $p)
                                                     <option value="{{ $p->id }}">{{ $p->nama }}</option>
@@ -116,8 +116,8 @@
                                     <div class="col-6">
                                         <div class="form-floating">
                                             <select class="form-select @error('purpose') is-invalid @enderror"
-                                                id="floatingdepartment" placeholder="department" name="department">
-                                                <option value="" disabled selected hidden>{{ $dv->department }}
+                                                id="floatingdepartment" placeholder="department" name="department" required>
+                                                <option value="{{ $dv->department }}" selected hidden>{{ $dv->department }}
                                                 </option>
                                                 <option value="Business_Development">Business Development </option>
                                                 <option value="Finance">Finance </option>
@@ -160,7 +160,7 @@
                                         <div class="form-floating">
                                             <select class="form-select mt-2  @error('atasan') is-invalid @enderror"
                                                 id="floatingproposedto" placeholder="Proposed To" name="atasan">
-                                                <option value="" disabled selected hidden>Choose One!
+                                                <option value="" selected hidden>Please Choose One!
                                                 </option>
                                                 @foreach ($atasan as $sui)
                                                     <option value="{{ $sui->id }}">{{ $sui->name }}</option>
@@ -179,7 +179,7 @@
                                         <div class="form-floating">
                                             <select class="form-select mt-2 mb-4 @error('matauang') is-invalid @enderror"
                                                 id="floatingdateline" placeholder="Mata Uang" name="matauang">
-                                                <option value="" disabled selected hidden>Currency</option>
+                                                <option value="" selected hidden>Currency</option>
                                                 <option value="USD">USD</option>
                                                 <option value="RP">RP</option>
                                             </select>
@@ -271,10 +271,10 @@
                                         </tr>
 
                                     </table>
-                                    <div class="mt-2">
+                                    {{-- <div class="mt-2">
                                         <button type="button" name="add" id="dynamic-ar"
                                             class="btn btn-outline-primary">+AddItem</button>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary mt-4">Submit</button>
@@ -321,6 +321,14 @@
                     return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
                 }
 
+                var rupiah = document.querySelectorAll(".rupiah");
+                rupiah.forEach((item) => {
+                    item.addEventListener('keyup', function(e) {
+                        // tambahkan 'Rp.' pada saat form di ketik
+                        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                        item.value = formatRupiah(this.value, "Rp. ");
+                });
+
                 $(".order-entry").on("keyup", ".form-calc", function() {
                     var parent = $(this).closest("tr");
                     var str = parent.find(".form-cost").val();
@@ -365,13 +373,7 @@
                     i +
                     '][total]" class="form-control form-line text-end" /></td></tr>'
                 );
-                var rupiah = document.querySelectorAll(".rupiah");
-                rupiah.forEach((item) => {
-                    item.addEventListener('keyup', function(e) {
-                        // tambahkan 'Rp.' pada saat form di ketik
-                        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                        item.value = formatRupiah(this.value, "Rp. ");
-                    });
+
                 });
                 /* Fungsi formatRupiah */
                 function formatRupiah(angka, prefix) {

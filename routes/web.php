@@ -17,9 +17,13 @@ use App\Http\Controllers\CategoryPTController;
 use App\Http\Controllers\CategoryTaskListController;
 use App\Http\Controllers\DataVendorController;
 use App\Http\Controllers\EcommerceController;
+use App\Http\Controllers\InvoicingController;
+use App\Http\Controllers\PengajuanDanaNewController;
 use App\Http\Controllers\PengajuanPembelianController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\PO_B_Controller;
 use App\Http\Controllers\PrivatePersonController;
+use App\Http\Controllers\PurchaseFundingSubmissionController;
 use App\Http\Controllers\TaskListAtasanController;
 use App\Http\Controllers\TasklistAtasanPoController;
 use App\Http\Controllers\TaskListFinanceController;
@@ -49,83 +53,84 @@ Route::get('/', [QuotationController::class, 'dashboard']);
 Route::group(['middleware' => ['auth']], function () {
 
 
-    // Route untuk Quotation
-    // Quotation
-    Route::group(['prefix' => 'quotation'], function () {
-        Route::get('/{id}', [QuotationController::class, 'index'])->name('quotation.index');
-        Route::get('/create/{id}', [QuotationController::class, 'create'])->name('quotation.create');
-        Route::post('/store/{id}', [QuotationController::class, 'store'])->name('quotation.store');
-        Route::get('/show/{id_company}/{id}', [QuotationController::class, 'show'])->name('quotation.show');
-        Route::post('/update/{id}', [QuotationController::class, 'update'])->name('quotation.update');
-        Route::get('/destroy/{id}', [QuotationController::class, 'destroy'])->name('quotation.destroy');
-    });
+    // // Route untuk Quotation
+    // // Quotation
+    // Route::group(['prefix' => 'quotation'], function () {
+    //     Route::get('/{id}', [QuotationController::class, 'index'])->name('quotation.index');
+    //     Route::get('/create/{id}', [QuotationController::class, 'create'])->name('quotation.create');
+    //     Route::post('/store/{id}', [QuotationController::class, 'store'])->name('quotation.store');
+    //     Route::get('/show/{id_company}/{id}', [QuotationController::class, 'show'])->name('quotation.show');
+    //     Route::post('/update/{id}', [QuotationController::class, 'update'])->name('quotation.update');
+    //     Route::get('/destroy/{id}', [QuotationController::class, 'destroy'])->name('quotation.destroy');
+    // });
 
     // Menu Quotation
-    Route::group(['prefix' => 'menu-quotation'], function () {
-        Route::get('/', [CategoryQuotationController::class, 'index'])->name('menu-quotation.index');
-        Route::get('/create', [CategoryQuotationController::class, 'create'])->name('menu-quotation.create');
-        Route::post('/store', [CategoryQuotationController::class, 'store'])->name('menu-quotation.store');
-        Route::get('/destroy/{id}', [CategoryQuotationController::class, 'destroy'])->name('menu-quotation.destroy');
-        Route::get('/accept/{id}', [CategoryQuotationController::class, 'accept'])->name('menu-quotation-accept');
-        Route::get('/denied/{id}', [CategoryQuotationController::class, 'denied'])->name('menu-quotation-denied');
-    });
+    // Route::group(['prefix' => 'menu-quotation'], function () {
+    //     Route::get('/', [CategoryQuotationController::class, 'index'])->name('menu-quotation.index');
+    //     Route::get('/create', [CategoryQuotationController::class, 'create'])->name('menu-quotation.create');
+    //     Route::post('/store', [CategoryQuotationController::class, 'store'])->name('menu-quotation.store');
+    //     Route::get('/destroy/{id}', [CategoryQuotationController::class, 'destroy'])->name('menu-quotation.destroy');
+    //     Route::get('/accept/{id}', [CategoryQuotationController::class, 'accept'])->name('menu-quotation-accept');
+    //     Route::get('/denied/{id}', [CategoryQuotationController::class, 'denied'])->name('menu-quotation-denied');
+    // });
 
+
+    // // Route untuk Pengajuan Dana
+    // // Pengajuan Dana
+    // Route::group(['prefix' => 'pengajuan-dana'], function () {
+    //     Route::get('/{id}', [PengajuanDanaController::class, 'index'])->name('pengajuan-dana.index');
+    //     Route::get('/create/{id}', [PengajuanDanaController::class, 'create'])->name('pengajuan-dana.create');
+    //     Route::post('/store/{id}', [PengajuanDanaController::class, 'store'])->name('pengajuan-dana.store');
+    //     Route::get('/show/{id_pd}/{id}', [PengajuanDanaController::class, 'show'])->name('pengajuan-dana.show');
+    //     Route::post('/update/{id}', [PengajuanDanaController::class, 'update'])->name('pengajuan-dana.update');
+    //     Route::get('/destroy/{id}', [PengajuanDanaController::class, 'destroy'])->name('pengajuan-dana.destroy');
+    // });
+
+
+    // // Menu Pengajuan dana
+    // Route::group(['prefix' => 'menu-pengajuan-dana'], function () {
+    //     Route::get('/', [CategoryPDController::class, 'index'])->name('menu-pengajuan-dana.index');
+    //     Route::get('/create', [CategoryPDController::class, 'create'])->name('menu-pengajuan-dana.create');
+    //     Route::post('/store', [CategoryPDController::class, 'store'])->name('menu-pengajuan-dana.store');
+    //     Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
+    //     Route::get('/accept/{id}', [CategoryPDController::class, 'accept'])->name('menu-pengajuan-dana-accept');
+    //     Route::get('/denied/{id}', [CategoryPDController::class, 'denied'])->name('menu-pengajuan-dana-denied');
+    // });
 
     // Route untuk Pengajuan Dana
-    // Pengajuan Dana
-    Route::group(['prefix' => 'pengajuan-dana'], function () {
-        Route::get('/{id}', [PengajuanDanaController::class, 'index'])->name('pengajuan-dana.index');
-        Route::get('/create/{id}', [PengajuanDanaController::class, 'create'])->name('pengajuan-dana.create');
-        Route::post('/store/{id}', [PengajuanDanaController::class, 'store'])->name('pengajuan-dana.store');
-        Route::get('/show/{id_pd}/{id}', [PengajuanDanaController::class, 'show'])->name('pengajuan-dana.show');
-        Route::post('/update/{id}', [PengajuanDanaController::class, 'update'])->name('pengajuan-dana.update');
-        Route::get('/destroy/{id}', [PengajuanDanaController::class, 'destroy'])->name('pengajuan-dana.destroy');
-    });
 
 
-    // Menu Pengajuan dana
-    Route::group(['prefix' => 'menu-pengajuan-dana'], function () {
-        Route::get('/', [CategoryPDController::class, 'index'])->name('menu-pengajuan-dana.index');
-        Route::get('/create', [CategoryPDController::class, 'create'])->name('menu-pengajuan-dana.create');
-        Route::post('/store', [CategoryPDController::class, 'store'])->name('menu-pengajuan-dana.store');
-        Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
-        Route::get('/accept/{id}', [CategoryPDController::class, 'accept'])->name('menu-pengajuan-dana-accept');
-        Route::get('/denied/{id}', [CategoryPDController::class, 'denied'])->name('menu-pengajuan-dana-denied');
-    });
-
-    // Route untuk Pengajuan Dana
-
-
-    // Route untuk Pembelian Barang
-    Route::group(['prefix' => 'pembelian-barang'], function () {
-        Route::get('/{id}', [PembelianBarangController::class, 'index'])->name('pembelian-barang.index');
-        Route::get('/create/{id}', [PembelianBarangController::class, 'create'])->name('pembelian-barang.create');
-        Route::post('/store/{id}', [PembelianBarangController::class, 'store'])->name('pembelian-barang.store');
-        Route::get('/show/{pb_id}/{id}', [PembelianBarangController::class, 'show'])->name('pembelian-barang.show');
-        Route::post('/update/{id}', [PembelianBarangController::class, 'update'])->name('pembelian-barang.update');
-        Route::get('/destroy/{id}', [PembelianBarangController::class, 'destroy'])->name('pembelian-barang.destroy');
-    });
-    // Menu Pembelian Barang
-    ROute::group(['prefix' => 'menu-pembelian-barang'], function () {
-        Route::get('/', [CategoryPBController::class, 'index'])->name('menu-pembelian-barang.index');
-        Route::get('/create', [CategoryPBController::class, 'create'])->name('menu-pembelian-barang.create');
-        Route::post('/store', [CategoryPBController::class, 'store'])->name('menu-pembelian-barang.store');
-        Route::get('/destroy/{id}', [CategoryPBController::class, 'destroy'])->name('menu-pembelian-barang.destroy');
-        Route::get('/accept/{id}', [CategoryPBController::class, 'accept'])->name('menu-pembelian-barang-accept');
-        Route::get('/denied/{id}', [CategoryPBController::class, 'denied'])->name('menu-pembelian-barang-denied');
-    });
+    // // Route untuk Pembelian Barang
+    // Route::group(['prefix' => 'pembelian-barang'], function () {
+    //     Route::get('/{id}', [PembelianBarangController::class, 'index'])->name('pembelian-barang.index');
+    //     Route::get('/create/{id}', [PembelianBarangController::class, 'create'])->name('pembelian-barang.create');
+    //     Route::post('/store/{id}', [PembelianBarangController::class, 'store'])->name('pembelian-barang.store');
+    //     Route::get('/show/{pb_id}/{id}', [PembelianBarangController::class, 'show'])->name('pembelian-barang.show');
+    //     Route::post('/update/{id}', [PembelianBarangController::class, 'update'])->name('pembelian-barang.update');
+    //     Route::get('/destroy/{id}', [PembelianBarangController::class, 'destroy'])->name('pembelian-barang.destroy');
+    // });
+    // // Menu Pembelian Barang
+    // ROute::group(['prefix' => 'menu-pembelian-barang'], function () {
+    //     Route::get('/', [CategoryPBController::class, 'index'])->name('menu-pembelian-barang.index');
+    //     Route::get('/create', [CategoryPBController::class, 'create'])->name('menu-pembelian-barang.create');
+    //     Route::post('/store', [CategoryPBController::class, 'store'])->name('menu-pembelian-barang.store');
+    //     Route::get('/destroy/{id}', [CategoryPBController::class, 'destroy'])->name('menu-pembelian-barang.destroy');
+    //     Route::get('/accept/{id}', [CategoryPBController::class, 'accept'])->name('menu-pembelian-barang-accept');
+    //     Route::get('/denied/{id}', [CategoryPBController::class, 'denied'])->name('menu-pembelian-barang-denied');
+    // });
     // Route untuk Pembelian Barang
 
     // Route untuk Purchase Order
-    Route::group(['prefix' => 'purchase-order'], function () {
-        Route::get('/{id}', [PurchaseOrderController::class, 'index'])->name('purchase-order.index');
-        Route::get('/create/{id}', [PurchaseOrderController::class, 'create'])->name('purchase-order.create');
-        Route::post('/store/{id}', [PurchaseOrderController::class, 'store'])->name('purchase-order.store');
-        Route::get('/show/{id_company}/{id}', [PurchaseOrderController::class, 'show'])->name('purchase-order.show');
-        Route::post('/update/{id}', [PurchaseOrderController::class, 'update'])->name('purchase-order.update');
-        Route::post('/destroy/{id}', [PurchaseOrderController::class, 'destroy'])->name('purchase-order.destroy');
-    });
+    // Route::group(['prefix' => 'purchase-order'], function () {
+    //     Route::get('/{id}', [PurchaseOrderController::class, 'index'])->name('purchase-order.index');
+    //     Route::get('/create/{id}', [PurchaseOrderController::class, 'create'])->name('purchase-order.create');
+    //     Route::post('/store/{id}', [PurchaseOrderController::class, 'store'])->name('purchase-order.store');
+    //     Route::get('/show/{id_company}/{id}', [PurchaseOrderController::class, 'show'])->name('purchase-order.show');
+    //     Route::post('/update/{id}', [PurchaseOrderController::class, 'update'])->name('purchase-order.update');
+    //     Route::post('/destroy/{id}', [PurchaseOrderController::class, 'destroy'])->name('purchase-order.destroy');
+    // });
 
+    //Vendor
     // Route untuk Data Vendor Perusahaan
     Route::group(['prefix' => 'perusahaan'], function () {
         Route::get('/{id}', [PerusahaanController::class, 'index'])->name('perusahaan.index');
@@ -188,6 +193,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update/{id}', [CategoryEcommerceController::class, 'update'])->name('menu-ecommerce.update');
         Route::get('/destroy/{id}', [CategoryEcommerceController::class, 'destroy'])->name('menu-ecommerce.destroy');
     });
+    //end Vendor
 
     // Pengajuan Pembelian
     Route::group(['prefix' => 'pengajuan-pembelian'], function () {
@@ -253,8 +259,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
         Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
         Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
-        Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
-        Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
+        //Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
+        //Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
         Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
         Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
         Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
@@ -263,18 +269,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
     });
 
-    // Menu Purchase Order2
-    Route::group(['prefix' => 'menu-purchase-order-2'], function () {
-        Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
-        Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
-        Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
-        Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
-        Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
-        Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
-        Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
-        Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
-        Route::get('/ajukan_keatasan/{id}', [CategoryPOController::class, 'ajukan_keatasan'])->name('menu-purchase-order-ajukan_keatasan');
-        Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
+    // Menu Pengajuan dana Purchase Order
+    Route::group(['prefix' => 'invoicing'], function () {
+        Route::get('/', [InvoicingController::class, 'index'])->name('invoicing.index');
+        Route::get('/history', [InvoicingController::class, 'history'])->name('invoicing.history');
+        Route::get('/detail/{id}', [InvoicingController::class, 'detail'])->name('invoicing.detail');
+        Route::post('/update/{id}', [InvoicingController::class, 'update'])->name('invoicing.update');
+        Route::get('/edit/{id}', [InvoicingController::class, 'edit'])->name('invoicing.edit');
+        Route::get('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('invoicing.destroy');
+        Route::get('/ajukan_dana/{id}', [InvoicingController::class, 'ajukan_dana'])->name('invoicing-ajukan_dana');
+        Route::get('/denied/{id}', [InvoicingController::class, 'denied'])->name('invoicing-denied');
     });
 
     // Menu Task list finance
@@ -283,9 +287,20 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history', [TaskListFinanceController::class, 'history'])->name('menu-tasklist-finance.history');
         Route::get('/detail/{id}', [TaskListFinanceController::class, 'detail'])->name('menu-tasklist-finance.detail');
         Route::get('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
-        Route::get('/accept/{id}', [TaskListFinanceController::class, 'accept'])->name('menu-tasklist-finance-accept');
+        Route::get('/approve/{id}', [TaskListFinanceController::class, 'approve'])->name('menu-tasklist-finance-approve');
         Route::get('/reject/{id}', [TaskListFinanceController::class, 'reject'])->name('menu-tasklist-finance-reject');
     });
+
+     // Menu Pengajuan dana
+        Route::group(['prefix' => 'menu-pengajuan-dana'], function () {
+        Route::get('/', [CategoryPDController::class, 'index'])->name('menu-pengajuan-dana.index');
+        Route::get('/create', [CategoryPDController::class, 'create'])->name('menu-pengajuan-dana.create');
+        Route::post('/store', [CategoryPDController::class, 'store'])->name('menu-pengajuan-dana.store');
+        Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
+        Route::get('/accept/{id}', [CategoryPDController::class, 'accept'])->name('menu-pengajuan-dana-accept');
+        Route::get('/denied/{id}', [CategoryPDController::class, 'denied'])->name('menu-pengajuan-dana-denied');
+        });
+
     //admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/create-admin', [AdminController::class, 'create']);
