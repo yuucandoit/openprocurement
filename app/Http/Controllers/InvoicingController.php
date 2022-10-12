@@ -182,7 +182,7 @@ class InvoicingController extends Controller
                     "quotation" => $request->quotation,
                 ]);
             }
-        return redirect("/purchase-funding-submission");
+        return redirect("/invoicing");
     }
 
     /**
@@ -195,7 +195,7 @@ class InvoicingController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->delete();
-        return redirect('/purchase-funding-submission')->with('success', 'Task Deleted Successfully!');
+        return redirect('/invoicing')->with('success', 'Task Deleted Successfully!');
     }
 
     public function ajukan_dana($id)
@@ -204,7 +204,7 @@ class InvoicingController extends Controller
         // dd($data);
         $data->status = 'Invoicing Process';
         $data->save();
-        return redirect('/purchase-funding-submission');
+        return redirect('/invoicing');
     }
 
     public function Reject($id)
@@ -212,6 +212,6 @@ class InvoicingController extends Controller
         $data = CategoryPO::find($id);
         $data->status = 'Rejected By Purchasing';
         $data->save();
-        return redirect('/purchase-funding-submission');
+        return redirect('/invoicing');
     }
 }

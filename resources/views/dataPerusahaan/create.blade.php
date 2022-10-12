@@ -65,7 +65,12 @@
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
+                        @hasrole('super admin')
                         <a type="reset" class="btn btn-danger" href="{{ url('/data-vendor/' . $data_vendor->id) }}">back</a>
+                        @endhasrole
+                        @hasrole('purchasing')
+                        <a type="reset" class="btn btn-danger" href="{{ url('/menu-purchase-order/') }}">Back</a>
+                        @endhasrole
                     </div>
                 </form>
                 <!-- End floating Labels Form -->

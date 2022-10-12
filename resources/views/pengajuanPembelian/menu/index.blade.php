@@ -95,7 +95,7 @@
                @endphp
                @foreach ($datadv as $ppembelian)
                {{-- @if ($ppembelian->status == '') --}}
-               <tr style="text-align: center;">
+               <tr>
                 <td>{{ $no++ }}</td>
                 <td>{{ $ppembelian->date_ps }}</td>
                 <td>{{ $ppembelian->ws }}</td>
@@ -114,7 +114,7 @@
                   <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ppembelian->id }}"><i class="fa fa-trash-o"></i></button>
                 </td>
                 @hasrole('user|super admin')
-                <td> <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
+                <td> <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ?  : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ) }} mt-1" style="color: blue; font-size:18;">{{ $ppembelian->status }}</a></td>
                 @endhasrole
 
               </tr>

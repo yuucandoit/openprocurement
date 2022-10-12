@@ -121,7 +121,7 @@
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
 
                                         <td>
-                                            <a href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"
+                                            <a href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"
                                                 class="btn btn-outline-warning"><i class="bx bx-edit"></i> Add+</a>
                                            <a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>

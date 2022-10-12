@@ -15,8 +15,8 @@ class CategoryEcommerce extends Model
     ];
     protected $hidden;
 
-    public function vendors()
+    public function vendor()
     {
-        return $this->morphMany(CategoryPO::class, 'vendortable');
+        return $this->morphMany(CategoryPO::class, 'vendorable');
     }
 }

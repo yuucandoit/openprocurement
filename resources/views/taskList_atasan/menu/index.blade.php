@@ -41,9 +41,8 @@
             <div class="col-sm-6">
                 <h3>Task List</h3>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item">Task List</li>
-                    <li class="breadcrumb-item active">Purchase Submission</li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('menu-taskList-atasan.index') }}">Task List Purchase Submission</a></li>
                 </ol>
             </div>
             <div class="col-sm-6">
@@ -75,7 +74,7 @@
       <div class="col-sm-12">
         <div class="card">
           <div class="card-header">
-            <h5>Purchase Submission</h5>
+            <h5>Task List Purchase Submission</h5>
         </div>
         <div class="card-body">
             <div class="table-responsive">

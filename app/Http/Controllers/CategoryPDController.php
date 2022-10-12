@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryEcommerce;
 use App\Models\CategoryPD;
+use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPO;
+use App\Models\CategoryPP;
+use App\Models\CategoryPT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
@@ -19,12 +24,32 @@ class CategoryPDController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 5) {
             $datapd = CategoryPD::where('user_id', Auth::user()->id)->get();
+            $datappb = CategoryPengajuanPembelian::all();
+            $pt = CategoryPT::all();
+            $op = CategoryPP::all();
+            $ec = CategoryEcommerce::all();
+            $datapo = CategoryPO::all();
             return view('pengajuanDana.menu.index')
+                ->with('pt',$pt)
+                ->with('op',$op)
+                ->with('ec',$ec)
+                ->with('datappb',$datappb)
+                ->with('datapo', $datapo)
                 ->with('datapd', $datapd);
         } else if ($check->role_id == 3 || $check->role_id == 5 || $check->role_id == 2) {
             $datapd = CategoryPD::all();
+            $datappb = CategoryPengajuanPembelian::all();
+            $pt = CategoryPT::all();
+            $op = CategoryPP::all();
+            $ec = CategoryEcommerce::all();
+            $datapo = CategoryPO::all();
             return view('pengajuanDana.menu.index')
-                ->with('datapd', $datapd);
+            ->with('pt',$pt)
+            ->with('op',$op)
+            ->with('ec',$ec)
+            ->with('datappb',$datappb)
+            ->with('datapo', $datapo)
+            ->with('datapd', $datapd);
         }
     }
 

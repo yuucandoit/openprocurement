@@ -166,7 +166,7 @@
                                     <div class="modal-footer">
                                         @if ($data_pengajuan->status == 'PO Approved')
                                             <form class="text-center"
-                                                action="{{ url('invoicing/ajukan_dana', $data_pengajuan->id) }}">
+                                                action="{{ url('purchase-funding-submission/ajukan_dana', $data_pengajuan->id) }}">
                                                 <button type="submit" class="btn btn-outline-danger "><i
                                                         class="bx bx-trash"></i>
                                                     Apply For Purchase Funding

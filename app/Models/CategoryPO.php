@@ -12,8 +12,8 @@ class CategoryPO extends Model
     protected $fillable = [
         'id',
         'ppb_id',
-        // 'vendor_id',
-        // 'vendor_type',
+        'vendorable_id',
+        'vendorable_type',
         'term_conditions',
         'atasan_po',
         'address',
@@ -28,19 +28,19 @@ class CategoryPO extends Model
     {
         return $this->belongsTo(CategoryPengajuanPembelian::class);
     }
-    public function pt()
-    {
-        return $this->belongsTo(CategoryPT::class);
-    }
+    // public function pt()
+    // {
+    //     return $this->belongsTo(CategoryPT::class);
+    // }
 
-    public function op()
-    {
-        return $this->belongsTo(CategoryPP::class);
-    }
-    public function ec()
-    {
-        return $this->belongsTo(CategoryEcommerce::class);
-    }
+    // public function op()
+    // {
+    //     return $this->belongsTo(CategoryPP::class);
+    // }
+    // public function ec()
+    // {
+    //     return $this->belongsTo(CategoryEcommerce::class);
+    // }
     public function term()
     {
         return $this->belongsTo(TermsAndConditions::class, 'term_conditions');
@@ -49,7 +49,7 @@ class CategoryPO extends Model
     {
         return $this->belongsTo(User::class, 'atasan_po');
     }
-    public function vendortable()
+    public function vendorable()
     {
         return $this->morphTo();
     }

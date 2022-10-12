@@ -82,9 +82,33 @@ class CategoryPOController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $pt                 = CategoryPT::all();
+        $op                 = CategoryPP::all();
+        $ec                 = CategoryEcommerce::all();
+        $datapo             = CategoryPO::where('ppb_id', $id)->get();
+        $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
+        $terms              = TermsAndConditions::all();
+        $dv                 = CategoryPengajuanPembelian::find($id);
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        return view('purchaseOrder.menu.create')
+        ->with('pt', $pt)
+        ->with('op',$op)
+        ->with('ec',$ec)
+        ->with('datapo' , $datapo)
+        ->with('dv' , $dv)
+        ->with('atasan' , $atasan)
+        ->with('terms' , $terms)
+        ->with('pengajuan', $pengajuan)
+        ->with('dpp', $dpp)
+        ->with('ppn', $ppn)
+        ->with('total', $total)
+        ->with('total_tnpa_ppn', $total_tnpa_ppn);
     }
 
     /**
@@ -93,12 +117,50 @@ class CategoryPOController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        $po = $request->except(['_token']);
-        $po['user_id'] = Auth::user()->id;
-        CategoryPO::insert($po);
-        return redirect('menu-purchase-order/')->with('success', 'Task Created Successfully!');
+        $data = CategoryPengajuanPembelian::find($id);
+        $pt = CategoryPT::find($id);
+        $pp = CategoryPP::find($id);
+        $ec = CategoryEcommerce::find($id);
+
+        if($request->term_conditions == "custom"){
+            // dd($data);
+            $term = TermsAndConditions::create([
+                "term_condition" => $request->term_condition,
+            ]);
+
+            // if($request->vendor ==)
+            $tes = CategoryPO::create([
+                "ppb_id" => $data->id,
+                "vendorable_type" => $request->vendorable_type,
+                "vendorable_id" => $request->vendorable_id,
+                "term_conditions" => $term->id,
+                "atasan_po" => $request->atasan_po,
+                "address" => $request->address,
+                "no_telp" => $request->no_telp,
+                "no_npwp" => $request->no_npwp,
+                "quotation" => $request->quotation,
+            ]);
+
+        } else {
+            $tes = CategoryPO::create([
+                "ppb_id" => $data->id,
+                "vendorable_type" => $request->vendorable_type,
+                "vendorable_id" => $request->vendorable_id,
+                "term_conditions" => $request->term_conditions,
+                "atasan_po" => $request->atasan_po,
+                "address" => $request->address,
+                "no_telp" => $request->no_telp,
+                "no_npwp" => $request->no_npwp,
+                "quotation" => $request->quotation,
+            ]);
+        }
+
+
+// dd($data_all
+
+    return redirect("menu-purchase-order/");
     }
 
     /**
@@ -120,31 +182,7 @@ class CategoryPOController extends Controller
      */
     public function edit($id)
     {
-        $pt                 = CategoryPT::all();
-        $op                 = CategoryPP::all();
-        $ec                 = CategoryEcommerce::all();
-        $datapo             = CategoryPO::where('ppb_id', $id)->get();
-        $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
-        $terms              = TermsAndConditions::all();
-        $dv                 = CategoryPengajuanPembelian::find($id);
-        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        return view('purchaseOrder.menu.edit')
-        ->with('pt', $pt)
-        ->with('op',$op)
-        ->with('ec',$ec)
-        ->with('datapo' , $datapo)
-        ->with('dv' , $dv)
-        ->with('atasan' , $atasan)
-        ->with('terms' , $terms)
-        ->with('pengajuan', $pengajuan)
-        ->with('dpp', $dpp)
-        ->with('ppn', $ppn)
-        ->with('total', $total)
-        ->with('total_tnpa_ppn', $total_tnpa_ppn);
+        //
     }
 
     /**
@@ -156,40 +194,7 @@ class CategoryPOController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
-
-            if($request->term_conditions == "custom"){
-                // dd($data);
-                $term = TermsAndConditions::create([
-                    "term_condition" => $request->term_condition,
-                ]);
-                $tes = CategoryPO::create([
-                    "ppb_id" => $data->id,
-                    "pt_id" => $request->pt_id,
-                    "term_conditions" => $term->id,
-                    "atasan_po" => $request->atasan_po,
-                    "address" => $request->address,
-                    "no_telp" => $request->no_telp,
-                    "no_npwp" => $request->no_npwp,
-                    "quotation" => $request->quotation,
-                ]);
-            } else {
-                $tes = CategoryPO::create([
-                    "ppb_id" => $data->id,
-                    "pt_id" => $request->pt_id,
-                    "term_conditions" => $request->term_conditions,
-                    "atasan_po" => $request->atasan_po,
-                    "address" => $request->address,
-                    "no_telp" => $request->no_telp,
-                    "no_npwp" => $request->no_npwp,
-                    "quotation" => $request->quotation,
-                ]);
-            }
-
-
-    // dd($data_all
-
-        return redirect("menu-purchase-order/");
+       //
     }
 
     /**

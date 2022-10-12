@@ -38,8 +38,8 @@ class CategoryPT extends Model
         return $this->hasMany(PurchaseOrder::class);
     }
 
-    public function vendors()
+    public function vendor()
     {
-        return $this->morphMany(CategoryPO::class, 'vendortable');
+        return $this->morphMany(CategoryPO::class, 'vendorable');
     }
 }

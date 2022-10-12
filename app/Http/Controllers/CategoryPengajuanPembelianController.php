@@ -256,7 +256,7 @@ class CategoryPengajuanPembelianController extends Controller
             'ws.required' => 'The Who Submitted field is required.',
             'department.required' => 'The Department field is required.',
             'desc.required' => 'The Description field is required.',
-            'atasan.required' => 'The Super User field is required.',
+            'atasan.required' => 'The Approved By field is required.',
             'mata_uang.required' => 'The Currency field is required.',
             'send_to.required' => 'The Send To field is required.',
         ]);
@@ -313,12 +313,13 @@ class CategoryPengajuanPembelianController extends Controller
 
 
         foreach ($request->addMoreInputFields as $item) {
+            $unit_price = str_replace(".", "", explode('Rp. ', $item['unit_price'])[1]);
             PengajuanPembelian::where("id", $id)->update([
                 'item'          => $item['item'],
                 'qty'           => $item['qty'],
                 'kategori'      => $item['kategori'],
-                'unit_price'    => $item['unit_price'],
-                'total'         => $item['qty'] * $item['unit_price'],
+                'unit_price'    => (int)$unit_price,
+                'total'         => $item['total'] ,
             ]);
         }
         return redirect("menu-pengajuan-pembelian/");

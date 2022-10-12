@@ -259,10 +259,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
         Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
         Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
-        //Route::get('/create', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
-        //Route::post('/store', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
-        Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
-        Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
+        Route::get('/create/{id}', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
+        Route::post('/store/{id}', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
         Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
         Route::get('/ajukan_keatasan/{id}', [CategoryPOController::class, 'ajukan_keatasan'])->name('menu-purchase-order-ajukan_keatasan');
         Route::get('/ajukan_dana/{id}', [CategoryPOController::class, 'ajukan_dana'])->name('menu-purchase-order-ajukan_dana');

@@ -59,9 +59,21 @@
        <div class="card-body">
            <div class="row no-gutters align-items-center">
                <div class="col mr-2">
-                   <a href="{{ route('menu-task-list.index') }}" class="small-box-footer">
+                    @if ( \App\Models\CategoryPengajuanPembelian::where('status','Awaiting Purchase Submission Approval'))
+                    <a href="{{ route('menu-taskList-atasan.index') }}" class="small-box-footer">
                     <div class="text-xs font-weight-bold text-uppercase mb-1" style="font-weight: bold; color: rgba(87, 212, 255, 0.9);">Task List</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800" style="color: rgba(87, 212, 255, 0.9); font-weight: bold;">{{ \App\Models\CategoryPengajuanPembelian::where('status','Accepted by Purchasing')->count() }}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" style="color: rgba(87, 212, 255, 0.9); font-weight: bold;">{{ \App\Models\CategoryPengajuanPembelian::where('status','Awaiting Purchase Submission Approval')->count() }}</div>
+
+                    @elseif ( \App\Models\CategoryPengajuanPembelian::where('status','Purchase Submission Approved') )
+                    <a href="{{ route('menu-task-list.index') }}" class="small-box-footer">
+                    <div class="text-xs font-weight-bold text-uppercase mb-1" style="font-weight: bold; color: rgba(87, 212, 255, 0.9);">Task List</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" style="color: rgba(87, 212, 255, 0.9); font-weight: bold;">{{ \App\Models\CategoryPengajuanPembelian::where('status','Purchase Submission Approved')->count() }}</div>
+
+                    @elseif ( \App\Models\CategoryPengajuanPembelian::where('status','Waiting For PO Approval') )
+                    <a href="{{ route('menu-taskList-atasan-po  .index') }}" class="small-box-footer">
+                    <div class="text-xs font-weight-bold text-uppercase mb-1" style="font-weight: bold; color: rgba(87, 212, 255, 0.9);">Task List</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800" style="color: rgba(87, 212, 255, 0.9); font-weight: bold;">{{ \App\Models\CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->count() }}</div>
+                    @endif
                 </div></a>
                 <div class="col-auto" style="color: rgba(87, 212, 255, 0.9);">
                    <i class="icofont icofont-tasks-alt" style="font-size: 40;"></i>
@@ -251,7 +263,7 @@
 </div>
 </div>
 </section>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 <script>

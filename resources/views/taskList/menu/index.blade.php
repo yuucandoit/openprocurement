@@ -117,19 +117,16 @@
             const seconds = remainingTime.getUTCSeconds().toString();
 
             if(data.dateline == '≤3Jam') colors = [
-                [0, 'bg-dark'],
                 [1, 'bg-danger'],
                 [2, 'bg-warning'],
                 [3, 'bg-success'],
             ]
             if(data.dateline == '≤24Jam') colors = [
-                [0, 'bg-dark'],
                 [8, 'bg-danger'],
                 [16, 'bg-warning'],
                 [24, 'bg-success'],
             ]
             if(data.dateline == '≤2Hari') colors = [
-                [0, 'bg-dark'],
                 [16, 'bg-danger'],
                 [32, 'bg-warning'],
                 [48, 'bg-success'],

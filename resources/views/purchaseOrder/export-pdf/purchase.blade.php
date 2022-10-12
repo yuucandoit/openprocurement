@@ -37,15 +37,26 @@
                   </div>
                   <!-- End InvoiceTop-->
                   <div class="row invo-profile">
-                    <div class="col-xl-4">
+                    <div class="col-xl-8">
                       <div class="media">
                         {{-- <div class="media-left"><img class="media-object rounded-circle img-60" src="../assets/images/user/1.jpg" alt=""></div> --}}
                         <div class="media-body m-l-20">
                             @foreach ($cpp as $p)
-                            <h4 class="media-heading f-w-600">Department: {{ $p->department }}</h4>
+                            <h6 class="media-heading f-w-600">Department: {{ $p->department }}</h6>
                             @endforeach
                         </div>
                       </div>
+                    </div>
+                    <div class="col-xl-8">
+                        <div class="media">
+                            <div class="media-heading f-w-600">
+                                <h6>Vendor</h6>
+                                @foreach ($vendorpo as $vp)
+                                <p>{{ $vp->vendorable->name }}</p>
+                                @endforeach
+                                <p></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-xl-8">
                       <div class="text-xl-end" id="project">
@@ -198,12 +209,12 @@
                     <!-- End Table-->
                     <div class="container">
                     <div class="row mt-3">
-                      <div class="col-sm-6">
+                      <div class="col">
                         <div>
                           <p class="legal"><strong>Terms & Conditions</strong> <br>{!!  nl2br($cpo->term->term_condition) !!}</p>
                         </div>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col">
                         <div class="row text-end">
                             @foreach ($cpp as $c)
                             <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style="margin-left:10px; width:90px; height:80px" >

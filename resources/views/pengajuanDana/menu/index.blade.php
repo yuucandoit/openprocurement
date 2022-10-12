@@ -1,4 +1,4 @@
-    <title>Invoicing</title>
+    <title>Purchase Funding</title>
 
 @extends('layouts.master')
 
@@ -68,12 +68,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
-                    <h1>Invoicing Page</h1>
+                    <h1>Purchase Funding</h1>
                 </div>
                 <div class="card shadow mb-5">
                     <div class="card-body">
-                        <button disabled type="button" class="btn btn-danger" style="margin-bottom: 1rem;" href=""
-                        onclick="exportSelectedFile()" id="button-export-terpilih">Export Selected File</button>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
@@ -100,7 +98,7 @@
                             @endphp
                             <tbody>
                                 @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'PO Approved')
+                                    @if ($ppb->status == 'Unpaid')
                                     @php $approvedPPB[] =$ppb; @endphp
                                     <tr id="ppb-{{ $ppb->id }}">
                                         <td><input type="checkbox" name="" id=""></td>
@@ -115,7 +113,7 @@
                                             </a>
                                         </td>
                                         <td>{{ $ppb->created_at }}</td>
-                                        @hasrole('purchasing|super admin')
+                                        @hasrole('finance|super admin')
                                         <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
 

@@ -1,4 +1,4 @@
-    <title>Invoicing</title>
+<title>History Purchase order</title>
 
 @extends('layouts.master')
 
@@ -68,26 +68,29 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="py-3">
-                    <h1>Invoicing Page</h1>
+                    <h1>Purchase Order</h1>
                 </div>
+
                 <div class="card shadow mb-5">
                     <div class="card-body">
-                        <button disabled type="button" class="btn btn-danger" style="margin-bottom: 1rem;" href=""
-                        onclick="exportSelectedFile()" id="button-export-terpilih">Export Selected File</button>
+                        {{-- <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
+                                class="bx bx-list-plus"></i> Add+</button> --}}
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="head-cb"></th>
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Send To</th>
-                                    <th>Date Line</th>
-                                    <th>Countdown</th>
-                                    <th>Warning</th>
                                     <th>Date</th>
                                      @hasrole('purchasing|super admin')
                                         <th>Status</th>
                                     @endhasrole
+                                    {{--
+                                    <th>Action</th>
+                                    @hasrole('admin|super admin')
+                                        <th>Accept</th>
+                                        <th>Reject</th>
+                                    @endhasrole --}}
                                     @hasrole('user')
                                         <th>Status</th>
                                     @endhasrole
@@ -95,35 +98,28 @@
                                 </tr>
                             </thead>
                             @php
-                            $no = 1;
-                            $approvedPPB = [];
+                                $no = 1;
                             @endphp
                             <tbody>
-                                @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'PO Approved')
-                                    @php $approvedPPB[] =$ppb; @endphp
-                                    <tr id="ppb-{{ $ppb->id }}">
-                                        <td><input type="checkbox" name="" id=""></td>
+                                @foreach ($datappb as $purchase)
+                                @if ($purchase->status == 'Selesai Di proses Purchasing' )
+                                    <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $ppb->ws }}</td>
-                                        <td>{{ $ppb->send_to }}</td>
-                                        <td>{{ $ppb->dateline }}</td>
-                                        <td class="ppb-countdown"></td>
-                                        <td>
-                                            <a class="badge badge-lable" style="font-size: 18">
-                                                Complete This Task!
-                                            </a>
-                                        </td>
-                                        <td>{{ $ppb->created_at }}</td>
+                                        <td>{{ $purchase->ws }}</td>
+                                        <td>{{ $purchase->send_to }}</td>
+                                        <td>{{ $purchase->created_at }}</td>
                                         @hasrole('purchasing|super admin')
-                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $purchase->status }}</a></td>
 
                                         <td>
-                                           <a href="{{ url('/invoicing/detail/' . $ppb->id) }}"
+                                            <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                            {{-- <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
+                                                class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a> --}}
+
                                                 <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                data-bs-target="#modalDelete{{ $ppb->id }}">Delete</button>
+                                                data-bs-target="#modalDelete{{ $purchase->id }}">Delete</button>
                                         </td>
                                         @endhasrole
                                     </tr>
@@ -146,72 +142,4 @@
             });
         </script>
     </section>
-@endsection
-@section('scripts')
-    {{-- <script src="{{  }}"></script> --}}
-    <script>
-        const data = @json($approvedPPB);
-        const item =data[0];
-        console.log(data);
-
-        // FOR CALCULATE REMAINING DEADLINE TIME 😃
-        const remainingTime = (data, elmnt) => {
-            const { approved_at, dateline_time , datetime } = data;
-            const approvedAt    = new Date(approved_at);
-            const dueDateTime   = new Date(`1970-01-01T${dateline_time}Z`);
-            const dueDateAt     = new Date(approvedAt.getTime() + dueDateTime.getTime());
-            const remainingTime = new Date(dueDateAt.getTime() - Date.now());
-
-            if(remainingTime.getTime() < 1) return "Your time is up";
-
-            let colors    = [];
-            const lable   = elmnt.querySelector('.badge-lable');
-            const hours   = remainingTime.getUTCHours().toString();
-            const minutes = remainingTime.getUTCMinutes().toString();
-            const seconds = remainingTime.getUTCSeconds().toString();
-
-            if(data.dateline == '≤3Jam') colors = [
-                [1, 'bg-danger'],
-                [2, 'bg-warning'],
-                [3, 'bg-success'],
-            ]
-            if(data.dateline == '≤24Jam') colors = [
-                [8, 'bg-danger'],
-                [16, 'bg-warning'],
-                [24, 'bg-success'],
-            ]
-            if(data.dateline == '≤2Hari') colors = [
-                [16, 'bg-danger'],
-                [32, 'bg-warning'],
-                [48, 'bg-success'],
-            ]
-
-            lable.classList.remove('bg-danger'); lable.classList.remove('bg-warning'); lable.classList.remove('bg-success');
-            lable.classList.add(colors.find(item => item[0] > hours)[1]);
-
-            return (
-                (hours.length   == 1 ? `0${hours}:`   : `${hours}:`) +
-                (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
-                (seconds.length == 1 ? `0${seconds}:` : `${seconds}`)
-            );
-        }
-
-        // FOR HANDLE REWRITE ELEMENT 😃
-        const countdownHandle = (elmnt, item) => {
-            const countdownElmnt     = elmnt.querySelector('.ppb-countdown');
-            countdownElmnt.innerText = remainingTime(item, elmnt);
-        }
-
-        // FOR INITIALIZE COUNTDOWN 😃
-        const initCountdown = (data) => {
-            data.forEach(item => {
-                if(!item.approved_at) return;
-                setInterval(() => countdownHandle(document.querySelector(
-                    `#ppb-${item.id}`
-                ), item), 1000);
-            });
-        }
-
-        initCountdown(data);
-    </script>
 @endsection
