@@ -48,6 +48,7 @@
           <form action="{{ url('/menu-pengajuan-pembelian/store') }}" id="formAdd" method="post"
           enctype="multipart/form-data">
           @csrf
+
           <div class="row g-3">
             <div class="col-md-6">
               <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date :</label>
@@ -208,7 +209,7 @@
         </div>
       </div>
       <hr>
-      <table class="table table-bordered mt-2 mx-2 order-entry" id="dynamicAddRemove">
+      <table class="table table-bordered order-entry" id="dynamicAddRemove">
         <tr style="text-align: center;">
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
@@ -239,7 +240,7 @@
         </tr>
       </table>
       <br>
-      <table class="table table-bordered mx-2">
+      <table class="table table-bordered">
         <tr>
           <td>
             <label class="pull-right mx-2" style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; DPP :</label>

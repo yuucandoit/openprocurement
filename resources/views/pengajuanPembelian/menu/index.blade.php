@@ -83,10 +83,10 @@
                   @hasrole('admin|super admin')
                   <th>Status</th>
                   @endhasrole
-                  <th>Action</th>
                   @hasrole('user')
                   <th>Status</th>
                   @endhasrole
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,15 +96,20 @@
                @foreach ($datadv as $ppembelian)
                {{-- @if ($ppembelian->status == '') --}}
                <tr>
-                <td>{{ $no++ }}</td>
-                <td>{{ $ppembelian->date_ps }}</td>
-                <td>{{ $ppembelian->ws }}</td>
+                <td style="text-align: center;">{{ $no++ }}</td>
+                <td style="text-align: center;">{{ $ppembelian->date_ps }}</td>
+                <td style="text-align: center;">{{ $ppembelian->ws }}</td>
                 <td><a href="{{ $ppembelian->desc }}" target="_blank">{{ $ppembelian->desc }}</a></td>
                 @hasrole('admin|super admin')
-                <td><b>{{ $ppembelian->status }}</b></td>
+                <td style="text-align: center;"><b>{{ $ppembelian->status }}</b></td>
                 @endhasrole
-                <td>
-                  <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" class="btn btn-outline-info"><i class="fa fa-search"></i></a>
+
+                @hasrole('user|super admin')
+                <td style="text-align: center;"> <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
+                @endhasrole
+
+                <td style="text-align: center;">
+                  <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
                   @if ($ppembelian->status == 'Accepted' )
 
                   @else
@@ -113,9 +118,6 @@
 
                   <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ppembelian->id }}"><i class="fa fa-trash-o"></i></button>
                 </td>
-                @hasrole('user|super admin')
-                <td> <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ?  : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ) }} mt-1" style="color: blue; font-size:18;">{{ $ppembelian->status }}</a></td>
-                @endhasrole
 
               </tr>
               {{-- @endif --}}

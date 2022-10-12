@@ -27,6 +27,7 @@ class TasklistAtasanPoController extends Controller
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
             $data_atasan = CategoryPO::whereIn('atasan_po',[3, 6, 7, 8, 9])->get();
+            // dd($data_atasan);
             $datadv = TaskListAtasanPO::all();
             // dd($data_atasan);
             return view('taskList_atasan_po.menu.index')

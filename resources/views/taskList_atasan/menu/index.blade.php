@@ -39,10 +39,10 @@
         <div class="page-header">
           <div class="row">
             <div class="col-sm-6">
-                <h3>Task List</h3>
+                <h2>Task List</h2>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('menu-taskList-atasan.index') }}">Task List Purchase Submission</a></li>
+                    <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item">Task List</li>
                 </ol>
             </div>
             <div class="col-sm-6">
@@ -102,15 +102,15 @@
                             <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                             <td>{{ $ppb->dateline }}</td>
                             <td>{{ $ppb->ws }}</td>
-                            <td>
-                                <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                    class="btn btn-outline-info"><i class="fa fa-search"></i></a>
-                                    <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                        class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
-                                    </td>
-                                    <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                        style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                                        @endif
+                            <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                @endif
+                                <td>
+                                    <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                        class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
+                                        <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
+                                            class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                                        </td>
                                     </tr>
                                     @endif
                                     @endforeach
@@ -142,15 +142,15 @@
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                         <td style="text-align: center;">{{ $ppb->ws }}</td>
-                                        <td style="text-align: center;">
-                                            <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                                class="btn btn-outline-info"><i class="fa fa-search"></i></a>
-                                                <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                                    class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
-                                                </td>
-                                                <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                    style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                                                    @endif
+                                        <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                            @endif
+                                            <td style="text-align: center;">
+                                                <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                                    class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
+                                                    <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
+                                                        class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                                                    </td>
                                                 </tr>
                                                 @endif
                                                 @endforeach
@@ -182,16 +182,16 @@
                                                     <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                     <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                     <td style="text-align: center;">{{ $ppb->ws }}</td>
-                                                    <td style="text-align: center;">
-                                                        <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                                            class="btn btn-outline-info"><i class="fa fa-search"></i></a>
+                                                    <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                        style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                                        @endif
+                                                        <td style="text-align: center;">
+                                                            <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                                                class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
 
-                                                            <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                                                class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
-                                                            </td>
-                                                            <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                                                                @endif
+                                                                <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
+                                                                    class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                                                                </td>
                                                             </tr>
                                                             @endif
                                                             @endforeach
@@ -223,16 +223,16 @@
                                                                 <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                                 <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                                 <td style="text-align: center;">{{ $ppb->ws }}</td>
-                                                                <td style="text-align: center;">
-                                                                    <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                                                        class="btn btn-outline-info"><i class="fa fa-search"></i></a>
+                                                                <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                                                    @endif
+                                                                    <td style="text-align: center;">
+                                                                        <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                                                            class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
 
-                                                                        <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                                                            class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
-                                                                        </td>
-                                                                        <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                                                                            @endif
+                                                                            <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
+                                                                                class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                                                                            </td>
                                                                         </tr>
                                                                         @endif
                                                                         @endforeach
