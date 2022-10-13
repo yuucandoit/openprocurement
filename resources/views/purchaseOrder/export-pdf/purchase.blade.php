@@ -51,9 +51,9 @@
                         <div class="media">
                             <div class="media-heading f-w-600">
                                 <h6>Vendor</h6>
-                                @foreach ($vendorpo as $vp)
+                                {{-- @foreach ($vendorpo as $vp)
                                 <p>{{ $vp->vendorable->name }}</p>
-                                @endforeach
+                                @endforeach --}}
                                 <p></p>
                             </div>
                         </div>
@@ -83,6 +83,9 @@
                             <td class="subtotal">
                               <h6 class="p-2 mb-0">Price/Unit</h6>
                             </td>
+                            <td class="subtotal">
+                                <h6 class="p-2 mb-0">Total</h6>
+                              </td>
                           </tr>
                           @foreach ($category_q as $q)
                           <tr>
@@ -95,6 +98,9 @@
                             <td>
                               <p class="itemtext digits">{{ $q->kategori }}</p>
                             </td>
+                            <td>
+                                <p class="itemtext digits">Rp.{{ number_format($q->unit_price) }}</p>
+                              </td>
                             <td>
                               <p class="itemtext digits">Rp.{{ number_format($q->total) }}</p>
                             </td>
@@ -153,7 +159,10 @@
                               <p class="itemtext"></p>
                             </td>
                             <td>
-                              <p class="m-0">DPP</p>
+                                <p class="itemtext"></p>
+                              </td>
+                            <td>
+                              <p class="m-0">DPP </p>
                             </td>
                             @foreach ($dpp as $dp)
                             <td>
@@ -169,7 +178,10 @@
                               <p class="itemtext"></p>
                             </td>
                             <td>
-                              <p class="m-0">PPN 11%</p>
+                                <p class="itemtext"></p>
+                              </td>
+                            <td>
+                              <p class="m-0">PPN 11% </p>
                             </td>
                             @foreach ($ppn as $pn)
                             <td>
@@ -180,8 +192,9 @@
                           <tr>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <td class="Rate">
-                              <h6 class="mb-0">Total</h6>
+                              <h6 class="mb-0">Total </h6>
                             </td>
                         @foreach ($cpp as $c)
                         @if ($c->ppn == 0)
@@ -217,7 +230,11 @@
                       <div class="col">
                         <div class="row text-end">
                             @foreach ($cpp as $c)
+                            @if ($c->status == 'PO Approved')
                             <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style="margin-left:10px; width:90px; height:80px" >
+                            @else
+
+                            @endif
                             @endforeach
                             <strong style="padding-bottom: 50px; padding-right:12px;">{{ $cpo->atasans->name }}</strong>
                         </div>

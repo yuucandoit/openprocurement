@@ -162,7 +162,8 @@ class PurchaseOrderController extends Controller
         $data['month'] = Carbon::now()->format('m');
         //dd($data['cpp']);
         $pdf = PDF::loadView('purchaseOrder.export-pdf.purchase', $data)->setpaper('A4', 'potrait');
-        return $pdf->download('PurchaseOrder.pdf');
+        return $pdf->stream('PurchaseOrder.pdf');
+        //return $pdf->download('PurchaseOrder.pdf');
 
         // $pdf = Dompdf::loadView('export-pdf.purchase', ['data' => $data]);
         // return Excel::download(new PoPDFExport($id),'PurchaseOrder.pdf', \Maatwebsite\Excel\Excel::DOMPDF);

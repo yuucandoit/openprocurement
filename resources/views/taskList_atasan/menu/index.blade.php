@@ -107,9 +107,9 @@
                                 @endif
                                 <td>
                                     <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                        class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
+                                        class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
                                         <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                            class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                                            class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
                                         </td>
                                     </tr>
                                     @endif
@@ -147,9 +147,9 @@
                                             @endif
                                             <td style="text-align: center;">
                                                 <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                                    class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
+                                                    class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
                                                     <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                                        class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                                                        class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
                                                     </td>
                                                 </tr>
                                                 @endif
@@ -187,10 +187,10 @@
                                                         @endif
                                                         <td style="text-align: center;">
                                                             <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                                                class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
+                                                                class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
 
                                                                 <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                                                    class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                                                                    class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
                                                                 </td>
                                                             </tr>
                                                             @endif
@@ -228,10 +228,10 @@
                                                                     @endif
                                                                     <td style="text-align: center;">
                                                                         <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                                                            class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
+                                                                            class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
 
                                                                             <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                                                                class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                                                                                class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
                                                                             </td>
                                                                         </tr>
                                                                         @endif
@@ -266,10 +266,10 @@
                                                                             <td style="text-align: center;">{{ $ppb->ws }}</td>
                                                                             <td style="text-align: center;">
                                                                                 <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                                                                    class="btn btn-outline-info"><i class="fa fa-search"></i></a>
+                                                                                    class="btn btn-outline-info"><i class="fa fa-search" title="Detail"></i></a>
 
                                                                                     <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                                                                        class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                                                                                        class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
                                                                                     </td>
                                                                                     <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                                         style="color: white; font-size:18">{{ $ppb->status }}</a></td>

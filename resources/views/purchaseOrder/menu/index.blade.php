@@ -126,7 +126,7 @@
                     @hasrole('user')
                     <th>Status</th>
                     @endhasrole
-                    <th>Function</th>
+                    <th style="width: 700px;">Function</th>
                 </tr>
             </thead>
 
@@ -153,16 +153,16 @@
                     @hasrole('purchasing|super admin')
                     <td> <a class="badge {{ $ppb->status == '' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                         style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                    <td >
-                        <a href="" class=" btn btn-danger" title="Preview PO" type="button"><i class="icofont icofont-eye-alt"></i></a>
+                    <td style="width: 700px;">
+                        <a href="{{ url('/exportpdf/po/' . $ppb->id) }}" class=" btn btn-danger" type="button"><i class="icofont icofont-eye-alt" title="Preview PO"></i></a>
 
-                        <a href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}" title="Record Data" type="button" class=" btn btn-primary" ><i class="icofont icofont-papers"></i></a>
+                        <a href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}" type="button" class=" btn btn-primary" ><i class="icofont icofont-papers" title="Record Data"></i></a>
 
-                        <a href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}" title="Edit" type="button" class=" btn btn-warning" ><i class="icofont icofont-edit"></i></a>
+                        <a href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}" type="button" class=" btn btn-warning" ><i class="icofont icofont-edit" title="Edit"></i></a>
 
-                        <a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" title="Detail"  type="button" class="btn btn-info" ><i class="icofont icofont-ebook"></i></a>
+                        <a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"  type="button" class="btn btn-info" ><i class="icofont icofont-ebook" title="Detail"></i></a>
 
-                        <a class="btn btn-danger" type="button" data-bs-toggle="modal"data-bs-target="#modalDelete{{ $ppb->id }}" title="Delete"><i class="icofont icofont-trash"></i></a>
+                        <a class="btn btn-danger" type="button" data-bs-toggle="modal"data-bs-target="#modalDelete{{ $ppb->id }}" ><i class="icofont icofont-trash" title="Delete"></i></a>
                                         </td>
                                         @endhasrole
                                     </tr>

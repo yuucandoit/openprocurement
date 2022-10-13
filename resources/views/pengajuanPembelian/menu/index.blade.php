@@ -109,14 +109,14 @@
                 @endhasrole
 
                 <td style="text-align: center;">
-                  <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
+                  <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" class="btn btn-outline-info" ><i class="fa fa-search-plus" title="Detail."></i></a>
                   @if ($ppembelian->status == 'Accepted' )
 
                   @else
-                  <a href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}" class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+                  <a href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}" class="btn btn-outline-warning" ><i class="fa fa-edit" title="Edit."></i></a>
                   @endif
 
-                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ppembelian->id }}"><i class="fa fa-trash-o"></i></button>
+                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ppembelian->id }}" ><i class="fa fa-trash-o" title="Delete."></i></button>
                 </td>
 
               </tr>
