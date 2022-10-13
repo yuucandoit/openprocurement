@@ -98,12 +98,8 @@
                <tr>
                 <td style="text-align: center;">{{ $no++ }}</td>
                 <td style="text-align: center;">{{ $ppembelian->date_ps }}</td>
-                <td style="text-align: center;">{{ $ppembelian->ws }}</td>
+                <td style="text-align: center;">{{ $ppembelian->whosubmit->name }}</td>
                 <td><a href="{{ $ppembelian->desc }}" target="_blank">{{ $ppembelian->desc }}</a></td>
-                @hasrole('admin|super admin')
-                <td style="text-align: center;"><b>{{ $ppembelian->status }}</b></td>
-                @endhasrole
-
                 @hasrole('user|super admin')
                 <td style="text-align: center;"> <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18">{{ $ppembelian->status }}</a></td>
                 @endhasrole

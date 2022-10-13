@@ -89,19 +89,9 @@
                 <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted :</label>
                 <select class="form-select page @error('purpose') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws" required="">
                   <option value="" disabled selected hidden>Who Submitted</option>
-                  <option value="Business_Development"    >Business Development   </option>
-                  <option value="Finance"                 >Finance                </option>
-                  <option value="GA"                      >GA                     </option>
-                  <option value="Human_Resource"          >Human Resource         </option>
-                  <option value="Legal"                   >Legal                  </option>
-                  <option value="Programmer"              >Programmer             </option>
-                  <option value="Project"                 >Project                </option>
-                  <option value="Product"                 >Product                </option>
-                  <option value="Production"              >Production             </option>
-                  <option value="Purchasing"              >Purchasing             </option>
-                  <option value="R&D"                     >R&D                    </option>
-                  <option value="Support_Workshop"        >Support Workshop       </option>
-                  <option value="Tax"                     >Tax                    </option>
+                  @foreach ($dataws as $ws)    
+                  <option value="{{ $ws->id }}">{{ $ws->name }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -125,9 +115,9 @@
                 <select class="form-select page " id="pageSelector" placeholder="Purpose" name="purpose" required>
                   <option value="" disabled selected hidden>Purpose</option>
                   @foreach ($purpose as $p)
-                  <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                  <option value="{{ $p->id }}">{{ $p->name }}</option>
                   @endforeach
-                  <option value="custom">+ Add Project</option>
+                  <option value="custom" disabled hidden>+ Add Project</option>
                 </select>
                 <input type="text" class="hide form-control mt-2" placeholder="Input Project" name="nama" id="customInput" >
               </div>
@@ -138,19 +128,9 @@
                 <label for="floatingdepartment"><i class="fa fa-institution"></i> Department :</label>
                 <select class="form-select page @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
                   <option value="" disabled selected hidden>Department</option>
-                  <option value="Business_Development"    >Business Development   </option>
-                  <option value="Finance"                 >Finance                </option>
-                  <option value="GA"                      >GA                     </option>
-                  <option value="Human_Resource"          >Human Resource         </option>
-                  <option value="Legal"                   >Legal                  </option>
-                  <option value="Programmer"              >Programmer             </option>
-                  <option value="Project"                 >Project                </option>
-                  <option value="Product"                 >Product                </option>
-                  <option value="Production"              >Production             </option>
-                  <option value="Purchasing"              >Purchasing             </option>
-                  <option value="R&D"                     >R&D                    </option>
-                  <option value="Support_Workshop"        >Support Workshop       </option>
-                  <option value="Tax"                     >Tax                    </option>
+                  @foreach ($datadepartment as $dp)    
+                  <option value="{{ $dp->id }}">{{ $dp->name }}</option>
+                  @endforeach
                 </select>
                 @error('department')
                 <div class="invalid-feedback">

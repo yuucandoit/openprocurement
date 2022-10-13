@@ -88,20 +88,10 @@
                   <div class="form-group">
                     <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted :</label>
                     <select class="form-select page @error('ws') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws" >
-                      <option selected hidden                 >{{ $dv->ws }}    *Select For Update Data</option>
-                      <option value="Business_Development"    >Business Development   </option>
-                      <option value="Finance"                 >Finance                </option>
-                      <option value="GA"                      >GA                     </option>
-                      <option value="Human_Resource"          >Human Resource         </option>
-                      <option value="Legal"                   >Legal                  </option>
-                      <option value="Programmer"              >Programmer             </option>
-                      <option value="Project"                 >Project                </option>
-                      <option value="Product"                 >Product                </option>
-                      <option value="Production"              >Production             </option>
-                      <option value="Purchasing"              >Purchasing             </option>
-                      <option value="R&D"                     >R&D                    </option>
-                      <option value="Support_Workshop"        >Support Workshop       </option>
-                      <option value="Tax"                     >Tax                    </option>
+                      <option selected hidden>{{ $dv->whosubmit->name }}    *Select For Update Data</option>
+                      @foreach ($dataws as $w)    
+                      <option value="{{ $w->id }}">{{ $w->name }}   </option>
+                      @endforeach
                     </select>
                     @error('ws')
                     <div class="invalid-feedback">
@@ -128,11 +118,11 @@
                   <div class="form-group">
                     <label for="floatingwhosubmitted"><i class="fa fa-laptop"></i> Purpose :</label>
                     <select class="form-select page @error('purpose') is-invalid @enderror" id="pageSelector" placeholder="Purpose" name="purpose">
+                      <option selected hidden>{{ $dv->referensi->name }}    *Select For Update Data</option>
                       @foreach ($purpose as $p)
-                      <option selected hidden>{{ $p->nama }}    *Select For Update Data</option>
-                      <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                      <option value="{{ $p->id }}">{{ $p->name }}</option>
                       @endforeach
-                      <option value="custom">+ Add Project</option>
+                      <option value="custom" hidden disabled>+ Add Project</option>
                     </select>
                     <input type="text" class="hide form-control mt-2" placeholder="Input Project" name="nama" id="customInput" >
                     @error('purpose')
@@ -147,20 +137,10 @@
                   <div class="form-group">
                     <label for="floatingdepartment"><i class="fa fa-institution"></i> Department :</label>
                     <select class="form-select page @error('department') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" >
-                      <option value="{{ $dv->department }}" selected hidden>{{ $dv->department }}   *Select For Update Data</option>
-                      <option value="Business_Development"    >Business Development   </option>
-                      <option value="Finance"                 >Finance                </option>
-                      <option value="GA"                      >GA                     </option>
-                      <option value="Human_Resource"          >Human Resource         </option>
-                      <option value="Legal"                   >Legal                  </option>
-                      <option value="Programmer"              >Programmer             </option>
-                      <option value="Project"                 >Project                </option>
-                      <option value="Product"                 >Product                </option>
-                      <option value="Production"              >Production             </option>
-                      <option value="Purchasing"              >Purchasing             </option>
-                      <option value="R&D"                     >R&D                    </option>
-                      <option value="Support_Workshop"        >Support Workshop       </option>
-                      <option value="Tax"                     >Tax                    </option>
+                      <option value="{{ $dv->dps->name }}" selected hidden>{{ $dv->dps->name }}   *Select For Update Data</option>
+                      @foreach ($datadepartment as $d)    
+                      <option value="{{ $d->id }}">{{ $d->name }}</option>
+                      @endforeach
                     </select>
                     @error('department')
                     <div class="invalid-feedback">

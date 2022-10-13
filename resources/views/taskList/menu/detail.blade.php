@@ -44,22 +44,22 @@
     <div class="col-sm-12">
       <div class="card card-absolute">
         <div class="card-header bg-primary">
-          <h5 class="text-white">Details From {{ $data_pengajuan->ws }}</h5>
+          <h5 class="text-white">Details From {{ $data_pengajuan->whosubmit->name }}</h5>
       </div>
       <div class="card-body text-center">
         <table class="table table-bordered mt-4">
             <tbody>
                 <tr>
-                    <td>Proposed Supplier</td>
-                    <td>{{ $data_pengajuan->proposed_supplier }}</td>
+                    <td>Who Submitted</td>
+                    <td>{{ $data_pengajuan->whosubmit->name }}</td>
                 </tr>
                 <tr>
                     <td>Date</td>
                     <td>{{ $data_pengajuan->date_ps }}</td>
                 </tr>
                 <tr>
-                    <td>Who Submitted</td>
-                    <td>{{ $data_pengajuan->ws }}</td>
+                    <td>Department</td>
+                    <td>{{ $data_pengajuan->dps->name }}</td>
                 </tr>
                 <tr>
                     <td>Description</td>
@@ -67,8 +67,7 @@
                 </tr>
                 <tr>
                     <td>Purpose</td>
-                    <td> {{ $data_pengajuan->referensi->nama }}</td>
-                    {{-- <td>{{ $data_pengajuan->tujuan->nama }}</td> --}}
+                    <td> {{ $data_pengajuan->referensi->name }}</td>
                 </tr>
                 <tr>
                     <td>Send To</td>

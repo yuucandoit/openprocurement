@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Perusahaan;
+use App\Models\CategoryPT;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,8 +15,22 @@ class VendorSeeder extends Seeder
      */
     public function run()
     {
-        Perusahaan::create([
-
-        ]);
+        // CategoryPT::create([
+        // 'nama' => 'PT Solusi Intek Indonesia',
+        // 'alamat' => 'Tebet Jakarta Selatan DKI Jakarta 12343',
+        // 'no_telp_kantor'=>'081282711114',
+        // 'website' => 'https://intek.co.id/home/',
+        // 'nama_pic' => 'Victor',
+        // 'no_telp_pic' => '0812132350',
+        // 'email' => 'SolusiIntek@gmail.com',
+        // 'npwp_perusahaan' => '123123123123',
+        // 'pkp' => 'Non-PKP',
+        // 'nib'=> '00000001',
+        // 'bidang_usaha' => 'Teknologi',
+        // 'no_rekening' => '3123812012321',
+        // 'bank' => 'BCA(014)',
+        // 'cabang_bank' =>  'BCA Jakarta Selatan',
+        // 'nama_penerima' => 'Badrul'
+        // ]);
     }
 }

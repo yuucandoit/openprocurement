@@ -101,7 +101,7 @@
                             <td>{{ $no++ }}</td>
                             <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                             <td>{{ $ppb->dateline }}</td>
-                            <td>{{ $ppb->ws }}</td>
+                            <td>{{ $ppb->whosubmit->name }}</td>
                             <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                 style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                 @endif
@@ -141,7 +141,7 @@
                                         <td style="text-align: center;">{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                        <td style="text-align: center;">{{ $ppb->ws }}</td>
+                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                         <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                             @endif
@@ -181,7 +181,7 @@
                                                     <td style="text-align: center;">{{ $no++ }}</td>
                                                     <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                     <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->ws }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                     <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                         style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                                         @endif
@@ -222,7 +222,7 @@
                                                                 <td style="text-align: center;">{{ $no++ }}</td>
                                                                 <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                                 <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                                <td style="text-align: center;">{{ $ppb->ws }}</td>
+                                                                <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                                 <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                                                     @endif
@@ -263,7 +263,7 @@
                                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                                             <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                                            <td style="text-align: center;">{{ $ppb->ws }}</td>
+                                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                                             <td style="text-align: center;">
                                                                                 <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
                                                                                     class="btn btn-outline-info"><i class="fa fa-search" title="Detail"></i></a>

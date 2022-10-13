@@ -16,6 +16,7 @@ use App\Http\Controllers\CategoryPPController;
 use App\Http\Controllers\CategoryPTController;
 use App\Http\Controllers\CategoryTaskListController;
 use App\Http\Controllers\DataVendorController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EcommerceController;
 use App\Http\Controllers\InvoicingController;
 use App\Http\Controllers\PengajuanDanaNewController;
@@ -24,9 +25,11 @@ use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PO_B_Controller;
 use App\Http\Controllers\PrivatePersonController;
 use App\Http\Controllers\PurchaseFundingSubmissionController;
+use App\Http\Controllers\ReferensiNamaProjectController;
 use App\Http\Controllers\TaskListAtasanController;
 use App\Http\Controllers\TasklistAtasanPoController;
 use App\Http\Controllers\TaskListFinanceController;
+use App\Http\Controllers\WhoSubmittedController;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\DataVendor;
@@ -195,6 +198,38 @@ Route::group(['middleware' => ['auth']], function () {
     });
     //end Vendor
 
+    // Data Master Submission
+
+    Route::group(['prefix' => 'who-submitted'], function () {
+        Route::get('/', [WhoSubmittedController::class, 'index'])->name('who-submitted.index');
+        Route::get('/create', [WhoSubmittedController::class, 'create'])->name('who-submitted.create');
+        Route::post('/store', [WhoSubmittedController::class, 'store'])->name('who-submitted.store');
+        Route::get('/edit/{id}', [WhoSubmittedController::class, 'edit'])->name('who-submitted.edit');
+        Route::post('/update/{id}', [WhoSubmittedController::class, 'update'])->name('who-submitted.update');
+        Route::get('/destroy/{id}', [WhoSubmittedController::class, 'destroy'])->name('who-submitted.destroy');
+    });
+
+    Route::group(['prefix' => 'project-reference'], function () {
+        Route::get('/', [ReferensiNamaProjectController::class, 'index'])->name('project-reference.index');
+        Route::get('/create', [ReferensiNamaProjectController::class, 'create'])->name('project-reference.create');
+        Route::post('/store', [ReferensiNamaProjectController::class, 'store'])->name('project-reference.store');
+        Route::get('/edit/{id}', [ReferensiNamaProjectController::class, 'edit'])->name('project-reference.edit');
+        Route::post('/update/{id}', [ReferensiNamaProjectController::class, 'update'])->name('project-reference.update');
+        Route::get('/destroy/{id}', [ReferensiNamaProjectController::class, 'destroy'])->name('project-reference.destroy');
+    });
+
+    Route::group(['prefix' => 'department'], function () {
+        Route::get('/', [DepartmentController::class, 'index'])->name('department.index');
+        Route::get('/create', [DepartmentController::class, 'create'])->name('department.create');
+        Route::post('/store', [DepartmentController::class, 'store'])->name('department.store');
+        Route::get('/edit/{id}', [DepartmentController::class, 'edit'])->name('department.edit');
+        Route::post('/update/{id}', [DepartmentController::class, 'update'])->name('department.update');
+        Route::get('/destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
+    });
+
+    // End Data Master Submission
+    
+    
     // Pengajuan Pembelian
     Route::group(['prefix' => 'pengajuan-pembelian'], function () {
         Route::get('/{id}', [PengajuanPembelianController::class, 'index'])->name('pengajuan-pembelian.index');

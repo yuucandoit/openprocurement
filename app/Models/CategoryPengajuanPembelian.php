@@ -64,6 +64,16 @@ class CategoryPengajuanPembelian extends Model
         return $this->belongsTo(ReferensiNamaProject::class, 'purpose');
     }
 
+    public function whosubmit()
+    {
+        return $this->belongsTo(WhoSubmitted::class, 'ws');
+    }
+
+    public function dps()
+    {
+        return $this->belongsTo(Department::class, 'department');
+    }
+
     public function bod()
     {
         return $this->belongsTo(User::whereIn('id', [3,6, 7, 8, 9]), 'atasan');

@@ -18,11 +18,11 @@ return new class extends Migration
             $table->integer('user_id')->default('0');
             $table->string('status')->default('Awaiting Purchase Submission Approval')->nullable();
             $table->foreignId('atasan')->constrained('users');
-            $table->date('date_ps');
-            $table->string('ws'); //Who Submitted(ws)
-            $table->enum('department',['R&D','Production','Support_Workshop','Project','Business_Development','Product','Finance','Tax','Human_Resource','Purchasing','GA','Legal', 'Programmer']);
-            $table->text('desc');
+            $table->foreignId('ws')->constrained('who_submitted'); //Who Submitted(ws)
+            $table->foreignId('department')->constrained('department');
             $table->foreignId('purpose')->constrained('referensi_nama_project');
+            $table->date('date_ps');
+            $table->text('desc');
             $table->enum('matauang',['USD','RP']);
             $table->string('send_to');
             $table->enum('dateline',['≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);

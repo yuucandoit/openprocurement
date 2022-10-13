@@ -7,6 +7,7 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\Department;
 use App\Models\PengajuanPembelian;
 use App\Models\PurchaseOrder;
 use App\Models\ReferensiNamaProject;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
+use App\Models\WhoSubmitted;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryPOController extends Controller
@@ -27,15 +29,19 @@ class CategoryPOController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 || $check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
-            $pt = CategoryPT::all();
-            $op = CategoryPP::all();
-            $ec = CategoryEcommerce::all();
-            $datapo = CategoryPO::all();
+            $datappb            = CategoryPengajuanPembelian::all();
+            $pt                 = CategoryPT::all();
+            $op                 = CategoryPP::all();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $ec                 = CategoryEcommerce::all();
+            $datapo             = CategoryPO::all();
             return view('purchaseOrder.menu.index')
                 ->with('pt',$pt)
                 ->with('op',$op)
                 ->with('ec',$ec)
+                ->with('dataws', $dataws)
+                ->with('datadepartment', $datadepartment)
                 ->with('datappb',$datappb)
                 ->with('datapo', $datapo);
         }
@@ -64,6 +70,8 @@ class CategoryPOController extends Controller
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         $datapo             = CategoryPO::where('ppb_id', $id)->get();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -72,6 +80,8 @@ class CategoryPOController extends Controller
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
         ->with('datapo', $datapo)
+        ->with('dataws', $dataws)
+        ->with('datadepartment', $datadepartment)
         ->with('ppn', $ppn)
         ->with('total', $total)
         ->with('total_tnpa_ppn', $total_tnpa_ppn)
@@ -187,11 +197,15 @@ class CategoryPOController extends Controller
         $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
         $purpose = ReferensiNamaProject::all();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
         return view('purchaseOrder.menu.edit')
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
             ->with('purpose', $purpose)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
             ->with('item', $item)
             ->with('dv', $dv);
     }

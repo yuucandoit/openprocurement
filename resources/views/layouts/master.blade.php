@@ -350,10 +350,15 @@
 
                         <!--Data Master-->
                         @hasrole('admin|super admin')
-                        <li class="sidebar-main-title">
+                        {{-- <li class="sidebar-main-title">
                           <div>
                             <h6>Data Master</h6>
                           </div>
+                        </li> --}}
+                        <li class="sidebar-main-title">
+                            <div>
+                              <h6>Data Master Supplier</h6>
+                            </div>
                         </li>
                         <li class="dropdown {{ request()->is('*perusahaan*') ? 'active' : '' }}">
                           <a class="nav-link menu-title link-nav" href="{{ url('/menu-perusahaan') }}" >
@@ -373,6 +378,30 @@
                             <span>Ecommerce</span>
                           </a>
                         </li>
+
+                        <li class="sidebar-main-title">
+                            <div>
+                              <h6>Data Master Submission</h6>
+                            </div>
+                        </li>
+                        <li class="dropdown {{ request()->is('*who-submitted*') ? 'active' : '' }}">
+                            <a class="nav-link menu-title link-nav" href="{{ url('/who-submitted') }}" >
+                                <i class="fa fa-user"></i>
+                              <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Who Submitted</span>
+                            </a>
+                          </li>
+                          <li class="dropdown {{ request()->is('*project-reference*') ? 'active' : '' }}">
+                            <a class="nav-link menu-title link-nav" href="{{ url('/project-reference') }}" >
+                            <i class="fa fa-laptop"></i>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose</span>
+                            </a>
+                          </li>
+                          <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">
+                            <a class="nav-link menu-title link-nav" href="{{ url('/department') }}" >
+                                <i class="fa fa-institution"></i>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
+                            </a>
+                          </li>
                         @endhasrole
                         <!--end Data Master-->
 

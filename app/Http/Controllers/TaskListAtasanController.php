@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPT;
+use App\Models\Department;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
 use App\Models\TaskListAtasan;
 use App\Models\User;
+use App\Models\WhoSubmitted;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,9 +27,13 @@ class TaskListAtasanController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
             return view('taskList_atasan.menu.index')
             ->with('datappb', $datappb)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
             ->with('datadv', $datadv);
         }
     }
@@ -52,8 +58,12 @@ class TaskListAtasanController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
         return view('taskList_atasan.menu.detail')
             ->with('pengajuan', $pengajuan)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
             ->with('total', $total)
@@ -104,12 +114,16 @@ class TaskListAtasanController extends Controller
         $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
         $purpose = ReferensiNamaProject::all();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
         return view('taskList_atasan.menu.edit')
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
             ->with('purpose', $purpose)
             ->with('item', $item)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
             ->with('dv', $dv);
 
     }

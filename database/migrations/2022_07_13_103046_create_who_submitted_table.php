@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('referensi_nama_project', function (Blueprint $table) {
+        Schema::create('who_submitted', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('referensi_nama_project');
+        Schema::dropIfExists('who_submitted');
     }
 };

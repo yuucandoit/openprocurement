@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReferensiNamaProject;
+use App\Models\WhoSubmitted;
 use Illuminate\Http\Request;
 
-class ReferensiNamaProjectController extends Controller
+class WhoSubmittedController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class ReferensiNamaProjectController extends Controller
      */
     public function index()
     {
-        $data = ReferensiNamaProject::all();
-        return view('dataReferenceProject.index')
+        $data = WhoSubmitted::all();
+        return view('dataWhoSubmitted.index')
         ->with('data',$data);
     }
 
@@ -26,9 +26,9 @@ class ReferensiNamaProjectController extends Controller
      */
     public function create()
     {
-        $data = ReferensiNamaProject::all();
-        return view('dataReferenceProject.create')
-        ->with('data',$data);
+        $data = WhoSubmitted::all();
+        return view('dataWhoSubmitted.create')
+        ->with('data', $data);
     }
 
     /**
@@ -39,25 +39,25 @@ class ReferensiNamaProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //validasi formnya
-        $this->validate($request,[
+         //validasi formnya
+         $this->validate($request,[
             'name' => 'required',
         ]);
 
-       ReferensiNamaProject::create([
+       WhoSubmitted::create([
             "name" => $request->name,
         ]);
 
-        return redirect("project-reference/")->with('success', 'Created Successfully!');
+        return redirect("who-submitted/")->with('success', 'Created Successfully!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\WhoSubmitted  $whoSubmitted
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(WhoSubmitted $whoSubmitted)
     {
         //
     }
@@ -65,44 +65,44 @@ class ReferensiNamaProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\WhoSubmitted  $whoSubmitted
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(WhoSubmitted $whoSubmitted, $id)
     {
-        $data = ReferensiNamaProject::find($id);
-        return view('dataReferenceProject.edit')
-        ->with('data',$data);
-    }
+        $data = WhoSubmitted::find($id);
+        return view('dataWhoSubmitted.edit')
+        ->with('data', $data);
+    }   
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\WhoSubmitted  $whoSubmitted
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $data = ReferensiNamaProject::find($id);
+        $data = WhoSubmitted::where('id',$id);
 
         // dd($data);
-        $tes = ReferensiNamaProject::where("id", $id)->update([
+        $tes = WhoSubmitted::where("id", $id)->update([
             "name" => $request->name,
         ]);
-        return redirect("project-reference/")->with('success', 'Updated Successfully!');
+        return redirect("who-submitted/")->with('success', 'Updated Successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\WhoSubmitted  $whoSubmitted
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(WhoSubmitted $whoSubmitted,$id)
     {
-        $data = ReferensiNamaProject::find($id);
+        $data = WhoSubmitted::find($id);
         $data->delete();
-        return redirect("project-reference/")->with('success', 'Deleted Successfully!');
+        return redirect("who-submitted/")->with('success', 'Deleted Successfully!');
     }
 }

@@ -42,7 +42,7 @@
                         {{-- <div class="media-left"><img class="media-object rounded-circle img-60" src="../assets/images/user/1.jpg" alt=""></div> --}}
                         <div class="media-body m-l-20">
                             @foreach ($cpp as $p)
-                            <h6 class="media-heading f-w-600">Department: {{ $p->department }}</h6>
+                            <h6 class="media-heading f-w-600">Department: {{ $p->dps->name }}</h6>
                             @endforeach
                         </div>
                       </div>

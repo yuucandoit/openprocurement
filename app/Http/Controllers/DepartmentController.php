@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReferensiNamaProject;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
-class ReferensiNamaProjectController extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class ReferensiNamaProjectController extends Controller
      */
     public function index()
     {
-        $data = ReferensiNamaProject::all();
-        return view('dataReferenceProject.index')
+        $data = Department::all();
+        return view('dataDepartment.index')
         ->with('data',$data);
     }
 
@@ -26,8 +26,8 @@ class ReferensiNamaProjectController extends Controller
      */
     public function create()
     {
-        $data = ReferensiNamaProject::all();
-        return view('dataReferenceProject.create')
+        $data = Department::all();
+        return view('dataDepartment.create')
         ->with('data',$data);
     }
 
@@ -44,20 +44,20 @@ class ReferensiNamaProjectController extends Controller
             'name' => 'required',
         ]);
 
-       ReferensiNamaProject::create([
+       Department::create([
             "name" => $request->name,
         ]);
 
-        return redirect("project-reference/")->with('success', 'Created Successfully!');
+        return redirect("department/")->with('success', 'Created Successfully!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Department $department)
     {
         //
     }
@@ -65,44 +65,44 @@ class ReferensiNamaProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Department $department, $id)
     {
-        $data = ReferensiNamaProject::find($id);
-        return view('dataReferenceProject.edit')
-        ->with('data',$data);
+        $data = Department::find($id);
+        return view('dataDepartment.edit')
+        ->with('data', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        $data = ReferensiNamaProject::find($id);
+        $data = Department::find($id);
 
         // dd($data);
-        $tes = ReferensiNamaProject::where("id", $id)->update([
+        $tes = Department::where("id", $id)->update([
             "name" => $request->name,
         ]);
-        return redirect("project-reference/")->with('success', 'Updated Successfully!');
+        return redirect("department/")->with('success', 'Updated Successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Department $department, $id)
     {
-        $data = ReferensiNamaProject::find($id);
+        $data = Department::find($id);
         $data->delete();
-        return redirect("project-reference/")->with('success', 'Deleted Successfully!');
+        return redirect("department/")->with('success', 'Deleted Successfully!');
     }
 }

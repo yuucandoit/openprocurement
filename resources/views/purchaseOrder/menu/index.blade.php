@@ -140,7 +140,7 @@
                 @php $approvedPPB[] =$ppb; @endphp
                 <tr id="ppb-{{ $ppb->id }}">
                     <td>{{ $no++ }}</td>
-                    <td>{{ $ppb->ws }}</td>
+                    <td>{{ $ppb->whosubmit->name }}</td>
                     <td>{{ $ppb->send_to }}</td>
                     <td>{{ $ppb->dateline }}</td>
                     <td class="ppb-countdown"></td>

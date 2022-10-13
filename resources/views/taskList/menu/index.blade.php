@@ -105,20 +105,9 @@
                         <a class="badge badge-lable" style="font-size: 18">
                             Complete This Task!
                         </a>
-                        {{-- @if ($ppb->dateline == '≤3Jam')
-                        @if ($ppb->dateline_time == '03:00:00')
-                        <a class="badge bg-success" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
-                        @elseif ($ppb->dateline_time == '02:00:01')
-                        <a class="badge bg-warning" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
-                        @elseif ($ppb->dateline_time == '01:00:01')
-                        <a class="badge bg-danger" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
-                        @elseif ($ppb->dateline_time == '00:05:00')
-                        <a class="badge bg-dark" style="font-size: 18"><i class="bx bx-detail"></i>This Label is Unfinished, Under development</a>
-                        @endif
-                        @endif --}}
                     </td>
                     <td>{{ $ppb->approved_at }}</td>
-                    <td>{{ $ppb->ws }}</td>
+                    <td>{{ $ppb->whosubmit->name }}</td>
                     <td>
                         <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                             style="color: white; font-size:18">{{ $ppb->status }}</a>
