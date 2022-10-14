@@ -44,7 +44,7 @@
     <div class="col-sm-12">
       <div class="card card-absolute">
         <div class="card-header bg-primary">
-            <h5 class="text-white">Details {{ $data_pengajuan->ws }}</h5>
+            <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
         </div>
         <div class="card-body text-center">
          <table class="table table-bordered mt-4" style="">
@@ -128,6 +128,7 @@
                     @else
                     @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                     <td style="text-align:right;">
+                        @if ($data_pengajuan->ppn == 1)
                         @foreach ($ppn as $p)
                         {{-- Ketika mata uang yang dipilih RP --}}
                         @if ($data_pengajuan->matauang == 'RP')
@@ -137,6 +138,17 @@
                         $ {{ number_format($p->total) }}
                         @endif
                         @endforeach
+                        @else
+                        @foreach ($ppn as $p)
+                        {{-- Ketika mata uang yang dipilih RP --}}
+                        @if ($data_pengajuan->matauang == 'RP')
+                        RP. 0
+                        {{-- Ketika mata uang yang dipilih USD --}}
+                        @elseif ($data_pengajuan->matauang == 'USD')
+                        $ 0
+                        @endif
+                        @endforeach
+                        @endif
                     </td>
                 </tr>
                 @if ($data_pengajuan->ppn == 1)

@@ -183,10 +183,18 @@
                             <td>
                               <p class="m-0">PPN 11% </p>
                             </td>
+                            @foreach ($cpp as $c)
+                            @if ($c->ppn == null)
+                            <td>
+                                <p class="m-0 digits">Rp.0</p>
+                            </td>
+                            @else
                             @foreach ($ppn as $pn)
                             <td>
                                 <p class="m-0 digits">Rp.{{ number_format($pn->total) }}</p>
                             </td>
+                            @endforeach
+                            @endif
                             @endforeach
                           </tr>
                           <tr>
@@ -224,7 +232,14 @@
                     <div class="row mt-3">
                       <div class="col">
                         <div>
-                          <p class="legal"><strong>Terms & Conditions</strong> <br>{!!  nl2br($cpo->term->term_condition) !!}</p>
+                          <p class="legal"><strong>Terms & Conditions</strong> <br>
+                            @foreach ($cpp as $c)
+                            @if ($cpo->term_conditions === null)
+                            Not Filled in yet
+                            @else
+                            {!!  nl2br($cpo->term->term_condition) !!}</p>
+                            @endif
+                            @endforeach
                         </div>
                       </div>
                       <div class="col">
@@ -232,11 +247,11 @@
                             @foreach ($cpp as $c)
                             @if ($c->status == 'PO Approved')
                             <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style="margin-left:10px; width:90px; height:80px" >
+                            <strong style="padding-bottom: 50px; padding-right:12px;">{{ $cpo->atasans->name }}</strong>
                             @else
-
+                            <strong style="padding-bottom: 50px; padding-right:12px;">BOD Name</strong>
                             @endif
                             @endforeach
-                            <strong style="padding-bottom: 50px; padding-right:12px;">{{ $cpo->atasans->name }}</strong>
                         </div>
                       </div>
                     </div>

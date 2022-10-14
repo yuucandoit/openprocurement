@@ -1,22 +1,58 @@
-<title>Create Data</title>
+<title>Record Data</title>
 
 @extends('layouts.master')
 
 @section('main')
     <section>
+        <div class="container-fluid">
+            <div class="page-header">
+              <div class="row">
+                <div class="col-sm-6">
+                 <h1>Record Purchase Order</h1>
+                 <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="{{ route('menu-purchase-order.index') }}">Purchase Order</a></li>
+                  <li class="breadcrumb-item">Record Purchase Order</li>
+                </ol>
+              </div>
+              <div class="col-sm-6">
+                <!-- Bookmark Start-->
+                <div class="bookmark">
+                  <ul>
+                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
+                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
+                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
+                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
+                    <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                      <form class="form-inline search-form">
+                        <div class="form-group form-control-search">
+                          <input type="text" placeholder="Search..">
+                        </div>
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+                <!-- Bookmark Ends-->
+              </div>
+            </div>
+          </div>
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Create Data</h5>
+                <h5 class="card-title">Record Data</h5>
                 <table class="table table-bordered mt-4" style="">
                     <tbody>
+                        <tr>
+                            <td>Who Submitted</td>
+                            <td>{{ $dv->whosubmit->name }}</td>
+                        </tr>
                         <tr>
                             <td>Date</td>
                             <td>{{ $dv->date_ps }}</td>
                         </tr>
                         <tr>
-                            <td>Who Submitted</td>
-                            <td>{{ $dv->ws }}</td>
+                            <td>Department</td>
+                            <td>{{ $dv->dps->name }}</td>
                         </tr>
                         <tr>
                             <td>Description</td>
@@ -24,7 +60,7 @@
                         </tr>
                         <tr>
                             <td>Purpose</td>
-                            <td>{{ $dv->referensi->nama }}</td>
+                            <td>{{ $dv->referensi->name }}</td>
                         </tr>
                         <tr>
                             <td>Send To</td>
@@ -84,15 +120,27 @@
                                 @else
                             @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                             <td style="text-align:right;">
+                                @if ($dv->ppn == 1)
                                 @foreach ($ppn as $p)
                                 {{-- Ketika mata uang yang dipilih RP --}}
-                                    @if ($dv->matauang == 'RP')
-                                    RP. {{ number_format($p->total) }}
-                                    {{-- Ketika mata uang yang dipilih USD --}}
-                                    @elseif ($dv->matauang == 'USD')
-                                    $ {{ number_format($p->total) }}
-                                    @endif
+                                @if ($dv->matauang == 'RP')
+                                RP. {{ number_format($p->total) }}
+                                {{-- Ketika mata uang yang dipilih USD --}}
+                                @elseif ($dv->matauang == 'USD')
+                                $ {{ number_format($p->total) }}
+                                @endif
                                 @endforeach
+                                @else
+                                @foreach ($ppn as $p)
+                                {{-- Ketika mata uang yang dipilih RP --}}
+                                @if ($dv->matauang == 'RP')
+                                RP. 0
+                                {{-- Ketika mata uang yang dipilih USD --}}
+                                @elseif ($dv->matauang == 'USD')
+                                $ 0
+                                @endif
+                                @endforeach
+                                @endif
                             </td>
                         </tr>
 
@@ -112,6 +160,7 @@
                             @endforeach
 
                             @elseif ($dv->ppn == 0)
+                            <td class="text-end">Grand Total :</td>
                             @foreach ($total_tnpa_ppn as $tpn)
                             @if ($dv->matauang == 'RP')
                             <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
@@ -155,7 +204,6 @@
                                 @foreach ($pt as $p)
                                 <option value="{{ $p->id }}">{{ $p->nama }}</option>
                                 @endforeach
-                                <option value="custompt">+Add Company</option>
                             </select>
                             {{-- End Perusahaan Dropdown --}}
 
@@ -164,7 +212,6 @@
                                 @foreach ($op as $o)
                                 <option value="{{ $o->id }}">{{ $o->nama }}</option>
                                 @endforeach
-                                <option value="custompp">+Add Private Person</option>
                             </select>
                             {{-- End Private Person Dropdown --}}
 
@@ -173,7 +220,6 @@
                                 @foreach ($ec as $e)
                                 <option value="{{ $e->id }}">{{ $e->nama }}</option>
                                 @endforeach
-                                <option value="customec">+Add Ecommerce</option>
                             </select>
                             {{-- End Ecommerce Dropdown --}}
                         </div>
@@ -278,12 +324,6 @@
             pageSelect.addEventListener('change', function(){
                 if(this.value == "company") {
                     selectedInput.classList.remove('hide');
-                    if(this.value == 'custompt'){
-                        selectedInputCustom.classList.remove('tutup');
-                    }
-                    else {
-                        selectedInputCustom.classList.add('tutup');
-                    }
                 } else {
                     selectedInput.classList.add('hide');
                 }
@@ -293,12 +333,6 @@
             pageSelect.addEventListener('change', function(){
                 if(this.value == "privateperson") {
                     selectedInput2.classList.remove('hide');
-                    if(this.value == 'custompp'){
-                        selectedInputCustom2.classList.remove('tutup');
-                    }
-                    else {
-                        selectedInputCustom2.classList.add('tutup');
-                    }
                 } else {
                     selectedInput2.classList.add('hide');
                 }
@@ -308,12 +342,6 @@
             pageSelect.addEventListener('change', function(){
                 if(this.value == "ecommerce") {
                     selectedInput3.classList.remove('hide');
-                    if(this.value == 'customec'){
-                        selectedInputCustom3.classList.remove('tutup');
-                    }
-                    else {
-                        selectedInputCustom3.classList.add('tutup');
-                    }
                 } else {
                     selectedInput3.classList.add('hide');
                 }

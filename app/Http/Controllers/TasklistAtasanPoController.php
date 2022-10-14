@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPT;
+use App\Models\Department;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
 use App\Models\TaskListAtasanPO;
 use App\Models\User;
+use App\Models\WhoSubmitted;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -110,11 +112,15 @@ class TasklistAtasanPoController extends Controller
         $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
         $purpose = ReferensiNamaProject::all();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department    ::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
         return view('taskList_atasan_po.menu.edit')
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
             ->with('purpose', $purpose)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
             ->with('item', $item)
             ->with('dv', $dv);
     }
@@ -203,14 +209,16 @@ class TasklistAtasanPoController extends Controller
 
 
         foreach ($request->addMoreInputFields as $item) {
+            $unit_price = str_replace(".", "", explode('Rp. ', $item['unit_price'])[1]);
             PengajuanPembelian::where("id", $id)->update([
                 'item'          => $item['item'],
                 'qty'           => $item['qty'],
                 'kategori'      => $item['kategori'],
-                'unit_price'    => $item['unit_price'],
-                'total'         => $item['qty'] * $item['unit_price'],
+                'unit_price'    => (int)$unit_price,
+                'total'         => $item['total'],
             ]);
         }
+        return redirect("menu-taskList-atasan-po/");
     }
 
     /**

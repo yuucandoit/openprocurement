@@ -228,8 +228,8 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     // End Data Master Submission
-    
-    
+
+
     // Pengajuan Pembelian
     Route::group(['prefix' => 'pengajuan-pembelian'], function () {
         Route::get('/{id}', [PengajuanPembelianController::class, 'index'])->name('pengajuan-pembelian.index');
@@ -257,14 +257,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Menu Task list atasan Purchase Order
     Route::group(['prefix' => 'menu-taskList-atasan-po'], function () {
-        Route::get('/', [TasklistAtasanPoController::class, 'index'])->name('menu-taskList-atasan.index');
-        Route::get('/history', [TasklistAtasanPoController::class, 'history'])->name('menu-taskList-atasan.history');
-        Route::get('/detail/{id}', [TasklistAtasanPoController::class, 'detail'])->name('menu-taskList-atasan.detail');
-        Route::post('/update/{id}', [TasklistAtasanPoController::class, 'update'])->name('menu-pengajuan-pembelian.update');
-        Route::get('/edit/{id}', [TasklistAtasanPoController::class, 'edit'])->name('menu-pengajuan-pembelian.edit');
-        Route::get('/destroy/{id}', [TasklistAtasanPoController::class, 'destroy'])->name('menu-taskList-atasan.destroy');
-        Route::get('/accept_atasan/{id}', [TasklistAtasanPoController::class, 'accept_atasan'])->name('menu-taskList-atasan-accept_atasan');
-        Route::get('/reject/{id}', [TasklistAtasanPoController::class, 'reject'])->name('menu-taskList-atasan-reject');
+        Route::get('/', [TasklistAtasanPoController::class, 'index'])->name('menu-taskList-atasan-po.index');
+        Route::get('/history', [TasklistAtasanPoController::class, 'history'])->name('menu-taskList-atasan-po.history');
+        Route::get('/detail/{id}', [TasklistAtasanPoController::class, 'detail'])->name('menu-taskList-atasan-po.detail');
+        Route::post('/update/{id}', [TasklistAtasanPoController::class, 'update'])->name('menu-taskList-atasan-po.update');
+        Route::get('/edit/{id}', [TasklistAtasanPoController::class, 'edit'])->name('menu-taskList-atasan-po.edit');
+        Route::get('/destroy/{id}', [TasklistAtasanPoController::class, 'destroy'])->name('menu-taskList-atasan-po.destroy');
+        Route::get('/accept_atasan/{id}', [TasklistAtasanPoController::class, 'accept_atasan'])->name('menu-taskList-atasan-po-accept_atasan');
+        Route::get('/reject/{id}', [TasklistAtasanPoController::class, 'reject'])->name('menu-taskList-atasan-po-reject');
     });
 
     // Menu Task list atasan Pengajuan Pembelian

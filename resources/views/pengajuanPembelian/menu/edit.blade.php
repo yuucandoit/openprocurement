@@ -89,8 +89,8 @@
                         <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted :</label>
                         <select class="form-select page @error('ws') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws" >
                           <option selected hidden>{{ $dv->whosubmit->name }}    *Select For Update Data</option>
-                          @foreach ($dataws as $w)    
-                          <option value="{{ $w->name }}">{{ $w->name }}</option>
+                          @foreach ($dataws as $w)
+                          <option value="{{ $w->id }}">{{ $w->name }}</option>
                           @endforeach
                         </select>
                         @error('ws')
@@ -138,7 +138,7 @@
                         <label for="floatingdepartment"><i class="fa fa-institution"></i> Department :</label>
                         <select class="form-select page @error('department') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" >
                           <option value="{{ $dv->department }}" selected hidden>{{ $dv->dps->name }}   *Select For Update Data</option>
-                          @foreach ($datadepartment as $d)    
+                          @foreach ($datadepartment as $d)
                           <option value="{{ $d->id }}">{{ $d->name }}</option>
                           @endforeach
                         </select>
@@ -221,14 +221,21 @@
                   <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Price-per-unit</th>
                   <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th>
                 </tr>
+                @php
+                $id = 0;
+                $id++
+                @endphp
                 @foreach ($item as $i)
+                @php
+                    dd($i);
+                @endphp
                 <tr>
-                  <td class="text"><input type="text" name="addMoreInputFields[$i][item]" placeholder="Input Item" class="form-control" style="text-align: center;"  value="{{ $i['item'] }}" required/>
+                  <td class="text"><input type="text" name="addMoreInputFields[$id][item]" placeholder="Input Item" class="form-control" style="text-align: center;"  value="{{ $i['item'] }}" required/>
                   </td>
-                  <td><input type="number"  name="addMoreInputFields[$i][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $i['qty'] }}" required/>
+                  <td><input type="number"  name="addMoreInputFields[$id][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $i['qty'] }}" required/>
                   </td>
                   <td>
-                    <select class="form-select " placeholder="Kategori" name="addMoreInputFields[$i][kategori]" value="{{ $i['kategori'] }}" required>
+                    <select class="form-select " placeholder="Kategori" name="addMoreInputFields[$id][kategori]" value="{{ $i['kategori'] }}" required>
                       <option selected value="{{ $i['kategori'] }}">{{ $i['kategori'] }}</option>
                       <option value="Pcs"  >Pcs   </option>
                       <option value="Lusin">Lusin </option>
@@ -237,10 +244,10 @@
                     </select>
                   </td>
                   <td>
-                    <input type="text" name="addMoreInputFields[$i][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" value="{{ $i['unit_price'] }}" required/>
+                    <input type="text" name="addMoreInputFields[$id][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" value="{{ $i['unit_price'] }}" required/>
                   </td>
                   <td>
-                    <input type="text" name="addMoreInputFields[$i][total]" class="form-control form-line" style="text-align: right;" required  />
+                    <input type="text" name="addMoreInputFields[$id][total]" class="form-control form-line" style="text-align: right;" required  />
                   </td>
                 </tr>
                 @endforeach
