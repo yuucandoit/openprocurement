@@ -89,7 +89,7 @@
                 <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted :</label>
                 <select class="form-select page @error('purpose') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws" required="">
                   <option value="" disabled selected hidden>Who Submitted</option>
-                  @foreach ($dataws as $ws)    
+                  @foreach ($dataws as $ws)
                   <option value="{{ $ws->id }}">{{ $ws->name }}</option>
                   @endforeach
                 </select>
@@ -128,7 +128,7 @@
                 <label for="floatingdepartment"><i class="fa fa-institution"></i> Department :</label>
                 <select class="form-select page @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
                   <option value="" disabled selected hidden>Department</option>
-                  @foreach ($datadepartment as $dp)    
+                  @foreach ($datadepartment as $dp)
                   <option value="{{ $dp->id }}">{{ $dp->name }}</option>
                   @endforeach
                 </select>
@@ -194,8 +194,8 @@
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Category</th>
-          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Price-per-unit</th>
-          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th>
+          {{-- <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Price-per-unit</th>
+          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th> --}}
         </tr>
         <tr>
           <td class="text"><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" style="text-align: center;" required/>
@@ -211,11 +211,12 @@
               <option value="Unit" >Unit  </option>
             </select>
           </td>
-          <td>
+          </table>
+          {{-- <td>
             <input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" required/>
           </td>
           <td>
-            <input type="text" name="addMoreInputFields[0][total]" class="form-control form-line" style="text-align: right;" required="" />
+            <input type="text" name="addMoreInputFields[0][total]" class="form-control form-line rupiah" style="text-align: right;" required="" />
           </td>
         </tr>
       </table>
@@ -244,7 +245,7 @@
             <input style="display: none;" class="total" type="text" name="grand_total">
           </td>
         </tr>
-      </table>
+      </table> --}}
       <div class="mt-2">
         <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary"> AddItem
           <i class="fa fa-plus"></i>
@@ -264,7 +265,6 @@
 <!-- JavaScript Item -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="jquery.maskMoney.js" type="text/javascript"></script>
 <script type="text/javascript">
          //Math
          $(document).ready(function() {
@@ -273,7 +273,7 @@
             rupiah.addEventListener('keyup', function(e) {
              // tambahkan 'Rp.' pada saat form di ketik
              // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-             rupiah.value = formatRupiah(this.value, "Rp. ");
+             rupiah.value = formatRupiah(this.value, "");
            });
             /* Fungsi formatRupiah */
             function formatRupiah(angka, prefix) {
@@ -288,7 +288,7 @@
                rupiah += separator + ribuan.join(".");
              }
              rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-             return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+             return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
            }
            $(".order-entry").on("keyup", ".form-calc", function() {
              var parent = $(this).closest("tr");
@@ -322,19 +322,17 @@
            ++i;
            $("#dynamicAddRemove").append(
             '<tr><td><input type="text" name="addMoreInputFields[' + i +
-            '][item]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="text" name="addMoreInputFields[' + i +
+            '][item]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="addMoreInputFields[' + i +
             '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
-            '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' + i +
-            '][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah"/></td> <td><input type="text" name="addMoreInputFields[' + i +
-            '][total]" class="form-control form-line" style="text-align: right;" /></td></tr>'
+            '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> '
             );
            var rupiah = document.querySelectorAll(".rupiah");
            rupiah.forEach((item) => {
             item.addEventListener('keyup', function(e) {
                                 // tambahkan 'Rp.' pada saat form di ketik
                                 // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                                item.value = formatRupiah(this.value, "Rp. ");
-                              });
+            item.value = formatRupiah(this.value, "");
+            });
           });
            /* Fungsi formatRupiah */
            function formatRupiah(angka, prefix) {
@@ -349,7 +347,7 @@
                           rupiah += separator + ribuan.join(".");
                         }
                         rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+                        return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                       }
                     });
          $(document).on('click', '.remove-input-field', function () {

@@ -55,7 +55,7 @@
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
-                                        <td>{{ $ppb->ws }}</td>
+                                        <td>{{ $ppb->whosubmit->name }}</td>
                                         <td>
                                         <a href="{{ url('menu-tasklist-finance/detail/' .  $ppb->id) }}"
                                         class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>

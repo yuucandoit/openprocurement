@@ -13,15 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pengajuan_pembelian', function (Blueprint $table) {
+        Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
-            $table->integer('pp_id')->default('0');
-            $table->string('item');
-            $table->bigInteger('qty');
-            $table->enum('kategori', ['Pcs', 'Lusin', 'Box', 'Unit']);
-            $table->bigInteger('unit_price')->nullable();
-            $table->bigInteger('total')->nullable();
-            $table->bigInteger('grand_total')->nullable();
+            $table->string('receiver');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -34,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pengajuan_pembelians');
+        Schema::dropIfExists('deliveries');
     }
 };

@@ -162,7 +162,7 @@
 
                         <a href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}" type="button" class=" btn btn-warning" ><i class="icofont icofont-edit" title="Edit"></i></a>
 
-                        <a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"  type="button" class="btn btn-info" ><i class="icofont icofont-ebook" title="Detail"></i></a>
+                        <a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"  type="button" class="btn btn-info" ><i class="fa fa-file-text-o" title="Detail"></i></a>
 
                         <a class="btn btn-danger" type="button" data-bs-toggle="modal"data-bs-target="#modalDelete{{ $ppb->id }}" ><i class="icofont icofont-trash" title="Delete"></i></a>
 

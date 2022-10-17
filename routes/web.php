@@ -329,11 +329,25 @@ Route::group(['middleware' => ['auth']], function () {
      // Menu Pengajuan dana
         Route::group(['prefix' => 'menu-pengajuan-dana'], function () {
         Route::get('/', [CategoryPDController::class, 'index'])->name('menu-pengajuan-dana.index');
+        Route::get('/history', [CategoryPDController::class, 'history'])->name('menu-pengajuan-dana.history');
+        Route::get('/detail/{id}', [CategoryPDController::class, 'detail'])->name('menu-pengajuan-dana.detail');
         Route::get('/create', [CategoryPDController::class, 'create'])->name('menu-pengajuan-dana.create');
         Route::post('/store', [CategoryPDController::class, 'store'])->name('menu-pengajuan-dana.store');
         Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
-        Route::get('/accept/{id}', [CategoryPDController::class, 'accept'])->name('menu-pengajuan-dana-accept');
+        Route::get('/paid/{id}', [CategoryPDController::class, 'paid'])->name('menu-pengajuan-dana-paid');
         Route::get('/denied/{id}', [CategoryPDController::class, 'denied'])->name('menu-pengajuan-dana-denied');
+        });
+
+     // Menu Pengiriman
+        Route::group(['prefix' => 'delivery'], function () {
+        Route::get('/', [CategoryPDController::class, 'index'])->name('delivery.index');
+        Route::get('/history', [CategoryPDController::class, 'history'])->name('delivery.history');
+        Route::get('/detail/{id}', [CategoryPDController::class, 'detail'])->name('delivery.detail');
+        Route::get('/create', [CategoryPDController::class, 'create'])->name('delivery.create');
+        Route::post('/store', [CategoryPDController::class, 'store'])->name('delivery.store');
+        Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('delivery.destroy');
+        Route::get('/paid/{id}', [CategoryPDController::class, 'paid'])->name('delivery-paid');
+        Route::get('/denied/{id}', [CategoryPDController::class, 'denied'])->name('delivery-denied');
         });
 
     //admin

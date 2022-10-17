@@ -105,7 +105,7 @@
                                     <tr id="ppb-{{ $ppb->id }}">
                                         <td><input type="checkbox" name="" id=""></td>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $ppb->ws }}</td>
+                                        <td>{{ $ppb->whosubmit->name }}</td>
                                         <td>{{ $ppb->send_to }}</td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td class="ppb-countdown"></td>
@@ -120,14 +120,44 @@
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
 
                                         <td>
-                                           <a href="{{ url('/invoicing/detail/' . $ppb->id) }}"
-                                                class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                                <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                data-bs-target="#modalDelete{{ $ppb->id }}">Delete</button>
+                                                <a href="{{ url('/exportpdf/po/' . $ppb->id) }}" class=" btn btn-danger" type="button"><i class="icofont icofont-eye-alt" title="Preview PO"></i></a>
+
+                                                <a href="{{ url('/invoicing/detail/' . $ppb->id) }}"  type="button" class="btn btn-info" ><i class="fa fa-file-text-o" title="Detail"></i></a>
+
+                                                <a class="btn btn-danger" type="button" data-bs-toggle="modal"data-bs-target="#modalDelete{{ $ppb->id }}" ><i class="icofont icofont-trash" title="Delete"></i></a>
+
+                                                <a class="btn btn-success" data-bs-toggle="modal" type="button"
+                                                    data-bs-target="#modalSelesai"><i class="icofont icofont-send-mail" title="Apply For Payment Process"></i></a>
                                         </td>
                                         @endhasrole
                                     </tr>
                                     @endif
+                                    {{-- Start Modal Approval --}}
+                             <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger">
+                                    <h2 class="modal-title" style="color: white">Warning</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center mb-3">
+                                    <span class="warning">
+                                        <img src="{{ asset('assets/images/warning.png') }}">
+                                    </span>
+                                    <h2 style="text-align: center">Make sure the data is correct!</h2>
+                                </div>
+                                <div class="modal-footer">
+                                    @if ($ppb->status == 'Purchase Proses')
+                                        <form
+                                        action="{{ url('menu-purchase-order/ajukan_keatasan', $ppb->id) }}">
+                                        <button type="submit" class="btn btn-outline-danger ">
+                                            Send Approval Request For Purchase Order
+                                        </button>
+                                        </form>
+                                        @endif
+                                </div>
+                                {{-- End Modal Approval --}}
                                 @endforeach
                             </tbody>
                         </table>

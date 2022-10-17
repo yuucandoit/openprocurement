@@ -72,7 +72,7 @@
                         </tr>
                     </tbody>
                 </table>
-                    <table class="table table-bordered mt-4 mb-4" >
+                   {{--   <table class="table table-bordered mt-4 mb-4" >
                         <thead class="table-secondary">
                             <tr class="text-center">
                                 <th>Item</th>
@@ -104,10 +104,10 @@
                             <td><label class="pull-right mx-2"> DPP :</label></td>
                             <td style="text-align: right;">
                                 @foreach ($dpp as $d)
-                                {{-- Ketika mata uang yang dipilih RP --}}
+                                 Ketika mata uang yang dipilih RP
                                     @if ($dv->matauang == 'RP')
                                     RP. {{ number_format($d->total) }}
-                                    {{-- Ketika mata uang yang dipilih USD --}}
+                                     Ketika mata uang yang dipilih USD
                                     @elseif ($dv->matauang == 'USD')
                                     $ {{ number_format($d->total) }}
                                     @endif
@@ -122,20 +122,20 @@
                             <td style="text-align:right;">
                                 @if ($dv->ppn == 1)
                                 @foreach ($ppn as $p)
-                                {{-- Ketika mata uang yang dipilih RP --}}
+                 Ketika mata uang yang dipilih RP
                                 @if ($dv->matauang == 'RP')
                                 RP. {{ number_format($p->total) }}
-                                {{-- Ketika mata uang yang dipilih USD --}}
+                                Ketika mata uang yang dipilih USD
                                 @elseif ($dv->matauang == 'USD')
                                 $ {{ number_format($p->total) }}
                                 @endif
                                 @endforeach
                                 @else
                                 @foreach ($ppn as $p)
-                                {{-- Ketika mata uang yang dipilih RP --}}
+                             Ketika mata uang yang dipilih RP
                                 @if ($dv->matauang == 'RP')
                                 RP. 0
-                                {{-- Ketika mata uang yang dipilih USD --}}
+                                Ketika mata uang yang dipilih USD
                                 @elseif ($dv->matauang == 'USD')
                                 $ 0
                                 @endif
@@ -149,11 +149,11 @@
                             <td class="text-end">Grand Total :</td>
 
                             @foreach ($total as $t)
-                            {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
+                             jika mata uang yang di pilih RP Maka Return RP.
                             @if ($dv->matauang == 'RP')
                             <td style="text-align:right;" >RP. {{ number_format($t->total) }}</td>
 
-                            {{-- jika mata uang yang di pilih USD Maka Return $    --}}
+                             jika mata uang yang di pilih USD Maka Return $
                             @elseif ($dv->matauang == 'USD')
                             <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
                             @endif
@@ -170,11 +170,70 @@
                         @endforeach
                         </tr>
                         @endif
-                    </table>
+                     </table>  --}}
                      <!-- Floating Labels Form -->
-                <form class="row g-2" action={{ url('/menu-purchase-order/store/' . $dv->id) }} method="POST"
+                <form class="row g-2 mt-4" action={{ url('/menu-purchase-order/store/' . $dv->id) }} method="POST"
                     enctype="multipart/form-data">
                     @csrf
+
+                    <table class="table table-bordered order-entry" id="dynamicAddRemove">
+                        <tr style="text-align: center;">
+                          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
+                          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
+                          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Category</th>
+                          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Price-per-unit</th>
+                          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th>
+                        </tr>
+                        <tr>
+                            @foreach ($pengajuan as $p)
+                          <td class="text"><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" style="text-align: center;" value="{{ $p->item }}" required/>
+                          </td>
+                          <td><input type="number"  name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $p->qty }}" required/>
+                          </td>
+                          <td>
+                            <select class="form-select " placeholder="Kategori" name="addMoreInputFields[0][kategori]" required>
+                              <option selected="selected" value="{{ $p->kategori }}">{{ $p->kategori }}</option>
+                              <option value="Pcs"  >Pcs   </option>
+                              <option value="Lusin">Lusin </option>
+                              <option value="Box"  >Box   </option>
+                              <option value="Unit" >Unit  </option>
+                            </select>
+                          </td>
+                          <td>
+                            <input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" required/>
+                          </td>
+                          <td>
+                            <input type="text" name="addMoreInputFields[0][total]" class="form-control form-line rupiah" style="text-align: right;" required="" />
+                          </td>
+                        </tr>
+                        @endforeach
+                      </table>
+                      <br>
+                      <table class="table table-bordered">
+                        <tr>
+                          <td>
+                            <label class="pull-right mx-2" style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; DPP :</label>
+                          </td>
+                          <td class="total_A text-end">
+                            <input style="display: none;" class="total_A" type="text" name="total_a">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input class="mt-1 pull-right check-box" type="checkbox" name="ppn" value="1" {{ old('ppn',0) === 1 ? 'checked' : '' }}>
+                            <label class="pull-right mx-2" style="font-weight: bold;"> PPN 11% </label>
+                          </td>
+                          <td class="ppn text-end">
+                            <input style="display: none;" class="ppn" type="text" name="ppn">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+                          <td class="total text-end">
+                            <input style="display: none;" class="total" type="text" name="grand_total">
+                          </td>
+                        </tr>
+                      </table>
                      {{-- css hide --}}
                      <style>
                         .tutup {
@@ -191,6 +250,7 @@
                             height: 58px;
                         }
                     </style>
+
                     <div class="col-12">
                         <div class="form-group">
                             <select class="form-select page mt-2 pageSelect" id="pageSelect" placeholder="Proposed To" name="vendorable_type">
@@ -296,6 +356,97 @@
 
             </div>
         </div>
+
+        <script type="text/javascript">
+          //Math
+         $(document).ready(function() {
+            //Convert To Rupiah
+            var rupiah = document.querySelector(".rupiah");
+            rupiah.addEventListener('keyup', function(e) {
+             // tambahkan 'Rp.' pada saat form di ketik
+             // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+             rupiah.value = formatRupiah(this.value, "");
+           });
+            /* Fungsi formatRupiah */
+            function formatRupiah(angka, prefix) {
+             var number_string = angka.replace(/[^,\d]/g, ""),
+             split = number_string.split(","),
+             sisa = split[0].length % 3,
+             rupiah = split[0].substr(0, sisa),
+             ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+             // tambahkan titik jika yang di input sudah menjadi angka ribuan
+             if (ribuan) {
+               separator = sisa ? "." : "";
+               rupiah += separator + ribuan.join(".");
+             }
+             rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+             return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+           }
+           $(".order-entry").on("keyup", ".form-calc", function() {
+             var parent = $(this).closest("tr");
+             var str = parent.find(".form-cost").val();
+             var res = str.replace(/\D/g, "");
+             parent.find(".form-line").val((parent.find(".form-qty").val() * res) .toFixed(0));
+             var total = 0;
+             $(".form-line").each(function(){
+               total += parseInt($(this).val()||0);
+             });
+             $(".total_A").text(total.toLocaleString('en-US'));
+             var checkbox =  document.querySelector(".check-box");
+             checkbox.addEventListener('change', (event) =>{
+               if(event.currentTarget.checked){
+                 totalppn = total * 11 / 100;
+                 grandtotal = total + totalppn;
+                 $(".ppn").text(totalppn.toLocaleString('en-US'));
+                 $(".total").text(grandtotal.toLocaleString('en-US'));
+               }
+               else{
+                totalppn = total * 0;
+                $(".ppn").text(totalppn);
+                $(".total").text(total.toLocaleString('en-US'));
+              }
+            })
+           });
+         });
+         //Add Form
+         var i = 0;
+         $("#dynamic-ar").click(function () {
+           ++i;
+           $("#dynamicAddRemove").append(
+            '<tr><td><input type="text" name="addMoreInputFields[' + i +
+            '][item]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="addMoreInputFields[' + i +
+            '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
+            '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> '
+            );
+           var rupiah = document.querySelectorAll(".rupiah");
+           rupiah.forEach((item) => {
+            item.addEventListener('keyup', function(e) {
+                                // tambahkan 'Rp.' pada saat form di ketik
+                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            item.value = formatRupiah(this.value, "");
+            });
+          });
+           /* Fungsi formatRupiah */
+           function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, ""),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                        if (ribuan) {
+                          separator = sisa ? "." : "";
+                          rupiah += separator + ribuan.join(".");
+                        }
+                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                        return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                      }
+                    });
+         $(document).on('click', '.remove-input-field', function () {
+           $(this).parents('tr').remove();
+         });
+
+        </script>
 
         <script type="text/javascript">
             var pageSelector = document.getElementById('pageSelector');

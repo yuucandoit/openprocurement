@@ -1,4 +1,4 @@
-    <title>Purchase Funding</title>
+<title>Purchase Funding</title>
 
 @extends('layouts.master')
 
@@ -83,10 +83,7 @@
                                     <th>Countdown</th>
                                     <th>Warning</th>
                                     <th>Date</th>
-                                     @hasrole('purchasing|super admin')
-                                        <th>Status</th>
-                                    @endhasrole
-                                    @hasrole('user')
+                                    @hasrole('finance|super admin')
                                         <th>Status</th>
                                     @endhasrole
                                     <th>Function</th>
@@ -103,7 +100,7 @@
                                     <tr id="ppb-{{ $ppb->id }}">
                                         <td><input type="checkbox" name="" id=""></td>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $ppb->ws }}</td>
+                                        <td>{{ $ppb->whosubmit->name }}</td>
                                         <td>{{ $ppb->send_to }}</td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td class="ppb-countdown"></td>
@@ -118,7 +115,7 @@
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
 
                                         <td>
-                                           <a href="{{ url('/invoicing/detail/' . $ppb->id) }}"
+                                           <a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}"
                                                 class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
                                                 <button class="btn btn-outline-danger" data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete{{ $ppb->id }}">Delete</button>

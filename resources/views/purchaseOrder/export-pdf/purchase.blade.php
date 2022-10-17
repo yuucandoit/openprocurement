@@ -234,7 +234,7 @@
                         <div>
                           <p class="legal"><strong>Terms & Conditions</strong> <br>
                             @foreach ($cpp as $c)
-                            @if ($cpo->term_conditions === null)
+                            @if (empty($cpo->term->term_condition))
                             Not Filled in yet
                             @else
                             {!!  nl2br($cpo->term->term_condition) !!}</p>

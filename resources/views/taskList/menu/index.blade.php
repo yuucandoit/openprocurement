@@ -114,7 +114,7 @@
                         </td>
                         <td>
                             <a href="{{ url('menu-task-list/detail/' . $ppb->id) }}"
-                                class="btn btn-outline-info"><i class="fa fa-search-plus"></i></a>
+                                class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
                             </td>
                         </tr>
                         @endif

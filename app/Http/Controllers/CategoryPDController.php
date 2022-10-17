@@ -8,9 +8,12 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\Department;
+use App\Models\PengajuanPembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
+use App\Models\WhoSubmitted;
 
 class CategoryPDController extends Controller
 {
@@ -58,6 +61,28 @@ class CategoryPDController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function detail($id)
+    {
+        $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
+        return view('pengajuanDana.menu.detail')
+            ->with('pengajuan', $pengajuan)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('dpp', $dpp)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('data_pengajuan', $data_pengajuan);
+    }
+
     public function create()
     {
         $categorypd = CategoryPD::all();
@@ -126,20 +151,20 @@ class CategoryPDController extends Controller
         return redirect('/menu-pengajuan-dana')->with('success', 'Task Deleted Successfully!');
     }
 
-    public function accept($id)
+    public function paid($id)
     {
-        $data = CategoryPD::find($id);
+        $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        $data->status = 'Accepted';
+        $data->status = 'Paid';
         $data->save();
-        return redirect()->back();
+        return redirect('/menu-pengajuan-dana');
     }
 
     public function Reject($id)
     {
-        $data = CategoryPD::find($id);
+        $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Rejected';
         $data->save();
-        return redirect()->back();
+        return redirect('/menu-pengajuan-dana');
     }
 }

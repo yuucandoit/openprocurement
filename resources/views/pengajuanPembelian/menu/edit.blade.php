@@ -1,5 +1,5 @@
 <title>Edit Data</title>
-
+{{-- @dd($item) --}}
 @extends('layouts.master')
 
 @section('main')
@@ -202,12 +202,12 @@
                   <div class="col-6">
                     <label><i class="fa fa-send"></i> Send To :</label>
                   </div>
-                  <div class="radio radio-primary col-md-6" required>
-                    <input id="tebet" type="radio" name="send_to" value="Tebet" required/>
+                  <div class="radio radio-primary col-md-6">
+                    <input id="tebet" type="radio" name="send_to" value="Tebet" @if($dv->send_to === 'Tebet') checked @endif required/>
                     <label for="tebet">Tebet</label>
                   </div>
                   <div class="radio radio-primary col-md-6">
-                    <input id="cikunir" type="radio" name="send_to" value="Cikunir" required/>
+                    <input id="cikunir" type="radio" name="send_to" value="Cikunir" @if($dv->send_to === 'Cikunir') checked @endif required/>
                     <label for="cikunir">Cikunir</label>
                   </div>
                 </div>
@@ -226,16 +226,14 @@
                 $id++
                 @endphp
                 @foreach ($item as $i)
-                @php
-                    dd($i);
-                @endphp
+
                 <tr>
-                  <td class="text"><input type="text" name="addMoreInputFields[$id][item]" placeholder="Input Item" class="form-control" style="text-align: center;"  value="{{ $i['item'] }}" required/>
+                  <td class="text"><input type="text" name="addMoreInputFields[item]" placeholder="Input Item" class="form-control" style="text-align: center;"  value="{{ $i['item'] }}" required/>
                   </td>
-                  <td><input type="number"  name="addMoreInputFields[$id][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $i['qty'] }}" required/>
+                  <td><input type="number"  name="addMoreInputFields[qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $i['qty'] }}" required/>
                   </td>
                   <td>
-                    <select class="form-select " placeholder="Kategori" name="addMoreInputFields[$id][kategori]" value="{{ $i['kategori'] }}" required>
+                    <select class="form-select " placeholder="Kategori" name="addMoreInputFields[kategori]" value="{{ $i['kategori'] }}" required>
                       <option selected value="{{ $i['kategori'] }}">{{ $i['kategori'] }}</option>
                       <option value="Pcs"  >Pcs   </option>
                       <option value="Lusin">Lusin </option>
@@ -244,10 +242,10 @@
                     </select>
                   </td>
                   <td>
-                    <input type="text" name="addMoreInputFields[$id][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" value="{{ $i['unit_price'] }}" required/>
+                    <input type="text" name="addMoreInputFields[unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" value="{{ $i['unit_price'] }}" required/>
                   </td>
                   <td>
-                    <input type="text" name="addMoreInputFields[$id][total]" class="form-control form-line" style="text-align: right;" required  />
+                    <input type="text" name="addMoreInputFields[total]" class="form-control form-line rupiah" style="text-align: right;" value="{{ $i['total'] }}" required  />
                   </td>
                 </tr>
                 @endforeach
@@ -296,12 +294,10 @@
     $(document).ready(function() {
 
                 //Convert To Rupiah
-                var rupiah = document.querySelector(".rupiah");
-                rupiah.addEventListener('keyup', function(e) {
-                    // tambahkan 'Rp.' pada saat form di ketik
-                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                    rupiah.value = formatRupiah(this.value, "Rp. ");
-                });
+                var rupiah = document.querySelectorAll(".rupiah");
+                rupiah.forEach(item => {
+                  item.value = formatRupiah(item.value, "Rp. ");
+                })
 
                 /* Fungsi formatRupiah */
                 function formatRupiah(angka, prefix) {
@@ -322,7 +318,7 @@
                 }
 
                 var rupiah = document.querySelectorAll(".rupiah");
-                rupiah.forEach((item) => {
+                rupiah.forEach(function(item) {
                     item.addEventListener('keyup', function(e) {
                         // tambahkan 'Rp.' pada saat form di ketik
                         // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka

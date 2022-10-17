@@ -193,24 +193,23 @@ class CategoryPengajuanPembelianController extends Controller
 
 
         $request->validate([
-            '$i.*.item' => 'required',
-            '$i.*.qty' => 'required',
-            '$i.*.unit_price' => 'required'
+            'addMoreInputFields.*.item' => 'required',
+            'addMoreInputFields.*.qty' => 'required',
+            // 'addMoreInputFields.*.unit_price' => 'required'
         ]);
 
-        foreach ($request->addMoreInputFields as $item) {
-            $unit_price = str_replace(".", "", explode('Rp. ', $item['unit_price'])[1]);
+        foreach ($request->addMoreInputFields as $key => $item) {
+            // $unit_price = str_replace(".", "", $item['unit_price']);
             PengajuanPembelian::create([
                 'pp_id'             => $pengajuan->id,
                 'item'              => $item['item'],
                 'qty'               => $item['qty'],
                 'kategori'          => $item['kategori'],
-                'unit_price'        => (int)$unit_price,
-                'total'             => $item['total'],
+                // 'unit_price'        => (int)$unit_price,
+                // 'total'             => $item['total'],
             ]);
         }
 
-        dd($data);
 
         return redirect('menu-pengajuan-pembelian/')->with('success', 'Task Created Successfully!');
     }
@@ -240,8 +239,8 @@ class CategoryPengajuanPembelianController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose = ReferensiNamaProject::all();
-        $item = PengajuanPembelian::where('pp_id', $id) ;
-
+        $item = PengajuanPembelian::where('pp_id', $id)->get()->toArray();
+        //dd($item);
         return view('pengajuanPembelian.menu.edit')
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
@@ -263,7 +262,7 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $data = $request->all();
 
-        // dd($data);
+        dd($data);
         $request->validate([
             'purpose' => 'required',
             'date_ps' => 'required',
@@ -337,8 +336,8 @@ class CategoryPengajuanPembelianController extends Controller
         ]);
 
         foreach ($request->addMoreInputFields as $item) {
-            $unit_price = str_replace(".", "", explode('Rp. ', $item['unit_price'])[1]);
-             PengajuanPembelian::where('pp_id',$id)->updateOrCreate([
+            $unit_price = str_replace(".", "", explode('Rp. ', $item['unit_price'])[0]);
+             PengajuanPembelian::updateOrCreate([
                 'item'          => $item['item'],
                 'qty'           => $item['qty'],
                 'kategori'      => $item['kategori'],
@@ -346,7 +345,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'total'         => $item['total'] ,
             ]);
         }
-        dd($data);
+        dd($item);
         return redirect("menu-pengajuan-pembelian/");
     }
 
