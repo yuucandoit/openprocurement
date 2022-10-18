@@ -5,11 +5,11 @@
 @section('main')
 <section>
 
- <!-- Page Sidebar Ends-->
- <div class="container-fluid">
+   <!-- Page Sidebar Ends-->
+   <div class="container-fluid">
     <div class="page-header">
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 mt-4">
             <h3>Details</h3>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
@@ -17,7 +17,7 @@
                 <li class="breadcrumb-item active">Details</li>
             </ol>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 mt-4">
           <!-- Bookmark Start-->
           <div class="bookmark">
             <ul>
@@ -80,130 +80,134 @@
             </tbody>
         </table>
 
-        <table class="table table-bordered mt-4 mb-4">
-            <thead>
-                <tr class="text-center">
-                    <th>Item</th>
-                    <th>Qty</th>
-                    <th>Category</th>
-                    <th>Price-per-unit</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($pengajuan as $p)
-                <tr>
-                    <td style="text-align: center;">{{ $p->item }}</td>
-                    <td style="text-align: center;">{{ $p->qty }}</td>
-                    <td style="text-align: center;">{{ $p->kategori }}</td>
-                    @if ($data_pengajuan->matauang == 'RP')
-                    <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}</td>
-                    <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
-                    @elseif ($data_pengajuan->matauang == 'USD')
-                    <td style="text-align:right;">$ {{ number_format($p->unit_price) }}</td>
-                    <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
-                    @endif
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <table class="table table-bordered ">
-            <tr>
-                <td><label class="pull-right mx-2"> DPP :</label></td>
-                <td style="text-align: right;">
-                    @foreach ($dpp as $d)
-                    {{-- Ketika mata uang yang dipilih RP --}}
-                    @if ($data_pengajuan->matauang == 'RP')
-                    RP. {{ number_format($d->total) }}
-                    {{-- Ketika mata uang yang dipilih USD --}}
-                    @elseif ($data_pengajuan->matauang == 'USD')
-                    $ {{ number_format($d->total) }}
-                    @endif
+        <div class="order-history table-responsive wishlist">
+            <table class="table table-bordered mt-4 mb-4">
+                <thead>
+                    <tr class="text-center" style="font-weight: bold; font-size: 17;">
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Category</th>
+                        <th>Price-per-unit</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pengajuan as $p)
+                    <tr>
+                        <td style="text-align: center;">{{ $p->item }}</td>
+                        <td style="text-align: center;">{{ $p->qty }}</td>
+                        <td style="text-align: center;">{{ $p->kategori }}</td>
+                        @if ($data_pengajuan->matauang == 'RP')
+                        <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}</td>
+                        <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
+                        @elseif ($data_pengajuan->matauang == 'USD')
+                        <td style="text-align:right;">$ {{ number_format($p->unit_price) }}</td>
+                        <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
+                        @endif
+                    </tr>
                     @endforeach
-                </td>
-            </tr>
-            <tr>
-                <td><input class="mt-1 pull-right check-box" type="checkbox" value="{{ $data_pengajuan->ppn }}" @if ($data_pengajuan->ppn == 1)
-                    @checked(true)
-                    @else
-                    @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
-                    <td style="text-align:right;">
-                        @if ($data_pengajuan->ppn == 1)
-                        @foreach ($ppn as $p)
+                </tbody>
+            </table>
+            <table class="table table-bordered ">
+                <tr>
+                    <td><label class="pull-right mx-2"> DPP :</label></td>
+                    <td style="text-align: right;">
+                        @foreach ($dpp as $d)
                         {{-- Ketika mata uang yang dipilih RP --}}
                         @if ($data_pengajuan->matauang == 'RP')
-                        RP. {{ number_format($p->total) }}
+                        RP. {{ number_format($d->total) }}
                         {{-- Ketika mata uang yang dipilih USD --}}
                         @elseif ($data_pengajuan->matauang == 'USD')
-                        $ {{ number_format($p->total) }}
+                        $ {{ number_format($d->total) }}
                         @endif
                         @endforeach
-                        @else
-                        @foreach ($ppn as $p)
-                        {{-- Ketika mata uang yang dipilih RP --}}
-                        @if ($data_pengajuan->matauang == 'RP')
-                        RP. 0
-                        {{-- Ketika mata uang yang dipilih USD --}}
-                        @elseif ($data_pengajuan->matauang == 'USD')
-                        $ 0
-                        @endif
-                        @endforeach
-                        @endif
                     </td>
                 </tr>
-                @if ($data_pengajuan->ppn == 1)
                 <tr>
-                    <td class="text-end" style="font-weight: bold">Grand Total :</td>
-
-                    @foreach ($total as $t)
-                    {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
-                    @if ($data_pengajuan->matauang == 'RP')
-                    <td style="text-align:right;" >RP. {{ number_format($t->total) }}</td>
-
-                    {{-- jika mata uang yang di pilih USD Maka Return $    --}}
-                    @elseif ($data_pengajuan->matauang == 'USD')
-                    <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
-                    @endif
-                    @endforeach
-
-                    @elseif ($data_pengajuan->ppn == 0)
-                    <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                    @foreach ($total_tnpa_ppn as $tpn)
-                    @if ($data_pengajuan->matauang == 'RP')
-                    <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
-                    @elseif ($data_pengajuan->matauang == 'USD')
-                    <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
-                    @endif
-                    @endforeach
-                </tr>
-                @endif
-            </table>
-            <div class="mt-3">
-                @hasrole('purchasing|super admin')
-                @if ($data_pengajuan->status == 'Purchase Proses')
-                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
-
-                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                class="btn btn-danger text-center" onclick="return">Reject</a>
-
-                @elseif($data_pengajuan->status == 'Purchase Submission Approved')
-                <a href="{{ url('menu-task-list/accept', $data_pengajuan->id) }}"
-                    class="btn btn-success text-center" onclick="return">Approve</a>
-
-                    <a href="{{ url('menu-task-list/reject', $data_pengajuan->id) }}"
-                        class="btn btn-danger text-center" onclick="return">Reject</a>
+                    <td><input class="mt-1 pull-right check-box" type="checkbox" value="{{ $data_pengajuan->ppn }}" @if ($data_pengajuan->ppn == 1)
+                        @checked(true)
                         @else
-                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                        @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                        <td style="text-align:right;">
+                            @if ($data_pengajuan->ppn == 1)
+                            @foreach ($ppn as $p)
+                            {{-- Ketika mata uang yang dipilih RP --}}
+                            @if ($data_pengajuan->matauang == 'RP')
+                            RP. {{ number_format($p->total) }}
+                            {{-- Ketika mata uang yang dipilih USD --}}
+                            @elseif ($data_pengajuan->matauang == 'USD')
+                            $ {{ number_format($p->total) }}
+                            @endif
+                            @endforeach
+                            @else
+                            @foreach ($ppn as $p)
+                            {{-- Ketika mata uang yang dipilih RP --}}
+                            @if ($data_pengajuan->matauang == 'RP')
+                            RP. 0
+                            {{-- Ketika mata uang yang dipilih USD --}}
+                            @elseif ($data_pengajuan->matauang == 'USD')
+                            $ 0
+                            @endif
+                            @endforeach
+                            @endif
+                        </td>
+                    </tr>
+                    @if ($data_pengajuan->ppn == 1)
+                    <tr>
+                        <td class="text-end" style="font-weight: bold">Grand Total :</td>
+
+                        @foreach ($total as $t)
+                        {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
+                        @if ($data_pengajuan->matauang == 'RP')
+                        <td style="text-align:right;" >RP. {{ number_format($t->total) }}</td>
+
+                        {{-- jika mata uang yang di pilih USD Maka Return $    --}}
+                        @elseif ($data_pengajuan->matauang == 'USD')
+                        <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
+                        @endif
+                        @endforeach
+
+                        @elseif ($data_pengajuan->ppn == 0)
+                        <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+                        @foreach ($total_tnpa_ppn as $tpn)
+                        @if ($data_pengajuan->matauang == 'RP')
+                        <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
+                        @elseif ($data_pengajuan->matauang == 'USD')
+                        <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
+                        @endif
+                        @endforeach
+                    </tr>
+                    @endif
+                </table>
+                <div class="mt-3" style="float: right;">
+                    @hasrole('purchasing|super admin')
+                    @if ($data_pengajuan->status == 'Purchase Proses')
+                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                    class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
+
+                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                    class="btn btn-danger text-center" onclick="return">Reject</a>
+
+                    @elseif($data_pengajuan->status == 'Purchase Submission Approved')
+                    <a href="{{ url('menu-task-list/accept', $data_pengajuan->id) }}"
                         class="btn btn-success text-center" onclick="return">Approve</a>
 
-                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                        class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                        <a href="{{ url('menu-task-list/reject', $data_pengajuan->id) }}"
+                            class="btn btn-danger text-center" onclick="return">Reject</a>
 
-                        @endif
-                        @endhasrole
+                            <a type="reset" class="btn btn-dark" href="{{ url('/menu-task-list/') }}">Back</a>
+                            @else
+                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                            class="btn btn-success text-center" onclick="return">Approve</a>
+
+                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                            class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+
+                            @endif
+                            @endhasrole
 
 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -214,6 +218,5 @@
 </div>
 <!--
     {{-- <a href={{ url('#')('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) class="btn btn-success" style="align-self: flex-end"> Export to Excel</a> -- }} --}}-->
-    <a type="reset" class="btn btn-danger" href="{{ url('/menu-task-list/') }}">Back</a>
 </section>
 @endsection
