@@ -243,13 +243,13 @@
                         </div>
                       </div>
                       <div class="col">
-                        <div class="row text-end">
+                        <div class="text-end">
                             @foreach ($cpp as $c)
                             @if ($c->status == 'PO Approved')
-                            <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style="margin-left:10px; width:90px; height:80px" >
-                            <strong style="padding-bottom: 50px; padding-right:12px;">{{ $cpo->atasans->name }}</strong>
+                            <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style=" width:90px; height:80px"  class="text-end">
+                            <strong style=" padding-right:12px;">{{ $cpo->atasans->name }}</strong>
                             @else
-                            <strong style="padding-bottom: 50px; padding-right:12px;">BOD Name</strong>
+                            <strong style=" padding-right:12px;">BOD Name</strong>
                             @endif
                             @endforeach
                         </div>

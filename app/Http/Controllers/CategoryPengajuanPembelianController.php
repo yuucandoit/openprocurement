@@ -134,6 +134,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        //dd($data);
        $request->validate([
             'purpose' => 'required',
             'date_ps' => 'required',
@@ -192,23 +193,21 @@ class CategoryPengajuanPembelianController extends Controller
         }
 
 
-        $request->validate([
-            'addMoreInputFields.*.item' => 'required',
-            'addMoreInputFields.*.qty' => 'required',
-            // 'addMoreInputFields.*.unit_price' => 'required'
-        ]);
 
-        foreach ($request->addMoreInputFields as $key => $item) {
-            // $unit_price = str_replace(".", "", $item['unit_price']);
-            PengajuanPembelian::create([
-                'pp_id'             => $pengajuan->id,
-                'item'              => $item['item'],
-                'qty'               => $item['qty'],
-                'kategori'          => $item['kategori'],
-                // 'unit_price'        => (int)$unit_price,
-                // 'total'             => $item['total'],
-            ]);
+        if($request->item > 0){
+            foreach ($data['item'] as $item => $value) {
+
+                $data2 = array(
+                    'pp_id'             => $pengajuan->id,
+                    'item'              => $data['item'][$item],
+                    'qty'               => $data['qty'][$item],
+                    'kategori'          => $data['kategori'][$item],
+                );
+                // $unit_price = str_replace(".", "", $item['unit_price']);
+                PengajuanPembelian::create($data2);
+            }
         }
+
 
 
         return redirect('menu-pengajuan-pembelian/')->with('success', 'Task Created Successfully!');
@@ -239,7 +238,7 @@ class CategoryPengajuanPembelianController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose = ReferensiNamaProject::all();
-        $item = PengajuanPembelian::where('pp_id', $id)->get()->toArray();
+        $item = PengajuanPembelian::where('pp_id', $id)->get();
         //dd($item);
         return view('pengajuanPembelian.menu.edit')
             ->with('atasan', $atasan)
@@ -261,8 +260,9 @@ class CategoryPengajuanPembelianController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+        //dd($data);
+        PengajuanPembelian::where('pp_id',$id)->delete();
 
-        dd($data);
         $request->validate([
             'purpose' => 'required',
             'date_ps' => 'required',
@@ -320,32 +320,20 @@ class CategoryPengajuanPembelianController extends Controller
             ]);
         }
 
-        // $tes = CategoryPengajuanPembelian::where("id", $id)->update([
-        //     "date_ps" => $request->date_ps,
-        //     "ws" => $request->ws,
-        //     "purpose" => $request->purpose,
-        //     "send_to" => $request->send_to,
-        //     "dateline" => $request->dateline,
-        //     "department" => $request->department,
-        // ]);
 
-        $request->validate([
-            'addMoreInputFields.*.item' => 'required',
-            'addMoreInputFields.*.qty' => 'required',
-            'addMoreInputFields.*.unit_price' => 'required'
-        ]);
+        if($request->item > 0){
+            foreach ($data['item'] as $item => $value) {
 
-        foreach ($request->addMoreInputFields as $item) {
-            $unit_price = str_replace(".", "", explode('Rp. ', $item['unit_price'])[0]);
-             PengajuanPembelian::updateOrCreate([
-                'item'          => $item['item'],
-                'qty'           => $item['qty'],
-                'kategori'      => $item['kategori'],
-                'unit_price'    => (int)$unit_price,
-                'total'         => $item['total'] ,
-            ]);
+                $data2 = array(
+                    'pp_id'             => $id,
+                    'item'              => $data['item'][$item],
+                    'qty'               => $data['qty'][$item],
+                    'kategori'          => $data['kategori'][$item],
+                );
+                // $unit_price = str_replace(".", "", $item['unit_price']);
+                PengajuanPembelian::create($data2);
+            }
         }
-        dd($item);
         return redirect("menu-pengajuan-pembelian/");
     }
 

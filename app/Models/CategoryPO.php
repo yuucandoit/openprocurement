@@ -28,19 +28,6 @@ class CategoryPO extends Model
     {
         return $this->belongsTo(CategoryPengajuanPembelian::class);
     }
-    // public function pt()
-    // {
-    //     return $this->belongsTo(CategoryPT::class);
-    // }
-
-    // public function op()
-    // {
-    //     return $this->belongsTo(CategoryPP::class);
-    // }
-    // public function ec()
-    // {
-    //     return $this->belongsTo(CategoryEcommerce::class);
-    // }
     public function term()
     {
         return $this->belongsTo(TermsAndConditions::class, 'term_conditions');

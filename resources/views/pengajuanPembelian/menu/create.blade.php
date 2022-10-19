@@ -189,7 +189,7 @@
         </div>
       </div>
       <hr>
-      <table class="table table-bordered order-entry" id="dynamicAddRemove">
+      <table class="table table-bordered item order-entry">
         <tr style="text-align: center;">
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
@@ -198,12 +198,12 @@
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th> --}}
         </tr>
         <tr>
-          <td class="text"><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" style="text-align: center;" required/>
+          <td class="text"><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required/>
           </td>
-          <td><input type="number"  name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
+          <td><input type="number"  name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
           </td>
           <td>
-            <select class="form-select " placeholder="Kategori" name="addMoreInputFields[0][kategori]" required>
+            <select class="form-select " placeholder="Kategori" name="kategori[]" required>
               <option selected="" disabled="" value="">Select Category</option>
               <option value="Pcs"  >Pcs   </option>
               <option value="Lusin">Lusin </option>
@@ -247,7 +247,7 @@
         </tr>
       </table> --}}
       <div class="mt-2">
-        <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary"> AddItem
+        <button type="button" name="add" class="addItem btn btn-outline-primary"> AddItem
           <i class="fa fa-plus"></i>
         </button>
       </div>
@@ -270,11 +270,9 @@
          $(document).ready(function() {
             //Convert To Rupiah
             var rupiah = document.querySelector(".rupiah");
-            rupiah.addEventListener('keyup', function(e) {
-             // tambahkan 'Rp.' pada saat form di ketik
-             // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-             rupiah.value = formatRupiah(this.value, "");
-           });
+            rupiah.forEach(item => {
+                  item.value = formatRupiah(item.value, "Rp. ");
+             });
             /* Fungsi formatRupiah */
             function formatRupiah(angka, prefix) {
              var number_string = angka.replace(/[^,\d]/g, ""),
@@ -317,39 +315,42 @@
            });
          });
          //Add Form
-         var i = 0;
-         $("#dynamic-ar").click(function () {
-           ++i;
-           $("#dynamicAddRemove").append(
-            '<tr><td><input type="text" name="addMoreInputFields[' + i +
-            '][item]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="addMoreInputFields[' + i +
-            '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
-            '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> '
-            );
-           var rupiah = document.querySelectorAll(".rupiah");
-           rupiah.forEach((item) => {
-            item.addEventListener('keyup', function(e) {
-                                // tambahkan 'Rp.' pada saat form di ketik
-                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-            item.value = formatRupiah(this.value, "");
-            });
-          });
-           /* Fungsi formatRupiah */
-           function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, ""),
-            split = number_string.split(","),
-            sisa = split[0].length % 3,
-            rupiah = split[0].substr(0, sisa),
-            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                        if (ribuan) {
-                          separator = sisa ? "." : "";
-                          rupiah += separator + ribuan.join(".");
-                        }
-                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                        return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-                      }
-                    });
+        //  var i = 0;
+        //  $("#dynamic-ar").click(function () {
+        //    ++i;
+        //    $("#dynamicAddRemove").append(
+        //     '<tr><td><input type="text" name="addMoreInputFields[' + i +
+        //     '][item]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="addMoreInputFields[' + i +
+        //     '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
+        //     '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> '
+        //     );
+
+     //Add Form
+
+     $(".addItem").on('click',function () {
+                    addItem();
+                });
+                function addItem(){
+                    var item = '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> ';
+                    $('.item').append(item);
+
+                /* Fungsi formatRupiah */
+                function formatRupiah(angka, prefix) {
+                    var number_string = angka.replace(/[^,\d]/g, ""),
+                    split = number_string.split(","),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                                // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                if (ribuan) {
+                                separator = sisa ? "." : "";
+                                rupiah += separator + ribuan.join(".");
+                                }
+                                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                                return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                            }
+                            
+                    };
          $(document).on('click', '.remove-input-field', function () {
            $(this).parents('tr').remove();
          });

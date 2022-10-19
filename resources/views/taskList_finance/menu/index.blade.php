@@ -33,10 +33,14 @@
         @endforeach
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="card shadow mb-5">
-                            <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="card">
+                            <div class="card-header">
                                 <h3>Task List</h3>
-                                <table class="table table-striped" id="table1">
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="display" id="basic-1">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -66,6 +70,7 @@
                                     @endif
                                     @endforeach
                                 </table>
+                                </div>
                             </div>
                         </div>
                     </div>

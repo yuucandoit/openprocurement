@@ -166,44 +166,10 @@
 
                         <a class="btn btn-danger" type="button" data-bs-toggle="modal"data-bs-target="#modalDelete{{ $ppb->id }}" ><i class="icofont icofont-trash" title="Delete"></i></a>
 
-                        @if ($ppb->status == 'Waiting For PO Approval')
-                        <button class="btn btn-success mt-2" data-bs-toggle="modal"
-                        data-bs-target="#modalSelesai" disabled>Approval Request Sent
-                        </button>
-                        @elseif ($ppb->status == 'Purchase Proses')
-                        <a class="btn btn-success" data-bs-toggle="modal"
-                        data-bs-target="#modalSelesai"><i class="icofont icofont-send-mail" title=" Send Approval Request For Purchase Order"></i></a>
-                        @endif
                      </td>
                 @endhasrole
                     </tr>
              @endif
-             {{-- Start Modal Approval --}}
-         <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                        <h2 class="modal-title" style="color: white">Warning</h2>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center mb-3">
-                        <span class="warning">
-                            <img src="{{ asset('assets/images/warning.png') }}">
-                        </span>
-                        <h2 style="text-align: center">Make sure the data is correct!</h2>
-                    </div>
-                    <div class="modal-footer">
-                        @if ($ppb->status == 'Purchase Proses')
-                            <form
-                            action="{{ url('menu-purchase-order/ajukan_keatasan', $ppb->id) }}">
-                            <button type="submit" class="btn btn-outline-danger ">
-                                Send Approval Request For Purchase Order
-                            </button>
-                            </form>
-                            @endif
-                    </div>
-                    {{-- End Modal Approval --}}
            @endforeach
               </tbody>
                 </table>

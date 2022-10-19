@@ -86,8 +86,9 @@
                                 <td><input class="mt-1 pull-right check-box" type="checkbox" value="{{ $data_pengajuan->ppn }}" @if ($data_pengajuan->ppn == 1)
                                     @checked(true)
                                     @else
-                                @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
-                                <td style="text-align:right;">
+                                    @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                    <td style="text-align:right;">
+                                    @if ($data_pengajuan->ppn == 1)
                                     @foreach ($ppn as $p)
                                     {{-- Ketika mata uang yang dipilih RP --}}
                                     @if ($data_pengajuan->matauang == 'RP')
@@ -96,9 +97,20 @@
                                     @elseif ($data_pengajuan->matauang == 'USD')
                                     $ {{ number_format($p->total) }}
                                     @endif
-                                @endforeach
-                                </td>
-                            </tr>
+                                    @endforeach
+                                    @else
+                                    @foreach ($ppn as $p)
+                                    {{-- Ketika mata uang yang dipilih RP --}}
+                                    @if ($data_pengajuan->matauang == 'RP')
+                                    RP. 0
+                                    {{-- Ketika mata uang yang dipilih USD --}}
+                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                    $ 0
+                                    @endif
+                                    @endforeach
+                                    @endif
+                                    </td>
+                                </tr>
                             @if ($data_pengajuan->ppn == 1)
                             <tr>
                                 <td class="text-end">Grand Total :</td>

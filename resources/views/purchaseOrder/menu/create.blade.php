@@ -176,7 +176,7 @@
                     enctype="multipart/form-data">
                     @csrf
 
-                    <table class="table table-bordered order-entry" id="dynamicAddRemove">
+                    <table class="table table-bordered item order-entry" >
                         <tr style="text-align: center;">
                           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
                           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
@@ -184,14 +184,15 @@
                           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Price-per-unit</th>
                           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th>
                         </tr>
+                        @foreach ($pengajuan as $p)
                         <tr>
-                            @foreach ($pengajuan as $p)
-                          <td class="text"><input type="text" name="addMoreInputFields[0][item]" placeholder="Input Item" class="form-control" style="text-align: center;" value="{{ $p->item }}" required/>
+
+                          <td class="text"><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" value="{{ $p->item }}" required/>
                           </td>
-                          <td><input type="number"  name="addMoreInputFields[0][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $p->qty }}" required/>
+                          <td><input type="number"  name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $p->qty }}" required/>
                           </td>
                           <td>
-                            <select class="form-select " placeholder="Kategori" name="addMoreInputFields[0][kategori]" required>
+                            <select class="form-select " placeholder="Kategori" name="kategori[]" required>
                               <option selected="selected" value="{{ $p->kategori }}">{{ $p->kategori }}</option>
                               <option value="Pcs"  >Pcs   </option>
                               <option value="Lusin">Lusin </option>
@@ -200,14 +201,20 @@
                             </select>
                           </td>
                           <td>
-                            <input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" required/>
+                            <input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" required/>
                           </td>
                           <td>
-                            <input type="text" name="addMoreInputFields[0][total]" class="form-control form-line rupiah" style="text-align: right;" required="" />
+                            <input type="text" name="total[]" class="form-control form-line rupiah" style="text-align: right;" required="" />
                           </td>
                         </tr>
                         @endforeach
-                      </table>
+                    </table>
+
+                    <div class="mt-2">
+                        <button type="button" name="add"  class="addItem btn btn-outline-primary"> AddItem
+                          <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
                       <br>
                       <table class="table table-bordered">
                         <tr>
@@ -253,7 +260,7 @@
 
                     <div class="col-12">
                         <div class="form-group">
-                            <select class="form-select page mt-2 pageSelect" id="pageSelect" placeholder="Proposed To" name="vendorable_type">
+                            <select class="form-select page mt-2 pageSelect" id="pageSelect" placeholder="Proposed To" name="vendortype">
                                 <option value="" disabled selected hidden>Select Vendor</option>
                                 <option value="company">Company</option>
                                 <option value="privateperson">Private Person</option>
@@ -341,7 +348,7 @@
                             <select class="form-select page mt-2" id="pageSelector" placeholder="Terms and Conditions" name="term_conditions" >
                                 <option value="" disabled selected hidden>Terms And Conditions</option>
                                     @foreach ($terms as $t)
-                                      <option value="{{ $t->id }}">{{    $t->term_conditon }}</option>
+                                      <option value="{{ $t->id }}">{{ $t->term_condition }}</option>
                                     @endforeach
                                 <option value="custom">+ Add Terms & Conditions</option>
                             </select>
@@ -356,97 +363,80 @@
 
             </div>
         </div>
-
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript">
-          //Math
-         $(document).ready(function() {
-            //Convert To Rupiah
-            var rupiah = document.querySelector(".rupiah");
-            rupiah.addEventListener('keyup', function(e) {
-             // tambahkan 'Rp.' pada saat form di ketik
-             // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-             rupiah.value = formatRupiah(this.value, "");
-           });
-            /* Fungsi formatRupiah */
-            function formatRupiah(angka, prefix) {
-             var number_string = angka.replace(/[^,\d]/g, ""),
-             split = number_string.split(","),
-             sisa = split[0].length % 3,
-             rupiah = split[0].substr(0, sisa),
-             ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-             // tambahkan titik jika yang di input sudah menjadi angka ribuan
-             if (ribuan) {
-               separator = sisa ? "." : "";
-               rupiah += separator + ribuan.join(".");
-             }
-             rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-             return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-           }
-           $(".order-entry").on("keyup", ".form-calc", function() {
-             var parent = $(this).closest("tr");
-             var str = parent.find(".form-cost").val();
-             var res = str.replace(/\D/g, "");
-             parent.find(".form-line").val((parent.find(".form-qty").val() * res) .toFixed(0));
-             var total = 0;
-             $(".form-line").each(function(){
-               total += parseInt($(this).val()||0);
-             });
-             $(".total_A").text(total.toLocaleString('en-US'));
-             var checkbox =  document.querySelector(".check-box");
-             checkbox.addEventListener('change', (event) =>{
-               if(event.currentTarget.checked){
-                 totalppn = total * 11 / 100;
-                 grandtotal = total + totalppn;
-                 $(".ppn").text(totalppn.toLocaleString('en-US'));
-                 $(".total").text(grandtotal.toLocaleString('en-US'));
-               }
-               else{
-                totalppn = total * 0;
-                $(".ppn").text(totalppn);
-                $(".total").text(total.toLocaleString('en-US'));
-              }
-            })
-           });
-         });
-         //Add Form
-         var i = 0;
-         $("#dynamic-ar").click(function () {
-           ++i;
-           $("#dynamicAddRemove").append(
-            '<tr><td><input type="text" name="addMoreInputFields[' + i +
-            '][item]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="addMoreInputFields[' + i +
-            '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
-            '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> '
-            );
-           var rupiah = document.querySelectorAll(".rupiah");
-           rupiah.forEach((item) => {
-            item.addEventListener('keyup', function(e) {
-                                // tambahkan 'Rp.' pada saat form di ketik
-                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-            item.value = formatRupiah(this.value, "");
-            });
-          });
-           /* Fungsi formatRupiah */
-           function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, ""),
-            split = number_string.split(","),
-            sisa = split[0].length % 3,
-            rupiah = split[0].substr(0, sisa),
-            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                        if (ribuan) {
-                          separator = sisa ? "." : "";
-                          rupiah += separator + ribuan.join(".");
-                        }
-                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                        return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                 //Math
+                 $(document).ready(function() {
+                    //Convert To Rupiah
+                    var rupiah = document.querySelector(".rupiah");
+                    rupiah.addEventListener('keyup', function(e) {
+                     // tambahkan 'Rp.' pada saat form di ketik
+                     // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                     rupiah.value = formatRupiah(this.value, "");
+                   });
+                    /* Fungsi formatRupiah */
+                    function formatRupiah(angka, prefix) {
+                     var number_string = angka.replace(/[^,\d]/g, ""),
+                     split = number_string.split(","),
+                     sisa = split[0].length % 3,
+                     rupiah = split[0].substr(0, sisa),
+                     ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                     // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                     if (ribuan) {
+                       separator = sisa ? "." : "";
+                       rupiah += separator + ribuan.join(".");
+                     }
+                     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                     return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                   }
+                   $(".order-entry").on("keyup", ".form-calc", function() {
+                     var parent = $(this).closest("tr");
+                     var str = parent.find(".form-cost").val();
+                     var res = str.replace(/\D/g, "");
+                     parent.find(".form-line").val((parent.find(".form-qty").val() * res) .toFixed(0));
+                     var total = 0;
+                     $(".form-line").each(function(){
+                       total += parseInt($(this).val()||0);
+                     });
+                     $(".total_A").text(total.toLocaleString('en-US'));
+                     var checkbox =  document.querySelector(".check-box");
+                     checkbox.addEventListener('change', (event) =>{
+                       if(event.currentTarget.checked){
+                         totalppn = total * 11 / 100;
+                         grandtotal = total + totalppn;
+                         $(".ppn").text(totalppn.toLocaleString('en-US'));
+                         $(".total").text(grandtotal.toLocaleString('en-US'));
+                       }
+                       else{
+                        totalppn = total * 0;
+                        $(".ppn").text(totalppn);
+                        $(".total").text(total.toLocaleString('en-US'));
                       }
-                    });
-         $(document).on('click', '.remove-input-field', function () {
-           $(this).parents('tr').remove();
-         });
+                    })
+                   });
+                 });
+                 //Add Form
 
-        </script>
+                 $(".addItem").on('click',function () {
+                    addItem();
+                });
+                function addItem(){
+                    var item = '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td><td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" required/></td><td><input type="text" name="total[]" class="form-control form-line rupiah" style="text-align: right;" required="" /> </td> ';
+                    $('.item').append(item);
+                };
+                // //    $(".dynamicAddRemove").append(
+                // //     '<tr><td><input type="text" name="addMoreInputFields[' + i +
+                // //     '][item]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="addMoreInputFields[' + i +
+                // //     '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
+                // //     '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> '
+                // //     );
+
+                //             });
+                 $(document).on('click', '.remove-input-field', function () {
+                   $(this).parents('tr').remove();
+                 });
+               </script>
 
         <script type="text/javascript">
             var pageSelector = document.getElementById('pageSelector');

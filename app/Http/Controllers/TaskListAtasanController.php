@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskListAtasanController extends Controller
 {
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -137,9 +137,10 @@ class TaskListAtasanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
+        $data = $request->all();
+        //dd($data);
+        PengajuanPembelian::where('pp_id',$id)->delete();
 
-        // dd($data);
         $request->validate([
             'purpose' => 'required',
             'date_ps' => 'required',
@@ -157,7 +158,7 @@ class TaskListAtasanController extends Controller
             'ws.required' => 'The Who Submitted field is required.',
             'department.required' => 'The Department field is required.',
             'desc.required' => 'The Description field is required.',
-            'atasan.required' => 'The Super User field is required.',
+            'atasan.required' => 'The Approved By field is required.',
             'mata_uang.required' => 'The Currency field is required.',
             'send_to.required' => 'The Send To field is required.',
         ]);
@@ -197,30 +198,19 @@ class TaskListAtasanController extends Controller
             ]);
         }
 
-        // $tes = CategoryPengajuanPembelian::where("id", $id)->update([
-        //     "date_ps" => $request->date_ps,
-        //     "ws" => $request->ws,
-        //     "purpose" => $request->purpose,
-        //     "send_to" => $request->send_to,
-        //     "dateline" => $request->dateline,
-        //     "department" => $request->department,
-        // ]);
 
-        $request->validate([
-            'addMoreInputFields.*.item' => 'required',
-            'addMoreInputFields.*.qty' => 'required',
-            'addMoreInputFields.*.unit_price' => 'required'
-        ]);
+        if($request->item > 0){
+            foreach ($data['item'] as $item => $value) {
 
-
-        foreach ($request->addMoreInputFields as $item) {
-            PengajuanPembelian::where("id", $id)->update([
-                'item'          => $item['item'],
-                'qty'           => $item['qty'],
-                'kategori'      => $item['kategori'],
-                'unit_price'    => $item['unit_price'],
-                'total'         => $item['qty'] * $item['unit_price'],
-            ]);
+                $data2 = array(
+                    'pp_id'             => $id,
+                    'item'              => $data['item'][$item],
+                    'qty'               => $data['qty'][$item],
+                    'kategori'          => $data['kategori'][$item],
+                );
+                // $unit_price = str_replace(".", "", $item['unit_price']);
+                PengajuanPembelian::create($data2);
+            }
         }
         return redirect("menu-taskList-atasan/");
     }

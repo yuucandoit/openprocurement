@@ -221,7 +221,7 @@
                     <div class="modal-footer">
                         @if ($data_pengajuan->status == 'Purchase Proses')
                         <form class="text-center"
-                        action="{{ url('menu-purchase-order/ajukan_keatasan', $data_pengajuan->id) }}">
+                        action="{{ url('menu-purchase-order/ajukan_keatasan/'. $data_pengajuan->id) }}">
                         <button type="submit" class="btn btn-outline-danger "><i
                             class="bx bx-trash"></i>
                             Send Approval Request For Purchase Order
