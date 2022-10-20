@@ -1,11 +1,9 @@
-<title>History Task list</title>
+<title>History Task List</title>
 
 @extends('layouts.master')
 
 @section('main')
 <section>
-
-
     @foreach ($datadv as $a)
     <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -31,20 +29,18 @@
         </div>
     </div>
     @endforeach
-
-
     <!-- Page Sidebar Ends-->
     <div class="container-fluid">
         <div class="page-header">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 mt-4">
                 <h3>History Super User</h3>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="dashboard">Dasboard</a></li>
                     <li class="breadcrumb-item">History Super User</li>
                 </ol>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 mt-4">
               <!-- Bookmark Start-->
               <div class="bookmark">
                 <ul>
@@ -71,42 +67,43 @@
     <div class="row">
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
-        <div class="card">
-          <div class="card-header">
-            <h5>History</h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                @if (Auth::user()->id === 6)
-                <table class="display" id="basic-1">
-                    <thead>
-                        <tr style="text-align: center;">
-                            <th>No</th>
-                            <th>Description</th>
-                            <th>Date Line</th>
-                            <th>Request By</th>
-                            <th>Approved At</th>
-                            <th>Function</th>
-                        </tr>
-                    </thead>
-                    @php
-                    $no = 1;
-                    @endphp
-                    @foreach ($datappb as $ppb)
-                    @if ($ppb->atasan == 6)
-                    <tbody>
-                      <tr>
-                        <td style="text-align: center;">{{ $no++ }}</td>
-                        <td ><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                        <td style="text-align: center;">{{ $ppb->ws }}</td>
-                        <td>{{ $ppb->approved_at }}</td>
-                        <td style="text-align: center;">
-                            <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                    class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
-                                </td>
+        <div class="card card-absolute">
+            <div class="card-header bg-primary">
+                <h5>History</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Auth::user()->id === 6)
+                    <table class="display" id="basic-1">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>No</th>
+                                <th>Description</th>
+                                <th>Date Line</th>
+                                <th>Request By</th>
+                                <th>Approved At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        @php
+                        $no = 1;
+                        @endphp
+                        @foreach ($datappb as $ppb)
+                        @if ($ppb->atasan == 6)
+                        <tbody>
+                          <tr>
+                            <td style="text-align: center;">{{ $no++ }}</td>
+                            <td ><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                            <td style="text-align: center;">{{ $ppb->ws }}</td>
+                            <td>{{ $ppb->approved_at }}</td>
+                            <td style="text-align: center;">
+                                <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"><i class="icon-zoom-in" title="Details"></i>
+                                </a>
+
+                                <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
+                                </a>
+                            </td>
                                 <!-- <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                     style="color: white; font-size:18">{{ $ppb->status }}</a></td> -->
                                 </tr>

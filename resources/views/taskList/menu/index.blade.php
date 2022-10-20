@@ -33,14 +33,14 @@
     <div class="container-fluid">
         <div class="page-header">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 mt-4">
                 <h3>Task List Purchasing</h3>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
                     <li class="breadcrumb-item">Task List Purchase order</li>
                 </ol>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 mt-4">
               <!-- Bookmark Start-->
               <div class="bookmark">
                 <ul>
@@ -67,65 +67,67 @@
     <div class="row">
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
-        <div class="card">
-          <div class="card-header">
-            <h5>Task List PO</h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-              <table class="display" id="basic-1">
-                <thead>
-                  <tr>
-                    <tr style="text-align: center;">
-                        <th>No</th>
-                        <th>Description</th>
-                        <th>Date Line</th>
-                        <th>Countdown</th>
-                        <th>Warning</th>
-                        <th>Approved At</th>
-                        <th>Request By</th>
-                        <th>Status</th>
-                        <th>Function</th>
-                    </tr>
-                </thead>
-                @php
-                $no = 1;
-                $approvedPPB = [];
-                @endphp
-                @foreach ($datappb as $ppb)
-                @if ($ppb->status == 'Purchase Submission Approved')
-                @php $approvedPPB[] =$ppb; @endphp
-                <tbody>
-                  <tr id="ppb-{{ $ppb->id }}" style="text-align: center;">
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $ppb->desc }}</td>
-                    <td>{{ $ppb->dateline }}</td>
-                    <td class="ppb-countdown"></td>
-                    <td>
-                        <a class="badge badge-lable" style="font-size: 18">
-                            Complete This Task!
-                        </a>
-                    </td>
-                    <td>{{ $ppb->approved_at }}</td>
-                    <td>{{ $ppb->whosubmit->name }}</td>
-                    <td>
-                        <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                            style="color: white; font-size:18">{{ $ppb->status }}</a>
-                        </td>
-                        <td>
-                            <a href="{{ url('menu-task-list/detail/' . $ppb->id) }}"
-                                class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
-                            </td>
-                        </tr>
-                        @endif
-                        @endforeach
-                    </tbody>
-                </table>
+        <div class="card card-absolute">
+            <div class="card-header bg-primary">
+                <h5>Task List PO</h5>
             </div>
-        </div>
-    </div>
-</div>
-<!-- Zero Configuration  Ends-->
+            <div class="card-body">
+                <div class="table-responsive">
+                  <table class="display" id="basic-1">
+                    <thead>
+                      <tr>
+                        <tr style="text-align: center;">
+                            <th>No</th>
+                            <th>Description</th>
+                            <th>Date Line</th>
+                            <th>Countdown</th>
+                            <th>Warning</th>
+                            <th>Approved At</th>
+                            <th>Request By</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @php
+                    $no = 1;
+                    $approvedPPB = [];
+                    @endphp
+                    @foreach ($datappb as $ppb)
+                    @if ($ppb->status == 'Purchase Submission Approved')
+                    @php $approvedPPB[] =$ppb; @endphp
+                    <tbody>
+                        <tr id="ppb-{{ $ppb->id }}">
+                            <td style="text-align: center;">{{ $no++ }}</td>
+                            <td>{{ $ppb->desc }}</td>
+                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                            <td class="ppb-countdown" style="text-align: center;"></td>
+                            <td style="text-align: center;">
+                                <a class="badge badge-lable" style="font-size: 18">
+                                    Complete This Task!
+                                </a>
+                            </td style="text-align: center;">
+                            <td style="text-align: center;">{{ $ppb->approved_at }}</td>
+                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                            <td>
+                                <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                </td>
+                                <td style="text-align: center;">
+
+                                 <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i class="icon-zoom-in" title="Details"></i>
+                                 </a>
+
+                             </td>
+                         </tr>
+                         @endif
+                         @endforeach
+                     </tbody>
+                 </table>
+             </div>
+         </div>
+     </div>
+ </div>
+ <!-- Zero Configuration  Ends-->
 </section>
 @endsection
 
@@ -159,7 +161,7 @@
             [3, 'bg-success'],
             ]
             if(data.dateline == '≤24Jam') colors = [
-            [8, 'bg-danger'],
+                [8, 'bg-danger'],
             [16, 'bg-warning'],
             [24, 'bg-success'],
             ]

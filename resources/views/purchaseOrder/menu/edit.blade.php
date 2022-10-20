@@ -50,170 +50,106 @@
               enctype="multipart/form-data">
               @csrf
               <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date :</label>
-                  <div class="form-group" >
-                    <input type="date"
-                    class="form-control page @error('date_ps') is-invalid @enderror"
-                    id="floatingTanggal" placeholder="Tanggal" name="date_ps"
-                    value="{{ old('date_ps', date('Y-m-d')) }}">
-                    @error('date_ps')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                  <div class="valid-feedback">Looks good!</div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group" >
-                    <label for="floatingdateline"><i class="fa fa-clock-o"></i>  Date Line :</label>
-                    <select class="form-select page @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" >
-                      <option selected hidden>{{ $dv->dateline }}   *Select For Update Data</option>
-                      <option value="≤3Jam">≤ 3 Jam</option>
-                      <option value="≤24Jam">≤ 24 Jam</option>
-                      <option value="≤2Hari">≤ 2 Hari</option>
-                      <option value="SesuaiPo">Sesuai PO</option>
-                    </select>
-                    @error('dateline')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted :</label>
-                    <select class="form-select page @error('ws') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws" >
-                      <option selected hidden                 >{{ $dv->whosubmit->name }}    *Select For Update Data</option>
-                      @foreach ($dataws as $w)
-                          <option value="{{ $w->name }}">{{ $w->name }}</option>
-                      @endforeach
-                    </select>
-                    @error('ws')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                </div>
-
-                {{-- css hide --}}
-                <style>
-                  .hide {
-                    width: 0;
-                    height: 0;
-                    opacity: 0;
-                  }
-                  .page {
-                    height: 50px;
-                  }
-                </style>
-                {{-- End Css Hide --}}
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="floatingwhosubmitted"><i class="fa fa-laptop"></i> Purpose :</label>
-                    <select class="form-select page @error('purpose') is-invalid @enderror" id="pageSelector" placeholder="Purpose" name="purpose">
-                      @foreach ($purpose as $p)
-                      <option selected hidden>{{ $p->name }}    *Select For Update Data</option>
-                      <option value="{{ $p->id }}">{{ $p->name }}</option>
-                      @endforeach
-                      {{-- <option value="custom">+ Add Project</option> --}}
-                    </select>
-                    <input type="text" class="hide form-control mt-2" placeholder="Input Project" name="nama" id="customInput" >
-                    @error('purpose')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="floatingdepartment"><i class="fa fa-institution"></i> Department :</label>
-                    <select class="form-select page @error('department') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" >
-                      <option value="{{ $dv->dps->id }}" selected hidden>{{ $dv->dps->name }}   *Select For Update Data</option>
-                      @foreach ($datadepartment as $d)
-                      <option value="{{ $d->id }}">{{ $d->name }}</option>
-                      @endforeach
-                    </select>
-                    @error('department')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
-                    <div class="form-floating">
-                      <textarea name="desc" id="floatingNoTelpon" class="form-control page @error('desc') is-invalid @enderror" cols="50" rows="30">{{ $dv->desc }}</textarea>
-                        @error('desc')
-                            <div class="invalid-feedback">
-                            {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                   <label class="form-label" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Approved By :</label>
-                   <select class="form-select page @error('atasan') is-invalid @enderror" id="floatingproposedto" placeholder="Proposed To" name="atasan" >
-                    <option selected="" value="">* Select For Update Data</option>
-                    @foreach ($atasan as $sui)
-                    <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                    @endforeach
-                  </select>
-                    @error('atasan')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-group">
-                 <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i> Currency :</label>
-                 <select class="form-select page @error('matauang') is-invalid @enderror" id="floatingdateline" placeholder="Mata Uang" name="matauang" >
-                  <option selected="" value="{{ $dv->matauang }}">{{ $dv->matauang }}   * Select For Update Data</option>
-                  <option value="USD">USD</option>
-                  <option value="RP">RP</option>
+          <div class="col-12">
+            <div class="form-group">
+                <select class="form-select page mt-2 pageSelect" id="pageSelect" placeholder="Proposed To" name="vendorable_type">
+                    <option value="" disabled selected hidden>Select Vendor</option>
+                    <option value="company">Company</option>
+                    <option value="privateperson">Private Person</option>
+                    <option value="ecommerce">Ecommerce</option>
                 </select>
-                @error('matauang')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-              </div>
-            </div>
+                 {{-- Perusahaan Dropdown --}}
+                 <select class=" form-select hide mt-2" id="selectedInput" name="vendorable_id">
+                    @foreach ($datapt as $p)
+                    <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                    @endforeach
+                </select>
+                {{-- End Perusahaan Dropdown --}}
 
-            <div class="col-md-6">
-             <div class=" form-group m-checkbox-inline mb-0 @error('send_to') is-invalid @enderror" >
-              <div class="col-6">
-                <label><i class="fa fa-send"></i> Send To :</label>
-              </div>
-              <div class="radio radio-primary col-md-6" required>
-                <input id="tebet" type="radio" name="send_to" value="Tebet" required/>
-                <label for="tebet">Tebet</label>
-              </div>
-              <div class="radio radio-primary col-md-6">
-                <input id="cikunir" type="radio" name="send_to" value="Cikunir" required/>
-                <label for="cikunir">Cikunir</label>
-              </div>
-            </div>
-          </div>
+          {{-- Private Person Dropdown --}}
+          <select class=" form-select hide" id="selectedInput2" name="vendorable_id">
+                @foreach ($op as $o)
+                <option value="{{ $o->id }}">{{ $o->nama }}</option>
+                @endforeach
+          </select>
+          {{-- End Private Person Dropdown --}}
+
+          {{-- Ecommerce Dropdown --}}
+          <select class=" form-select hide" id="selectedInput3" name="vendorable_id">
+            @foreach ($ec as $e)
+            <option value="{{ $e->id }}">{{ $e->nama }}</option>
+            @endforeach
+          </select>
+          {{-- End Ecommerce Dropdown --}}
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-floating">
+          <select class="form-select mt-2" id="floatingproposedto" placeholder="Proposed To" name="atasan_po" >
+            @foreach ($atasan as $sui)
+            <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+            @endforeach
+          </select>
+          <label for="floatingproposedto">-- Approved To --</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-floating">
+          <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
+          placeholder="Address" name="address" >
+          <label for="floatingNoTelpon">Alamat</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-floating">
+          <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
+          placeholder="No_Telp" name="no_telp" >
+          <label for="floatingNoTelpon">Nomor Telpon</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-floating">
+          <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
+          placeholder="NPWP" name="no_npwp" >
+          <label for="floatingNoTelpon">NPWP</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-floating">
+          <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
+          placeholder="Quotation" name="quotation" >
+          <label for="floatingNoTelpon">Quotation</label>
+        </div>
+      </div>
+
+      {{-- css hide --}}
+      <style>
+        .hide {
+          width: 0;
+          height: 0;
+          opacity: 0;
+        }
+        .page {
+          height: 58px;
+        }
+      </style>
+
+        <div class="col-6">
+            <div class="form-group">
+                <select class="form-select page mt-2" id="pageSelector" placeholder="Terms and Conditions" name="term_conditions" >
+                    <option value="" disabled selected hidden>Terms And Conditions</option>
+                        @foreach ($terms as $t)
+                          <option value="{{ $t->id }}">{{    $t->term_condition }}</option>
+                        @endforeach
+                    <option value="custom">+ Add Terms & Conditions</option>
+                </select>
+            <textarea class="hide form-control mt-2" name="term_condition" id="customInput" cols="30" rows="10" placeholder="Input Terms And Conditions"></textarea>
+        </div>
+    </div>
           <hr>
-          <table class="table table-bordered mt-2 mx-2 order-entry" id="dynamicAddRemove">
+          <div class="col-md-12">
+          <table class="table table-bordered item mx-2 order-entry" >
             <tr style="text-align: center;">
               <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
               <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
@@ -223,12 +159,12 @@
             </tr>
             @foreach ($item as $i)
             <tr>
-              <td class="text"><input type="text" name="addMoreInputFields[$i][item]" placeholder="Input Item" class="form-control" style="text-align: center;"  value="{{ $i['item'] }}" required/>
+              <td class="text"><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"  value="{{ $i->item }}" required/>
               </td>
-              <td><input type="number"  name="addMoreInputFields[$i][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $i['qty'] }}" required/>
+              <td><input type="number"  name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $i->qty }}" required/>
               </td>
               <td>
-                <select class="form-select " placeholder="Kategori" name="addMoreInputFields[$i][kategori]" value="{{ $i['kategori'] }}" required>
+                <select class="form-select " placeholder="Kategori" name="kategori[]" value="{{ $i->kategori }}" required>
                   <option selected disabled hidden>Choose a Category</option>
                   <option value="Pcs"  >Pcs   </option>
                   <option value="Lusin">Lusin </option>
@@ -237,10 +173,10 @@
                 </select>
               </td>
               <td>
-                <input type="text" name="addMoreInputFields[$i][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" value="{{ $i['unit_price'] }}" required/>
+                <input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" value="{{ $i->unit_price }}" required/>
               </td>
               <td>
-                <input type="text" name="addMoreInputFields[$i][total]" class="form-control form-line" style="text-align: right;" required  />
+                <input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  />
               </td>
             </tr>
             @endforeach
@@ -271,11 +207,12 @@
               </td>
             </tr>
           </table>
-          {{-- <div class="mt-2">
-            <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary"> AddItem
+          <div class="mt-2">
+            <button type="button" name="add" class="addItem btn btn-outline-primary"> AddItem
               <i class="fa fa-plus"></i>
             </button>
-          </div>--}}
+          </div>
+        </div>
           <br>
           <div class="modal-footer">
             <a href="{{ route('menu-purchase-order.index') }}" class="btn btn-danger-gradien mt-3">Back</a>
@@ -292,110 +229,91 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
+        //Math
         $(document).ready(function() {
-
             //Convert To Rupiah
-
             var rupiah = document.querySelector(".rupiah");
             rupiah.addEventListener('keyup', function(e) {
-                // tambahkan 'Rp.' pada saat form di ketik
-                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                rupiah.value = formatRupiah(this.value, "Rp. ");
-            });
-
+             // tambahkan 'Rp.' pada saat form di ketik
+             // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+             rupiah.value = formatRupiah(this.value, "");
+           });
             /* Fungsi formatRupiah */
             function formatRupiah(angka, prefix) {
-                var number_string = angka.replace(/[^,\d]/g, ""),
-                    split = number_string.split(","),
-                    sisa = split[0].length % 3,
-                    rupiah = split[0].substr(0, sisa),
-                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                if (ribuan) {
-                    separator = sisa ? "." : "";
-                    rupiah += separator + ribuan.join(".");
-                }
-
-                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-            }
-
-            var rupiah = document.querySelectorAll(".rupiah");
-            rupiah.forEach((item) => {
-                item.addEventListener('keyup', function(e) {
-                    // tambahkan 'Rp.' pada saat form di ketik
-                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                    item.value = formatRupiah(this.value, "Rp. ");
+             var number_string = angka.replace(/[^,\d]/g, ""),
+             split = number_string.split(","),
+             sisa = split[0].length % 3,
+             rupiah = split[0].substr(0, sisa),
+             ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+             // tambahkan titik jika yang di input sudah menjadi angka ribuan
+             if (ribuan) {
+               separator = sisa ? "." : "";
+               rupiah += separator + ribuan.join(".");
+             }
+             rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+             return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+           }
+           $(".order-entry").on("keyup", ".form-calc", function() {
+             var parent = $(this).closest("tr");
+             var str = parent.find(".form-cost").val();
+             var res = str.replace(/\D/g, "");
+             parent.find(".form-line").val((parent.find(".form-qty").val() * res) .toFixed(0));
+             var total = 0;
+             $(".form-line").each(function(){
+               total += parseInt($(this).val()||0);
+             });
+             $(".total_A").text(total.toLocaleString('en-US'));
+             var checkbox =  document.querySelector(".check-box");
+             checkbox.addEventListener('change', (event) =>{
+               if(event.currentTarget.checked){
+                 totalppn = total * 11 / 100;
+                 grandtotal = total + totalppn;
+                 $(".ppn").text(totalppn.toLocaleString('en-US'));
+                 $(".total").text(grandtotal.toLocaleString('en-US'));
+               }
+               else{
+                totalppn = total * 0;
+                $(".ppn").text(totalppn);
+                $(".total").text(total.toLocaleString('en-US'));
+              }
             });
-
-            $(".order-entry").on("keyup", ".form-calc", function() {
-                var parent = $(this).closest("tr");
-                var str = parent.find(".form-cost").val();
-                var res = str.replace(/\D/g, "");
-                parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
-                var total = 0;
-                $(".form-line").each(function() {
-                    total += parseInt($(this).val() || 0);
-                });
-                $(".total_A").text(total.toLocaleString('en-US'));
-                var checkbox = document.querySelector(".check-box");
-                checkbox.addEventListener('change', (event) => {
-                    if (event.currentTarget.checked) {
-                        totalppn = total * 11 / 100;
-                        grandtotal = total + totalppn;
-                        $(".ppn").text(totalppn.toLocaleString('en-US'));
-                        $(".total").text(grandtotal.toLocaleString('en-US'));
-                    } else {
-                        totalppn = total * 0;
-                        $(".ppn").text(totalppn);
-                        $(".total").text(total.toLocaleString('en-US'));
-                    }
-                })
-
+           });
+         });
+         //Add Form
+         $(".addItem").on('click', function () {
+            addItem();
+         });
+         function addItem(){
+            var item =
+            '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
+            $(".item").append(item)
+        }
+        $(document).on('click', '.remove-input-field', function () {
+           $(this).parents('tr').remove();
+         });
+           var rupiah = document.querySelectorAll(".rupiah");
+           rupiah.forEach((item) => {
+            item.addEventListener('keyup', function(e) {
+                                // tambahkan 'Rp.' pada saat form di ketik
+                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            item.value = formatRupiah(this.value, "");
             });
-        });
-        //Add Form
-
-        var i = 0;
-        $("#dynamic-ar").click(function() {
-            ++i;
-            $("#dynamicAddRemove").append(
-
-                '<tr><td><input type="text" name="addMoreInputFields[' + i +
-                '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' +
-                i +
-                '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' +
-                i +
-                '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' +
-                i +
-                '][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah"/></td> <td><input type="text" name="addMoreInputFields[' +
-                i +
-                '][total]" class="form-control form-line text-end" /></td></tr>'
-            );
-
-            });
-            /* Fungsi formatRupiah */
-            function formatRupiah(angka, prefix) {
-                var number_string = angka.replace(/[^,\d]/g, ""),
-                    split = number_string.split(","),
-                    sisa = split[0].length % 3,
-                    rupiah = split[0].substr(0, sisa),
-                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                if (ribuan) {
-                    separator = sisa ? "." : "";
-                    rupiah += separator + ribuan.join(".");
-                }
-
-                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-            }
-        });
-        $(document).on('click', '.remove-input-field', function() {
-            $(this).parents('tr').remove();
-        });
+          });
+           /* Fungsi formatRupiah */
+           function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, ""),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                        if (ribuan) {
+                          separator = sisa ? "." : "";
+                          rupiah += separator + ribuan.join(".");
+                        }
+                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                        return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                      }
     </script>
     <script type="text/javascript">
         var pageSelector = document.getElementById('pageSelector');
@@ -409,6 +327,45 @@
             }
         })
     </script>
+
+<script type="text/javascript">
+    var pageSelect = document.getElementById('pageSelect');
+    var selectedInput = document.getElementById('selectedInput');
+    var selectedInputCustom = document.getElementById('selectedInputCustom');
+
+    var selectedInput2 = document.getElementById('selectedInput2');
+    var selectedInputCustom2 = document.getElementById('selectedInputCustom2');
+
+    var selectedInput3 = document.getElementById('selectedInput3');
+    var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
+
+        // Company
+        pageSelect.addEventListener('change', function(){
+          if(this.value == "company") {
+            selectedInput.classList.remove('hide');
+          } else {
+            selectedInput.classList.add('hide');
+          }
+        })
+
+        // Private Person
+        pageSelect.addEventListener('change', function(){
+          if(this.value == "privateperson") {
+            selectedInput2.classList.remove('hide');
+          } else {
+            selectedInput2.classList.add('hide');
+          }
+        })
+
+        // Ecommerce
+        pageSelect.addEventListener('change', function(){
+          if(this.value == "ecommerce") {
+            selectedInput3.classList.remove('hide');
+          } else {
+            selectedInput3.classList.add('hide');
+          }
+        })
+      </script>
 
 </section>
 @endsection

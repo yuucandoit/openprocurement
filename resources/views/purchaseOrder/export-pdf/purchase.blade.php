@@ -233,13 +233,11 @@
                       <div class="col">
                         <div>
                           <p class="legal"><strong>Terms & Conditions</strong> <br>
-                            @foreach ($cpp as $c)
                             @if (empty($cpo->term->term_condition))
                             Not Filled in yet
                             @else
                             {!!  nl2br($cpo->term->term_condition) !!}</p>
                             @endif
-                            @endforeach
                         </div>
                       </div>
                       <div class="col">

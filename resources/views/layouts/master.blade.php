@@ -77,18 +77,8 @@
           -ms-user-select:none;
           -khtml-user-select:none;
           -webkit-user-select:none">E-Procurement</div></div>
-          <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center" id="sidebar-toggle"></i></div>
-        </div>
-        <div class="left-menu-header col">
-          <ul>
-            <li>
-              <form class="form-inline search-form">
-                <div class="search-bg"><i class="fa fa-search"></i>
-                  <input class="form-control-plaintext" placeholder="Search here.....">
-                </div>
-              </form><span class="d-sm-none mobile-search search-bg"><i class="fa fa-search"></i></span>
-            </li>
-          </ul>
+          <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center" id="sidebar-toggle"></i>
+          </div>
         </div>
         <div class="nav-right col pull-right right-menu p-0">
           <ul class="nav-menus">
@@ -208,7 +198,7 @@
                           <i data-feather="file-text"></i>
                           <span>Purchase Order</span>
                         </a>
-                        </li>
+                      </li>
                       <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                         <a class="nav-link menu-title link-nav" href="{{ url('/invoicing') }}" >
                           <i data-feather="file-text"></i>
@@ -356,9 +346,9 @@
                           </div>
                         </li> --}}
                         <li class="sidebar-main-title">
-                            <div>
-                              <h6>Data Master Supplier</h6>
-                            </div>
+                          <div>
+                            <h6>Data Master Supplier</h6>
+                          </div>
                         </li>
                         <li class="dropdown {{ request()->is('*perusahaan*') ? 'active' : '' }}">
                           <a class="nav-link menu-title link-nav" href="{{ url('/menu-perusahaan') }}" >
@@ -380,28 +370,28 @@
                         </li>
 
                         <li class="sidebar-main-title">
-                            <div>
-                              <h6>Data Master Submission</h6>
-                            </div>
+                          <div>
+                            <h6>Data Master Submission</h6>
+                          </div>
                         </li>
                         <li class="dropdown {{ request()->is('*who-submitted*') ? 'active' : '' }}">
-                            <a class="nav-link menu-title link-nav" href="{{ url('/who-submitted') }}" >
-                                <i class="fa fa-user"></i>
-                              <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Who Submitted</span>
-                            </a>
-                          </li>
-                          <li class="dropdown {{ request()->is('*project-reference*') ? 'active' : '' }}">
-                            <a class="nav-link menu-title link-nav" href="{{ url('/project-reference') }}" >
+                          <a class="nav-link menu-title link-nav" href="{{ url('/who-submitted') }}" >
+                            <i class="fa fa-user"></i>
+                            <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Who Submitted</span>
+                          </a>
+                        </li>
+                        <li class="dropdown {{ request()->is('*project-reference*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/project-reference') }}" >
                             <i class="fa fa-laptop"></i>
-                              <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose</span>
-                            </a>
-                          </li>
-                          <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">
-                            <a class="nav-link menu-title link-nav" href="{{ url('/department') }}" >
-                                <i class="fa fa-institution"></i>
-                              <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
-                            </a>
-                          </li>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose</span>
+                          </a>
+                        </li>
+                        <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">
+                          <a class="nav-link menu-title link-nav" href="{{ url('/department') }}" >
+                            <i class="fa fa-institution"></i>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
+                          </a>
+                        </li>
                         @endhasrole
                         <!--end Data Master-->
 
@@ -575,7 +565,6 @@
                         </div>
                       </div>
                       <!-- footer start-->
-
                       <footer class="footer">
                         <div class="container-fluid">
                           <div class="row">
@@ -584,7 +573,7 @@
                               SOLUSI INTEK INDONESIA</h5>
                             </div>
                             <div class="col-md-6">
-                              <p class="pull-right mb-0">Copyright &copy; 2022 | PT SOLUSI INTEK INDONESIA | <mark style="background-color: black; color: #FFFFFF; font-weight: bold;"><img src="{{ asset('assets/images/intek.png') }}" alt="" width="17" class="fluid mb-1"> E-Procurement</mark></p>
+                              <p class="pull-right mb-0">Copyright &copy; 2022 | PT SOLUSI INTEK INDONESIA | <mark style="background-color: black; color: #FFFFFF; font-weight: bold;">E-Procurement</mark></p>
                             </div>
                           </div>
                         </div>
@@ -680,6 +669,9 @@
                     <script src="{{ asset('../assets/js/clipboard/clipboard.min.js') }}"></script>
                     <script src="{{ asset('../assets/js/custom-card/custom-card.js')  }}"></script>
                     <!-- Plugins JS Ends-->
+
+                    <script src="../assets/js/chart/google/google-chart-loader.js"></script>
+                    <script src="../assets/js/chart/google/google-chart.js"></script>
 
 
                     <!-- Plugins JS Ends-->

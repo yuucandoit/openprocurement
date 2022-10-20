@@ -4,8 +4,6 @@
 
 @section('main')
 <section>
-
-
     @foreach ($datadv as $a)
     <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -31,21 +29,18 @@
         </div>
     </div>
     @endforeach
-
-
-
     <!-- Page Sidebar Ends-->
     <div class="container-fluid">
         <div class="page-header">
           <div class="row">
-            <div class="col-sm-6">
-                <h2>Task List</h2>
+            <div class="col-sm-6 mt-4">
+                <h3>Task List</h3>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
                     <li class="breadcrumb-item">Task List</li>
                 </ol>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 mt-4">
               <!-- Bookmark Start-->
               <div class="bookmark">
                 <ul>
@@ -72,8 +67,8 @@
     <div class="row">
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
-        <div class="card">
-          <div class="card-header">
+        <div class="card card-absolute">
+          <div class="card-header bg-primary">
             <h5>Task List Purchase Submission</h5>
         </div>
         <div class="card-body">
@@ -86,8 +81,8 @@
                             <th>Description</th>
                             <th>Date Line</th>
                             <th>Request By</th>
-                            <th>Function</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     @php
@@ -104,59 +99,59 @@
                             <td>{{ $ppb->whosubmit->name }}</td>
                             <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                 style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                            <td>
-                                <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
-                                <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                                class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
-                            </td>
+                                @endif
+                                <td>
+                                    <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                        class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
+                                        <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
+                                            class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
                             @endif
-                        </tr>
-                    </tbody>
-                    @endif
-                    @endforeach
-                 </table>
-                @endif
 
-                 @if (Auth::user()->id === 6)
-                    <table class="display" id="basic-1">
-                        <thead>
-                            <tr style="text-align: center;">
-                               <th>No</th>
-                               <th>Description</th>
-                               <th>Date Line</th>
-                               <th>Request By</th>
-                               <th>Function</th>
-                              <th>Status</th>
-                            </tr>
-                        </thead>
-                  @php
-                  $no = 1;
-                  @endphp
-                 @foreach ($datappb as $ppb)
-                      @if ($ppb->status == 'Awaiting Purchase Submission Approval')
-                      <tbody>
-                            <tr>
-                              @if ($ppb->atasan == 6)
-                              <td style="text-align: center;">{{ $no++ }}</td>
-                              <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                              <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                              <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                              <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                              style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                              <td style="text-align: center;">
-                              <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                              class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
-                              <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
-                              class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
-                              </td>
-                              @endif
-                             </tr>
-                      </tbody>
-                      @endif
-                 @endforeach
-                </table>
-                 @endif
+                            @if (Auth::user()->id === 6)
+                            <table class="display" id="basic-1">
+                                <thead>
+                                    <tr style="text-align: center;">
+                                        <th>No</th>
+                                        <th>Description</th>
+                                        <th>Date Line</th>
+                                        <th>Request By</th>
+                                        <th>Function</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                @php
+                                $no = 1;
+                                @endphp
+                                @foreach ($datappb as $ppb)
+                                @if ($ppb->status == 'Awaiting Purchase Submission Approval')
+                                <tbody>
+                                    <tr>
+                                        @if ($ppb->atasan == 6)
+                                        <td style="text-align: center;">{{ $no++ }}</td>
+                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                        <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                            @endif
+                                            <td style="text-align: center;">
+                                                <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
+                                                    class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
+                                                    <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
+                                                        class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
+                                                    </td>
+                                                </tr>
+                                                @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        @endif
 
                                         @if (Auth::user()->id === 7)
                                         <table class="display" id="basic-1">
@@ -184,6 +179,7 @@
                                                     <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                     <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                         style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                                        @endif
                                                         <td style="text-align: center;">
                                                             <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
                                                                 class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
@@ -191,11 +187,10 @@
                                                                 <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                                                     class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
                                                                 </td>
-                                                                @endif
                                                             </tr>
+                                                            @endif
+                                                            @endforeach
                                                         </tbody>
-                                                        @endif
-                                                        @endforeach
                                                     </table>
                                                     @endif
 
@@ -225,6 +220,7 @@
                                                                 <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                                 <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                                                    @endif
                                                                     <td style="text-align: center;">
                                                                         <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
                                                                             class="btn btn-outline-info"><i class="fa fa-search-plus" title="Detail"></i></a>
@@ -232,41 +228,44 @@
                                                                             <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                                                                 class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
                                                                             </td>
-                                                                            @endif
                                                                         </tr>
+                                                                        @endif
+                                                                        @endforeach
                                                                     </tbody>
-                                                                    @endif
-                                                                    @endforeach
                                                                 </table>
                                                                 @endif
 
-                                                                @if (Auth::user()->id === 9)
-                                                                <table class="display" id="basic-1">
-                                                                    <thead>
-                                                                        <tr style="text-align: center;">
-                                                                            <th>No</th>
-                                                                            <th>Description</th>
-                                                                            <th>Date Line</th>
-                                                                            <th>Request By</th>
-                                                                            <th>Function</th>
-                                                                            <th>Status</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    @php
-                                                                    $no = 1;
-                                                                    @endphp
-                                                                    @foreach ($datappb as $ppb)
-                                                                    @if ($ppb->status == 'Awaiting Purchase Submission Approval')
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            @if ($ppb->atasan == 9)
-                                                                            <td style="text-align: center;">{{ $no++ }}</td>
-                                                                            <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                                            <td style="text-align: center;">
-                                                                                <a href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"
-                                                                                    class="btn btn-outline-info"><i class="fa fa-search" title="Detail"></i></a>
+                                    @if (Auth::user()->id === 9)
+                                    <table class="display" id="basic-1">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Date Line</th>
+                                                <th>Request By</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        @php
+                                        $no = 1;
+                                        @endphp
+                                        @foreach ($datappb as $ppb)
+                                        @if ($ppb->status == 'Awaiting Purchase Submission Approval')
+                                        <tbody>
+                                            <tr>
+                                                @if ($ppb->atasan == 9)
+                                                <td style="text-align: center;">{{ $no++ }}</td>
+                                                <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                                <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                                <td>
+                                                    <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                        style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+
+                                                        <td style="text-align: center;">
+                                                            <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('menu-taskList-atasan/detail/' .  $ppb->id) }}"><i class="icon-zoom-in" title="Details"></i>
+                                                            </a>
 
                                                                                     <a href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"
                                                                                         class="btn btn-outline-warning"><i class="fa fa-edit" title="Edit"></i></a>
@@ -275,27 +274,27 @@
                                                                                         style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                                                                         @endif
                                                                                     </tr>
+                                                                                    @endif
+                                                                                    @endforeach
                                                                                 </tbody>
-                                                                                @endif
-                                                                                @endforeach
                                                                             </table>
                                                                             @endif
 
 
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Zero Configuration  Ends-->
-                                                            <script>
-                                                                $(document).ready(function() {
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Zero Configuration  Ends-->
+                            <script>
+                                $(document).ready(function() {
 
-                                                                    $('.servidelet  ebtn').click(function(e) {
-                                                                        e.preventDefault();
-                                                                        alert('hello');
-                                                                    });
+                                    $('.servidelet  ebtn').click(function(e) {
+                                        e.preventDefault();
+                                        alert('hello');
+                                    });
 
-                                                                });
-                                                            </script>
-                                                        </section>
-                                                        @endsection
+                                });
+                            </script>
+                        </section>
+                        @endsection

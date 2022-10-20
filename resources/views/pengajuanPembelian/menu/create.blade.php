@@ -6,7 +6,7 @@
   <div class="container-fluid">
     <div class="page-header">
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 mt-4">
          <h1>Create Purchase Submission</h1>
          <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
@@ -14,7 +14,7 @@
           <li class="breadcrumb-item">Create Purchase Submission</li>
         </ol>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-6 mt-4">
         <!-- Bookmark Start-->
         <div class="bookmark">
           <ul>
@@ -40,8 +40,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header pb-0">
+      <div class="card card-absolute">
+        <div class="card-header bg-primary">
           <h5>Form Purchase Submission</h5>
         </div>
         <div class="card-body">
@@ -188,14 +188,15 @@
           </div>
         </div>
       </div>
+      <br>
       <hr>
-      <table class="table table-bordered item order-entry">
+      <table class="table table-bordered item order-entry" >
         <tr style="text-align: center;">
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
           <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Category</th>
-          {{-- <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Price-per-unit</th>
-          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th> --}}
+          <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Action</th>
+
         </tr>
         <tr>
           <td class="text"><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required/>
@@ -211,43 +212,14 @@
               <option value="Unit" >Unit  </option>
             </select>
           </td>
+          <td  style="text-align: center;">
+            <button type="button" name="add"  class="btn btn-danger remove-input-field">
+                <i class="fa fa-times"></i>
+              </button>
+          </td>
           </table>
-          {{-- <td>
-            <input type="text" name="addMoreInputFields[0][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" required/>
-          </td>
-          <td>
-            <input type="text" name="addMoreInputFields[0][total]" class="form-control form-line rupiah" style="text-align: right;" required="" />
-          </td>
-        </tr>
-      </table>
-      <br>
-      <table class="table table-bordered">
-        <tr>
-          <td>
-            <label class="pull-right mx-2" style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; DPP :</label>
-          </td>
-          <td class="total_A text-end">
-            <input style="display: none;" class="total_A" type="text" name="total_a">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input class="mt-1 pull-right check-box" type="checkbox" name="ppn" value="1" {{ old('ppn',0) === 1 ? 'checked' : '' }}>
-            <label class="pull-right mx-2" style="font-weight: bold;"> PPN 11% </label>
-          </td>
-          <td class="ppn text-end">
-            <input style="display: none;" class="ppn" type="text" name="ppn">
-          </td>
-        </tr>
-        <tr>
-          <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-          <td class="total text-end">
-            <input style="display: none;" class="total" type="text" name="grand_total">
-          </td>
-        </tr>
-      </table> --}}
       <div class="mt-2">
-        <button type="button" name="add" class="addItem btn btn-outline-primary"> AddItem
+        <button type="button" name="add"  class="addItem btn btn-outline-primary"> AddItem
           <i class="fa fa-plus"></i>
         </button>
       </div>
@@ -315,45 +287,33 @@
            });
          });
          //Add Form
-        //  var i = 0;
-        //  $("#dynamic-ar").click(function () {
-        //    ++i;
-        //    $("#dynamicAddRemove").append(
-        //     '<tr><td><input type="text" name="addMoreInputFields[' + i +
-        //     '][item]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="addMoreInputFields[' + i +
-        //     '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
-        //     '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> '
-        //     );
-
-     //Add Form
-
-     $(".addItem").on('click',function () {
-                    addItem();
-                });
-                function addItem(){
-                    var item = '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> ';
-                    $('.item').append(item);
-
-                /* Fungsi formatRupiah */
-                function formatRupiah(angka, prefix) {
-                    var number_string = angka.replace(/[^,\d]/g, ""),
-                    split = number_string.split(","),
-                    sisa = split[0].length % 3,
-                    rupiah = split[0].substr(0, sisa),
-                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                                // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                if (ribuan) {
-                                separator = sisa ? "." : "";
-                                rupiah += separator + ribuan.join(".");
-                                }
-                                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                                return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-                            }
-                            
-                    };
-         $(document).on('click', '.remove-input-field', function () {
+         $(".addItem").on('click', function () {
+            addItem();
+         });
+         function addItem(){
+            var item =
+            '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td><td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
+            $(".item").append(item)
+        }
+        $(document).on('click', '.remove-input-field', function () {
            $(this).parents('tr').remove();
          });
+
+           /* Fungsi formatRupiah */
+           function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, ""),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                        if (ribuan) {
+                          separator = sisa ? "." : "";
+                          rupiah += separator + ribuan.join(".");
+                        }
+                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                        return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                      }
        </script>
        <script type="text/javascript">
         var pageSelector = document.getElementById('pageSelector');

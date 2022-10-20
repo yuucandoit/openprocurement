@@ -14,7 +14,7 @@ class TermsAndConditions extends Model
         'term_condition',
     ];
 
-    public function term()
+    public function po()
     {
         return $this->hasMany(CategoryPO::class, 'term_conditions');
     }

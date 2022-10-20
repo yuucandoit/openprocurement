@@ -72,14 +72,14 @@
     <div class="container-fluid">
         <div class="page-header">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 mt-4">
                 <h3>Purchase Order</h3>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
                     <li class="breadcrumb-item">Purchase Order</li>
                 </ol>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 mt-4">
               <!-- Bookmark Start-->
               <div class="bookmark">
                 <ul>
@@ -106,65 +106,73 @@
     <div class="row">
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
-        <div class="card">
-          <div class="card-header">
-            <h5>Purchase order data list</h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-              <table class="display" id="basic-1">
-                <thead>
-                   <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Send To</th>
-                    <th>Date Line</th>
-                    <th>Countdown</th>
-                    <th>Warning</th>
-                    <th>Date</th>
-                    @hasrole('purchasing|super admin')
-                    <th>Status</th>
-                    @endhasrole
-                    @hasrole('user')
-                    <th>Status</th>
-                    @endhasrole
-                    <th style="width: 700px;">Function</th>
-                </tr>
-            </thead>
+        <div class="card card-absolute">
+            <div class="card-header bg-primary">
+                <h5>Purchase order data list</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                  <table class="display" id="basic-1">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Send To</th>
+                            <th>Date Line</th>
+                            <th>Countdown</th>
+                            <th>Warning</th>
+                            <th>Date</th>
+                            @hasrole('purchasing|super admin')
+                            <th>Status</th>
+                            @endhasrole
+                            @hasrole('user')
+                            <th>Status</th>
+                            @endhasrole
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-            @php
-            $no = 1;
-            $approvedPPB = [];
-            @endphp
-            <tbody>
-                @foreach ($datappb as $ppb)
-                @if ($ppb->status == 'Purchase Proses' )
-                @php $approvedPPB[] =$ppb; @endphp
-                <tr id="ppb-{{ $ppb->id }}">
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $ppb->whosubmit->name }}</td>
-                    <td>{{ $ppb->send_to }}</td>
-                    <td>{{ $ppb->dateline }}</td>
-                    <td class="ppb-countdown"></td>
-                    <td>
-                        <a class="badge badge-lable" style="font-size: 18">
-                            Complete This Task!
-                        </a>
-                    </td>
-                    <td>{{ $ppb->created_at }}</td>
-                    @hasrole('purchasing|super admin')
-                    <td> <a class="badge {{ $ppb->status == '' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                        style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                    <td style="width: 700px;">
-                        <a href="{{ url('/exportpdf/po/' . $ppb->id) }}" class=" btn btn-danger" type="button"><i class="icofont icofont-eye-alt" title="Preview PO"></i></a>
+                    @php
+                    $no = 1;
+                    $approvedPPB = [];
+                    @endphp
+                    <tbody>
+                        @foreach ($datappb as $ppb)
+                        @if ($ppb->status == 'Purchase Proses' )
+                        @php $approvedPPB[] =$ppb; @endphp
+                        <tr id="ppb-{{ $ppb->id }}" style="text-align: center;">
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $ppb->whosubmit->name }}</td>
+                            <td>{{ $ppb->send_to }}</td>
+                            <td>{{ $ppb->dateline }}</td>
+                            <td class="ppb-countdown"></td>
+                            <td>
+                                <a class="badge badge-lable" style="font-size: 18">
+                                    Complete This Task!
+                                </a>
+                            </td>
+                            <td>{{ $ppb->created_at }}</td>
+                            @hasrole('purchasing|super admin')
+                            <td>
+                                <a class="badge {{ $ppb->status == '' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                </td>
 
-                        <a href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}" type="button" class=" btn btn-primary" ><i class="icofont icofont-papers" title="Record Data"></i></a>
+                                <td>
+                                    <a class="btn btn-iconsolid mt-1" style="background-color: #ADD8E6;" href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i class="icon-eye" title="Preview PO"></i>
+                                    </a>
 
-                        <a href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}" type="button" class=" btn btn-warning" ><i class="icofont icofont-edit" title="Edit"></i></a>
+                                    <a class="btn btn-iconsolid mt-1" style="background-color: #008000;" href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i class="icon-file" title="Record Data"></i>
+                                    </a>
 
-                        <a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"  type="button" class="btn btn-info" ><i class="fa fa-file-text-o" title="Detail"></i></a>
+                                    <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
+                                    </a>
 
-                        <a class="btn btn-danger" type="button" data-bs-toggle="modal"data-bs-target="#modalDelete{{ $ppb->id }}" ><i class="icofont icofont-trash" title="Delete"></i></a>
+                                    <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i class="icon-zoom-in" title="Details"></i>
+                                    </a>
+
+                                    <button class="btn btn-danger mt-1" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ppb->id }}"><i class="icon-trash" title="Delete"></i>
+                                    </button>
 
                      </td>
                 @endhasrole
@@ -178,8 +186,8 @@
             </div>
         </div>
 
-        <script>
-            $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
 
             $('.servideletebtn').click(function(e) {
                 e.preventDefault();
