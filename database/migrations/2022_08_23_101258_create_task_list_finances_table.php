@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('task_list_finances', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('atasan_payment')->constrained('users');
             $table->timestamps();
         });
     }

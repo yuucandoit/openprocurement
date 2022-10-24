@@ -21,7 +21,7 @@ class CategoryTaskListController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
+            $datappb = CategoryPengajuanPembelian::orderBy('Approved_At')->get();
             $purpose = ReferensiNamaProject::all();
             $datadv = CategoryTL::all();
             return view('taskList.menu.index')
@@ -130,6 +130,7 @@ class CategoryTaskListController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
+        $data->updated_at = now();
         $data->status = 'Purchase Proses';
         $data->save();
         return redirect('menu-task-list');

@@ -165,6 +165,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'user_id' =>  Auth::user()->id,
                 'date_ps' => $request->date_ps,
                 'dateline' => $request->dateline,
+                'category_purpose'=>$request->category_purpose,
                 'ws' => $request->ws,
                 'purpose' => $project->id,
                 'department' => $request->department,
@@ -180,6 +181,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'user_id' =>  Auth::user()->id,
                 'date_ps' => $request->date_ps,
                 'dateline' => $request->dateline,
+                'category_purpose'=>$request->category_purpose,
                 'ws' => $request->ws,
                 'purpose' => $request->purpose,
                 'department' => $request->department,
@@ -294,6 +296,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'date_ps' => $request->date_ps,
                 'dateline' => $request->dateline,
                 'ws' => $request->ws,
+                'category_purpose'=>$request->category_purpose,
                 'purpose' => $project->id,
                 'department' => $request->department,
                 'desc' => $request->desc,
@@ -301,7 +304,6 @@ class CategoryPengajuanPembelianController extends Controller
                 'matauang' => $request->matauang,
                 // 'proposed_supplier' => $request->proposed_supplier,
                 'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
             ]);
         } else {
             $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
@@ -309,6 +311,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'date_ps' => $request->date_ps,
                 'dateline' => $request->dateline,
                 'ws' => $request->ws,
+                'category_purpose'=>$request->category_purpose,
                 'purpose' => $request->purpose,
                 'department' => $request->department,
                 'desc' => $request->desc,
@@ -316,7 +319,6 @@ class CategoryPengajuanPembelianController extends Controller
                 'matauang' => $request->matauang,
                 // 'proposed_supplier' => $request->proposed_supplier,
                 'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
             ]);
         }
 

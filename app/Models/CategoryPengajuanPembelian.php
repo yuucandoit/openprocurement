@@ -17,6 +17,7 @@ class CategoryPengajuanPembelian extends Model
         'matauang',
         'ws',
         'desc',
+        'category_purpose',
         'purpose',
         'department',
         'no_rek',
@@ -76,7 +77,7 @@ class CategoryPengajuanPembelian extends Model
 
     public function bod()
     {
-        return $this->belongsTo(User::whereIn('id', [3,6, 7, 8, 9]), 'atasan');
+        return $this->belongsTo(User::class, 'atasan');
     }
 
 }

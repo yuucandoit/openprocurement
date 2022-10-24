@@ -12,6 +12,7 @@ class Delivery extends Model
     protected $fillable = [
         'id',
         'receiver',
+        'path_image',
     ];
     // public function dp()
     // {

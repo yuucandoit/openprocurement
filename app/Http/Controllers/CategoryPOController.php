@@ -30,7 +30,8 @@ class CategoryPOController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
 
         if ($check->role_id == 4 || $check->role_id == 3) {
-            $datappb            = CategoryPengajuanPembelian::all();
+            $datappb            = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
+            $datappb2           = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->first();
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();
             $dataws             = WhoSubmitted::all();
@@ -43,6 +44,7 @@ class CategoryPOController extends Controller
                 ->with('ec',$ec)
                 ->with('dataws', $dataws)
                 ->with('datadepartment', $datadepartment)
+                ->with('datappb2', $datappb2)
                 ->with('datappb',$datappb)
                 ->with('datapo', $datapo);
         }
@@ -152,7 +154,7 @@ class CategoryPOController extends Controller
                     "ppb_id" => $data->id,
                     "term_conditions" => $term->id,
                     "vendorable_type" => $request->vendorable_type,
-                    "vendorable_type" => $request->vendorable_type,
+                    "vendorable_id" => $request->vendorable_id,
                     "atasan_po" => $request->atasan_po,
                     "address" => $request->address,
                     "no_telp" => $request->no_telp,
@@ -235,13 +237,16 @@ class CategoryPOController extends Controller
         $op                 = CategoryPP::all();
         $ec                 = CategoryEcommerce::all();
         $terms              = TermsAndConditions::all();
+        $datapo             = CategoryPO::all();
         $dv = CategoryPengajuanPembelian::find($id);
         $purpose = ReferensiNamaProject::all();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
+        //dd($datapo);
         return view('purchaseOrder.menu.edit')
             ->with('atasan', $atasan)
+            ->with('datapo', $datapo)
             ->with('datapt', $datapt)
             ->with('op',$op)
             ->with('ec',$ec)
@@ -339,7 +344,6 @@ class CategoryPOController extends Controller
     public function ajukan_keatasan($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        // dd($data);
         $data->status = 'Waiting For PO Approval';
         $data->save();
         return redirect('menu-purchase-order');

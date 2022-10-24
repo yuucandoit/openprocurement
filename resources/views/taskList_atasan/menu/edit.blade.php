@@ -70,7 +70,7 @@
                   <div class="form-group" >
                     <label for="floatingdateline"><i class="fa fa-clock-o"></i>  Date Line :</label>
                     <select class="form-select page @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" >
-                      <option selected hidden>{{ $dv->dateline }}   *Select For Update Data</option>
+                      <option selected value="{{ $dv->dateline }}" {{ $dv->dateline ? 'selected' : '' }}>{{ $dv->dateline }}</option>
                       <option value="≤3Jam">≤ 3 Jam</option>
                       <option value="≤24Jam">≤ 24 Jam</option>
                       <option value="≤2Hari">≤ 2 Hari</option>
@@ -88,7 +88,7 @@
                   <div class="form-group">
                     <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted :</label>
                     <select class="form-select page @error('ws') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws" >
-                      <option selected hidden>{{ $dv->whosubmit->name }}    *Select For Update Data</option>
+                      <option selected value="{{ $dv->whosubmit->id }}" {{ $dv->whosubmit->id ? 'selected' : '' }}>{{ $dv->whosubmit->name }}</option>
                       @foreach ($dataws as $w)
                       <option value="{{ $w->id }}">{{ $w->name }}   </option>
                       @endforeach
@@ -118,7 +118,7 @@
                   <div class="form-group">
                     <label for="floatingwhosubmitted"><i class="fa fa-laptop"></i> Purpose :</label>
                     <select class="form-select page @error('purpose') is-invalid @enderror" id="pageSelector" placeholder="Purpose" name="purpose">
-                      <option selected hidden>{{ $dv->referensi->name }}    *Select For Update Data</option>
+                      <option selected hidden value="{{ $dv->referensi->id }}" {{ $dv->referensi->id ? 'selected' : '' }}>{{ $dv->referensi->name }}</option>
                       @foreach ($purpose as $p)
                       <option value="{{ $p->id }}">{{ $p->name }}</option>
                       @endforeach
@@ -137,7 +137,7 @@
                   <div class="form-group">
                     <label for="floatingdepartment"><i class="fa fa-institution"></i> Department :</label>
                     <select class="form-select page @error('department') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" >
-                      <option value="{{ $dv->dps->name }}" selected hidden>{{ $dv->dps->name }}   *Select For Update Data</option>
+                      <option selected hidden value="{{ $dv->dps->id }}" {{ $dv->dps->id ? 'selected' : '' }}>{{ $dv->dps->name }}</option>
                       @foreach ($datadepartment as $d)
                       <option value="{{ $d->id }}">{{ $d->name }}</option>
                       @endforeach
@@ -168,7 +168,7 @@
                   <div class="form-group">
                    <label class="form-label" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Approved By :</label>
                    <select class="form-select page @error('atasan') is-invalid @enderror" id="floatingproposedto" placeholder="Proposed To" name="atasan" >
-                    <option selected="" value="">* Select For Update Data</option>
+                    <option selected hidden value="{{ $dv->bod->id }}" {{ $dv->bod->id ? 'selected' : '' }}> {{ $dv->bod->name }}</option>
                     @foreach ($atasan as $sui)
                     <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                     @endforeach
@@ -185,7 +185,7 @@
                 <div class="form-group">
                  <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i> Currency :</label>
                  <select class="form-select page @error('matauang') is-invalid @enderror" id="floatingdateline" placeholder="Mata Uang" name="matauang" >
-                  <option selected="" value="{{ $dv->matauang }}">{{ $dv->matauang }}   * Select For Update Data</option>
+                  <option selected value="{{ $dv->matauang }}">{{ $dv->matauang }}</option>
                   <option value="USD">USD</option>
                   <option value="RP">RP</option>
                 </select>

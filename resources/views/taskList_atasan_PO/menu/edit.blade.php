@@ -70,7 +70,7 @@
                   <div class="form-group" >
                     <label for="floatingdateline"><i class="fa fa-clock-o"></i>  Date Line :</label>
                     <select class="form-select page @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" >
-                      <option selected hidden>{{ $dv->dateline }}   *Select For Update Data</option>
+                      <option selected value="{{ $dv->dateline }}" {{ $dv->dateline ? 'selected' : '' }}>{{ $dv->dateline }}</option> 
                       <option value="≤3Jam">≤ 3 Jam</option>
                       <option value="≤24Jam">≤ 24 Jam</option>
                       <option value="≤2Hari">≤ 2 Hari</option>
@@ -88,7 +88,7 @@
                   <div class="form-group">
                     <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted :</label>
                     <select class="form-select page @error('ws') is-invalid @enderror" id="floatingwhosubmitted" placeholder="Who Submitted" name="ws" >
-                      <option selected hidden>{{ $dv->whosubmit->name }}    *Select For Update Data</option>
+                      <option selected value="{{ $dv->whosubmit->id }}" {{ $dv->whosubmit->id ? 'selected' : '' }}>{{ $dv->whosubmit->name }}</option>
                       @foreach ($dataws as $w)
                       <option value="{{ $w->id }}">{{ $w->name }}   </option>
                       @endforeach
@@ -118,7 +118,7 @@
                   <div class="form-group">
                     <label for="floatingwhosubmitted"><i class="fa fa-laptop"></i> Purpose :</label>
                     <select class="form-select page @error('purpose') is-invalid @enderror" id="pageSelector" placeholder="Purpose" name="purpose">
-                      <option selected hidden>{{ $dv->referensi->name }}    *Select For Update Data</option>
+                      <option selected hidden value="{{ $dv->referensi->id }}" {{ $dv->referensi->id ? 'selected' : '' }}>{{ $dv->referensi->name }}</option>
                       @foreach ($purpose as $p)
                       <option value="{{ $p->id }}">{{ $p->name }}</option>
                       @endforeach
@@ -137,7 +137,7 @@
                   <div class="form-group">
                     <label for="floatingdepartment"><i class="fa fa-institution"></i> Department :</label>
                     <select class="form-select page @error('department') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" >
-                      <option value="{{ $dv->dps->name }}" selected hidden>{{ $dv->dps->name }}   *Select For Update Data</option>
+                      <option selected hidden value="{{ $dv->dps->id }}" {{ $dv->dps->id ? 'selected' : '' }}>{{ $dv->dps->name }}</option>
                       @foreach ($datadepartment as $d)
                       <option value="{{ $d->id }}">{{ $d->name }}</option>
                       @endforeach
@@ -168,7 +168,7 @@
                   <div class="form-group">
                    <label class="form-label" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Approved By :</label>
                    <select class="form-select page @error('atasan') is-invalid @enderror" id="floatingproposedto" placeholder="Proposed To" name="atasan" >
-                    <option selected="" value="">* Select For Update Data</option>
+                    <option selected hidden value="{{ $dv->bod->id }}" {{ $dv->bod->id ? 'selected' : '' }}> {{ $dv->bod->name }}</option>
                     @foreach ($atasan as $sui)
                     <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                     @endforeach
@@ -185,7 +185,7 @@
                 <div class="form-group">
                  <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i> Currency :</label>
                  <select class="form-select page @error('matauang') is-invalid @enderror" id="floatingdateline" placeholder="Mata Uang" name="matauang" >
-                  <option selected="" value="{{ $dv->matauang }}">{{ $dv->matauang }}   * Select For Update Data</option>
+                  <option selected value="{{ $dv->matauang }}">{{ $dv->matauang }}</option>
                   <option value="USD">USD</option>
                   <option value="RP">RP</option>
                 </select>
@@ -203,33 +203,34 @@
                 <label><i class="fa fa-send"></i> Send To :</label>
               </div>
               <div class="radio radio-primary col-md-6" required>
-                <input id="tebet" type="radio" name="send_to" value="Tebet" required/>
+                <input id="tebet" type="radio" name="send_to" value="Tebet" @if($dv->send_to === 'Tebet') checked @endif required/>
                 <label for="tebet">Tebet</label>
               </div>
               <div class="radio radio-primary col-md-6">
-                <input id="cikunir" type="radio" name="send_to" value="Cikunir" required/>
+                <input id="cikunir" type="radio" name="send_to" value="Cikunir" @if($dv->send_to === 'Cikunir') checked @endif required/>
                 <label for="cikunir">Cikunir</label>
               </div>
             </div>
           </div>
           <hr>
-          <table class="table table-bordered mt-2 mx-2 order-entry" id="dynamicAddRemove">
+          <table class="table table-bordered mt-2 mx-2 item order-entry" id="dynamicAddRemove">
             <tr style="text-align: center;">
               <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Item</th>
               <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Qty</th>
               <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Category</th>
               <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Price-per-unit</th>
               <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">Total</th>
+              <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;"></th>
             </tr>
             @foreach ($item as $i)
             <tr>
-              <td class="text"><input type="text" name="addMoreInputFields[$i][item]" placeholder="Input Item" class="form-control" style="text-align: center;"  value="{{ $i['item'] }}" required/>
+              <td class="text"><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"  value="{{ $i->item }}" required/>
               </td>
-              <td><input type="number"  name="addMoreInputFields[$i][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $i['qty'] }}" required/>
+              <td><input type="number"  name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $i->qty }}" required/>
               </td>
               <td>
-                <select class="form-select " placeholder="Kategori" name="addMoreInputFields[$i][kategori]" value="{{ $i['kategori'] }}" required>
-                  <option selected disabled hidden>Choose a Category</option>
+                <select class="form-select " placeholder="Kategori" name="kategori[ ]" value="{{ $i->kategori }}" required>
+                  <option selected hidden value="{{ $i->kategori }}" {{ $i->kategori ? 'selected' : '' }}>{{ $i->kategori }}</option>
                   <option value="Pcs"  >Pcs   </option>
                   <option value="Lusin">Lusin </option>
                   <option value="Box"  >Box   </option>
@@ -237,10 +238,13 @@
                 </select>
               </td>
               <td>
-                <input type="text" name="addMoreInputFields[$i][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" value="{{ $i['unit_price'] }}" required/>
+                <input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;" value="{{ $i->unit_price }}" required/>
               </td>
               <td>
-                <input type="text" name="addMoreInputFields[$i][total]" class="form-control form-line" style="text-align: right;" required  />
+                <input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  />
+              </td>
+              <td style="text-align: center;">
+                <button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button>
               </td>
             </tr>
             @endforeach
@@ -271,11 +275,11 @@
               </td>
             </tr>
           </table>
-          {{-- <div class="mt-2">
-            <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary"> AddItem
+          <div class="mt-2">
+            <button type="button" name="add" class="addItem btn btn-outline-primary"> AddItem
               <i class="fa fa-plus"></i>
             </button>
-          </div>--}}
+          </div>
           <br>
           <div class="modal-footer">
             <a href="{{ route('menu-taskList-atasan-po.index') }}" class="btn btn-danger-gradien mt-3">Back</a>
@@ -292,110 +296,117 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-
+         //Math
+         $(document).ready(function() {
             //Convert To Rupiah
-
             var rupiah = document.querySelector(".rupiah");
             rupiah.addEventListener('keyup', function(e) {
-                // tambahkan 'Rp.' pada saat form di ketik
-                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                rupiah.value = formatRupiah(this.value, "Rp. ");
-            });
-
+             // tambahkan 'Rp.' pada saat form di ketik
+             // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+             rupiah.value = formatRupiah(this.value, "");
+           });
             /* Fungsi formatRupiah */
             function formatRupiah(angka, prefix) {
-                var number_string = angka.replace(/[^,\d]/g, ""),
-                    split = number_string.split(","),
-                    sisa = split[0].length % 3,
-                    rupiah = split[0].substr(0, sisa),
-                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                if (ribuan) {
-                    separator = sisa ? "." : "";
-                    rupiah += separator + ribuan.join(".");
-                }
-
-                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-            }
+             var number_string = angka.replace(/[^,\d]/g, ""),
+             split = number_string.split(","),
+             sisa = split[0].length % 3,
+             rupiah = split[0].substr(0, sisa),
+             ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+             // tambahkan titik jika yang di input sudah menjadi angka ribuan
+             if (ribuan) {
+               separator = sisa ? "." : "";
+               rupiah += separator + ribuan.join(".");
+             }
+             rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+             return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+           }
+           $(".order-entry").on("keyup", ".form-calc", function() {
+             var parent = $(this).closest("tr");
+             var str = parent.find(".form-cost").val();
+             var res = str.replace(/\D/g, "");
+             parent.find(".form-line").val((parent.find(".form-qty").val() * res) .toFixed(0));
+             var total = 0;
+             $(".form-line").each(function(){
+               total += parseInt($(this).val()||0);
+             });
+             $(".total_A").text(total.toLocaleString('en-US'));
+             var checkbox =  document.querySelector(".check-box");
+             checkbox.addEventListener('change', (event) =>{
+               if(event.currentTarget.checked){
+                 totalppn = total * 11 / 100;
+                 grandtotal = total + totalppn;
+                 $(".ppn").text(totalppn.toLocaleString('en-US'));
+                 $(".total").text(grandtotal.toLocaleString('en-US'));
+               }
+               else{
+                totalppn = total * 0;
+                $(".ppn").text(totalppn);
+                $(".total").text(total.toLocaleString('en-US'));
+              }
+            });
+           });
+         });
+         //Add Form
+         $(".addItem").on('click', function () {
+            addItem();
+         });
+         function addItem(){
+            var item =
+            '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
+            $(".item").append(item)
 
             var rupiah = document.querySelectorAll(".rupiah");
-            rupiah.forEach((item) => {
-                item.addEventListener('keyup', function(e) {
-                    // tambahkan 'Rp.' pada saat form di ketik
-                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                    item.value = formatRupiah(this.value, "Rp. ");
+           rupiah.forEach((item) => {
+            item.addEventListener('keyup', function(e) {
+                                // tambahkan 'Rp.' pada saat form di ketik
+                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            item.value = formatRupiah(this.value, "");
             });
+          });
+           /* Fungsi formatRupiah */
+           function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, ""),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+             // tambahkan titik jika yang di input sudah menjadi angka ribuan
+             if (ribuan) {
+             separator = sisa ? "." : "";
+             rupiah += separator + ribuan.join(".");
+              }
+             rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+             return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+          } 
+        }
 
-            $(".order-entry").on("keyup", ".form-calc", function() {
-                var parent = $(this).closest("tr");
-                var str = parent.find(".form-cost").val();
-                var res = str.replace(/\D/g, "");
-                parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
-                var total = 0;
-                $(".form-line").each(function() {
-                    total += parseInt($(this).val() || 0);
-                });
-                $(".total_A").text(total.toLocaleString('en-US'));
-                var checkbox = document.querySelector(".check-box");
-                checkbox.addEventListener('change', (event) => {
-                    if (event.currentTarget.checked) {
-                        totalppn = total * 11 / 100;
-                        grandtotal = total + totalppn;
-                        $(".ppn").text(totalppn.toLocaleString('en-US'));
-                        $(".total").text(grandtotal.toLocaleString('en-US'));
-                    } else {
-                        totalppn = total * 0;
-                        $(".ppn").text(totalppn);
-                        $(".total").text(total.toLocaleString('en-US'));
-                    }
-                })
 
+        $(document).on('click', '.remove-input-field', function () {
+           $(this).parents('tr').remove();
+         });
+           var rupiah = document.querySelectorAll(".rupiah");
+           rupiah.forEach((item) => {
+            item.addEventListener('keyup', function(e) {
+                                // tambahkan 'Rp.' pada saat form di ketik
+                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            item.value = formatRupiah(this.value, "");
             });
-        });
-        //Add Form
-
-        var i = 0;
-        $("#dynamic-ar").click(function() {
-            ++i;
-            $("#dynamicAddRemove").append(
-
-                '<tr><td><input type="text" name="addMoreInputFields[' + i +
-                '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' +
-                i +
-                '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' +
-                i +
-                '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' +
-                i +
-                '][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah"/></td> <td><input type="text" name="addMoreInputFields[' +
-                i +
-                '][total]" class="form-control form-line text-end" /></td></tr>'
-            );
-
-            });
-            /* Fungsi formatRupiah */
-            function formatRupiah(angka, prefix) {
-                var number_string = angka.replace(/[^,\d]/g, ""),
-                    split = number_string.split(","),
-                    sisa = split[0].length % 3,
-                    rupiah = split[0].substr(0, sisa),
-                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                if (ribuan) {
-                    separator = sisa ? "." : "";
-                    rupiah += separator + ribuan.join(".");
-                }
-
-                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-            }
-        });
-        $(document).on('click', '.remove-input-field', function() {
-            $(this).parents('tr').remove();
-        });
+          });
+           /* Fungsi formatRupiah */
+           function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, ""),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+             // tambahkan titik jika yang di input sudah menjadi angka ribuan
+             if (ribuan) {
+             separator = sisa ? "." : "";
+             rupiah += separator + ribuan.join(".");
+              }
+             rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+             return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+          } 
     </script>
     <script type="text/javascript">
         var pageSelector = document.getElementById('pageSelector');

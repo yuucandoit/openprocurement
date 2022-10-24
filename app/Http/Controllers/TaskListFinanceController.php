@@ -20,7 +20,7 @@ class TaskListFinanceController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 ||$check->role_id == 5) {
-            $datappb = CategoryPengajuanPembelian::all();
+            $datappb = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
             $datadv = TaskListFinance::all();
             return view('taskList_finance.menu.index')
             ->with('datappb', $datappb)

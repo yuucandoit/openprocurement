@@ -199,10 +199,16 @@
                           <span>Purchase Order</span>
                         </a>
                       </li>
-                      <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                      <li class="dropdown {{ request()->is('*invoicing*') ? 'active' : '' }}">
                         <a class="nav-link menu-title link-nav" href="{{ url('/invoicing') }}" >
                           <i data-feather="file-text"></i>
                           <span>Invoicing</span>
+                        </a>
+                      </li>
+                      <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                        <a class="nav-link menu-title link-nav" href="{{ url('/delivery') }}" >
+                          <i data-feather="file-text"></i>
+                          <span>Delivery</span>
                         </a>
                       </li>
                       @endhasrole
@@ -219,7 +225,7 @@
                       <li class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
                         <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-dana') }}" >
                           <i data-feather="dollar-sign"></i>
-                          <span> Fund Submission</span>
+                          <span> Funding Submission</span>
                         </a>
                       </li>
                       @endhasrole

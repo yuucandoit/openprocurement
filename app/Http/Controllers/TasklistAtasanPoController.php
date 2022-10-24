@@ -27,9 +27,9 @@ class TasklistAtasanPoController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
-            $data_atasan = CategoryPO::whereIn('atasan_po',[3, 6, 7, 8, 9])->get();
-            // dd($data_atasan);
+            $datappb = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
+            $data_atasan = CategoryPO::all()->first();
+            //dd($data_atasan);
             $datadv = TaskListAtasanPO::all();
             // dd($data_atasan);
             return view('taskList_atasan_po.menu.index')
@@ -134,7 +134,8 @@ class TasklistAtasanPoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($data);
+
+        PengajuanPembelian::where('pp_id',$id)->delete();
         $request->validate([
             'purpose' => 'required',
             'date_ps' => 'required',
@@ -156,6 +157,9 @@ class TasklistAtasanPoController extends Controller
             'mata_uang.required' => 'The Currency field is required.',
             'send_to.required' => 'The Send To field is required.',
         ]);
+
+        $data2 = $request->all();
+        //dd($data2);
 
         if ($request->purpose == "custom") {
             $project = ReferensiNamaProject::where("id", $id)->update([
@@ -201,23 +205,21 @@ class TasklistAtasanPoController extends Controller
         //     "department" => $request->department,
         // ]);
 
-        $request->validate([
-            'addMoreInputFields.*.item' => 'required',
-            'addMoreInputFields.*.qty' => 'required',
-            'addMoreInputFields.*.unit_price' => 'required'
-        ]);
-
-
-        foreach ($request->addMoreInputFields as $item) {
-            $unit_price = str_replace(".", "", explode('Rp. ', $item['unit_price'])[1]);
-            PengajuanPembelian::where("id", $id)->update([
-                'item'          => $item['item'],
-                'qty'           => $item['qty'],
-                'kategori'      => $item['kategori'],
-                'unit_price'    => (int)$unit_price,
-                'total'         => $item['total'],
-            ]);
+        if($request->item){
+            foreach ($data2['item'] as $item => $value) {
+                $unit_price = str_replace(".", "", $data2['unit_price'][$item]);
+                $data3 = array(
+                    'pp_id'             => $id,
+                    'item'              => $data2['item'][$item],
+                    'qty'               => $data2['qty'][$item],
+                    'kategori'          => $data2['kategori'][$item],
+                    'unit_price'        => $unit_price,
+                    'total'             => $data2['total'][$item],
+                );
+                // $unit_price = str_replace(".", "", $item['unit_price']);
+                PengajuanPembelian::create($data3);
         }
+    }
         return redirect("menu-taskList-atasan-po/");
     }
 

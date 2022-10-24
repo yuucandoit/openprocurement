@@ -121,13 +121,13 @@
                             <th>Date Line</th>
                             <th>Countdown</th>
                             <th>Warning</th>
-                            <th>Date</th>
                             @hasrole('purchasing|super admin')
                             <th>Status</th>
                             @endhasrole
                             @hasrole('user')
                             <th>Status</th>
                             @endhasrole
+                            <th>Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -138,36 +138,43 @@
                     @endphp
                     <tbody>
                         @foreach ($datappb as $ppb)
-                        @if ($ppb->status == 'Purchase Proses' )
+                        @if ($ppb->status == 'Purchase Proses' || $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
                         @php $approvedPPB[] =$ppb; @endphp
                         <tr id="ppb-{{ $ppb->id }}" style="text-align: center;">
                             <td>{{ $no++ }}</td>
                             <td>{{ $ppb->whosubmit->name }}</td>
                             <td>{{ $ppb->send_to }}</td>
+                            @if($ppb->status == 'Purchase Proses')
                             <td>{{ $ppb->dateline }}</td>
-                            <td class="ppb-countdown"></td>
-                            <td>
-                                <a class="badge badge-lable" style="font-size: 18">
-                                    Complete This Task!
-                                </a>
-                            </td>
-                            <td>{{ $ppb->created_at }}</td>
+                        <td class="ppb-countdown"></td>
+                        <td>
+                            <a class="badge badge-lable" style="font-size: 18">
+                                Complete This Task!
+                            </a>
+                        </td>
+                        <td>
+                        <a class="badge {{ $ppb->status == '' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                        style="color: white; font-size:18">{{ $ppb->status }}</a>
+                        </td>
+                        @else
+                        <td> -/- </td>
+                        <td> -/- </td>
+                        <td> -/- </td>
+                        <td> -/- </td>
+                        @endif
+                            <td>{{ $ppb->updated_at }}</td>
                             @hasrole('purchasing|super admin')
-                            <td>
-                                <a class="badge {{ $ppb->status == '' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                </td>
 
                                 <td>
                                     <a class="btn btn-iconsolid mt-1" style="background-color: #ADD8E6;" href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i class="icon-eye" title="Preview PO"></i>
                                     </a>
-
+                                    @if($ppb->status == 'Purchase Proses')
                                     <a class="btn btn-iconsolid mt-1" style="background-color: #008000;" href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i class="icon-file" title="Record Data"></i>
                                     </a>
 
                                     <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
                                     </a>
-
+                                    @endif
                                     <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i class="icon-zoom-in" title="Details"></i>
                                     </a>
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('atasan')->constrained('users');
             $table->foreignId('ws')->constrained('who_submitted'); //Who Submitted(ws)
             $table->foreignId('department')->constrained('department');
+            $table->string('category_purpose');
             $table->foreignId('purpose')->constrained('referensi_nama_project');
             $table->date('date_ps');
             $table->text('desc');
