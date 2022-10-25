@@ -3,198 +3,216 @@
  @extends('layouts.master')
 
  @section('main')
- <section>
+     <section>
 
-    <!-- Page Sidebar Ends-->
-    <div class="container-fluid">
-        <div class="page-header">
-          <div class="row">
-            <div class="col-sm-6 mt-4">
-                <h3>Details</h3>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ url('/menu-pengajuan-pembelian') }}">Purchase Submission</a></li>
-                    <li class="breadcrumb-item active">Details</li>
-                </ol>
-            </div>
-            <div class="col-sm-6 mt-4">
-              <!-- Bookmark Start-->
-              <div class="bookmark">
-                <ul>
-                  <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
-                  <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
-                  <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
-                  <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
-                  <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                    <form class="form-inline search-form">
-                      <div class="form-group form-control-search">
-                        <input type="text" placeholder="Search..">
-                    </div>
-                </form>
-            </li>
-        </ul>
-    </div>
-    <!-- Bookmark Ends-->
-</div>
-</div>
-</div>
-<!-- Container-fluid starts-->
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="card card-absolute">
-        <div class="card-header bg-primary">
-            <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
-        </div>
-        <div class="card-body text-center">
-           <table class="table table-bordered mt-4" style="">
-            <tbody>
-                <tr>
-                    <td>Who Submitted</td>
-                    <td>{{ $data_pengajuan->whosubmit->name }}</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>{{ $data_pengajuan->date_ps }}</td>
-                </tr>
-                <tr>
-                    <td>Department</td>
-                    <td>{{ $data_pengajuan->dps->name }}</td>
-                </tr>
-                <tr>
-                    <td>Description</td>
-                    <td>{{ $data_pengajuan->desc }}</td>
-                </tr>
-                <tr>
-                    <td>Purpose</td>
-                    <td>{{ $data_pengajuan->referensi->name }}</td>
-                </tr>
-                <tr>
-                    <td>Send To</td>
-                    <td>{{ $data_pengajuan->send_to }}</td>
-                </tr>
-                <tr>
-                    <td>Date Line</td>
-                    <td>{{ $data_pengajuan->dateline }}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="order-history table-responsive wishlist">
-            <table class="table table-bordered mt-4 mb-4">
-                <thead>
-                    <tr class="text-center" style="font-size: 17; font-weight: bold;">
-                        <th>Item</th>
-                        <th>Qty</th>
-                        <th>Category</th>
-                        <th>Price-per-unit</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($pengajuan as $p)
-                    <tr>
-                        <td style="text-align: center;">{{ $p->item }}</td>
-                        <td style="text-align: center;">{{ $p->qty }}</td>
-                        <td style="text-align: center;">{{ $p->kategori }}</td>
-                        @if ($data_pengajuan->matauang == 'RP')
-                        <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}</td>
-                        <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
-                        @elseif ($data_pengajuan->matauang == 'USD')
-                        <td style="text-align:right;">$ {{ number_format($p->unit_price) }}</td>
-                        <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
-                        @endif
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <table class="table table-bordered ">
-                <tr>
-                    <td><label class="pull-right mx-2"> DPP :</label></td>
-                    <td style="text-align: right;">
-                        @foreach ($dpp as $d)
-                        {{-- Ketika mata uang yang dipilih RP --}}
-                        @if ($data_pengajuan->matauang == 'RP')
-                        RP. {{ number_format($d->total) }}
-                        {{-- Ketika mata uang yang dipilih USD --}}
-                        @elseif ($data_pengajuan->matauang == 'USD')
-                        $ {{ number_format($d->total) }}
-                        @endif
-                        @endforeach
-                    </td>
-                </tr>
-                <tr>
-                    <td><input class="mt-1 pull-right check-box" type="checkbox" value="{{ $data_pengajuan->ppn }}" @if ($data_pengajuan->ppn == 1)
-                        @checked(true)
-                        @else
-                        @endif disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
-                        <td style="text-align:right;">
-                            @if ($data_pengajuan->ppn == 1)
-                            @foreach ($ppn as $p)
-                            {{-- Ketika mata uang yang dipilih RP --}}
-                            @if ($data_pengajuan->matauang == 'RP')
-                            RP. {{ number_format($p->total) }}
-                            {{-- Ketika mata uang yang dipilih USD --}}
-                            @elseif ($data_pengajuan->matauang == 'USD')
-                            $ {{ number_format($p->total) }}
-                            @endif
-                            @endforeach
-                            @else
-                            @foreach ($ppn as $p)
-                            {{-- Ketika mata uang yang dipilih RP --}}
-                            @if ($data_pengajuan->matauang == 'RP')
-                            RP. 0
-                            {{-- Ketika mata uang yang dipilih USD --}}
-                            @elseif ($data_pengajuan->matauang == 'USD')
-                            $ 0
-                            @endif
-                            @endforeach
-                            @endif
-                        </td>
-                    </tr>
-                    @if ($data_pengajuan->ppn == 1)
-                    <tr>
-                        <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-
-                        @foreach ($total as $t)
-                        {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
-                        @if ($data_pengajuan->matauang == 'RP')
-                        <td style="text-align:right;" >RP. {{ number_format($t->total) }}</td>
-
-                        {{-- jika mata uang yang di pilih USD Maka Return $    --}}
-                        @elseif ($data_pengajuan->matauang == 'USD')
-                        <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
-                        @endif
-                        @endforeach
-
-                        @elseif ($data_pengajuan->ppn == 0)
-                        <td class="text-end">Grand Total :</td>
-                        @foreach ($total_tnpa_ppn as $tpn)
-                        @if ($data_pengajuan->matauang == 'RP')
-                        <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
-                        @elseif ($data_pengajuan->matauang == 'USD')
-                        <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
-                        @endif
-                        @endforeach
-                    </tr>
-                    @endif
-                </table>
-                <div class="button mb-2 mt-4" style="float: right;">
-                        <!-- {{-- @if ($data_pengajuan->status == '') --}}
-                        <a href="{{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}"
-                         class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
-                         {{-- @endif --}} -->
-                         <a type="reset" class="btn btn-dark" href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
-
+         <!-- Page Sidebar Ends-->
+         <div class="container-fluid">
+             <div class="page-header">
+                 <div class="row">
+                     <div class="col-sm-6 mt-4">
+                         <h3>Details</h3>
+                         <ol class="breadcrumb">
+                             <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+                             <li class="breadcrumb-item"><a href="{{ url('/menu-pengajuan-pembelian') }}">Purchase
+                                     Submission</a></li>
+                             <li class="breadcrumb-item active">Details</li>
+                         </ol>
+                     </div>
+                     <div class="col-sm-6 mt-4">
+                         <!-- Bookmark Start-->
+                         <div class="bookmark">
+                             <ul>
+                                 <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
+                                         data-placement="top" title="" data-original-title="Tables"><i
+                                             data-feather="inbox"></i></a></li>
+                                 <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
+                                         data-placement="top" title="" data-original-title="Chat"><i
+                                             data-feather="message-square"></i></a></li>
+                                 <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
+                                         data-placement="top" title="" data-original-title="Icons"><i
+                                             data-feather="command"></i></a></li>
+                                 <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
+                                         data-placement="top" title="" data-original-title="Learning"><i
+                                             data-feather="layers"></i></a></li>
+                                 <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                                     <form class="form-inline search-form">
+                                         <div class="form-group form-control-search">
+                                             <input type="text" placeholder="Search..">
+                                         </div>
+                                     </form>
+                                 </li>
+                             </ul>
+                         </div>
+                         <!-- Bookmark Ends-->
                      </div>
                  </div>
              </div>
-         </div>
+             <!-- Container-fluid starts-->
+             <div class="container-fluid">
+                 <div class="row">
+                     <div class="col-sm-12">
+                         <div class="card card-absolute">
+                             <div class="card-header bg-primary">
+                                 <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
+                             </div>
+                             <div class="card-body text-center">
+                                 <table class="table table-bordered mt-4" style="">
+                                     <tbody>
+                                         <tr>
+                                             <td>Who Submitted</td>
+                                             <td>{{ $data_pengajuan->whosubmit->name }}</td>
+                                         </tr>
+                                         <tr>
+                                             <td>Date</td>
+                                             <td>{{ $data_pengajuan->date_ps }}</td>
+                                         </tr>
+                                         <tr>
+                                             <td>Department</td>
+                                             <td>{{ $data_pengajuan->dps->name }}</td>
+                                         </tr>
+                                         <tr>
+                                             <td>Description</td>
+                                             <td>{{ $data_pengajuan->desc }}</td>
+                                         </tr>
+                                         <tr>
+                                             <td>Purpose</td>
+                                             <td>{{ $data_pengajuan->referensi->name }}</td>
+                                         </tr>
+                                         <tr>
+                                             <td>Send To</td>
+                                             <td>{{ $data_pengajuan->send_to }}</td>
+                                         </tr>
+                                         <tr>
+                                             <td>Date Line</td>
+                                             <td>{{ $data_pengajuan->dateline }}</td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
 
-     </div>
- </div>
- <!-- Container-fluid Ends-->
-</div>
-</div>
-</section>
-@endsection
+                                 <div class="order-history table-responsive wishlist">
+                                     <table class="table table-bordered mt-4 mb-4">
+                                         <thead>
+                                             <tr class="text-center" style="font-size: 17; font-weight: bold;">
+                                                 <th>Item</th>
+                                                 <th>Qty</th>
+                                                 <th>Category</th>
+                                                 <th>Price-per-unit</th>
+                                                 <th>Total</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             @foreach ($pengajuan as $p)
+                                                 <tr>
+                                                     <td style="text-align: center;">{{ $p->item }}</td>
+                                                     <td style="text-align: center;">{{ $p->qty }}</td>
+                                                     <td style="text-align: center;">{{ $p->kategori }}</td>
+                                                     @if ($data_pengajuan->matauang == 'RP')
+                                                         <td style="text-align:right;">RP.
+                                                             {{ number_format($p->unit_price) }}</td>
+                                                         <td style="text-align:right;">RP. {{ number_format($p->total) }}
+                                                         </td>
+                                                     @elseif ($data_pengajuan->matauang == 'USD')
+                                                         <td style="text-align:right;">$
+                                                             {{ number_format($p->unit_price) }}</td>
+                                                         <td style="text-align:right;">$ {{ number_format($p->total) }}
+                                                         </td>
+                                                     @endif
+                                                 </tr>
+                                             @endforeach
+                                         </tbody>
+                                     </table>
+                                     <table class="table table-bordered ">
+                                         <tr>
+                                             <td><label class="pull-right mx-2"> DPP :</label></td>
+                                             <td style="text-align: right;">
+                                                 @foreach ($dpp as $d)
+                                                     {{-- Ketika mata uang yang dipilih RP --}}
+                                                     @if ($data_pengajuan->matauang == 'RP')
+                                                         RP. {{ number_format($d->total) }}
+                                                         {{-- Ketika mata uang yang dipilih USD --}}
+                                                     @elseif ($data_pengajuan->matauang == 'USD')
+                                                         $ {{ number_format($d->total) }}
+                                                     @endif
+                                                 @endforeach
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td><input class="mt-1 pull-right check-box" type="checkbox"
+                                                     value="{{ $data_pengajuan->ppn }}"
+                                                     @if ($data_pengajuan->ppn == 1) @checked(true)
+                        @else @endif
+                                                     disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                             <td style="text-align:right;">
+                                                 @if ($data_pengajuan->ppn == 1)
+                                                     @foreach ($ppn as $p)
+                                                         {{-- Ketika mata uang yang dipilih RP --}}
+                                                         @if ($data_pengajuan->matauang == 'RP')
+                                                             RP. {{ number_format($p->total) }}
+                                                             {{-- Ketika mata uang yang dipilih USD --}}
+                                                         @elseif ($data_pengajuan->matauang == 'USD')
+                                                             $ {{ number_format($p->total) }}
+                                                         @endif
+                                                     @endforeach
+                                                 @else
+                                                     @foreach ($ppn as $p)
+                                                         {{-- Ketika mata uang yang dipilih RP --}}
+                                                         @if ($data_pengajuan->matauang == 'RP')
+                                                             RP. 0
+                                                             {{-- Ketika mata uang yang dipilih USD --}}
+                                                         @elseif ($data_pengajuan->matauang == 'USD')
+                                                             $ 0
+                                                         @endif
+                                                     @endforeach
+                                                 @endif
+                                             </td>
+                                         </tr>
+                                         @if ($data_pengajuan->ppn == 1)
+                                             <tr>
+                                                 <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+
+                                                 @foreach ($total as $t)
+                                                     {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
+                                                     @if ($data_pengajuan->matauang == 'RP')
+                                                         <td style="text-align:right;">RP. {{ number_format($t->total) }}
+                                                         </td>
+
+                                                         {{-- jika mata uang yang di pilih USD Maka Return $    --}}
+                                                     @elseif ($data_pengajuan->matauang == 'USD')
+                                                         <td style="text-align:right;">$ {{ number_format($t->total) }}
+                                                         </td>
+                                                     @endif
+                                                 @endforeach
+                                             @elseif ($data_pengajuan->ppn == 0)
+                                                 <td class="text-end">Grand Total :</td>
+                                                 @foreach ($total_tnpa_ppn as $tpn)
+                                                     @if ($data_pengajuan->matauang == 'RP')
+                                                         <td style="text-align:right;">RP. {{ number_format($tpn->total) }}
+                                                         </td>
+                                                     @elseif ($data_pengajuan->matauang == 'USD')
+                                                         <td style="text-align:right;">$ {{ number_format($tpn->total) }}
+                                                         </td>
+                                                     @endif
+                                                 @endforeach
+                                             </tr>
+                                         @endif
+                                     </table>
+                                     <div class="button mb-2 mt-4" style="float: right;">
+                                         <!-- {{-- @if ($data_pengajuan->status == '') --}}
+                            <a href="{{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}"
+                             class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
+                             {{-- @endif --}} -->
+                                         <a type="reset" class="btn btn-dark"
+                                             href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
+
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+                 <!-- Container-fluid Ends-->
+             </div>
+         </div>
+     </section>
+ @endsection
