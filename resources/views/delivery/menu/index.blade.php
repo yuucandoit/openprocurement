@@ -96,15 +96,16 @@
                                         <td>{{ $ppb->created_at }}</td>
                                         @hasrole('purchasing|super admin')
                                         <td>
+                                            <a class="btn btn-iconsolid mt-1 mx-2"
+                                            style="background-color: #008b2c;"
+                                            href="{{ url('/delivery/create/' . $ppb->id) }}"><i
+                                                class="icon-file" title="Create"></i>
 
-                                                <a href="{{ url('/delivery/detail/' . $ppb->id) }}"  type="button" class="btn btn-info" ><i class="fa fa-file-text-o" title="Detail"></i></a>
-
-
-                                                                <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #00008B;"
-                                                                    href="{{ url('/delivery/detail/' . $ppb->id) }}"><i
-                                                                        class="icon-zoom-in" title="Details"></i>
-                                                                </a>
+                                                     <a class="btn btn-iconsolid mt-1"
+                                                            style="background-color: #00008B;"
+                                                        href="{{ url('/delivery/detail/' . $ppb->id) }}"><i
+                                                    class="icon-zoom-in" title="Details"></i>
+                                                    </a>
 
                                                                 <button class="btn btn-danger mt-1" data-bs-toggle="modal"
                                                                     data-bs-target="#modalDelete{{ $ppb->id }}"><i
