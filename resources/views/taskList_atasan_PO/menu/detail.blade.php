@@ -178,28 +178,30 @@
                                                 @if ($data_pengajuan->matauang == 'RP')
                                                     <td style="text-align:right;">RP. {{ number_format($t->total) }}</td>
 
-                                                    {{-- jika mata uang yang di pilih USD Maka Return $    --}}
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
-                                                @endif
-                                            @endforeach
-                                        @elseif ($data_pengajuan->ppn == 0)
-                                            <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                                            @foreach ($total_tnpa_ppn as $tpn)
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    <td style="text-align:right;">RP. {{ number_format($tpn->total) }}</td>
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
-                                                @endif
-                                            @endforeach
-                                        </tr>
-                                    @endif
-                                </table>
-                                <div class="mt-3" style="text-align: right;">
-                                    @hasrole('super user|super admin')
-                                        @if ($data_pengajuan->status == 'PO Approved' || $data_pengajuan->status == 'Invoicing Process' || $data_pengajuan->status == 'Unpaid' || $data_pengajuan->status == 'Paid' )
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
+                        {{-- jika mata uang yang di pilih USD Maka Return $    --}}
+                        @elseif ($data_pengajuan->matauang == 'USD')
+                        <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
+                        @endif
+                        @endforeach
+
+                        @elseif ($data_pengajuan->ppn == 0)
+                        <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+                        @foreach ($total_tnpa_ppn as $tpn)
+                        @if ($data_pengajuan->matauang == 'RP')
+                        <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
+                        @elseif ($data_pengajuan->matauang == 'USD')
+                        <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
+                        @endif
+                        @endforeach
+                    </tr>
+
+                    @endif
+                </table>
+                <div class="mt-3" style="text-align: center;">
+                    @hasrole('super user|super admin')
+                    @if ($data_pengajuan->status == 'Invoicing Process')
+                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                    class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
 
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>

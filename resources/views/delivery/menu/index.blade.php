@@ -65,84 +65,39 @@
                 </div>
             @endforeach
 
-            <!-- Page Sidebar Ends-->
-            <div class="container-fluid">
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-sm-6 mt-4">
-                            <h3>Delivery Process</h3>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Delivery Process</li>
-                            </ol>
-                        </div>
-                        <div class="col-sm-6 mt-4">
-                            <!-- Bookmark Start-->
-                            <div class="bookmark">
-                                <ul>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Tables"><i
-                                                data-feather="inbox"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Chat"><i
-                                                data-feather="message-square"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Icons"><i
-                                                data-feather="command"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Learning"><i
-                                                data-feather="layers"></i></a></li>
-                                    <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                        <form class="form-inline search-form">
-                                            <div class="form-group form-control-search">
-                                                <input type="text" placeholder="Search..">
-                                            </div>
-                                        </form>
-                                        </li>
-                                </ul>
-                            </div>
-                            <!-- Bookmark Ends-->
-                    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="py-3">
+                    <h1>Delivery Page</h1>
                 </div>
-            </div>
-        </div>
-            <!-- Container-fluid starts-->
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- Zero Configuration  Starts-->
-                    <div class="col-sm-12">
-                        <div class="card card-absolute">
-                            <div class="card-header bg-primary">
-                                <h5>Delivery Process</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="display" id="basic-1">
-                                        <thead>
-                                            <tr style="text-align: center;">
-                                                <th>No</th>
-                                                <th>Applicant Name</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        @php
-                                            $no = 1;
-                                            $approvedPPB = [];
-                                        @endphp
-                                        <tbody>
-                                            @foreach ($datappb as $ppb)
-                                                @if ($ppb->status == 'Paid')
-                                                    @php $approvedPPB[] =$ppb; @endphp
-                                                    <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->created_at }}</td>
-                                                        @hasrole('purchasing|super admin')
-                                                            <td style="text-align: center;">
-                                                                <a href="{{ url('/delivery/create/'. $ppb->id) }}"  type="button" class="btn btn-success" ><i class="icofont icofont-data" title="Report Data"></i></a>
+                <div class="card shadow mb-5">
+                    <div class="card-body">
 
-                                                                <a href="{{ url('/delivery/edit/' . $ppb->id) }}"  type="button" class="btn btn-warning" ><i class="fa fa-edit" title="Edit"></i></a>
+                        <table class="table table-striped" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Applicant Name</th>
+                                    <th>Date</th>
+                                    <th>Function</th>
+                                </tr>
+                            </thead>
+                            @php
+                            $no = 1;
+                            $approvedPPB = [];
+                            @endphp
+                            <tbody>
+                                @foreach ($datappb as $ppb)
+                                    @if ($ppb->status == 'Paid')
+                                    @php $approvedPPB[] =$ppb; @endphp
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $ppb->whosubmit->name }}</td>
+                                        <td>{{ $ppb->created_at }}</td>
+                                        @hasrole('purchasing|super admin')
+                                        <td>
+
+                                                <a href="{{ url('/invoicing/detail/' . $ppb->id) }}"  type="button" class="btn btn-info" ><i class="fa fa-file-text-o" title="Detail"></i></a>
 
 
                                                                 <a class="btn btn-iconsolid mt-1"
@@ -175,8 +130,75 @@
                                 alert('hello');
                             });
 
-                        });
-                    </script>
-        </section>
-    @endsection
+            });
+        </script>
+    </section>
+@endsection
+@section('scripts')
+    {{-- <script src="{{  }}"></script> --}}
+    <script>
+        const data = @json($approvedPPB);
+        const item =data[0];
+        console.log(data);
 
+        // FOR CALCULATE REMAINING DEADLINE TIME 😃
+        const remainingTime = (data, elmnt) => {
+            const { approved_at, dateline_time , datetime } = data;
+            const approvedAt    = new Date(approved_at);
+            const dueDateTime   = new Date(`1970-01-01T${dateline_time}Z`);
+            const dueDateAt     = new Date(approvedAt.getTime() + dueDateTime.getTime());
+            const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+
+            if(remainingTime.getTime() < 1) return "Your time is up";
+
+            let colors    = [];
+            const lable   = elmnt.querySelector('.badge-lable');
+            const hours   = remainingTime.getUTCHours().toString();
+            const minutes = remainingTime.getUTCMinutes().toString();
+            const seconds = remainingTime.getUTCSeconds().toString();
+
+            if(data.dateline == '≤3Jam') colors = [
+                [1, 'bg-danger'],
+                [2, 'bg-warning'],
+                [3, 'bg-success'],
+            ]
+            if(data.dateline == '≤24Jam') colors = [
+                [8, 'bg-danger'],
+                [16, 'bg-warning'],
+                [24, 'bg-success'],
+            ]
+            if(data.dateline == '≤2Hari') colors = [
+                [16, 'bg-danger'],
+                [32, 'bg-warning'],
+                [48, 'bg-success'],
+            ]
+
+            lable.classList.remove('bg-danger'); lable.classList.remove('bg-warning'); lable.classList.remove('bg-success');
+            lable.classList.add(colors.find(item => item[0] > hours)[1]);
+
+            return (
+                (hours.length   == 1 ? `0${hours}:`   : `${hours}:`) +
+                (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
+                (seconds.length == 1 ? `0${seconds}:` : `${seconds}`)
+            );
+        }
+
+        // FOR HANDLE REWRITE ELEMENT 😃
+        const countdownHandle = (elmnt, item) => {
+            const countdownElmnt     = elmnt.querySelector('.ppb-countdown');
+            countdownElmnt.innerText = remainingTime(item, elmnt);
+        }
+
+        // FOR INITIALIZE COUNTDOWN 😃
+        const initCountdown = (data) => {
+            data.forEach(item => {
+                if(!item.approved_at) return;
+                setInterval(() => countdownHandle(document.querySelector(
+                    `#ppb-${item.id}`
+                ), item), 1000);
+            });
+        }
+
+        initCountdown(data);
+    </script>
+@endsection
