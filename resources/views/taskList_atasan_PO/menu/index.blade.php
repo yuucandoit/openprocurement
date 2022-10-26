@@ -51,9 +51,9 @@
                                     @php
                                     $no = 1;
                                     @endphp
-                                    
+
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'Waiting For PO Approval')
+                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
                                     <tr>
                                         @if($data_atasan->atasan_po == 3)
                                         <td>{{ $no++ }}</td>
@@ -70,7 +70,7 @@
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                     @endif
                                         </tr>
-                                        
+
                                         @endif
                                         @endforeach
                                     </table>
@@ -90,9 +90,9 @@
                                     @php
                                     $no = 1;
                                     @endphp
-            
+
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'Waiting For PO Approval')
+                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
                                     <tr>
                                         @if($data_atasan->atasan_po == 6)
                                         <td>{{ $no++ }}</td>
@@ -109,7 +109,7 @@
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                        @endif
                                         </tr>
-                                        
+
                                         @endif
                                         @endforeach
                                     </table>
@@ -130,9 +130,9 @@
                                     @php
                                     $no = 1;
                                     @endphp
-                                   
+
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'Waiting For PO Approval')
+                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
                                     <tr>
                                         @if($data_atasan->atasan_po == 7)
                                         <td>{{ $no++ }}</td>
@@ -149,7 +149,7 @@
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                         @endif
                                     </tr>
-                                   
+
                                     @endif
                                     @endforeach
                                 </table>
@@ -169,9 +169,9 @@
                                     @php
                                     $no = 1;
                                     @endphp
-                                    
+
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'Waiting For PO Approval')
+                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
                                     <tr>
                                         @if($data_atasan->atasan_po == 8)
                                         <td>{{ $no++ }}</td>
@@ -188,7 +188,7 @@
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                             @endif
                                         </tr>
-                                        
+
                                         @endif
                                         @endforeach
                                         </table>
@@ -208,9 +208,9 @@
                                     @php
                                     $no = 1;
                                     @endphp
-                                    
+
                                     @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'Waiting For PO Approval')
+                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
                                     <tr>
                                         @if($data_atasan->atasan_po == 9)
                                         <td>{{ $no++ }}</td>
@@ -227,7 +227,7 @@
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
                                             @endif
                                         </tr>
-                                       
+
                                         @endif
                                         @endforeach
                                 </table>

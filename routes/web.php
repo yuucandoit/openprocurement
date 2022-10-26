@@ -360,10 +360,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [DeliveryController::class, 'index'])->name('delivery.index');
         Route::get('/history', [DeliveryController::class, 'history'])->name('delivery.history');
         Route::get('/detail/{id}', [DeliveryController::class, 'detail'])->name('delivery.detail');
-        Route::get('/create', [DeliveryController::class, 'create'])->name('delivery.create');
-        Route::post('/store', [DeliveryController::class, 'store'])->name('delivery.store');
+        Route::get('/create/{id}', [DeliveryController::class, 'create'])->name('delivery.create');
+        Route::post('/store/{id}', [DeliveryController::class, 'store'])->name('delivery.store');
+        Route::get('/edit/{id}', [DeliveryController::class, 'edit'])->name('delivery.edit');
+        Route::post('/update/{id}', [DeliveryController::class, 'update'])->name('delivery.update');
         Route::get('/destroy/{id}', [DeliveryController::class, 'destroy'])->name('delivery.destroy');
-        Route::get('/paid/{id}', [DeliveryController::class, 'paid'])->name('delivery-paid');
+        Route::get('/complete/{id}', [DeliveryController::class, 'complete'])->name('delivery-complete');
         Route::get('/denied/{id}', [DeliveryController::class, 'denied'])->name('delivery-denied');
         });
 

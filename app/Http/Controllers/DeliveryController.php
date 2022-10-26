@@ -9,6 +9,10 @@ use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\Delivery;
 use Illuminate\Http\Request;
+use App\File;
+use App\Models\Department;
+use App\Models\PengajuanPembelian;
+use App\Models\WhoSubmitted;
 
 class DeliveryController extends Controller
 {
@@ -37,9 +41,35 @@ class DeliveryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('delivery.menu.create');
+        $dv                 = CategoryPengajuanPembelian::find($id);
+        return view('delivery.menu.create')
+        ->with('dv' , $dv);
+    }
+    public function detail($id)
+    {
+        $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        $datapo             = CategoryPO::where('ppb_id', $id)->get();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
+        $delivery           = Delivery::where('ppb_id', $id)->get();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        return view('delivery.menu.detail')
+        ->with('pengajuan', $pengajuan)
+        ->with('dpp', $dpp)
+        ->with('delivery',$delivery)
+        ->with('datapo', $datapo)
+        ->with('dataws', $dataws)
+        ->with('datadepartment', $datadepartment)
+        ->with('ppn', $ppn)
+        ->with('total', $total)
+        ->with('total_tnpa_ppn', $total_tnpa_ppn)
+        ->with('data_pengajuan', $data_pengajuan);
     }
 
     /**
@@ -48,26 +78,29 @@ class DeliveryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id )
     {
-        $validatedData = $request->validate([
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
-
+        $data = CategoryPengajuanPembelian::find($id);
+        $request->validate([
+            'path_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
            ]);
 
-           $name        = $request->file('image')->getClientOriginalName();
-           $path        = $request->file('image')->store('public/images');
-           $receiver    = $request->receiver;
+           $pengajuan        = $data->id;
+           $path_name        = $request->file('path_image');
+           $name             = $path_name->getClientOriginalName();
+           $path_name->move('images', $name);
+           $receiver         = $request->receiver;
 
+        //    $data = $request->all();
+        //     dd($data);
 
            $save = new Delivery;
-
-           $save->name_image = $name;
-           $save->path_image = $path;
+           $save->ppb_id     = $pengajuan;
+           $save->path_image = $name;
            $save->receiver   = $receiver;
            $save->save();
 
-           return redirect('/delivery')->with('status', 'Image Has been uploaded successfully in laravel 8');
+           return redirect('/delivery')->with('status', 'Data Has been uploaded successfully ');
 
     }
 
@@ -88,9 +121,14 @@ class DeliveryController extends Controller
      * @param  \App\Models\Delivery  $delivery
      * @return \Illuminate\Http\Response
      */
-    public function edit(Delivery $delivery)
+    public function edit(Delivery $delivery,$id)
     {
-        //
+        $dv  = CategoryPengajuanPembelian::find($id);
+        $delivery = Delivery::where('ppb_id',$id)->get();
+
+        return view('delivery.menu.edit')
+        ->with('delivery', $delivery)
+        ->with('dv' , $dv);
     }
 
     /**
@@ -100,9 +138,24 @@ class DeliveryController extends Controller
      * @param  \App\Models\Delivery  $delivery
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Delivery $delivery)
+    public function update(Request $request, Delivery $delivery,$id)
     {
-        //
+        $data = CategoryPengajuanPembelian::find($id);
+        $request->validate([
+            'path_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'receiver'   => 'required',
+           ]);
+           $pengajuan        = $data->id;
+           $path_name        = $request->file('path_image');
+           $name             = $path_name->getClientOriginalName();
+           $path_name->move('images', $name);
+           $receiver         = $request->receiver;
+
+            Delivery::where('ppb_id',$id)->update([
+            'path_image' => $name,
+            'receiver' => $receiver,
+           ]);
+           return redirect('/delivery')->with('status', 'Data Has been Updated successfully');
     }
 
     /**
@@ -114,5 +167,21 @@ class DeliveryController extends Controller
     public function destroy(Delivery $delivery)
     {
         //
+    }
+
+    public function complete($id)
+    {
+        $data = CategoryPengajuanPembelian::find($id);
+        $data->status = 'Delivery Success';
+        $data->save();
+        return redirect('delivery');
+    }
+
+    public function Denied($id)
+    {
+        $data = CategoryPO::find($id);
+        $data->status = 'Rejected By Purchasing';
+        $data->save();
+        return redirect('menu-purchase-order');
     }
 }

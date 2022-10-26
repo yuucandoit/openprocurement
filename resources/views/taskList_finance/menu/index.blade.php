@@ -47,6 +47,7 @@
                                             <th>Description</th>
                                             <th>Date Line</th>
                                             <th>Request By</th>
+                                            <th>Status</th>
                                             <th>Function</th>
                                         </tr>
                                     </thead>
@@ -60,12 +61,12 @@
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                         <td>{{ $ppb->dateline }}</td>
                                         <td>{{ $ppb->whosubmit->name }}</td>
-                                        <td>
-                                        <a href="{{ url('menu-tasklist-finance/detail/' .  $ppb->id) }}"
-                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                        </td>
                                         <td> <a class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                             style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        <td>
+                                            <a href="{{ url('menu-tasklist-finance/detail/' .  $ppb->id) }}"
+                                                class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                        </td>
                                     </tr>
                                     @endif
                                     @endforeach

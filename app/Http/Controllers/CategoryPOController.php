@@ -148,7 +148,7 @@ class CategoryPOController extends Controller
 
             $term = TermsAndConditions::create([
                 "term_condition" => $request->term_condition,
-            ]);
+            ]);     
 
                 $tes = CategoryPO::create([
                     "ppb_id" => $data->id,
