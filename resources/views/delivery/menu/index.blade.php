@@ -73,7 +73,7 @@
                 <div class="card shadow mb-5">
                     <div class="card-body">
 
-                        <table class="table table-striped" id="table1">
+                        <table class="display" id="basic-1">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -97,7 +97,7 @@
                                         @hasrole('purchasing|super admin')
                                         <td>
 
-                                                <a href="{{ url('/invoicing/detail/' . $ppb->id) }}"  type="button" class="btn btn-info" ><i class="fa fa-file-text-o" title="Detail"></i></a>
+                                                <a href="{{ url('/delivery/detail/' . $ppb->id) }}"  type="button" class="btn btn-info" ><i class="fa fa-file-text-o" title="Detail"></i></a>
 
 
                                                                 <a class="btn btn-iconsolid mt-1"
