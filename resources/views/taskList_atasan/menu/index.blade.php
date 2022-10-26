@@ -33,7 +33,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-6 mt-4">
-                        <h3>Task List</h3>
+                        <h3>Task List Super User</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
                             <li class="breadcrumb-item">Task List</li>
@@ -99,12 +99,12 @@
                                             @if ($ppb->status == 'Awaiting Purchase Submission Approval')
                                                 <tbody>
                                                     <tr>
-                                                        @if ($ppb->atasan == 3)
-                                                            <td>{{ $no++ }}</td>
+                                                        @if (($ppb->atasan == 3) | 3)
+                                                            <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ $ppb->desc }}"
                                                                     target="_blank">{{ $ppb->desc }}</a></td>
-                                                            <td>{{ $ppb->dateline }}</td>
-                                                            <td>{{ $ppb->whosubmit->name }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
                                                                     class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>

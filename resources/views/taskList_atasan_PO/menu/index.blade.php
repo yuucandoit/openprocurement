@@ -82,80 +82,104 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 @if (Auth::user()->id === 3)
-                                <table class="table table-striped" id="table1">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Request By</th>
-                                            <th>Function</th>
-                                        </tr>
-                                    </thead>
-                                    @php
-                                    $no = 1;
-                                    @endphp
+                                    <table class="display" id="basic-1">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Date Line</th>
+                                                <th>Request By</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        @php
+                                            $no = 1;
+                                        @endphp
 
-                                    @foreach ($datappb as $ppb)
-                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
-                                    <tr>
-                                        @if($data_atasan->atasan_po == 3)
-                                        <td>{{ $no++ }}</td>
-                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                                        <td>{{ $ppb->dateline }}</td>
-                                        <td>{{ $ppb->whosubmit->name }}</td>
-                                        <td>
-                                        <a href="{{ url('menu-taskList-atasan-po/detail/' .  $ppb->id) }}"
-                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                        <a href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"
-                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
-                                        </td>
-                                        <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                                    @endif
-                                        </tr>
+                                        @foreach ($datappb as $ppb)
+                                            @if ($ppb->status == 'Waiting For PO Approval')
+                                                <tbody>
+                                                    <tr style="text-align: center;">
+                                                        @if ($data_atasan->atasan_po == 3)
+                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td><a href="{{ $ppb->desc }}"
+                                                                    target="_blank">{{ $ppb->desc }}</a>
+                                                            </td>
+                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                            </td>
+                                                            <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #00008B;"
+                                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                        class="icon-zoom-in" title="Details"></i>
+                                                                </a>
 
-                                        @endif
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #FF8C00;"
+                                                                    href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"><i
+                                                                        class="icon-pencil-alt" title="Edit"></i>
+                                                                </a>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
+                                            @endif
                                         @endforeach
                                         </tbody>
                                     </table>
                                 @endif
 
                                 @if (Auth::user()->id === 6)
-                                <table class="table table-striped" id="table1">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Request By</th>
-                                            <th>Function</th>
-                                        </tr>
-                                    </thead>
-                                    @php
-                                    $no = 1;
-                                    @endphp
+                                    <table class="display" id="basic-1">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Date Line</th>
+                                                <th>Request By</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        @php
+                                            $no = 1;
+                                        @endphp
 
-                                    @foreach ($datappb as $ppb)
-                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
-                                    <tr>
-                                        @if($data_atasan->atasan_po == 6)
-                                        <td>{{ $no++ }}</td>
-                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                                        <td>{{ $ppb->dateline }}</td>
-                                        <td>{{ $ppb->whosubmit->name }}</td>
-                                        <td>
-                                        <a href="{{ url('menu-taskList-atasan-po/detail/' .  $ppb->id) }}"
-                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                        <a href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"
-                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
-                                        </td>
-                                        <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                                       @endif
-                                        </tr>
+                                        @foreach ($datappb as $ppb)
+                                            @if ($ppb->status == 'Waiting For PO Approval')
+                                                <tbody>
+                                                    <tr>
+                                                        @if ($data_atasan->atasan_po == 6)
+                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td><a href="{{ $ppb->desc }}"
+                                                                    target="_blank">{{ $ppb->desc }}</a>
+                                                            </td>
+                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                            </td>
+                                                            <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #00008B;"
+                                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                        class="icon-zoom-in" title="Details"></i>
+                                                                </a>
 
-                                        @endif
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #FF8C00;"
+                                                                    href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"><i
+                                                                        class="icon-pencil-alt" title="Edit"></i>
+                                                                </a>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
+                                            @endif
                                         @endforeach
                                         </tbody>
                                     </table>
@@ -173,36 +197,48 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                    @php
-                                    $no = 1;
-                                    @endphp
+                                        @php
+                                            $no = 1;
+                                        @endphp
 
-                                    @foreach ($datappb as $ppb)
-                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
-                                    <tr>
-                                        @if($data_atasan->atasan_po == 7)
-                                        <td>{{ $no++ }}</td>
-                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                                        <td>{{ $ppb->dateline }}</td>
-                                        <td>{{ $ppb->whosubmit->name }}</td>
-                                        <td>
-                                        <a href="{{ url('menu-taskList-atasan-po/detail/' .  $ppb->id) }}"
-                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                        <a href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"
-                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
-                                        </td>
-                                        <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
-                                        @endif
-                                    </tr>
+                                        @foreach ($datappb as $ppb)
+                                            @if ($ppb->status == 'Waiting For PO Approval')
+                                                <tbody>
+                                                    <tr>
+                                                        @if ($data_atasan->atasan_po == 7)
+                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td><a href="{{ $ppb->desc }}"
+                                                                    target="_blank">{{ $ppb->desc }}</a>
+                                                            </td>
+                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                            </td>
+                                                            <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #00008B;"
+                                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                        class="icon-zoom-in" title="Details"></i>
+                                                                </a>
 
-                                    @endif
-                                    @endforeach
-                                </table>
-                                    @endif
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #FF8C00;"
+                                                                    href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"><i
+                                                                        class="icon-pencil-alt" title="Edit"></i>
+                                                                </a>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
+                                            @endif
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                @endif
 
-                                    @if (Auth::user()->id === 8)
-                                    <table class="table table-striped" id="table1">
+                                @if (Auth::user()->id === 8)
+                                    <table class="display" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -213,30 +249,41 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                    @php
-                                    $no = 1;
-                                    @endphp
+                                        @php
+                                            $no = 1;
+                                        @endphp
 
-                                    @foreach ($datappb as $ppb)
-                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
-                                    <tr>
-                                        @if($data_atasan->atasan_po == 8)
-                                        <td>{{ $no++ }}</td>
-                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                                        <td>{{ $ppb->dateline }}</td>
-                                        <td>{{ $ppb->whosubmit->name }}</td>
-                                        <td>
-                                        <a href="{{ url('menu-taskList-atasan-po/detail/' .  $ppb->id) }}"
-                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                        <a href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"
-                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
-                                        </td>
-                                        <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @foreach ($datappb as $ppb)
+                                            @if ($ppb->status == 'Waiting For PO Approval')
+                                                <tbody>
+                                                    <tr>
+                                                        @if ($data_atasan->atasan_po == 8)
+                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td><a href="{{ $ppb->desc }}"
+                                                                    target="_blank">{{ $ppb->desc }}</a>
+                                                            </td>
+                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                            </td>
+                                                            <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #00008B;"
+                                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                        class="icon-zoom-in" title="Details"></i>
+                                                                </a>
+
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #FF8C00;"
+                                                                    href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"><i
+                                                                        class="icon-pencil-alt" title="Edit"></i>
+                                                                </a>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
                                             @endif
-                                        </tr>
-
-                                        @endif
                                         @endforeach
                                         </tbody>
                                     </table>
@@ -254,30 +301,41 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                    @php
-                                    $no = 1;
-                                    @endphp
+                                        @php
+                                            $no = 1;
+                                        @endphp
 
-                                    @foreach ($datappb as $ppb)
-                                    @if ( $ppb->status == 'Waiting For PO Approval' || $ppb->status == 'PO Approved' || $ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid'  )
-                                    <tr>
-                                        @if($data_atasan->atasan_po == 9)
-                                        <td>{{ $no++ }}</td>
-                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
-                                        <td>{{ $ppb->dateline }}</td>
-                                        <td>{{ $ppb->whosubmit->name }}</td>
-                                        <td>
-                                        <a href="{{ url('menu-taskList-atasan-po/detail/' .  $ppb->id) }}"
-                                        class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                        <a href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"
-                                            class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a>
-                                        </td>
-                                        <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        @foreach ($datappb as $ppb)
+                                            @if ($ppb->status == 'Waiting For PO Approval')
+                                                <tbody>
+                                                    <tr>
+                                                        @if ($data_atasan->atasan_po == 9)
+                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td><a href="{{ $ppb->desc }}"
+                                                                    target="_blank">{{ $ppb->desc }}</a>
+                                                            </td>
+                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                            </td>
+                                                            <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #00008B;"
+                                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                        class="icon-zoom-in" title="Details"></i>
+                                                                </a>
+
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #FF8C00;"
+                                                                    href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"><i
+                                                                        class="icon-pencil-alt" title="Edit"></i>
+                                                                </a>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
                                             @endif
-                                        </tr>
-
-                                        @endif
                                         @endforeach
                                         </tbody>
                                     </table>

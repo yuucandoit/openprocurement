@@ -43,121 +43,111 @@
         <!-- Container-fluid starts-->
         <div class="container-fluid general-widget">
             <div class="row">
-                <!-- Earnings (Monthly) Card Example -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-primary shadow h-100 py-2"
-                        style="border-left: 10px solid rgba(150, 148, 255, 0.9);">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="small-box-footer">
-                                        <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1"
-                                            style="font-weight: bold; color: rgba(150, 148, 255, 0.9);">Purchase Submission
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                            style="font-weight: bold; color: rgba(150, 148, 255, 0.9);">
-                                            {{ \App\Models\CategoryPengajuanPembelian::count() }}</div>
-                                </div></a>
-                                <div class="col-auto" style="color: rgba(150, 148, 255, 0.9);">
-                                    <i class="icofont icofont-paper" style="font-size: 40;"></i>
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3"
+                            style="border-left: 10px solid rgba(150, 148, 255, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                        style="color: rgba(150, 148, 255, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6
+                                        style="color: rgba(150, 148, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                        PURCHASE <br>
+                                        SUBMISSION</h6>
+                                    <h2 class="mb-0 counter" style="color: rgba(150, 148, 255, 0.9);">
+                                        {{ \App\Models\CategoryPengajuanPembelian::count() }}</h2>
+                                    <i class="icon-bg" data-feather="file-text"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Earnings (Monthly) Card Example -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-success shadow h-100 py-2"
-                        style="border-left: 10px solid rgba(87, 212, 255, 0.9);">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-4"
+                            style="border-left: 10px solid rgba(87, 212, 255, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="check-circle"
+                                        style="color: rgba(87, 212, 255, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
                                     @if (\App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval'))
-                                        <a href="{{ route('menu-taskList-atasan.index') }}" class="small-box-footer">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1"
-                                                style="font-weight: bold; color: rgba(87, 212, 255, 0.9);">Task List</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                                style="color: rgba(87, 212, 255, 0.9); font-weight: bold;">
-                                                {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
-                                            </div>
-                                        @elseif (\App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Submission Approved'))
-                                            <a href="{{ route('menu-task-list.index') }}" class="small-box-footer">
-                                                <div class="text-xs font-weight-bold text-uppercase mb-1"
-                                                    style="font-weight: bold; color: rgba(87, 212, 255, 0.9);">Task List
-                                                </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                                    style="color: rgba(87, 212, 255, 0.9); font-weight: bold;">
-                                                    {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Submission Approved')->count() }}
-                                                </div>
-                                            @elseif (\App\Models\CategoryPengajuanPembelian::where('status', 'Waiting For PO Approval'))
-                                                <a href="{{ route('menu-taskList-atasan-po  .index') }}"
-                                                    class="small-box-footer">
-                                                    <div class="text-xs font-weight-bold text-uppercase mb-1"
-                                                        style="font-weight: bold; color: rgba(87, 212, 255, 0.9);">Task List
-                                                    </div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                                        style="color: rgba(87, 212, 255, 0.9); font-weight: bold;">
-                                                        {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Waiting For PO Approval')->count() }}
-                                                    </div>
+                                        <h6
+                                            style="color: rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                            TASK LIST <br> </h6>
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 212, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
+                                        </h2>
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                    @elseif (\App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Submission Approved'))
+                                        <h6
+                                            style="color: rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                            TASK LIST <br> </h6>
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 212, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
+                                        </h2>
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                    @elseif (\App\Models\CategoryPengajuanPembelian::where('status', 'Waiting For PO Approval'))
+                                        <h6
+                                            style="color: rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                            TASK LIST <br> </h6>
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 212, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
+                                        </h2>
+                                        <i class="icon-bg" data-feather="check-circle"></i>
                                     @endif
-                                </div></a>
-                                <div class="col-auto" style="color: rgba(87, 212, 255, 0.9);">
-                                    <i class="icofont icofont-tasks-alt" style="font-size: 40;"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Earnings (Monthly) Card Example -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-success shadow h-100 py-2" style="border-left: 10px solid red;">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <a href="{{ route('menu-purchase-order.index') }}" class="small-box-footer">
-                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1"
-                                            style="font-weight: bold;">Purchase Order</div>
-                                        <div class="h5 mb-0 font-weight-bold text-danger">
-                                            {{ \App\Models\CategoryPO::count() }}</div>
-                                </div></a>
-                                <div class="col-auto font-danger">
-                                    <i class="icofont icofont-ui-calendar" style="font-size: 40;"></i>
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid red;">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                        style="color: red;"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: red; font-family: 'Times New Roman', Times, serif;">
+                                        PURCHASE <br>
+                                        ORDER</h6>
+                                    <h2 class="mb-0 counter" style="color: red;">
+                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                    <i class="icon-bg" data-feather="file-text"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Earnings (Monthly) Card Example -->
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-success shadow h-100 py-2" style="border-left: 10px solid yellow;">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <a href="{{ route('menu-pengajuan-dana.index') }}" class="small-box-footer">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"
-                                            style="font-weight: bold;">Fund Submision</div>
-                                        <div class="h5 mb-0 font-weight-bold text-warning">
-                                            {{ \App\Models\CategoryPD::count() }}</div>
-                                </div></a>
-                                <div class="col-auto font-warning">
-                                    <i class="icofont icofont-coins" style="font-size: 40;"></i>
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(251, 140, 1);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="dollar-sign"
+                                        style="color: rgb(251, 140, 1);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: rgb(251, 140, 1); font-family: 'Times New Roman', Times, serif;">
+                                        FUND <br>
+                                        SUBMISSION</h6>
+                                    <h2 class="mb-0 counter" style="color: rgb(251, 140, 1);">
+                                        {{ \App\Models\CategoryPD::count() }}</h2>
+                                    <i class="icon-bg" data-feather="dollar-sign"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Content Row -->
-
-
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 box-col-12">
                             <div class="card card-absolute">
                                 <div class="card-header bg-dark">
-                                    <h5 class="text-white" style="font-weight: bold; ">Monthly Chart</h5>
+                                    <h5 class="text-white" style="font-weight: bold; ">Monthly
+                                        Chart</h5>
                                 </div>
                                 <div class="card-body chart-block">
                                     <canvas id="Po"></canvas>
@@ -181,7 +171,7 @@
                     </div>
                 </div> --}}
 
-                                                {{-- <div class="col-xl-4 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {{-- <div class="col-xl-4 col-md-5 col-sm-6 box-col-3 des-xl-25 rate-sec">
                     <div class="card income-card card-secondary">
                       <div class="card-body text-center">
                         <div class="round-box">
@@ -198,7 +188,7 @@
 
 
 
-                                            {{-- <div class="page-content mt-4">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        {{-- <div class="page-content mt-4">
                 <section class="row">
                     <div class="col-12 col-lg-8">
                         <div class="row">
