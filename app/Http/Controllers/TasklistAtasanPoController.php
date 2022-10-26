@@ -27,7 +27,7 @@ class TasklistAtasanPoController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
+            $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
             $data_atasan = CategoryPO::all()->first();
             //dd($data_atasan);
             $datadv = TaskListAtasanPO::all();

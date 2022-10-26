@@ -88,36 +88,27 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <th>Function</th>
                                         </tr>
                                     </thead>
                                     @php
                                         $no = 1;
                                     @endphp
-                                    @foreach ($datappb as $ppb)
-                                        @if ($ppb->status == 'Invoicing Process')
-                                            <tbody>
-                                                <tr>
-                                                    <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td><a href="{{ $ppb->desc }}"
-                                                            target="_blank">{{ $ppb->desc }}</a>
-                                                    </td>
-                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                    <td>
-                                                        <a class="badge
-                                                        {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }}
-                                                        mt-1"
-                                                            style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                                    </td>
-                                                    <td style="text-align: center;">
-                                                        <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
-                                                            href="{{ url('menu-tasklist-finance/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                        @endif
+                                     @foreach ($datappb as $ppb)
+                                     @if ($ppb->status == 'Invoicing Process' )
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                        <td>{{ $ppb->dateline }}</td>
+                                        <td>{{ $ppb->whosubmit->name }}</td>
+                                        <td> <a class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        <td>
+                                            <a href="{{ url('menu-tasklist-finance/detail/' .  $ppb->id) }}"
+                                                class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                        </td>
+                                    </tr>
+                                    @endif
                                     @endforeach
                                     </tbody>
                                 </table>

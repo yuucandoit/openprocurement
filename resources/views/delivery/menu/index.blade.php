@@ -98,14 +98,14 @@
                                                 <input type="text" placeholder="Search..">
                                             </div>
                                         </form>
-                                    </li>
+                                        </li>
                                 </ul>
                             </div>
                             <!-- Bookmark Ends-->
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
             <!-- Container-fluid starts-->
             <div class="container-fluid">
                 <div class="row">
@@ -140,10 +140,14 @@
                                                         <td style="text-align: center;">{{ $ppb->created_at }}</td>
                                                         @hasrole('purchasing|super admin')
                                                             <td style="text-align: center;">
+                                                                <a href="{{ url('/delivery/create/'. $ppb->id) }}"  type="button" class="btn btn-success" ><i class="icofont icofont-data" title="Report Data"></i></a>
+
+                                                                <a href="{{ url('/delivery/edit/' . $ppb->id) }}"  type="button" class="btn btn-warning" ><i class="fa fa-edit" title="Edit"></i></a>
+
 
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
-                                                                    href="{{ url('/invoicing/detail/' . $ppb->id) }}"><i
+                                                                    href="{{ url('/delivery/detail/' . $ppb->id) }}"><i
                                                                         class="icon-zoom-in" title="Details"></i>
                                                                 </a>
 
@@ -175,77 +179,4 @@
                     </script>
         </section>
     @endsection
-    @section('scripts')
-        {{-- <script src="{{  }}"></script> --}}
-        <script>
-            const data = @json($approvedPPB);
-            const item = data[0];
-            console.log(data);
 
-            // FOR CALCULATE REMAINING DEADLINE TIME 😃
-            const remainingTime = (data, elmnt) => {
-                const {
-                    approved_at,
-                    dateline_time,
-                    datetime
-                } = data;
-                const approvedAt = new Date(approved_at);
-                const dueDateTime = new Date(`1970-01-01T${dateline_time}Z`);
-                const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
-                const remainingTime = new Date(dueDateAt.getTime() - Date.now());
-
-                if (remainingTime.getTime() < 1) return "Your time is up";
-
-                let colors = [];
-                const lable = elmnt.querySelector('.badge-lable');
-                const hours = remainingTime.getUTCHours().toString();
-                const minutes = remainingTime.getUTCMinutes().toString();
-                const seconds = remainingTime.getUTCSeconds().toString();
-
-                if (data.dateline == '≤3Jam') colors = [
-                    [1, 'bg-danger'],
-                    [2, 'bg-warning'],
-                    [3, 'bg-success'],
-                ]
-                if (data.dateline == '≤24Jam') colors = [
-                    [8, 'bg-danger'],
-                    [16, 'bg-warning'],
-                    [24, 'bg-success'],
-                ]
-                if (data.dateline == '≤2Hari') colors = [
-                    [16, 'bg-danger'],
-                    [32, 'bg-warning'],
-                    [48, 'bg-success'],
-                ]
-
-                lable.classList.remove('bg-danger');
-                lable.classList.remove('bg-warning');
-                lable.classList.remove('bg-success');
-                lable.classList.add(colors.find(item => item[0] > hours)[1]);
-
-                return (
-                    (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
-                    (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
-                    (seconds.length == 1 ? `0${seconds}:` : `${seconds}`)
-                );
-            }
-
-            // FOR HANDLE REWRITE ELEMENT 😃
-            const countdownHandle = (elmnt, item) => {
-                const countdownElmnt = elmnt.querySelector('.ppb-countdown');
-                countdownElmnt.innerText = remainingTime(item, elmnt);
-            }
-
-            // FOR INITIALIZE COUNTDOWN 😃
-            const initCountdown = (data) => {
-                data.forEach(item => {
-                    if (!item.approved_at) return;
-                    setInterval(() => countdownHandle(document.querySelector(
-                        `#ppb-${item.id}`
-                    ), item), 1000);
-                });
-            }
-
-            initCountdown(data);
-        </script>
-    @endsection

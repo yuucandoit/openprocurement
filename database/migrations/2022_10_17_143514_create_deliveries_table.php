@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
             $table->string('receiver');
             $table->string('path_image');
             $table->timestamp('created_at')->useCurrent();

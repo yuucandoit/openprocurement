@@ -114,7 +114,7 @@
                 <td>
                   @if ($ppembelian->status == 'Unpaid')
                   <a class="badge bg-warning mt-1" style="color: white; font-size:18">Unpaid</a>
-                  @elseif ($ppembelian->status == 'Paid')
+                  @elseif ($ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery Success' )
                   <a class="badge bg-success mt-1" style="color: white; font-size:18">Paid</a>
                   @endif
                   {{-- <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18"></a> --}}
@@ -123,7 +123,7 @@
                   @if ($ppembelian->status == 'Paid')
                   <a class="badge bg-warning mt-1" style="color: white; font-size:18"> Delivery On Process</a>
                   @elseif ($ppembelian->status == 'Delivery Success')
-                  <a class="badge bg-warning mt-1" style="color: white; font-size:18">Delivery Success Receive by (nama penerima)</a>
+                  <a class="badge bg-success mt-1" style="color: white; font-size:18">Delivery Success</a>
                   @endif
                   {{-- <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18"></a> --}}
                 </td>

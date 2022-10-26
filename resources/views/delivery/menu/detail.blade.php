@@ -105,7 +105,7 @@
                                         @if ($data_pengajuan->ppn == 1) @checked(true)
                                                 @else @endif
                                         disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
-                                <td style="text-align:right;">      
+                                <td style="text-align:right;">
                                         @if ($data_pengajuan->ppn == 1)
                                         @foreach ($ppn as $p)
                                         {{-- Ketika mata uang yang dipilih RP --}}
@@ -155,46 +155,50 @@
                                 </tr>
                             @endif
                         </table>
-                        {{-- Start Modal Approval --}}
-                        @if ($data_pengajuan->status == 'Invoicing Process')
-                            <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                data-bs-target="#modalSelesai" disabled>Successfully send data</button>
-                        @elseif ($data_pengajuan->status == 'PO Approved')
-                            <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                data-bs-target="#modalSelesai">Apply For Payment Process</button>
-                        @endif
+                        @foreach ($delivery as $d)
+                         <div class="gallery my-gallery card-body text-center" itemscope="" style="text-align: center;">
+                        <figure class=" xl-33 text-center" itemprop="associatedMedia" itemscope=""><a href=" {{ asset('images/'.$d->path_image) }}" itemprop="contentUrl" data-size="1600x950"><img class="img-thumbnail" src="{{ asset('images/'.$d->path_image) }}" itemprop="thumbnail" alt="Image description"></a>
+                            <figcaption itemprop="caption description" class="text-center">Received By {{ $d->receiver }}</figcaption>
+                        </figure>
+                         </div>
+                        @endforeach
 
-                        <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-danger">
-                                        <h2 class="modal-title" style="color: white">Warning</h2>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body mx-5 mb-3">
-                                        <span class="warning">
-                                            <img src="{{ asset('assets/images/warning.png') }}">
-                                        </span>
-                                        <h2 style="text-align: center">Make sure the data is correct!</h2>
-                                    </div>
-                                    {{-- End Modal Approval --}}
+            {{-- Start Modal Approval --}}
+            @if ($data_pengajuan->status == 'Purchase Complete')
+            <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
+            data-bs-target="#modalSelesai" disabled>Purchase Complete
+            </button>
+            @elseif ($data_pengajuan->status == 'Paid')
+            <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
+            data-bs-target="#modalSelesai">Set Purchase Complete </button>
+            @endif
 
-                                    <div class="modal-footer">
-                                        @if ($data_pengajuan->status == 'PO Approved')
-                                            <form class="text-center"
-                                                action="{{ url('invoicing/ajukan_dana', $data_pengajuan->id) }}">
-                                                <button type="submit" class="btn btn-outline-danger "><i
-                                                        class="bx bx-trash"></i>
-                                                    Apply For Purchase Funding
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                        <h2 class="modal-title" style="color: white">Warning</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                     </div>
+                    <div class="modal-body mx-5 mb-3">
+                        <span class="warning">
+                            <img src="{{ asset('assets/images/warning.png') }}">
+                        </span>
+                        <h2 style="text-align: center">Make Sure! <br>All Items Arrived</h2>
+                    </div>
+                    {{-- End Modal Approval --}}
+
+                    <div class="modal-footer">
+                        @if ($data_pengajuan->status == 'Paid')
+                        <form class="text-center"
+                        action="{{ url('delivery/complete/'. $data_pengajuan->id) }}">
+                        <button type="submit" class="btn btn-outline-danger "><i
+                            class="bx bx-trash"></i>
+                            Set Purchase Complete
+                        </button>
+                    </form>
+                    @endif
                 </div>
             </div>
         </div>

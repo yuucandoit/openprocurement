@@ -204,10 +204,31 @@
                                          <a type="reset" class="btn btn-dark"
                                              href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
 
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
+                        @elseif ($data_pengajuan->ppn == 0)
+                        <td class="text-end">Grand Total :</td>
+                        @foreach ($total_tnpa_ppn as $tpn)
+                        @if ($data_pengajuan->matauang == 'RP')
+                        <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
+                        @elseif ($data_pengajuan->matauang == 'USD')
+                        <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
+                        @endif
+                        @endforeach
+                    </tr>
+                    @endif
+                </table>
+                @foreach ($delivery as $d)
+                <div class="gallery my-gallery card-body text-center" itemscope="" style="text-align: center;">
+               <figure class=" xl-33 text-center" itemprop="associatedMedia" itemscope=""><a href=" {{ asset('images/'.$d->path_image) }}" itemprop="contentUrl" data-size="1600x950"><img class="img-thumbnail" src="{{ asset('images/'.$d->path_image) }}" itemprop="thumbnail" alt="Image description"></a>
+                   <figcaption itemprop="caption description" class="text-center">Received By {{ $d->receiver }}</figcaption>
+               </figure>
+                </div>
+               @endforeach
+                <div class="button mb-2 mt-4" style="float: right;">
+                        <!-- {{-- @if ($data_pengajuan->status == '') --}}
+                        <a href="{{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}"
+                         class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
+                         {{-- @endif --}} -->
+                         <a type="reset" class="btn btn-dark" href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
 
                      </div>
                  </div>
