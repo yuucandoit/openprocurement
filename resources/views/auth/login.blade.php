@@ -85,7 +85,7 @@
                                     <h6 style="">
                                         Welcome back! Log in to your account.</h6>
                                     <div class="form-group">
-                                        <label style="">Email
+                                        <label style="  ">Email
                                             Address</label>
                                         <div class="input-group"><span class="input-group-text"><i
                                                     class="icon-email"></i></span>
@@ -101,7 +101,7 @@
                                         </div>
                                     @enderror
                                     <div class="form-group">
-                                        <label style="">Password</label>
+                                        <label style="  ">Password</label>
                                         <div class="input-group"><span class="input-group-text"><i
                                                     class="icon-lock"></i></span>
                                             <input class="form-control" type="password" name="password"
@@ -113,10 +113,10 @@
                                         <div class="checkbox">
                                             <input id="checkbox1" type="checkbox">
                                             <label class="text-muted" for="checkbox1"
-                                                style="">Remember
+                                                style=" ">Remember
                                                 password</label>
                                         </div><a class="link" href="forget-password.html"
-                                            style="">Forgot password?</a>
+                                            style=" ">Forgot password?</a>
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
@@ -132,9 +132,9 @@
                           <li><a href="https://www.instagram.com/login" target="_blank"><i data-feather="instagram">                  </i></a></li>
                         </ul>
                       </div> --}}
-                                    <p style="">Don't have account?<a
+                                    <p style="  ">Don't have account?<a
                                             class="ms-2" href="{{ route('register') }}"
-                                            style="">Create
+                                            style=" ">Create
                                             Account</a></p>
                                 </form>
                             </div>
