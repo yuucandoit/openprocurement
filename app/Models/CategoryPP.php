@@ -19,7 +19,7 @@ class CategoryPP extends Model
     protected $hidden;
 
 
-    public function vendor()
+    public function vendors()
     {
         return $this->morphMany(CategoryPO::class, 'vendorable');
     }

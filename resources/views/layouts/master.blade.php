@@ -424,7 +424,25 @@
                                     <li class="dropdown {{ request()->is('*project-reference*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav" href="{{ url('/project-reference') }}">
                                             <i class="fa fa-laptop"></i>
-                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose</span>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Project</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*office*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/office') }}">
+                                            <i class="fa fa-building"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Office</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*workshop*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/workshop') }}">
+                                            <i class="icofont icofont-people"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Workshop</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*inventory*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/inventory') }}">
+                                            <i class="icofont icofont-list"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Inventory</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">

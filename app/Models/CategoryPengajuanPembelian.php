@@ -59,10 +59,9 @@ class CategoryPengajuanPembelian extends Model
         return $this->hasMany(TaskListAtasan::class);
     }
 
-
-    public function referensi()
+    public function purpose()
     {
-        return $this->belongsTo(ReferensiNamaProject::class, 'purpose');
+        return $this->morphTo();
     }
 
     public function whosubmit()

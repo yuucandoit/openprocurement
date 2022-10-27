@@ -19,7 +19,9 @@ use App\Http\Controllers\DataVendorController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EcommerceController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InvoicingController;
+use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PengajuanDanaNewController;
 use App\Http\Controllers\PengajuanPembelianController;
 use App\Http\Controllers\PerusahaanController;
@@ -33,6 +35,7 @@ use App\Http\Controllers\TasklistAtasanPoController;
 use App\Http\Controllers\TaskListFinanceController;
 use App\Http\Controllers\TaskListPaymentController;
 use App\Http\Controllers\WhoSubmittedController;
+use App\Http\Controllers\WorkshopController;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\DataVendor;
@@ -219,6 +222,33 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [ReferensiNamaProjectController::class, 'edit'])->name('project-reference.edit');
         Route::post('/update/{id}', [ReferensiNamaProjectController::class, 'update'])->name('project-reference.update');
         Route::get('/destroy/{id}', [ReferensiNamaProjectController::class, 'destroy'])->name('project-reference.destroy');
+    });
+
+    Route::group(['prefix' => 'office'], function () {
+        Route::get('/', [OfficeController::class, 'index'])->name('office.index');
+        Route::get('/create', [OfficeController::class, 'create'])->name('office.create');
+        Route::post('/store', [OfficeController::class, 'store'])->name('office.store');
+        Route::get('/edit/{id}', [OfficeController::class, 'edit'])->name('office.edit');
+        Route::post('/update/{id}', [OfficeController::class, 'update'])->name('office.update');
+        Route::get('/destroy/{id}', [OfficeController::class, 'destroy'])->name('office.destroy');
+    });
+
+    Route::group(['prefix' => 'workshop'], function () {
+        Route::get('/', [WorkshopController::class, 'index'])->name('workshop.index');
+        Route::get('/create', [WorkshopController::class, 'create'])->name('workshop.create');
+        Route::post('/store', [WorkshopController::class, 'store'])->name('workshop.store');
+        Route::get('/edit/{id}', [WorkshopController::class, 'edit'])->name('workshop.edit');
+        Route::post('/update/{id}', [WorkshopController::class, 'update'])->name('workshop.update');
+        Route::get('/destroy/{id}', [WorkshopController::class, 'destroy'])->name('workshop.destroy');
+    });
+
+    Route::group(['prefix' => 'inventory'], function () {
+        Route::get('/', [InventoryController::class, 'index'])->name('inventory.index');
+        Route::get('/create', [InventoryController::class, 'create'])->name('inventory.create');
+        Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
+        Route::get('/edit/{id}', [InventoryController::class, 'edit'])->name('inventory.edit');
+        Route::post('/update/{id}', [InventoryController::class, 'update'])->name('inventory.update');
+        Route::get('/destroy/{id}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
     });
 
     Route::group(['prefix' => 'department'], function () {

@@ -77,7 +77,7 @@
                                             </tr>
                                             <tr>
                                                 <td>Purpose</td>
-                                                <td>{{ $dv->referensi->name }}</td>
+                                                <td>{{ $dv->purpose->name }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Send To</td>
@@ -222,9 +222,9 @@
                                         <div class="col-12 mt-3">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i> select Vendor</label>
+                                                        class="fa fa-database"></i> Select Vendor</label>
                                                 <select class="form-select page pageSelect" id="pageSelect"
-                                                    placeholder="Proposed To" name="vendorable_type">
+                                                    placeholder="Proposed To" name="vendor">
                                                     <option value="" disabled selected hidden>Select Vendor
                                                     </option>
                                                     <option value="company">Company</option>
@@ -233,7 +233,7 @@
                                                 </select>
                                                 {{-- Perusahaan Dropdown --}}
                                                 <select class=" form-select hide mt-2" id="selectedInput"
-                                                    name="vendorable_id">
+                                                    name="vendor_id">
                                                     @foreach ($pt as $p)
                                                         <option value="{{ $p->id }}">{{ $p->nama }}
                                                         </option>
@@ -243,7 +243,7 @@
 
                                                 {{-- Private Person Dropdown --}}
                                                 <select class=" form-select hide" id="selectedInput2"
-                                                    name="vendorable_id">
+                                                    name="vendor_id">
                                                     @foreach ($op as $o)
                                                         <option value="{{ $o->id }}">{{ $o->nama }}
                                                         </option>
@@ -253,7 +253,7 @@
 
                                                 {{-- Ecommerce Dropdown --}}
                                                 <select class=" form-select hide" id="selectedInput3"
-                                                    name="vendorable_id">
+                                                    name="vendor_id">
                                                     @foreach ($ec as $e)
                                                         <option value="{{ $e->id }}">{{ $e->nama }}
                                                         </option>

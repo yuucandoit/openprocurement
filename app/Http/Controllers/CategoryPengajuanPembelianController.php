@@ -10,11 +10,14 @@ use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\Delivery;
 use App\Models\Department;
+use App\Models\Inventory;
+use App\Models\Office;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\WhoSubmitted;
+use App\Models\Workshop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -121,9 +124,15 @@ class CategoryPengajuanPembelianController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose            = ReferensiNamaProject::all();
+        $purpose_office     = Office::all();
+        $purpose_inventory  = Inventory::all();
+        $purpose_workshop   = Workshop::all();
         return view('pengajuanPembelian.menu.create')
             ->with('atasan', $atasan)
             ->with('purpose', $purpose)
+            ->with('purpose_office', $purpose_office)
+            ->with('purpose_inventory', $purpose_inventory)
+            ->with('purpose_workshop', $purpose_workshop)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment);
     }
@@ -139,7 +148,7 @@ class CategoryPengajuanPembelianController extends Controller
         $data = $request->all();
         //dd($data);
        $request->validate([
-            'purpose' => 'required',
+            'category_purpose' => 'required',
             'date_ps' => 'required',
             'dateline'=> 'required',
             'ws'      => 'required',
@@ -149,7 +158,7 @@ class CategoryPengajuanPembelianController extends Controller
             'matauang'=>'required',
             'send_to'=>'required',
         ],[
-            'purpose.required' => 'The Purpose field is required.',
+            'category_purpose.required' => 'The Purpose field is required.',
             'date_ps.required' => 'The Date field is required.',
             'dateline.required' => 'The Date Line field is required.',
             'ws.required' => 'The Who Submitted field is required.',
@@ -160,43 +169,34 @@ class CategoryPengajuanPembelianController extends Controller
             'send_to.required' => 'The Send To field is required.',
         ]);
 
-        if ($request->purpose == "custom") {
-            $project = ReferensiNamaProject::create([
-                'nama' => $request->nama,
-            ]);
-            $pengajuan = CategoryPengajuanPembelian::create([
+            $pengajuan = new CategoryPengajuanPembelian([
                 'user_id' =>  Auth::user()->id,
                 'date_ps' => $request->date_ps,
                 'dateline' => $request->dateline,
-                'category_purpose'=>$request->category_purpose,
                 'ws' => $request->ws,
-                'purpose' => $project->id,
                 'department' => $request->department,
                 'desc' => $request->desc,
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
-                // 'proposed_supplier' => $request->proposed_supplier,
                 'send_to' => $request->send_to,
                 'ppn' => $request->ppn,
             ]);
-        } else {
-            $pengajuan = CategoryPengajuanPembelian::create([
-                'user_id' =>  Auth::user()->id,
-                'date_ps' => $request->date_ps,
-                'dateline' => $request->dateline,
-                'category_purpose'=>$request->category_purpose,
-                'ws' => $request->ws,
-                'purpose' => $request->purpose,
-                'department' => $request->department,
-                'desc' => $request->desc,
-                'atasan' => $request->atasan,
-                'matauang' => $request->matauang,
-                // 'proposed_supplier' => $request->proposed_supplier,
-                'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
-            ]);
-        }
 
+
+
+            if($request->category_purpose == "project") {
+                $purpose1 = ReferensiNamaProject::find($request->sub_purpose);
+                $pengajuan = $purpose1->purposes()->save($pengajuan);
+            }elseif($request->category_purpose == "office") {
+                $purpose2 = Office::find($request->sub_purpose);
+                $pengajuan = $purpose2->purposes()->save($pengajuan);
+            }elseif($request->category_purpose == "workshop") {
+                $purpose3 = Workshop::find($request->sub_purpose);
+                $pengajuan = $purpose3->purposes()->save($pengajuan);
+            }elseif($request->category_purpose == "inventory") {
+                $purpose4 = Inventory::find($request->sub_purpose);
+                $pengajuan = $purpose4->purposes()->save($pengajuan);
+            }
 
 
         if($request->item > 0){
@@ -243,12 +243,18 @@ class CategoryPengajuanPembelianController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose = ReferensiNamaProject::all();
+        $purpose_office     = Office::all();
+        $purpose_inventory  = Inventory::all();
+        $purpose_workshop   = Workshop::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
         //dd($item);
         return view('pengajuanPembelian.menu.edit')
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
             ->with('purpose', $purpose)
+            ->with('purpose_office', $purpose_office)
+            ->with('purpose_inventory', $purpose_inventory)
+            ->with('purpose_workshop', $purpose_workshop)
             ->with('item', $item)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
@@ -265,11 +271,11 @@ class CategoryPengajuanPembelianController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        //dd($data);
+
         PengajuanPembelian::where('pp_id',$id)->delete();
 
         $request->validate([
-            'purpose' => 'required',
+            'category_purpose' => 'required',
             'date_ps' => 'required',
             'dateline'=> 'required',
             'ws'      => 'required',
@@ -279,7 +285,7 @@ class CategoryPengajuanPembelianController extends Controller
             'matauang'=>'required',
             'send_to'=>'required',
         ],[
-            'purpose.required' => 'The Purpose field is required.',
+            'category_purpose.required' => 'The Purpose field is required.',
             'date_ps.required' => 'The Date field is required.',
             'dateline.required' => 'The Date Line field is required.',
             'ws.required' => 'The Who Submitted field is required.',
@@ -290,41 +296,33 @@ class CategoryPengajuanPembelianController extends Controller
             'send_to.required' => 'The Send To field is required.',
         ]);
 
-        if ($request->purpose == "custom") {
-            $project = ReferensiNamaProject::where("id", $id)->update([
-                'nama' => $request->nama,
-            ]);
-            $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
-                'user_id' =>  Auth::user()->id,
-                'date_ps' => $request->date_ps,
-                'dateline' => $request->dateline,
-                'ws' => $request->ws,
-                'category_purpose'=>$request->category_purpose,
-                'purpose' => $project->id,
-                'department' => $request->department,
-                'desc' => $request->desc,
-                'atasan' => $request->atasan,
-                'matauang' => $request->matauang,
-                // 'proposed_supplier' => $request->proposed_supplier,
-                'send_to' => $request->send_to,
-            ]);
-        } else {
-            $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
-                'user_id' =>  Auth::user()->id,
-                'date_ps' => $request->date_ps,
-                'dateline' => $request->dateline,
-                'ws' => $request->ws,
-                'category_purpose'=>$request->category_purpose,
-                'purpose' => $request->purpose,
-                'department' => $request->department,
-                'desc' => $request->desc,
-                'atasan' => $request->atasan,
-                'matauang' => $request->matauang,
-                // 'proposed_supplier' => $request->proposed_supplier,
-                'send_to' => $request->send_to,
-            ]);
-        }
+        $pengajuan = new CategoryPengajuanPembelian([
+            'user_id' =>  Auth::user()->id,
+            'date_ps' => $request->date_ps,
+            'dateline' => $request->dateline,
+            'ws' => $request->ws,
+            'department' => $request->department,
+            'desc' => $request->desc,
+            'atasan' => $request->atasan,
+            'matauang' => $request->matauang,
+            'send_to' => $request->send_to,
+            'ppn' => $request->ppn,
+        ]);
 
+        if($request->category_purpose == "project") {
+            $purpose1 = ReferensiNamaProject::find($request->sub_purpose);
+            $pengajuan = $purpose1->purposes()->save($pengajuan);
+        }elseif($request->category_purpose == "office") {
+            $purpose2 = Office::find($request->sub_purpose);
+            $pengajuan = $purpose2->purposes()->save($pengajuan);
+        }elseif($request->category_purpose == "workshop") {
+            $purpose3 = Workshop::find($request->sub_purpose);
+            $pengajuan = $purpose3->purposes()->save($pengajuan);
+        }elseif($request->category_purpose == "inventory") {
+            $purpose4 = Inventory::find($request->sub_purpose);
+            $pengajuan = $purpose4->purposes()->save($pengajuan);
+        }
+        dd($data);
 
         if($request->item > 0){
             foreach ($data['item'] as $item => $value) {

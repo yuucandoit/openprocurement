@@ -75,7 +75,7 @@
                                         </tr>
                                         <tr>
                                             <td>Purpose</td>
-                                            <td> {{ $data_pengajuan->referensi->name }}</td>
+                                            <td> {{ $data_pengajuan->purpose->name }}</td>
                                         </tr>
                                         <tr>
                                             <td>Send To</td>

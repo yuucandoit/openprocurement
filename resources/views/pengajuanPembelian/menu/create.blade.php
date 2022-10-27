@@ -135,10 +135,11 @@
                                                 <option value="">Select Category Purpose</option>
                                                 <option value="project">Project</option>
                                                 <option value="office">Office</option>
-                                                <option value="other_needs">Other Needs</option>
+                                                <option value="workshop">Workshop</option>
+                                                <option value="inventory">Inventory</option>
                                             </select>
                                             {{-- Project Dropdown --}}
-                                            <select class=" form-select hide mt-2" id="selectedInput" name="purpose">
+                                            <select class=" form-select hide mt-2" id="selectedInput" name="sub_purpose">
                                                 @foreach ($purpose as $p)
                                                     <option value="{{ $p->id }}">{{ $p->name }}</option>
                                                 @endforeach
@@ -146,34 +147,30 @@
                                             {{-- End Project Dropdown --}}
 
                                             {{-- Office Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput2" name="purpose">
-                                                {{-- @foreach ($op as $o)
-                    <option value="{{ $o->id }}">{{ $o->nama }}</option>
-                    @endforeach --}}
+                                            <select class=" form-select hide" id="selectedInput2" name="sub_purpose">
+                                                @foreach ($purpose_office as $o)
+                                                <option value="{{ $o->id }}">{{ $o->name }}</option>
+                                                @endforeach
                                             </select>
                                             {{-- End Office Dropdown --}}
 
-                                            {{-- Other Needs Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput3" name="purpose">
-                                                {{-- @foreach ($ec as $e)
-                <option value="{{ $e->id }}">{{ $e->nama }}</option>
-                @endforeach --}}
+                                            {{-- Workshop Dropdown --}}
+                                            <select class=" form-select hide" id="selectedInput3" name="sub_purpose">
+                                                @foreach ($purpose_workshop as $e)
+                                                <option value="{{ $e->id }}">{{ $e->name }}</option>
+                                                @endforeach
                                             </select>
-                                            {{-- End Other Needs Dropdown --}}
+                                            {{-- End Workshop Dropdown --}}
+
+                                            {{-- Inventory Dropdown --}}
+                                            <select class=" form-select hide" id="selectedInput4" name="sub_purpose">
+                                                @foreach ($purpose_inventory as $pi)
+                                                <option value="{{ $pi->id }}">{{ $pi->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            {{-- End Inventory Dropdown --}}
                                         </div>
                                     </div>
-
-
-                                    {{--       <div class="col-md-6">
-              <div class="form-group">
-                <label for="floatingwhosubmitted"><i class="fa fa-laptop"></i> Purpose :</label>
-                <select class="form-select page " id="pageSelector" placeholder="Purpose" name="purpose" required>
-                  <option value="" disabled selected hidden>Category Purpose</option>
-                  <option value="custom" disabled hidden>+ Add Project</option>
-                </select>
-                <input type="text" class="hide form-control mt-2" placeholder="Input Project" name="nama" id="customInput" >
-              </div>
-            </div> --}}
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -408,6 +405,7 @@
         </script>
         <script type="text/javascript">
             var pageSelect = document.getElementById('pageSelect');
+
             var selectedInput = document.getElementById('selectedInput');
             var selectedInputCustom = document.getElementById('selectedInputCustom');
 
@@ -417,7 +415,11 @@
             var selectedInput3 = document.getElementById('selectedInput3');
             var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
 
-            // Company
+            var selectedInput4 = document.getElementById('selectedInput4');
+            var selectedInputCustom4 = document.getElementById('selectedInputCustom4');
+
+
+            // Project
             pageSelect.addEventListener('change', function() {
                 if (this.value == "project") {
                     selectedInput.classList.remove('hide');
@@ -426,7 +428,7 @@
                 }
             })
 
-            // Private Person
+            // Office
             pageSelect.addEventListener('change', function() {
                 if (this.value == "office") {
                     selectedInput2.classList.remove('hide');
@@ -435,12 +437,21 @@
                 }
             })
 
-            // Ecommerce
+            // Workshop
             pageSelect.addEventListener('change', function() {
-                if (this.value == "other_needs") {
+                if (this.value == "workshop") {
                     selectedInput3.classList.remove('hide');
                 } else {
                     selectedInput3.classList.add('hide');
+                }
+            })
+
+            // inventory
+            pageSelect.addEventListener('change', function() {
+                if (this.value == "inventory") {
+                    selectedInput4.classList.remove('hide');
+                } else {
+                    selectedInput4.classList.add('hide');
                 }
             })
         </script>

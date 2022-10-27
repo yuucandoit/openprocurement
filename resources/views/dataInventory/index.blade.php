@@ -1,4 +1,4 @@
-<title>Data Purpose Project</title>
+<title>Data Purpose Inventory</title>
 
 @extends('layouts.master')
 
@@ -21,7 +21,7 @@
                             <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/project-reference/destroy/' . $a->id) }}" >
+                            <form action="{{ url('/office/destroy/' . $a->id) }}" >
                                 <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                     Delete</button>
                             </form>
@@ -36,10 +36,10 @@
     <div class="page-header">
       <div class="row">
         <div class="col-sm-6">
-          <h1>Purpose Project</h1>
+          <h1>Purpose Inventory</h1>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item">Purpose Project</li>
+            <li class="breadcrumb-item">Inventory</li>
           </ol>
         </div>
         <div class="col-sm-6">
@@ -71,7 +71,7 @@
       <div class="col-sm-12">
         <div class="card">
           <div class="card-body">
-            <a href="{{ url('/project-reference/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
+            <a href="{{ url('/inventory/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
             <div class="table-responsive">
               <table class="display" id="basic-1">
                 <thead>
@@ -90,7 +90,7 @@
                 <td style="text-align: center;">{{ $no++ }}</td>
                 <td style="text-align: center;">{{ $ws->name }}</td>
                 <td style="text-align: center;">
-                  <a href="{{ url('/project-reference/edit/' . $ws->id) }}" class="btn btn-outline-warning" ><i class="fa fa-edit" title="Edit."></i></a>
+                  <a href="{{ url('/office/edit/' . $ws->id) }}" class="btn btn-outline-warning" ><i class="fa fa-edit" title="Edit."></i></a>
                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ws->id }}" ><i class="fa fa-trash-o" title="Delete."></i></button>
                 </td>
 
@@ -103,47 +103,5 @@
       </div>
     </div>
   </div>
-  <!-- Zero Configuration  Ends-->
-{{--
-        <div class="container-fluid">
-            <div class="row">
-                <div class="py-3">
-                    <h1>Who Submitted</h1>
-                </div>
-                <div class="card shadow mb-5">
-                    <div class="card-body">
-                            <a href="{{ url('who-submitted/create/') }}"
-                                class="btn btn-primary mb-3"><i class="bx bx-list-plus"></i> Add+</a>
-                        {{-- @if ($ws->status == 'Accepted') --}}
-                            {{-- <a href={{ url('/export_excel/vendor/' . $ws->id) }}
-                                class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a> --}}
-                        {{-- @endif --}}
-                        {{-- <table class="table table-striped" id="table1">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                </tr>
-                            </thead>
-                            @php
-                                $serial = 1;
-                            @endphp
-                            @foreach ($data as $ws)
-                                <tr>
-                                    <td>{{ $serial++ }}</td>
-                                    <td>{{ $ws->name }}</td>
-                                    <td>
-                                        <a href="{{ url('/who-submitted/edit/' . $ws->id) }}"
-                                            class="btn btn-outline-info"><i class="bx bxs-edit"></i> Edit</a>
-                                        <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                            data-bs-target="#modalDelete{{ $ws->id }}">Delete</button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-    </section>
+</section>
 @endsection

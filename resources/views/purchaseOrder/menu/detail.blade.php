@@ -74,7 +74,7 @@
                                         </tr>
                                         <tr>
                                             <td>Purpose</td>
-                                            <td>{{ $data_pengajuan->referensi->name }}</td>
+                                            <td>{{ $data_pengajuan->purpose->name }}</td>
                                         </tr>
                                         <tr>
                                             <td>Send To</td>
@@ -251,8 +251,8 @@
                 </div>
 
                 @if ($data_pengajuan->status == 'Purchase Proses')
-                    <a href="{{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }}"
-                        class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
+                    {{-- <a href="{{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }}"
+                        class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a> --}}
 
                     <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/menu-purchase-order/') }}">Back</a>
                 @endif

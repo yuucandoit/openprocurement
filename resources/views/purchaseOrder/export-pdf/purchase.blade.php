@@ -18,11 +18,8 @@
                     <div class="row invo-header">
                       <div class="col-sm-6">
                         <div class="media">
-                          <div class="media-left"><img class="media-object img-60" src="{{ public_path('assets/images/intek.png') }}" alt=""></div>
-                            <div class="media-body m-l-20">
-                                <h4 class="media-heading f-w-600">Purchase Order</h4>
-                                <p>hello@viho.in<br><span class="digits">289-335-6503</span></p>
-                            </div>
+                          <div class="media-left col-sm-4"><img class="media-object img-60" src="{{ public_path('assets/images/Logo-Intek-8K.png') }}" alt=""> <h4 class="media-heading f-w-600">Purchase Order</h4>
+                            <p>hello@viho.in<br><span class="digits">289-335-6503</span></p></div>
                         </div>
                         <!-- End Info-->
                       </div>
@@ -47,21 +44,35 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-xl-8">
+                    <div class="col-sm-6">
                         <div class="media">
-                            <div class="media-heading f-w-600">
+                            <div class="text-xl-end text-xs-center" id="project">
                                 <h6>Vendor</h6>
-                                {{-- @foreach ($vendorpo as $vp)
-                                <p>{{ $vp->vendorable->name }}</p>
-                                @endforeach --}}
-                                <p></p>
+                                @if($cpo->vendor == 'company')
+                                <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
+                                Contact        :<span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
+                                Website        :<span>{{ $cpo->vendorable->website }}</span></p>
+                                @elseif ($cpo->vendor == 'privateperson')
+                                <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
+                                    Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
+                                    NIK        :<span>{{ $cpo->vendorable->nik }}</span><br>
+                                    NPWP        :<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
+                                @elseif($cpo->vendor == 'ecommerce')
+                                <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
+                                    Link        :<span>{{ $cpo->vendorable->link }}</span></p>
+
+                                @endif
+
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-8">
                       <div class="text-xl-end" id="project">
                         <h6>Project Description</h6>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                        @foreach ($cpp as $c)
+                        <p>{{ $c->desc }}</p>
+                        @endforeach
                       </div>
                     </div>
                   </div>
