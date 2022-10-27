@@ -18,8 +18,8 @@
                         <div class="modal-body container">
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control mt-2" id="floatingName" placeholder="Your Name"
-                                        name="name">
+                                    <input type="text" class="form-control mt-2" id="floatingName"
+                                        placeholder="Your Name" name="name">
                                     <label for="floatingName">Name</label>
                                 </div>
                             </div>
@@ -40,13 +40,12 @@
         </div>
 
         @foreach ($datappb as $purchase)
-            <div class="modal fade" id="modalDelete{{ $purchase->id }}"  tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="modalDelete{{ $purchase->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-danger">
                             <h2 class="modal-title" style="color: white">Delete</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body mx-5 mb-3">
                             <span class="warning">
@@ -64,72 +63,116 @@
                 </div>
             </div>
         @endforeach
-
+        <!-- Page Sidebar Ends-->
         <div class="container-fluid">
-            <div class="row">
-                <div class="py-3">
-                    <h1>Purchase Order</h1>
-                </div>
-
-                <div class="card shadow mb-5">
-                    <div class="card-body">
-                        {{-- <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
-                                class="bx bx-list-plus"></i> Add+</button> --}}
-                        <table class="table table-striped" id="table1">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>Send To</th>
-                                    <th>Date</th>
-                                     @hasrole('purchasing|super admin')
-                                        <th>Status</th>
-                                    @endhasrole
-                                    {{--
-                                    <th>Action</th>
-                                    @hasrole('admin|super admin')
-                                        <th>Accept</th>
-                                        <th>Reject</th>
-                                    @endhasrole --}}
-                                    @hasrole('user')
-                                        <th>Status</th>
-                                    @endhasrole
-                                    <th>Function</th>
-                                </tr>
-                            </thead>
-                            @php
-                                $no = 1;
-                            @endphp
-                            <tbody>
-                                @foreach ($datappb as $purchase)
-                                @if ($purchase->status == 'Selesai Di proses Purchasing' )
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $purchase->ws }}</td>
-                                        <td>{{ $purchase->send_to }}</td>
-                                        <td>{{ $purchase->created_at }}</td>
-                                        @hasrole('purchasing|super admin')
-                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                            style="color: white; font-size:18">{{ $purchase->status }}</a></td>
-
-                                        <td>
-                                            <a href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"
-                                                class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
-                                            {{-- <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
-                                                class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a> --}}
-
-                                                <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                data-bs-target="#modalDelete{{ $purchase->id }}">Delete</button>
-                                        </td>
-                                        @endhasrole
-                                    </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-6 mt-4">
+                        <h3>History Purchase Order</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">History Purchase Order</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6 mt-4">
+                        <!-- Bookmark Start-->
+                        <div class="bookmark">
+                            <ul>
+                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
+                                        data-placement="top" title="" data-original-title="Tables"><i
+                                            data-feather="inbox"></i></a></li>
+                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
+                                        data-placement="top" title="" data-original-title="Chat"><i
+                                            data-feather="message-square"></i></a></li>
+                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
+                                        data-placement="top" title="" data-original-title="Icons"><i
+                                            data-feather="command"></i></a></li>
+                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
+                                        data-placement="top" title="" data-original-title="Learning"><i
+                                            data-feather="layers"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
+                                    <form class="form-inline search-form">
+                                        <div class="form-group form-control-search">
+                                            <input type="text" placeholder="Search..">
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Bookmark Ends-->
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card card-absolute">
+                        <div class="card-header bg-primary">
+                            <h5>Data History List</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="order-history table-responsive">
+                                <table class="table table-bordernone display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Send To</th>
+                                            <th scope="col">Date</th>
+                                            @hasrole('purchasing|super admin')
+                                                <th scope="col">Status</th>
+                                            @endhasrole
+                                            @hasrole('user')
+                                                <th scope="col">Status</th>
+                                            @endhasrole
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                    <tbody>
+                                        @foreach ($datappb as $purchase)
+                                            @if ($purchase->status == 'Selesai Di proses Purchasing')
+                                                <tr>
+                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td style="text-align: center;">{{ $purchase->ws }}</td>
+                                                    <td>{{ $purchase->send_to }}</td>
+                                                    <td style="text-align: center;">{{ $purchase->created_at }}</td>
+                                                    @hasrole('purchasing|super admin')
+                                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:18">{{ $purchase->status }}</a>
+                                                        </td>
+
+                                                        <td>
+                                                            <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #00008B;"
+                                                                href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"><i
+                                                                    class="icon-zoom-in" title="Details"></i>
+                                                            </a>
+
+                                                            <button class="btn btn-danger mt-1" data-bs-toggle="modal"
+                                                                data-bs-target="#modalDelete{{ $purchase->id }}"><i
+                                                                    class="icon-trash" title="Delete"></i>
+                                                            </button>
+
+                                                            {{-- <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
+                                        class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a> --}}
+                                                        </td>
+                                                    @endhasrole
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid Ends                  -->
         </div>
         <script>
             $(document).ready(function() {

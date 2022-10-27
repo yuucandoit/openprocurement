@@ -109,8 +109,8 @@
             <div class="row">
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card card-absolute">
+                        <div class="card-header bg-primary">
                             <h5>Funding Submission</h5>
                         </div>
                         <div class="card-body">
