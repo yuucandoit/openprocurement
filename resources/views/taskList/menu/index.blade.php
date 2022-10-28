@@ -146,7 +146,6 @@
     <script>
         const data = @json($approvedPPB);
         const item = data[0];
-        console.log(data);
 
         // FOR CALCULATE REMAINING DEADLINE TIME 😃
         const remainingTime = (data, elmnt) => {
@@ -155,46 +154,53 @@
                 dateline_time,
                 datetime
             } = data;
+
+            const dateline = {
+                day     : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])/24.1) || 1),
+                hours   : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])%24.1)),
+                minutes : () => dateline.split()[1],
+                seconds : () => dateline.split()[2],
+                time    : () => `${dateline.hours()}:${dateline.minutes()}:${dateline.seconds()}`,
+                split   : () => dateline_time.split(':'),
+                toDigit : (val) => val > 9 ? val : '0'+val,
+            }
+
             const approvedAt = new Date(approved_at);
-            const dueDateTime = new Date(`1970-01-01T${dateline_time}Z`);
+            const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
             const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+
+            console.log(dateline_time, remainingTime.getTime());
 
             if (remainingTime.getTime() < 1) return "Your time is up";
 
             let colors = [];
             const lable = elmnt.querySelector('.badge-lable');
+            const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
             const hours = remainingTime.getUTCHours().toString();
             const minutes = remainingTime.getUTCMinutes().toString();
             const seconds = remainingTime.getUTCSeconds().toString();
 
-            if (data.dateline == '≤3Jam') colors = [
-                [0, 'bg-dark'],
-                [1, 'bg-danger'],
-                [2, 'bg-warning'],
-                [3, 'bg-success'],
-            ]
-            if (data.dateline == '≤24Jam') colors = [
-                [8, 'bg-danger'],
-                [16, 'bg-warning'],
-                [24, 'bg-success'],
-            ]
-            if (data.dateline == '≤2Hari') colors = [
-                [0, 'bg-dark'],
-                [16, 'bg-danger'],
-                [32, 'bg-warning'],
-                [48, 'bg-success'],
-            ]
-
             lable.classList.remove('bg-danger');
             lable.classList.remove('bg-warning');
             lable.classList.remove('bg-success');
-            lable.classList.add(colors.find(item => item[0] > hours)[1]);
+
+            // SUDAH OTOMATIS HITUNG DISINI YAAAAA 😁
+            lable.classList.add((() => {
+                const dueDate   = dueDateTime.getTime();
+                const remaining = remainingTime.getTime();
+
+                if(remaining <= 60*60*1000) return 'bg-dark';
+                if(remaining <= dueDate*1/3) return'bg-danger';
+                if(remaining <= dueDate*2/3) return'bg-warning';
+                if(remaining <= dueDate*3/3) return'bg-success';
+            })());
 
             return (
+                (days.length == 1 ? `0${days}:` : `${days}:`)+
                 (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
                 (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
-                (seconds.length == 1 ? `0${seconds}:` : `${seconds}`)
+                (seconds.length == 1 ? `0${seconds}` : `${seconds}`)
             );
         }
 

@@ -17,7 +17,6 @@ class CategoryPengajuanPembelian extends Model
         'matauang',
         'ws',
         'desc',
-        'category_purpose',
         'purpose',
         'department',
         'no_rek',

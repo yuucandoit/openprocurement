@@ -26,7 +26,7 @@ class TaskListAtasanController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
+            $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'desc')->get();
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
@@ -234,12 +234,13 @@ class TaskListAtasanController extends Controller
             $data->updated_at = Carbon::now();
             $data->approved_at = now();
             $data->status = 'Purchase Submission Approved' ;
-        }elseif($data->dateline == '≤24Jam'){
+        }
+        elseif($data->dateline == '≤24Jam'){
             $data->dateline_time = ('24:00:00');
             $data->updated_at = Carbon::now();
             $data->approved_at = now();
             $data->status = 'Purchase Submission Approved';
-        }elseif($data->dateline == '≤2Hari'){
+        }elseif($data->dateline == '≤48Jam'){
             $data->dateline_time = ('48:00:00');
             $data->updated_at = Carbon::now();
             $data->approved_at = now();

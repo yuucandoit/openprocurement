@@ -85,9 +85,7 @@
                                                 </option>
                                                 <option value="≤3Jam">≤ 3 Jam</option>
                                                 <option value="≤24Jam">≤ 24 Jam</option>
-                                                <option value="≤2Hari">≤ 2 Hari</option>
-                                                <option value="SesuaiPo">Sesuai PO</option>
-                                            </select>
+                                                <option value="≤48Jam">≤ 48 Jam</option>
                                             @error('dateline')
                                                 <div class="invalid-feedback">Please select a valid state.
                                                     {{ $message }}

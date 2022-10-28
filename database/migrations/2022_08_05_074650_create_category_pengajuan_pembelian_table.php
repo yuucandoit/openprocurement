@@ -20,13 +20,12 @@ return new class extends Migration
             $table->foreignId('atasan')->constrained('users');
             $table->foreignId('ws')->constrained('who_submitted'); //Who Submitted(ws)
             $table->foreignId('department')->constrained('department');
-            $table->string('category_purpose');
             $table->morphs('purpose');
             $table->date('date_ps');
             $table->text('desc');
             $table->enum('matauang',['USD','RP']);
             $table->string('send_to');
-            $table->enum('dateline',['≤3Jam','≤24Jam','≤2Hari','SesuaiPo']);
+            $table->enum('dateline',['≤3Jam','≤24Jam','≤48Jam']);
             $table->time('dateline_time')->nullable();
             $table->boolean('ppn')->nullable()->default(false);
             $table->string('image')->nullable();

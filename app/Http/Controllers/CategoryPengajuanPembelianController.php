@@ -175,7 +175,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'dateline' => $request->dateline,
                 'ws' => $request->ws,
                 'department' => $request->department,
-                'desc' => $request->desc,
+                'desc' => $request->desc,   
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
                 'send_to' => $request->send_to,
