@@ -86,6 +86,7 @@
                                                 <option value="≤3Jam">≤ 3 Jam</option>
                                                 <option value="≤24Jam">≤ 24 Jam</option>
                                                 <option value="≤48Jam">≤ 48 Jam</option>
+                                            </select>
                                             @error('dateline')
                                                 <div class="invalid-feedback">Please select a valid state.
                                                     {{ $message }}

@@ -241,7 +241,7 @@ class TaskListAtasanController extends Controller
             $data->approved_at = now();
             $data->status = 'Purchase Submission Approved';
         }elseif($data->dateline == '≤48Jam'){
-            $data->dateline_time = ('48:00:00');
+            $data->dateline_time = ('49:00:00');
             $data->updated_at = Carbon::now();
             $data->approved_at = now();
             $data->status = 'Purchase Submission Approved';
