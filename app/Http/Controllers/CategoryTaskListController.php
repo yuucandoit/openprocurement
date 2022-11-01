@@ -23,11 +23,9 @@ class CategoryTaskListController extends Controller
         if ($check->role_id == 4 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
             $purpose = ReferensiNamaProject::all();
-            $datadv = CategoryTL::all();
             return view('taskList.menu.index')
             ->with('purpose', $purpose)
-            ->with('datappb', $datappb)
-            ->with('datadv', $datadv);
+            ->with('datappb', $datappb);
         }
     }
 
@@ -36,10 +34,8 @@ class CategoryTaskListController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
-            $datadv = CategoryTL::all();
             return view('taskList.menu.history')
-            ->with('datappb', $datappb)
-            ->with('datadv', $datadv);
+            ->with('datappb', $datappb);
         }
     }
 
@@ -124,7 +120,8 @@ class CategoryTaskListController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete = CategoryPengajuanPembelian::find($id);
+        $delete->delete();
     }
     public function accept($id)
     {

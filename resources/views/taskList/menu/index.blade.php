@@ -4,7 +4,7 @@
 
 @section('main')
     <section>
-        @foreach ($datadv as $a)
+        @foreach ($datappb as $a)
             <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
