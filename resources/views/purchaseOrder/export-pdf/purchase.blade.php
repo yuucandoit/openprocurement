@@ -48,7 +48,9 @@
                         <div class="media">
                             <div class="text-xl-end text-xs-center" id="project">
                                 <h6>Vendor</h6>
-                                @if($cpo->vendorable_type == 'App\Models\CategoryPT')
+                                @if(empty($cpo->vendorable_type))
+                                <p>Not Filled in Yet</p>
+                                @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
                                 <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
                                 Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
                                 Contact        :<span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
@@ -61,7 +63,6 @@
                                 @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce  ')
                                 <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
                                     Link        :<span>{{ $cpo->vendorable->link }}</span></p>
-
                                 @endif
 
                             </div>
