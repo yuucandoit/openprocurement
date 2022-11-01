@@ -229,7 +229,7 @@
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*invoicing*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/invoicing') }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/billing_process') }}">
                                             <i data-feather="file-text"></i>
                                             <span>Billing Process</span>
                                         </a>

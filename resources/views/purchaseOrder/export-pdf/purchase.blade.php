@@ -19,7 +19,7 @@
                       <div class="col-sm-6">
                         <div class="media">
                           <div class="media-left col-sm-4"><img class="media-object img-60" src="{{ public_path('assets/images/Logo-Intek-8K.png') }}" alt=""> <h4 class="media-heading f-w-600">Purchase Order</h4>
-                            <p>hello@viho.in<br><span class="digits">289-335-6503</span></p></div>
+                            </div>
                         </div>
                         <!-- End Info-->
                       </div>
@@ -48,17 +48,17 @@
                         <div class="media">
                             <div class="text-xl-end text-xs-center" id="project">
                                 <h6>Vendor</h6>
-                                @if($cpo->vendor == 'company')
+                                @if($cpo->vendorable_type == 'App\Models\CategoryPT')
                                 <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
                                 Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
                                 Contact        :<span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
                                 Website        :<span>{{ $cpo->vendorable->website }}</span></p>
-                                @elseif ($cpo->vendor == 'privateperson')
+                                @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
                                 <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
                                     Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
                                     NIK        :<span>{{ $cpo->vendorable->nik }}</span><br>
                                     NPWP        :<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
-                                @elseif($cpo->vendor == 'ecommerce')
+                                @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce  ')
                                 <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
                                     Link        :<span>{{ $cpo->vendorable->link }}</span></p>
 

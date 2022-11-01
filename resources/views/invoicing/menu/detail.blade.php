@@ -1,4 +1,4 @@
-<title>billing process details</title>
+<title>Billing process details</title>
 
 @extends('layouts.master')
 
@@ -76,7 +76,7 @@
                                     </tr>
                                     <tr>
                                         <td>Purpose</td>
-                                        <td>{{ $data_pengajuan->referensi->name }}</td>
+                                        <td>{{ $data_pengajuan->purpose->name }}</td>
                                     </tr>
                                     <tr>
                                         <td>Send To</td>
@@ -236,7 +236,7 @@
                                         <div class="modal-footer">
                                             @if ($data_pengajuan->status == 'PO Approved')
                                                 <form class="text-center"
-                                                    action="{{ url('invoicing/ajukan_dana', $data_pengajuan->id) }}">
+                                                    action="{{ url('billing_process/ajukan_dana', $data_pengajuan->id) }}">
                                                     <button type="submit" class="btn btn-outline-danger"><i
                                                             class="bx bx-trash"></i>
                                                         Apply For Purchase Funding
@@ -256,7 +256,7 @@
                             <a href="{{ url('/exportpdf/po/' . $data_pengajuan->id) }}" class="btn btn-danger mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-export"></i> Export to PDF</a>
 
-                            <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/invoicing/') }}">Back</a>
+                            <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/billing_process/') }}">Back</a>
                         @endif
                     </div>
     </section>

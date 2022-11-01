@@ -362,15 +362,15 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     // Menu Pengajuan dana Purchase Order
-    Route::group(['prefix' => 'invoicing'], function () {
-        Route::get('/', [InvoicingController::class, 'index'])->name('invoicing.index');
-        Route::get('/history', [InvoicingController::class, 'history'])->name('invoicing.history');
-        Route::get('/detail/{id}', [InvoicingController::class, 'detail'])->name('invoicing.detail');
-        Route::post('/update/{id}', [InvoicingController::class, 'update'])->name('invoicing.update');
-        Route::get('/edit/{id}', [InvoicingController::class, 'edit'])->name('invoicing.edit');
-        Route::get('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('invoicing.destroy');
-        Route::get('/ajukan_dana/{id}', [InvoicingController::class, 'ajukan_dana'])->name('invoicing-ajukan_dana');
-        Route::get('/denied/{id}', [InvoicingController::class, 'denied'])->name('invoicing-denied');
+    Route::group(['prefix' => 'billing_process'], function () {
+        Route::get('/', [InvoicingController::class, 'index'])->name('billing_process.index');
+        Route::get('/history', [InvoicingController::class, 'history'])->name('billing_process.history');
+        Route::get('/detail/{id}', [InvoicingController::class, 'detail'])->name('billing_process.detail');
+        Route::post('/update/{id}', [InvoicingController::class, 'update'])->name('billing_process.update');
+        Route::get('/edit/{id}', [InvoicingController::class, 'edit'])->name('billing_process.edit');
+        Route::get('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('billing_process.destroy');
+        Route::get('/ajukan_dana/{id}', [InvoicingController::class, 'ajukan_dana'])->name('billing_process-ajukan_dana');
+        Route::get('/denied/{id}', [InvoicingController::class, 'denied'])->name('billing_process-denied');
     });
 
     // Menu Pengajuan dana
