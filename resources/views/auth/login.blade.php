@@ -75,17 +75,17 @@
                             <div class="login-card column">
                                 <form class="theme-form login-form needs-validation" method="POST"
                                     action="{{ route('login') }}">
-                                    <div class="logo-login" style="text-align: center; height: 63px;">
+                                    <div class="logo-login" style="height: 63px;">
                                         <img src="{{ asset('assets/images/Logo-Intek-8K.png') }}" alt="icon">
                                     </div>
                                     @csrf
-                                    <h4 style="font-family: 'Times New Roman', Times, serif; font-size: 25px;">
+                                    <h4 style=" font-size: 25px;">
                                         Login
                                     </h4>
-                                    <h6 style="font-family: 'Times New Roman', Times, serif;">
+                                    <h6 style="">
                                         Welcome back! Log in to your account.</h6>
                                     <div class="form-group">
-                                        <label style="font-family: 'Times New Roman', Times, serif;">Email
+                                        <label style="">Email
                                             Address</label>
                                         <div class="input-group"><span class="input-group-text"><i
                                                     class="icon-email"></i></span>
@@ -101,7 +101,7 @@
                                         </div>
                                     @enderror
                                     <div class="form-group">
-                                        <label style="font-family: 'Times New Roman', Times, serif;">Password</label>
+                                        <label style="">Password</label>
                                         <div class="input-group"><span class="input-group-text"><i
                                                     class="icon-lock"></i></span>
                                             <input class="form-control" type="password" name="password"
@@ -113,10 +113,10 @@
                                         <div class="checkbox">
                                             <input id="checkbox1" type="checkbox">
                                             <label class="text-muted" for="checkbox1"
-                                                style="font-family: 'Times New Roman', Times, serif;">Remember
+                                                style="">Remember
                                                 password</label>
                                         </div><a class="link" href="forget-password.html"
-                                            style="font-family: 'Times New Roman', Times, serif;">Forgot password?</a>
+                                            style="">Forgot password?</a>
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
@@ -132,9 +132,9 @@
                           <li><a href="https://www.instagram.com/login" target="_blank"><i data-feather="instagram">                  </i></a></li>
                         </ul>
                       </div> --}}
-                                    <p style="font-family: 'Times New Roman', Times, serif;">Don't have account?<a
+                                    <p style="">Don't have account?<a
                                             class="ms-2" href="{{ route('register') }}"
-                                            style="font-family: 'Times New Roman', Times, serif;">Create
+                                            style="">Create
                                             Account</a></p>
                                 </form>
                             </div>

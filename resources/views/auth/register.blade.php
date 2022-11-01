@@ -66,12 +66,12 @@
                         <form class="theme-form login-form" method="POST" action="{{ route('register') }}">
                             @csrf
                             <h4
-                                style="text-align: center; font-family: 'Times New Roman', Times, serif; font-size: 27px;">
+                                style="text-align: center;  font-size: 27px;">
                                 Create your account</h4>
-                            <h6 style="text-align: center;" style="font-family: 'Times New Roman', Times, serif;">Enter
+                            <h6 style="text-align: center;" style="">Enter
                                 your personal details to create account</h6>
                             <div class="form-group">
-                                <label style="font-family: 'Times New Roman', Times, serif;">Your Name</label>
+                                <label style="">Your Name</label>
                                 <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
                                     <input class="form-control @error('name') is-invalid @enderror" type="text"
                                         name="name" placeholder="Name">
@@ -83,7 +83,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label style="font-family: 'Times New Roman', Times, serif;">Email Address</label>
+                                <label style="">Email Address</label>
                                 <div class="input-group"><span class="input-group-text"><i
                                             class="icon-email"></i></span>
                                     <input class="form-control @error('email') is-invalid @enderror" type="email"
@@ -98,7 +98,7 @@
                                 </div>
                             @enderror
                             <div class="form-group">
-                                <label style="font-family: 'Times New Roman', Times, serif;">Password</label>
+                                <label style="">Password</label>
                                 <div class="input-group"><span class="input-group-text"><i
                                             class="icon-lock"></i></span>
                                     <input class="form-control  @error('password') is-invalid @enderror"
@@ -115,7 +115,7 @@
                             @enderror
 
                             <div class="form-group">
-                                <label style="font-family: 'Times New Roman', Times, serif;">Confirm Password</label>
+                                <label style="">Confirm Password</label>
                                 <div class="input-group"><span class="input-group-text"><i
                                             class="icon-lock"></i></span>
                                     <input class="form-control  @error('password_confirmation') is-invalid @enderror"
@@ -135,8 +135,8 @@
                                 <div class="checkbox">
                                     <input id="checkbox1" type="checkbox">
                                     <label class="text-muted" for="checkbox1"
-                                        style="font-family: 'Times New Roman', Times, serif;">Agree with <span
-                                            style="font-family: 'Times New Roman', Times, serif;">Privacy
+                                        style="">Agree with <span
+                                            style="">Privacy
                                             Policy
                                         </span></label>
                                 </div>
@@ -144,9 +144,9 @@
                             <div class="form-group">
                                 <button class="btn btn-primary btn-block" type="submit">Create Account</button>
                             </div>
-                            <p style="font-family: 'Times New Roman', Times, serif;">Already have an account?<a
+                            <p style="">Already have an account?<a
                                     class="ms-2" href="{{ route('login') }}"
-                                    style="font-family: 'Times New Roman', Times, serif;">Sign in</a></p>
+                                    style="">Sign in</a></p>
                         </form>
                     </div>
                 </div>

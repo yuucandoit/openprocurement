@@ -176,7 +176,7 @@
                                                             <td> -/- </td>
                                                             <td> -/- </td>
                                                         @endif
-                                                        <td style="text-align: center;">{{ $ppb->updated_at }}</td>
+                                                        <td style="text-align: center;">{{ $ppb->approved_at }}</td>
                                                         @hasrole('purchasing|super admin')
                                                             <td>
                                                                 <a class="btn btn-iconsolid mt-1"
