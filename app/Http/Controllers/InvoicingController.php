@@ -204,7 +204,7 @@ class InvoicingController extends Controller
         // dd($data);
         $data->status = 'Invoicing Process';
         $data->save();
-        return redirect('/invoicing');
+        return redirect('/billing_process');
     }
 
     public function Reject($id)
@@ -212,6 +212,6 @@ class InvoicingController extends Controller
         $data = CategoryPO::find($id);
         $data->status = 'Rejected By Purchasing';
         $data->save();
-        return redirect('/invoicing');
+        return redirect('/billing_process');
     }
 }

@@ -35,10 +35,10 @@
     <div class="page-header">
       <div class="row">
         <div class="col-sm-6 mt-4">
-          <h3>Purchase Submission</h3>
-          <ol class="breadcrumb">
+          <h3>Purchase Request</h3>
+          <ol class="breadcrumb ">
             <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item">Purchase Submission</li>
+            <li class="breadcrumb-item">Purchase Request</li>
           </ol>
         </div>
         <div class="col-sm-6 mt-4">

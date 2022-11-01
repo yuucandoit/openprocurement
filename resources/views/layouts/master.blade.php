@@ -208,7 +208,7 @@
                                         <a class="nav-link menu-title link-nav"
                                             href="{{ url('/menu-pengajuan-pembelian') }}">
                                             <i data-feather="file-text"></i>
-                                            <span>Purchase Submission </span>
+                                            <span>Purchase Request </span>
                                         </a>
                                     </li>
                                 @endhasrole
@@ -254,7 +254,7 @@
                                     <li class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-dana') }}">
                                             <i data-feather="dollar-sign"></i>
-                                            <span> Funding Submission</span>
+                                            <span> Funding Request</span>
                                         </a>
                                     </li>
                                 @endhasrole

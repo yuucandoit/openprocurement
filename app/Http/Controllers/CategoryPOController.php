@@ -33,6 +33,7 @@ class CategoryPOController extends Controller
         if ($check->role_id == 4 || $check->role_id == 3) {
             $datappb            = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
             $datappb2           = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->first();
+            $datahstry          = CategoryPengajuanPembelian::get();
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();
             $dataws             = WhoSubmitted::all();
@@ -43,6 +44,7 @@ class CategoryPOController extends Controller
                 ->with('pt',$pt)
                 ->with('op',$op)
                 ->with('ec',$ec)
+                ->with('datahstry', $datahstry)
                 ->with('dataws', $dataws)
                 ->with('datadepartment', $datadepartment)
                 ->with('datappb2', $datappb2)
