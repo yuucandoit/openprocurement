@@ -1,102 +1,80 @@
-<!-- Plugins css Ends-->
-<!-- Bootstrap css-->
-<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/bootstrap.css') }}">
-<!-- App css-->
-<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/style.css') }}">
-<link id="color" rel="stylesheet" href="{{ public_path('assets/css/color-1.css') }}" media="screen">
-<!-- Responsive css-->
-<link rel="stylesheet" type="text/css" href="{{ public_path('assets/css/responsive.css') }}">
 
 <!-- Container-fluid starts-->
-    <div class="">
-        <div class="row">
-            <div class="col-sm-12">
-            <div class="card">
-              <div class="card-body">
-                <div>
-                  <div>
-                    <div class="row invo-header">
-                      <div class="col-sm-6">
-                        <div class="media">
-                          <div class="media-left col-sm-4"><img class="media-object img-60" src="{{ public_path('assets/images/Logo-Intek-8K.png') }}" alt=""> <h4 class="media-heading f-w-600">Purchase Order</h4>
-                            </div>
-                        </div>
-                        <!-- End Info-->
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="text-md-end text-xs-center">
-                          <h3>Invoice #<span class="digits counter">1069</span></h3>
-                          <p>Issued: May<span class="digits"> 27, 2015</span><br>Payment Due: June <span class="digits">27, 2015</span></p>
-                        </div>
-                        <!-- End Title-->
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End InvoiceTop-->
-                  <div class="row invo-profile">
-                    <div class="col-xl-8">
-                      <div class="media">
-                        {{-- <div class="media-left"><img class="media-object rounded-circle img-60" src="../assets/images/user/1.jpg" alt=""></div> --}}
-                        <div class="media-body m-l-20">
-                            @foreach ($cpp as $p)
-                            <h6 class="media-heading f-w-600">Department: {{ $p->dps->name }}</h6>
-                            @endforeach
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="media">
-                            <div class="text-xl-end text-xs-center" id="project">
-                                <h6>Vendor</h6>
-                                @if(empty($cpo->vendorable_type))
-                                <p>Not Filled in Yet</p>
-                                @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
-                                <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
-                                Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
-                                Contact        :<span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
-                                Website        :<span>{{ $cpo->vendorable->website }}</span></p>
-                                @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
-                                <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
-                                    Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
-                                    NIK        :<span>{{ $cpo->vendorable->nik }}</span><br>
-                                    NPWP        :<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
-                                @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce  ')
-                                <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
-                                    Link        :<span>{{ $cpo->vendorable->link }}</span></p>
-                                @endif
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+        </head>
+            <body>
+                <table width="100%">
+                    <tr>
+                        <td><img src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="50"> </td>
+                        <td> <h4 class="media-heading f-w-600">Purchase Order</h4></td>
+                        <td align="right" class="text-end">
+                            <h3>Invoice #<span class="digits counter">1069</span></h3>
+                            <p>Issued: May<span class="digits"> 27, 2015</span><br>Payment Due: June <span class="digits">27, 2015</span></p>
+                        </td>
+                    </tr>
+                </table>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-8">
-                      <div class="text-xl-end" id="project">
-                        <h6>Project Description</h6>
-                        @foreach ($cpp as $c)
-                        <p>{{ $c->desc }}</p>
-                        @endforeach
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End Invoice Mid-->
-                  <div>
-                    <div class="table-responsive invoice-table" id="table">
-                      <table class="table table-bordered table-striped">
+                  <table width="100%">
+                    <tr>
+                        <td>
+                            <h6>Vendor</h6>
+                            @if(empty($cpo->vendorable_type))
+                            <p>Not Filled Yet</p>
+                            @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
+                            <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
+                            Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
+                            Contact        :<span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
+                            Website        :<span>{{ $cpo->vendorable->website }}</span></p>
+                            @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
+                            <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
+                                NIK        :<span>{{ $cpo->vendorable->nik }}</span><br>
+                                NPWP        :<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
+                            @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce  ')
+                            <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Link        :<span>{{ $cpo->vendorable->link }}</span></p>
+                            @endif
+                        </td>
+
+                        <td align="right top">
+                            <h6 class="media-heading f-w-600">Department </h6>
+                            @foreach ($cpp as $p)
+                            <p>{{ $p->dps->name }}</p>
+                            @endforeach
+                        </td>
+                        <td align="right top">
+                            <h6>Project Description</h6>
+                            @foreach ($cpp as $c)
+                            <p>{{ $c->desc }}</p>
+                            @endforeach
+                        </td>
+                    </tr>
+                  </table>
+
+                      <table class="table table-bordered table-striped" style="margin-bottom: 50px;">
                         <tbody>
                           <tr>
-                            <td class="item">
-                              <h6 class="p-2 mb-0">Item</h6>
+                            <td>
+                              <h6 >Item</h6>
                             </td>
                             <td class="Hours">
-                              <h6 class="p-2 mb-0">Quantity</h6>
+                              <h6 >Quantity</h6>
                             </td>
                             <td class="Rate">
-                              <h6 class="p-2 mb-0">Unit</h6>
+                              <h6 >Unit</h6>
                             </td>
                             <td class="subtotal">
-                              <h6 class="p-2 mb-0">Price/Unit</h6>
+                              <h6 >Price/Unit</h6>
                             </td>
                             <td class="subtotal">
-                                <h6 class="p-2 mb-0">Total</h6>
+                                <h6 >Total</h6>
                               </td>
                           </tr>
                           @foreach ($category_q as $q)
@@ -118,51 +96,6 @@
                             </td>
                           </tr>
                         @endforeach
-                          {{-- <tr>
-                            <td>
-                              <label>Lorem Ipsum</label>
-                              <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                            </td>
-                            <td>
-                              <p class="itemtext digits">3</p>
-                            </td>
-                            <td>
-                              <p class="itemtext digits">$75</p>
-                            </td>
-                            <td>
-                              <p class="itemtext digits">$225.00</p>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label>Lorem Ipsum</label>
-                              <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                            </td>
-                            <td>
-                              <p class="itemtext digits">10</p>
-                            </td>
-                            <td>
-                              <p class="itemtext digits">$75</p>
-                            </td>
-                            <td>
-                              <p class="itemtext digits">$750.00</p>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label>Lorem Ipsum</label>
-                              <p class="m-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                            </td>
-                            <td>
-                              <p class="itemtext digits">10</p>
-                            </td>
-                            <td>
-                              <p class="itemtext digits">$75</p>
-                            </td>
-                            <td>
-                              <p class="itemtext digits">$750.00</p>
-                            </td>
-                          </tr>--}}
                           <tr>
                             <td>
                                 <p class="itemtext"></p>
@@ -238,41 +171,26 @@
                           </tr>
                         </tbody>
                       </table>
-                    </div>
-                    <!-- End Table-->
-                    <div class="container">
-                    <div class="row mt-3">
-                      <div class="col">
-                        <div>
-                          <p class="legal"><strong>Terms & Conditions</strong> <br>
+
+                    <table width="90%">
+                        <tr>
+                            <td><p class="legal"><strong>Terms & Conditions</strong> <br>
                             @if (empty($cpo->term->term_condition))
                             Not Filled in yet
                             @else
                             {!!  nl2br($cpo->term->term_condition) !!}</p>
-                            @endif
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="text-end">
+                            @endif</td>
+                            <td align="right">
                             @foreach ($cpp as $c)
                             @if ($c->status == 'PO Approved')
-                            <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style=" width:90px; height:80px"  class="text-end">
-                            <strong style=" padding-right:12px;">{{ $cpo->atasans->name }}</strong>
+                            <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style=" width:20px;">
+                            <strong>{{ $cpo->atasans->name }}</strong>
                             @else
-                            <strong style=" padding-right:12px;">BOD Name</strong>
+                            <strong>BOD Name</strong>
                             @endif
                             @endforeach
-                        </div>
-                      </div>
-                    </div>
-                    </div>
-                  </div>
-                  <!-- End InvoiceBot-->
-                </div>
-                <!-- End Invoice-->
-                <!-- End Invoice Holder-->
-              </div>
-             </div>
-            </div>
-          </div>
-        </div>
+                            </td>
+                        </tr>
+                    </table>
+               </body>
+            </html>
