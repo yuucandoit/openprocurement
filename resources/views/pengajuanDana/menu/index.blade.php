@@ -1,4 +1,4 @@
-<title>Purchase Funding</title>
+<title>Funding Request</title>
 
 @extends('layouts.master')
 
