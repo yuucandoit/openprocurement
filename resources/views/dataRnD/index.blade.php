@@ -1,4 +1,4 @@
-<title>Data Purpose Inventory</title>
+<title>Data Purpose RnD</title>
 
 @extends('layouts.master')
 
@@ -21,7 +21,7 @@
                             <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/inventory/destroy/' . $a->id) }}" >
+                            <form action="{{ url('/RnD/destroy/' . $a->id) }}" >
                                 <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                     Delete</button>
                             </form>
@@ -36,10 +36,10 @@
     <div class="page-header">
       <div class="row">
         <div class="col-sm-6">
-          <h1>Purpose Inventory</h1>
+          <h1>Purpose RnD</h1>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item">Inventory</li>
+            <li class="breadcrumb-item">RnD</li>
           </ol>
         </div>
         <div class="col-sm-6">
@@ -71,7 +71,7 @@
       <div class="col-sm-12">
         <div class="card">
           <div class="card-body">
-            <a href="{{ url('/inventory/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
+            <a href="{{ url('/RnD/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
             <div class="table-responsive">
               <table class="display" id="basic-1">
                 <thead>
@@ -90,7 +90,7 @@
                 <td style="text-align: center;">{{ $no++ }}</td>
                 <td style="text-align: center;">{{ $ws->name }}</td>
                 <td style="text-align: center;">
-                  <a href="{{ url('/inventory/edit/' . $ws->id) }}" class="btn btn-outline-warning" ><i class="fa fa-edit" title="Edit."></i></a>
+                  <a href="{{ url('/RnD/edit/' . $ws->id) }}" class="btn btn-outline-warning" ><i class="fa fa-edit" title="Edit."></i></a>
                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ws->id }}" ><i class="fa fa-trash-o" title="Delete."></i></button>
                 </td>
 

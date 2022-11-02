@@ -13,7 +13,7 @@
                         <h3>Billing Process</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Billing Process</li>
+                            <li class="breadcrumb-item active"><a href="{{ url('/billing_process') }}">Billing Process</a></li>
                         </ol>
                     </div>
                     <div class="col-sm-6 mt-4">

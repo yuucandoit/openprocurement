@@ -111,7 +111,7 @@
                     <div class="col-sm-12">
                         <div class="card card-absolute">
                             <div class="card-header bg-primary">
-                                <h5>Shipping Process List</h5>
+                                <h5>Shipping Process In List</h5>
                             </div>
                             <div class="card-body">
                                 <div class="order-history table-responsive">
@@ -163,8 +163,74 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Container-fluid Ends                  -->
+                        <!-- Container-fluid Ends -->
                     </div>
+                </div>
+            </div>
+
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                <h5>Shipping Process Out List</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="order-history table-responsive">
+                                    <table class="table table-bordernone display" id="advance-1">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th>No</th>
+                                                <th>Applicant Name</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        @php
+                                            $no = 1;
+                                            $approvedPPB = [];
+                                        @endphp
+                                        <tbody>
+                                            @foreach ($datappb as $ppb)
+                                                @if ($ppb->status == 'Delivery Success')
+                                                    @php $approvedPPB[] =$ppb; @endphp
+                                                    <tr>
+                                                        <td>{{ $no++ }}</td>
+                                                        <td>{{ $ppb->whosubmit->name }}</td>
+                                                        <td>{{ $ppb->created_at }}</td>
+                                                        @hasrole('purchasing|super admin')
+                                                            <td>
+                                                                <a class="btn btn-iconsolid mt-1 mx-2"
+                                                                    style="background-color: #008b2c;"
+                                                                    href="{{ url('/delivery/create/' . $ppb->id) }}"><i
+                                                                        class="icon-file" title="Create"></i>
+
+                                                                    <a class="btn btn-iconsolid mt-1"
+                                                                        style="background-color: #00008B;"
+                                                                        href="{{ url('/delivery/detail/' . $ppb->id) }}"><i
+                                                                            class="icon-zoom-in" title="Details"></i>
+                                                                    </a>
+
+                                                                    <button class="btn btn-danger mt-1" data-bs-toggle="modal"
+                                                                        data-bs-target="#modalDelete{{ $ppb->id }}"><i
+                                                                            class="icon-trash" title="Delete"></i>
+                                                                    </button>
+                                                            </td>
+                                                        @endhasrole
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Container-fluid Ends -->
+                    </div>
+                </div>
+            </div>
+
                     <script>
                         $(document).ready(function() {
 

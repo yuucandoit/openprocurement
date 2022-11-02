@@ -14,6 +14,7 @@ use App\Models\Inventory;
 use App\Models\Office;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
+use App\Models\RND;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\WhoSubmitted;
@@ -127,12 +128,14 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_office     = Office::all();
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
+        $purpose_rnd        = RND::all();
         return view('pengajuanPembelian.menu.create')
             ->with('atasan', $atasan)
             ->with('purpose', $purpose)
             ->with('purpose_office', $purpose_office)
             ->with('purpose_inventory', $purpose_inventory)
             ->with('purpose_workshop', $purpose_workshop)
+            ->with('purpose_rnd', $purpose_rnd)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment);
     }
@@ -175,7 +178,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'dateline' => $request->dateline,
                 'ws' => $request->ws,
                 'department' => $request->department,
-                'desc' => $request->desc,   
+                'desc' => $request->desc,
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
                 'send_to' => $request->send_to,
@@ -196,6 +199,9 @@ class CategoryPengajuanPembelianController extends Controller
             }elseif($request->category_purpose == "inventory") {
                 $purpose4 = Inventory::find($request->sub_purpose);
                 $pengajuan = $purpose4->purposes()->save($pengajuan);
+            }elseif($request->category_purpose == "rnd") {
+                $purpose5 = RND::find($request->sub_purpose);
+                $pengajuan = $purpose5->purposes()->save($pengajuan);
             }
 
 

@@ -29,6 +29,7 @@ use App\Http\Controllers\PO_B_Controller;
 use App\Http\Controllers\PrivatePersonController;
 use App\Http\Controllers\PurchaseFundingSubmissionController;
 use App\Http\Controllers\ReferensiNamaProjectController;
+use App\Http\Controllers\RNDController;
 use App\Http\Controllers\TaskListAtasanController;
 use App\Http\Controllers\TaskListAtasanPaymentController;
 use App\Http\Controllers\TasklistAtasanPoController;
@@ -249,6 +250,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [InventoryController::class, 'edit'])->name('inventory.edit');
         Route::post('/update/{id}', [InventoryController::class, 'update'])->name('inventory.update');
         Route::get('/destroy/{id}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
+    });
+
+    Route::group(['prefix' => 'RnD'], function () {
+        Route::get('/', [RNDController::class, 'index'])->name('RnD.index');
+        Route::get('/create', [RNDController::class, 'create'])->name('RnD.create');
+        Route::post('/store', [RNDController::class, 'store'])->name('RnD.store');
+        Route::get('/edit/{id}', [RNDController::class, 'edit'])->name('RnD.edit');
+        Route::post('/update/{id}', [RNDController::class, 'update'])->name('RnD.update');
+        Route::get('/destroy/{id}', [RNDController::class, 'destroy'])->name('RnD.destroy');
     });
 
     Route::group(['prefix' => 'department'], function () {

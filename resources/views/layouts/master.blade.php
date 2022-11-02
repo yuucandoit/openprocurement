@@ -230,14 +230,14 @@
                                     </li>
                                     <li class="dropdown {{ request()->is('*invoicing*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav" href="{{ url('/billing_process') }}">
-                                            <i data-feather="file-text"></i>
-                                            <span>Billing Process</span>
+                                            <i class="fa fa-money"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;Billing Process</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav" href="{{ url('/delivery') }}">
-                                            <i data-feather="file-text"></i>
-                                            <span>Delivery</span>
+                                            <i class="fa fa-truck"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;Delivery</span>
                                         </a>
                                     </li>
                                 @endhasrole
@@ -381,11 +381,7 @@
 
                                 <!--Data Master-->
                                 @hasrole('admin|super admin')
-                                    {{-- <li class="sidebar-main-title">
-                          <div>
-                            <h6>Data Master</h6>
-                          </div>
-                        </li> --}}
+
                                     <li class="sidebar-main-title">
                                         <div>
                                             <h6>Data Master Supplier</h6>
@@ -443,6 +439,12 @@
                                         <a class="nav-link menu-title link-nav" href="{{ url('/inventory') }}">
                                             <i class="icofont icofont-list"></i>
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Inventory</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*RnD*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/RnD') }}">
+                                            <i class="icofont icofont-presentation-alt  "></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose R&D</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">

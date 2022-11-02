@@ -110,7 +110,8 @@
                     </div>
                 </div>
             </div>
-{{-- Purchase Order --}}
+
+            {{-- Purchase Order --}}
             <!-- Container-fluid starts-->
             <div class="container-fluid">
                 <div class="row">
@@ -215,8 +216,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
+          </div>
 
-                                                {{-- History  --}}
+            {{-- History  --}}
               <!-- Container-fluid starts-->
               <div class="container-fluid">
                 <div class="row">
@@ -258,7 +261,9 @@
                                                     $ppb->status == 'PO Approved' ||
                                                     $ppb->status == 'Invoicing Process' ||
                                                     $ppb->status == 'Unpaid' ||
-                                                    $ppb->status == 'Paid')
+                                                    $ppb->status == 'Paid' ||
+                                                    $ppb->status == 'Delivery Process' ||
+                                                    $ppb->status == 'Delivery Success')
                                                     <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
@@ -314,6 +319,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
                     <script>
                         $(document).ready(function() {

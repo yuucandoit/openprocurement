@@ -55,7 +55,7 @@
                                 <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                             </div>
                             <div class="modal-footer">
-                                <form action="{{ url('/menu-purchase-order/destroy/' . $purchase->id) }}">
+                                <form action="{{ url('/delivery/destroy/' . $purchase->id) }}">
                                     <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                         Delete</button>
                                 </form>
@@ -73,7 +73,7 @@
                             <h3>Billing Process</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Billing Process</li>
+                                <li class="breadcrumb-item active"><a href="{{ url('/billing_process') }}">Billing Process</a></li>
                             </ol>
                         </div>
                         <div class="col-sm-6 mt-4">
@@ -111,18 +111,15 @@
                 <div class="row">
                     <!-- Zero Configuration  Starts-->
                     <div class="col-sm-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <button disabled type="button" class="btn btn-danger" style="margin-bottom: 1rem;"
-                                    href="" onclick="exportSelectedFile()" id="button-export-terpilih">Export
-                                    Selected File</button>
-                            </div>
+                        <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                    <h5>Billing Process List In</h5>
+                                </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="display" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
-                                                <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Name</th>
                                                 <th>Send To</th>
@@ -148,9 +145,6 @@
                                                 @if ($ppb->status == 'PO Approved')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
-                                                        <td style="text-align: center;"><input type="checkbox"
-                                                                name="" id="">
-                                                        </td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                         <td style="text-align: center;">{{ $ppb->send_to }}</td>
@@ -188,7 +182,77 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Zero Configuration  Ends-->
+                </div>
+            </div>
+            <!-- Zero Configuration  Ends-->
+
+             <!-- Container-fluid starts-->
+             <div class="container-fluid">
+                <div class="row">
+                    <!-- Zero Configuration  Starts-->
+                    <div class="col-sm-12">
+                        <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                    <h5>Billing Process List Out</h5>
+                                </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="display" id="advance-1">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th>No</th>
+                                                <th>Name</th>
+                                                <th>Send To</th>
+                                                <th>Date Line</th>
+                                                <th>Date</th>
+                                                @hasrole('purchasing|super admin')
+                                                    <th>Status</th>
+                                                @endhasrole
+                                                @hasrole('user')
+                                                    <th>Status</th>
+                                                @endhasrole
+                                                <th>Function</th>
+                                            </tr>
+                                        </thead>
+                                        @php
+                                            $no = 1;
+                                        @endphp
+                                        <tbody>
+                                            @foreach ($datappb as $ppb)
+                                                @if ($ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' ||  $ppb->status == 'Paid'  ||  $ppb->status == 'Delivery Process' ||  $ppb->status == 'Delivery Success'  )
+                                                    @php $approvedPPB[] =$ppb; @endphp
+                                                    <tr>
+                                                        <td style="text-align: center;">{{ $no++ }}</td>
+                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                                        <td style="text-align: center;">{{ $ppb->send_to }}</td>
+                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                        <td>{{ $ppb->created_at }}</td>
+                                                        @hasrole('purchasing|super admin')
+                                                            <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                            </td>
+
+                                                            <td style="text-align: center;">
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #00008B;"
+                                                                    href="{{ url('/billing_process/detail/' . $ppb->id) }}"><i
+                                                                        class="icon-zoom-in" title="Details"></i>
+                                                                </a>
+                                                            </td>
+                                                        @endhasrole
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Zero Configuration  Ends-->
+
                     <script>
                         $(document).ready(function() {
 

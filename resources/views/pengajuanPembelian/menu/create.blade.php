@@ -136,6 +136,7 @@
                                                 <option value="office">Office</option>
                                                 <option value="workshop">Workshop</option>
                                                 <option value="inventory">Inventory</option>
+                                                <option value="rnd">R&D</option>
                                             </select>
                                             {{-- Project Dropdown --}}
                                             <select class=" form-select hide mt-2" id="selectedInput" name="sub_purpose">
@@ -165,6 +166,14 @@
                                             <select class=" form-select hide" id="selectedInput4" name="sub_purpose">
                                                 @foreach ($purpose_inventory as $pi)
                                                 <option value="{{ $pi->id }}">{{ $pi->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            {{-- End Inventory Dropdown --}}
+
+                                             {{-- Inventory Dropdown --}}
+                                             <select class=" form-select hide" id="selectedInput5" name="sub_purpose">
+                                                @foreach ($purpose_rnd as $rnd)
+                                                <option value="{{ $rnd->id }}">{{ $rnd->name }}</option>
                                                 @endforeach
                                             </select>
                                             {{-- End Inventory Dropdown --}}
@@ -417,6 +426,9 @@
             var selectedInput4 = document.getElementById('selectedInput4');
             var selectedInputCustom4 = document.getElementById('selectedInputCustom4');
 
+            var selectedInput5 = document.getElementById('selectedInput5');
+            var selectedInputCustom5 = document.getElementById('selectedInputCustom5');
+
 
             // Project
             pageSelect.addEventListener('change', function() {
@@ -451,6 +463,15 @@
                     selectedInput4.classList.remove('hide');
                 } else {
                     selectedInput4.classList.add('hide');
+                }
+            })
+
+            // R&D
+            pageSelect.addEventListener('change', function() {
+                if (this.value == "rnd") {
+                    selectedInput5.classList.remove('hide');
+                } else {
+                    selectedInput5.classList.add('hide');
                 }
             })
         </script>

@@ -12,11 +12,18 @@
             <body>
                 <table width="100%">
                     <tr>
-                        <td><img src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="50"> </td>
-                        <td> <h4 class="media-heading f-w-600">Purchase Order</h4></td>
-                        <td align="right" class="text-end">
-                            <h3>Invoice #<span class="digits counter">1069</span></h3>
-                            <p>Issued: May<span class="digits"> 27, 2015</span><br>Payment Due: June <span class="digits">27, 2015</span></p>
+                        <td valign="top" style="padding-right: 2px;"><img src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="90"> </td>
+                        <td valign="top"> <h5 class="media-heading f-w-600">PT.SOLUSI INTEK INDONESIA</h5>
+                            <p>Head Office : Emerald Commercial Blok UB No. 50 <br>Summarecon Bekasi Telp. 021-89454790 <br>
+                            Mkt Office &nbsp;&nbsp; : Jl Tebet Barat dalam raya No. 31 <br>Tebet Barat, Jakarta Selatan, Telp 021-21383852</p>
+                        </td>
+                        @php
+                        use Carbon\Carbon;
+                        $date=Carbon::parse($cpo->created_at)->format('d/m/Y');
+                        @endphp
+                        <td valign="top" align="right">
+                            <h5>PO : <span class="digits counter">{{ $cpo->id }}/PO/SII/{{ $month }}/{{ $year }}</span></h5>
+                            <p>Date: <span class="digits">{{ $date }}</span><br> Quotation: <span class="digits">{{ $cpo->quotation }}</span><br> Address: <span>{{ $cpo->address }}</span><br>Contact:<span>{{ $cpo->no_telp }}</span><br>NPWP:<span>{{ $cpo->no_npwp }}</span></p>
                         </td>
                     </tr>
                 </table>
@@ -24,35 +31,29 @@
                   <table width="100%">
                     <tr>
                         <td>
-                            <h6>Vendor</h6>
+                            <h6>Vendor :</h6>
                             @if(empty($cpo->vendorable_type))
                             <p>Not Filled Yet</p>
                             @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
-                            <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
-                            Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
-                            Contact        :<span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
-                            Website        :<span>{{ $cpo->vendorable->website }}</span></p>
+                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span>{{ $cpo->vendorable->nama }}</span><br>
+                            Address       &nbsp; : <span>{{ $cpo->vendorable->alamat }}</span><br>
+                            Contact       &nbsp; : <span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
+                            Website       &nbsp; : <span>{{ $cpo->vendorable->website }}</span></p>
                             @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
-                            <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
-                                Address        :<span>{{ $cpo->vendorable->alamat }}</span><br>
-                                NIK        :<span>{{ $cpo->vendorable->nik }}</span><br>
-                                NPWP        :<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
+                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Address        &nbsp;:<span>{{ $cpo->vendorable->alamat }}</span><br>
+                                NIK            &nbsp;:<span>{{ $cpo->vendorable->nik }}</span><br>
+                                NPWP           &nbsp;:<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
                             @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce  ')
-                            <p>Name           :<span>{{ $cpo->vendorable->nama }}</span><br>
-                                Link        :<span>{{ $cpo->vendorable->link }}</span></p>
+                            <p>Name         &nbsp;:<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Link        &nbsp;:<span>{{ $cpo->vendorable->link }}</span></p>
                             @endif
                         </td>
 
-                        <td align="right top">
-                            <h6 class="media-heading f-w-600">Department </h6>
+                        <td valing="top" align="center">
+                            <h6 class="media-heading f-w-600">Request By :</h6>
                             @foreach ($cpp as $p)
                             <p>{{ $p->dps->name }}</p>
-                            @endforeach
-                        </td>
-                        <td align="right top">
-                            <h6>Project Description</h6>
-                            @foreach ($cpp as $c)
-                            <p>{{ $c->desc }}</p>
                             @endforeach
                         </td>
                     </tr>

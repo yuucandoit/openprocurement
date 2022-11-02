@@ -3,8 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Department;
+use App\Models\Inventory;
+use App\Models\Office;
 use App\Models\ReferensiNamaProject;
+use App\Models\RND;
 use App\Models\WhoSubmitted;
+use App\Models\Workshop;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -115,18 +119,45 @@ class SubmissionSeeder extends Seeder
         Department::create([
             'name' => 'Tax'
         ]);
+
+        //End
+
+        //Office
+        Office::create([
+            'name' => 'Test Office'
+        ]);
+        //End
+
+        //Workshop
+        Workshop::create([
+            'name' => 'Test Workshop'
+        ]);
+        //End
+
+        //Inventory
+        Inventory::create([
+            'name' => 'Test Inventory'
+        ]);
+        //End
+
+        //R&D
+        RND::create([
+            'name' => 'Test RND'
+        ]);
+        //End
+
     }
 }
 //Business Development
-// Finance            
-// GA            
-// Human Resource   
-// Legal            
-// Programmer            
-// Project            
-// Product            
-// Production            
-// Purchasing            
-// R&D          
-// Support Workshop   
-// Tax            
+// Finance
+// GA
+// Human Resource
+// Legal
+// Programmer
+// Project
+// Product
+// Production
+// Purchasing
+// R&D
+// Support Workshop
+// Tax
