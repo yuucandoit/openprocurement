@@ -603,14 +603,14 @@
                     <div class="row">
                         <div class="col-md-6 footer-copyright">
                             <h5 style="font-weight: bold; font-size: 14;" class="mb-0"><img
-                                    src="{{ asset('assets/images/logoSII.png') }}" alt="" width="45"
+                                    src="{{ asset('../../assets/images/logoSII.png') }}" alt="" width="45"
                                     class="fluid">&nbsp;SOLUSI INTEK INDONESIA</h5>
                         </div>
                         <div class="col-md-6">
                             <p class="pull-right mb-0" style="color: green;">Copyright &copy; 2022 | PT SOLUSI INTEK
                                 INDONESIA | <mark
                                     style="background-color: black; color: #FFFFFF; font-weight: bold;"><img
-                                        src="{{ asset('assets/images/logoSII.png') }}" alt=""
+                                        src="{{ asset('../../assets/images/logoSII.png') }}" alt=""
                                         width="27" class="fluid">&nbsp;E-Procurement</mark>
                             </p>
                         </div>
