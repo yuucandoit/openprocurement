@@ -29,13 +29,11 @@ class TasklistAtasanPoController extends Controller
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
             $data_atasan = CategoryPO::all()->first();
-            //dd($data_atasan);
-            $datadv = TaskListAtasanPO::all();
+
             // dd($data_atasan);
             return view('taskList_atasan_po.menu.index')
             ->with('data_atasan', $data_atasan)
-            ->with('datappb', $datappb)
-            ->with('datadv', $datadv);
+            ->with('datappb', $datappb);
         }
     }
 
@@ -45,10 +43,8 @@ class TasklistAtasanPoController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
-            $datadv = TaskListAtasanPO::all();
             return view('taskList_atasan_po.menu.history')
-            ->with('datappb', $datappb)
-            ->with('datadv', $datadv);
+            ->with('datappb', $datappb);
         }
     }
 
