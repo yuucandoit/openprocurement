@@ -692,7 +692,7 @@
     <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.scroller.min.js') }}"></script>
     <script src="{{ asset('../assets/js/datatable/datatable-extension/custom.js') }}"></script>
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
-    <script src="{{ asset('assets/Js/jam.js') }}"></script>
+    <script src="{{ asset('../assets/Js/jam.js') }}"></script>
     <script src="{{ asset('../assets/js/chart/chartjs/chart.min.js') }}"></script>
     <script src="{{ asset('../assets/js/chart/chartjs/chart.custom.js') }}"></script>
     <script src="{{ asset('../assets/js/form-wizard/form-wizard-three.js') }}"></script>
