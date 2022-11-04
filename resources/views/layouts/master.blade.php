@@ -63,7 +63,7 @@
 
 </head>
 
-<body onload="realTimeClock()"">
+<body onload="realTimeClock()">
     <!-- Loader starts-->
     <div class="loader-wrapper">
         <div class="theme-loader">
