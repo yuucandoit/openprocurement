@@ -199,7 +199,11 @@
                 </table>
                 <div class="mt-3" style="text-align: center;">
                     @hasrole('super user|super admin')
-                    @if ($data_pengajuan->status == 'Invoicing Process')
+                    @if ($data_pengajuan->status == 'Invoicing Process'||
+                         $data_pengajuan->status == 'Unpaid'||
+                         $data_pengajuan->status == 'Paid'||
+                         $data_pengajuan->status == 'Delivery Process'||
+                         $data_pengajuan->status == 'Delivery Success')
                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                     class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
 

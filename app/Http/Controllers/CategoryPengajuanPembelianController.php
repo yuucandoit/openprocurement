@@ -43,7 +43,7 @@ class CategoryPengajuanPembelianController extends Controller
             $datadepartment = Department::all();
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
-            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->with('referensi')->get();
+            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
                 ->with('datapt', $datapt)

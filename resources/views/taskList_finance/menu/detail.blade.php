@@ -197,7 +197,10 @@
                                     <a type="reset" class="btn btn-dark" href="{{ url('/menu-tasklist-finance/') }}"
                                         style="float: left;">Back</a>
                                     @hasrole('finance|super admin')
-                                        @if ($data_pengajuan->status == 'Unpaid')
+                                        @if ($data_pengajuan->status == 'Unpaid'||
+                                             $data_pengajuan->status == 'Paid'||
+                                             $data_pengajuan->status == 'Delivery Process'||
+                                             $data_pengajuan->status == 'Delivery Success')
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
 

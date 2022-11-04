@@ -136,7 +136,7 @@
                                         <td><input class="mt-1 pull-right check-box" type="checkbox"
                                                 value="{{ $data_pengajuan->ppn }}"
                                                 @if ($data_pengajuan->ppn == 1) @checked(true)
-                    @else @endif
+                                                @else @endif
                                                 disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                         <td style="text-align:right;">
                                             @if ($data_pengajuan->ppn == 1)
@@ -190,7 +190,14 @@
                                 </table>
                                 <div class="mt-3" style="text-align: right;">
                                     @hasrole('purchasing|super admin')
-                                        @if ($data_pengajuan->status == 'Purchase Proses')
+                                        @if ($data_pengajuan->status == 'Purchase Proses'||
+                                             $data_pengajuan->status == 'Waiting For PO Approval'||
+                                             $data_pengajuan->status == 'PO Approved'||
+                                             $data_pengajuan->status == 'Invoicing Process'||
+                                             $data_pengajuan->status == 'Unpaid'||
+                                             $data_pengajuan->status == 'Paid'||
+                                             $data_pengajuan->status == 'Delivery Process'||
+                                             $data_pengajuan->status == 'Delivery Success')
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
 

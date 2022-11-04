@@ -117,6 +117,63 @@
                     </div>
                 </div>
                 <!-- Zero Configuration  Ends-->
+            </div>
+        </div>
+
+         <!-- Container-fluid starts-->
+         <div class="container-fluid">
+            <div class="row">
+                <!-- Zero Configuration  Starts-->
+                <div class="col-sm-12">
+                    <div class="card card-absolute">
+                        <div class="card-header bg-primary">
+                            <h5>Task List Finance</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display" id="advance-1">
+                                    <thead>
+                                        <tr style="text-align: center;">
+                                            <th>No</th>
+                                            <th>Description</th>
+                                            <th>Date Line</th>
+                                            <th>Request By</th>
+                                            <th>Status</th>
+                                            <th>Function</th>
+                                        </tr>
+                                    </thead>
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                     @foreach ($datappb as $ppb)
+                                     @if ($ppb->status == 'PO Approved'||
+                                     $ppb->status == 'Unpaid'||
+                                     $ppb->status == 'Paid'||
+                                     $ppb->status == 'Delivery Process' ||
+                                     $ppb->status == 'Delivery Success')
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                        <td>{{ $ppb->dateline }}</td>
+                                        <td>{{ $ppb->whosubmit->name }}</td>
+                                        <td> <a class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                            style="color: white; font-size:18">{{ $ppb->status }}</a></td>
+                                        <td>
+                                            <a href="{{ url('menu-tasklist-finance/detail/' .  $ppb->id) }}"
+                                                class="btn btn-outline-info"><i class="bx bx-detail"></i> Detail</a>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Zero Configuration  Ends-->
+            </div>
+        </div>
                 <script>
                     $(document).ready(function() {
 

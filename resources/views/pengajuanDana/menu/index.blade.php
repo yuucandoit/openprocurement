@@ -184,6 +184,82 @@
                     </div>
                 </div>
                 <!-- Zero Configuration  Ends-->
+            </div>
+        </div>
+
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Zero Configuration  Starts-->
+                <div class="col-sm-12">
+                    <div class="card card-absolute">
+                        <div class="card-header bg-primary">
+                            <h5>Funding Request</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display" id="advance-1">
+                                    <thead>
+                                        <tr style="text-align: center;">
+                                            <th><input type="checkbox" id="head-cb"></th>
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Send To</th>
+                                            <th>Date Line</th>
+                                            <th>Date</th>
+                                            @hasrole('finance|super admin')
+                                                <th>Status</th>
+                                            @endhasrole
+                                            <th>Function</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach ($datappb as $ppb)
+                                            @if ($ppb->status == 'Paid'||
+                                                $ppb->status == 'Delivery Process'||
+                                                $ppb->status == 'Delivery Success')
+                                                @php $approvedPPB[] =$ppb; @endphp
+                                                <tr>
+                                                    <td style="text-align: center;"><input type="checkbox" name=""
+                                                            id=""></td>
+                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->send_to }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->created_at }}</td>
+                                                    @hasrole('finance|super admin')
+                                                        <td>
+                                                            <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                        </td>
+
+                                                        <td>
+                                                            <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #00008B;"
+                                                                href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}"><i
+                                                                    class="icon-zoom-in" title="Details"></i>
+                                                            </a>
+
+                                                            <button class="btn btn-danger mt-1" data-bs-toggle="modal"
+                                                                data-bs-target="#modalDelete{{ $ppb->id }}"><i
+                                                                    class="icon-trash" title="Delete"></i>
+                                                            </button>
+                                                        </td>
+                                                    @endhasrole
+                                                </tr>
+                                            @endif
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Zero Configuration  Ends-->
+            </div>
+        </div>
                 <script>
                     $(document).ready(function() {
 

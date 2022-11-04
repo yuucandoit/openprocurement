@@ -138,6 +138,75 @@
                     </div>
                 </div>
                 <!-- Zero Configuration  Ends-->
+            </div>
+        </div>
+
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Zero Configuration  Starts-->
+                <div class="col-sm-12">
+                    <div class="card card-absolute">
+                        <div class="card-header bg-primary">
+                            <h5>Task List PO</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display" id="advance-1">
+                                    <thead>
+                                        <tr>
+                                        <tr style="text-align: center;">
+                                            <th>No</th>
+                                            <th>Description</th>
+                                            <th>Date Line</th>
+                                            <th>Approved At</th>
+                                            <th>Request By</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach ($datappb as $ppb)
+                                        @if ($ppb->status == 'Purchase Proses' ||
+                                        $ppb->status == 'Waiting For PO Approval' ||
+                                        $ppb->status == 'PO Approved' ||
+                                        $ppb->status == 'Invoicing Process' ||
+                                        $ppb->status == 'Unpaid' ||
+                                        $ppb->status == 'Paid' ||
+                                        $ppb->status == 'Delivery Process' ||
+                                        $ppb->status == 'Delivery Success')
+                                            @php $approvedPPB[] =$ppb; @endphp
+                                            <tbody>
+                                                <tr>
+                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td>{{ $ppb->desc }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->approved_at }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                                    <td>
+                                                        <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                    </td>
+                                                    <td style="text-align: center;">
+
+                                                        <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
+                                                            href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i
+                                                                class="icon-zoom-in" title="Details"></i>
+                                                        </a>
+
+                                                    </td>
+                                                </tr>
+                                        @endif
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Zero Configuration  Ends-->
+            </div>
+        </div>
     </section>
 @endsection
 
