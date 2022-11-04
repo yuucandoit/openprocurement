@@ -31,7 +31,7 @@ class TasklistAtasanPoController extends Controller
             $data_atasan = CategoryPO::all()->first();
 
             // dd($data_atasan);
-            return view('taskList_atasan_po.menu.index')
+            return view('taskList_atasan_PO.menu.index')
             ->with('data_atasan', $data_atasan)
             ->with('datappb', $datappb);
         }
@@ -43,7 +43,7 @@ class TasklistAtasanPoController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
-            return view('taskList_atasan_po.menu.history')
+            return view('taskList_atasan_PO.menu.history')
             ->with('datappb', $datappb);
         }
     }
@@ -56,7 +56,7 @@ class TasklistAtasanPoController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        return view('taskList_atasan_po.menu.detail')
+        return view('taskList_atasan_PO.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
@@ -111,7 +111,7 @@ class TasklistAtasanPoController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department    ::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
-        return view('taskList_atasan_po.menu.edit')
+        return view('taskList_atasan_PO.menu.edit')
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
             ->with('purpose', $purpose)
