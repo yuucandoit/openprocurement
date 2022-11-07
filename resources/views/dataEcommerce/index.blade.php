@@ -21,7 +21,7 @@
                             <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/data-vendor/destroy/' . $a->id) }}" >
+                            <form action="{{ url('/data-vendor/destroy/' . $a->id) }}">
                                 <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                     Delete</button>
                             </form>
@@ -39,12 +39,12 @@
                 <div class="card shadow mb-5">
                     <div class="card-body">
                         @hasrole('user|super admin |admin')
-                            <a href="{{ url('data-vendor/create/' . $data_vendor->id) }}"
-                                class="btn btn-primary mb-3"><i class="bx bx-list-plus"></i> Add+</a>
+                            <a href="{{ url('data-vendor/create/' . $data_vendor->id) }}" class="btn btn-primary mb-3"><i
+                                    class="bx bx-list-plus"></i> Add+</a>
                         @endhasrole
                         {{-- @if ($data_vendor->status == 'Accepted') --}}
-                            <a href={{ url('/export_excel/vendor/' . $data_vendor->id) }}
-                                class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a>
+                        <a href={{ url('/export_excel/vendor/' . $data_vendor->id) }} class="btn btn-success mb-3 mr-1"
+                            style="align-self: flex-end"> Export to Excel</a>
                         {{-- @endif --}}
                         <table class="table table-striped" id="table1">
                             <thead>
@@ -52,7 +52,8 @@
                                     <th>No</th>
                                     <th>NPWP</th>
                                     <th>Pkp</th>
-                                    <th>Jenis Usaha</th>
+                                    <th>Type of Business</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             @php
