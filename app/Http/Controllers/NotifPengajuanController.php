@@ -20,7 +20,7 @@ class NotifPengajuanController extends Controller
             'body' => 'There are several requests waiting for your approval'
         ];
 
-        try {
+
             foreach($pengajuan as $p)
             if ($p->status == 'Awaiting Purchase Submission Approval' || $p->atasan == 3){
             Mail::to('wahyusnjy@gmail.com')->send(new NotifApprovalPengajuan($data));
@@ -41,8 +41,8 @@ class NotifPengajuanController extends Controller
             else {
                 return response()->json(['Sorry Something Went Wrong On Sending Email']);
             }
-        } catch (Exception $th) {
+
             return response()->json(['Sorry Something Went Wrong']);
-        }
+        
     }
 }
