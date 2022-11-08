@@ -221,7 +221,7 @@ class CategoryPengajuanPembelianController extends Controller
 
 
 
-        return redirect('menu-pengajuan-pembelian/')->with('success', 'Task Created Successfully!');
+        return redirect('send/')->with('success', 'Task Created Successfully!');
     }
 
     /**

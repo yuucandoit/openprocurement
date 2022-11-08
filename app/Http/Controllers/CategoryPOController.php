@@ -385,7 +385,7 @@ class CategoryPOController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Waiting For PO Approval';
         $data->save();
-        return redirect('menu-purchase-order');
+        return redirect('send-purchase/');
     }
 
     public function Reject($id)

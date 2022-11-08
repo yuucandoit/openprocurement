@@ -21,6 +21,8 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EcommerceController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InvoicingController;
+use App\Http\Controllers\NotifPengajuanController;
+use App\Http\Controllers\NotifPOController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PengajuanDanaNewController;
 use App\Http\Controllers\PengajuanPembelianController;
@@ -428,6 +430,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/ecommerce', [CategoryEcommerceController::class, 'export'])->name('export-ec');
     Route::get('/export_excel/pengajuan_pembelian/{id}', [CategoryPengajuanPembelianController::class, 'export'])->name('export-ppb');
 
+
+    //Route Send Email Pengajuan
+    Route::get('/send',[NotifPengajuanController::class, 'index']);
+
+    //Route Send Email Purchase Order
+    Route::get('/send-purchase',[NotifPOController::class, 'index']);
 
     //Route Export PDF
     Route::get('/exportpdf/po/{id}', [PurchaseOrderController::class, 'exportpdf'])->name('export_po.pdf');
