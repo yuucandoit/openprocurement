@@ -278,8 +278,6 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $data = $request->all();
 
-        PengajuanPembelian::where('pp_id',$id)->delete();
-
         $request->validate([
             'category_purpose' => 'required',
             'date_ps' => 'required',
@@ -302,47 +300,57 @@ class CategoryPengajuanPembelianController extends Controller
             'send_to.required' => 'The Send To field is required.',
         ]);
 
-        $pengajuan = new CategoryPengajuanPembelian([
-            'user_id' =>  Auth::user()->id,
-            'date_ps' => $request->date_ps,
-            'dateline' => $request->dateline,
-            'ws' => $request->ws,
-            'department' => $request->department,
-            'desc' => $request->desc,
-            'atasan' => $request->atasan,
-            'matauang' => $request->matauang,
-            'send_to' => $request->send_to,
-            'ppn' => $request->ppn,
-        ]);
+        PengajuanPembelian::where('pp_id',$id)->delete();
+        DB::beginTransaction();
+        try {
+            $pengajuan = new CategoryPengajuanPembelian([
+                'user_id' =>  Auth::user()->id,
+                'date_ps' => $request->date_ps,
+                'dateline' => $request->dateline,
+                'ws' => $request->ws,
+                'department' => $request->department,
+                'desc' => $request->desc,
+                'atasan' => $request->atasan,
+                'matauang' => $request->matauang,
+                'send_to' => $request->send_to,
+                'ppn' => $request->ppn,
+            ]);
 
-        if($request->category_purpose == "project") {
-            $purpose1 = ReferensiNamaProject::find($request->sub_purpose);
-            $pengajuan = $purpose1->purposes()->save($pengajuan);
-        }elseif($request->category_purpose == "office") {
-            $purpose2 = Office::find($request->sub_purpose);
-            $pengajuan = $purpose2->purposes()->save($pengajuan);
-        }elseif($request->category_purpose == "workshop") {
-            $purpose3 = Workshop::find($request->sub_purpose);
-            $pengajuan = $purpose3->purposes()->save($pengajuan);
-        }elseif($request->category_purpose == "inventory") {
-            $purpose4 = Inventory::find($request->sub_purpose);
-            $pengajuan = $purpose4->purposes()->save($pengajuan);
-        }
-        dd($data);
-
-        if($request->item > 0){
-            foreach ($data['item'] as $item => $value) {
-
-                $data2 = array(
-                    'pp_id'             => $id,
-                    'item'              => $data['item'][$item],
-                    'qty'               => $data['qty'][$item],
-                    'kategori'          => $data['kategori'][$item],
-                );
-                // $unit_price = str_replace(".", "", $item['unit_price']);
-                PengajuanPembelian::create($data2);
+            if($request->category_purpose == "project") {
+                $purpose1 = ReferensiNamaProject::find($request->sub_purpose);
+                $pengajuan = $purpose1->purposes()->save($pengajuan);
+            }elseif($request->category_purpose == "office") {
+                $purpose2 = Office::find($request->sub_purpose);
+                $pengajuan = $purpose2->purposes()->save($pengajuan);
+            }elseif($request->category_purpose == "workshop") {
+                $purpose3 = Workshop::find($request->sub_purpose);
+                $pengajuan = $purpose3->purposes()->save($pengajuan);
+            }elseif($request->category_purpose == "inventory") {
+                $purpose4 = Inventory::find($request->sub_purpose);
+                $pengajuan = $purpose4->purposes()->save($pengajuan);
             }
+
+            if($request->item > 0){
+                foreach ($data['item'] as $item => $value) {
+
+                    $data2 = array(
+                        'pp_id'             => $id,
+                        'item'              => $data['item'][$item],
+                        'qty'               => $data['qty'][$item],
+                        'kategori'          => $data['kategori'][$item],
+                    );
+                    // $unit_price = str_replace(".", "", $item['unit_price']);
+                    PengajuanPembelian::create($data2);
+                }
+            }
+
+            DB::commit();
+            //all good
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
         }
+
         return redirect("menu-pengajuan-pembelian/");
     }
 

@@ -97,12 +97,12 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted
+                                            <label for="floatingrequestby"><i class="fa fa-user"></i> Request By
                                                 :</label>
                                             <select class="form-select page @error('purpose') is-invalid @enderror"
-                                                id="floatingwhosubmitted" placeholder="Who Submitted" name="ws"
+                                                id="floatingrequestby" placeholder="Who Submitted" name="ws"
                                                 required="">
-                                                <option value="" disabled selected hidden>Who Submitted</option>
+                                                <option value="" disabled selected hidden>Request By</option>
                                                 @foreach ($dataws as $ws)
                                                     <option value="{{ $ws->id }}">{{ $ws->name }}</option>
                                                 @endforeach

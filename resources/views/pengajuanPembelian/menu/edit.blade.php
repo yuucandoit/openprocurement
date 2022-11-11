@@ -144,6 +144,7 @@
                                                 <option value="workshop">Workshop</option>
                                                 <option value="inventory">Inventory</option>
                                             </select>
+
                                             {{-- Project Dropdown --}}
                                             <select class=" form-select hide mt-2" id="selectedInput" name="sub_purpose">
                                                 @foreach ($purpose as $p)
@@ -176,6 +177,11 @@
                                             </select>
                                             {{-- End Inventory Dropdown --}}
                                         </div>
+                                        @error('category_purpose')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
 
                                     <div class="col-md-6">
