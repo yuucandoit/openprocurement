@@ -182,7 +182,6 @@ class CategoryPengajuanPembelianController extends Controller
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
                 'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
             ]);
 
 
@@ -313,7 +312,6 @@ class CategoryPengajuanPembelianController extends Controller
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
                 'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
             ]);
 
             if($request->category_purpose == "project") {

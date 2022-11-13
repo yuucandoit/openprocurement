@@ -432,33 +432,82 @@
                                     var item =
                                         '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
                                     $(".item").append(item)
-                                }
-                                $(document).on('click', '.remove-input-field', function() {
-                                    $(this).parents('tr').remove();
-                                });
-                                var rupiah = document.querySelectorAll(".rupiah");
-                                rupiah.forEach((item) => {
-                                    item.addEventListener('keyup', function(e) {
-                                        // tambahkan 'Rp.' pada saat form di ketik
-                                        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                                        item.value = formatRupiah(this.value, "");
-                                    });
-                                });
-                                /* Fungsi formatRupiah */
-                                function formatRupiah(angka, prefix) {
-                                    var number_string = angka.replace(/[^,\d]/g, ""),
-                                        split = number_string.split(","),
-                                        sisa = split[0].length % 3,
-                                        rupiah = split[0].substr(0, sisa),
-                                        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                    if (ribuan) {
-                                        separator = sisa ? "." : "";
-                                        rupiah += separator + ribuan.join(".");
-                                    }
-                                    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                                    return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-                                }
+
+                                    var rupiah = document.querySelectorAll(".rupiah");
+                rupiah.forEach((item) => {
+                    item.addEventListener('keyup', function(e) {
+                        // tambahkan 'Rp.' pada saat form di ketik
+                        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                        item.value = formatRupiah(this.value, "");
+                    });
+                });
+                /* Fungsi formatRupiah */
+                function formatRupiah(angka, prefix) {
+                    var number_string = angka.replace(/[^,\d]/g, ""),
+                        split = number_string.split(","),
+                        sisa = split[0].length % 3,
+                        rupiah = split[0].substr(0, sisa),
+                        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                    if (ribuan) {
+                        separator = sisa ? "." : "";
+                        rupiah += separator + ribuan.join(".");
+                    }
+                    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                    return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                }
+
+                $(".order-entry").on("keyup", ".form-calc", function() {
+                    var parent = $(this).closest("tr");
+                    var str = parent.find(".form-cost").val();
+                    var res = str.replace(/\D/g, "");
+                    parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
+                    var total = 0;
+                    $(".form-line").each(function() {
+                        total += parseInt($(this).val() || 0);
+                    });
+                    $(".total_A").text(total.toLocaleString('en-US'));
+                    var checkbox = document.querySelector(".check-box");
+                    checkbox.addEventListener('change', (event) => {
+                        if (event.currentTarget.checked) {
+                            totalppn = total * 11 / 100;
+                            grandtotal = total + totalppn;
+                            $(".ppn").text(totalppn.toLocaleString('en-US'));
+                            $(".total").text(grandtotal.toLocaleString('en-US'));
+                        } else {
+                            totalppn = total * 0;
+                            $(".ppn").text(totalppn);
+                            $(".total").text(total.toLocaleString('en-US'));
+                        }
+                    });
+                });
+            }
+            $(document).on('click', '.remove-input-field', function() {
+                $(this).parents('tr').remove();
+            });
+            var rupiah = document.querySelectorAll(".rupiah");
+            rupiah.forEach((item) => {
+                item.addEventListener('keyup', function(e) {
+                    // tambahkan 'Rp.' pada saat form di ketik
+                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                    item.value = formatRupiah(this.value, "");
+                });
+            });
+            /* Fungsi formatRupiah */
+            function formatRupiah(angka, prefix) {
+                var number_string = angka.replace(/[^,\d]/g, ""),
+                    split = number_string.split(","),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                if (ribuan) {
+                    separator = sisa ? "." : "";
+                    rupiah += separator + ribuan.join(".");
+                }
+                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+            }
                             </script>
 
                             <script type="text/javascript">

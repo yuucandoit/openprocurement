@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPO;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\TaskListFinance;
@@ -44,6 +45,7 @@ class TaskListFinanceController extends Controller
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        $datacpo            = CategoryPO::find($id);
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -53,6 +55,7 @@ class TaskListFinanceController extends Controller
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
             ->with('total', $total)
+            ->with('datacpo', $datacpo)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('data_pengajuan', $data_pengajuan);
     }

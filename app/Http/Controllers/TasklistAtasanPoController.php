@@ -52,6 +52,7 @@ class TasklistAtasanPoController extends Controller
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        $datacpo            = CategoryPO::find($id);
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -60,6 +61,7 @@ class TasklistAtasanPoController extends Controller
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
+            ->with('datacpo',$datacpo)
             ->with('total', $total)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('data_pengajuan', $data_pengajuan);

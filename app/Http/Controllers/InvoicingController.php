@@ -63,6 +63,7 @@ class InvoicingController extends Controller
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         $datapo             = CategoryPO::where('ppb_id', $id)->get();
+        $datacpo            = CategoryPO::find($id);
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -71,6 +72,7 @@ class InvoicingController extends Controller
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
         ->with('datapo', $datapo)
+        ->with('datacpo', $datacpo)
         ->with('ppn', $ppn)
         ->with('total', $total)
         ->with('total_tnpa_ppn', $total_tnpa_ppn)
@@ -153,36 +155,36 @@ class InvoicingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
+        // $data = CategoryPengajuanPembelian::find($id);
 
-            if($request->term_conditions == "custom"){
-                // dd($data);
-                $term = TermsAndConditions::create([
-                    "term_condition" => $request->term_condition,
-                ]);
-                $tes = CategoryPO::create([
-                    "ppb_id" => $data->id,
-                    "pt_id" => $request->pt_id,
-                    "term_conditions" => $term->id,
-                    "atasan_po" => $request->atasan_po,
-                    "address" => $request->address,
-                    "no_telp" => $request->no_telp,
-                    "no_npwp" => $request->no_npwp,
-                    "quotation" => $request->quotation,
-                ]);
-            } else {
-                $tes = CategoryPO::create([
-                    "ppb_id" => $data->id,
-                    "pt_id" => $request->pt_id,
-                    "term_conditions" => $request->term_conditions,
-                    "atasan_po" => $request->atasan_po,
-                    "address" => $request->address,
-                    "no_telp" => $request->no_telp,
-                    "no_npwp" => $request->no_npwp,
-                    "quotation" => $request->quotation,
-                ]);
-            }
-        return redirect("/invoicing");
+        //     if($request->term_conditions == "custom"){
+        //         // dd($data);
+        //         $term = TermsAndConditions::create([
+        //             "term_condition" => $request->term_condition,
+        //         ]);
+        //         $tes = CategoryPO::create([
+        //             "ppb_id" => $data->id,
+        //             "pt_id" => $request->pt_id,
+        //             "term_conditions" => $term->id,
+        //             "atasan_po" => $request->atasan_po,
+        //             "address" => $request->address,
+        //             "no_telp" => $request->no_telp,
+        //             "no_npwp" => $request->no_npwp,
+        //             "quotation" => $request->quotation,
+        //         ]);
+        //     } else {
+        //         $tes = CategoryPO::create([
+        //             "ppb_id" => $data->id,
+        //             "pt_id" => $request->pt_id,
+        //             "term_conditions" => $request->term_conditions,
+        //             "atasan_po" => $request->atasan_po,
+        //             "address" => $request->address,
+        //             "no_telp" => $request->no_telp,
+        //             "no_npwp" => $request->no_npwp,
+        //             "quotation" => $request->quotation,
+        //         ]);
+        //     }
+        // return redirect("/invoicing");
     }
 
     /**

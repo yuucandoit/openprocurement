@@ -68,6 +68,7 @@
                                                 <option value="privateperson">Private Person</option>
                                                 <option value="ecommerce">Ecommerce</option>
                                             </select>
+                                            <p style="color: red;">*Please select the vendor again</p>
                                             {{-- Perusahaan Dropdown --}}
                                             <select class=" form-select hide mt-2" id="selectedInput" name="vendorable_id">
                                                 @foreach ($datapt as $p)
@@ -93,11 +94,12 @@
                                             {{-- End Ecommerce Dropdown --}}
                                         </div>
                                     </div>
-
+                                    @foreach ($datapo as $po)
                                     <div class="col-6">
                                         <div class="form-floating">
                                             <select class="form-select mt-2" id="floatingproposedto"
                                                 placeholder="Proposed To" name="atasan_po">
+                                                <option value="{{ $po->atasans->id }}">{{ $po->atasans->name }}</option>
                                                 @foreach ($atasan as $sui)
                                                     <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                                 @endforeach
@@ -105,8 +107,7 @@
                                             <label for="floatingproposedto">-- Approved To --</label>
                                         </div>
                                     </div>
-                                    @foreach ($datapo as $po)
-                                    @endforeach
+
                                     <div class="col-6">
                                         <div class="form-floating">
                                             <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
@@ -156,7 +157,7 @@
                                         <div class="form-group">
                                             <select class="form-select page mt-2" id="pageSelector"
                                                 placeholder="Terms and Conditions" name="term_conditions">
-                                                <option value="" disabled selected hidden>Terms And Conditions
+                                                <option value="{{ $po->term->id }}" selected>{{ $po->term->term_condition }}
                                                 </option>
                                                 @foreach ($terms as $t)
                                                     <option value="{{ $t->id }}">{{ $t->term_condition }}</option>
@@ -167,6 +168,7 @@
                                                 placeholder="Input Terms And Conditions"></textarea>
                                         </div>
                                     </div>
+                                    @endforeach
                                     <hr>
                                     <div class="col-md-12">
                                         <table class="table table-bordered item mx-2 order-entry">
@@ -225,6 +227,7 @@
                                                 </tr>
                                             @endforeach
                                         </table>
+                                        <p style="color: red;">*Please refill the price per unit so that it triggers the total, then update the data</p>
                                         <br>
                                         <table class="table table-bordered mx-2">
                                             <tr>
@@ -246,8 +249,7 @@
                                                     </label>
                                                 </td>
                                                 <td class="ppn text-end">
-                                                    <input style="display: none;" class="ppn" type="text"
-                                                        name="ppn">
+                                                    <input style="display: none;" class="ppn" type="text">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -338,7 +340,7 @@
 
             function addItem() {
                 var item =
-                    '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
+                    '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line " style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
                 $(".item").append(item)
 
                 var rupiah = document.querySelectorAll(".rupiah");
@@ -364,6 +366,31 @@
                     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
                     return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                 }
+
+                $(".order-entry").on("keyup", ".form-calc", function() {
+                    var parent = $(this).closest("tr");
+                    var str = parent.find(".form-cost").val();
+                    var res = str.replace(/\D/g, "");
+                    parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
+                    var total = 0;
+                    $(".form-line").each(function() {
+                        total += parseInt($(this).val() || 0);
+                    });
+                    $(".total_A").text(total.toLocaleString('en-US'));
+                    var checkbox = document.querySelector(".check-box");
+                    checkbox.addEventListener('change', (event) => {
+                        if (event.currentTarget.checked) {
+                            totalppn = total * 11 / 100;
+                            grandtotal = total + totalppn;
+                            $(".ppn").text(totalppn.toLocaleString('en-US'));
+                            $(".total").text(grandtotal.toLocaleString('en-US'));
+                        } else {
+                            totalppn = total * 0;
+                            $(".ppn").text(totalppn);
+                            $(".total").text(total.toLocaleString('en-US'));
+                        }
+                    });
+                });
             }
             $(document).on('click', '.remove-input-field', function() {
                 $(this).parents('tr').remove();

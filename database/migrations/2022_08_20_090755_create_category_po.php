@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('no_telp');
             $table->string('no_npwp');
+            $table->boolean('ppn')->nullable()->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

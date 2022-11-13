@@ -146,7 +146,7 @@
                                         $no = 1;
                                     @endphp
                                      @foreach ($datappb as $ppb)
-                                     @if ($ppb->status == 'PO Approved'||
+                                     @if (
                                      $ppb->status == 'Unpaid'||
                                      $ppb->status == 'Paid'||
                                      $ppb->status == 'Delivery Process' ||

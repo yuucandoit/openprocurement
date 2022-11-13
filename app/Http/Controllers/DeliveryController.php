@@ -52,6 +52,7 @@ class DeliveryController extends Controller
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
         $datapo             = CategoryPO::where('ppb_id', $id)->get();
+        $datacpo            = CategoryPO::find($id);
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $delivery           = Delivery::where('ppb_id', $id)->get();
@@ -63,6 +64,7 @@ class DeliveryController extends Controller
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
         ->with('delivery',$delivery)
+        ->with('datacpo',$datacpo)
         ->with('datapo', $datapo)
         ->with('dataws', $dataws)
         ->with('datadepartment', $datadepartment)

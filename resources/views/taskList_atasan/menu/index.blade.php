@@ -703,7 +703,15 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Purchase Submission Approved')
+                                            @if ($ppb->status == 'Purchase Submission Approved' ||
+                                                 $ppb->status == 'Purchase Proses' ||
+                                                 $ppb->status == 'Waiting For PO Approval' ||
+                                                 $ppb->status == 'PO Approved' ||
+                                                 $ppb->status == 'Invoicing Process' ||
+                                                 $ppb->status == 'Unpaid' ||
+                                                 $ppb->status == 'Paid' ||
+                                                 $ppb->status == 'Delivery Process' ||
+                                                 $ppb->status == 'Delivery Success')
                                                 @if ($ppb->atasan == 9)
                                                 <tbody>
                                                     <tr>
@@ -719,12 +727,11 @@
                                                             </td>
 
                                                             <td style="text-align: center;">
-
-                                                                <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #00008B;"
-                                                                    href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
-                                                                        class="icon-zoom-in" title="Details"></i>
-                                                                </a>
+                                                         <a class="btn btn-iconsolid mt-1"
+                                                            style="background-color: #00008B;"
+                                                            href="{{ url('menu-taskList-atasan/detail/'.$ppb->id) }}"><i
+                                                            class="icon-zoom-in" title="Details"></i>
+                                                         </a>
                                                     </tr>
                                             </tbody>
                                             @endif
