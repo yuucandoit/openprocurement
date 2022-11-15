@@ -139,11 +139,13 @@
                                          <tr>
                                              <td><input class="mt-1 pull-right check-box" type="checkbox"
                                                      value="{{ $data_pengajuan->ppn }}"
-                                                     @if ($data_pengajuan->ppn == 1) @checked(true)
-                        @else @endif
+                                                     @if ($data_pengajuan->ppn == 1 ) @checked(true)
+                                                        @else
+
+                                                        @endif
                                                      disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                              <td style="text-align:right;">
-                                                 @if ($data_pengajuan->ppn == 1)
+                                                 @if ($data_pengajuan->ppn == 1 )
                                                      @foreach ($ppn as $p)
                                                          {{-- Ketika mata uang yang dipilih RP --}}
                                                          @if ($data_pengajuan->matauang == 'RP')
@@ -166,7 +168,7 @@
                                                  @endif
                                              </td>
                                          </tr>
-                                         @if ($data_pengajuan->ppn == 1)
+                                         @if ($data_pengajuan->ppn == 1 )
                                              <tr>
                                                  <td class="text-end" style="font-weight: bold;">Grand Total :</td>
 
@@ -182,18 +184,18 @@
                                                          </td>
                                                      @endif
                                                  @endforeach
-                        @elseif ($data_pengajuan->ppn == 0)
-                        <td class="text-end">Grand Total :</td>
-                        @foreach ($total_tnpa_ppn as $tpn)
-                        @if ($data_pengajuan->matauang == 'RP')
-                        <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
-                        @elseif ($data_pengajuan->matauang == 'USD')
-                        <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
-                        @endif
-                        @endforeach
-                    </tr>
-                    @endif
-                </table>
+                                         @elseif ($data_pengajuan->ppn == 0 )
+                                                        <td class="text-end">Grand Total :</td>
+                                                         @foreach ($total_tnpa_ppn as $tpn)
+                                                            @if ($data_pengajuan->matauang == 'RP')
+                                                             <td style="text-align:right;" >RP. {{ number_format($tpn->total) }}</td>
+                                                            @elseif ($data_pengajuan->matauang == 'USD')
+                                                             <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
+                                                            @endif
+                                                        @endforeach
+                                                    </tr>
+                                                @endif
+                                        </table>
                 @foreach ($delivery as $d)
                 <div class="gallery my-gallery card-body text-center" itemscope="" style="text-align: center;">
                <figure class=" xl-33 text-center" itemprop="associatedMedia" itemscope=""><a href=" {{ asset('images/'.$d->path_image) }}" itemprop="contentUrl" data-size="1600x950"><img class="img-thumbnail" src="{{ asset('images/'.$d->path_image) }}" itemprop="thumbnail" alt="Image description"></a>

@@ -130,8 +130,8 @@
                 @endhasrole
 
                 <td style="text-align: center;">
-                  <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"><i class="icon-zoom-in" title="Details"></i>
-                  </a>
+                    <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"><i class="icon-zoom-in" title="Details"></i>
+                    </a>
                   @if ($ppembelian->status == 'Awaiting Purchase Submission Approval' )
 
                   <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>

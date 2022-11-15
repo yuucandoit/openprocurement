@@ -77,7 +77,7 @@ class CategoryPOController extends Controller
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $datapo             = CategoryPO::where('ppb_id', $id)->get();
-        $datacpo            = CategoryPO::find($id);
+        $datacpo            = CategoryPO::where('ppb_id', $id)->first();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -85,6 +85,7 @@ class CategoryPOController extends Controller
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
 
+        //dd($datacpo);
         return view('purchaseOrder.menu.detail')
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
@@ -108,7 +109,6 @@ class CategoryPOController extends Controller
         $pt                 = CategoryPT::all();
         $op                 = CategoryPP::all();
         $ec                 = CategoryEcommerce::all();
-        $datapo             = CategoryPO::where('ppb_id', $id)->get();
         $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
         $terms              = TermsAndConditions::all();
         $dv                 = CategoryPengajuanPembelian::find($id);
@@ -122,7 +122,6 @@ class CategoryPOController extends Controller
         ->with('pt', $pt)
         ->with('op',$op)
         ->with('ec',$ec)
-        ->with('datapo' , $datapo)
         ->with('dv' , $dv)
         ->with('atasan' , $atasan)
         ->with('terms' , $terms)
@@ -156,7 +155,9 @@ class CategoryPOController extends Controller
             $term = TermsAndConditions::create([
                 "term_condition" => $request->term_condition,
             ]);
-
+            $ppn = CategoryPengajuanPembelian::find($id);
+            $ppn->ppn =  $request->ppn;
+            $ppn->save();
 
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
@@ -167,15 +168,15 @@ class CategoryPOController extends Controller
                     "no_telp" => $request->no_telp,
                     "no_npwp" => $request->no_npwp,
                     "quotation" => $request->quotation,
-                    "ppn" => $request->ppn
+                    // "ppn" => $request->ppn
                 ]);
-                if($request->vendor = "company"){
+                if($request->vendor == "company"){
                     $vendor1 = CategoryPT::find($request->vendor_id);
                     $purchase = $vendor1->vendors()->save($purchase);
-                }elseif($request->vendor = "privateperson"){
+                }elseif($request->vendor == "privateperson"){
                     $vendor2 = CategoryPP::find($request->vendor_id);
                     $purchase = $vendor2->vendors()->save($purchase);
-                }elseif($request->vendor = "ecommerce"){
+                }elseif($request->vendor == "ecommerce"){
                     $vendor3 = CategoryEcommerce::find($request->vendor_id);
                     $purchase = $vendor3->vendors()->save($purchase);
                 }
@@ -197,6 +198,11 @@ class CategoryPOController extends Controller
             }
         }
         } else {
+
+            $ppn = CategoryPengajuanPembelian::find($id);
+            $ppn->ppn =  $request->ppn;
+            $ppn->save();
+
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
                     "term_conditions" => $request->term_conditions,
@@ -206,15 +212,15 @@ class CategoryPOController extends Controller
                     "no_telp" => $request->no_telp,
                     "no_npwp" => $request->no_npwp,
                     "quotation" => $request->quotation,
-                    "ppn" => $request->ppn
+                    // "ppn" => $request->ppn
                 ]);
-                if($request->vendor = "company"){
+                if($request->vendor == "company"){
                     $vendor1 = CategoryPT::find($request->vendor_id);
                     $purchase = $vendor1->vendors()->save($purchase);
-                }elseif($request->vendor = "privateperson"){
+                }elseif($request->vendor == "privateperson"){
                     $vendor2 = CategoryPP::find($request->vendor_id);
                     $purchase = $vendor2->vendors()->save($purchase);
-                }elseif($request->vendor = "ecommerce"){
+                }elseif($request->vendor == "ecommerce"){
                     $vendor3 = CategoryEcommerce::find($request->vendor_id);
                     $purchase = $vendor3->vendors()->save($purchase);
                 }
@@ -267,7 +273,8 @@ class CategoryPOController extends Controller
         $op                 = CategoryPP::all();
         $ec                 = CategoryEcommerce::all();
         $terms              = TermsAndConditions::all();
-        $datapo             = CategoryPO::all();
+        $datapo             = CategoryPO::where('ppb_id',$id)->get();
+        $datacpo            = CategoryPO::where('ppb_id',$id)->first();
         $dv = CategoryPengajuanPembelian::find($id);
         $purpose = ReferensiNamaProject::all();
         $dataws             = WhoSubmitted::all();
@@ -278,6 +285,7 @@ class CategoryPOController extends Controller
             ->with('atasan', $atasan)
             ->with('datapo', $datapo)
             ->with('datapt', $datapt)
+            ->with('datacpo', $datacpo)
             ->with('op',$op)
             ->with('ec',$ec)
             ->with('terms',$terms)
@@ -310,7 +318,10 @@ class CategoryPOController extends Controller
                     "term_condition" => $request->term_condition,
                 ]);
 
-                // if($request->vendor ==)
+            $ppn = CategoryPengajuanPembelian::find($id);
+            $ppn->ppn =  $request->ppn;
+            $ppn->save();
+
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
                     "term_conditions" => $term->id,
@@ -319,17 +330,17 @@ class CategoryPOController extends Controller
                     "no_telp" => $request->no_telp,
                     "no_npwp" => $request->no_npwp,
                     "quotation" => $request->quotation,
-                    "ppn" => $request->ppn
+                    // "ppn" => $request->ppn
                 ]);
 
-                if($request->vendorable_type = "company"){
-                    $vendor1 = CategoryPT::find($request->vendorable_id);
+                if($request->vendor == "company"){
+                    $vendor1 = CategoryPT::find($request->vendor_id);
                     $purchase = $vendor1->vendors()->save($purchase);
-                }elseif($request->vendorable_type = "privateperson"){
-                    $vendor2 = CategoryPP::find($request->vendorable_id);
+                }elseif($request->vendor == "privateperson"){
+                    $vendor2 = CategoryPP::find($request->vendor_id);
                     $purchase = $vendor2->vendors()->save($purchase);
-                }elseif($request->vendorable_type = "ecommerce"){
-                    $vendor3 = CategoryEcommerce::find($request->vendorable_id);
+                }elseif($request->vendor == "ecommerce"){
+                    $vendor3 = CategoryEcommerce::find($request->vendor_id);
                     $purchase = $vendor3->vendors()->save($purchase);
                 }
 
@@ -350,6 +361,10 @@ class CategoryPOController extends Controller
 
             } else {
 
+            $ppn = CategoryPengajuanPembelian::find($id);
+            $ppn->ppn =  $request->ppn;
+            $ppn->save();
+
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
                     "term_conditions" => $request->term_conditions,
@@ -358,16 +373,16 @@ class CategoryPOController extends Controller
                     "no_telp" => $request->no_telp,
                     "no_npwp" => $request->no_npwp,
                     "quotation" => $request->quotation,
-                    "ppn" => $request->ppn
+                    // "ppn" => $request->ppn
                 ]);
-                if($request->vendorable_type = "company"){
-                    $vendorpt = CategoryPT::find($request->vendorable_id);
+                if($request->vendor == "company"){
+                    $vendorpt = CategoryPT::find($request->vendor_id);
                     $purchase = $vendorpt->vendors()->save($purchase);
-                }elseif($request->vendorable_type = "privateperson"){
-                    $vendorpp = CategoryPP::find($request->vendorable_id);
+                }elseif($request->vendor == "privateperson"){
+                    $vendorpp = CategoryPP::find($request->vendor_id);
                     $purchase = $vendorpp->vendors()->save($purchase);
-                }elseif($request->vendorable_type = "ecommerce"){
-                    $vendorec = CategoryEcommerce::find($request->vendorable_id);
+                }elseif($request->vendor == "ecommerce"){
+                    $vendorec = CategoryEcommerce::find($request->vendor_id);
                     $purchase = $vendorec->vendors()->save($purchase);
                 }
 
@@ -415,7 +430,7 @@ class CategoryPOController extends Controller
 
     public function Reject($id)
     {
-        $data = CategoryPO::find($id);
+        $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Rejected By Purchasing';
         $data->save();
         return redirect('menu-purchase-order');

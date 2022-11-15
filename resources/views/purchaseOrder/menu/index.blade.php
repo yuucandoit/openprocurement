@@ -177,11 +177,11 @@
                                                         @hasrole('purchasing|super admin')
                                                             <td>
                                                                 <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #ADD8E6;"
-                                                                    href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
-                                                                        class="icon-eye" title="Preview PO"></i>
-                                                                </a>
-                                                                @if ($ppb->status == 'Purchase Proses')
+                                                                style="background-color: #ADD8E6;"
+                                                                href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
+                                                                    class="icon-eye" title="Preview PO"></i>
+                                                            </a>
+                                                                
                                                                     <a class="btn btn-iconsolid mt-1"
                                                                         style="background-color: #008000;"
                                                                         href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
@@ -193,7 +193,6 @@
                                                                         href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
                                                                             class="icon-pencil-alt" title="Edit"></i>
                                                                     </a>
-                                                                @endif
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
                                                                     href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i

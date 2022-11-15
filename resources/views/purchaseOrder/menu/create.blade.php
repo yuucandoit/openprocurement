@@ -306,23 +306,23 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="floatingNoTelpon"><i class="fa fa-credit-card"></i>
+                                                <label for="floatingNPWP"><i class="fa fa-credit-card"></i>
                                                     NPWP</label>
                                                 <div class="form-floating">
                                                     <input required type="text" class="form-control"
-                                                        id="floatingNoTelpon" placeholder="NPWP" name="no_npwp">
+                                                        id="floatingNPWP" placeholder="NPWP" name="no_npwp">
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
-                                            <div class="form-group mt-1">
-                                                <label for="floatingNoTelpon"><i class="fa fa-file-excel-o"></i>
+                                            <div class="form-group">
+                                                <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
                                                     Quotation</label>
                                                 <div class="form-floating">
                                                     <input required type="text" class="form-control"
-                                                        id="floatingNoTelpon" placeholder="Quotation" name="quotation">
+                                                        id="floatingQuotation" placeholder="Quotation" name="quotation">
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>

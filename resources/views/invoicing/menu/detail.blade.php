@@ -150,12 +150,12 @@
                                 </tr>
                                 <tr>
                                     <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                            value="{{ $datacpo->ppn }}"
-                                            @if ($datacpo->ppn == 1) @checked(true)
+                                            value="{{ $data_pengajuan->ppn }}"
+                                            @if ($data_pengajuan->ppn == 1) @checked(true)
                                                 @else @endif
                                             disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                     <td style="text-align:right;">
-                                        @if ($datacpo->ppn == 1)
+                                        @if ($data_pengajuan->ppn == 1)
                                             @foreach ($ppn as $p)
                                                 {{-- Ketika mata uang yang dipilih RP --}}
                                                 @if ($data_pengajuan->matauang == 'RP')
@@ -178,7 +178,7 @@
                                         @endif
                                     </td>
                                 </tr>
-                                @if ($datacpo->ppn == 1)
+                                @if ($data_pengajuan->ppn == 1)
                                     <tr>
                                         <td class="text-end">Grand Total :</td>
 
@@ -193,7 +193,7 @@
                                                 <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
                                             @endif
                                         @endforeach
-                                    @elseif ($datacpo->ppn == 0)
+                                    @elseif ($data_pengajuan->ppn == 0)
                                         <td class="text-end bold">Grand Total :</td>
                                         @foreach ($total_tnpa_ppn as $tpn)
                                             @if ($data_pengajuan->matauang == 'RP')
@@ -209,12 +209,17 @@
                             </table>
                             {{-- Start Modal Approval --}}
                             @if ($data_pengajuan->status == 'Invoicing Process')
-                                <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
+                            <div class="text-center">
+                                <button class="btn btn-outline-success mt-2 text-center" data-bs-toggle="modal"
                                     data-bs-target="#modalSelesai" disabled>Successfully send data</button>
+                            </div>
                             @elseif ($data_pengajuan->status == 'PO Approved')
-                                <button class="btn btn-success mt-4" data-bs-toggle="modal"
+                            <div class="text-center">
+                                <button class="btn btn-success mt-4 "  data-bs-toggle="modal"
                                     data-bs-target="#modalSelesai">Apply For Payment
-                                    Process</button>
+                                    Process
+                                </button>
+                            </div>
                             @endif
 
                             <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
@@ -226,14 +231,14 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body mx-5 mb-3">
-                                            <span class="warning">
+                                            <span class="warning" style="text-align: center;">
                                                 <img src="{{ asset('assets/images/warning.png') }}">
                                             </span>
                                             <h2 style="text-align: center">Make sure the data is correct!</h2>
                                         </div>
                                         {{-- End Modal Approval --}}
 
-                                        <div class="modal-footer">
+                                        <div class="modal-footer"  style="text-align: center;">
                                             @if ($data_pengajuan->status == 'PO Approved')
                                                 <form class="text-center"
                                                     action="{{ url('billing_process/ajukan_dana/'. $data_pengajuan->id) }}">

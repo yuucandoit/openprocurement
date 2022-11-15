@@ -19,6 +19,8 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\WhoSubmitted;
 use App\Models\Workshop;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +86,7 @@ class CategoryPengajuanPembelianController extends Controller
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
         $delivery           = Delivery::where('ppb_id',$id)->get();
+        $datacpo            = CategoryPO::where('ppb_id',$id)->first();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -97,6 +100,7 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('delivery',$delivery)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
+            ->with('datacpo',$datacpo)
             ->with('total', $total)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('purpose', $purpose)
@@ -170,6 +174,7 @@ class CategoryPengajuanPembelianController extends Controller
             'atasan.required' => 'The Super User field is required.',
             'mata_uang.required' => 'The Currency field is required.',
             'send_to.required' => 'The Send To field is required.',
+            'ppn.required' => 'The PPN To field is required.',
         ]);
 
             $pengajuan = new CategoryPengajuanPembelian([
@@ -182,6 +187,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
                 'send_to' => $request->send_to,
+                'ppn' => $request->ppn,
             ]);
 
 
@@ -276,7 +282,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-
+        //dd($data);
         $request->validate([
             'category_purpose' => 'required',
             'date_ps' => 'required',
@@ -299,9 +305,10 @@ class CategoryPengajuanPembelianController extends Controller
             'send_to.required' => 'The Send To field is required.',
         ]);
 
+        CategoryPengajuanPembelian::where('id',$id)->delete();
         PengajuanPembelian::where('pp_id',$id)->delete();
-        DB::beginTransaction();
-        try {
+        try{
+            DB::beginTransaction();
             $pengajuan = new CategoryPengajuanPembelian([
                 'user_id' =>  Auth::user()->id,
                 'date_ps' => $request->date_ps,
@@ -332,7 +339,7 @@ class CategoryPengajuanPembelianController extends Controller
                 foreach ($data['item'] as $item => $value) {
 
                     $data2 = array(
-                        'pp_id'             => $id,
+                        'pp_id'             => $pengajuan->id,
                         'item'              => $data['item'][$item],
                         'qty'               => $data['qty'][$item],
                         'kategori'          => $data['kategori'][$item],
@@ -341,15 +348,16 @@ class CategoryPengajuanPembelianController extends Controller
                     PengajuanPembelian::create($data2);
                 }
             }
-
             DB::commit();
-            //all good
-        } catch (\Throwable $th) {
+
+            return redirect('menu-pengajuan-pembelian/')->with(['success' => true, 'message' => 'Update Successfully']);
+        } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
+            return ['success'=> false, 'message' => $e->getMessage()];
         }
 
-        return redirect("menu-pengajuan-pembelian/");
+
+        return redirect('menu-pengajuan-pembelian/');
     }
 
     /**

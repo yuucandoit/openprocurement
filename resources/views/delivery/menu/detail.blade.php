@@ -101,12 +101,12 @@
                             </tr>
                             <tr>
                                 <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                        value="{{ $datacpo->ppn }}"
-                                        @if ($datacpo->ppn == 1) @checked(true)
+                                        value="{{ $data_pengajuan->ppn }}"
+                                        @if ($data_pengajuan->ppn == 1) @checked(true)
                                                 @else @endif
                                         disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                 <td style="text-align:right;">
-                                        @if ($datacpo->ppn == 1)
+                                        @if ($data_pengajuan->ppn == 1)
                                         @foreach ($ppn as $p)
                                         {{-- Ketika mata uang yang dipilih RP --}}
                                         @if ($data_pengajuan->matauang == 'RP')
@@ -129,7 +129,7 @@
                                         @endif
                                 </td>
                             </tr>
-                            @if ($datacpo->ppn == 1)
+                            @if ($data_pengajuan->ppn == 1)
                                 <tr>
                                     <td class="text-end">Grand Total :</td>
 
@@ -143,7 +143,7 @@
                                             <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
                                         @endif
                                     @endforeach
-                                @elseif ($datacpo->ppn == 0)
+                                @elseif ($data_pengajuan->ppn == 0)
                                 <td class="text-end bold">Grand Total :</td>
                                     @foreach ($total_tnpa_ppn as $tpn)
                                         @if ($data_pengajuan->matauang == 'RP')

@@ -135,12 +135,12 @@
                                     </tr>
                                     <tr>
                                         <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                                value="{{ $datacpo->ppn }}"
-                                                @if ($datacpo->ppn == 1) @checked(true)
+                                                value="{{ $data_pengajuan->ppn }}"
+                                                @if ($data_pengajuan->ppn == 1) @checked(true)
                                                  @else @endif
                                                 disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                         <td style="text-align:right;">
-                                            @if ($datacpo->ppn == 1)
+                                            @if ($data_pengajuan->ppn == 1)
                                                 @foreach ($ppn as $p)
                                                     {{-- Ketika mata uang yang dipilih RP --}}
                                                     @if ($data_pengajuan->matauang == 'RP')
@@ -163,7 +163,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    @if ($datacpo->ppn == 1)
+                                    @if ($data_pengajuan->ppn == 1)
                                         <tr>
                                             <td class="text-end" style="font-weight: bold;">Grand Total :</td>
 
@@ -177,7 +177,7 @@
                                                     <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
                                                 @endif
                                             @endforeach
-                                        @elseif ($datacpo->ppn == 0)
+                                        @elseif ($data_pengajuan->ppn == 0)
                                             <td class="text-end" style="font-weight: bold;">Grand Total :</td>
                                             @foreach ($total_tnpa_ppn as $tpn)
                                                 @if ($data_pengajuan->matauang == 'RP')
@@ -190,25 +190,33 @@
                                     @endif
                                 </table>
                                 <div class="mt-3" style="text-align: right;">
+                                    <a type="reset" class="btn btn-dark" href="{{ url('/menu-pengajuan-dana/') }}"
+                                    style="float: left;">Back</a>
                                     @hasrole('finance|super admin')
                                         @if ($data_pengajuan->status == 'Paid')
+                                        <div class="text-center">
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-success text-center" onclick="return"><b>Paid Success</b></a>
 
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
+                                        </div>
                                         @elseif($data_pengajuan->status == 'Unpaid')
+                                        <div class="text-center">
                                             <a href="{{ url('menu-pengajuan-dana/paid', $data_pengajuan->id) }}"
                                                 class="btn btn-success text-center" onclick="return">Paid</a>
 
                                             <a href="{{ url('menu-pengajuan-dana/reject', $data_pengajuan->id) }}"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
+                                        </div>
                                         @else
+                                        <div class="text-center">
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-success text-center" onclick="return">Paid</a>
 
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                        </div>
                                         @endif
                                     @endhasrole
 

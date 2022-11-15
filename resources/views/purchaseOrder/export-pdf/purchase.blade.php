@@ -14,16 +14,44 @@
                     <tr>
                         <td valign="top" style="padding-right: 2px;"><img src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="90"> </td>
                         <td valign="top"> <h5 class="media-heading f-w-600">PT.SOLUSI INTEK INDONESIA</h5>
-                            <p>Head Office : Emerald Commercial Blok UB No. 50 <br>Summarecon Bekasi Telp. 021-89454790 <br>
+                            <p>Head Office : Emerald Commercial Blok UB No. 50 Summarecon Bekasi Telp. 021-89454790 <br>
                             Mkt Office &nbsp;&nbsp; : Jl Tebet Barat dalam raya No. 31 <br>Tebet Barat, Jakarta Selatan, Telp 021-21383852</p>
                         </td>
                         @php
                         use Carbon\Carbon;
-                        $date=Carbon::parse($cpo->created_at)->format('d/m/Y');
+                        $date=Carbon::parse($id->created_at)->format('d/m/Y');
                         @endphp
                         <td valign="top" align="right">
-                            <h5>PO : <span class="digits counter">{{ $cpo->id }}/PO/SII/{{ $month }}/{{ $year }}</span></h5>
-                            <p>Date: <span class="digits">{{ $date }}</span><br> Quotation: <span class="digits">{{ $cpo->quotation }}</span><br> Address: <span>{{ $cpo->address }}</span><br>Contact:<span>{{ $cpo->no_telp }}</span><br>NPWP:<span>{{ $cpo->no_npwp }}</span></p>
+                            <h5><span class="digits counter">{{ $id->id }}/PO/SII/{{ $month }}/{{ $year }}</span></h5>
+                            <p>Date: <span class="digits">{{ $date }}</span><br>Quotation:
+                            <span class="digits">
+                            @if(empty($cpo->quotation))
+                            -
+                            @else
+                            {{ $cpo->quotation }}
+                            @endif
+                            </span>
+                            <br> Address: <span>
+                            @if(empty($cpo->address))
+                            -
+                            @else
+                            {{ $cpo->address }}
+                            @endif
+                            </span>
+                            <br>Contact:<span>
+                            @if(empty($cpo->no_telp))
+                            -
+                            @else
+                            {{ $cpo->no_telp }}
+                            @endif
+                            </span>
+                            <br>NPWP:<span>
+                            @if(empty($cpo->no_npwp))
+                            -
+                            @else
+                            {{ $cpo->no_npwp }}
+                            @endif
+                            </span></p>
                         </td>
                     </tr>
                 </table>
@@ -40,13 +68,13 @@
                             Contact       &nbsp; : <span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
                             Website       &nbsp; : <span>{{ $cpo->vendorable->website }}</span></p>
                             @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
-                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<span>{{ $cpo->vendorable->nama }}</span><br>
-                                Address        &nbsp;:<span>{{ $cpo->vendorable->alamat }}</span><br>
-                                NIK            &nbsp;:<span>{{ $cpo->vendorable->nik }}</span><br>
-                                NPWP           &nbsp;:<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
-                            @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce  ')
-                            <p>Name         &nbsp;:<span>{{ $cpo->vendorable->nama }}</span><br>
-                                Link        &nbsp;:<span>{{ $cpo->vendorable->link }}</span></p>
+                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Address        &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
+                                NIK            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nik }}</span><br>
+                                NPWP           &nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
+                            @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
+                            <p>Name         &nbsp;:&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Link        &nbsp;&nbsp;&nbsp; :&nbsp;<span><a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></span></p>
                             @endif
                         </td>
 
@@ -130,7 +158,7 @@
                               <p class="m-0">PPN 11% </p>
                             </td>
                             @foreach ($cpp as $c)
-                            @if ($c->ppn == null)
+                            @if ($c->ppn == 0)
                             <td>
                                 <p class="m-0 digits">Rp.0</p>
                             </td>

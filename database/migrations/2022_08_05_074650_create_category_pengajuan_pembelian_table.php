@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('send_to');
             $table->enum('dateline',['≤3Jam','≤24Jam','≤48Jam']);
             $table->time('dateline_time')->nullable();
+            $table->boolean('ppn')->nullable()->default(false);
             $table->string('image')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

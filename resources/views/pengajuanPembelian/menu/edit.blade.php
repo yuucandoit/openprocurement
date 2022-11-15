@@ -135,7 +135,7 @@
                                         <div class="form-group">
                                             <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i>
                                                 Purpose
-                                                :</label>
+                                                : </label>
                                             <select class="form-select page pageSelect" id="pageSelect"
                                                 placeholder="Purpose" name="category_purpose">
                                                 <option value="">Select Category Purpose</option>
@@ -144,7 +144,7 @@
                                                 <option value="workshop">Workshop</option>
                                                 <option value="inventory">Inventory</option>
                                             </select>
-
+                                            <p style="color: red;">* Please re-input form purpose</p>
                                             {{-- Project Dropdown --}}
                                             <select class=" form-select hide mt-2" id="selectedInput" name="sub_purpose">
                                                 @foreach ($purpose as $p)
@@ -177,6 +177,7 @@
                                             </select>
                                             {{-- End Inventory Dropdown --}}
                                         </div>
+
                                         @error('category_purpose')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -257,7 +258,35 @@
                                         </div>
                                     </div>
 
+                                     {{-- css hide --}}
+                                     <style>
+                                        .hide {
+                                            opacity: 0;
+                                        }
+
+                                        .page {
+                                            height: 58px;
+                                        }
+                                    </style>
+
                                     <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" style="font-weight: bold;"><i
+                                                    class="fa fa-send"></i> Send To</label>
+                                            <select class="form-select page" id="pageSelector"
+                                                placeholder="Send To" name="send_to">
+                                                <option selected value="{{ $dv->send_to }}">{{ $dv->send_to }}
+                                                </option>
+                                            <option value="Tebet">Tebet</option>
+                                            <option value="Cikunir">Cikunir</option>
+                                            <option value="other">Other Option</option>
+                                            </select>
+                                            <input class="hide form-control mt-2" type="text"  id="customOther"
+                                            placeholder="Input Send To">
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="col-md-6">
                                         <div
                                             class=" form-group m-checkbox-inline mb-0 @error('send_to') is-invalid @enderror">
                                             <div class="col-6">
@@ -274,7 +303,7 @@
                                                 <label for="cikunir">Cikunir</label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <hr>
                                     <table class="table table-bordered mt-2 mx-2 item order-entry">
                                         <tr style="text-align: center;">
@@ -506,6 +535,21 @@
                 }
             })
         </script>
+
+    <script type="text/javascript">
+        var pageSelector = document.getElementById('pageSelector');
+        var customOther = document.getElementById('customOther');
+
+        pageSelector.addEventListener('change', function() {
+            if (this.value == "other") {
+                customOther.setAttribute('name', 'send_to');
+                customOther.classList.remove('hide');
+            } else {
+                customOther.removeAttribute('name', 'send_to');
+                customOther.classList.add('hide');
+            }
+        })
+    </script>
 
     </section>
 @endsection

@@ -136,12 +136,12 @@
                                     </tr>
                                     <tr>
                                         <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                                value="{{ $datacpo->ppn }}"
-                                                @if ($datacpo->ppn == 1) @checked(true)
+                                                value="{{ $data_pengajuan->ppn }}"
+                                                @if ($data_pengajuan->ppn == 1) @checked(true)
                                     @else @endif
                                                 disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                         <td style="text-align:right;">
-                                            @if ($datacpo->ppn == 1)
+                                            @if ($data_pengajuan->ppn == 1)
                                                 @foreach ($ppn as $p)
                                                     {{-- Ketika mata uang yang dipilih RP --}}
                                                     @if ($data_pengajuan->matauang == 'RP')
@@ -164,7 +164,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    @if ($datacpo->ppn == 1)
+                                    @if ($data_pengajuan->ppn == 1)
                                         <tr>
                                             <td class="text-end">Grand Total :</td>
 
@@ -179,7 +179,7 @@
                                                     <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
                                                 @endif
                                             @endforeach
-                                        @elseif ($datacpo->ppn == 0)
+                                        @elseif ($data_pengajuan->ppn == 0)
                                             <td class="text-end">Grand Total :</td>
                                             @foreach ($total_tnpa_ppn as $tpn)
                                                 @if ($data_pengajuan->matauang == 'RP')
@@ -201,23 +201,29 @@
                                              $data_pengajuan->status == 'Paid'||
                                              $data_pengajuan->status == 'Delivery Process'||
                                              $data_pengajuan->status == 'Delivery Success')
+                                             <div class="text-center">
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
 
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
+                                            </div>
                                         @elseif($data_pengajuan->status == 'Invoicing Process')
+                                        <div class="text-center">
                                             <a href="{{ url('menu-tasklist-finance/approve', $data_pengajuan->id) }}"
                                                 class="btn btn-success text-center" onclick="return">Approve</a>
 
                                             <a href="{{ url('menu-tasklist-finance/reject', $data_pengajuan->id) }}"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
+                                        </div>
                                         @else
+                                        <div class="text-center">
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-successtext-center" onclick="return">Approve</a>
 
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                        </div>
                                         @endif
                                     @endhasrole
 
@@ -226,10 +232,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Zero Configuration  Ends-->
-                    @if ($data_pengajuan->status == 'Accepted')
-                        {{-- <a href=url('#')('/export_excel/pengajuan_pembelian/'.$data_pengajuan->id)
-            class="btn btn-success" style="align-self: flex-end"> Export to Excel</a> --}}
-                    @endif
+
     </section>
 @endsection

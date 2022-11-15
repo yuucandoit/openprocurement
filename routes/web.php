@@ -394,7 +394,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [CategoryPDController::class, 'store'])->name('menu-pengajuan-dana.store');
         Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
         Route::get('/paid/{id}', [CategoryPDController::class, 'paid'])->name('menu-pengajuan-dana-paid');
-        Route::get('/denied/{id}', [CategoryPDController::class, 'denied'])->name('menu-pengajuan-dana-denied');
+        Route::get('/reject/{id}', [CategoryPDController::class, 'reject'])->name('menu-pengajuan-dana-reject');
     });
 
     // Menu Pengiriman

@@ -24,6 +24,7 @@ class CategoryPengajuanPembelian extends Model
         'address',
         'npwp',
         'send_to',
+        'ppn',
         'dateline',
         'created_at',
         'updated_at'

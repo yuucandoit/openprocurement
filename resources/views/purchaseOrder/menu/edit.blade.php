@@ -62,7 +62,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <select class="form-select page mt-2 pageSelect" id="pageSelect"
-                                                placeholder="Proposed To" name="vendorable_type">
+                                                placeholder="Proposed To" name="vendor">
                                                 <option value="" disabled selected hidden>Select Vendor</option>
                                                 <option value="company">Company</option>
                                                 <option value="privateperson">Private Person</option>
@@ -70,7 +70,7 @@
                                             </select>
                                             <p style="color: red;">*Please select the vendor again</p>
                                             {{-- Perusahaan Dropdown --}}
-                                            <select class=" form-select hide mt-2" id="selectedInput" name="vendorable_id">
+                                            <select class=" form-select hide mt-2" id="selectedInput" name="vendor_id">
                                                 @foreach ($datapt as $p)
                                                     <option value="{{ $p->id }}">{{ $p->nama }}</option>
                                                 @endforeach
@@ -78,7 +78,7 @@
                                             {{-- End Perusahaan Dropdown --}}
 
                                             {{-- Private Person Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput2" name="vendorable_id">
+                                            <select class=" form-select hide" id="selectedInput2" name="vendor_id">
                                                 @foreach ($op as $o)
                                                     <option value="{{ $o->id }}">{{ $o->nama }}</option>
                                                 @endforeach
@@ -86,7 +86,7 @@
                                             {{-- End Private Person Dropdown --}}
 
                                             {{-- Ecommerce Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput3" name="vendorable_id">
+                                            <select class=" form-select hide" id="selectedInput3" name="vendor_id">
                                                 @foreach ($ec as $e)
                                                     <option value="{{ $e->id }}">{{ $e->nama }}</option>
                                                 @endforeach
@@ -94,12 +94,13 @@
                                             {{-- End Ecommerce Dropdown --}}
                                         </div>
                                     </div>
-                                    @foreach ($datapo as $po)
                                     <div class="col-6">
                                         <div class="form-floating">
                                             <select class="form-select mt-2" id="floatingproposedto"
                                                 placeholder="Proposed To" name="atasan_po">
-                                                <option value="{{ $po->atasans->id }}">{{ $po->atasans->name }}</option>
+                                                @foreach ($datapo as $dpo)
+                                                <option value="{{ $dpo->atasans->id }}">{{ $dpo->atasans->name }}</option>
+                                                @endforeach
                                                 @foreach ($atasan as $sui)
                                                     <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                                 @endforeach
@@ -111,7 +112,7 @@
                                     <div class="col-6">
                                         <div class="form-floating">
                                             <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
-                                                placeholder="Address" name="address" value="{{ $po->address }}">
+                                                placeholder="Address" name="address" value="{{ $datacpo->address }}">
                                             <label for="floatingNoTelpon">Alamat</label>
                                         </div>
                                     </div>
@@ -119,7 +120,7 @@
                                         <div class="form-floating">
                                             <input required type="text" class="form-control mt-2 "
                                                 id="floatingNoTelpon" placeholder="No_Telp" name="no_telp"
-                                                value="{{ $po->no_telp }}">
+                                                value="{{ $datacpo->no_telp }}">
                                             <label for="floatingNoTelpon">Nomor Telpon</label>
                                         </div>
                                     </div>
@@ -127,7 +128,7 @@
                                         <div class="form-floating">
                                             <input required type="text" class="form-control mt-2 "
                                                 id="floatingNoTelpon" placeholder="NPWP" name="no_npwp"
-                                                value="{{ $po->no_npwp }}">
+                                                value="{{ $datacpo->no_npwp }}">
                                             <label for="floatingNoTelpon">NPWP</label>
                                         </div>
                                     </div>
@@ -135,7 +136,7 @@
                                         <div class="form-floating">
                                             <input required type="text" class="form-control mt-2 "
                                                 id="floatingNoTelpon" placeholder="Quotation" name="quotation"
-                                                value="{{ $po->quotation }}">
+                                                value="{{ $datacpo->quotation }}">
                                             <label for="floatingNoTelpon">Quotation</label>
                                         </div>
                                     </div>
@@ -157,7 +158,7 @@
                                         <div class="form-group">
                                             <select class="form-select page mt-2" id="pageSelector"
                                                 placeholder="Terms and Conditions" name="term_conditions">
-                                                <option value="{{ $po->term->id }}" selected>{{ $po->term->term_condition }}
+                                                <option value="{{ $datacpo->term->id }}" selected>{{ $datacpo->term->term_condition }}
                                                 </option>
                                                 @foreach ($terms as $t)
                                                     <option value="{{ $t->id }}">{{ $t->term_condition }}</option>
@@ -168,7 +169,6 @@
                                                 placeholder="Input Terms And Conditions"></textarea>
                                         </div>
                                     </div>
-                                    @endforeach
                                     <hr>
                                     <div class="col-md-12">
                                         <table class="table table-bordered item mx-2 order-entry">

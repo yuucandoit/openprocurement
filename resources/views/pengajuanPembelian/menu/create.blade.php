@@ -88,7 +88,7 @@
                                                 <option value="≤48Jam">≤ 48 Jam</option>
                                             </select>
                                             @error('dateline')
-                                                <div class="invalid-feedback">Please select a valid state.
+                                                <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -107,6 +107,11 @@
                                                     <option value="{{ $ws->id }}">{{ $ws->name }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('ws')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -138,6 +143,11 @@
                                                 <option value="inventory">Inventory</option>
                                                 <option value="rnd">R&D</option>
                                             </select>
+                                            @error('category_purpose')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             {{-- Project Dropdown --}}
                                             <select class=" form-select hide mt-2" id="selectedInput" name="sub_purpose">
                                                 @foreach ($purpose as $p)
@@ -205,7 +215,11 @@
                                             <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
                                             <div class="form-floating">
                                                 <textarea required name="desc" id="floatingNoTelpon" class="form-control page" cols="50" rows="30"></textarea>
-                                                <div class="invalid-feedback"></div>
+                                                @error('desc')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -221,6 +235,11 @@
                                                     <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('atasan')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -235,27 +254,66 @@
                                                 <option value="USD">USD</option>
                                                 <option value="RP">RP</option>
                                             </select>
+                                            @error('matauang')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
+                                        {{-- css hide --}}
+                                        <style>
+                                            .hide {
+                                                opacity: 0;
+                                            }
 
-                                    <div class="col-md-6">
+                                            .page {
+                                                height: 58px;
+                                            }
+                                        </style>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label" style="font-weight: bold;"><i
+                                                        class="fa fa-send"></i> Send To</label>
+                                                <select class="form-select page" id="pageSelector"
+                                                    placeholder="Send To" name="send_to">
+                                                    <option value="" disabled selected hidden>Send To
+                                                    </option>
+                                                <option value="Tebet">Tebet</option>
+                                                <option value="Cikunir">Cikunir</option>
+                                                <option value="other">Other Option</option>
+                                                </select>
+                                                <input class="hide form-control mt-2" type="text"  id="customOther"
+                                                placeholder="Input Send To">
+                                            </div>
+                                        </div>
+
+                                    {{-- <div class="col-md-6">
                                         <div
-                                            class=" form-group m-checkbox-inline mb-0 @error('send_to') is-invalid @enderror">
+                                            class=" form-group m-radio-inline mb-0 @error('send_to') is-invalid @enderror">
                                             <div class="col-6">
                                                 <label><i class="fa fa-send"></i> Send To :</label>
                                             </div>
-                                            <div class="radio radio-primary col-md-6" required>
-                                                <input id="tebet" type="radio" name="send_to" value="Tebet"
-                                                    required />
+                                            <div class="radio radio-primary col-md-6" id="s1" >
+                                                <input id="tebet" type="radio" name="send_to" class="Tebet" value="Tebet"
+                                                    required/>
                                                 <label for="tebet">Tebet</label>
                                             </div>
-                                            <div class="radio radio-primary col-md-6">
-                                                <input id="cikunir" type="radio" name="send_to" value="Cikunir"
+                                            <div class="radio radio-primary col-md-6" id="s2">
+                                                <input id="cikunir" type="radio" name="send_to" class="Cikunir" value="Cikunir"
                                                     required />
                                                 <label for="cikunir">Cikunir</label>
                                             </div>
+                                            <div class="radio radio-primary col-md-6">
+                                                <input value="other" id="otherOption" type="radio" name="send_to" onclick="javascript:otherOptionCheck();">
+                                                <label for="otherOption">Other</label>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div id="other" style="display:none">
+                                            <input class="form-control" type='text' id='yes' name='send_to'><br>
+                                        </div>
+                                    </div> --}}
                                     <br>
                                     <hr>
                                     <table class="table table-bordered item order-entry">
@@ -400,17 +458,7 @@
                 return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
             }
         </script>
-        <script type="text/javascript">
-            var pageSelector = document.getElementById('pageSelector');
-            var customInput = document.getElementById('customInput');
-            pageSelector.addEventListener('change', function() {
-                if (this.value == "custom") {
-                    customInput.classList.remove('hide');
-                } else {
-                    customInput.classList.add('hide');
-                }
-            })
-        </script>
+
         <script type="text/javascript">
             var pageSelect = document.getElementById('pageSelect');
 
@@ -475,5 +523,38 @@
                 }
             })
         </script>
-    </section>
+
+{{-- <script type="text/javascript">
+    function otherOptionCheck() {
+    if (document.getElementById('otherOption').checked) {
+        document.getElementById('other').style.display = 'block';
+    }
+    else set.style.display = 'none';
+    }
+
+    if (document.getElementById('tebet').checked) {
+        document.getElementById('tebet').value;
+    }
+    if (document.getElementById('cikunir').checked) {
+        document.getElementById('cikunir').value;
+    }
+
+</script> --}}
+
+<script type="text/javascript">
+    var pageSelector = document.getElementById('pageSelector');
+    var customOther = document.getElementById('customOther');
+
+    pageSelector.addEventListener('change', function() {
+        if (this.value == "other") {
+            customOther.setAttribute('name', 'send_to');
+            customOther.classList.remove('hide');
+        } else {
+            customOther.removeAttribute('name', 'send_to');
+            customOther.classList.add('hide');
+        }
+    })
+</script>
+
+</section>
 @endsection

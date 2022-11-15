@@ -20,7 +20,6 @@ class CategoryPO extends Model
         'no_telp',
         'no_npwp',
         'quotation',
-        'ppn',
         'created_at',
         'updated_at'
     ];
