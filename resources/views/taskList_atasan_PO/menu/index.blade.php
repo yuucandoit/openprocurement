@@ -70,19 +70,19 @@
                 </div>
             </div>
         </div>
-                @if (Auth::user()->id === 3)
-                    <!-- Container-fluid starts-->
-                        <div class="container-fluid">
-                            <div class="row">
-                                <!-- Zero Configuration  Starts-->
-                                <div class="col-sm-12">
-                                    <div class="card card-absolute">
-                                        <div class="card-header bg-primary">
-                                            <h5>Task List</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                <table class="display" id="basic-1">
+        @if (Auth::user()->id === 3)
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Zero Configuration  Starts-->
+                    <div class="col-sm-12">
+                        <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                <h5>Task List</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="display" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -98,34 +98,34 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-                                            <tbody>
-                                            <tr style="text-align: center;">
-                                                @if ($data_atasan->atasan_po == 3)
-                                                <td style="text-align: center;">{{ $no++ }}</td>
-                                                <td><a href="{{ $ppb->desc }}"
-                                                target="_blank">{{ $ppb->desc }}</a>
-                                               </td>
-                                                <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                </td>
-                                                <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                                </td>
-                                                <td>
-                                                    <a class="btn btn-iconsolid mt-1"
-                                                    style="background-color: #00008B;"
-                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
-                                                    class="icon-zoom-in" title="Details"></i>
-                                                    </a>
+                                                <tbody>
+                                                    <tr style="text-align: center;">
+                                                        @if ($data_atasan->atasan_po == 3)
+                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td><a href="{{ $ppb->desc }}"
+                                                                    target="_blank">{{ $ppb->desc }}</a>
+                                                            </td>
+                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                            </td>
+                                                            <td> <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #00008B;"
+                                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                        class="icon-zoom-in" title="Details"></i>
+                                                                </a>
 
-                                                    <a class="btn btn-iconsolid mt-1"
-                                                    style="background-color: #FF8C00;"
-                                                    href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"><i
-                                                    class="icon-pencil-alt" title="Edit"></i>
-                                                    </a>
-                                                </td>
-                                                @endif
-                                                </tr>
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #FF8C00;"
+                                                                    href="{{ url('/menu-taskList-atasan-po/edit/' . $ppb->id) }}"><i
+                                                                        class="icon-pencil-alt" title="Edit"></i>
+                                                                </a>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
                                             @endif
                                         @endforeach
                                         </tbody>
@@ -165,12 +165,12 @@
                                         @endphp
 
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Invoicing Process'||
-                                                $ppb->status == 'PO Approved'||
-                                                 $ppb->status == 'Unpaid'||
-                                                 $ppb->status == 'Paid'||
-                                                 $ppb->status == 'Delivery Process' ||
-                                                 $ppb->status == 'Delivery Success')
+                                            @if ($ppb->status == 'Invoicing Process' ||
+                                                $ppb->status == 'PO Approved' ||
+                                                $ppb->status == 'Unpaid' ||
+                                                $ppb->status == 'Paid' ||
+                                                $ppb->status == 'Delivery Process' ||
+                                                $ppb->status == 'Delivery Success')
                                                 <tbody>
                                                     <tr style="text-align: center;">
                                                         @if ($data_atasan->atasan_po == 3)
@@ -203,17 +203,17 @@
                                         @endforeach
                                         </tbody>
                                     </table>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Zero Configuration  Ends-->
-            </div>
+        @endif
+        </div>
+        </div>
+        </div>
+        </div>
+        <!-- Zero Configuration  Ends-->
+        </div>
         </div>
 
-    @if (Auth::user()->id === 6)
-        <!-- Container-fluid starts-->
+        @if (Auth::user()->id === 6)
+            <!-- Container-fluid starts-->
             <div class="container-fluid">
                 <div class="row">
                     <!-- Zero Configuration  Starts-->
@@ -281,8 +281,8 @@
                 </div>
             </div>
 
-             <!-- Container-fluid starts-->
-             <div class="container-fluid">
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
                 <div class="row">
                     <!-- Zero Configuration  Starts-->
                     <div class="col-sm-12">
@@ -308,12 +308,12 @@
                                         @endphp
 
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Invoicing Process'||
-                                            $ppb->status == 'PO Approved'||
-                                            $ppb->status == 'Unpaid'||
-                                            $ppb->status == 'Paid'||
-                                            $ppb->status == 'Delivery Process' ||
-                                            $ppb->status == 'Delivery Success')
+                                            @if ($ppb->status == 'Invoicing Process' ||
+                                                $ppb->status == 'PO Approved' ||
+                                                $ppb->status == 'Unpaid' ||
+                                                $ppb->status == 'Paid' ||
+                                                $ppb->status == 'Delivery Process' ||
+                                                $ppb->status == 'Delivery Success')
                                                 <tbody>
                                                     <tr>
                                                         @if ($data_atasan->atasan_po == 6)
@@ -353,9 +353,9 @@
                     <!-- Zero Configuration  Ends-->
                 </div>
             </div>
-            @endif
+        @endif
 
-            @if (Auth::user()->id === 7)
+        @if (Auth::user()->id === 7)
             <!-- Container-fluid starts-->
             <div class="container-fluid">
                 <div class="row">
@@ -451,12 +451,12 @@
                                         @endphp
 
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Invoicing Process'||
-                                            $ppb->status == 'PO Approved'||
-                                            $ppb->status == 'Unpaid'||
-                                            $ppb->status == 'Paid'||
-                                            $ppb->status == 'Delivery Process' ||
-                                            $ppb->status == 'Delivery Success')
+                                            @if ($ppb->status == 'Invoicing Process' ||
+                                                $ppb->status == 'PO Approved' ||
+                                                $ppb->status == 'Unpaid' ||
+                                                $ppb->status == 'Paid' ||
+                                                $ppb->status == 'Delivery Process' ||
+                                                $ppb->status == 'Delivery Success')
                                                 <tbody>
                                                     <tr>
                                                         @if ($data_atasan->atasan_po == 7)
@@ -499,17 +499,17 @@
         @endif
 
         @if (Auth::user()->id === 8)
-        <!-- Container-fluid starts-->
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Zero Configuration  Starts-->
-                <div class="col-sm-12">
-                    <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Zero Configuration  Starts-->
+                    <div class="col-sm-12">
+                        <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                <h5>Task List</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
                                     <table class="display" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
@@ -568,16 +568,16 @@
             </div>
 
             <!-- Container-fluid starts-->
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Zero Configuration  Starts-->
-                <div class="col-sm-12">
-                    <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Zero Configuration  Starts-->
+                    <div class="col-sm-12">
+                        <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                <h5>Task List</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
                                     <table class="display" id="advance-1">
                                         <thead>
                                             <tr style="text-align: center;">
@@ -594,12 +594,12 @@
                                         @endphp
 
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Invoicing Process'||
-                                            $ppb->status == 'PO Approved'||
-                                            $ppb->status == 'Unpaid'||
-                                            $ppb->status == 'Paid'||
-                                            $ppb->status == 'Delivery Process' ||
-                                            $ppb->status == 'Delivery Success')
+                                            @if ($ppb->status == 'Invoicing Process' ||
+                                                $ppb->status == 'PO Approved' ||
+                                                $ppb->status == 'Unpaid' ||
+                                                $ppb->status == 'Paid' ||
+                                                $ppb->status == 'Delivery Process' ||
+                                                $ppb->status == 'Delivery Success')
                                                 <tbody>
                                                     <tr>
                                                         @if ($data_atasan->atasan_po == 8)
@@ -642,17 +642,17 @@
         @endif
 
         @if (Auth::user()->id === 9)
-        <!-- Container-fluid starts-->
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Zero Configuration  Starts-->
-                <div class="col-sm-12">
-                    <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Zero Configuration  Starts-->
+                    <div class="col-sm-12">
+                        <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                <h5>Task List</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
                                     <table class="display" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
@@ -710,16 +710,16 @@
                 </div>
             </div>
             <!-- Container-fluid starts-->
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Zero Configuration  Starts-->
-                <div class="col-sm-12">
-                    <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Zero Configuration  Starts-->
+                    <div class="col-sm-12">
+                        <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                <h5>Task List</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
                                     <table class="display" id="advance-1">
                                         <thead>
                                             <tr style="text-align: center;">
@@ -736,12 +736,12 @@
                                         @endphp
 
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Invoicing Process'||
-                                            $ppb->status == 'PO Approved'||
-                                            $ppb->status == 'Unpaid'||
-                                            $ppb->status == 'Paid'||
-                                            $ppb->status == 'Delivery Process' ||
-                                            $ppb->status == 'Delivery Success')
+                                            @if ($ppb->status == 'Invoicing Process' ||
+                                                $ppb->status == 'PO Approved' ||
+                                                $ppb->status == 'Unpaid' ||
+                                                $ppb->status == 'Paid' ||
+                                                $ppb->status == 'Delivery Process' ||
+                                                $ppb->status == 'Delivery Success')
                                                 <tbody>
                                                     <tr>
                                                         @if ($data_atasan->atasan_po == 9)
@@ -781,16 +781,16 @@
                     <!-- Zero Configuration  Ends-->
                 </div>
             </div>
-            @endif
-                <script>
-                    $(document).ready(function() {
+        @endif
+        <script>
+            $(document).ready(function() {
 
-                        $('.servidelet  ebtn').click(function(e) {
-                            e.preventDefault();
-                            alert('hello');
-                        });
+                $('.servidelet  ebtn').click(function(e) {
+                    e.preventDefault();
+                    alert('hello');
+                });
 
-                    });
-                </script>
+            });
+        </script>
     </section>
 @endsection

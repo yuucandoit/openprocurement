@@ -1,4 +1,4 @@
-<title>Purchase Submision</title>
+<title>Purchase Request</title>
 @extends('layouts.master')
 
 @section('main')
@@ -7,12 +7,12 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-6 mt-4">
-                        <h1>Create Purchase Submission</h1>
+                        <h1>Create Purchase Request</h1>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('menu-pengajuan-pembelian.index') }}">Purchase
-                                    Submission</a></li>
-                            <li class="breadcrumb-item">Create Purchase Submission</li>
+                                    Request</a></li>
+                            <li class="breadcrumb-item">Create Purchase Request</li>
                         </ol>
                     </div>
                     <div class="col-sm-6 mt-4">
@@ -51,7 +51,7 @@
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
-                            <h5>Form Purchase Submission</h5>
+                            <h5>Form Purchase Request</h5>
                         </div>
                         <div class="card-body">
                             <form action="{{ url('/menu-pengajuan-pembelian/store') }}" id="formAdd" method="post"
@@ -159,7 +159,7 @@
                                             {{-- Office Dropdown --}}
                                             <select class=" form-select hide" id="selectedInput2" name="sub_purpose">
                                                 @foreach ($purpose_office as $o)
-                                                <option value="{{ $o->id }}">{{ $o->name }}</option>
+                                                    <option value="{{ $o->id }}">{{ $o->name }}</option>
                                                 @endforeach
                                             </select>
                                             {{-- End Office Dropdown --}}
@@ -167,7 +167,7 @@
                                             {{-- Workshop Dropdown --}}
                                             <select class=" form-select hide" id="selectedInput3" name="sub_purpose">
                                                 @foreach ($purpose_workshop as $e)
-                                                <option value="{{ $e->id }}">{{ $e->name }}</option>
+                                                    <option value="{{ $e->id }}">{{ $e->name }}</option>
                                                 @endforeach
                                             </select>
                                             {{-- End Workshop Dropdown --}}
@@ -175,15 +175,15 @@
                                             {{-- Inventory Dropdown --}}
                                             <select class=" form-select hide" id="selectedInput4" name="sub_purpose">
                                                 @foreach ($purpose_inventory as $pi)
-                                                <option value="{{ $pi->id }}">{{ $pi->name }}</option>
+                                                    <option value="{{ $pi->id }}">{{ $pi->name }}</option>
                                                 @endforeach
                                             </select>
                                             {{-- End Inventory Dropdown --}}
 
-                                             {{-- Inventory Dropdown --}}
-                                             <select class=" form-select hide" id="selectedInput5" name="sub_purpose">
+                                            {{-- Inventory Dropdown --}}
+                                            <select class=" form-select hide" id="selectedInput5" name="sub_purpose">
                                                 @foreach ($purpose_rnd as $rnd)
-                                                <option value="{{ $rnd->id }}">{{ $rnd->name }}</option>
+                                                    <option value="{{ $rnd->id }}">{{ $rnd->name }}</option>
                                                 @endforeach
                                             </select>
                                             {{-- End Inventory Dropdown --}}
@@ -216,9 +216,9 @@
                                             <div class="form-floating">
                                                 <textarea required name="desc" id="floatingNoTelpon" class="form-control page" cols="50" rows="30"></textarea>
                                                 @error('desc')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
                                                 @enderror
                                             </div>
                                         </div>
@@ -261,33 +261,33 @@
                                             @enderror
                                         </div>
                                     </div>
-                                        {{-- css hide --}}
-                                        <style>
-                                            .hide {
-                                                opacity: 0;
-                                            }
+                                    {{-- css hide --}}
+                                    <style>
+                                        .hide {
+                                            opacity: 0;
+                                        }
 
-                                            .page {
-                                                height: 58px;
-                                            }
-                                        </style>
+                                        .page {
+                                            height: 58px;
+                                        }
+                                    </style>
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-send"></i> Send To</label>
-                                                <select class="form-select page" id="pageSelector"
-                                                    placeholder="Send To" name="send_to">
-                                                    <option value="" disabled selected hidden>Send To
-                                                    </option>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" style="font-weight: bold;"><i
+                                                    class="fa fa-send"></i> Send To</label>
+                                            <select class="form-select page" id="pageSelector" placeholder="Send To"
+                                                name="send_to">
+                                                <option value="" disabled selected hidden>Send To
+                                                </option>
                                                 <option value="Tebet">Tebet</option>
                                                 <option value="Cikunir">Cikunir</option>
                                                 <option value="other">Other Option</option>
-                                                </select>
-                                                <input class="hide form-control mt-2" type="text"  id="customOther"
+                                            </select>
+                                            <input class="hide form-control mt-2" type="text" id="customOther"
                                                 placeholder="Input Send To">
-                                            </div>
                                         </div>
+                                    </div>
 
                                     {{-- <div class="col-md-6">
                                         <div
@@ -524,7 +524,7 @@
             })
         </script>
 
-{{-- <script type="text/javascript">
+        {{-- <script type="text/javascript">
     function otherOptionCheck() {
     if (document.getElementById('otherOption').checked) {
         document.getElementById('other').style.display = 'block';
@@ -541,20 +541,20 @@
 
 </script> --}}
 
-<script type="text/javascript">
-    var pageSelector = document.getElementById('pageSelector');
-    var customOther = document.getElementById('customOther');
+        <script type="text/javascript">
+            var pageSelector = document.getElementById('pageSelector');
+            var customOther = document.getElementById('customOther');
 
-    pageSelector.addEventListener('change', function() {
-        if (this.value == "other") {
-            customOther.setAttribute('name', 'send_to');
-            customOther.classList.remove('hide');
-        } else {
-            customOther.removeAttribute('name', 'send_to');
-            customOther.classList.add('hide');
-        }
-    })
-</script>
+            pageSelector.addEventListener('change', function() {
+                if (this.value == "other") {
+                    customOther.setAttribute('name', 'send_to');
+                    customOther.classList.remove('hide');
+                } else {
+                    customOther.removeAttribute('name', 'send_to');
+                    customOther.classList.add('hide');
+                }
+            })
+        </script>
 
-</section>
+    </section>
 @endsection
