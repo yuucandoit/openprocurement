@@ -55,7 +55,7 @@
                                     <h6
                                         style="color: rgba(150, 148, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
                                         PURCHASE <br>
-                                        SUBMISSION</h6>
+                                        REQUEST</h6>
                                     <h2 class="mb-0 counter" style="color: rgba(150, 148, 255, 0.9);">
                                         {{ \App\Models\CategoryPengajuanPembelian::count() }}</h2>
                                     <i class="icon-bg" data-feather="file-text"></i>
@@ -179,7 +179,7 @@
         const dataPo = {
             labels: labels,
             datasets: [{
-                    label: 'Purchase Submission',
+                    label: 'Purchase Request',
                     backgroundColor: 'rgba(150, 148, 255, 0.9)',
                     borderColor: 'rgb(150, 148, 255)',
                     borderRadius: 5,

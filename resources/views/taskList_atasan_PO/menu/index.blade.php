@@ -70,7 +70,8 @@
                 </div>
             </div>
         </div>
-    @if (Auth::user()->id === 3)
+
+        @if (Auth::user()->id === 3)
     <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
@@ -99,8 +100,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-
-                                                @if ($ppb->atasan_po === 3)
+                                                @if ($ppb->atasan == 3)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -117,7 +117,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -133,8 +133,7 @@
                     </div>
                 </div>
             </div>
-    <!-- Container-fluid Ends  -->
-
+    <!-- Container-fluid Ends-->
     <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
@@ -162,15 +161,14 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                        @if (
-                                             $ppb->status == 'PO Approved'||
-                                             $ppb->status == 'Invoicing Process'||
-                                             $ppb->status == 'Payment Approved'||
-                                             $ppb->status == 'Unpaid'||
-                                             $ppb->status == 'Paid'||
-                                             $ppb->status == 'Delivery Process' ||
-                                             $ppb->status == 'Delivery Success')
-                                            @if ($ppb->atasan_po === 3)
+                                        @if ($ppb->status == 'PO Approved'||
+                                        $ppb->status == 'Invoicing Process'||
+                                        $ppb->status == 'Payment Approved' ||
+                                        $ppb->status == 'Unpaid'||
+                                        $ppb->status == 'Paid'||
+                                        $ppb->status == 'Delivery Process' ||
+                                        $ppb->status == 'Delivery Success')
+                                            @if ($ppb->atasan == 3)
                                                  <tbody>
                                                         <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -179,7 +177,7 @@
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
@@ -187,7 +185,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -204,7 +202,7 @@
                 </div>
             </div>
     <!-- Container-fluid Ends -->
-    @endif
+@endif
 
     @if (Auth::user()->id === 6)
     <!-- Container-fluid starts-->
@@ -234,8 +232,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-
-                                            @if ($ppb->atasan_po === 6)
+                                            @if ($ppb->atasan == 6)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -252,7 +249,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -269,7 +266,6 @@
                 </div>
             </div>
 
-     <!-- Container-fluid Ends -->
 
     <!-- Container-fluid starts-->
         <div class="container-fluid">
@@ -298,15 +294,14 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                        @if (
-                                             $ppb->status == 'PO Approved'||
-                                             $ppb->status == 'Invoicing Process'||
-                                              $ppb->status == 'Payment Approved'||
-                                             $ppb->status == 'Unpaid'||
-                                             $ppb->status == 'Paid'||
-                                             $ppb->status == 'Delivery Process' ||
-                                             $ppb->status == 'Delivery Success')
-                                            @if ($ppb->atasan_po === 6)
+                                        @if ($ppb->status == 'PO Approved'||
+                                        $ppb->status == 'Invoicing Process'||
+                                        $ppb->status == 'Payment Approved' ||
+                                        $ppb->status == 'Unpaid'||
+                                        $ppb->status == 'Paid'||
+                                        $ppb->status == 'Delivery Process' ||
+                                        $ppb->status == 'Delivery Success')
+                                            @if ($ppb->atasan == 6)
                                                  <tbody>
                                                         <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -315,7 +310,7 @@
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
@@ -323,14 +318,14 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
                                                      </tr>
                                                 </tbody>
-                                                    @endif
-                                             @endif
+                                                @endif
+                                        @endif
                                         @endforeach
                                     </table>
                                 </div>
@@ -370,8 +365,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-
-                                             @if ($ppb->atasan_po === 7)
+                                             @if ($ppb->atasan == 7)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -388,7 +382,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -404,8 +398,6 @@
                     </div>
                 </div>
             </div>
-
-    <!-- Container-fluid Ends -->
 
     <!-- Container-fluid starts-->
         <div class="container-fluid">
@@ -433,15 +425,14 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if (
-                                                 $ppb->status == 'PO Approved'||
-                                                 $ppb->status == 'Invoicing Process'||
-                                                  $ppb->status == 'Payment Approved'||
-                                                 $ppb->status == 'Unpaid'||
-                                                 $ppb->status == 'Paid'||
-                                                 $ppb->status == 'Delivery Process' ||
-                                                 $ppb->status == 'Delivery Success')
-                                            @if ($ppb->atasan_po === 7)
+                                            @if ($ppb->status == 'PO Approved'||
+                                            $ppb->status == 'Invoicing Process'||
+                                            $ppb->status == 'Payment Approved' ||
+                                            $ppb->status == 'Unpaid'||
+                                            $ppb->status == 'Paid'||
+                                            $ppb->status == 'Delivery Process' ||
+                                            $ppb->status == 'Delivery Success')
+                                            @if ($ppb->atasan == 7)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -451,21 +442,21 @@
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
                                                         <td style="text-align: center;">
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
 
                                                         </td>
                                                     </tr>
                                                  </tbody>
-                                                 @endif
+                                              @endif
                                             @endif
                                         @endforeach
                                     </table>
@@ -476,13 +467,13 @@
                 </div>
             </div>
 
-    <!-- Container-fluid Ends -->
+     <!-- Container-fluid Ends-->
     @endif
 
 
-    @if (Auth::user()->id == 8)
+    @if (Auth::user()->id === 8)
     <!-- Container-fluid starts -->
-    <div class="container-fluid">
+        <div class="container-fluid">
             <div class="row">
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
@@ -508,7 +499,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-                                            @if ($ppb->atasan_po === 8)
+                                            @if ($ppb->atasan == 8)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -526,7 +517,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -543,77 +534,75 @@
                 </div>
             </div>
 
-    <!-- Container-fluid Ends   -->
-
-     <!-- Container-fluid starts-->
-     <div class="container-fluid">
-        <div class="row">
-            <!-- Zero Configuration  Starts-->
-            <div class="col-sm-12">
-                <div class="card card-absolute">
-                    <div class="card-header bg-primary">
-                        <h5>Task List Super User Out</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                                <table class="display mt-4" id="advance-1">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Request By</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    @php
-                                        $no = 1;
-                                    @endphp
-                                    @foreach ($datappb as $ppb)
-                                        @if (
-                                             $ppb->status == 'PO Approved'||
-                                             $ppb->status == 'Invoicing Process'||
-                                             $ppb->status == 'Payment Approved'||
-                                             $ppb->status == 'Unpaid'||
-                                             $ppb->status == 'Paid'||
-                                             $ppb->status == 'Delivery Process' ||
-                                             $ppb->status == 'Delivery Success')
-                                            @if ($ppb->atasan_po === 8)
-                                            <tbody>
-                                                <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
-                                                                target="_blank">{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                        </td>
-                                                        <td>
-                                                            <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                                        </td>
-
+    <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Zero Configuration  Starts-->
+                <div class="col-sm-12">
+                    <div class="card card-absolute">
+                        <div class="card-header bg-primary">
+                            <h5>Task List Super User Out</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                    <table class="display mt-4" id="advance-1">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Date Line</th>
+                                                <th>Request By</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        @php
+                                            $no = 1;
+                                        @endphp
+                                        @foreach ($datappb as $ppb)
+                                            @if ($ppb->status == 'PO Approved'||
+                                            $ppb->status == 'Invoicing Process'||
+                                            $ppb->status == 'Payment Approved' ||
+                                            $ppb->status == 'Unpaid'||
+                                            $ppb->status == 'Paid'||
+                                            $ppb->status == 'Delivery Process' ||
+                                            $ppb->status == 'Delivery Success')
+                                            @if ($ppb->atasan == 8)
+                                                <tbody>
+                                                    <tr>
+                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td><a href="{{ $ppb->desc }}"
+                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                            </td>
+                                                            <td style="text-align: center;"> <a
+                                                                    class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                            </td>
                                                         <td style="text-align: center;">
-                                                     <a class="btn btn-iconsolid mt-1"
-                                                        style="background-color: #00008B;"
-                                                        href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"><i
-                                                        class="icon-zoom-in" title="Details"></i>
-                                                     </a>
-                                                </tr>
-                                        </tbody>
-                                        @endif
-                                    @endif
-                                @endforeach
-                                </table>
+
+                                                            <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #00008B;"
+                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                    class="icon-zoom-in" title="Details"></i>
+                                                            </a>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                             @endif
+                                         @endif
+                                    @endforeach
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
- <!-- Container-fluid Ends -->
-@endif
+    @endif
 
     @if (Auth::user()->id === 9)
     <!-- Container-fluid starts-->
@@ -643,8 +632,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-
-                                            @if ($ppb->atasan_po === 9)
+                                            @if ($ppb->atasan == 9)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -662,7 +650,7 @@
 
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
-                                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
+                                                                    href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
                                                                         class="icon-zoom-in" title="Details"></i>
                                                                 </a>
                                                        </tr>
@@ -675,8 +663,6 @@
                             </div>
                         </div>
                     </div>
-
-    <!-- Container-fluid Ends -->
 
     <!-- Container-fluid starts-->
         <div class="container-fluid">
@@ -704,15 +690,14 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if (
-                                                 $ppb->status == 'PO Approved'||
-                                                 $ppb->status == 'Invoicing Process'||
-                                                 $ppb->status == 'Payment Approved'||
-                                                 $ppb->status == 'Unpaid'||
-                                                 $ppb->status == 'Paid'||
-                                                 $ppb->status == 'Delivery Process' ||
-                                                 $ppb->status == 'Delivery Success')
-                                                @if ($ppb->atasan_po === 9)
+                                            @if ($ppb->status == 'PO Approved'||
+                                            $ppb->status == 'Invoicing Process'||
+                                            $ppb->status == 'Payment Approved' ||
+                                            $ppb->status == 'Unpaid'||
+                                            $ppb->status == 'Paid'||
+                                            $ppb->status == 'Delivery Process' ||
+                                            $ppb->status == 'Delivery Success')
+                                                @if ($ppb->atasan == 9)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -722,14 +707,14 @@
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td>
-                                                                <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                <a class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
                                                             <td style="text-align: center;">
                                                          <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"><i
+                                                            href="{{ url('menu-taskList-atasan/detail/'.$ppb->id) }}"><i
                                                             class="icon-zoom-in" title="Details"></i>
                                                          </a>
                                                     </tr>
@@ -745,15 +730,16 @@
                 </div>
             </div>
 
-     <!-- Container-fluid Ends -->
     @endif
 <!-- Zero Configuration  Ends-->
                 <script>
                     $(document).ready(function() {
+
                         $('.servidelet  ebtn').click(function(e) {
                             e.preventDefault();
                             alert('hello');
                         });
+
                     });
                 </script>
     </section>

@@ -479,6 +479,7 @@
                 </div>
             </div>
 
+     <!-- Container-fluid Ends-->
     @endif
 
 
