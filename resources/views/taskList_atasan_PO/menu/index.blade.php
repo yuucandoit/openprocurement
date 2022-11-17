@@ -100,7 +100,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-                                                @if ($ppb->atasan == 3)
+                                                @if ($ppb->atasan_po == 3)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -117,7 +117,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -168,7 +168,7 @@
                                         $ppb->status == 'Paid'||
                                         $ppb->status == 'Delivery Process' ||
                                         $ppb->status == 'Delivery Success')
-                                            @if ($ppb->atasan == 3)
+                                            @if ($ppb->atasan_po == 3)
                                                  <tbody>
                                                         <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -185,7 +185,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -232,7 +232,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-                                            @if ($ppb->atasan == 6)
+                                            @if ($ppb->atasan_po == 6)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -249,7 +249,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -301,7 +301,7 @@
                                         $ppb->status == 'Paid'||
                                         $ppb->status == 'Delivery Process' ||
                                         $ppb->status == 'Delivery Success')
-                                            @if ($ppb->atasan == 6)
+                                            @if ($ppb->atasan_po == 6)
                                                  <tbody>
                                                         <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -318,7 +318,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -365,7 +365,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-                                             @if ($ppb->atasan == 7)
+                                             @if ($ppb->atasan_po == 7)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -382,7 +382,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -432,7 +432,7 @@
                                             $ppb->status == 'Paid'||
                                             $ppb->status == 'Delivery Process' ||
                                             $ppb->status == 'Delivery Success')
-                                            @if ($ppb->atasan == 7)
+                                            @if ($ppb->atasan_po == 7)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -449,7 +449,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
 
@@ -499,7 +499,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-                                            @if ($ppb->atasan == 8)
+                                            @if ($ppb->atasan_po == 8)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -517,7 +517,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td>
@@ -567,7 +567,7 @@
                                             $ppb->status == 'Paid'||
                                             $ppb->status == 'Delivery Process' ||
                                             $ppb->status == 'Delivery Success')
-                                            @if ($ppb->atasan == 8)
+                                            @if ($ppb->atasan_po == 8)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -584,7 +584,7 @@
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
 
@@ -632,7 +632,7 @@
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
-                                            @if ($ppb->atasan == 9)
+                                            @if ($ppb->atasan_po == 9)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -650,7 +650,7 @@
 
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
-                                                                    href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
+                                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                         class="icon-zoom-in" title="Details"></i>
                                                                 </a>
                                                        </tr>
@@ -697,7 +697,7 @@
                                             $ppb->status == 'Paid'||
                                             $ppb->status == 'Delivery Process' ||
                                             $ppb->status == 'Delivery Success')
-                                                @if ($ppb->atasan == 9)
+                                                @if ($ppb->atasan_po == 9)
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -714,7 +714,7 @@
                                                             <td style="text-align: center;">
                                                          <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan/detail/'.$ppb->id) }}"><i
+                                                            href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"><i
                                                             class="icon-zoom-in" title="Details"></i>
                                                          </a>
                                                     </tr>
