@@ -6,17 +6,17 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPT;
 use App\Models\Department;
+use App\Models\Invoicing;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
-use App\Models\TaskListAtasanPO;
+use App\Models\TasklistAtasanPayment;
 use App\Models\User;
 use App\Models\WhoSubmitted;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TasklistAtasanPoController extends Controller
+class TasklistAtasanPaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,22 +28,22 @@ class TasklistAtasanPoController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
-            $data_atasan = CategoryPO::all();
+            $data_atasan = CategoryPO::all()->first();
+            // $py   = Invoicing::orderBy('ppb_id', 'asc')->first();
 
-            //dd($data_atasan);
-            return view('taskList_atasan_PO.menu.index')
+            return view('taskList_atasan_payments.menu.index')
+            // ->with('py',$py)
             ->with('data_atasan', $data_atasan)
             ->with('datappb', $datappb);
         }
     }
-
 
     public function history()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
-            return view('taskList_atasan_PO.menu.history')
+            return view('taskList_atasan_payments.menu.history')
             ->with('datappb', $datappb);
         }
     }
@@ -57,7 +57,7 @@ class TasklistAtasanPoController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        return view('taskList_atasan_PO.menu.detail')
+        return view('taskList_atasan_payments.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
@@ -66,6 +66,7 @@ class TasklistAtasanPoController extends Controller
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('data_pengajuan', $data_pengajuan);
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -90,10 +91,10 @@ class TasklistAtasanPoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\TasklistAtasanPayment  $tasklistAtasanPayment
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TasklistAtasanPayment $tasklistAtasanPayment)
     {
         //
     }
@@ -101,19 +102,19 @@ class TasklistAtasanPoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\TasklistAtasanPayment  $tasklistAtasanPayment
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(TasklistAtasanPayment $tasklistAtasanPayment,$id)
     {
         $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
         $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
         $purpose = ReferensiNamaProject::all();
         $dataws             = WhoSubmitted::all();
-        $datadepartment     = Department    ::all();
+        $datadepartment     = Department::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
-        return view('taskList_atasan_PO.menu.edit')
+        return view('taskList_atasan_payments.menu.edit')
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
             ->with('purpose', $purpose)
@@ -127,12 +128,11 @@ class TasklistAtasanPoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\TasklistAtasanPayment  $tasklistAtasanPayment
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-
         PengajuanPembelian::where('pp_id',$id)->delete();
         $request->validate([
             'purpose' => 'required',
@@ -217,21 +217,20 @@ class TasklistAtasanPoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\TasklistAtasanPayment  $tasklistAtasanPayment
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TasklistAtasanPayment $tasklistAtasanPayment)
     {
         //
     }
 
-    public function accept_atasan($id)
+    public function approve_payment($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'PO Approved';
-        $data->image = 'ttdcontoh.png';
+        $data->status = 'Payment Approved';
         $data->save();
-        return redirect('menu-taskList-atasan-po');
+        return redirect('menu-taskList-atasan-payment');
     }
 
     public function reject($id)

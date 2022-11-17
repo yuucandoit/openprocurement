@@ -1,4 +1,4 @@
-<title>Record Data</title>
+<title>Record Payment Request</title>
 
 @extends('layouts.master')
 
@@ -8,12 +8,12 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-6 mt-4">
-                        <h3>Record Purchase Order</h3>
+                        <h3>Record Payment Request</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('menu-purchase-order.index') }}">Purchase Order</a>
                             </li>
-                            <li class="breadcrumb-item">Record Purchase Order</li>
+                            <li class="breadcrumb-item">Record Payment Request</li>
                         </ol>
                     </div>
                     <div class="col-sm-6 mt-4">
@@ -89,189 +89,126 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <table class="table table-bordered mt-4 mb-4">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>Item</th>
+                                                <th>Qty</th>
+                                                <th>Kategori</th>
+                                                <th>Price-per-unit</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($item as $p)
+                                                <tr>
+                                                    <td>{{ $p->item }}</td>
+                                                    <td>{{ $p->qty }}</td>
+                                                    <td>{{ $p->kategori }}</td>
+                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                        <td style="text-align:right;">RP.
+                                                            {{ number_format($p->unit_price) }}</td>
+                                                        <td style="text-align:right;">RP. {{ number_format($p->total) }}
+                                                        </td>
+                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                        <td style="text-align:right;">$ {{ number_format($p->unit_price) }}
+                                                        </td>
+                                                        <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered ">
+                                        <tr>
+                                            <td><label class="pull-right mx-2"> DPP :</label></td>
+                                            <td style="text-align: right;">
+                                                @foreach ($dpp as $d)
+                                                    {{-- Ketika mata uang yang dipilih RP --}}
+                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                        RP. {{ number_format($d->total) }}
+                                                        {{-- Ketika mata uang yang dipilih USD --}}
+                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                        $ {{ number_format($d->total) }}
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><input class="mt-1 pull-right check-box" type="checkbox"
+                                                    value="{{ $data_pengajuan->ppn }}"
+                                                    @if ($data_pengajuan->ppn == 1) @checked(true)
+                                                        @else @endif
+                                                    disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                            <td style="text-align:right;">
+                                                @if ($data_pengajuan->ppn == 1)
+                                                    @foreach ($ppn as $p)
+                                                        {{-- Ketika mata uang yang dipilih RP --}}
+                                                        @if ($data_pengajuan->matauang == 'RP')
+                                                            RP. {{ number_format($p->total) }}
+                                                            {{-- Ketika mata uang yang dipilih USD --}}
+                                                        @elseif ($data_pengajuan->matauang == 'USD')
+                                                            $ {{ number_format($p->total) }}
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    @foreach ($ppn as $p)
+                                                        {{-- Ketika mata uang yang dipilih RP --}}
+                                                        @if ($data_pengajuan->matauang == 'RP')
+                                                            RP. 0
+                                                            {{-- Ketika mata uang yang dipilih USD --}}
+                                                        @elseif ($data_pengajuan->matauang == 'USD')
+                                                            $ 0
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @if ($data_pengajuan->ppn == 1)
+                                            <tr>
+                                                <td class="text-end">Grand Total :</td>
+
+                                                @foreach ($total as $t)
+                                                    {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
+                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                        <td style="text-align:right;">RP. {{ number_format($t->total) }}
+                                                        </td>
+
+                                                        {{-- jika mata uang yang di pilih USD Maka Return $    --}}
+                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                        <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
+                                                    @endif
+                                                @endforeach
+                                            @elseif ($data_pengajuan->ppn == 0)
+                                                <td class="text-end bold">Grand Total :</td>
+                                                @foreach ($total_tnpa_ppn as $tpn)
+                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                        <td style="text-align:right;">RP. {{ number_format($tpn->total) }}
+                                                        </td>
+                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                        <td style="text-align:right;">$ {{ number_format($tpn->total) }}
+                                                        </td>
+                                                    @endif
+                                                @endforeach
+                                            </tr>
+                                        @endif
+                                    </table>
 
                                     <!-- Floating Labels Form -->
-                                    <form class="row g-2 mt-4" action="{{ url('/menu-purchase-order/store/' . $dv->id) }}"
+                                    <form class="row g-2 mt-4" action="{{ url('/payment_request/store/' . $dv->id) }}"
                                         method="POST" enctype="multipart/form-data">
                                         @csrf
 
-                                        <table class="table table-bordered mt-2 mx-2 item order-entry">
-                                            <tr style="text-align: center;">
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Item</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Qty</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Category</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Price-per-unit</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Total</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                </th>
-                                            </tr>
-                                            @php
-                                                $id = 0;
-                                                $id++;
-                                            @endphp
-                                            @foreach ($pengajuan as $i)
-                                                <tr>
-                                                    <td class="text"><input type="text" name="item[]"
-                                                            placeholder="Input Item" class="form-control"
-                                                            style="text-align: center;" value="{{ $i->item }}"
-                                                            required />
-                                                    </td>
-                                                    <td><input type="number" name="qty[]" placeholder="Input Quantity"
-                                                            class="form-control form-calc form-qty"
-                                                            style="text-align: center;" value="{{ $i->qty }}"
-                                                            required />
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-select " placeholder="Kategori"
-                                                            name="kategori[]" value="{{ $i->kategori }}" required>
-                                                            <option selected value="{{ $i->kategori }}">
-                                                                {{ $i->kategori }}</option>
-                                                            <option value="Pcs">Pcs </option>
-                                                            <option value="Lusin">Lusin </option>
-                                                            <option value="Box">Box </option>
-                                                            <option value="Unit">Unit </option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="unit_price[]" placeholder="Input Price"
-                                                            class="form-control text-end form-calc form-cost rupiah"
-                                                            style="text-align: right;" required />
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="total[]" class="form-control form-line"
-                                                            style="text-align: right;" required />
-                                                    </td>
-                                                    <td style="text-align: center;">
-                                                        <button type="button" name="add"
-                                                            class="btn btn-danger remove-input-field">
-                                                            <i class="fa fa-times"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </table>
-                                        <div class="mt-2">
-                                            <button type="button" name="add"
-                                                class="addItem btn btn-outline-primary"> AddItem
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                        <br>
-                                        <table class="table table-bordered mx-2">
-                                            <tr>
-                                                <td>
-                                                    <label class="pull-right mx-2"
-                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; DPP :</label>
-                                                </td>
-                                                <td class="total_A text-end">
-                                                    <input style="display: none;" class="total_A" type="text"
-                                                        name="total_a">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input class="mt-1 pull-right check-box" type="checkbox"
-                                                        name="ppn" value="1"
-                                                        {{ old('ppn', 0) === 1 ? 'checked' : '' }}>
-                                                    <label class="pull-right mx-2" style="font-weight: bold;"> PPN 11%
-                                                    </label>
-                                                </td>
-                                                <td class="ppn text-end">
-                                                    <input style="display: none;" class="ppn" type="text"
-                                                        name="ppn">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                                                <td class="total text-end">
-                                                    <input style="display: none;" class="total" type="text"
-                                                        name="grand_total">
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        {{-- css hide --}}
-                                        <style>
-                                            .tutup {
-                                                width: 0;
-                                                height: 0;
-                                                opacity: 0;
-                                            }
-
-                                            .hide {
-                                                width: 0;
-                                                height: 0;
-                                                opacity: 0;
-                                            }
-
-                                            .page {
-                                                height: 58px;
-                                            }
-                                        </style>
-
-                                        <div class="col-12 mt-3">
+                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i> Select Vendor</label>
-                                                <select class="form-select page pageSelect" id="pageSelect"
-                                                    placeholder="Proposed To" name="vendor">
-                                                    <option value="" disabled selected hidden>Select Vendor
-                                                    </option>
-                                                    <option value="company">Company</option>
-                                                    <option value="privateperson">Private Person</option>
-                                                    <option value="ecommerce">Ecommerce</option>
-                                                </select>
-                                                {{-- Perusahaan Dropdown --}}
-                                                <select class=" form-select hide mt-2" id="selectedInput"
-                                                    name="vendor_id">
-                                                    @foreach ($pt as $p)
-                                                        <option value="{{ $p->id }}">{{ $p->nama }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                {{-- End Perusahaan Dropdown --}}
-
-                                                {{-- Private Person Dropdown --}}
-                                                <select class=" form-select hide" id="selectedInput2"
-                                                    name="vendor_id">
-                                                    @foreach ($op as $o)
-                                                        <option value="{{ $o->id }}">{{ $o->nama }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                {{-- End Private Person Dropdown --}}
-
-                                                {{-- Ecommerce Dropdown --}}
-                                                <select class=" form-select hide" id="selectedInput3"
-                                                    name="vendor_id">
-                                                    @foreach ($ec as $e)
-                                                        <option value="{{ $e->id }}">{{ $e->nama }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                {{-- End Ecommerce Dropdown --}}
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="icofont icofont-stamp"></i> Send Approval To:</label>
+                                                        class="icofont icofont-stamp"></i> Approved To</label>
                                                 <select class="form-select page" id="floatingproposedto"
-                                                    placeholder="Proposed To" name="atasan_po" required="">
-                                                    <option selected="" disabled="" value="">-- Please Choose One
+                                                    placeholder="Proposed To" name="atasan_py" required="">
+                                                    <option selected="" disabled="" value="">-- Approved To
                                                         --
                                                     </option>
+                                                    
                                                     @foreach ($atasan as $sui)
                                                         <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                                     @endforeach
@@ -279,92 +216,11 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="floatingNoTelpon" style="font-weight: bold;"><i
-                                                        class="icofont icofont-social-google-map"></i> Address</label>
-                                                <div class="form-floating">
-                                                    <input required type="text" class="form-control"
-                                                        id="floatingNoTelpon" placeholder="Address" name="address">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="floatingNoTelpon" style="font-weight: bold;"><i
-                                                        class="icofont icofont-ui-dial-phone"></i> Phone
-                                                    Number</label>
-                                                <div class="form-floating">
-                                                    <input required type="text" class="form-control"
-                                                        id="floatingNoTelpon" placeholder="No_telp" name="no_telp">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="floatingNPWP"><i class="fa fa-credit-card"></i>
-                                                    NPWP</label>
-                                                <div class="form-floating">
-                                                    <input required type="text" class="form-control"
-                                                        id="floatingNPWP" placeholder="NPWP" name="no_npwp">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
-                                                    Quotation</label>
-                                                <div class="form-floating">
-                                                    <input required type="text" class="form-control"
-                                                        id="floatingQuotation" placeholder="Quotation" name="quotation">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {{-- css hide --}}
-                                        <style>
-                                            .hide {
-                                                width: 0;
-                                                height: 0;
-                                                opacity: 0;
-                                            }
-
-                                            .page {
-                                                height: 58px;
-                                            }
-                                        </style>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-file-pdf-o"></i> Terms & Conditions</label>
-                                                <select class="form-select page" id="pageSelector"
-                                                    placeholder="Terms and Conditions" name="term_conditions">
-                                                    <option value="" disabled selected hidden>Terms And Conditions
-                                                    </option>
-                                                    @foreach ($terms as $t)
-                                                        <option value="{{ $t->id }}">
-                                                            {{ $t->term_condition }}
-                                                        </option>
-                                                    @endforeach
-                                                    <option value="custom">+ Add Terms & Conditions</option>
-                                                </select>
-                                                <textarea class="hide form-control" name="term_condition" id="customInput" cols="30" rows="10"
-                                                    placeholder="Input Terms And Conditions"></textarea>
-                                            </div>
-                                        </div>
 
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                             <a type="reset" class="btn btn-dark"
-                                                href="{{ url('/menu-purchase-order/') }}">Back</a>
+                                                href="{{ url('/payment_request/') }}">Back</a>
                                         </div>
                                     </form>
 

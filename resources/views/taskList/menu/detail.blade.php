@@ -188,7 +188,7 @@
                                         </tr>
                                     @endif
                                 </table>
-                                <div class="mt-3" style="text-align: right;">
+                                <div class="mt-3 text-center">
                                     @hasrole('purchasing|super admin')
                                         @if ($data_pengajuan->status == 'Purchase Proses'||
                                              $data_pengajuan->status == 'Waiting For PO Approval'||
@@ -209,9 +209,6 @@
 
                                             <a href="{{ url('menu-task-list/reject', $data_pengajuan->id) }}"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
-
-                                            <a type="reset" class="btn btn-dark"
-                                                href="{{ url('/menu-task-list/') }}">Back</a>
                                         @else
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-success text-center" onclick="return">Approve</a>
@@ -220,8 +217,6 @@
                                                 class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
                                         @endif
                                     @endhasrole
-
-
                                 </div>
                             </div>
                         </div>

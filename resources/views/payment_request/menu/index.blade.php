@@ -1,4 +1,4 @@
-    <title>Billing Process</title>
+    <title>Payment Request</title>
 
     @extends('layouts.master')
 
@@ -70,10 +70,10 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6 mt-4">
-                            <h3>Billing Process</h3>
+                            <h3>Payment Request</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active"><a href="{{ url('/billing_process') }}">Billing Process</a></li>
+                                <li class="breadcrumb-item active"><a href="{{ url('/payment_request') }}">Payment Request</a></li>
                             </ol>
                         </div>
                         <div class="col-sm-6 mt-4">
@@ -113,7 +113,7 @@
                     <div class="col-sm-12">
                         <div class="card card-absolute">
                             <div class="card-header bg-primary">
-                                    <h5>Billing Process List In</h5>
+                                    <h5>Payment Request List In</h5>
                                 </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -160,11 +160,16 @@
                                                             <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
-
                                                             <td>
                                                                 <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #008000;"
+                                                                href="{{ url('/payment_request/create/' . $ppb->id) }}"><i
+                                                                    class="icon-file" title="Record Data Payment"></i>
+                                                                </a>
+
+                                                                <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
-                                                                    href="{{ url('/billing_process/detail/' . $ppb->id) }}"><i
+                                                                    href="{{ url('/payment_request/detail/' . $ppb->id) }}"><i
                                                                         class="icon-zoom-in" title="Details"></i>
                                                                 </a>
                                                                 <button class="btn btn-danger mt-1" data-bs-toggle="modal"
@@ -193,7 +198,7 @@
                     <div class="col-sm-12">
                         <div class="card card-absolute">
                             <div class="card-header bg-primary">
-                                    <h5>Billing Process List Out</h5>
+                                    <h5>Payment Request List Out</h5>
                                 </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -208,9 +213,6 @@
                                                 @hasrole('purchasing|super admin')
                                                     <th>Status</th>
                                                 @endhasrole
-                                                @hasrole('user')
-                                                    <th>Status</th>
-                                                @endhasrole
                                                 <th>Function</th>
                                             </tr>
                                         </thead>
@@ -219,7 +221,7 @@
                                         @endphp
                                         <tbody>
                                             @foreach ($datappb as $ppb)
-                                                @if ($ppb->status == 'Invoicing Process' || $ppb->status == 'Unpaid' ||  $ppb->status == 'Paid'  ||  $ppb->status == 'Delivery Process' ||  $ppb->status == 'Delivery Success'  )
+                                                @if ($ppb->status == 'Invoicing Process' || $ppb->status == 'Payment Approved' || $ppb->status == 'Unpaid' ||  $ppb->status == 'Paid'  ||  $ppb->status == 'Delivery Process' ||  $ppb->status == 'Delivery Success'  )
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
@@ -235,7 +237,7 @@
                                                             <td style="text-align: center;">
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
-                                                                    href="{{ url('/billing_process/detail/' . $ppb->id) }}"><i
+                                                                    href="{{ url('/payment_request/detail/' . $ppb->id) }}"><i
                                                                         class="icon-zoom-in" title="Details"></i>
                                                                 </a>
                                                             </td>

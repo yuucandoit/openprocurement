@@ -197,7 +197,8 @@
                                     <a type="reset" class="btn btn-dark" href="{{ url('/menu-tasklist-finance/') }}"
                                         style="float: left;">Back</a>
                                     @hasrole('finance|super admin')
-                                        @if ($data_pengajuan->status == 'Unpaid'||
+                                        @if (
+                                             $data_pengajuan->status == 'Unpaid'||
                                              $data_pengajuan->status == 'Paid'||
                                              $data_pengajuan->status == 'Delivery Process'||
                                              $data_pengajuan->status == 'Delivery Success')
@@ -208,7 +209,7 @@
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
                                             </div>
-                                        @elseif($data_pengajuan->status == 'Invoicing Process')
+                                        @elseif($data_pengajuan->status == 'Payment Approved')
                                         <div class="text-center">
                                             <a href="{{ url('menu-tasklist-finance/approve', $data_pengajuan->id) }}"
                                                 class="btn btn-success text-center" onclick="return">Approve</a>

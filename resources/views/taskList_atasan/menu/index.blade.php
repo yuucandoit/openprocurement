@@ -160,7 +160,15 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                        @if ($ppb->status == 'Purchase Submission Approved')
+                                        @if ($ppb->status == 'Purchase Submission Approved' ||
+                                        $ppb->status == 'Purchase Proses' ||
+                                        $ppb->status == 'Waiting For PO Approval' ||
+                                        $ppb->status == 'PO Approved' ||
+                                        $ppb->status == 'Invoicing Process' ||
+                                        $ppb->status == 'Unpaid' ||
+                                        $ppb->status == 'Paid' ||
+                                        $ppb->status == 'Delivery Process' ||
+                                        $ppb->status == 'Delivery Success')
                                             @if ($ppb->atasan == 3)
                                                  <tbody>
                                                         <tr>
@@ -195,7 +203,7 @@
                 </div>
             </div>
     <!-- Container-fluid Ends -->
-    @endif
+@endif
 
     @if (Auth::user()->id === 6)
     <!-- Container-fluid starts-->
@@ -265,6 +273,8 @@
                     </div>
                 </div>
             </div>
+
+
     <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
@@ -276,6 +286,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                                    {{-- Data Keluar --}}
                                     <table class="display mt-4" id="advance-1">
                                         <thead>
                                             <tr style="text-align: center;">
@@ -291,29 +302,28 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Purchase Submission Approved' ||
-                                                 $ppb->status == 'Purchase Proses' ||
-                                                 $ppb->status == 'Waiting For PO Approval' ||
-                                                 $ppb->status == 'PO Approved' ||
-                                                 $ppb->status == 'Invoicing Process' ||
-                                                 $ppb->status == 'Unpaid' ||
-                                                 $ppb->status == 'Paid' ||
-                                                 $ppb->status == 'Delivery Process' ||
-                                                 $ppb->status == 'Delivery Success')
-                                                <tbody>
-                                                    <tr>
-                                                        @if ($ppb->atasan === 6)
+                                        @if ($ppb->status == 'Purchase Submission Approved' ||
+                                        $ppb->status == 'Purchase Proses' ||
+                                        $ppb->status == 'Waiting For PO Approval' ||
+                                        $ppb->status == 'PO Approved' ||
+                                        $ppb->status == 'Invoicing Process' ||
+                                        $ppb->status == 'Unpaid' ||
+                                        $ppb->status == 'Paid' ||
+                                        $ppb->status == 'Delivery Process' ||
+                                        $ppb->status == 'Delivery Success')
+                                            @if ($ppb->atasan == 6)
+                                                 <tbody>
+                                                        <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ $ppb->desc }}"
                                                                     target="_blank">{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                            </td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
                                                                     class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
-                                                        @endif
+
                                                         <td style="text-align: center;">
 
                                                             <a class="btn btn-iconsolid mt-1"
@@ -321,18 +331,12 @@
                                                                 href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
-
-                                                            {{-- <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #FF8C00;"
-                                                                href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"><i
-                                                                    class="icon-pencil-alt" title="Edit"></i>
-                                                            </a> --}}
-
                                                         </td>
-                                                    </tr>
-                                            @endif
+                                                     </tr>
+                                                </tbody>
+                                                @endif
+                                        @endif
                                         @endforeach
-                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -340,11 +344,11 @@
                     </div>
                 </div>
             </div>
-
+    <!-- Container-fluid Ends -->
     @endif
 
     @if (Auth::user()->id === 7)
-        <!-- Container-fluid starts-->
+    <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
                 <!-- Zero Configuration  Starts-->
@@ -404,8 +408,8 @@
                     </div>
                 </div>
             </div>
-            <!-- Container-fluid starts-->
 
+    <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
                 <!-- Zero Configuration  Starts-->
@@ -474,7 +478,8 @@
                     </div>
                 </div>
             </div>
-                @endif
+
+    @endif
 
 
     @if (Auth::user()->id === 8)
@@ -540,7 +545,7 @@
                 </div>
             </div>
 
-        <!-- Container-fluid starts-->
+    <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
                 <!-- Zero Configuration  Starts-->
@@ -615,7 +620,8 @@
                     </div>
                 </div>
             </div>
-                @endif
+
+    @endif
 
     @if (Auth::user()->id === 9)
     <!-- Container-fluid starts-->
@@ -744,8 +750,9 @@
                     </div>
                 </div>
             </div>
-                @endif
-                <!-- Zero Configuration  Ends-->
+
+    @endif
+<!-- Zero Configuration  Ends-->
                 <script>
                     $(document).ready(function() {
 

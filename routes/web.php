@@ -21,6 +21,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EcommerceController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InvoicingController;
+use App\Http\Controllers\NotifPaymentController;
 use App\Http\Controllers\NotifPengajuanController;
 use App\Http\Controllers\NotifPOController;
 use App\Http\Controllers\OfficeController;
@@ -36,7 +37,6 @@ use App\Http\Controllers\TaskListAtasanController;
 use App\Http\Controllers\TaskListAtasanPaymentController;
 use App\Http\Controllers\TasklistAtasanPoController;
 use App\Http\Controllers\TaskListFinanceController;
-use App\Http\Controllers\TaskListPaymentController;
 use App\Http\Controllers\WhoSubmittedController;
 use App\Http\Controllers\WorkshopController;
 use App\Models\CategoryPP;
@@ -290,7 +290,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'menu-pengajuan-pembelian'], function () {
         Route::get('/', [CategoryPengajuanPembelianController::class, 'index'])->name('menu-pengajuan-pembelian.index');
         Route::get('/detail/{id}', [CategoryPengajuanPembelianController::class, 'detail'])->name('menu-pengajuan-pembelian.detail');
-        Route::get('/history', [CategoryPengajuanPembelianController::class, 'history'])->name('menu-taskList-atasan.history');
+        Route::get('/history', [CategoryPengajuanPembelianController::class, 'history'])->name('menu-pengajuan-pembelian.history');
         Route::get('/create', [CategoryPengajuanPembelianController::class, 'create'])->name('menu-pengajuan-pembelian.create');
         Route::post('/store', [CategoryPengajuanPembelianController::class, 'store'])->name('menu-pengajuan-pembelian.store');
         Route::post('/update/{id}', [CategoryPengajuanPembelianController::class, 'update'])->name('menu-pengajuan-pembelian.update');
@@ -374,15 +374,17 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     // Menu Pengajuan dana Purchase Order
-    Route::group(['prefix' => 'billing_process'], function () {
-        Route::get('/', [InvoicingController::class, 'index'])->name('billing_process.index');
-        Route::get('/history', [InvoicingController::class, 'history'])->name('billing_process.history');
-        Route::get('/detail/{id}', [InvoicingController::class, 'detail'])->name('billing_process.detail');
-        Route::post('/update/{id}', [InvoicingController::class, 'update'])->name('billing_process.update');
-        Route::get('/edit/{id}', [InvoicingController::class, 'edit'])->name('billing_process.edit');
-        Route::get('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('billing_process.destroy');
-        Route::get('/ajukan_dana/{id}', [InvoicingController::class, 'ajukan_dana'])->name('billing_process-ajukan_dana');
-        Route::get('/denied/{id}', [InvoicingController::class, 'denied'])->name('billing_process-denied');
+    Route::group(['prefix' => 'payment_request'], function () {
+        Route::get('/', [InvoicingController::class, 'index'])->name('payment_request.index');
+        Route::get('/history', [InvoicingController::class, 'history'])->name('payment_request.history');
+        Route::get('/detail/{id}', [InvoicingController::class, 'detail'])->name('payment_request.detail');
+        Route::get('/create/{id}', [InvoicingController::class, 'create'])->name('payment_request.create');
+        Route::post('/store/{id}', [InvoicingController::class, 'store'])->name('payment_request.store');
+        Route::post('/update/{id}', [InvoicingController::class, 'update'])->name('payment_request.update');
+        Route::get('/edit/{id}', [InvoicingController::class, 'edit'])->name('payment_request.edit');
+        Route::get('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('payment_request.destroy');
+        Route::get('/ajukan_dana/{id}', [InvoicingController::class, 'ajukan_dana'])->name('payment_request-ajukan_dana');
+        Route::get('/denied/{id}', [InvoicingController::class, 'denied'])->name('payment_request-denied');
     });
 
     // Menu Pengajuan dana
@@ -436,6 +438,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Route Send Email Purchase Order
     Route::get('/send-purchase',[NotifPOController::class, 'index']);
+
+    //Route Send Email payment
+    Route::get('/send-payment',[NotifPaymentController::class, 'index']);
+
 
     //Route Export PDF
     Route::get('/exportpdf/po/{id}', [PurchaseOrderController::class, 'exportpdf'])->name('export_po.pdf');

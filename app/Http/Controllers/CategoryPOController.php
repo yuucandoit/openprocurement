@@ -40,7 +40,8 @@ class CategoryPOController extends Controller
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $ec                 = CategoryEcommerce::all();
-            $datapo             = CategoryPO::all();
+            $datapo             = CategoryPO::first();
+            //dd($ar);
             return view('purchaseOrder.menu.index')
                 ->with('pt',$pt)
                 ->with('op',$op)
@@ -156,13 +157,13 @@ class CategoryPOController extends Controller
                 "term_condition" => $request->term_condition,
             ]);
             $ppn = CategoryPengajuanPembelian::find($id);
+            $ppn->atasan_po = $request->atasan_po;
             $ppn->ppn =  $request->ppn;
             $ppn->save();
 
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
                     "term_conditions" => $term->id,
-                    "atasan_po" => $request->atasan_po,
                     "vendor" => $request->vendor,
                     "address" => $request->address,
                     "no_telp" => $request->no_telp,
@@ -201,12 +202,12 @@ class CategoryPOController extends Controller
 
             $ppn = CategoryPengajuanPembelian::find($id);
             $ppn->ppn =  $request->ppn;
+            $ppn->atasan_po = $request->atasan_po;
             $ppn->save();
 
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
                     "term_conditions" => $request->term_conditions,
-                    "atasan_po" => $request->atasan_po,
                     "vendor" => $request->vendor,
                     "address" => $request->address,
                     "no_telp" => $request->no_telp,
@@ -320,12 +321,12 @@ class CategoryPOController extends Controller
 
             $ppn = CategoryPengajuanPembelian::find($id);
             $ppn->ppn =  $request->ppn;
+            $ppn->atasan_po = $request->atasan_po;
             $ppn->save();
 
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
                     "term_conditions" => $term->id,
-                    "atasan_po" => $request->atasan_po,
                     "address" => $request->address,
                     "no_telp" => $request->no_telp,
                     "no_npwp" => $request->no_npwp,
@@ -363,12 +364,12 @@ class CategoryPOController extends Controller
 
             $ppn = CategoryPengajuanPembelian::find($id);
             $ppn->ppn =  $request->ppn;
+            $ppn->atasan_po = $request->atasan_po;
             $ppn->save();
 
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
                     "term_conditions" => $request->term_conditions,
-                    "atasan_po" => $request->atasan_po,
                     "address" => $request->address,
                     "no_telp" => $request->no_telp,
                     "no_npwp" => $request->no_npwp,

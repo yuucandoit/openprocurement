@@ -1,4 +1,4 @@
-<title>Billing process details</title>
+<title>Payment Request details</title>
 
 @extends('layouts.master')
 
@@ -10,10 +10,10 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-6 mt-4">
-                        <h3>Billing Process</h3>
+                        <h3>Payment Request</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active"><a href="{{ url('/billing_process') }}">Billing Process</a></li>
+                            <li class="breadcrumb-item active"><a href="{{ url('/payment_request') }}">Payment Request</a></li>
                         </ol>
                     </div>
                     <div class="col-sm-6 mt-4">
@@ -230,9 +230,9 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body mx-5 mb-3">
-                                            <span class="warning" style="text-align: center;">
-                                                <img src="{{ asset('assets/images/warning.png') }}">
+                                        <div class="modal-body mx-5 mb-3 text-center">
+                                            <span class="warning" >
+                                                <img src="{{ asset('assets/images/warning.png') }}" >
                                             </span>
                                             <h2 style="text-align: center">Make sure the data is correct!</h2>
                                         </div>
@@ -241,10 +241,10 @@
                                         <div class="modal-footer"  style="text-align: center;">
                                             @if ($data_pengajuan->status == 'PO Approved')
                                                 <form class="text-center"
-                                                    action="{{ url('billing_process/ajukan_dana/'. $data_pengajuan->id) }}">
+                                                    action="{{ url('payment_request/ajukan_dana/'. $data_pengajuan->id) }}">
                                                     <button type="submit" class="btn btn-outline-danger"><i
                                                             class="bx bx-trash"></i>
-                                                        Apply For Purchase Funding
+                                                        Send For Payment Approval
                                                     </button>
                                                 </form>
                                             @endif
@@ -261,7 +261,7 @@
                             <a href="{{ url('/exportpdf/po/' . $data_pengajuan->id) }}" class="btn btn-danger mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-export"></i> Export to PDF</a>
 
-                            <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/billing_process/') }}">Back</a>
+                            <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/payment_request/') }}">Back</a>
                         @endif
                     </div>
     </section>

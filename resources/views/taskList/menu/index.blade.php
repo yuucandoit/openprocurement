@@ -171,6 +171,7 @@
                                         $ppb->status == 'Waiting For PO Approval' ||
                                         $ppb->status == 'PO Approved' ||
                                         $ppb->status == 'Invoicing Process' ||
+                                        $ppb->status == 'Payment Approved' ||
                                         $ppb->status == 'Unpaid' ||
                                         $ppb->status == 'Paid' ||
                                         $ppb->status == 'Delivery Process' ||

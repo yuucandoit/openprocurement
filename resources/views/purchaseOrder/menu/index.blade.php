@@ -181,12 +181,12 @@
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
                                                                     class="icon-eye" title="Preview PO"></i>
                                                             </a>
-                                                                
-                                                                    <a class="btn btn-iconsolid mt-1"
-                                                                        style="background-color: #008000;"
-                                                                        href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
-                                                                            class="icon-file" title="Record Data"></i>
-                                                                    </a>
+
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                style=  "background-color: #008000;"
+                                                                href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
+                                                                    class="icon-file" title="Record Data"></i>
+                                                                </a>
 
                                                                     <a class="btn btn-iconsolid mt-1"
                                                                         style="background-color: #FF8C00;"

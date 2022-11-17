@@ -228,20 +228,13 @@
                                             <span>Purchase Order</span>
                                         </a>
                                     </li>
-                                    <li class="dropdown {{ request()->is('*invoicing*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/billing_process') }}">
+                                    <li class="dropdown {{ request()->is('*payment_request*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/payment_request') }}">
                                             <i class="fa fa-money"></i>
-                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;Billing Process</span>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;Payment Request</span>
                                         </a>
                                     </li>
-                                    <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/delivery') }}">
-                                            <i class="fa fa-truck"></i>
-                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;Delivery</span>
-                                        </a>
-                                    </li>
-                                @endhasrole
-
+                                    @endhasrole
                                 @hasrole('finance')
                                     <li class="sidebar-main-title">
                                         <div>
@@ -254,10 +247,20 @@
                                     <li class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav" href="{{ url('/menu-pengajuan-dana') }}">
                                             <i data-feather="dollar-sign"></i>
-                                            <span> Funding Request</span>
+                                            <span> Payment Process</span>
                                         </a>
                                     </li>
                                 @endhasrole
+                                @hasrole('purchasing|super admin')
+                                    <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/delivery') }}">
+                                            <i class="fa fa-truck"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;Delivery</span>
+                                        </a>
+                                    </li>
+                                @endhasrole
+
+
                                 <!--Menu-->
 
                                 <!--TaskList-->
@@ -286,6 +289,14 @@
                                                     <a href="{{ url('/menu-taskList-atasan-po') }}">
                                                         <i class="bi bi-file-text"></i>
                                                         <span>Task List Super User Po</span>
+                                                    </a>
+                                                </li>
+                                            @endhasrole
+                                            @hasrole('super user|super admin')
+                                                <li class=" {{ request()->is('*task-list-atasan-payment*') ? 'active' : '' }}">
+                                                    <a href="{{ url('/menu-taskList-atasan-payment') }}">
+                                                        <i class="bi bi-file-text"></i>
+                                                        <span>Task List Super User Payment</span>
                                                     </a>
                                                 </li>
                                             @endhasrole
@@ -338,9 +349,9 @@
 
                                 @hasrole('user|super admin')
                                     <li
-                                        class="dropdown {{ request()->is('*/menu-taskList-atasan/history*') ? 'active' : '' }}">
+                                        class="dropdown {{ request()->is('*/menu-pengajuan-pembelian/history*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav"
-                                            href="{{ url('/menu-taskList-atasan/history') }}">
+                                            href="{{ url('/menu-pengajuan-pembelian/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Purchase Submission</span>
                                         </a>
@@ -462,74 +473,6 @@
             </header>
             <!--End Settings-->
 
-            <!--- @hasrole('super admin')
-    <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="bell"></i><span>Menu</span></a>
-                                                                                                                                        <ul class="nav-submenu menu-content">
-
-                                                                                                                                          <li class=" {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
-                                                                                                                                            <a href="{{ url('/menu-pengajuan-pembelian') }}" >
-                                                                                                                                              <i class="bi bi-file-text"></i>
-                                                                                                                                              <span>Pengajuan Pembelian</span>
-                                                                                                                                            </a>
-                                                                                                                                          </li>
-                                                                                                                                          <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
-                                                                                                                                            <a href="{{ url('/menu-task-list') }}" >
-                                                                                                                                              <i class="bi bi-calendar-x"></i>
-                                                                                                                                              <span>Task List</span>
-                                                                                                                                              <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated">{{ \App\Models\CategoryPengajuanPembelian::count() }}</span></div>
-                                                                                                                                            </a>
-                                                                                                                                          </li>
-                                                                                                                                          <li class=" {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                                                                                                                            <a href="{{ url('/menu-purchase-order') }}" >
-                                                                                                                                              <i class="bi bi-calendar-x"></i>
-                                                                                                                                              <span>Purchase Order</span>
-                                                                                                                                            </a>
-                                                                                                                                          </li>
-                                                                                                                                          <li class=" {{ request()->is('*quotation*') ? 'active' : '' }}">
-                                                                                                                                            <a href="{{ url('/menu-quotation') }}" >
-                                                                                                                                              <i class="bi bi-receipt"></i>
-                                                                                                                                              <span>Quotation</span>
-                                                                                                                                            </a>
-                                                                                                                                          </li>
-                                                                                                                                          <li class=" {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
-                                                                                                                                            <a href="{{ url('/menu-pengajuan-dana') }}" >
-                                                                                                                                              <i class="bi bi-cash-coin"></i> <span>Pengajuan Dana</span>
-                                                                                                                                            </a>
-                                                                                                                                          </li>
-                                                                                                                                          <li class=" {{ request()->is('*pembelian-barang*') ? 'active' : '' }}">
-                                                                                                                                            <a href="{{ url('/menu-pembelian-barang') }}" >
-                                                                                                                                              <i class="bi bi-currency-dollar"></i>
-                                                                                                                                              <span>Pembelian Barang</span>
-                                                                                                                                            </a>
-                                                                                                                                          </li>
-                                                                                                                                        </ul>
-                                                                                                                                      </li>
-                                                                                                                                      <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="box"></i><span>Data Master</span></a>
-                                                                                                                                        <ul class="nav-submenu menu-content">
-
-                                                                                                                                          <li class="sidebar-title">Data Vendor / Supplier</li>
-                                                                                                                                          <li class=" {{ request()->is('*perusahaan*') ? 'active' : '' }}">
-                                                                                                                                            <a href="{{ url('/menu-perusahaan') }}" >
-                                                                                                                                              <i class="bi bi-building"></i>
-                                                                                                                                              <span>Perusahaan</span>
-                                                                                                                                            </a>
-                                                                                                                                          </li>
-                                                                                                                                          <li class=" {{ request()->is('*private-person*') ? 'active' : '' }}">
-                                                                                                                                            <a href="{{ url('/menu-private-person') }}" >
-                                                                                                                                              <i class="bi bi-person-lines-fill"></i>
-                                                                                                                                              <span>Private Person</span>
-                                                                                                                                            </a>
-                                                                                                                                          </li>
-                                                                                                                                          <li class=" {{ request()->is('*ecommerce*') ? 'active' : '' }}">
-                                                                                                                                            <a href="{{ url('/menu-ecommerce') }}" >
-                                                                                                                                              <i class="bi bi-cast"></i>
-                                                                                                                                              <span>Ecommerce</span>
-                                                                                                                                            </a>
-                                                                                                                                          </li>
-
-                                                                                                                                        </ul>
-                                                                                                                                      </li>
-@endhasrole --->
             <!-- Page Sidebar Ends-->
             <div class="page-body">
                 <div id="main">

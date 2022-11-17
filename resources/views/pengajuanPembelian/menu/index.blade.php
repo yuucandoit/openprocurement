@@ -103,7 +103,7 @@
                   <a class="badge bg-warning mt-1" style="color: white; font-size:18">Waiting Approval 1</a>
                   @elseif ($ppembelian->status == 'Waiting For PO Approval')
                   <a class="badge bg-warning mt-1" style="color: white; font-size:18">Waiting Approval 2</a>
-                  @elseif ($ppembelian->status == 'Purchase Submission Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved' || $ppembelian->status == 'Invoicing Process' )
+                  @elseif ($ppembelian->status == 'Purchase Submission Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved' || $ppembelian->status == 'Invoicing Process' || $ppembelian->status == 'Payment Approved' )
                   <a class="badge bg-success mt-1" style="color:white; font-size:18;">On Process</a>
                   @elseif ($ppembelian->status == 'Unpaid' || $ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery process' || $ppembelian->status == 'Delivery Success')
                   <a class="badge bg-success mt-1" style="color:white; font-size:18;">Done</a>

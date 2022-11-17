@@ -111,12 +111,9 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function history()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
-            return view('pengajuanpembelian')
+            return view('pengajuanPembelian.menu.history')
             ->with('datappb', $datappb);
-        }
     }
     /**
      * Show the form for creating a new resource.

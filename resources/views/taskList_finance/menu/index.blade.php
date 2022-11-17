@@ -95,7 +95,7 @@
                                         $no = 1;
                                     @endphp
                                      @foreach ($datappb as $ppb)
-                                     @if ($ppb->status == 'Invoicing Process' )
+                                     @if ($ppb->status == 'Payment Approved' )
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>

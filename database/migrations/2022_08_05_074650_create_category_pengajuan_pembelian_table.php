@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->default('0');
             $table->string('status')->default('Awaiting Purchase Submission Approval')->nullable();
-            $table->foreignId('atasan')->constrained('users');
+            $table->foreignId('atasan')->nullable()->constrained('users');
+            $table->foreignId('atasan_po')->nullable()->constrained('users');
+            $table->foreignId('atasan_py')->nullable()->constrained('users');
             $table->foreignId('ws')->constrained('who_submitted'); //Who Submitted(ws)
             $table->foreignId('department')->constrained('department');
             $table->morphs('purpose');

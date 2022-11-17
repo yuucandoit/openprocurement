@@ -7,12 +7,16 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\Department;
+use App\Models\Invoicing;
 use App\Models\PengajuanPembelian;
 use App\Models\PurchaseOrder;
+use App\Models\ReferensiNamaProject;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
+use App\Models\WhoSubmitted;
 use Illuminate\Support\Facades\Auth;
 
 class InvoicingController extends Controller
@@ -31,7 +35,7 @@ class InvoicingController extends Controller
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
             $datapo = CategoryPO::all();
-            return view('invoicing.menu.index')
+            return view('payment_request.menu.index')
                 ->with('pt',$pt)
                 ->with('op',$op)
                 ->with('ec',$ec)
@@ -49,7 +53,7 @@ class InvoicingController extends Controller
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
             $datapo = CategoryPO::all();
-            return view('invoicing.menu.history')
+            return view('payment_request.menu.history')
                 ->with('pt',$pt)
                 ->with('op',$op)
                 ->with('ec',$ec)
@@ -68,7 +72,7 @@ class InvoicingController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        return view('invoicing.menu.detail')
+        return view('payment_request.menu.detail')
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
         ->with('datapo', $datapo)
@@ -84,9 +88,47 @@ class InvoicingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
+        $datapt = CategoryPT::all();
+        $op                 = CategoryPP::all();
+        $ec                 = CategoryEcommerce::all();
+        $terms              = TermsAndConditions::all();
+        $datapo             = CategoryPO::where('ppb_id',$id)->get();
+        $datacpo            = CategoryPO::where('ppb_id',$id)->first();
+        $dv = CategoryPengajuanPembelian::find($id);
+        $purpose = ReferensiNamaProject::all();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
+        $item = PengajuanPembelian::where('pp_id', $id)->get();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        //dd($datapo);
+        return view('payment_request.menu.create')
+            ->with('data_pengajuan',$data_pengajuan)
+            ->with('atasan', $atasan)
+            ->with('datapo', $datapo)
+            ->with('datapt', $datapt)
+            ->with('datacpo', $datacpo)
+            ->with('op',$op)
+            ->with('ec',$ec)
+            ->with('terms',$terms)
+            ->with('purpose', $purpose)
+            ->with('dataws', $dataws)
+            ->with('dpp', $dpp)
+            ->with('datapo', $datapo)
+            ->with('datacpo', $datacpo)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('data_pengajuan', $data_pengajuan)
+            ->with('datadepartment', $datadepartment)
+            ->with('item', $item)
+            ->with('dv', $dv);
     }
 
     /**
@@ -95,9 +137,16 @@ class InvoicingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        $data = CategoryPengajuanPembelian::find($id);
+
+        $data = CategoryPengajuanPembelian::find($id);
+            $data->atasan_py = $request->atasan_py;
+        $data->save();
+
+        return redirect("/payment_request");
+
     }
 
     /**
@@ -131,7 +180,7 @@ class InvoicingController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        return view('invoicing.menu.edit')
+        return view('payment_request.menu.edit')
         ->with('pt', $pt)
         ->with('op',$op)
         ->with('ec',$ec)
@@ -155,36 +204,7 @@ class InvoicingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $data = CategoryPengajuanPembelian::find($id);
-
-        //     if($request->term_conditions == "custom"){
-        //         // dd($data);
-        //         $term = TermsAndConditions::create([
-        //             "term_condition" => $request->term_condition,
-        //         ]);
-        //         $tes = CategoryPO::create([
-        //             "ppb_id" => $data->id,
-        //             "pt_id" => $request->pt_id,
-        //             "term_conditions" => $term->id,
-        //             "atasan_po" => $request->atasan_po,
-        //             "address" => $request->address,
-        //             "no_telp" => $request->no_telp,
-        //             "no_npwp" => $request->no_npwp,
-        //             "quotation" => $request->quotation,
-        //         ]);
-        //     } else {
-        //         $tes = CategoryPO::create([
-        //             "ppb_id" => $data->id,
-        //             "pt_id" => $request->pt_id,
-        //             "term_conditions" => $request->term_conditions,
-        //             "atasan_po" => $request->atasan_po,
-        //             "address" => $request->address,
-        //             "no_telp" => $request->no_telp,
-        //             "no_npwp" => $request->no_npwp,
-        //             "quotation" => $request->quotation,
-        //         ]);
-        //     }
-        // return redirect("/invoicing");
+        //
     }
 
     /**
@@ -197,7 +217,7 @@ class InvoicingController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->delete();
-        return redirect('/invoicing')->with('success', 'Task Deleted Successfully!');
+        return redirect('/payment_request')->with('success', 'Task Deleted Successfully!');
     }
 
     public function ajukan_dana($id)
@@ -206,7 +226,7 @@ class InvoicingController extends Controller
         // dd($data);
         $data->status = 'Invoicing Process';
         $data->save();
-        return redirect('/billing_process');
+        return redirect('send-payment/');
     }
 
     public function Reject($id)
@@ -214,6 +234,6 @@ class InvoicingController extends Controller
         $data = CategoryPO::find($id);
         $data->status = 'Rejected By Purchasing';
         $data->save();
-        return redirect('/billing_process');
+        return redirect('/payment_request');
     }
 }

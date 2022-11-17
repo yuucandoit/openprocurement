@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('category_po', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
-            $table->foreignId('atasan_po')->constrained('users');
+            // $table->foreignId('atasan_po')->constrained('users');
             $table->morphs('vendorable');
             $table->foreignId('term_conditions')->constrained('terms_and_condition');
             $table->string('quotation');
