@@ -502,10 +502,10 @@
                                             @if ($ppb->atasan_po == 8)
                                                 <tbody>
                                                     <tr>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
-                                                            <td><a href="{{ $ppb->desc }}"
+                                                        <td style="text-align: center;">{{ $no++ }}</td>
+                                                        <td><a href="{{ $ppb->desc }}"
                                                                     target="_blank">{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a

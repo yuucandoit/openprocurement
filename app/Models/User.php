@@ -30,7 +30,7 @@ class User extends Authenticatable
 
     public function ppb()
     {
-        return $this->hasMany(CategoryPengajuanPembelian::class, 'atasan');
+        return $this->hasMany(CategoryPengajuanPembelian::class, 'atasan_po');
     }
     /**
      * The attributes that should be hidden for serialization.

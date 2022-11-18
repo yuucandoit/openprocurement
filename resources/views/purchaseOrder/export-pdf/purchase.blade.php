@@ -42,6 +42,13 @@
                     <div class="contact">{{ $cpo->vendorable->no_telp_kantor }}</div>
                     <div class="email"><a href="">{{ $cpo->vendorable->website }}</a></div>
                 @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
+                <h2 class="name">{{ $cpo->vendorable->nama }}</h2>
+                <div class="address">{{ $cpo->vendorable->alamat }}</div>
+                <div class="contact">{{ $cpo->vendorable->nik }}</div>
+                <div class="email"><a href="">{{ $cpo->vendorable->npwp_pp }}</a></div>
+                @elseif ($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
+                <h2 class="name">{{ $cpo->vendorable->nama }}</h2>
+                <div class="address"><a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></div>
                 @endif
             </div>
             @php
@@ -52,9 +59,9 @@
                 <table border="1">
                     <tr>
                         <td
-                            style="background-color: #29465B; 
-                            color: #ffffff; font-size: 18px; 
-                            font-weight: bold; 
+                            style="background-color: #29465B;
+                            color: #ffffff; font-size: 18px;
+                            font-weight: bold;
                             text-align: center;">
                             No PO
                         </td>
@@ -69,43 +76,43 @@
                     <thead>
                         <tr style="border-right: 1px solid black;">
                             <th
-                                style="text-align: center; 
-                                background-color: #29465B; 
+                                style="text-align: center;
+                                background-color: #29465B;
                                 color: #ffffff; f
                                 ont-weight: bold; font-size: 18px; border-left: 1px solid black;">
                                 Date </th>
                             <th
-                                style="text-align: center; 
-                            background-color: #29465B; 
+                                style="text-align: center;
+                            background-color: #29465B;
                             color: #ffffff; f
                             ont-weight: bold; font-size: 18px;">
                                 Quotation </th>
                             <th
-                                style="text-align: center; 
-                            background-color: #29465B; 
+                                style="text-align: center;
+                            background-color: #29465B;
                             color: #ffffff; f
                             ont-weight: bold; font-size: 18px;">
                                 Address </th>
                     </thead>
                     <tr>
                         <td
-                            style="border-right: 1px solid black; 
-                            border-left: 1px solid black; 
-                            border-bottom: 1px solid black; 
+                            style="border-right: 1px solid black;
+                            border-left: 1px solid black;
+                            border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
                             {{ $date }}
                         </td>
                         <td
-                            style="border-right: 1px solid black; 
-                            border-left: 1px solid black; 
-                            border-bottom: 1px solid black; 
+                            style="border-right: 1px solid black;
+                            border-left: 1px solid black;
+                            border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
                             {{ $cpo->quotation }}
                         </td>
                         <td
-                            style="border-right: 1px solid black; 
-                        border-left: 1px solid black; 
-                        border-bottom: 1px solid black; 
+                            style="border-right: 1px solid black;
+                        border-left: 1px solid black;
+                        border-bottom: 1px solid black;
                         background-color: #ffffff; text-align: center; font-weight: bold;">
                             {{ $cpo->address }}
                         </td>
@@ -115,30 +122,30 @@
                     <thead>
                         <tr style="border-right: 1px solid black;">
                             <th
-                                style="text-align: center; 
-                                background-color: #29465B; 
+                                style="text-align: center;
+                                background-color: #29465B;
                                 color: #ffffff; f
                                 ont-weight: bold; font-size: 18px; border-left: 1px solid black;">
                                 Contact </th>
                             <th
-                                style="text-align: center; 
-                            background-color: #29465B; 
+                                style="text-align: center;
+                            background-color: #29465B;
                             color: #ffffff; f
                             ont-weight: bold; font-size: 18px;">
                                 NPWP </th>
                     </thead>
                     <tr>
                         <td
-                            style="border-right: 1px solid black; 
-                            border-left: 1px solid black; 
-                            border-bottom: 1px solid black; 
+                            style="border-right: 1px solid black;
+                            border-left: 1px solid black;
+                            border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
                             {{ $cpo->no_telp }}
                         </td>
                         <td
-                            style="border-right: 1px solid black; 
-                            border-left: 1px solid black; 
-                            border-bottom: 1px solid black; 
+                            style="border-right: 1px solid black;
+                            border-left: 1px solid black;
+                            border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
                             {{ $cpo->no_npwp }}
                         </td>
@@ -275,7 +282,7 @@
                                     style=" width:120px;"></p>
                 </div>
             @else
-                <div style="text-align: center; font-size: 18px;">{{ $cpo->atasans->name }} <br>
+                <div style="text-align: center; font-size: 18px;">{{ $atasan->atasans->name }} <br>
                     <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                 </div>
                 @endif

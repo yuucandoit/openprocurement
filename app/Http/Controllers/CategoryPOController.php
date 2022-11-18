@@ -276,14 +276,16 @@ class CategoryPOController extends Controller
         $terms              = TermsAndConditions::all();
         $datapo             = CategoryPO::where('ppb_id',$id)->get();
         $datacpo            = CategoryPO::where('ppb_id',$id)->first();
-        $dv = CategoryPengajuanPembelian::find($id);
-        $purpose = ReferensiNamaProject::all();
+        $dv                 = CategoryPengajuanPembelian::find($id);
+        $atasanpo           = CategoryPengajuanPembelian::where('id',$id)->get();
+        $purpose            = ReferensiNamaProject::all();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
         //dd($datapo);
         return view('purchaseOrder.menu.edit')
             ->with('atasan', $atasan)
+            ->with('atasanpo', $atasanpo)
             ->with('datapo', $datapo)
             ->with('datapt', $datapt)
             ->with('datacpo', $datacpo)

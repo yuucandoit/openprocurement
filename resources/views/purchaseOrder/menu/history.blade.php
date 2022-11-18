@@ -107,59 +107,91 @@
         <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
+                <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
-                            <h5>Data History List</h5>
+                            <h5>History Purchase order</h5>
                         </div>
                         <div class="card-body">
-                            <div class="order-history table-responsive">
-                                <table class="table table-bordernone display" id="basic-1">
+                            <div class="table-responsive">
+                                <table class="display" id="advance-1">
                                     <thead>
-                                        <tr>
-                                            <th scope="col">No</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Send To</th>
-                                            <th scope="col">Date</th>
+                                        <tr style="text-align: center;">
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Send To</th>
+                                            <th>Date Line</th>
+                                            <th>Countdown</th>
+                                            <th>Warning</th>
                                             @hasrole('purchasing|super admin')
-                                                <th scope="col">Status</th>
+                                                <th>Status</th>
                                             @endhasrole
                                             @hasrole('user')
-                                                <th scope="col">Status</th>
+                                                <th>Status</th>
                                             @endhasrole
-                                            <th scope="col">Action</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
+
                                     @php
                                         $no = 1;
                                     @endphp
                                     <tbody>
-                                        @foreach ($datappb as $purchase)
-                                            @if ($purchase->status == 'Selesai Di proses Purchasing')
+                                        @foreach ($datappb as $ppb)
+                                            @if (
+                                                $ppb->status == 'Waiting For PO Approval' ||
+                                                $ppb->status == 'PO Approved' ||
+                                                $ppb->status == 'Invoicing Process' ||
+                                                $ppb->status == 'Unpaid' ||
+                                                $ppb->status == 'Paid' ||
+                                                $ppb->status == 'Delivery Process' ||
+                                                $ppb->status == 'Delivery Success')
                                                 <tr>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td style="text-align: center;">{{ $purchase->ws }}</td>
-                                                    <td>{{ $purchase->send_to }}</td>
-                                                    <td style="text-align: center;">{{ $purchase->created_at }}</td>
-                                                    @hasrole('purchasing|super admin')
-                                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $purchase->status }}</a>
-                                                        </td>
+                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->send_to }}</td>
+                                                    @if ($ppb->status == 'Purchase Proses')
 
+                                                    @else
+                                                        <td> -/- </td>
+                                                        <td> -/- </td>
+                                                        <td> -/- </td>
+                                                        <td> -/- </td>
+                                                    @endif
+                                                    <td style="text-align: center;">{{ $ppb->approved_at }}</td>
+                                                    @hasrole('purchasing|super admin')
                                                         <td>
                                                             <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #ADD8E6;"
+                                                                href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
+                                                                    class="icon-eye" title="Preview PO"></i>
+                                                            </a>
+                                                            @if ($ppb->status == 'Purchase Proses')
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #008000;"
+                                                                    href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
+                                                                        class="icon-file" title="Record Data"></i>
+                                                                </a>
+
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #FF8C00;"
+                                                                    href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
+                                                                        class="icon-pencil-alt" title="Edit"></i>
+                                                                </a>
+                                                            @endif
+                                                            <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
-                                                                href="{{ url('/menu-purchase-order/detail/' . $purchase->id) }}"><i
+                                                                href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
 
                                                             <button class="btn btn-danger mt-1" data-bs-toggle="modal"
-                                                                data-bs-target="#modalDelete{{ $purchase->id }}"><i
+                                                                data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                     class="icon-trash" title="Delete"></i>
                                                             </button>
 
-                                                            {{-- <a href="{{ url('/menu-purchase-order/edit/' . $purchase->id) }}"
-                                        class="btn btn-outline-warning"><i class="bx bx-edit"></i> Edit</a> --}}
                                                         </td>
                                                     @endhasrole
                                                 </tr>
@@ -172,7 +204,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Container-fluid Ends                  -->
         </div>
         <script>
             $(document).ready(function() {

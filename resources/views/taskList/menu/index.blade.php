@@ -208,6 +208,7 @@
                 <!-- Zero Configuration  Ends-->
             </div>
         </div>
+    <!-- Container-fluid starts-->
     </section>
 @endsection
 

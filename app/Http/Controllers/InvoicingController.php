@@ -90,27 +90,35 @@ class InvoicingController extends Controller
      */
     public function create($id)
     {
-        $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
-        $datapt = CategoryPT::all();
+        $data_pengajuan     = CategoryPengajuanPembelian::find($id);
+        $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
+        $atasan1            = User::whereIn('id', [3,6, 8, 9])->get();
+        $atasan2            = User::whereIn('id', [3, 8, 9])->get();
+        $atasan3            = User::whereIn('id', [3, 8])->get();
+        $datapt             = CategoryPT::all();
         $op                 = CategoryPP::all();
         $ec                 = CategoryEcommerce::all();
         $terms              = TermsAndConditions::all();
         $datapo             = CategoryPO::where('ppb_id',$id)->get();
         $datacpo            = CategoryPO::where('ppb_id',$id)->first();
-        $dv = CategoryPengajuanPembelian::find($id);
-        $purpose = ReferensiNamaProject::all();
+        $dv                 = CategoryPengajuanPembelian::find($id);
+        $purpose            = ReferensiNamaProject::all();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
-        $item = PengajuanPembelian::where('pp_id', $id)->get();
+        $item               = PengajuanPembelian::where('pp_id', $id)->get();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        //dd($datapo);
+        // foreach($total_tnpa_ppn as $tpn){
+        // //dd($tpn->total);
+        // }
         return view('payment_request.menu.create')
             ->with('data_pengajuan',$data_pengajuan)
             ->with('atasan', $atasan)
+            ->with('atasan1', $atasan1)
+            ->with('atasan2', $atasan2)
+            ->with('atasan3', $atasan3)
             ->with('datapo', $datapo)
             ->with('datapt', $datapt)
             ->with('datacpo', $datacpo)

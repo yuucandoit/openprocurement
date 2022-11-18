@@ -98,7 +98,7 @@
                                         <div class="form-floating">
                                             <select class="form-select mt-2" id="floatingproposedto"
                                                 placeholder="Proposed To" name="atasan_po">
-                                                @foreach ($datapo as $dpo)
+                                                @foreach ($atasanpo as $dpo)
                                                 <option value="{{ $dpo->atasans->id }}">{{ $dpo->atasans->name }}</option>
                                                 @endforeach
                                                 @foreach ($atasan as $sui)

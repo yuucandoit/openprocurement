@@ -43,18 +43,10 @@ class CategoryPengajuanPembelian extends Model
     {
         return $this->belongsTo(CategoryEcommerce::class);
     }
-    public function ss()
-    {
-        return $this->belongsTo(User::class);
-    }
 
-    public function tl()
+    public function atasans()
     {
-        return $this->hasMany(CategoryTL::class);
-    }
-    public function tl_atasan()
-    {
-        return $this->hasMany(TaskListAtasan::class);
+        return $this->belongsTo(User::class, 'atasan_po');
     }
 
     public function purpose()

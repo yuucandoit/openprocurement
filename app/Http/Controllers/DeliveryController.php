@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
 use App\File;
 use App\Models\Department;
 use App\Models\PengajuanPembelian;
+use App\Models\Role;
 use App\Models\WhoSubmitted;
+use Illuminate\Support\Facades\Auth;
 
 class DeliveryController extends Controller
 {
@@ -36,6 +38,23 @@ class DeliveryController extends Controller
                 ->with('datapo', $datapo);
     }
 
+    public function history()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 4 || $check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::all();
+            $pt = CategoryPT::all();
+            $op = CategoryPP::all();
+            $ec = CategoryEcommerce::all();
+            $datapo = CategoryPO::all();
+            return view('delivery.menu.history')
+                ->with('pt',$pt)
+                ->with('op',$op)
+                ->with('ec',$ec)
+                ->with('datappb',$datappb)
+                ->with('datapo', $datapo);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
