@@ -53,7 +53,11 @@
             </div>
             @php
                 use Carbon\Carbon;
-                $date = Carbon::parse($cpo->created_at)->format('d/m/Y');
+                if (empty($cpo->created_at)) {
+                    $date = '';
+                } else {
+                    $date = Carbon::parse($cpo->created_at)->format('d/m/Y');
+                }
             @endphp
             <div id="invoice">
                 <table border="1">
@@ -66,7 +70,12 @@
                             No PO
                         </td>
                         <td style="text-align: center; background-color: #ffffff; font-size: 18px; font-weight: bold;">
+                        @if(empty($cpo->id))
+
+                        @else
                             {{ $cpo->id }}/PO/SII/{{ $month }}/{{ $year }}
+                        @endif
+
                         </td>
                     </tr>
                 </table>
@@ -107,14 +116,22 @@
                             border-left: 1px solid black;
                             border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
+                        @if(empty($cpo->quotation))
+
+                        @else
                             {{ $cpo->quotation }}
+                        @endif
                         </td>
                         <td
                             style="border-right: 1px solid black;
                         border-left: 1px solid black;
                         border-bottom: 1px solid black;
                         background-color: #ffffff; text-align: center; font-weight: bold;">
+                        @if(empty($cpo->address))
+
+                        @else
                             {{ $cpo->address }}
+                        @endif
                         </td>
                     </tr>
                 </table>
@@ -140,14 +157,22 @@
                             border-left: 1px solid black;
                             border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
+                            @if(empty($cpo->no_telp))
+
+                            @else
                             {{ $cpo->no_telp }}
+                            @endif
                         </td>
                         <td
                             style="border-right: 1px solid black;
                             border-left: 1px solid black;
                             border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
+                            @if(empty($cpo->no_npwp))
+
+                            @else
                             {{ $cpo->no_npwp }}
+                            @endif
                         </td>
                     </tr>
                 </table>
@@ -282,9 +307,15 @@
                                     style=" width:120px;"></p>
                 </div>
             @else
+            @if(empty($atasan->atasans->name))
+            <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
+                <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
+            </div>
+            @else
                 <div style="text-align: center; font-size: 18px;">{{ $atasan->atasans->name }} <br>
                     <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                 </div>
+            @endif
                 @endif
                 @endforeach
             </div>
