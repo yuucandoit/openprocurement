@@ -23,10 +23,10 @@ class PPExport implements ShouldAutoSize, FromView
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
                 $workSheet = $event->sheet->getDelegate();
                 $workSheet->freezePane('A3'); // freezing here
             },
         ];
-       }
+    }
 }

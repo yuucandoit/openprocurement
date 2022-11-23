@@ -12,7 +12,7 @@
                         <h3>Details</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('menu-taskList-atasan.history') }}">History Super
+                            <li class="breadcrumb-item"><a href="{{ route('menu-taskList-atasan.index') }}">Task List Super
                                     User</a></li>
                             <li class="breadcrumb-item active">Details</li>
                         </ol>
@@ -107,8 +107,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <hr>
 
-                                <div class="mt-3 text-center">
+                                <div class="mt-3" style="text-align: right;">
                                     @hasrole('super user|super admin')
                                         @if ($data_pengajuan->status == 'Purchase Submission Approved')
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"

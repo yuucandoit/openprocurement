@@ -10,10 +10,12 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-6 mt-4">
-                        <h3>Payment Request</h3>
+                        <h3>Details Payment Request</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active"><a href="{{ url('/payment_request') }}">Payment Request</a></li>
+                            <li class="breadcrumb-item active"><a href="{{ url('/payment_request') }}">Payment Request</a>
+                            </li>
+                            <li class="breadcrumb-item active">Details Payment Request</li>
                         </ol>
                     </div>
                     <div class="col-sm-6 mt-4">
@@ -207,19 +209,20 @@
                                     </tr>
                                 @endif
                             </table>
+                            <hr>
                             {{-- Start Modal Approval --}}
                             @if ($data_pengajuan->status == 'Invoicing Process')
-                            <div class="text-center">
-                                <button class="btn btn-outline-success mt-2 text-center" data-bs-toggle="modal"
-                                    data-bs-target="#modalSelesai" disabled>Successfully send data</button>
-                            </div>
+                                <div class="text-center">
+                                    <button class="btn btn-outline-success mt-2 text-center" data-bs-toggle="modal"
+                                        data-bs-target="#modalSelesai" disabled>Successfully send data</button>
+                                </div>
                             @elseif ($data_pengajuan->status == 'PO Approved')
-                            <div class="text-center">
-                                <button class="btn btn-success mt-4 "  data-bs-toggle="modal"
-                                    data-bs-target="#modalSelesai">Apply For Payment
-                                    Process
-                                </button>
-                            </div>
+                                <div class="text-center">
+                                    <button class="btn btn-success mt-4 " data-bs-toggle="modal"
+                                        data-bs-target="#modalSelesai">Apply For Payment
+                                        Process
+                                    </button>
+                                </div>
                             @endif
 
                             <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
@@ -231,17 +234,17 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body mx-5 mb-3 text-center">
-                                            <span class="warning" >
-                                                <img src="{{ asset('assets/images/warning.png') }}" >
+                                            <span class="warning">
+                                                <img src="{{ asset('assets/images/warning.png') }}">
                                             </span>
                                             <h2 style="text-align: center">Make sure the data is correct!</h2>
                                         </div>
                                         {{-- End Modal Approval --}}
 
-                                        <div class="modal-footer"  style="text-align: center;">
+                                        <div class="modal-footer" style="text-align: center;">
                                             @if ($data_pengajuan->status == 'PO Approved')
                                                 <form class="text-center"
-                                                    action="{{ url('payment_request/ajukan_dana/'. $data_pengajuan->id) }}">
+                                                    action="{{ url('payment_request/ajukan_dana/' . $data_pengajuan->id) }}">
                                                     <button type="submit" class="btn btn-outline-danger"><i
                                                             class="bx bx-trash"></i>
                                                         Send For Payment Approval
@@ -261,7 +264,8 @@
                             <a href="{{ url('/exportpdf/po/' . $data_pengajuan->id) }}" class="btn btn-danger mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-export"></i> Export to PDF</a>
 
-                            <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/payment_request/') }}">Back</a>
+                            <a type="reset" class="btn btn-dark mb-3 mr-1"
+                                href="{{ url('/payment_request/') }}">Back</a>
                         @endif
                     </div>
     </section>

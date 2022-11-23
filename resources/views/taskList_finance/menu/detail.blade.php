@@ -103,8 +103,8 @@
                                     <tbody>
                                         @foreach ($pengajuan as $p)
                                             <tr>
-                                                <td>{{ $p->item }}</td>
-                                                <td>{{ $p->qty }}</td>
+                                                <td style="text-align: center;">{{ $p->item }}</td>
+                                                <td style="text-align: right;">{{ $p->qty }}</td>
                                                 @if ($data_pengajuan->matauang == 'RP')
                                                     <td style="text-align:right;">RP.
                                                         {{ number_format($p->unit_price) }}</td>
@@ -193,38 +193,38 @@
                                         </tr>
                                     @endif
                                 </table>
+                                <hr>
                                 <div class="mt-3" style="text-align: right;">
                                     <a type="reset" class="btn btn-dark" href="{{ url('/menu-tasklist-finance/') }}"
-                                        style="float: left;">Back</a>
+                                        style="float: right;">Back</a>
                                     @hasrole('finance|super admin')
-                                        @if (
-                                             $data_pengajuan->status == 'Unpaid'||
-                                             $data_pengajuan->status == 'Paid'||
-                                             $data_pengajuan->status == 'Delivery Process'||
-                                             $data_pengajuan->status == 'Delivery Success')
-                                             <div class="text-center">
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
+                                        @if ($data_pengajuan->status == 'Unpaid' ||
+                                            $data_pengajuan->status == 'Paid' ||
+                                            $data_pengajuan->status == 'Delivery Process' ||
+                                            $data_pengajuan->status == 'Delivery Success')
+                                            <div class="text-center">
+                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                    class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
 
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-danger text-center" onclick="return">Reject</a>
+                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                    class="btn btn-danger text-center" onclick="return">Reject</a>
                                             </div>
                                         @elseif($data_pengajuan->status == 'Payment Approved')
-                                        <div class="text-center">
-                                            <a href="{{ url('menu-tasklist-finance/approve', $data_pengajuan->id) }}"
-                                                class="btn btn-success text-center" onclick="return">Approve</a>
+                                            <div class="text-center">
+                                                <a href="{{ url('menu-tasklist-finance/approve', $data_pengajuan->id) }}"
+                                                    class="btn btn-success text-center" onclick="return">Approve</a>
 
-                                            <a href="{{ url('menu-tasklist-finance/reject', $data_pengajuan->id) }}"
-                                                class="btn btn-danger text-center" onclick="return">Reject</a>
-                                        </div>
+                                                <a href="{{ url('menu-tasklist-finance/reject', $data_pengajuan->id) }}"
+                                                    class="btn btn-danger text-center" onclick="return">Reject</a>
+                                            </div>
                                         @else
-                                        <div class="text-center">
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-successtext-center" onclick="return">Approve</a>
+                                            <div class="text-center">
+                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                    class="btn btn-successtext-center" onclick="return">Approve</a>
 
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
-                                        </div>
+                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                    class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                            </div>
                                         @endif
                                     @endhasrole
 

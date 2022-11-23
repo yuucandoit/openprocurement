@@ -8,7 +8,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-6 mt-4">
-                        <h3>Edit Purchase Submission</h3>
+                        <h3>Edit Purchase Request</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('menu-pengajuan-pembelian.index') }}">Purchase
@@ -156,7 +156,7 @@
                                             {{-- Office Dropdown --}}
                                             <select class=" form-select hide" id="selectedInput2" name="sub_purpose">
                                                 @foreach ($purpose_office as $o)
-                                                <option value="{{ $o->id }}">{{ $o->name }}</option>
+                                                    <option value="{{ $o->id }}">{{ $o->name }}</option>
                                                 @endforeach
                                             </select>
                                             {{-- End Office Dropdown --}}
@@ -164,7 +164,7 @@
                                             {{-- Workshop Dropdown --}}
                                             <select class=" form-select hide" id="selectedInput3" name="sub_purpose">
                                                 @foreach ($purpose_workshop as $e)
-                                                <option value="{{ $e->id }}">{{ $e->name }}</option>
+                                                    <option value="{{ $e->id }}">{{ $e->name }}</option>
                                                 @endforeach
                                             </select>
                                             {{-- End Workshop Dropdown --}}
@@ -172,7 +172,7 @@
                                             {{-- Inventory Dropdown --}}
                                             <select class=" form-select hide" id="selectedInput4" name="sub_purpose">
                                                 @foreach ($purpose_inventory as $pi)
-                                                <option value="{{ $pi->id }}">{{ $pi->name }}</option>
+                                                    <option value="{{ $pi->id }}">{{ $pi->name }}</option>
                                                 @endforeach
                                             </select>
                                             {{-- End Inventory Dropdown --}}
@@ -258,8 +258,8 @@
                                         </div>
                                     </div>
 
-                                     {{-- css hide --}}
-                                     <style>
+                                    {{-- css hide --}}
+                                    <style>
                                         .hide {
                                             opacity: 0;
                                         }
@@ -273,16 +273,16 @@
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
                                                     class="fa fa-send"></i> Send To</label>
-                                            <select class="form-select page" id="pageSelector"
-                                                placeholder="Send To" name="send_to">
+                                            <select class="form-select page" id="pageSelector" placeholder="Send To"
+                                                name="send_to">
                                                 <option selected value="{{ $dv->send_to }}">{{ $dv->send_to }}
                                                 </option>
-                                            <option value="Tebet">Tebet</option>
-                                            <option value="Cikunir">Cikunir</option>
-                                            <option value="other">Other Option</option>
+                                                <option value="Tebet">Tebet</option>
+                                                <option value="Cikunir">Cikunir</option>
+                                                <option value="other">Other Option</option>
                                             </select>
-                                            <input class="hide form-control mt-2" type="text"  id="customOther"
-                                            placeholder="Input Send To">
+                                            <input class="hide form-control mt-2" type="text" id="customOther"
+                                                placeholder="Input Send To">
                                         </div>
                                     </div>
 
@@ -536,20 +536,20 @@
             })
         </script>
 
-    <script type="text/javascript">
-        var pageSelector = document.getElementById('pageSelector');
-        var customOther = document.getElementById('customOther');
+        <script type="text/javascript">
+            var pageSelector = document.getElementById('pageSelector');
+            var customOther = document.getElementById('customOther');
 
-        pageSelector.addEventListener('change', function() {
-            if (this.value == "other") {
-                customOther.setAttribute('name', 'send_to');
-                customOther.classList.remove('hide');
-            } else {
-                customOther.removeAttribute('name', 'send_to');
-                customOther.classList.add('hide');
-            }
-        })
-    </script>
+            pageSelector.addEventListener('change', function() {
+                if (this.value == "other") {
+                    customOther.setAttribute('name', 'send_to');
+                    customOther.classList.remove('hide');
+                } else {
+                    customOther.removeAttribute('name', 'send_to');
+                    customOther.classList.add('hide');
+                }
+            })
+        </script>
 
     </section>
 @endsection

@@ -226,7 +226,7 @@
                                                             @foreach ($atasan2 as $sui2)
                                                                 <option value="{{ $sui2->id }}">{{ $sui2->name }}</option>
                                                             @endforeach
-                                                        @elseif($tpn->total < $duit++ )
+                                                        @else
                                                             @foreach ($atasan3 as $sui3)
                                                                 <option value="{{ $sui3->id }}">{{ $sui3->name }}</option>
                                                             @endforeach
@@ -246,7 +246,7 @@
                                                             @foreach ($atasan2 as $sui)
                                                                 <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                                             @endforeach
-                                                    @elseif($t->total < $duit++)
+                                                    @else
                                                             @foreach ($atasan3 as $sui)
                                                                 <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                                             @endforeach

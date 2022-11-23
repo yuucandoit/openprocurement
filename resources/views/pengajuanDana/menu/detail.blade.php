@@ -191,32 +191,32 @@
                                 </table>
                                 <div class="mt-3" style="text-align: right;">
                                     <a type="reset" class="btn btn-dark" href="{{ url('/menu-pengajuan-dana/') }}"
-                                    style="float: left;">Back</a>
+                                        style="float: left;">Back</a>
                                     @hasrole('finance|super admin')
                                         @if ($data_pengajuan->status == 'Paid')
-                                        <div class="text-center">
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return"><b>Paid Success</b></a>
+                                            <div class="text-center">
+                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                    class="btn btn-success text-center" onclick="return"><b>Paid Success</b></a>
 
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-danger text-center" onclick="return">Reject</a>
-                                        </div>
+                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                    class="btn btn-danger text-center" onclick="return">Reject</a>
+                                            </div>
                                         @elseif($data_pengajuan->status == 'Unpaid')
-                                        <div class="text-center">
-                                            <a href="{{ url('menu-pengajuan-dana/paid', $data_pengajuan->id) }}"
-                                                class="btn btn-success text-center" onclick="return">Paid</a>
+                                            <div class="text-center">
+                                                <a href="{{ url('menu-pengajuan-dana/paid', $data_pengajuan->id) }}"
+                                                    class="btn btn-success text-center" onclick="return">Paid</a>
 
-                                            <a href="{{ url('menu-pengajuan-dana/reject', $data_pengajuan->id) }}"
-                                                class="btn btn-danger text-center" onclick="return">Reject</a>
-                                        </div>
+                                                <a href="{{ url('menu-pengajuan-dana/reject', $data_pengajuan->id) }}"
+                                                    class="btn btn-danger text-center" onclick="return">Reject</a>
+                                            </div>
                                         @else
-                                        <div class="text-center">
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return">Paid</a>
+                                            <div class="text-center">
+                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                    class="btn btn-success text-center" onclick="return">Paid</a>
 
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
-                                        </div>
+                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                    class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                            </div>
                                         @endif
                                     @endhasrole
 
