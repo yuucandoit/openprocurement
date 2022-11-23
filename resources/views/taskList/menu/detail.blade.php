@@ -188,16 +188,17 @@
                                         </tr>
                                     @endif
                                 </table>
-                                <div class="mt-3 text-center">
+                                <hr>
+                                <div class="mt-3 text-right">
                                     @hasrole('purchasing|super admin')
-                                        @if ($data_pengajuan->status == 'Purchase Proses'||
-                                             $data_pengajuan->status == 'Waiting For PO Approval'||
-                                             $data_pengajuan->status == 'PO Approved'||
-                                             $data_pengajuan->status == 'Invoicing Process'||
-                                             $data_pengajuan->status == 'Unpaid'||
-                                             $data_pengajuan->status == 'Paid'||
-                                             $data_pengajuan->status == 'Delivery Process'||
-                                             $data_pengajuan->status == 'Delivery Success')
+                                        @if ($data_pengajuan->status == 'Purchase Proses' ||
+                                            $data_pengajuan->status == 'Waiting For PO Approval' ||
+                                            $data_pengajuan->status == 'PO Approved' ||
+                                            $data_pengajuan->status == 'Invoicing Process' ||
+                                            $data_pengajuan->status == 'Unpaid' ||
+                                            $data_pengajuan->status == 'Paid' ||
+                                            $data_pengajuan->status == 'Delivery Process' ||
+                                            $data_pengajuan->status == 'Delivery Success')
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
 
@@ -227,6 +228,6 @@
         </div>
         </div>
         <!--
-            {{-- <a href={{ url('#')('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) class="btn btn-success" style="align-self: flex-end"> Export to Excel</a> -- }} --}}-->
+                            {{-- <a href={{ url('#')('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) class="btn btn-success" style="align-self: flex-end"> Export to Excel</a> -- }} --}}-->
     </section>
 @endsection

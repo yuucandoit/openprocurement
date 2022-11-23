@@ -7,7 +7,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-6 mt-4">
-                        <h1>Create Purchase Request</h1>
+                        <h3>Create Purchase Request</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('menu-pengajuan-pembelian.index') }}">Purchase
@@ -230,7 +230,8 @@
                                                     class="icofont icofont-stamp"></i> Send Approval To:</label>
                                             <select class="form-select page" id="floatingproposedto"
                                                 placeholder="Proposed To" name="atasan" required="">
-                                                <option selected="" disabled="" value="">Please Choose One</option>
+                                                <option selected="" disabled="" value="">Please Choose One
+                                                </option>
                                                 @foreach ($atasan as $sui)
                                                     <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                                 @endforeach

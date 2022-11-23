@@ -105,14 +105,23 @@
                 </div>
                 <div class="nav-right col pull-right right-menu p-0">
                     <ul class="nav-menus">
-                        <li style="color: green;">
+                        <li style="color: green; font-weight: bold; font-size: 13px;">
+                            <i class="fa fa-calendar"></i>&nbsp;
                             <?php
                             $time_sekarang = time();
                             echo date('d F Y', strtotime('+0 days', $time_sekarang));
                             ?>
                         </li>
-                        <li id="clock" style="font-weight: bold; font-size: 14px;">
+                        <h5 style="margin-bottom: 4px; margin-right: 12px;">|</h5>
+                        <li style="font-weight: bold; font-size: 13px;">
+                            <i class="icofont icofont-time"></i>&nbsp;
+                            <?php
+                            date_default_timezone_set('Asia/Jakarta'); // Zona Waktu indonesia
+                            echo date('H : i : s a'); // menampilkan jam sekarang
+                            ?>
                         </li>
+                        {{-- <li id="clock" style="font-weight: bold; font-size: 14px;">
+                        </li> --}}
 
                         <li>
                             <a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()">
@@ -234,7 +243,7 @@
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp;Payment Request</span>
                                         </a>
                                     </li>
-                                    @endhasrole
+                                @endhasrole
                                 @hasrole('finance')
                                     <li class="sidebar-main-title">
                                         <div>
@@ -293,7 +302,8 @@
                                                 </li>
                                             @endhasrole
                                             @hasrole('super user|super admin')
-                                                <li class=" {{ request()->is('*task-list-atasan-payment*') ? 'active' : '' }}">
+                                                <li
+                                                    class=" {{ request()->is('*task-list-atasan-payment*') ? 'active' : '' }}">
                                                     <a href="{{ url('/menu-taskList-atasan-payment') }}">
                                                         <i class="bi bi-file-text"></i>
                                                         <span>Task List Super User Payment Request</span>
@@ -422,13 +432,13 @@
                                 @endhasrole
 
                                 @hasrole('finance|super admin')
-                                <li class=" dropdowns {{ request()->is('*menu-tasklist-finance*') ? 'active' : '' }}">
-                                    <a class="nav-link menu-title link-nav"
-                                        href="{{ url('/menu-tasklist-finance/history') }}">
-                                        <i data-feather="activity"></i>
-                                        <span>History Finance Task</span>
-                                    </a>
-                                </li>
+                                    <li class=" dropdowns {{ request()->is('*menu-tasklist-finance*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav"
+                                            href="{{ url('/menu-tasklist-finance/history') }}">
+                                            <i data-feather="activity"></i>
+                                            <span>History Finance Task</span>
+                                        </a>
+                                    </li>
                                 @endhasrole
 
                                 @hasrole('finance|super admin')
@@ -443,8 +453,7 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
-                                            href="{{ url('/delivery/history') }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/delivery/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Delivery</span>
                                         </a>
@@ -546,16 +555,15 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 footer-copyright">
-                            <h5 style="font-weight: bold; font-size: 14;" class="mb-0"><img
-                                    src="{{ asset('../assets/images/logoSII.png') }}" alt="" width="45"
-                                    class="fluid">&nbsp;SOLUSI INTEK INDONESIA</h5>
+                            <h5 style="font-weight: bold; font-size: 8;" class="mb-0"><img
+                                    src="{{ asset('../assets/images/Logo-Intek-8K.png') }}" alt=""
+                                    width="79" height="25" class="fluid">&nbsp;&copy;SOLUSI INTEK INDONESIA
+                            </h5>
                         </div>
                         <div class="col-md-6">
                             <p class="pull-right mb-0" style="color: green;">Copyright &copy; 2022 | PT SOLUSI INTEK
                                 INDONESIA | <mark
-                                    style="background-color: black; color: #FFFFFF; font-weight: bold;"><img
-                                        src="{{ asset('../assets/images/logoSII.png') }}" alt=""
-                                        width="27" class="fluid">&nbsp;E-Procurement</mark>
+                                    style="background-color: black; color: #FFFFFF; font-weight: bold;">E-Procurement</mark>
                             </p>
                         </div>
                     </div>

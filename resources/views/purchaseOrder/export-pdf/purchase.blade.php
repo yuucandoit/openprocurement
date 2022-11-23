@@ -42,13 +42,13 @@
                     <div class="contact">{{ $cpo->vendorable->no_telp_kantor }}</div>
                     <div class="email"><a href="">{{ $cpo->vendorable->website }}</a></div>
                 @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
-                <h2 class="name">{{ $cpo->vendorable->nama }}</h2>
-                <div class="address">{{ $cpo->vendorable->alamat }}</div>
-                <div class="contact">{{ $cpo->vendorable->nik }}</div>
-                <div class="email"><a href="">{{ $cpo->vendorable->npwp_pp }}</a></div>
+                    <h2 class="name">{{ $cpo->vendorable->nama }}</h2>
+                    <div class="address">{{ $cpo->vendorable->alamat }}</div>
+                    <div class="contact">{{ $cpo->vendorable->nik }}</div>
+                    <div class="email"><a href="">{{ $cpo->vendorable->npwp_pp }}</a></div>
                 @elseif ($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
-                <h2 class="name">{{ $cpo->vendorable->nama }}</h2>
-                <div class="address"><a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></div>
+                    <h2 class="name">{{ $cpo->vendorable->nama }}</h2>
+                    <div class="address"><a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></div>
                 @endif
             </div>
             @php
@@ -70,11 +70,10 @@
                             No PO
                         </td>
                         <td style="text-align: center; background-color: #ffffff; font-size: 18px; font-weight: bold;">
-                        @if(empty($cpo->id))
-
-                        @else
-                            {{ $cpo->id }}/PO/SII/{{ $month }}/{{ $year }}
-                        @endif
+                            @if (empty($cpo->id))
+                            @else
+                                {{ $cpo->id }}/PO/SII/{{ $month }}/{{ $year }}
+                            @endif
 
                         </td>
                     </tr>
@@ -116,22 +115,20 @@
                             border-left: 1px solid black;
                             border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
-                        @if(empty($cpo->quotation))
-
-                        @else
-                            {{ $cpo->quotation }}
-                        @endif
+                            @if (empty($cpo->quotation))
+                            @else
+                                {{ $cpo->quotation }}
+                            @endif
                         </td>
                         <td
                             style="border-right: 1px solid black;
                         border-left: 1px solid black;
                         border-bottom: 1px solid black;
                         background-color: #ffffff; text-align: center; font-weight: bold;">
-                        @if(empty($cpo->address))
-
-                        @else
-                            {{ $cpo->address }}
-                        @endif
+                            @if (empty($cpo->address))
+                            @else
+                                {{ $cpo->address }}
+                            @endif
                         </td>
                     </tr>
                 </table>
@@ -157,10 +154,9 @@
                             border-left: 1px solid black;
                             border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
-                            @if(empty($cpo->no_telp))
-
+                            @if (empty($cpo->no_telp))
                             @else
-                            {{ $cpo->no_telp }}
+                                {{ $cpo->no_telp }}
                             @endif
                         </td>
                         <td
@@ -168,10 +164,9 @@
                             border-left: 1px solid black;
                             border-bottom: 1px solid black;
                             background-color: #ffffff; text-align: center; font-weight: bold;">
-                            @if(empty($cpo->no_npwp))
-
+                            @if (empty($cpo->no_npwp))
                             @else
-                            {{ $cpo->no_npwp }}
+                                {{ $cpo->no_npwp }}
                             @endif
                         </td>
                     </tr>
@@ -307,15 +302,15 @@
                                     style=" width:120px;"></p>
                 </div>
             @else
-            @if(empty($atasan->atasans->name))
-            <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
-                <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
-            </div>
-            @else
-                <div style="text-align: center; font-size: 18px;">{{ $atasan->atasans->name }} <br>
-                    <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
-                </div>
-            @endif
+                @if (empty($atasan->atasans->name))
+                    <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
+                        <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
+                    </div>
+                @else
+                    <div style="text-align: center; font-size: 18px;">{{ $atasan->atasans->name }} <br>
+                        <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
+                    </div>
+                @endif
                 @endif
                 @endforeach
             </div>

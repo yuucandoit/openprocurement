@@ -18,7 +18,12 @@ use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Carbon\Carbon;
 
-class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithColumnWidths, WithDrawings
+class PoExport implements
+    ShouldAutoSize,
+    FromView,
+    WithCustomStartCell,
+    WithColumnWidths,
+    WithDrawings
 {
     // RETURN VIEWS
 
@@ -29,16 +34,47 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
 
     public function view(): View
     {
-
-        $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->get()->first();
-        $data['cpo'] = CategoryPO::where('ppb_id', $this->id)->get()->first();
-        $data['id'] = PengajuanPembelian::where('pp_id', $this->id)->get()->first();
-        $data['category_q'] = PengajuanPembelian::where('pp_id', $this->id)->get();
-        $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
-        $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
-        $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['category_po'] = CategoryPengajuanPembelian::where(
+            'id',
+            $this->id
+        )
+            ->get()
+            ->first();
+        $data['cpo'] = CategoryPO::where('ppb_id', $this->id)
+            ->get()
+            ->first();
+        $data['id'] = PengajuanPembelian::where('pp_id', $this->id)
+            ->get()
+            ->first();
+        $data['category_q'] = PengajuanPembelian::where(
+            'pp_id',
+            $this->id
+        )->get();
+        $data['dpp'] = PengajuanPembelian::selectRaw(
+            'pp_id,SUM(total) as total'
+        )
+            ->groupBy('pp_id')
+            ->where('pp_id', $this->id)
+            ->get();
+        $data['ppn'] = PengajuanPembelian::selectRaw(
+            'pp_id,SUM(total *11/100) as total'
+        )
+            ->groupBy('pp_id')
+            ->where('pp_id', $this->id)
+            ->get();
+        $data['total'] = PengajuanPembelian::selectRaw(
+            'pp_id,SUM((total)+(total*11/100)) as total'
+        )
+            ->groupBy('pp_id')
+            ->where('pp_id', $this->id)
+            ->get();
         // dd($data);
-        $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw(
+            'pp_id,SUM(total) as total'
+        )
+            ->groupBy('pp_id')
+            ->where('pp_id', $this->id)
+            ->get();
         $data['day'] = Carbon::now()->format('d');
         $data['year2'] = Carbon::now()->format('Y');
         $data['year'] = Carbon::now()->format('y');
@@ -55,7 +91,7 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
             'D' => 10,
             'E' => 10,
             'F' => 10,
-            'G' => 16
+            'G' => 16,
         ];
     }
 
@@ -64,19 +100,15 @@ class PoExport implements ShouldAutoSize, FromView, WithCustomStartCell, WithCol
         $drawing = new Drawing();
         $drawing->setName('Logo');
         $drawing->setDescription('This is my logo');
-        $drawing->setPath(public_path('assets/images/intek.png'));
+        $drawing->setPath(public_path('assets/images/Logo-Intek-8K.png'));
         $drawing->setHeight(110);
         $drawing->setCoordinates('B2');
-        
+
         return $drawing;
     }
-
 
     public function startCell(): string
     {
         return 'E3';
     }
 }
-
-
-

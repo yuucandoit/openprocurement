@@ -204,6 +204,7 @@
                                         </tr>
                                     @endif
                                 </table>
+                                <hr>
                                 {{-- Start Modal Approval --}}
                                 @if ($data_pengajuan->status == 'Waiting For PO Approval')
                                     <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"

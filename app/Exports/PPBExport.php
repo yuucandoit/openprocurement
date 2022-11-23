@@ -14,7 +14,11 @@ use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class PPBExport implements WithColumnFormatting, FromView, WithCustomStartCell, WithColumnWidths
+class PPBExport implements
+    WithColumnFormatting,
+    FromView,
+    WithCustomStartCell,
+    WithColumnWidths
 {
     // RETURN VIEWS
 
@@ -26,7 +30,10 @@ class PPBExport implements WithColumnFormatting, FromView, WithCustomStartCell, 
     public function view(): View
     {
         $data['category_pt'] = CategoryPT::all();
-        $data['category_ppb'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
+        $data['category_ppb'] = CategoryPengajuanPembelian::where(
+            'id',
+            $this->id
+        )->first();
         $data['ppb'] = PengajuanPembelian::where('pp_id', $this->id)->get();
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
@@ -40,7 +47,7 @@ class PPBExport implements WithColumnFormatting, FromView, WithCustomStartCell, 
             'B' => 3,
             'C' => 3,
             'D' => 3,
-            'F' => 3
+            'F' => 3,
         ];
     }
 
