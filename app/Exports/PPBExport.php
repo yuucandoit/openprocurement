@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPO;
 use App\Models\CategoryPT;
 use App\Models\PengajuanPembelian;
 use Carbon\Carbon;
@@ -28,6 +29,11 @@ class PPBExport implements WithColumnFormatting, FromView, WithCustomStartCell, 
         $data['category_pt'] = CategoryPT::all();
         $data['category_ppb'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
         $data['ppb'] = PengajuanPembelian::where('pp_id', $this->id)->get();
+        $data['po'] = CategoryPO::where('ppb_id', $this->id)->get();
+        $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['total_tnpa_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
         $data['day'] = Carbon::now()->format('d');
