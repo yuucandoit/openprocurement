@@ -334,7 +334,7 @@
                                 <!--End TaskList-->
 
                                 <!--Admin-->
-                                @hasrole('admin')
+                                @hasrole('admin|super admin')
                                     <li class="sidebar-main-title">
                                         <div>
                                             <h6>Admin</h6>
@@ -344,7 +344,7 @@
                                     <li class="sidebar-item {{ request()->is('*admin*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav" href="{{ url('/admin') }}">
                                             <i class="bi bi-person-workspace"></i>
-                                            <span>Admin</span>
+                                            <span>+Add Users</span>
                                         </a>
                                     </li>
                                 @endhasrole
