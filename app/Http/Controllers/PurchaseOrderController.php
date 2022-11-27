@@ -160,7 +160,9 @@ class PurchaseOrderController extends Controller
         $data['year2'] = Carbon::now()->format('Y');
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
-        
+
+        //dd($data['atasan']->atasans->name);
+
         $pdf = PDF::loadView('purchaseOrder.export-pdf.purchase', $data)->setpaper('A4', 'potrait');
         return $pdf->stream('PurchaseOrder.pdf');
         //return $pdf->download('PurchaseOrder.pdf');

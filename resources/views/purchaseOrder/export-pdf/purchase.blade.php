@@ -54,6 +54,8 @@
                     </tr>
                 </table>
 
+                <h3 class="text-center">Purchase Order</h3>
+
                   <table width="100%">
                     <tr>
                         <td>
@@ -84,6 +86,7 @@
                         </td>
                     </tr>
                   </table>
+
 
                       <table class="table table-bordered table-striped" style="margin-bottom: 50px;">
                         <tbody>
@@ -208,14 +211,41 @@
                             {!!  nl2br($cpo->term->term_condition) !!}</p>
                             @endif</td>
                             <td align="right">
-                            @foreach ($cpp as $c)
-                            @if ($c->status == 'PO Approved')
-                            <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style=" width:20px;">
-                            <strong>{{ $cpo->atasans->name }}</strong>
+                <div style="text-align: center;">
+                    @foreach ($cpp as $c)
+                        @if ($c->status == 'PO Approved' ||
+                        $c->status == 'Invoicing Process' ||
+                        $c->status == 'Payment Approved' ||
+                        $c->status == 'Unpaid' ||
+                        $c->status == 'Paid' ||
+                        $c->status == 'Delivery Success')
+                            <p><img src="{{ public_path('assets/images/' . $c->image) }}" alt=""
+                                    style=" width:120px;"></p>
+                </div>
+                <div style="text-align: center; font-size: 18px;">{{ $atasan->atasans->name }} <br>
+                    <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
+                </div>
+            @else
+                @if (empty($atasan->atasans->name))
+                    <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
+                        <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
+                    </div>
+                @endif
+                @endif
+                @endforeach
+                            {{-- @foreach ($cpp as $c)
+                            @if ($c->status == 'PO Approved' ||
+                            $c->status == 'Invoicing Process' ||
+                            $c->status == 'Payment Approved' ||
+                            $c->status == 'Unpaid' ||
+                            $c->status == 'Paid' ||
+                            $c->status == 'Delivery Success') --}}
+                            {{-- <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style=" width:80px;"> --}}
+                            {{-- <strong>{{ $atasan->atasans->name }}</strong>
                             @else
                             <strong>BOD Name</strong>
                             @endif
-                            @endforeach
+                            {{-- @endforeach --}}
                             </td>
                         </tr>
                     </table>
