@@ -34,7 +34,7 @@ use App\Http\Controllers\PurchaseFundingSubmissionController;
 use App\Http\Controllers\ReferensiNamaProjectController;
 use App\Http\Controllers\RNDController;
 use App\Http\Controllers\TaskListAtasanController;
-use App\Http\Controllers\TaskListAtasanPaymentController;
+use App\Http\Controllers\TasklistAtasanPaymentController;
 use App\Http\Controllers\TasklistAtasanPoController;
 use App\Http\Controllers\TaskListFinanceController;
 use App\Http\Controllers\WhoSubmittedController;
@@ -326,12 +326,12 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Menu Task list atasan Payment/Pendanaan
     Route::group(['prefix' => 'menu-taskList-atasan-payment'], function () {
-        Route::get('/', [TaskListAtasanPaymentController::class, 'index'])->name('menu-taskList-atasan-payment.index');
-        Route::get('/history', [TaskListAtasanPaymentController::class, 'history'])->name('menu-taskList-atasan-payment.history');
-        Route::get('/detail/{id}', [TaskListAtasanPaymentController::class, 'detail'])->name('menu-taskList-atasan-payment.detail');
-        Route::get('/destroy/{id}', [TaskListAtasanPaymentController::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
-        Route::get('/approve_payment/{id}', [TaskListAtasanPaymentController::class, 'approve_payment'])->name('menu-taskList-atasan-payment-approve_payment');
-        Route::get('/reject/{id}', [TaskListAtasanPaymentController::class, 'reject'])->name('menu-taskList-atasan-payment-reject');
+        Route::get('/', [TasklistAtasanPaymentController::class, 'index'])->name('menu-taskList-atasan-payment.index');
+        Route::get('/history', [TasklistAtasanPaymentController::class, 'history'])->name('menu-taskList-atasan-payment.history');
+        Route::get('/detail/{id}', [TasklistAtasanPaymentController::class, 'detail'])->name('menu-taskList-atasan-payment.detail');
+        Route::get('/destroy/{id}', [TasklistAtasanPaymentController::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
+        Route::get('/approve_payment/{id}', [TasklistAtasanPaymentController::class, 'approve_payment'])->name('menu-taskList-atasan-payment-approve_payment');
+        Route::get('/reject/{id}', [TasklistAtasanPaymentController::class, 'reject'])->name('menu-taskList-atasan-payment-reject');
     });
     //End Tasklist's Super User
 
