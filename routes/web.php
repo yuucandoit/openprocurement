@@ -326,12 +326,12 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Menu Task list atasan Payment/Pendanaan
     Route::group(['prefix' => 'menu-taskList-atasan-payment'], function () {
-        Route::get('/', [TasklistAtasanPayment::class, 'index'])->name('menu-taskList-atasan-payment.index');
-        Route::get('/history', [TasklistAtasanPayment::class, 'history'])->name('menu-taskList-atasan-payment.history');
-        Route::get('/detail/{id}', [TasklistAtasanPayment::class, 'detail'])->name('menu-taskList-atasan-payment.detail');
-        Route::get('/destroy/{id}', [TasklistAtasanPayment::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
-        Route::get('/approve_payment/{id}', [TasklistAtasanPayment::class, 'approve_payment'])->name('menu-taskList-atasan-payment-approve_payment');
-        Route::get('/reject/{id}', [TasklistAtasanPayment::class, 'reject'])->name('menu-taskList-atasan-payment-reject');
+        Route::get('/', [TaskListAtasanPaymentController::class, 'index'])->name('menu-taskList-atasan-payment.index');
+        Route::get('/history', [TaskListAtasanPaymentController::class, 'history'])->name('menu-taskList-atasan-payment.history');
+        Route::get('/detail/{id}', [TaskListAtasanPaymentController::class, 'detail'])->name('menu-taskList-atasan-payment.detail');
+        Route::get('/destroy/{id}', [TaskListAtasanPaymentController::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
+        Route::get('/approve_payment/{id}', [TaskListAtasanPaymentController::class, 'approve_payment'])->name('menu-taskList-atasan-payment-approve_payment');
+        Route::get('/reject/{id}', [TaskListAtasanPaymentController::class, 'reject'])->name('menu-taskList-atasan-payment-reject');
     });
     //End Tasklist's Super User
 

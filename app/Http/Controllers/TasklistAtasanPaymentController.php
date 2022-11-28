@@ -16,7 +16,7 @@ use App\Models\WhoSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TasklistAtasanPaymentController extends Controller
+class TaskListAtasanPaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
