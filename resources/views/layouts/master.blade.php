@@ -105,15 +105,15 @@
                 </div>
                 <div class="nav-right col pull-right right-menu p-0">
                     <ul class="nav-menus">
-                        <li style="color: green; font-weight: bold; font-size: 13px;">
+                        <li style="color: green; font-weight: bold; font-size: 13px; margin-bottom: 5px;">
                             <i class="fa fa-calendar"></i>&nbsp;
                             <?php
                             $time_sekarang = time();
                             echo date('d F Y', strtotime('+0 days', $time_sekarang));
                             ?>
                         </li>
-                        <h5 style="margin-bottom: 4px; margin-right: 12px;">|</h5>
-                        <li style="font-weight: bold; font-size: 13px;">
+                        <h5 style="margin-bottom: 4px; margin-right: 12px; margin-bottom: 5px;">|</h5>
+                        <li style="font-weight: bold; font-size: 13px; margin-bottom: 5px;">
                             <i class="icofont icofont-time"></i>&nbsp;
                             <?php
                             date_default_timezone_set('Asia/Jakarta'); // Zona Waktu indonesia
@@ -123,11 +123,11 @@
                         {{-- <li id="clock" style="font-weight: bold; font-size: 14px;">
                         </li> --}}
 
-                        <li>
+                        <li style="margin-bottom: 5px;">
                             <a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()">
                                 <i data-feather="maximize"></i></a>
                         </li>
-                        <li>
+                        <li style="margin-bottom: 5px;">
                             <div class="mode"><i class="fa fa-moon-o"></i></div>
                         </li>
                         <li class="onhover-dropdown p-0">
