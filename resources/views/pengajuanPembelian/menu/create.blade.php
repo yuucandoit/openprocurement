@@ -77,11 +77,11 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="floatingdateline"><i class="fa fa-clock-o"></i> Date Line :</label>
+                                            <label for="floatingdateline"><i class="fa fa-clock-o"></i> Deadline :</label>
                                             <select class="form-select page @error('dateline') is-invalid @enderror"
                                                 id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}"
                                                 name="dateline" required="">
-                                                <option selected="" disabled="" value="">Select Dateline
+                                                <option selected="" disabled="" value="">Select Deadline
                                                 </option>
                                                 <option value="≤3Jam">≤ 3 Jam</option>
                                                 <option value="≤24Jam">≤ 24 Jam</option>

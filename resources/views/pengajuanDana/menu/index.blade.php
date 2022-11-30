@@ -103,6 +103,18 @@
 
                                                         <td>
                                                             <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #ADD8E6;"
+                                                                    href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}"><i
+                                                                        class="icon-eye" title="Preview PDF"></i>
+                                                                </a>
+
+                                                            <a class="btn btn-iconsolid mt-1 mx-2"
+                                                                    style="background-color: #008b2c;"
+                                                                    href="{{ url('/menu-pengajuan-dana/create/' . $ppb->id) }}"><i
+                                                                        class="icon-file" title="Create"></i>
+                                                            </a>
+
+                                                            <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
                                                                 href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>

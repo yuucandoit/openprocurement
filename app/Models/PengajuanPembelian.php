@@ -11,6 +11,8 @@ class PengajuanPembelian extends Model
     protected $table = 'pengajuan_pembelian';
     protected $fillable = [
         'pp_id',
+        'vendorable_id',
+        'vendorable_type',
         'item',
         'qty',
         'kategori',
@@ -20,5 +22,9 @@ class PengajuanPembelian extends Model
         'created_at',
         'updated_at',
     ];
+    public function vendorable()
+    {
+        return $this->morphTo();
+    }
 
 }

@@ -27,6 +27,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(CategoryPO::class, 'atasan_po');
     }
+    public function py()
+    {
+        return $this->hasMany(CategoryPD::class, 'atasan_py');
+    }
 
     public function ppb()
     {

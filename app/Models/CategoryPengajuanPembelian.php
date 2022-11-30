@@ -49,6 +49,11 @@ class CategoryPengajuanPembelian extends Model
         return $this->belongsTo(User::class, 'atasan_po');
     }
 
+    public function atasanpymnt()
+    {
+        return $this->belongsTo(User::class, 'atasan_py');
+    }
+
     public function purpose()
     {
         return $this->morphTo();

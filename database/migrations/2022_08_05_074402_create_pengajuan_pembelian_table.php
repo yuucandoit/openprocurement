@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('pengajuan_pembelian', function (Blueprint $table) {
             $table->id();
             $table->integer('pp_id')->default('0');
+            $table->nullableMorphs  ('vendorable');
             $table->string('item');
             $table->bigInteger('qty');
             $table->enum('kategori', ['Pcs', 'Lusin', 'Box', 'Unit']);

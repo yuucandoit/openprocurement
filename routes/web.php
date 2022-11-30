@@ -393,8 +393,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [CategoryPDController::class, 'index'])->name('menu-pengajuan-dana.index');
         Route::get('/history', [CategoryPDController::class, 'history'])->name('menu-pengajuan-dana.history');
         Route::get('/detail/{id}', [CategoryPDController::class, 'detail'])->name('menu-pengajuan-dana.detail');
-        Route::get('/create', [CategoryPDController::class, 'create'])->name('menu-pengajuan-dana.create');
-        Route::post('/store', [CategoryPDController::class, 'store'])->name('menu-pengajuan-dana.store');
+        Route::get('/create/{id}', [CategoryPDController::class, 'create'])->name('menu-pengajuan-dana.create');
+        Route::post('/store/{id}', [CategoryPDController::class, 'store'])->name('menu-pengajuan-dana.store');
         Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
         Route::get('/paid/{id}', [CategoryPDController::class, 'paid'])->name('menu-pengajuan-dana-paid');
         Route::get('/reject/{id}', [CategoryPDController::class, 'reject'])->name('menu-pengajuan-dana-reject');
@@ -446,6 +446,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Route Export PDF
     Route::get('/exportpdf/po/{id}', [PurchaseOrderController::class, 'exportpdf'])->name('export_po.pdf');
+
+    //Route Export PDF
+    Route::get('/exportpdf/pymnt/{id}', [CategoryPDController::class, 'exportpdf'])->name('export_po.pdf');
 
     //Route Import Private Person
     Route::get('file-import-pp', [CategoryPPController::class, 'fileImportPP']);

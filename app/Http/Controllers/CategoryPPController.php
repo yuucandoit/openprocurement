@@ -27,7 +27,7 @@ class CategoryPPController extends Controller
             $datadv = CategoryPP::where('user_id', Auth::user()->id)->get();
             return view('dataPrivatePerson.menu.index')
                 ->with('datadv', $datadv);
-        } else if ($check->role_id == 1 || $check->role_id == 3) {
+        } else if ($check->role_id == 1 || $check->role_id == 3 ||$check->role_id == 4) {
             $datadv = CategoryPP::all();
             return view('dataPrivatePerson.menu.index')
                 ->with('datadv', $datadv);
@@ -35,12 +35,7 @@ class CategoryPPController extends Controller
     }
 
 
-    function getFile($filename){
-        $file=Storage::disk('public')->get($filename);
-
-        return (new Response($file, 200))
-              ->header('Content-Type', 'image/jpeg');
-    }
+    
 
     /**
      * Show the form for creating a new resource.

@@ -11,18 +11,7 @@ class CategoryPD extends Model
     protected $table = 'category_pd';
     protected $fillable = [
         'id',
-        'user_id',
-        'subject',
-        'name',
-        'tujuan',
-        'lokasi',
-        'jangka_waktu',
-        'nominal',
-        'no_rek',
-        'item',
-        'status',
-        'created_at',
-        'updated_at'
-
+        'ppb_id',
+        'path_image',
     ];
 }

@@ -188,7 +188,8 @@
                                             @endforeach
                                         </tr>
                                     @endif
-                                </table>
+                                    </table>
+
                                 <div class="mt-3" style="text-align: right;">
                                     <a type="reset" class="btn btn-dark" href="{{ url('/menu-pengajuan-dana/') }}"
                                         style="float: left;">Back</a>
@@ -258,4 +259,16 @@
 
         });
     });
+</script>
+
+<script type="text/javascript">
+    var loadFile = function(event) {
+        var output = document.getElementById('output');
+
+        if (output === null) {
+            output.src = "Image Not Found";
+        } else {
+            output.src = URL.createObjectURL(event.target.files[0]);
+        }
+    };
 </script>

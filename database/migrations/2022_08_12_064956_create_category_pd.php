@@ -15,15 +15,8 @@ return new class extends Migration
     {
         Schema::create('category_pd', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->default('0');
-            $table->string('subject');
-            $table->string('name');
-            $table->string('tujuan');
-            $table->string('lokasi');
-            $table->date('jangka_waktu');
-            $table->bigInteger('nominal');
-            $table->bigInteger('no_rek');
-            $table->string('status')->default('pending')->nullable();
+            $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
+            $table->string('path_image');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

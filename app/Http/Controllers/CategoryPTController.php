@@ -27,7 +27,7 @@ class CategoryPTController extends Controller
             $datadv = CategoryPT::where('user_id', Auth::user()->id)->get();
             return view('dataPerusahaan.menu.index')
                 ->with('datadv', $datadv);
-        } else if ($check->role_id == 1 || $check->role_id == 3) {
+        } else if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
             $datadv = CategoryPT::all();
             return view('dataPerusahaan.menu.index')
                 ->with('datadv', $datadv);

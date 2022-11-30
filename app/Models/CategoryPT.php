@@ -40,6 +40,6 @@ class CategoryPT extends Model
 
     public function vendors()
     {
-        return $this->morphMany(CategoryPO::class, 'vendorable');
+        return $this->morphMany(PengajuanPembelian::class, 'vendorable');
     }
 }

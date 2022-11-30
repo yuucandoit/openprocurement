@@ -12,8 +12,6 @@ class CategoryPO extends Model
     protected $fillable = [
         'id',
         'ppb_id',
-        'vendorable_id',
-        'vendorable_type',
         'term_conditions',
         'atasan_po',
         'address',
@@ -35,9 +33,5 @@ class CategoryPO extends Model
     public function atasans()
     {
         return $this->belongsTo(User::class, 'atasan_po');
-    }
-    public function vendorable()
-    {
-        return $this->morphTo();
     }
 }

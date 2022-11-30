@@ -25,7 +25,7 @@ class CategoryEcommerceController extends Controller
             $datadv = CategoryEcommerce::where('user_id', Auth::user()->id)->get();
             return view('dataEcommerce.menu.index')
                 ->with('datadv', $datadv);
-        } else if ($check->role_id == 1 || $check->role_id == 3) {
+        } else if ($check->role_id == 1 || $check->role_id == 3 ||$check->role_id == 4) {
             $datadv = CategoryEcommerce::all();
             return view('dataEcommerce.menu.index')
                 ->with('datadv', $datadv);

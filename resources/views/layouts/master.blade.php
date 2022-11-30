@@ -350,6 +350,85 @@
                                 @endhasrole
                                 <!--End Admin-->
 
+                                <!--Data Master-->
+                                @hasrole('admin|super admin|purchasing')
+                                    <li class="sidebar-main-title">
+                                        <div>
+                                            <h6>Data Master Supplier</h6>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*perusahaan*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-perusahaan') }}">
+                                            <i class="icofont icofont-building-alt"></i>
+                                            <span> &nbsp;&nbsp;&nbsp;&nbsp; Company</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*private-person*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-private-person') }}">
+                                            <i data-feather="user-check"></i>
+                                            <span>Private Person</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*ecommerce*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-ecommerce') }}">
+                                            <i data-feather="shopping-cart"></i>
+                                            <span>E-commerce</span>
+                                        </a>
+                                    </li>
+
+                                    @endhasrole
+
+                                    @hasrole('admin|super admin')
+
+                                    <li class="sidebar-main-title">
+                                        <div>
+                                            <h6>Data Master Submission</h6>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*who-submitted*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/who-submitted') }}">
+                                            <i class="fa fa-user"></i>
+                                            <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Who Submitted</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*project-reference*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/project-reference') }}">
+                                            <i class="fa fa-laptop"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Project</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*office*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/office') }}">
+                                            <i class="fa fa-building"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Office</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*workshop*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/workshop') }}">
+                                            <i class="icofont icofont-people"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Workshop</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*inventory*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/inventory') }}">
+                                            <i class="icofont icofont-list"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Inventory</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*RnD*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/RnD') }}">
+                                            <i class="icofont icofont-presentation-alt  "></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose R&D</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav" href="{{ url('/department') }}">
+                                            <i class="fa fa-institution"></i>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
+                                        </a>
+                                    </li>
+                                @endhasrole
+                                <!--end Data Master-->
                                 <!--History-->
                                 <li class="sidebar-main-title">
                                     <div>
@@ -460,82 +539,6 @@
                                     </li>
                                 @endhasrole
                                 <!--End History-->
-
-                                <!--Data Master-->
-                                @hasrole('admin|super admin')
-                                    <li class="sidebar-main-title">
-                                        <div>
-                                            <h6>Data Master Supplier</h6>
-                                        </div>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*perusahaan*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-perusahaan') }}">
-                                            <i class="icofont icofont-building-alt"></i>
-                                            <span> &nbsp;&nbsp;&nbsp;&nbsp; Company</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*private-person*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-private-person') }}">
-                                            <i data-feather="user-check"></i>
-                                            <span>Private Person</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*ecommerce*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/menu-ecommerce') }}">
-                                            <i data-feather="shopping-cart"></i>
-                                            <span>E-commerce</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="sidebar-main-title">
-                                        <div>
-                                            <h6>Data Master Submission</h6>
-                                        </div>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*who-submitted*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/who-submitted') }}">
-                                            <i class="fa fa-user"></i>
-                                            <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Who Submitted</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*project-reference*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/project-reference') }}">
-                                            <i class="fa fa-laptop"></i>
-                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Project</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*office*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/office') }}">
-                                            <i class="fa fa-building"></i>
-                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Office</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*workshop*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/workshop') }}">
-                                            <i class="icofont icofont-people"></i>
-                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Workshop</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*inventory*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/inventory') }}">
-                                            <i class="icofont icofont-list"></i>
-                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Inventory</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*RnD*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/RnD') }}">
-                                            <i class="icofont icofont-presentation-alt  "></i>
-                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose R&D</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/department') }}">
-                                            <i class="fa fa-institution"></i>
-                                            <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
-                                        </a>
-                                    </li>
-                                @endhasrole
-                                <!--end Data Master-->
                             </ul>
                         </div>
                         <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
