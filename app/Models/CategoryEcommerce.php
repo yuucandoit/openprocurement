@@ -15,8 +15,12 @@ class CategoryEcommerce extends Model
     ];
     protected $hidden;
 
+    // public function vendors()
+    // {
+    //     return $this->morphMany(PengajuanPembelian::class, 'vendorable');
+    // }
     public function vendors()
     {
-        return $this->morphMany(PengajuanPembelian::class, 'vendorable');
+        return $this->morphMany(CategoryPO::class, 'vendorable');
     }
 }

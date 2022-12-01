@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('tasklist_atasan_payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
             $table->timestamps();
         });
     }

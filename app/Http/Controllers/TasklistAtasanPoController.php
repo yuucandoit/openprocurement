@@ -7,9 +7,9 @@ use App\Models\CategoryPO;
 use App\Models\CategoryPT;
 use App\Models\Department;
 use App\Models\PengajuanPembelian;
+use App\Models\PurchaseOrder;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
-use App\Models\TaskListAtasanPO;
 use App\Models\User;
 use App\Models\WhoSubmitted;
 use Carbon\Carbon;
@@ -227,10 +227,36 @@ class TasklistAtasanPoController extends Controller
 
     public function accept_atasan($id)
     {
+
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'PO Approved';
-        $data->image = 'ttdcontoh.png';
         $data->save();
+
+        $cpo = CategoryPO::where('ppb_id',$id)->first();
+        //dd($cpo);
+        if($data->atasan_po == 3){
+
+            $cpo->signature = 'superadmin.png';
+            $cpo->approved_at = Carbon::now();
+            $cpo->save();
+        }elseif($data->atasan_po == 6){
+            $cpo->signature = 'sindu.png';
+            $cpo->approved_at = Carbon::now();
+            $cpo->save();
+        }elseif($data->atasan_po == 7){
+            $cpo->signature = 'bayu.png';
+            $cpo->approved_at = Carbon::now();
+            $cpo->save();
+        }elseif($data->atasan_po == 8){
+            $cpo->signature = 'victor.png';
+            $cpo->approved_at = Carbon::now();
+            $cpo->save();
+        }elseif($data->atasan_po == 9){
+            $cpo->signature = 'erwin.png';
+            $cpo->approved_at = Carbon::now();
+            $cpo->save();
+        }
+
         return redirect('menu-taskList-atasan-po');
     }
 

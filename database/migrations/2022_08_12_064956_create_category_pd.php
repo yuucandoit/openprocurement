@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
             $table->string('path_image');
+            $table->string('signature')->nullable();
+            $table->timestamp('approved_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

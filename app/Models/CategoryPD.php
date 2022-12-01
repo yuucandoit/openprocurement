@@ -13,5 +13,7 @@ class CategoryPD extends Model
         'id',
         'ppb_id',
         'path_image',
+        'signature',
+        'approved_at'
     ];
 }

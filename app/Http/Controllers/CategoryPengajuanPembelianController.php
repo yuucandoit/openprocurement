@@ -84,9 +84,9 @@ class CategoryPengajuanPembelianController extends Controller
         /*$data_vendor*/
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
-        $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
-        $delivery           = Delivery::where('ppb_id',$id)->get();
-        $datacpo            = CategoryPO::where('ppb_id',$id)->first();
+        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
+        $delivery           = Delivery::where('ppb_id', $id)->get();
+        $datacpo            = CategoryPO::where('ppb_id', $id)->first();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -97,10 +97,10 @@ class CategoryPengajuanPembelianController extends Controller
         return view('pengajuanPembelian.menu.detail')
             ->with('atasan', $atasan)
             ->with('pengajuan', $pengajuan)
-            ->with('delivery',$delivery)
+            ->with('delivery', $delivery)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
-            ->with('datacpo',$datacpo)
+            ->with('datacpo', $datacpo)
             ->with('total', $total)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('purpose', $purpose)
@@ -111,8 +111,8 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function history()
     {
-            $datappb = CategoryPengajuanPembelian::all();
-            return view('pengajuanPembelian.menu.history')
+        $datappb = CategoryPengajuanPembelian::all();
+        return view('pengajuanPembelian.menu.history')
             ->with('datappb', $datappb);
     }
     /**
@@ -122,7 +122,7 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function create()
     {
-        $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
+        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose            = ReferensiNamaProject::all();
@@ -151,17 +151,18 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $data = $request->all();
         //dd($data);
-       $request->validate([
+        $request->validate([
             'category_purpose' => 'required',
             'date_ps' => 'required',
-            'dateline'=> 'required',
+            'dateline' => 'required',
             'ws'      => 'required',
-            'department'=>'required',
+            'department' => 'required',
             'desc'  => 'required',
             'atasan' => 'required',
-            'matauang'=>'required',
-            'send_to'=>'required',
-        ],[
+            'matauang' => 'required',
+            'send_to' => 'required',
+            // 'path_file.*' => 'mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf'
+        ], [
             'category_purpose.required' => 'The Purpose field is required.',
             'date_ps.required' => 'The Date field is required.',
             'dateline.required' => 'The Date Line field is required.',
@@ -174,54 +175,60 @@ class CategoryPengajuanPembelianController extends Controller
             'ppn.required' => 'The PPN To field is required.',
         ]);
 
-            $pengajuan = new CategoryPengajuanPembelian([
-                'user_id' =>  Auth::user()->id,
-                'date_ps' => $request->date_ps,
-                'dateline' => $request->dateline,
-                'ws' => $request->ws,
-                'department' => $request->department,
-                'desc' => $request->desc,
-                'atasan' => $request->atasan,
-                'matauang' => $request->matauang,
-                'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
-            ]);
+        try {
+
+        $pengajuan = new CategoryPengajuanPembelian([
+            'user_id' =>  Auth::user()->id,
+            'date_ps' => $request->date_ps,
+            'dateline' => $request->dateline,
+            'ws' => $request->ws,
+            'department' => $request->department,
+            'desc' => $request->desc,
+            'atasan' => $request->atasan,
+            'matauang' => $request->matauang,
+            'send_to' => $request->send_to,
+            'ppn' => $request->ppn,
+        ]);
 
 
 
-            if($request->category_purpose == "project") {
-                $purpose1 = ReferensiNamaProject::find($request->sub_purpose);
-                $pengajuan = $purpose1->purposes()->save($pengajuan);
-            }elseif($request->category_purpose == "office") {
-                $purpose2 = Office::find($request->sub_purpose);
-                $pengajuan = $purpose2->purposes()->save($pengajuan);
-            }elseif($request->category_purpose == "workshop") {
-                $purpose3 = Workshop::find($request->sub_purpose);
-                $pengajuan = $purpose3->purposes()->save($pengajuan);
-            }elseif($request->category_purpose == "inventory") {
-                $purpose4 = Inventory::find($request->sub_purpose);
-                $pengajuan = $purpose4->purposes()->save($pengajuan);
-            }elseif($request->category_purpose == "rnd") {
-                $purpose5 = RND::find($request->sub_purpose);
-                $pengajuan = $purpose5->purposes()->save($pengajuan);
-            }
-
-
-        if($request->item > 0){
-            foreach ($data['item'] as $item => $value) {
-
-                $data2 = array(
-                    'pp_id'             => $pengajuan->id,
-                    'item'              => $data['item'][$item],
-                    'qty'               => $data['qty'][$item],
-                    'kategori'          => $data['kategori'][$item],
-                );
-                // $unit_price = str_replace(".", "", $item['unit_price']);
-                PengajuanPembelian::create($data2);
-            }
+        if ($request->category_purpose == "project") {
+            $purpose1 = ReferensiNamaProject::find($request->sub_purpose);
+            $pengajuan = $purpose1->purposes()->save($pengajuan);
+        } elseif ($request->category_purpose == "office") {
+            $purpose2 = Office::find($request->sub_purpose);
+            $pengajuan = $purpose2->purposes()->save($pengajuan);
+        } elseif ($request->category_purpose == "workshop") {
+            $purpose3 = Workshop::find($request->sub_purpose);
+            $pengajuan = $purpose3->purposes()->save($pengajuan);
+        } elseif ($request->category_purpose == "inventory") {
+            $purpose4 = Inventory::find($request->sub_purpose);
+            $pengajuan = $purpose4->purposes()->save($pengajuan);
+        } elseif ($request->category_purpose == "rnd") {
+            $purpose5 = RND::find($request->sub_purpose);
+            $pengajuan = $purpose5->purposes()->save($pengajuan);
         }
 
 
+        if ($request->item > 0) {
+            foreach ($request->file('path_file') as $path) {
+                $name = $path->getClientOriginalName();
+                $path->move(public_path('upload_pengajuan'), $name);
+                foreach ($data['item'] as $item => $value) {
+                    $data2 = array(
+                        'pp_id'             => $pengajuan->id,
+                        'item'              => $data['item'][$item],
+                        'qty'               => $data['qty'][$item],
+                        'kategori'          => $data['kategori'][$item],
+                        'path_file'         => $name,
+                    );
+                    PengajuanPembelian::create($data2);
+                }
+            }
+        }
+} catch (Exception $err) {
+       dd($err);
+    }
 
         return redirect('send/')->with('success', 'Task Created Successfully!');
     }
@@ -243,9 +250,9 @@ class CategoryPengajuanPembelianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $id)
     {
-        $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
+        $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
         $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
         $dataws             = WhoSubmitted::all();
@@ -283,14 +290,14 @@ class CategoryPengajuanPembelianController extends Controller
         $request->validate([
             'category_purpose' => 'required',
             'date_ps' => 'required',
-            'dateline'=> 'required',
+            'dateline' => 'required',
             'ws'      => 'required',
-            'department'=>'required',
+            'department' => 'required',
             'desc'  => 'required',
             'atasan' => 'required',
-            'matauang'=>'required',
-            'send_to'=>'required',
-        ],[
+            'matauang' => 'required',
+            'send_to' => 'required',
+        ], [
             'category_purpose.required' => 'The Purpose field is required.',
             'date_ps.required' => 'The Date field is required.',
             'dateline.required' => 'The Date Line field is required.',
@@ -302,9 +309,9 @@ class CategoryPengajuanPembelianController extends Controller
             'send_to.required' => 'The Send To field is required.',
         ]);
 
-        CategoryPengajuanPembelian::where('id',$id)->delete();
-        PengajuanPembelian::where('pp_id',$id)->delete();
-        try{
+        CategoryPengajuanPembelian::where('id', $id)->delete();
+        PengajuanPembelian::where('pp_id', $id)->delete();
+        try {
             DB::beginTransaction();
             $pengajuan = new CategoryPengajuanPembelian([
                 'user_id' =>  Auth::user()->id,
@@ -318,31 +325,34 @@ class CategoryPengajuanPembelianController extends Controller
                 'send_to' => $request->send_to,
             ]);
 
-            if($request->category_purpose == "project") {
+            if ($request->category_purpose == "project") {
                 $purpose1 = ReferensiNamaProject::find($request->sub_purpose);
                 $pengajuan = $purpose1->purposes()->save($pengajuan);
-            }elseif($request->category_purpose == "office") {
+            } elseif ($request->category_purpose == "office") {
                 $purpose2 = Office::find($request->sub_purpose);
                 $pengajuan = $purpose2->purposes()->save($pengajuan);
-            }elseif($request->category_purpose == "workshop") {
+            } elseif ($request->category_purpose == "workshop") {
                 $purpose3 = Workshop::find($request->sub_purpose);
                 $pengajuan = $purpose3->purposes()->save($pengajuan);
-            }elseif($request->category_purpose == "inventory") {
+            } elseif ($request->category_purpose == "inventory") {
                 $purpose4 = Inventory::find($request->sub_purpose);
                 $pengajuan = $purpose4->purposes()->save($pengajuan);
             }
 
-            if($request->item > 0){
-                foreach ($data['item'] as $item => $value) {
-
-                    $data2 = array(
-                        'pp_id'             => $pengajuan->id,
-                        'item'              => $data['item'][$item],
-                        'qty'               => $data['qty'][$item],
-                        'kategori'          => $data['kategori'][$item],
-                    );
-                    // $unit_price = str_replace(".", "", $item['unit_price']);
-                    PengajuanPembelian::create($data2);
+            if ($request->item > 0) {
+                foreach ($request->file('path_file') as $path) {
+                    $name = $path->getClientOriginalName();
+                    $path->move(public_path('upload_pengajuan'), $name);
+                    foreach ($data['item'] as $item => $value) {
+                        $data2 = array(
+                            'pp_id'             => $pengajuan->id,
+                            'item'              => $data['item'][$item],
+                            'qty'               => $data['qty'][$item],
+                            'kategori'          => $data['kategori'][$item],
+                            'path_file'         => $name,
+                        );
+                        PengajuanPembelian::create($data2);
+                    }
                 }
             }
             DB::commit();
@@ -350,7 +360,7 @@ class CategoryPengajuanPembelianController extends Controller
             return redirect('menu-pengajuan-pembelian/')->with(['success' => true, 'message' => 'Update Successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return ['success'=> false, 'message' => $e->getMessage()];
+            return ['success' => false, 'message' => $e->getMessage()];
         }
 
 

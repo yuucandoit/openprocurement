@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::create('category_po', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
-            // $table->foreignId('atasan_po')->constrained('users');
             $table->foreignId('term_conditions')->constrained('terms_and_condition');
+            $table->morphs('vendorable');
             $table->string('quotation');
             $table->string('address');
             $table->string('no_telp');
             $table->string('no_npwp');
+            $table->string('signature')->nullable();
+            $table->timestamp('approved_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

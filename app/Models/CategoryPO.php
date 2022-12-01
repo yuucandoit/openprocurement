@@ -13,11 +13,15 @@ class CategoryPO extends Model
         'id',
         'ppb_id',
         'term_conditions',
+        'vendorable_type',
+        'vendorable_id',
         'atasan_po',
         'address',
         'no_telp',
         'no_npwp',
         'quotation',
+        'signature',
+        'approved_at',
         'created_at',
         'updated_at'
     ];
@@ -34,4 +38,9 @@ class CategoryPO extends Model
     {
         return $this->belongsTo(User::class, 'atasan_po');
     }
+    public function vendorable()
+    {
+        return $this->morphTo();
+    }
+
 }

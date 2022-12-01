@@ -13,6 +13,7 @@ class PengajuanPembelian extends Model
         'pp_id',
         'vendorable_id',
         'vendorable_type',
+        'path_file',
         'item',
         'qty',
         'kategori',
@@ -22,9 +23,9 @@ class PengajuanPembelian extends Model
         'created_at',
         'updated_at',
     ];
-    public function vendorable()
-    {
-        return $this->morphTo();
-    }
+    // public function vendorable()
+    // {
+    //     return $this->morphTo();
+    // }
 
 }

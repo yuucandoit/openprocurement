@@ -124,7 +124,6 @@ class CategoryPDController extends Controller
            $path_name        = $request->file('path_image');
            $name             = $path_name->getClientOriginalName();
            $path_name->move('images', $name);
-           $receiver         = $request->receiver;
 
            $save = new CategoryPD;
            $save->ppb_id     = $pengajuan;

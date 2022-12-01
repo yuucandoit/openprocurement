@@ -225,7 +225,7 @@ class TaskListAtasanController extends Controller
     {
         //
     }
-    public function accept_atasan($id)
+    public function accept_atasan($id) 
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);

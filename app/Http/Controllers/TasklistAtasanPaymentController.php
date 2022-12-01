@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryPD;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPT;
@@ -13,6 +14,7 @@ use App\Models\Role;
 use App\Models\TasklistAtasanPayment;
 use App\Models\User;
 use App\Models\WhoSubmitted;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -230,6 +232,29 @@ class TasklistAtasanPaymentController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Payment Approved';
         $data->save();
+
+        $po = CategoryPD::where('ppb_id', $id)->first();
+        if($data->atasan_po == 3){
+            $po->signature = 'superadmin.png';
+            $po->approved_at = Carbon::now();
+            $po->save();
+        }elseif($data->atasan_po == 6){
+            $po->signature = 'sindu.png';
+            $po->approved_at = Carbon::now();
+            $po->save();
+        }elseif($data->atasan_po == 7){
+            $po->signature = 'bayu.png';
+            $po->approved_at = Carbon::now();
+            $po->save();
+        }elseif($data->atasan_po == 8){
+            $po->signature = 'victor.png';
+            $po->approved_at = Carbon::now();
+            $po->save();
+        }elseif($data->atasan_po == 9){
+            $po->signature = 'erwin.png';
+            $po->approved_at = Carbon::now();
+            $po->save();
+        }
         return redirect('menu-taskList-atasan-payment');
     }
 

@@ -330,6 +330,9 @@
                                                 Category</th>
                                             <th
                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                File</th>
+                                            <th
+                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Action</th>
 
                                         </tr>
@@ -352,6 +355,12 @@
                                                     <option value="Box">Box </option>
                                                     <option value="Unit">Unit </option>
                                                 </select>
+                                            </td>
+                                            <td>
+                                                <input type="file" name="path_file[]" placeholder="Choose File" class="form-control"  enctype="multipart/form-data">
+                                                            @error('path_file')
+                                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                            @enderror
                                             </td>
                                             <td style="text-align: center;">
                                                 <button type="button" name="add"
@@ -436,7 +445,15 @@
 
             function addItem() {
                 var item =
-                    '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td><td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
+                    `<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td>
+                     <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td>
+                     <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td>
+                     <td><input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
+                    @error('path_file')
+                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
+                    </td>
+                     <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
                 $(".item").append(item)
             }
             $(document).on('click', '.remove-input-field', function() {
