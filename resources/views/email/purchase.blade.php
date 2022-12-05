@@ -20,7 +20,7 @@
 
             Mr/Mrs {{ $p->atasans->name }}<br><br>
 
-            There is an application for Purchase Request for your employee.<br>
+            There is an application for Purchase Order for your employee.<br>
 
             Name : {{ $p->whosubmit->name }}<br>
             Position :{{ $p->dps->name }}<br>

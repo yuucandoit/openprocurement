@@ -20,7 +20,7 @@
 
             Mr/Mrs {{ $p->atasanpymnt->name }}<br><br>
 
-            There is an application for Purchase Request for your employee.<br>
+            There is an application for Payment for your employee.<br>
 
             Name : {{ $p->whosubmit->name }}<br>
             Position :{{ $p->dps->name }}<br>
@@ -28,7 +28,7 @@
             Unit :{{ $item->qty }}<br>
             Project :{{ $p->purpose->name }}<br> <br>
 
-            Please give approval as soon as possible to the Application for Purchase Request so that it can be followed
+            Please give approval as soon as possible to the Application for Payment so that it can be followed
             up to the next process. <br><br>
 
             To see the results of the submission, you can check the Fund Approval
