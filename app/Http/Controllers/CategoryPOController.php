@@ -41,7 +41,7 @@ class CategoryPOController extends Controller
             $datadepartment     = Department::all();
             $ec                 = CategoryEcommerce::all();
             $datapo             = CategoryPO::first();
-            //dd($ar);
+            //dd($datappb);
             return view('purchaseOrder.menu.index')
                 ->with('pt', $pt)
                 ->with('op', $op)
@@ -113,12 +113,18 @@ class CategoryPOController extends Controller
         $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
         $terms              = TermsAndConditions::all();
         $dv                 = CategoryPengajuanPembelian::find($id);
+        $pengajuan2        = PengajuanPembelian::all();
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+        $pengajuan1        = PengajuanPembelian::find($id);
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
 
+
+        // foreach($pengajuan as $p){
+        // var_dump($p->id);
+        // }
         return view('purchaseOrder.menu.create')
             ->with('pt', $pt)
             ->with('op', $op)
@@ -141,14 +147,20 @@ class CategoryPOController extends Controller
      */
     public function store(Request $request, $id)
     {
+        // dd($request->all());
         $data = CategoryPengajuanPembelian::find($id);
+        $item = PengajuanPembelian::all();
+
         $data2 = $request->all();
+
         $pt = CategoryPT::find($id);
         $pp = CategoryPP::find($id);
         $ec = CategoryEcommerce::find($id);
+
+
         //dd($data2);
 
-        PengajuanPembelian::where('pp_id', $id)->delete();
+        //PengajuanPembelian::where('pp_id', $id)->delete();
 
         //dd($data2);
 
@@ -182,31 +194,18 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
 
-            if ($request->item) {
-                foreach ($data2['item'] as $item => $value) {
-                    $unit_price = str_replace(".", "", $data2['unit_price'][$item]);
-                    $data3 = array(
-                        'pp_id'             => $id,
-                        'item'              => $data2['item'][$item],
-                        'qty'               => $data2['qty'][$item],
-                        'kategori'          => $data2['kategori'][$item],
-                        'unit_price'        => $unit_price,
-                        'total'             => $data2['total'][$item],
-                    );
-
-                    $pengajuan = PengajuanPembelian::create($data3);
-
-                    // if ($request->vendor == "company") {
-                    //     $vendor1 = CategoryPT::find($request->vendor_id);
-                    //     $pengajuan = $vendor1->vendors()->associate($pengajuan)->save();
-                    // } elseif ($request->vendor == "privateperson") {
-                    //     $vendor2 = CategoryPP::find($request->vendor_id);
-                    //     $pengajuan = $vendor2->vendors()->associate($pengajuan)->save();
-                    // } elseif ($request->vendor == "ecommerce") {
-                    //     $vendor3 = CategoryEcommerce::find($request->vendor_id);
-                    //     $pengajuan = $vendor3->vendors()->associate($pengajuan)->save();
-                    // }
-                }
+            foreach ($data2['item'] as $key => $item) {
+                $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
+                $update = array(
+                    // 'pp_id'             => $id,
+                    // 'item'              => $data['item'][$key],
+                    // 'qty'               => $data['qty'][$key],
+                    // 'kategori'          => $data['kategori'][$key],
+                    // 'path_file'         => $name,
+                    'unit_price'        => $unit_price,
+                    'total'             => $data2['total'][$key],
+                );
+                PengajuanPembelian::where('id',$item)->update($update);
             }
         } else {
 
@@ -234,35 +233,20 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
 
-            if ($request->item) {
-                foreach ($data2['item'] as $item => $value) {
-                    $unit_price = str_replace(".", "", $data2['unit_price'][$item]);
-                    $data3 = array(
-                        'pp_id'             => $id,
-                        'item'              => $data2['item'][$item],
-                        'qty'               => $data2['qty'][$item],
-                        'kategori'          => $data2['kategori'][$item],
-                        'unit_price'        => $unit_price,
-                        'total'             => $data2['total'][$item],
-                    );
-                    // $unit_price = str_replace(".", "", $item['unit_price']);
-                    $pengajuan = PengajuanPembelian::create($data3);
-
-                    // if ($request->vendor == "company") {
-                    //     $vendor1 = CategoryPT::find($request->vendor_id);
-                    //     $vendor1->vendors()->associate($pengajuan);
-                    //     $vendor1->save();
-                    // } elseif ($request->vendor == "privateperson") {
-                    //     $vendor2 = CategoryPP::find($request->vendor_id);
-                    //     $vendor2->vendors()->associate($pengajuan);
-                    //     $vendor2->save();
-                    // } elseif ($request->vendor == "ecommerce") {
-                    //     $vendor3 = CategoryEcommerce::find($request->vendor_id);
-                    //     $vendor3->vendors()->associate($pengajuan);
-                    //     $vendor3->save();
-                    // }
-                }
+            foreach ($data2['item'] as $key => $item) {
+                $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
+                $update = array(
+                    // 'pp_id'             => $id,
+                    // 'item'              => $data['item'][$key],
+                    // 'qty'               => $data['qty'][$key],
+                    // 'kategori'          => $data['kategori'][$key],
+                    // 'path_file'         => $name,
+                    'unit_price'        => $unit_price,
+                    'total'             => $data2['total'][$key],
+                );
+                PengajuanPembelian::where('id',$item)->update($update);
             }
+
         }
 
 
@@ -348,7 +332,7 @@ class CategoryPOController extends Controller
             $ppn->atasan_po = $request->atasan_po;
             $ppn->save();
 
-         $purchase = new CategoryPO([
+            $purchase = new CategoryPO([
                 "ppb_id" => $data->id,
                 "term_conditions" => $term->id,
                 "address" => $request->address,
@@ -469,7 +453,7 @@ class CategoryPOController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Waiting For PO Approval';
         $data->save();
-        return redirect('send-purchase/');
+        return redirect('send-purchase/'.$data->id);
     }
 
     public function Reject($id)

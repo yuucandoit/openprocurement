@@ -10,6 +10,7 @@ class ReferensiNamaProject extends Model
     use HasFactory;
     protected $table = 'referensi_nama_project';
     protected $fillable = [
+        'id',
         'name'
     ];
 

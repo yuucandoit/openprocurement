@@ -43,6 +43,7 @@ use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\DataVendor;
 use App\Models\PrivatePerson;
+use App\Models\ReferensiNamaProject;
 use App\Models\TasklistAtasanPayment;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -435,13 +436,13 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     //Route Send Email Pengajuan
-    Route::get('/send',[NotifPengajuanController::class, 'index']);
+    Route::get('/send/{id}',[NotifPengajuanController::class, 'index']);
 
     //Route Send Email Purchase Order
-    Route::get('/send-purchase',[NotifPOController::class, 'index']);
+    Route::get('/send-purchase/{id}',[NotifPOController::class, 'index']);
 
     //Route Send Email payment
-    Route::get('/send-payment',[NotifPaymentController::class, 'index']);
+    Route::get('/send-payment/{id}',[NotifPaymentController::class, 'index']);
 
 
     //Route Export PDF
@@ -461,6 +462,10 @@ Route::group(['middleware' => ['auth']], function () {
     //Route Import Ecommerce
     Route::get('file-import-ec', [CategoryEcommerceController::class, 'fileImportEC']);
     Route::post('file-import-ecommerce', [CategoryEcommerceController::class, 'fileImport'])->name('file-import');
+
+    //Route Import Project
+    Route::get('file-import-rf', [ReferensiNamaProjectController::class, 'fileImportRF']);
+    Route::post('file-import-project', [ReferensiNamaProjectController::class, 'fileImport'])->name('file-import');
 });
 
 Auth::routes();

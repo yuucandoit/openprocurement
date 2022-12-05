@@ -9,6 +9,7 @@ use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\Department;
+use App\Models\Invoicing;
 use App\Models\PengajuanPembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -203,6 +204,7 @@ class CategoryPDController extends Controller
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->get()->first();
         $data['vendorpo'] = CategoryPO::where('ppb_id', $id)->get();
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->get()->first();
+        $data['sig'] = Invoicing::where('ppb_id', $id)->get()->first();
         $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
         $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();

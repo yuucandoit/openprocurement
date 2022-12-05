@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('invoicing', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
-            // $table->foreignId('atasan_py')->constrained('users');
+            $table->foreignId('ppb_id')->constrained('category_pengajuan_pembelian')->onDelete('cascade');
+            // $table->string('path_image')->nullable();
+            $table->string('signature')->nullable();
+            $table->timestamp('approved_at')->nullable();
             $table->timestamps();
         });
     }

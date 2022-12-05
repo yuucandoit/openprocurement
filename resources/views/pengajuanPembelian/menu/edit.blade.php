@@ -316,6 +316,8 @@
                                             <th
                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Category</th>
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                    File</th>
                                             <th
                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Action</th>
@@ -346,6 +348,13 @@
                                                         <option value="Box">Box </option>
                                                         <option value="Unit">Unit </option>
                                                     </select>
+                                                </td>
+                                                <td>
+                                                    <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data" value="{{ $i->path_file }}">
+                                                    <a href="./upload_pengajuan/{{ $i->path_file }}"></a>
+                                                    @error('path_file')
+                                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                    @enderror
                                                 </td>
                                                 <td style="text-align: center;">
                                                     <button type="button" name="add"

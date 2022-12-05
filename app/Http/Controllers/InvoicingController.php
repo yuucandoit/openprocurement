@@ -153,6 +153,10 @@ class InvoicingController extends Controller
             $data->atasan_py = $request->atasan_py;
         $data->save();
 
+        $pyment = new Invoicing;
+        $pyment->ppb_id = $data->id;
+        $pyment->save();
+
         return redirect("/payment_request");
 
     }
@@ -234,7 +238,7 @@ class InvoicingController extends Controller
         // dd($data);
         $data->status = 'Invoicing Process';
         $data->save();
-        return redirect('send-payment/');
+        return redirect('send-payment/'.$data->id);
     }
 
     public function Reject($id)

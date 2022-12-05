@@ -1,680 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Purchase Order</title>
-    <style type="text/css">
-        html,
-        body,
-        div,
-        span,
-        applet,
-        object,
-        iframe,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        blockquote,
-        pre,
-        a,
-        abbr,
-        acronym,
-        address,
-        big,
-        cite,
-        code,
-        del,
-        dfn,
-        em,
-        img,
-        ins,
-        kbd,
-        q,
-        s,
-        samp,
-        small,
-        strike,
-        strong,
-        sub,
-        sup,
-        tt,
-        var,
-        b,
-        u,
-        i,
-        center,
-        dl,
-        dt,
-        dd,
-        ol,
-        ul,
-        li,
-        fieldset,
-        form,
-        label,
-        legend,
-        table,
-        caption,
-        tbody,
-        tfoot,
-        thead,
-        tr,
-        th,
-        td,
-        article,
-        aside,
-        canvas,
-        details,
-        embed,
-        figure,
-        figcaption,
-        footer,
-        header,
-        hgroup,
-        menu,
-        nav,
-        output,
-        ruby,
-        section,
-        summary,
-        time,
-        mark,
-        audio,
-        video {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            font: inherit;
-            font-size: 100%;
-            vertical-align: baseline;
-        }
-
-        html {
-            line-height: 1;
-        }
-
-        ol,
-        ul {
-            list-style: none;
-        }
-
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
-
-        caption,
-        th,
-        td {
-            text-align: left;
-            font-weight: normal;
-            vertical-align: middle;
-        }
-
-        q,
-        blockquote {
-            quotes: none;
-        }
-
-        q:before,
-        q:after,
-        blockquote:before,
-        blockquote:after {
-            content: "";
-            content: none;
-        }
-
-        a img {
-            border: none;
-        }
-
-        article,
-        aside,
-        details,
-        figcaption,
-        figure,
-        footer,
-        header,
-        hgroup,
-        main,
-        menu,
-        nav,
-        section,
-        summary {
-            display: block;
-        }
-
-        body {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 300;
-            font-size: 12px;
-            margin: 0;
-            padding: 0;
-        }
-
-        body a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        body a:hover {
-            color: inherit;
-            opacity: 0.7;
-        }
-
-        body .container {
-            min-width: 700px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        body .clearfix:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        body .left {
-            float: left;
-        }
-
-        body .right {
-            float: right;
-        }
-
-        body .helper {
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
-        }
-
-        body .no-break {
-            page-break-inside: avoid;
-        }
-
-        header {
-            margin-top: 20px;
-            margin-bottom: 50px;
-        }
-
-        header figure {
-            float: left;
-            width: 70px;
-            height: 67px;
-            margin-right: 10px;
-            background-color: #000000;
-            border-radius: 50%;
-            text-align: center;
-            margin-bottom: 5px;
-        }
-
-        header figure img {
-            margin-top: 12px;
-            width: 65px;
-            height: 40px;
-        }
-
-        header .company-address {
-            float: left;
-            max-width: 150px;
-            line-height: 1.7em;
-        }
-
-        header .company-address .title {
-            color: #8BC34A;
-            font-weight: 400;
-            font-size: 1.5em;
-            text-transform: uppercase;
-        }
-
-        header .company-contact {
-            float: right;
-            height: 60px;
-            width: 120px;
-            padding: 0 10px;
-            background-color: #8BC34A;
-            color: white;
-            font-size: 10px;
-        }
-
-        header .company-contact span {
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        header .company-contact .circle {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            text-align: center;
-        }
-
-        header .company-contact .circle img {
-            vertical-align: middle;
-        }
-
-        header .company-contact .phone {
-            height: 100%;
-            margin-right: 20px;
-        }
-
-        header .company-contact .email {
-            height: 100%;
-            min-width: 100px;
-            text-align: right;
-        }
-
-        section .details {
-            margin-bottom: 55px;
-        }
-
-        section .details .client {
-            width: 50%;
-            line-height: 20px;
-        }
-
-        section .details .client .name {
-            color: #8BC34A;
-        }
-
-        section .details .data {
-            width: 50%;
-            text-align: right;
-        }
-
-        section .details .title {
-            margin-bottom: 15px;
-            color: #8BC34A;
-            font-size: 3em;
-            font-weight: 400;
-            text-transform: uppercase;
-        }
-
-        section table {
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-            font-size: 0.9166em;
-        }
-
-        section table .qty,
-        section table .unit,
-        section table .price,
-        section table .total {
-            width: 15%;
-
-        }
-
-        section table .unit {
-            text-align: center;
-        }
-
-        section table .desc {
-            width: 3%;
-        }
-
-        section table thead {
-            display: table-header-group;
-            vertical-align: middle;
-            border-color: inherit;
-        }
-
-        section table thead th {
-            padding: 5px 10px;
-            background: #8BC34A;
-            border-bottom: 5px solid #FFFFFF;
-            border-right: 4px solid #FFFFFF;
-            text-align: center;
-            color: white;
-            font-weight: 400;
-            text-transform: uppercase;
-        }
-
-        section table thead th:last-child {
-            border-right: none;
-        }
-
-        section table thead .desc {
-            text-align: center;
-        }
-
-        section table thead .qty {
-            text-align: center;
-        }
-
-        section table thead .price {
-            text-align: right;
-        }
-
-        section table tbody td {
-            padding: 10px;
-            background: #E8F3DB;
-            color: #777777;
-            text-align: right;
-            border-bottom: 5px solid #FFFFFF;
-            border-right: 4px solid #E8F3DB;
-        }
-
-        section table tbody td:last-child {
-            border-right: none;
-        }
-
-        section table tbody h3 {
-            margin-bottom: 5px;
-            color: #8BC34A;
-            font-weight: 600;
-        }
-
-        section table tbody .desc {
-            text-align: left;
-        }
-
-        section table tbody .qty {
-            text-align: center;
-        }
-
-        section table.grand-total {
-            margin-bottom: 45px;
-        }
-
-        section table.grand-total td {
-            padding: 5px 10px;
-            border: none;
-            color: #777777;
-            text-align: right;
-        }
-
-        section table.grand-total .desc {
-            background-color: transparent;
-        }
-
-        section table.grand-total tr:last-child td {
-            font-weight: 600;
-            color: #8BC34A;
-            font-size: 1.18181818181818em;
-        }
-
-        footer {
-            margin-bottom: 20px;
-        }
-
-        footer .thanks {
-            margin-bottom: 40px;
-            color: #777777;
-            font-size: 1.16666666666667em;
-            font-weight: 600;
-        }
-
-        footer .notice {
-            margin-bottom: 25px;
-        }
-
-        footer .end {
-            padding-top: 5px;
-            border-top: 2px solid #8BC34A;
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body>
-    <header class="clearfix" style="border-bottom: 2px solid #8BC34A; padding-bottom: 5px;">
-        <div class="container">
-            <figure>
-                <img class="logo" src="{{ public_path('assets/images/Logo-Intek-8K.png') }}" alt="">
-            </figure>
-            <div class="company-address">
-                <h2 class="title" style="min-width: 800px;">PT.Solusi Intek Indonesia</h2>
-                <p style="min-width: 800px;">
-                    Head Office : Emerald Commercial Blok UB No. 50 Summarecon Bekasi Telp. 021-89454790<br>
-                    Mkt Office : Jl Tebet Barat dalam raya No. 31 Tebet Barat, Jakarta Selatan, Telp 021-21383852
-                </p>
-            </div>
-        </div>
-    </header>
-
-    <section>
-        <div class="container" style="padding-bottom: 8px;">
-            <div class="details clearfix">
-                <div class="client left">
-                    <h6>Vendor:</h6>
-                    @if (empty($cpo->vendorable_type))
-                        <p>Not Filled Yet</p>
-                    @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
-                        <p class="name">{{ $cpo->vendorable->nama }}</p>
-                        <p class="name">{{ $cpo->vendorable->alamat }}</p>
-                        <p class="name">{{ $cpo->vendorable->no_telp_kantor }}</p>
-                        <a href="">{{ $cpo->vendorable->website }}</a>
-                    @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
-                        <p class="name">{{ $cpo->vendorable->nama }}</p>
-                        <p class="name">{{ $cpo->vendorable->alamat }}</p>
-                        <p class="name">{{ $cpo->vendorable->nik }}</p>
-                        <a href="">{{ $cpo->vendorable->npwp_pp }}</a>
-                    @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
-                        <p class="name">{{ $cpo->vendorable->nama }}</p>
-                        <p href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</p>
-                    @endif
-                </div>
-                @php
-                    use Carbon\Carbon;
-                    $date = Carbon::parse($id->created_at)->format('d/m/Y');
-                @endphp
-                <div class="data right">
-                    <div class="title" style="font-size: 20px; font-weight: bold; margin-bottom: 13px;">Purchase Order
-                    </div>
-                    <div class="title" style="font-size: 17px;">
-                        {{ $id->id }}/PO/SII/{{ $month }}/{{ $year }}</div>
-                    <div class="date" style="font-size: 16px; font-family: tahoma;">
-                        <table border="0" cellspacing="0" cellpadding="0">
-                            <thead>
-                                <tr>
-                                    <th class="date">Date</th>
-                                    <th class="quot">Quotation</th>
-                                    <th class="add">Address</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border-right: 4px solid #FFFFFF; text-align: center;">
-                                        {{ $date }}
-                                    </td>
-                                    <td style="border-right: 4px solid #FFFFFF; text-align: center;">
-                                        @if (empty($cpo->quotation))
-                                            -
-                                        @else
-                                            {{ $cpo->quotation }}
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @if (empty($cpo->address))
-                                            -
-                                        @else
-                                            {{ $cpo->address }}
-                                        @endif
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                            <thead>
-                                <tr>
-                                    <th class="cont">Contact</th>
-                                    <th class="npwp">NPWP</th>
-                                    <th class="request">Request By</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border-right: 4px solid #FFFFFF; text-align: center;">
-                                        @if (empty($cpo->no_telp))
-                                            -
-                                        @else
-                                            {{ $cpo->no_telp }}
-                                        @endif
-                                    </td>
-                                    <td style="border-right: 4px solid #FFFFFF; text-align: center;">
-                                        @if (empty($cpo->no_npwp))
-                                            -
-                                        @else
-                                            {{ $cpo->no_npwp }}
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @foreach ($cpp as $p)
-                                            <p>{{ $p->dps->name }}</p>
-                                        @endforeach
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <table border="0" cellspacing="0" cellpadding="0">
-                <thead>
+        </head>
+            <body>
+                <table width="100%">
                     <tr>
-                        <th class="desc">Item</th>
-                        <th class="qty">Quantity</th>
-                        <th class="unit">Unit</th>
-                        <th class="price" style="text-align: center;">Price/Unit</th>
-                        <th class="total">Total</th>
+                        <td valign="top" style="padding-right: 2px; width:20px"><img src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="90"> </td>
+                        <td valign="top"> <h5 class="media-heading f-w-600">PT.SOLUSI INTEK INDONESIA</h5>
+                            <p>Head Office :  Jl Cikunir Raya No.689 <br> Jakamulya, Bekasi Selatan, Telp. 021-89454790 <br>
+                            Mkt Office &nbsp;&nbsp; : Jl Tebet Barat dalam raya No. 31 <br>Tebet Barat, Jakarta Selatan, Telp 021-21383852</p>
+                        </td>
+                        @php
+                        use Carbon\Carbon;
+                        $date=Carbon::parse($id->created_at)->format('d/m/Y');
+                        if (empty($cpo->approved_at)) {
+                        $approvedAt = "Not Record yet";
+                        }else {
+                        $approvedAt = Carbon::parse($cpo->approved_at)->format('d/m/Y/ h:i:s A');
+                        }
+                        @endphp
+                        <td valign="top" align="right">
+                            <h5><span class="digits counter">000{{ $id->id }}/PO/SII/{{ $month }}/{{ $year }}</span></h5>
+                            <p>Date: <span class="digits">{{ $date }}</span><br>Quotation:
+                            <span class="digits">
+                            @if(empty($cpo->quotation))
+                            -
+                            @else
+                            {{ $cpo->quotation }}
+                            @endif
+                            </span>
+                            <br> Address: <span>
+                            @if(empty($cpo->address))
+                            -
+                            @else
+                            {{ $cpo->address }}
+                            @endif
+                            </span>
+                            <br>Contact:<span>
+                            @if(empty($cpo->no_telp))
+                            -
+                            @else
+                            {{ $cpo->no_telp }}
+                            @endif
+                            </span>
+                            <br>NPWP:<span>
+                            @if(empty($cpo->no_npwp))
+                            -
+                            @else
+                            {{ $cpo->no_npwp }}
+                            @endif
+                            </span></p>
+                        </td>
                     </tr>
-                </thead>
-                @foreach ($category_q as $q)
-                    <tbody>
-                        <tr>
-                            <td class="desc">
-                                <h3>{{ $q->item }}</h3>
-                            </td>
-                            <td class="qty">{{ $q->qty }}</td>
-                            <td class="unit">{{ $q->kategori }}</td>
-                            <td class="price">Rp.{{ number_format($q->unit_price) }}</td>
-                            <td class="total">Rp.{{ number_format($q->total) }}</td>
-                        </tr>
-                @endforeach
-                </tbody>
-            </table>
-            <div class="no-break">
-                <table class="grand-total">
-                    <tbody>
-                        <tr>
-                            <td class="desc"></td>
-                            <td class="desc"></td>
-                            <td class="desc"></td>
-                            <td class="unit" colspan="3">DPP </td>
-                            @foreach ($dpp as $dp)
-                                <td class="total" colspan="2">
-                                    <p class="m-0 digits">Rp.{{ number_format($dp->total) }}</p>
-                                </td>
-                            @endforeach
-                        </tr>
-                        <tr>
-                            <td class="desc"></td>
-                            <td class="desc"></td>
-                            <td class="desc"></td>
-                            <td class="unit" colspan="3">PPN 11% </td>
-                            @foreach ($cpp as $c)
-                                @if ($c->ppn == 0)
-                                    <td class="total">
-                                        <p class="m-0 digits">Rp.0</p>
-                                    </td>
-                                @else
-                                    @foreach ($ppn as $pn)
-                                        <td colspan="2">
-                                            <p class="m-0 digits">Rp.{{ number_format($pn->total) }}</p>
-                                        </td>
-                                    @endforeach
-                                @endif
-                            @endforeach
-                        </tr>
-                        <tr>
-                            <td class="desc"></td>
-                            <td class="desc"></td>
-                            <td class="desc"></td>
-                            <td class="unit" colspan="3">GRAND TOTAL </td>
-                            @foreach ($cpp as $c)
-                                @if ($c->ppn == 0)
-                                    @foreach ($total_tnp_ppn as $tpn)
-                                        @if ($c->matauang == 'RP')
-                                            <td class="total"> Rp.{{ number_format($tpn->total) }}</td>
-                                        @elseif ($c->matauang == 'USD')
-                                            <td class="total"> $ {{ number_format($tpn->total) }}</td>
-                                        @endif
-                                    @endforeach
-                                @elseif($c->ppn == 1)
-                                    @foreach ($total as $t)
-                                        @if ($c->matauang == 'RP')
-                                            <td class="total" colspan="2"> Rp. {{ number_format($t->total) }}</td>
-                                        @elseif ($c->matauang == 'USD')
-                                            <td class="total" colspan="2"> $.{{ number_format($t->total) }}</td>
-                                        @endif
-                                    @endforeach
-                                @endif
-                            @endforeach
-                        </tr>
-                    </tbody>
                 </table>
-            </div>
-        </div>
-    </section>
 
-    <footer>
-        <div class="container">
-            <div class="thanks"><strong>Term & Conditions :</strong>
-                <br>
-                @if (empty($cpo->term->term_condition))
-                    Not Filled in yet
-                @else
-                    {!! nl2br($cpo->term->term_condition) !!}
-            </div>
-            @endif
-            <div class="notice">
-                <table class="table table-bordered table-striped" style="width: 35%; float: right;">
-                    <thead>
-                        <tr>
-                            <th>
-                                <h6 style="text-align: center;"> Diperiksa dan Disetuju Oleh,</h6>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="height: 26%;">
-                                <p style=" text-align: center; margin-top: 25%;">
-                                    @foreach ($cpp as $c)
-                                        @if ($c->status == 'PO Approved')
-                                            <p><img src="{{ public_path('assets/images/' . $c->image) }}"
-                                                    alt="" style=" width:120px;"></p>
-                                </p>
+                <h3 class="text-center">Purchase Order</h3>
+
+                  <table width="100%">
+                    <tr>
+                        <td>
+                            <h6>Vendor :</h6>
+                            @if(empty($cpo->vendorable_type))
+                            <p>Not Filled Yet</p>
+                            @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
+                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span>{{ $cpo->vendorable->nama }}</span><br>
+                            Address       &nbsp; : <span>{{ $cpo->vendorable->alamat }}</span><br>
+                            Contact       &nbsp; : <span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
+                            Website       &nbsp; : <span>{{ $cpo->vendorable->website }}</span></p>
+                            @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
+                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Address        &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
+                                NIK            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nik }}</span><br>
+                                NPWP           &nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
+                            @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
+                            <p>Name         &nbsp;:&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Link        &nbsp;&nbsp;&nbsp; :&nbsp;<span><a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></span></p>
+                            @endif
+                        </td>
+
+                        <td valing="top" align="center">
+                            <h6 class="media-heading f-w-600">Request By :</h6>
+                            @foreach ($cpp as $p)
+                            <p>{{ $p->dps->name }}</p>
+                            @endforeach
+                        </td>
+                    </tr>
+                  </table>
+
+
+                      <table class="table table-bordered table-striped" style="margin-bottom: 50px;">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <h6 >Item</h6>
                             </td>
-                        </tr>
-                    @else
-                        <tr>
-                            <td style="text-align: center; font-size: 18px;">
-                                {{ $atasan->atasans->name }}
+                            <td class="Hours">
+                              <h6 >Quantity</h6>
                             </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center">
-                                <label>Director</label>
+                            <td class="Rate">
+                              <h6 >Unit</h6>
                             </td>
-                        </tr>
+                            <td class="subtotal">
+                              <h6 >Price/Unit</h6>
+                            </td>
+                            <td class="subtotal">
+                                <h6 >Total</h6>
+                              </td>
+                          </tr>
+                          @foreach ($category_q as $q)
+                          <tr>
+                            <td>
+                              <label>{{ $q->item }}</label>
+                            </td>
+                            <td>
+                              <p class="itemtext digits text-center">{{ $q->qty }}</p>
+                            </td>
+                            <td>
+                              <p class="itemtext digits">{{ $q->kategori }}</p>
+                            </td>
+                            <td>
+                                <p class="itemtext digits">Rp.{{ number_format($q->unit_price) }}</p>
+                              </td>
+                            <td>
+                              <p class="itemtext digits">Rp.{{ number_format($q->total) }}</p>
+                            </td>
+                          </tr>
+                        @endforeach
+                          <tr>
+                            <td>
+                                <p class="itemtext"></p>
+                              </td>
+                            <td>
+                              <p class="itemtext"></p>
+                            </td>
+                            <td>
+                                <p class="itemtext"></p>
+                              </td>
+                            <td>
+                              <p class="m-0">DPP </p>
+                            </td>
+                            @foreach ($dpp as $dp)
+                            <td>
+                              <p class="m-0 digits">Rp.{{ number_format($dp->total) }}</p>
+                            </td>
+                            @endforeach
+                          </tr>
+                          <tr>
+                            <td>
+                                <p class="itemtext"></p>
+                              </td>
+                            <td>
+                              <p class="itemtext"></p>
+                            </td>
+                            <td>
+                                <p class="itemtext"></p>
+                              </td>
+                            <td>
+                              <p class="m-0">PPN 11% </p>
+                            </td>
+                            @foreach ($cpp as $c)
+                            @if ($c->ppn == 0)
+                            <td>
+                                <p class="m-0 digits">Rp.0</p>
+                            </td>
+                            @else
+                            @foreach ($ppn as $pn)
+                            <td>
+                                <p class="m-0 digits">Rp.{{ number_format($pn->total) }}</p>
+                            </td>
+                            @endforeach
+                            @endif
+                            @endforeach
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="Rate">
+                              <h6 class="mb-0">Total </h6>
+                            </td>
+                        @foreach ($cpp as $c)
+                        @if ($c->ppn == 0)
+                            @foreach ($total_tnp_ppn as $tpn)
+                               @if ($c->matauang == "RP")
+                               <td style="payment digits"><h6 class="mb-0 "> Rp.{{number_format($tpn->total)}}</h6></td>
+                               @elseif ($c->matauang == "USD")
+                               <td style="payment digits"><h6 class="mb-0 "> $ {{number_format($tpn->total)}}</h6></td>
+                               @endif
+                            @endforeach
+                        @elseif($c->ppn == 1)
+                           @foreach ($total as $t)
+                               @if ($c->matauang == "RP")
+                                   <td style="payment digits"><h6 class="mb-0 "> Rp. {{ number_format($t->total)}}</h6></td>
+                                   @elseif ($c->matauang == "USD")
+                                   <td style="payment digits"><h6 class="mb-0 "> $.{{number_format($t->total)}}</h6></td>
+                               @endif
+                           @endforeach
                         @endif
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </footer>
+                          </tr>
+                        </tbody>
+                      </table>
 
-</body>
+                    <table width="100%">
+                        <tr>
+                            <td><p class="legal"><strong>Terms & Conditions</strong> <br>
+                            @if (empty($cpo->term->term_condition))
+                            Not Filled in yet
+                            @else
+                            {!!  nl2br($cpo->term->term_condition) !!}</p>
+                            @endif</td>
+                            <td align="right">
 
-</html>
+
+                                <div style="text-align: center;">
+                                    @foreach ($cpp as $c)
+                                        @if (
+                                        $c->status == 'Purchase Proses' ||
+                                        $c->status == 'PO Approved' ||
+                                        $c->status == 'Invoicing Process' ||
+                                        $c->status == 'Payment Approved' ||
+                                        $c->status == 'Unpaid' ||
+                                        $c->status == 'Paid' ||
+                                        $c->status == 'Delivery Success')
+                                        <p>{{ $approvedAt }}</p>
+                                        @if(empty($cpo->signature))
+
+                                        @else
+                                        <p><img  style=" width:100px;" src="{{ public_path('assets/images/signature_super_user/' . $cpo->signature) }}" alt=""></p>
+                                        @endif
+                                </div>
+                                @if (empty($atasan->atasans->name))
+                                <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
+                                    <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
+                                </div>
+
+                                @else
+                                <div style="text-align: center; font-size: 18px;">{{ $atasan->atasans->name }} <br>
+                                    <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
+                                </div>
+                                @endif
+                                @endif
+                                @endforeach
+                            {{-- @foreach ($cpp as $c)
+                            @if ($c->status == 'PO Approved' ||
+                            $c->status == 'Invoicing Process' ||
+                            $c->status == 'Payment Approved' ||
+                            $c->status == 'Unpaid' ||
+                            $c->status == 'Paid' ||
+                            $c->status == 'Delivery Success') --}}
+                            {{-- <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style=" width:80px;"> --}}
+                            {{-- <strong>{{ $atasan->atasans->name }}</strong>
+                            @else
+                            <strong>BOD Name</strong>
+                            @endif
+                            {{-- @endforeach --}}
+                            </td>
+                        </tr>
+                    </table>
+               </body>
+            </html>

@@ -230,7 +230,7 @@ class CategoryPengajuanPembelianController extends Controller
        dd($err);
     }
 
-        return redirect('send/')->with('success', 'Task Created Successfully!');
+        return redirect('send/'.$pengajuan->id)->with('success', 'Task Created Successfully!');
     }
 
     /**

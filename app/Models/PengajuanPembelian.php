@@ -10,6 +10,7 @@ class PengajuanPembelian extends Model
     use HasFactory;
     protected $table = 'pengajuan_pembelian';
     protected $fillable = [
+        'id',
         'pp_id',
         'vendorable_id',
         'vendorable_type',
@@ -23,9 +24,9 @@ class PengajuanPembelian extends Model
         'created_at',
         'updated_at',
     ];
-    // public function vendorable()
+    // public function item()
     // {
-    //     return $this->morphTo();
+    //     return $this->hasMany();
     // }
 
 }

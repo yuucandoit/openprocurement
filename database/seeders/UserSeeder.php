@@ -62,8 +62,8 @@ class UserSeeder extends Seeder
         // #6
         $super_user = User::create([
             'name' => 'Sindu Irawan',
-            'email' => 'sindu@role.test',
-            'password' => bcrypt('password')
+            'email' => 'sindu@bod.com',
+            'password' => bcrypt('superuser1;')
         ]);
 
         $super_user->assignRole('super user');
@@ -71,8 +71,8 @@ class UserSeeder extends Seeder
         // #7
         $super_user = User::create([
             'name' => 'Bayu Nugraha',
-            'email' => 'bayu@role.test',
-            'password' => bcrypt('password')
+            'email' => 'bayu@bod.com',
+            'password' => bcrypt('superuser2;')
         ]);
 
         $super_user->assignRole('super user');
@@ -80,28 +80,146 @@ class UserSeeder extends Seeder
         // #8
         $super_user = User::create([
             'name' => 'Victor',
-            'email' => 'victor@role.test',
-            'password' => bcrypt('password')
+            'email' => 'victor@bod.com',
+            'password' => bcrypt('superuser3;')
         ]);
 
         $super_user->assignRole('super user');
 
         // #9
         $super_user = User::create([
-            'name' => 'Erwindanuaji',
-            'email' => 'erwin@role.test',
-            'password' => bcrypt('password')
+            'name' => 'Erwin Danuaji',
+            'email' => 'erwin@bod.com',
+            'password' => bcrypt('superuser4;')
         ]);
 
         $super_user->assignRole('super user');
 
         // #10
         $user = User::create([
-            'name' => 'Brian',
-            'email' => 'brian@solusi.com',
-            'password' => bcrypt('password')
+            'name' => 'Nuryani',
+            'email' => 'nuryani@solusi.com',
+            'password' => bcrypt('password1;')
         ]);
 
         $user->assignRole('user');
+
+         // #10
+         $user = User::create([
+            'name' => 'Nicholas J Hutagaol',
+            'email' => 'nicholas@solusi.com',
+            'password' => bcrypt('password2;')
+        ]);
+
+        $user->assignRole('user');
+
+         // #11
+         $user = User::create([
+            'name' => 'Faisal Nursalim',
+            'email' => 'faisal@solusi.com',
+            'password' => bcrypt('password3;')
+        ]);
+
+        $user->assignRole('user');
+
+        // #12
+        $user = User::create([
+            'name' => 'Indah Wardani',
+            'email' => 'indah@solusi.com',
+            'password' => bcrypt('password4;')
+        ]);
+
+        $user->assignRole('user');
+        // #13
+        $user = User::create([
+            'name' => 'Aina Yohana',
+            'email' => 'aina@solusi.com',
+            'password' => bcrypt('password5;')
+        ]);
+
+        $user->assignRole('user');
+        // #14
+        $user = User::create([
+            'name' => 'Nirma Yustina',
+            'email' => 'nirma@solusi.com',
+            'password' => bcrypt('password6;')
+        ]);
+
+        $user->assignRole('user');
+        // #15
+        $user = User::create([
+            'name' => 'Tri Minarsih',
+            'email' => 'triminarsih@solusi.com',
+            'password' => bcrypt('password7;')
+        ]);
+
+        $user->assignRole('user');
+        // #16
+        $user = User::create([
+            'name' => 'Eka Ayu Wulandari',
+            'email' => 'eka@solusi.com',
+            'password' => bcrypt('password8;')
+        ]);
+
+        $user->assignRole('user');
+        // #17
+        $user = User::create([
+            'name' => 'Nia Sulistiyani',
+            'email' => 'nia@solusi.com',
+            'password' => bcrypt('password9;')
+        ]);
+
+        $user->assignRole('user');
+        // #18
+        $user = User::create([
+            'name' => 'Gunto Kunto Aji',
+            'email' => 'kuntoaji@solusi.com',
+            'password' => bcrypt('password10;')
+        ]);
+
+        $user->assignRole('user');
+        // #19
+        $user = User::create([
+            'name' => 'Endar Suryadi',
+            'email' => 'endar@solusi.com',
+            'password' => bcrypt('password11;')
+        ]);
+
+        $user->assignRole('user');
+
+       // #20
+       $purchasing = User::create([
+        'name' => 'Mutiara Nurhasyyati',
+        'email' => 'mutiara@purchase.com',
+        'password' => bcrypt('purchase1;')
+        ]);
+
+        $purchasing->assignRole('purchasing');
+
+         // #21
+       $purchasing = User::create([
+        'name' => 'Fandy B Mustofa',
+        'email' => 'fandy@purchase.com',
+        'password' => bcrypt('purchase2;')
+        ]);
+
+        $purchasing->assignRole('purchasing');
+
+         // #22
+       $purchasing = User::create([
+        'name' => 'Ervina Nursafitri',
+        'email' => 'ervina@purchase.com',
+        'password' => bcrypt('purchase3;')
+        ]);
+
+        $purchasing->assignRole('purchasing');
+
+         // #23
+         $super_admin = User::create([
+            'name' => 'Triyani',
+            'email' => 'triyani@super.admin',
+            'password' => bcrypt('superadmin2;')
+        ]);
+
     }
 }

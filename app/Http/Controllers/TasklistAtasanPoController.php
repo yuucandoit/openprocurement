@@ -233,14 +233,14 @@ class TasklistAtasanPoController extends Controller
         $data->save();
 
         $cpo = CategoryPO::where('ppb_id',$id)->first();
-        //dd($cpo);
+       //dd($cpo);
         if($data->atasan_po == 3){
 
             $cpo->signature = 'superadmin.png';
             $cpo->approved_at = Carbon::now();
             $cpo->save();
         }elseif($data->atasan_po == 6){
-            $cpo->signature = 'sindu.png';
+            $cpo->signature = 'sinduirawan.png';
             $cpo->approved_at = Carbon::now();
             $cpo->save();
         }elseif($data->atasan_po == 7){

@@ -110,6 +110,9 @@
                                                 {{-- <th
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                     Vendor</th> --}}
+                                                 {{-- <th
+                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                    File</th> --}}
                                                 <th
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                     Price-per-unit</th>
@@ -127,21 +130,31 @@
                                                 $id++;
                                             @endphp
                                             @foreach ($pengajuan as $i)
+                                                <tr hidden>
+                                                 <td class="text-end" style="font-weight: bold;" hidden>Id:</td>
+                                                <td class="total text-end">
+                                                    <input style="display: none;" class="total" type="text"
+                                                        name="grand_total" hidden>
+                                                </td>
+                                                </tr>
                                                 <tr>
-                                                    <td class="text"><input type="text" name="item[]"
+                                                    <td class="text">
+                                                        <input type="text" name="item[]"
                                                             placeholder="Input Item" class="form-control"
-                                                            style="text-align: center;" value="{{ $i->item }}"
-                                                            required />
+                                                            style="text-align: center;" value="{{ $i->id }}" hidden />
+                                                        <input type="text"
+                                                            placeholder="Input Item" class="form-control"
+                                                            style="text-align: center;" value="{{ $i->item }}" disabled/>
                                                     </td>
                                                     <td><input type="number" name="qty[]" placeholder="Input Quantity"
                                                             class="form-control form-calc form-qty"
                                                             style="text-align: center;" value="{{ $i->qty }}"
-                                                            required />
+                                                            disabled />
                                                     </td>
                                                     <td>
                                                         <select class="form-select " placeholder="Kategori"
-                                                            name="kategori[]" value="{{ $i->kategori }}" required>
-                                                            <option selected value="{{ $i->kategori }}">
+                                                            name="kategori[]" value="{{ $i->kategori }}" disabled>
+                                                            <option disabled value="{{ $i->kategori }}">
                                                                 {{ $i->kategori }}</option>
                                                             <option value="Pcs">Pcs </option>
                                                             <option value="Lusin">Lusin </option>
@@ -149,6 +162,7 @@
                                                             <option value="Unit">Unit </option>
                                                         </select>
                                                     </td>
+
                                                     <td>
                                                         <input type="text" name="unit_price[]" placeholder="Input Price"
                                                             class="form-control text-end form-calc form-cost rupiah"

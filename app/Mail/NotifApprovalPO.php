@@ -14,15 +14,19 @@ class NotifApprovalPO extends Mailable
     use Queueable, SerializesModels;
 
     private $data = [];
+    public $pengajuan;
+    public $item;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data,$pengajuan,$item)
     {
         $this->data = $data;
+        $this->pengajuan = $pengajuan;
+        $this->item      = $item;
     }
 
 
@@ -30,6 +34,8 @@ class NotifApprovalPO extends Mailable
      {
         return $this->from('eprocurement@app.com', 'Permintaan Approval Purchase Order')
             ->subject($this->data['subject'])->view('email.purchase')
-            ->with('data',$this->data);
+            ->with('data',$this->data)
+            ->with('pengajuan',$this->pengajuan)
+            ->with('item',$this->item);
      }
 }

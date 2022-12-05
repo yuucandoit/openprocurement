@@ -13,7 +13,6 @@ class Invoicing extends Model
     protected $fillable = [
         'id',
         'ppb_id',
-        'atasan_py',
     ];
 
     public function ppb()

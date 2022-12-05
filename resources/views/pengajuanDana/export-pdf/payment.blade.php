@@ -12,12 +12,17 @@
                     <tr>
                         <td valign="top" style="padding-right: 2px;"><img src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="90"> </td>
                         <td valign="top"> <h5 class="media-heading f-w-600">PT.SOLUSI INTEK INDONESIA</h5>
-                            <p>Head Office : Emerald Commercial Blok UB No. 50 Summarecon Bekasi Telp. 021-89454790 <br>
+                            <p>Head Office : Jl Cikunir Raya No.689 <br> Jakamulya, Bekasi Selatan, Telp. 021-89454790<br>
                             Mkt Office &nbsp;&nbsp; : Jl Tebet Barat dalam raya No. 31 <br>Tebet Barat, Jakarta Selatan, Telp 021-21383852</p>
                         </td>
                         @php
                         use Carbon\Carbon;
                         $date=Carbon::parse($id->created_at)->format('d/m/Y');
+                        if (empty($sig->approved_at)) {
+                        $approvedAt = "Not Record yet";
+                        }else {
+                        $approvedAt = Carbon::parse($sig->approved_at)->format('d/m/Y/ h:i:s A');
+                        }
                         @endphp
                         <td valign="top" align="right">
                             <h5><span class="digits counter">{{ $id->id }}/PD/SII/{{ $month }}/{{ $year }}</span></h5>
@@ -60,21 +65,21 @@
                     <tr>
                         <td>
                             <h6>Vendor :</h6>
-                            @if(empty($id->vendorable_type))
+                            @if(empty($cpo->vendorable_type))
                             <p>Not Filled Yet</p>
-                            @elseif($id->vendorable_type == 'App\Models\CategoryPT')
-                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span>{{ $id->vendorable->nama }}</span><br>
-                            Address       &nbsp; : <span>{{ $id->vendorable->alamat }}</span><br>
-                            Contact       &nbsp; : <span>{{ $id->vendorable->no_telp_kantor }}</span><br>
-                            Website       &nbsp; : <span>{{ $id->vendorable->website }}</span></p>
-                            @elseif ($id->vendorable_type == 'App\Models\CategoryPP')
-                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $id->vendorable->nama }}</span><br>
-                                Address        &nbsp;:&nbsp;<span>{{ $id->vendorable->alamat }}</span><br>
-                                NIK            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $id->vendorable->nik }}</span><br>
-                                NPWP           &nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $id->vendorable->npwp_pp }}</span></p>
-                            @elseif($id->vendorable_type == 'App\Models\CategoryEcommerce')
-                            <p>Name         &nbsp;:&nbsp;<span>{{ $id->vendorable->nama }}</span><br>
-                                Link        &nbsp;&nbsp;&nbsp; :&nbsp;<span><a href="{{ $id->vendorable->link }}">{{ $id->vendorable->link }}</a></span></p>
+                            @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
+                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span>{{ $cpo->vendorable->nama }}</span><br>
+                            Address       &nbsp; : <span>{{ $cpo->vendorable->alamat }}</span><br>
+                            Contact       &nbsp; : <span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
+                            Website       &nbsp; : <span>{{ $cpo->vendorable->website }}</span></p>
+                            @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
+                            <p>Name           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Address        &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
+                                NIK            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nik }}</span><br>
+                                NPWP           &nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
+                            @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
+                            <p>Name         &nbsp;:&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
+                                Link        &nbsp;&nbsp;&nbsp; :&nbsp;<span><a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></span></p>
                             @endif
                         </td>
 
@@ -202,7 +207,7 @@
                         </tbody>
                       </table>
 
-                    <table width="90%">
+                    <table width="100%">
                         <tr>
                             <td><p class="legal"><strong>Terms & Conditions</strong> <br>
                             @if (empty($cpo->term->term_condition))
@@ -219,8 +224,12 @@
                         $c->status == 'Unpaid' ||
                         $c->status == 'Paid' ||
                         $c->status == 'Delivery Success')
-                            <p><img src="{{ public_path('assets/images/' . $c->image) }}" alt=""
-                                    style=" width:120px;"></p>
+                        <p>{{ $approvedAt }}</p>
+                            @if(empty($sig->signature))
+
+                            @else
+                            <p><img style=" width:120px;" src="{{ public_path('assets/images/signature_super_user/' . $sig->signature) }}" alt=""></p>
+                            @endif
                 </div>
                 <div style="text-align: center; font-size: 18px;">{{ $atasan->atasanpymnt->name }} <br>
                     <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>

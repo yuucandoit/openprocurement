@@ -4,40 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Mail\NotifApprovalPayment;
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\PengajuanPembelian;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 
 class NotifPaymentController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        $pengajuan = CategoryPengajuanPembelian::where('status', 'Invoicing Process')->get();
+        $pengajuan = CategoryPengajuanPembelian::where('status', 'Invoicing Process')->where('id',$id)->get();
         //dd($pengajuan);
+        $item = PengajuanPembelian::where('pp_id',$id)->first();
 
         $data = [
             'subject' => 'Approval Payment Request',
-            'body' => 'There are several requests waiting for your approval'
         ];
         try {
             foreach($pengajuan as $p)
-            if ($p->status == 'Invoicing Process' || $p->atasan_py == 3){
-            Mail::to('wahyusnjy@gmail.com')->send(new NotifApprovalPayment($data));
+            if ($p->atasan_py == 3){
+            Mail::to('wahyusnjy@gmail.com')->send(new NotifApprovalPayment($data,$pengajuan,$item));
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
-            elseif($p->status == 'Invoicing Process' || $p->atasan_py == 6){
-                Mail::to('wahyusnjy@gmail.com')->send(new NotifApprovalPayment($data));
+            elseif($p->atasan_py == 6){
+                Mail::to('sindutest0@gmail.com')->send(new NotifApprovalPayment($data,$pengajuan,$item));
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
-            elseif($p->status == 'Invoicing Process' || $p->atasan_py == 7){
-                Mail::to('wahyusnjy@gmail.com')->send(new NotifApprovalPayment($data));
+            elseif($p->atasan_py == 7){
+                Mail::to('bayusolusitest@gmail.com')->send(new NotifApprovalPayment($data,$pengajuan,$item));
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
-            elseif($p->status == 'Invoicing Process' || $p->atasan_py == 8){
-                Mail::to('wahyusnjy@gmail.com')->send(new NotifApprovalPayment($data));
+            elseif($p->atasan_py == 8){
+                Mail::to('victorsolusitest@gmail.com')->send(new NotifApprovalPayment($data,$pengajuan,$item));
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
-            elseif($p->status == 'Invoicing Process' || $p->atasan_py == 9){
-                Mail::to('wahyusnjy@gmail.com')->send(new NotifApprovalPayment($data));
+            elseif($p->atasan_py == 9){
+                Mail::to('erwinsolusitest@gmail.com')->send(new NotifApprovalPayment($data,$pengajuan,$item));
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
             else {

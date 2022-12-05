@@ -30,6 +30,10 @@ class CategoryPO extends Model
     {
         return $this->belongsTo(CategoryPengajuanPembelian::class);
     }
+    public function items()
+    {
+        return $this->belongsTo(PengajuanPembelian::class);
+    }
     public function term()
     {
         return $this->belongsTo(TermsAndConditions::class, 'term_conditions');

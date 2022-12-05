@@ -81,6 +81,8 @@
                         <div class="card-body">
                             <a href="{{ url('/project-reference/create/') }}" class="btn btn-primary mb-3"></i> Add <i
                                     class="fa fa-plus"></i></a>
+                            <a href={{ url('file-import-rf') }} class="btn btn-danger mb-3 mr-1"
+                                style="align-self: flex-end"><i class="icon-import"></i> Import From Excel</a>
                             <div class="table-responsive">
                                 <table class="display" id="basic-1">
                                     <thead>
