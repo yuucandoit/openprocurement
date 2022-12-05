@@ -130,14 +130,6 @@
                                                 $id++;
                                             @endphp
                                             @foreach ($pengajuan as $i)
-                                                <tr hidden>
-                                                 <td class="text-end" style="font-weight: bold;" hidden>Id:</td>
-                                                <td class="total text-end">
-                                                    <input style="display: none;" class="total" type="text"
-                                                        name="grand_total" hidden>
-                                                </td>
-                                                </tr>
-                                                <tr>
                                                     <td class="text">
                                                         <input type="text" name="item[]"
                                                             placeholder="Input Item" class="form-control"

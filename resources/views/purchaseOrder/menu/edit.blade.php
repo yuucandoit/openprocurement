@@ -191,6 +191,7 @@
                                             </tr>
                                             @foreach ($item as $i)
                                                 <tr>
+                                                    
                                                     <td class="text"><input type="text" name="item[]"
                                                             placeholder="Input Item" class="form-control"
                                                             style="text-align: center;" value="{{ $i->item }}"
