@@ -74,7 +74,7 @@
                                             <option value="≤72Jam">2 sd 3 hari</option>
                                             {{-- <option value="≤96Jam">4 hari</option> --}}
                                             <option value="≤168Jam">4 sd 7 hari</option>
-                                            <option value="≤336Jam">14 hari</option>
+                                            <option value="≤336Jam">8 sd 14 hari</option>
 
                                         </select>
                                         @error('dateline')
