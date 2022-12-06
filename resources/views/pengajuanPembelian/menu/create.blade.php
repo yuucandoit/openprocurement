@@ -69,9 +69,13 @@
                                         <select class="form-select page @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" required="">
                                             <option selected="" disabled="" value="">Select Deadline
                                             </option>
-                                            <option value="≤3Jam">≤ 3 Jam</option>
-                                            <option value="≤24Jam">≤ 24 Jam</option>
-                                            <option value="≤48Jam">≤ 48 Jam</option>
+                                            <option value="≤24Jam">≤ 24 Jam (1 hari)</option>
+                                            <option value="≤48Jam">≤ 48 Jam (2 hari)</option>
+                                            <option value="≤72Jam">≤ 72 Jam (3 hari)</option>
+                                            <option value="≤96Jam">≤ 96 Jam (4 hari)</option>
+                                            <option value="≤168Jam">≤ 168 Jam (7 hari)</option>
+                                            <option value="≤336Jam">≤ 336 Jam (14 hari)</option>
+
                                         </select>
                                         @error('dateline')
                                         <div class="invalid-feedback">
@@ -196,7 +200,7 @@
                                     <div class="form-group">
                                         <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
                                         <div class="form-floating">
-                                            <textarea required name="desc" id="floatingNoTelpon" class="form-control page" cols="50" rows="30"></textarea>
+                                            <textarea name="desc" id="floatingNoTelpon" class="form-control page" cols="50" rows="30"></textarea>
                                             @error('desc')
                                             <div class="invalid-feedback">
                                                 {{ $message }}

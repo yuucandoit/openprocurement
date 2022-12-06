@@ -27,7 +27,7 @@ return new class extends Migration
             $table->text('desc')->nullable();
             $table->enum('matauang',['USD','RP']);
             $table->string('send_to');
-            $table->enum('dateline',['≤3Jam','≤24Jam','≤48Jam']);
+            $table->enum('dateline',['≤24Jam','≤48Jam','≤72Jam','≤96Jam','≤168Jam','≤336Jam']);
             $table->time('dateline_time')->nullable();
             $table->boolean('ppn')->nullable()->default(false);
             $table->string('image')->nullable();

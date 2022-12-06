@@ -225,17 +225,17 @@ class TaskListAtasanController extends Controller
     {
         //
     }
-    public function accept_atasan($id) 
+    public function accept_atasan($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        if($data->dateline == '≤3Jam'){
-            $data->dateline_time = ('03:00:00');
-            $data->updated_at = Carbon::now();
-            $data->approved_at = now();
-            $data->status = 'Purchase Submission Approved' ;
-        }
-        elseif($data->dateline == '≤24Jam'){
+        // if($data->dateline == '≤3Jam'){
+        //     $data->dateline_time = ('03:00:00');
+        //     $data->updated_at = Carbon::now();
+        //     $data->approved_at = now();
+        //     $data->status = 'Purchase Submission Approved' ;
+        // }
+        if($data->dateline == '≤24Jam'){
             $data->dateline_time = ('24:00:00');
             $data->updated_at = Carbon::now();
             $data->approved_at = now();
@@ -245,7 +245,28 @@ class TaskListAtasanController extends Controller
             $data->updated_at = Carbon::now();
             $data->approved_at = now();
             $data->status = 'Purchase Submission Approved';
+        }elseif($data->dateline == '≤72Jam'){
+            $data->dateline_time = ('73:00:00');
+            $data->updated_at = Carbon::now();
+            $data->approved_at = now();
+            $data->status = 'Purchase Submission Approved';
+        }elseif($data->dateline == '≤96Jam'){
+            $data->dateline_time = ('97:00:00');
+            $data->updated_at = Carbon::now();
+            $data->approved_at = now();
+            $data->status = 'Purchase Submission Approved';
+        }elseif($data->dateline == '≤168Jam'){
+            $data->dateline_time = ('169:00:00');
+            $data->updated_at = Carbon::now();
+            $data->approved_at = now();
+            $data->status = 'Purchase Submission Approved';
+        }elseif($data->dateline == '≤336Jam'){
+            $data->dateline_time = ('338:00:00');
+            $data->updated_at = Carbon::now();
+            $data->approved_at = now();
+            $data->status = 'Purchase Submission Approved';
         }
+
         $data->save();
         return redirect("menu-taskList-atasan/");
     }
