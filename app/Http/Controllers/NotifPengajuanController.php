@@ -29,7 +29,7 @@ class NotifPengajuanController extends Controller
         try {
             foreach($pengajuan as $p)
             if ($p->atasan == 3){
-            Mail::to('sindutest0@gmail.com')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
+            Mail::to('sindu@intek.co.id')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 6){
@@ -37,15 +37,15 @@ class NotifPengajuanController extends Controller
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 7){
-                Mail::to('bayusolusitest@gmail.com')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
+                Mail::to('bayu@intek.co.id')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 8){
-                Mail::to('victorsolusitest@gmail.com')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
+                Mail::to('victor@intek.co.id')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 9){
-                Mail::to('erwinsolusitest@gmail.com')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
+                Mail::to('erwin@intek.co.id')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             else {

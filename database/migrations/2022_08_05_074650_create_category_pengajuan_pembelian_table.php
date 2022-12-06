@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('department')->constrained('department');
             $table->morphs('purpose');
             $table->date('date_ps');
-            $table->text('desc');
+            $table->text('desc')->nullable();
             $table->enum('matauang',['USD','RP']);
             $table->string('send_to');
             $table->enum('dateline',['≤3Jam','≤24Jam','≤48Jam']);

@@ -26,19 +26,19 @@ class NotifPaymentController extends Controller
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan_py == 6){
-                Mail::to('sindutest0@gmail.com')->send(new NotifApprovalPayment($data,$pengajuan,$item));
+                Mail::to('sindu@intek.co.id')->send(new NotifApprovalPayment($data,$pengajuan,$item));
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan_py == 7){
-                Mail::to('bayusolusitest@gmail.com')->send(new NotifApprovalPayment($data,$pengajuan,$item));
+                Mail::to('bayu@intek.co.id')->send(new NotifApprovalPayment($data,$pengajuan,$item));
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan_py == 8){
-                Mail::to('victorsolusitest@gmail.com')->send(new NotifApprovalPayment($data,$pengajuan,$item));
+                Mail::to('victor@intek.co.id')->send(new NotifApprovalPayment($data,$pengajuan,$item));
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan_py == 9){
-                Mail::to('erwinsolusitest@gmail.com')->send(new NotifApprovalPayment($data,$pengajuan,$item));
+                Mail::to('erwin@intek.co.id')->send(new NotifApprovalPayment($data,$pengajuan,$item));
             return redirect('payment_request/')->with('status','Mail Sent Success');
             }
             else {

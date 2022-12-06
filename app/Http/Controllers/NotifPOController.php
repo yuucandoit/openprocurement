@@ -30,16 +30,16 @@ class NotifPOController extends Controller
             Mail::to('wahyusnjy@gmail.com')->send(new NotifApprovalPO($data,$pengajuan,$item));
             return redirect('menu-purchase-order/')->with('status','Mail Sent Success');
             }elseif($p->atasan_po ==  6){
-                Mail::to('sindutest0@gmail.com')->send(new NotifApprovalPO($data,$pengajuan,$item));
+                Mail::to('sindu@intek.co.id')->send(new NotifApprovalPO($data,$pengajuan,$item));
             return redirect('menu-purchase-order/')->with('status','Mail Sent Success');
             }elseif($p->atasan_po ==  7){
-                Mail::to('bayusolusitest@gmail.com')->send(new NotifApprovalPO($data,$pengajuan,$item));
+                Mail::to('bayu@intek.co.id')->send(new NotifApprovalPO($data,$pengajuan,$item));
             return redirect('menu-purchase-order/')->with('status','Mail Sent Success');
             }elseif($p->atasan_po ==  8){
-                Mail::to('victorsolusitest@gmail.com')->send(new NotifApprovalPO($data,$pengajuan,$item));
+                Mail::to('victor@intek.co.id')->send(new NotifApprovalPO($data,$pengajuan,$item));
             return redirect('menu-purchase-order/')->with('status','Mail Sent Success');
             }elseif($p->atasan_po ==  9){
-                Mail::to('erwinsolusitest@gmail.com')->send(new NotifApprovalPO($data,$pengajuan,$item));
+                Mail::to('erwin@intek.co.id')->send(new NotifApprovalPO($data,$pengajuan,$item));
             return redirect('menu-purchase-order/')->with('status','Mail Sent Success');
             }
             else {

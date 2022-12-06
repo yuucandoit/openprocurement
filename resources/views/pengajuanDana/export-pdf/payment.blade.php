@@ -115,7 +115,7 @@
                           @foreach ($category_q as $q)
                           <tr>
                             <td>
-                              <label>{{ $q->item }}</label>
+                              <label>{!! nl2br($q->item) !!}</label>
                             </td>
                             <td>
                               <p class="itemtext digits text-center">{{ $q->qty }}</p>
@@ -124,10 +124,10 @@
                               <p class="itemtext digits">{{ $q->kategori }}</p>
                             </td>
                             <td>
-                                <p class="itemtext digits">Rp.{{ number_format($q->unit_price) }}</p>
+                                <p class="itemtext digits text-end">Rp.{{ number_format($q->unit_price) }}</p>
                               </td>
                             <td>
-                              <p class="itemtext digits">Rp.{{ number_format($q->total) }}</p>
+                              <p class="itemtext digits text-end">Rp.{{ number_format($q->total) }}</p>
                             </td>
                           </tr>
                         @endforeach
@@ -146,7 +146,7 @@
                             </td>
                             @foreach ($dpp as $dp)
                             <td>
-                              <p class="m-0 digits">Rp.{{ number_format($dp->total) }}</p>
+                              <p class="m-0 digits text-end">Rp.{{ number_format($dp->total) }}</p>
                             </td>
                             @endforeach
                           </tr>
@@ -166,12 +166,12 @@
                             @foreach ($cpp as $c)
                             @if ($c->ppn == 0)
                             <td>
-                                <p class="m-0 digits">Rp.0</p>
+                                <p class="m-0 digits text-end">Rp.0</p>
                             </td>
                             @else
                             @foreach ($ppn as $pn)
                             <td>
-                                <p class="m-0 digits">Rp.{{ number_format($pn->total) }}</p>
+                                <p class="m-0 digits text-end">Rp.{{ number_format($pn->total) }}</p>
                             </td>
                             @endforeach
                             @endif
@@ -188,17 +188,17 @@
                         @if ($c->ppn == 0)
                             @foreach ($total_tnp_ppn as $tpn)
                                @if ($c->matauang == "RP")
-                               <td style="payment digits"><h6 class="mb-0 "> Rp.{{number_format($tpn->total)}}</h6></td>
+                               <td style="payment digits text-end"><h6 class="mb-0 "> Rp.{{number_format($tpn->total)}}</h6></td>
                                @elseif ($c->matauang == "USD")
-                               <td style="payment digits"><h6 class="mb-0 "> $ {{number_format($tpn->total)}}</h6></td>
+                               <td style="payment digits text-end"><h6 class="mb-0 "> $ {{number_format($tpn->total)}}</h6></td>
                                @endif
                             @endforeach
                         @elseif($c->ppn == 1)
                            @foreach ($total as $t)
                                @if ($c->matauang == "RP")
-                                   <td style="payment digits"><h6 class="mb-0 "> Rp. {{ number_format($t->total)}}</h6></td>
+                                   <td style="payment digits text-end"><h6 class="mb-0 "> Rp. {{ number_format($t->total)}}</h6></td>
                                    @elseif ($c->matauang == "USD")
-                                   <td style="payment digits"><h6 class="mb-0 "> $.{{number_format($t->total)}}</h6></td>
+                                   <td style="payment digits text-end"><h6 class="mb-0 "> $.{{number_format($t->total)}}</h6></td>
                                @endif
                            @endforeach
                         @endif

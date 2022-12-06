@@ -98,9 +98,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($pengajuan as $p)
+                                        @foreach ($pengajuan as $p) 
                                             <tr>
-                                                <td style="text-align: center;">{{ $p->item }}</td>
+                                                <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
                                                 <td style="text-align: center;">{{ $p->qty }}</td>
                                                 <td style="text-align: center;">{{ $p->kategori }}</td>
                                             </tr>

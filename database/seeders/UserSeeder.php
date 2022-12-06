@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
         // #6
         $super_user = User::create([
             'name' => 'Sindu Irawan',
-            'email' => 'sindu@bod.com',
+            'email' => 'sindu@intek.co.id',
             'password' => bcrypt('superuser1;')
         ]);
 
@@ -71,7 +71,7 @@ class UserSeeder extends Seeder
         // #7
         $super_user = User::create([
             'name' => 'Bayu Nugraha',
-            'email' => 'bayu@bod.com',
+            'email' => 'bayu@intek.co.id',
             'password' => bcrypt('superuser2;')
         ]);
 
@@ -80,7 +80,7 @@ class UserSeeder extends Seeder
         // #8
         $super_user = User::create([
             'name' => 'Victor',
-            'email' => 'victor@bod.com',
+            'email' => 'victor@intek.co.id',
             'password' => bcrypt('superuser3;')
         ]);
 
@@ -89,7 +89,7 @@ class UserSeeder extends Seeder
         // #9
         $super_user = User::create([
             'name' => 'Erwin Danuaji',
-            'email' => 'erwin@bod.com',
+            'email' => 'erwin@intek.co.id',
             'password' => bcrypt('superuser4;')
         ]);
 
@@ -98,7 +98,7 @@ class UserSeeder extends Seeder
         // #10
         $user = User::create([
             'name' => 'Nuryani',
-            'email' => 'nuryani@solusi.com',
+            'email' => 'nuryani@intek.co.id',
             'password' => bcrypt('password1;')
         ]);
 
@@ -107,7 +107,7 @@ class UserSeeder extends Seeder
          // #10
          $user = User::create([
             'name' => 'Nicholas J Hutagaol',
-            'email' => 'nicholas@solusi.com',
+            'email' => 'nicholas@intek.co.id',
             'password' => bcrypt('password2;')
         ]);
 
@@ -116,7 +116,7 @@ class UserSeeder extends Seeder
          // #11
          $user = User::create([
             'name' => 'Faisal Nursalim',
-            'email' => 'faisal@solusi.com',
+            'email' => 'faisal@intek.co.id',
             'password' => bcrypt('password3;')
         ]);
 
@@ -125,7 +125,7 @@ class UserSeeder extends Seeder
         // #12
         $user = User::create([
             'name' => 'Indah Wardani',
-            'email' => 'indah@solusi.com',
+            'email' => 'indah@intek.co.id',
             'password' => bcrypt('password4;')
         ]);
 
@@ -133,7 +133,7 @@ class UserSeeder extends Seeder
         // #13
         $user = User::create([
             'name' => 'Aina Yohana',
-            'email' => 'aina@solusi.com',
+            'email' => 'ainayohana@intek.co.id',
             'password' => bcrypt('password5;')
         ]);
 
@@ -141,7 +141,7 @@ class UserSeeder extends Seeder
         // #14
         $user = User::create([
             'name' => 'Nirma Yustina',
-            'email' => 'nirma@solusi.com',
+            'email' => 'nirmayustina@intek.co.id',
             'password' => bcrypt('password6;')
         ]);
 
@@ -149,7 +149,7 @@ class UserSeeder extends Seeder
         // #15
         $user = User::create([
             'name' => 'Tri Minarsih',
-            'email' => 'triminarsih@solusi.com',
+            'email' => 'triminarsih@intek.co.id',
             'password' => bcrypt('password7;')
         ]);
 
@@ -157,7 +157,7 @@ class UserSeeder extends Seeder
         // #16
         $user = User::create([
             'name' => 'Eka Ayu Wulandari',
-            'email' => 'eka@solusi.com',
+            'email' => 'ayu@intek.co.id',
             'password' => bcrypt('password8;')
         ]);
 
@@ -165,7 +165,7 @@ class UserSeeder extends Seeder
         // #17
         $user = User::create([
             'name' => 'Nia Sulistiyani',
-            'email' => 'nia@solusi.com',
+            'email' => 'nia@intek.co.id',
             'password' => bcrypt('password9;')
         ]);
 
@@ -173,7 +173,7 @@ class UserSeeder extends Seeder
         // #18
         $user = User::create([
             'name' => 'Gunto Kunto Aji',
-            'email' => 'kuntoaji@solusi.com',
+            'email' => 'kuntoaji@intek.co.id',
             'password' => bcrypt('password10;')
         ]);
 
@@ -181,7 +181,7 @@ class UserSeeder extends Seeder
         // #19
         $user = User::create([
             'name' => 'Endar Suryadi',
-            'email' => 'endar@solusi.com',
+            'email' => 'endar@intek.co.id',
             'password' => bcrypt('password11;')
         ]);
 
@@ -190,7 +190,7 @@ class UserSeeder extends Seeder
        // #20
        $purchasing = User::create([
         'name' => 'Mutiara Nurhasyyati',
-        'email' => 'mutiara@purchase.com',
+        'email' => 'mutiaranur@intek.co.id',
         'password' => bcrypt('purchase1;')
         ]);
 
@@ -199,7 +199,7 @@ class UserSeeder extends Seeder
          // #21
        $purchasing = User::create([
         'name' => 'Fandy B Mustofa',
-        'email' => 'fandy@purchase.com',
+        'email' => 'fandy@intek.co.id',
         'password' => bcrypt('purchase2;')
         ]);
 
@@ -208,7 +208,7 @@ class UserSeeder extends Seeder
          // #22
        $purchasing = User::create([
         'name' => 'Ervina Nursafitri',
-        'email' => 'ervina@purchase.com',
+        'email' => 'ervina@intek.co.id',
         'password' => bcrypt('purchase3;')
         ]);
 
@@ -217,9 +217,19 @@ class UserSeeder extends Seeder
          // #23
          $super_admin = User::create([
             'name' => 'Triyani',
-            'email' => 'triyani@super.admin',
+            'email' => 'triyani.acc@intek.co.id',
             'password' => bcrypt('superadmin2;')
         ]);
 
+        $super_admin->assignRole('super admin');
+
+        // #5
+        $finance = User::create([
+            'name' => 'Yuli Karliani',
+            'email' => 'yuli@intek.co.id',
+            'password' => bcrypt('finance1;')
+        ]);
+
+        $finance->assignRole('finance');
     }
 }

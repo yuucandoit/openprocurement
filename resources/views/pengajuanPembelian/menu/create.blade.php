@@ -308,7 +308,9 @@
 
                                     </tr>
                                     <tr>
-                                        <td class="text"><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required />
+                                        <td class="text">
+                                            <textarea name="item[]" id="" cols="30" rows="1"></textarea>
+                                            {{-- <input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required /> --}}
                                         </td>
                                         <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required />
                                         </td>
@@ -409,7 +411,7 @@
 
         function addItem() {
             var item =
-                `<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td>
+                `<tr><td> <textarea name="item[]" id="" cols="30" rows="1"></textarea></td>
                      <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td>
                      <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td>
                      <td><input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
