@@ -70,10 +70,10 @@
                                             <option selected="" disabled="" value="">Select Deadline
                                             </option>
                                             <option value="≤24Jam">1 hari</option>
-                                            <option value="≤48Jam">2 hari</option>
-                                            <option value="≤72Jam">3 hari</option>
-                                            <option value="≤96Jam">4 hari</option>
-                                            <option value="≤168Jam">7 hari</option>
+                                            {{-- <option value="≤48Jam">2 hari</option> --}}
+                                            <option value="≤72Jam">2 sd 3 hari</option>
+                                            {{-- <option value="≤96Jam">4 hari</option> --}}
+                                            <option value="≤168Jam">4 sd 7 hari</option>
                                             <option value="≤336Jam">14 hari</option>
 
                                         </select>
