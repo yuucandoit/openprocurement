@@ -69,12 +69,12 @@
                                         <select class="form-select page @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" required="">
                                             <option selected="" disabled="" value="">Select Deadline
                                             </option>
-                                            <option value="≤24Jam">≤ 24 Jam (1 hari)</option>
-                                            <option value="≤48Jam">≤ 48 Jam (2 hari)</option>
-                                            <option value="≤72Jam">≤ 72 Jam (3 hari)</option>
-                                            <option value="≤96Jam">≤ 96 Jam (4 hari)</option>
-                                            <option value="≤168Jam">≤ 168 Jam (7 hari)</option>
-                                            <option value="≤336Jam">≤ 336 Jam (14 hari)</option>
+                                            <option value="≤24Jam">1 hari</option>
+                                            <option value="≤48Jam">2 hari</option>
+                                            <option value="≤72Jam">3 hari</option>
+                                            <option value="≤96Jam">4 hari</option>
+                                            <option value="≤168Jam">7 hari</option>
+                                            <option value="≤336Jam">14 hari</option>
 
                                         </select>
                                         @error('dateline')
