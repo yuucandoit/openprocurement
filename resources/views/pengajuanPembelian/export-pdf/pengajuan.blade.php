@@ -78,30 +78,38 @@
         </tr>
     </table>
 
-    <h3 class="text-center mt-4 ">Pengajuan Pembelian</h3>
-    <table class="table table-bordered table-striped " style="margin-bottom: 50px;">
-        <tbody>
+    <h3 class="text-center mt-5 ">Pengajuan Pembelian</h3>
+    <table width="100%" class="table table-bordered table-striped mt-5">
+        <thead class="text-center">
             <tr>
-                <td>
+                <th colspan="2">
                     <h6>Item</h6>
-                </td>
-                <td class="Hours">
-                    <h6>Quantity</h6>
-                </td>
-                <td class="Rate">
+                </th>
+                <th hidden>
+
+                </th>
+                <th hidden>
+
+                </th>
+                <th>
+                    <h6>Qty</h6>
+                </th>
+                <th>
                     <h6>Unit</h6>
-                </td>
-                <td class="subtotal">
-                    <h6>Price/Unit</h6>
-                </td>
-                <td class="subtotal">
-                    <h6>Total</h6>
-                </td>
+                </th>
             </tr>
+        </thead>
+        <tbody class="text-center">
             @foreach ($category_q as $q)
                 <tr>
-                    <td>
+                    <td colspan="2">
                         <label>{!! nl2br($q->item) !!}</label>
+                    </td>
+                    <td hidden>
+
+                    </td>
+                    <td hidden>
+
                     </td>
                     <td>
                         <p class="itemtext digits text-center">{{ $q->qty }}</p>
@@ -109,102 +117,16 @@
                     <td>
                         <p class="itemtext digits">{{ $q->kategori }}</p>
                     </td>
-                    <td>
-                        <p class="itemtext digits text-end">Rp.{{ number_format($q->unit_price) }}</p>
-                    </td>
-                    <td>
-                        <p class="itemtext digits text-end">Rp.{{ number_format($q->total) }}</p>
-                    </td>
                 </tr>
             @endforeach
-            <tr>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="m-0">DPP </p>
-                </td>
-                @foreach ($dpp as $dp)
-                    <td>
-                        <p class="m-0 digits text-end">Rp.{{ number_format($dp->total) }}</p>
-                    </td>
-                @endforeach
-            </tr>
-            <tr>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="m-0">PPN 11% </p>
-                </td>
-                @foreach ($cpp as $c)
-                    @if ($c->ppn == 0)
-                        <td>
-                            <p class="m-0 digits text-end">Rp.0</p>
-                        </td>
-                    @else
-                        @foreach ($ppn as $pn)
-                            <td>
-                                <p class="m-0 digits text-end">Rp.{{ number_format($pn->total) }}</p>
-                            </td>
-                        @endforeach
-                    @endif
-                @endforeach
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td class="Rate">
-                    <h6 class="mb-0">Total </h6>
-                </td>
-                @foreach ($cpp as $c)
-                    @if ($c->ppn == 0)
-                        @foreach ($total_tnp_ppn as $tpn)
-                            @if ($c->matauang == 'RP')
-                                <td style="payment digits text-end">
-                                    <h6 class="mb-0 "> Rp.{{ number_format($tpn->total) }}</h6>
-                                </td>
-                            @elseif ($c->matauang == 'USD')
-                                <td style="payment digits text-end">
-                                    <h6 class="mb-0 "> $ {{ number_format($tpn->total) }}</h6>
-                                </td>
-                            @endif
-                        @endforeach
-                    @elseif($c->ppn == 1)
-                        @foreach ($total as $t)
-                            @if ($c->matauang == 'RP')
-                                <td style="payment digits text-end">
-                                    <h6 class="mb-0 "> Rp. {{ number_format($t->total) }}</h6>
-                                </td>
-                            @elseif ($c->matauang == 'USD')
-                                <td style="payment digits text-end">
-                                    <h6 class="mb-0 "> $.{{ number_format($t->total) }}</h6>
-                                </td>
-                            @endif
-                        @endforeach
-                    @endif
-                @endforeach
-            </tr>
+
         </tbody>
     </table>
 
     <table width="100%">
         <tr>
             <td>
-                <p class="legal"><strong>Terms & Conditions</strong> <br>
+                <p hidden><strong>Terms & Conditions</strong> <br>
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
                     @else
@@ -212,7 +134,7 @@
                 </p>
                 @endif
             </td>
-            <td align="right">
+            <td style="padding-left:350px;">
 
 
                 <div style="text-align: center;">
