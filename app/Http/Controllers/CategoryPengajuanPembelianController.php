@@ -217,7 +217,18 @@ class CategoryPengajuanPembelianController extends Controller
         }
 
 
-        if ($request->item > 0) {
+        if ($request->file('path_file') == null) {
+            foreach ($data['item'] as $item => $value) {
+                $data2 = array(
+                    'pp_id'             => $pengajuan->id,
+                    'item'              => $data['item'][$item],
+                    'qty'               => $data['qty'][$item],
+                    'kategori'          => $data['kategori'][$item],
+                );
+                PengajuanPembelian::create($data2);
+            }
+        }
+        else {
             foreach ($request->file('path_file') as $key => $path) {
                 $name = $path->getClientOriginalName();
                 $path->move(public_path('upload_pengajuan'), $name);

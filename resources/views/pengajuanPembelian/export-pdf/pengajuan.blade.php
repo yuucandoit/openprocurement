@@ -25,15 +25,9 @@
                 if (empty($atasan->approved_at)) {
                     $approvedAt = 'Not Record yet';
                 } else {
-                    $approvedAt = Carbon::parse($atasan->approved_at)->format('d/m/Y/ h:i:s A');
+                    $approvedAt = Carbon::parse($atasan->approved_at)->format('d F Y');
                 }
             @endphp
-            <td valign="top" align="right">
-                <h5><span
-                        class="digits counter">000{{ $id->id }}/PPB/SII/{{ $month }}/{{ $year }}</span>
-                </h5>
-                <p>Date: <span class="digits">{{ $date }}</span><br></p>
-            </td>
         </tr>
     </table>
 
@@ -43,6 +37,9 @@
         }
     </style>
 
+    <h3 class="text-center  ">Pengajuan Pembelian</h3>
+    <h6 class="text-center"><span class="digits counter">000{{ $id->id }}/PPB/SII/{{ $month }}/{{ $year }}</span>
+    </h6>
     <table width="100%" class="mt-4">
         <tr>
             <td>
@@ -77,40 +74,25 @@
             </td>
         </tr>
     </table>
-
-    <h3 class="text-center mt-5 ">Pengajuan Pembelian</h3>
     <table width="100%" class="table table-bordered table-striped mt-5">
-        <thead class="text-center">
-            <tr>
-                <th colspan="2">
-                    <h6>Item</h6>
-                </th>
-                <th hidden>
-
-                </th>
-                <th hidden>
-
-                </th>
-                <th>
-                    <h6>Qty</h6>
-                </th>
-                <th>
-                    <h6>Unit</h6>
-                </th>
-            </tr>
-        </thead>
         <tbody class="text-center">
+            <tr>
+                <td>
+                    <h6>Item</h6>
+                </td>
+                <td class="Hours">
+                    <h6>Quantity</h6>
+                </td>
+                <td class="Rate">
+                    <h6>Unit</h6>
+                </td>
+            </tr>
             @foreach ($category_q as $q)
                 <tr>
-                    <td colspan="2">
+                    <td>
                         <label>{!! nl2br($q->item) !!}</label>
                     </td>
-                    <td hidden>
 
-                    </td>
-                    <td hidden>
-
-                    </td>
                     <td>
                         <p class="itemtext digits text-center">{{ $q->qty }}</p>
                     </td>
@@ -150,7 +132,7 @@
                             $c->status == 'Unpaid' ||
                             $c->status == 'Paid' ||
                             $c->status == 'Delivery Success')
-                            <p>{{ $approvedAt }}</p>
+                            <p>Jakarta, {{ $approvedAt }}</p>
                 </div>
                 <div style="text-align: center;">
                     @if (empty($atasan->signature))
@@ -183,16 +165,17 @@
         </tr>
     </table>
     <footer
-        style="
-                   position: fixed;
-                   bottom: 0cm;
-                   left: 0cm;
-                   right: 0cm;
-                   height: 2cm;">
-        <p>Head Office &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Jl Cikunir Raya No.689 Jakamulya, <br> Bekasi Selatan, Telp. 021-89454790 <br>
-            Marketing Office : Jl Tebet Barat dalam raya No. 31 <br>Tebet Barat, Jakarta Selatan, Telp
-            021-21383852</p>
-    </footer>
+    style="
+               position: fixed;
+               bottom: 0cm;
+               left: 0cm;
+               right: 0cm;
+               height: 2cm;" class="text-center">
+    <p>Head Office &nbsp;: Jl Cikunir Raya No.689 Jakamulya, Bekasi Selatan,
+        Telp. 021-89454790 <br>
+        Marketing Office : Jl Tebet Barat dalam raya No.31 Tebet Barat, Jakarta Selatan,<br>
+        Telp. 021-21383852</p>
+</footer>
 </body>
 
 </html>
