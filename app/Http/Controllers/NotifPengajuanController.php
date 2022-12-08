@@ -22,7 +22,7 @@ class NotifPengajuanController extends Controller
         // $item = PengajuanPembelian::where('pp_id',$p->id)->first();
         // }
 
-        $url = "http://127.0.0.1:3000/send/message";
+        // $url = "http://127.0.0.1:3000/send/message";
 
         $item = PengajuanPembelian::where('pp_id',$id)->first();
         //dd($pengajuan);
@@ -33,10 +33,10 @@ class NotifPengajuanController extends Controller
         try {
             foreach($pengajuan as $p)
             if ($p->atasan == 3){
-            $response = Http::post($url, [
-                    'phone' => '6289618786152',
-                    'message' => 'Testt',
-            ]);
+            // $response = Http::post($url, [
+            //         'phone' => '6289618786152',
+            //         'message' => 'Testt',
+            // ]);
 
             // print_r($response);
 
@@ -44,34 +44,34 @@ class NotifPengajuanController extends Controller
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 6){
-            $response = Http::post($url, [
-                    'phone' => '-no pa sindu-',
-                    'message' => 'Test Approval Pengajuan Pembelian',
-            ]);
+            // $response = Http::post($url, [
+            //         'phone' => '-no pa sindu-',
+            //         'message' => 'Test Approval Pengajuan Pembelian',
+            // ]);
             Mail::to('sindu@intek.co.id')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 7){
-            $response = Http::post($url, [
-                    'phone' => '-no pa bayu-',
-                    'message' => 'Test Approval Pengajuan Pembelian',
-            ]);
+            // $response = Http::post($url, [
+            //         'phone' => '-no pa bayu-',
+            //         'message' => 'Test Approval Pengajuan Pembelian',
+            // ]);
                 Mail::to('bayu@intek.co.id')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 8){
-            $response = Http::post($url, [
-                    'phone' => '-no pa victor-',
-                    'message' => 'Test Approval Pengajuan Pembelian',
-            ]);
+            // $response = Http::post($url, [
+            //         'phone' => '-no pa victor-',
+            //         'message' => 'Test Approval Pengajuan Pembelian',
+            // ]);
                 Mail::to('victor@intek.co.id')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 9){
-            $response = Http::post($url, [
-                    'phone' => '-no pa erwin-',
-                    'message' => 'Test Approval Pengajuan Pembelian',
-            ]);
+            // $response = Http::post($url, [
+            //         'phone' => '-no pa erwin-',
+            //         'message' => 'Test Approval Pengajuan Pembelian',
+            // ]);
                 Mail::to('erwin@intek.co.id')->send(new NotifApprovalPengajuan($data,$pengajuan,$item));
             return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
