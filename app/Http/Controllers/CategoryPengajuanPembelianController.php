@@ -19,6 +19,9 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\WhoSubmitted;
 use App\Models\Workshop;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Barryvdh\DomPDF\PDF;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -46,6 +49,8 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
+
+            $progress = Delivery::where('ppb_id',);
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
                 ->with('datapt', $datapt)
@@ -383,6 +388,36 @@ class CategoryPengajuanPembelianController extends Controller
     public function export($id)
     {
         return Excel::download(new PPBExport($id), 'pengajuan_pembelian.xlsx');
+    }
+
+    public function exportpdf($id)
+    {
+        // $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->get()->first();
+        $data['cpp'] = CategoryPengajuanPembelian::where('id',$id)->get();
+        $data['atasan'] = CategoryPengajuanPembelian::where('id',$id)->first();
+        $data['cpo'] = CategoryPO::where('ppb_id', $id)->get()->first();
+        $data['vendorpo'] = CategoryPO::where('ppb_id', $id)->get();
+        $data['id'] = PengajuanPembelian::where('pp_id', $id)->get()->first();
+        $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
+        $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['day'] = Carbon::now()->format('d');
+        $data['year2'] = Carbon::now()->format('Y');
+        $data['year'] = Carbon::now()->format('y');
+        $data['month'] = Carbon::now()->format('m');
+
+        //dd($data['id']);
+
+
+        $pdf = FacadePdf::loadView('pengajuanPembelian.export-pdf.pengajuan', $data)->setpaper('A4', 'potrait');
+        return $pdf->stream('Pengajuan.pdf');
+        //return $pdf->download('PurchaseOrder.pdf');
+
+        // $pdf = Dompdf::loadView('export-pdf.purchase', ['data' => $data]);
+        // return Excel::download(new PoPDFExport($id),'PurchaseOrder.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+
     }
 
     // public function accept_atasan($id)

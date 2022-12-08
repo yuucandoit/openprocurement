@@ -101,7 +101,7 @@
                                         $approvedPPB = [];
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                        @if ($ppb->status == 'Purchase Submission Approved')
+                                        @if ($ppb->status == 'Purchase Request Approved')
                                             @php $approvedPPB[] =$ppb; @endphp
                                             <tbody>
                                                 <tr id="ppb-{{ $ppb->id }}">

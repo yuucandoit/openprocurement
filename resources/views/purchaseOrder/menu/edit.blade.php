@@ -182,6 +182,8 @@
                                                 <th
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                     Category</th>
+                                                <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                        File</th>
                                                 <th
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                     Price-per-unit</th>
@@ -191,7 +193,7 @@
                                             </tr>
                                             @foreach ($item as $i)
                                                 <tr>
-                                                    
+
                                                     <td class="text"><input type="text" name="item[]"
                                                             placeholder="Input Item" class="form-control"
                                                             style="text-align: center;" value="{{ $i->item }}"
@@ -214,6 +216,12 @@
                                                         </select>
                                                     </td>
                                                     <td>
+                                                        <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                                                        @error('path_file')
+                                                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                        @enderror
+                                                    </td>
+                                                    <td>
                                                         <input type="text" name="unit_price[]"
                                                             placeholder="Input Price"
                                                             class="form-control text-end form-calc form-cost rupiah"
@@ -228,7 +236,7 @@
                                                 </tr>
                                             @endforeach
                                         </table>
-                                        <p style="color: red;">*Please refill the price per unit so that it triggers the total, then update the data</p>
+                                        <p style="color: red;">*Please fill in the price per unit again to trigger the total and please refill the file then update the data</p>
                                         <br>
                                         <table class="table table-bordered mx-2">
                                             <tr>
@@ -248,6 +256,7 @@
                                                         {{ old('ppn', 0) === 1 ? 'checked' : '' }}>
                                                     <label class="pull-right mx-2" style="font-weight: bold;"> PPN 11%
                                                     </label>
+                                                    <p style="color: red;">*Please click again to trigger javascript count</p>
                                                 </td>
                                                 <td class="ppn text-end">
                                                     <input style="display: none;" class="ppn" type="text">

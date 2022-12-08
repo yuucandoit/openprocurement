@@ -98,7 +98,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Awaiting Purchase Submission Approval')
+                                            @if ($ppb->status == 'Awaiting Purchase Request Approval')
                                                 @if ($ppb->atasan == 3)
                                                 <tbody>
                                                     <tr>
@@ -108,7 +108,7 @@
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
@@ -160,7 +160,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                        @if ($ppb->status == 'Purchase Submission Approved' ||
+                                        @if ($ppb->status == 'Purchase Request Approved' ||
                                         $ppb->status == 'Purchase Proses' ||
                                         $ppb->status == 'Waiting For PO Approval' ||
                                         $ppb->status == 'PO Approved' ||
@@ -178,7 +178,7 @@
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
@@ -232,7 +232,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Awaiting Purchase Submission Approval')
+                                            @if ($ppb->status == 'Awaiting Purchase Request Approval')
                                             @if ($ppb->atasan == 6)
                                                 <tbody>
                                                     <tr>
@@ -243,7 +243,7 @@
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
                                                         <td style="text-align: center;">
@@ -302,7 +302,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                        @if ($ppb->status == 'Purchase Submission Approved' ||
+                                        @if ($ppb->status == 'Purchase Request Approved' ||
                                         $ppb->status == 'Purchase Proses' ||
                                         $ppb->status == 'Waiting For PO Approval' ||
                                         $ppb->status == 'PO Approved' ||
@@ -320,7 +320,7 @@
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
@@ -374,7 +374,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Awaiting Purchase Submission Approval')
+                                            @if ($ppb->status == 'Awaiting Purchase Request Approval')
                                              @if ($ppb->atasan == 7)
                                                 <tbody>
                                                     <tr>
@@ -385,7 +385,7 @@
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
                                                         <td style="text-align: center;">
@@ -435,7 +435,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Purchase Submission Approved' ||
+                                            @if ($ppb->status == 'Purchase Request Approved' ||
                                                  $ppb->status == 'Purchase Proses' ||
                                                  $ppb->status == 'Waiting For PO Approval' ||
                                                  $ppb->status == 'PO Approved' ||
@@ -454,7 +454,7 @@
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
                                                         <td style="text-align: center;">
@@ -510,7 +510,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Awaiting Purchase Submission Approval')
+                                            @if ($ppb->status == 'Awaiting Purchase Request Approval')
                                             @if ($ppb->atasan == 8)
                                                 <tbody>
                                                     <tr>
@@ -521,7 +521,7 @@
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
@@ -572,7 +572,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Purchase Submission Approved' ||
+                                            @if ($ppb->status == 'Purchase Request Approved' ||
                                             $ppb->status == 'Purchase Proses' ||
                                             $ppb->status == 'Waiting For PO Approval' ||
                                             $ppb->status == 'PO Approved' ||
@@ -591,7 +591,7 @@
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
                                                         <td style="text-align: center;">
@@ -651,7 +651,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Awaiting Purchase Submission Approval')
+                                            @if ($ppb->status == 'Awaiting Purchase Request Approval')
                                             @if ($ppb->atasan == 9)
                                                 <tbody>
                                                     <tr>
@@ -662,7 +662,7 @@
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td>
-                                                                <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                <a class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
@@ -710,7 +710,7 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Purchase Submission Approved' ||
+                                            @if ($ppb->status == 'Purchase Request Approved' ||
                                                  $ppb->status == 'Purchase Proses' ||
                                                  $ppb->status == 'Waiting For PO Approval' ||
                                                  $ppb->status == 'PO Approved' ||
@@ -729,7 +729,7 @@
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td>
-                                                                <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                <a class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 

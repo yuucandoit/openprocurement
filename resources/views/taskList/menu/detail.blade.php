@@ -204,7 +204,7 @@
 
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
-                                        @elseif($data_pengajuan->status == 'Purchase Submission Approved')
+                                        @elseif($data_pengajuan->status == 'Purchase Request Approved')
                                             <a href="{{ url('menu-task-list/accept', $data_pengajuan->id) }}"
                                                 class="btn btn-success text-center" onclick="return">Approve</a>
 

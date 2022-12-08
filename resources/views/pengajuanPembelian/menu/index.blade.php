@@ -99,12 +99,12 @@
                 <td><a href="{{ $ppembelian->desc }}" target="_blank">{{ $ppembelian->desc }}</a></td>
                 @hasrole('user|super admin')
                 <td>
-                  @if ($ppembelian->status == 'Awaiting Purchase Submission Approval')
+                  @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
                   <a class="badge bg-warning mt-1" style="color: white; font-size:18">Waiting Approval 1</a>
                   @elseif ($ppembelian->status == 'Waiting For PO Approval')
                   <a class="badge bg-warning mt-1" style="color: white; font-size:18">Waiting Approval 2</a>
-                  @elseif ($ppembelian->status == 'Purchase Submission Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved' || $ppembelian->status == 'Invoicing Process' || $ppembelian->status == 'Payment Approved' )
-                  <a class="badge bg-success mt-1" style="color:white; font-size:18;">On Process</a>
+                  @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved' || $ppembelian->status == 'Invoicing Process' || $ppembelian->status == 'Payment Approved' )
+                  <a class="badge bg-success mt-1" style="color:white; font-size:18;" >On Process</a>
                   @elseif ($ppembelian->status == 'Unpaid' || $ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery process' || $ppembelian->status == 'Delivery Success')
                   <a class="badge bg-success mt-1" style="color:white; font-size:18;">Done</a>
                   @elseif ($ppembelian->status == 'Rejected')
@@ -121,7 +121,42 @@
                 </td>
                 <td>
                   @if ($ppembelian->status == 'Paid')
-                  <a class="badge bg-warning mt-1" style="color: white; font-size:18"> Delivery On Process</a>
+                  <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:18" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> Delivery On Process</a>
+                  {{-- <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myLargeModalLabel">Progress</h4>
+                                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card-body text-center">
+                                    <div class="row">
+                                      <div class="col-lg-4">
+                                        <div class="u-steps u-steps-vertical">
+                                          <div class="u-step"><span class="u-step-number">1</span>
+                                            <div class="u-step-desc"><span class="u-step-title">Shopping</span>
+                                              <p>Choose what you want</p>
+                                            </div>
+                                          </div>
+                                          <div class="u-step current"><span class="u-step-number">2</span>
+                                            <div class="u-step-desc"><span class="u-step-title">Billing</span>
+                                              <p>Pay for the bill</p>
+                                            </div>
+                                          </div>
+                                          <div class="u-step"><span class="u-step-number">3</span>
+                                            <div class="u-step-desc"><span class="u-step-title">Getting</span>
+                                              <p>Waiting for the goods</p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div> --}}
                   @elseif ($ppembelian->status == 'Delivery Success')
                   <a class="badge bg-success mt-1" style="color: white; font-size:18">Delivery Success</a>
                   @endif
@@ -130,6 +165,11 @@
                 @endhasrole
 
                 <td style="text-align: center;">
+                    <a class="btn btn-iconsolid mt-1"
+                    style="background-color: #ADD8E6;"
+                    href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}"><i
+                        class="icon-eye" title="Preview PDF"></i>
+                    </a>
                     <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"><i class="icon-zoom-in" title="Details"></i>
                     </a>
                   @if ($ppembelian->status == 'Awaiting Purchase Submission Approval' )

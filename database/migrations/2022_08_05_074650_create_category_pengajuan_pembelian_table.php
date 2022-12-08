@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('category_pengajuan_pembelian', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->default('0');
-            $table->string('status')->default('Awaiting Purchase Submission Approval')->nullable();
+            $table->string('status')->default('Awaiting Purchase Request Approval')->nullable();
             $table->foreignId('atasan')->nullable()->constrained('users');
             $table->foreignId('atasan_po')->nullable()->constrained('users');
             $table->foreignId('atasan_py')->nullable()->constrained('users');
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->enum('dateline',['≤24Jam','≤48Jam','≤72Jam','≤96Jam','≤168Jam','≤336Jam']);
             $table->time('dateline_time')->nullable();
             $table->boolean('ppn')->nullable()->default(false);
-            $table->string('image')->nullable();
+            $table->string('signature')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

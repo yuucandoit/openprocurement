@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h3>Approval Email</h3>
+    <h3>Approval Mail</h3>
     @php
         use Carbon\Carbon;
         $now = Carbon::now();

@@ -446,10 +446,12 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     //Route Export PDF
+    Route::get('/exportpdf/ppb/{id}', [CategoryPengajuanPembelianController::class, 'exportpdf'])->name('export_ppb.pdf');
+
     Route::get('/exportpdf/po/{id}', [PurchaseOrderController::class, 'exportpdf'])->name('export_po.pdf');
 
-    //Route Export PDF
     Route::get('/exportpdf/pymnt/{id}', [CategoryPDController::class, 'exportpdf'])->name('export_po.pdf');
+    //End Route Export
 
     //Route Import Private Person
     Route::get('file-import-pp', [CategoryPPController::class, 'fileImportPP']);
