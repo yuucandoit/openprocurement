@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Purchase Order</title>
+    <title>Pengajuan Pembelian</title>
 </head>
 
 <body>
@@ -37,10 +37,17 @@
         </tr>
     </table>
 
-    <table width="100%">
+    <style>
+        .tapper >  h6,p,span{
+            display: inline;
+        }
+    </style>
+
+    <table width="100%" class="mt-4">
         <tr>
-            <td class="d-inline">
-                <h6>Project :
+            <td>
+                <div class="tapper">
+                <h6>Project &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                 @if (empty($atasan->purpose_type))
                     <p>Not Filled Yet</p>
                 @elseif($atasan->purpose_type == 'App\Models\ReferensiNamaProject')
@@ -55,21 +62,24 @@
                     <p> <span>{{ $atasan->purpose->name }}</span>
                 @endif
                 </h6>
-            </td>
-            <td class="d-inline">
-                <h6>Description :  <p>{{ $atasan->desc }}</p></h6>
-            </td>
-            <td class="d-inline">
-                <h6 class="media-heading f-w-600">Request By :</h6>
+             </div>
+
+                <div class="tapper">
+                <h6>Description &nbsp;:  <p><span>{{ $atasan->desc }}</span></p></h6>
+                </div>
+
+                <div class="tapper">
+                <h6 class="media-heading f-w-600">Request By &nbsp;:</h6>
                 @foreach ($cpp as $p)
-                    <p>{{ $p->whosubmit->name }}</p>
+                    <p><span>{{ $p->whosubmit->name }}</span></p>
                 @endforeach
+                </div>
             </td>
         </tr>
     </table>
 
-    <h3 class="text-center">Pengajuan Pembelian</h3>
-    <table class="table table-bordered table-striped" style="margin-bottom: 50px;">
+    <h3 class="text-center mt-4 ">Pengajuan Pembelian</h3>
+    <table class="table table-bordered table-striped " style="margin-bottom: 50px;">
         <tbody>
             <tr>
                 <td>
@@ -219,12 +229,14 @@
                             $c->status == 'Paid' ||
                             $c->status == 'Delivery Success')
                             <p>{{ $approvedAt }}</p>
-                            @if (empty($atasan->signature))
-                            @else
-                                <p><img style=" width:100px;"
-                                        src="{{ public_path('assets/images/signature_super_user/' . $atasan->signature) }}"
-                                        alt=""></p>
-                            @endif
+                </div>
+                <div style="text-align: center;">
+                    @if (empty($atasan->signature))
+                    @else
+                        <p><img style=" width:100px;"
+                                src="{{ public_path('assets/images/signature_super_user/' . $atasan->signature) }}"
+                                alt=""></p>
+                    @endif
                 </div>
                 @if (empty($atasan->bod->name))
                     <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
@@ -255,8 +267,8 @@
                    left: 0cm;
                    right: 0cm;
                    height: 2cm;">
-        <p>Head Office : Jl Cikunir Raya No.689 Jakamulya, Bekasi Selatan, Telp. 021-89454790 <br>
-            Mkt Office &nbsp;&nbsp; : Jl Tebet Barat dalam raya No. 31 <br>Tebet Barat, Jakarta Selatan, Telp
+        <p>Head Office &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Jl Cikunir Raya No.689 Jakamulya, <br> Bekasi Selatan, Telp. 021-89454790 <br>
+            Marketing Office : Jl Tebet Barat dalam raya No. 31 <br>Tebet Barat, Jakarta Selatan, Telp
             021-21383852</p>
     </footer>
 </body>
