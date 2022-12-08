@@ -227,11 +227,11 @@
                                             }
 
                                             .page {
-                                                height: 58px;
+                                                height: 56px;
                                             }
                                         </style>
 
-                                        <div class="col-12 mt-3">
+                                        <div class="col-md-6 mt-3">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
                                                         class="fa fa-database"></i> Select Vendor</label>
@@ -273,44 +273,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="floatingNoTelpon" style="font-weight: bold;"><i
-                                                        class="icofont icofont-social-google-map"></i> Address</label>
-                                                <div class="form-floating">
-                                                    <input required type="text" class="form-control"
-                                                        id="floatingNoTelpon" placeholder="Address" name="address">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="floatingNoTelpon" style="font-weight: bold;"><i
-                                                        class="icofont icofont-ui-dial-phone"></i> Phone
-                                                    Number</label>
-                                                <div class="form-floating">
-                                                    <input required type="text" class="form-control"
-                                                        id="floatingNoTelpon" placeholder="No_telp" name="no_telp">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="floatingNPWP"><i class="fa fa-credit-card"></i>
-                                                    NPWP</label>
-                                                <div class="form-floating">
-                                                    <input required type="text" class="form-control" id="floatingNPWP"
-                                                        placeholder="NPWP" name="no_npwp">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mt-3">
                                             <div class="form-group">
                                                 <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
                                                     Quotation</label>

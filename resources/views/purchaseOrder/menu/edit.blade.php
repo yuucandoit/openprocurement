@@ -59,7 +59,7 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row g-3">
-                                    <div class="col-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <select class="form-select page mt-2 pageSelect" id="pageSelect"
                                                 placeholder="Proposed To" name="vendor">
@@ -94,7 +94,7 @@
                                             {{-- End Ecommerce Dropdown --}}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-md-6">
                                         <div class="form-floating">
                                             <select class="form-select mt-2" id="floatingproposedto"
                                                 placeholder="Proposed To" name="atasan_po">
@@ -109,30 +109,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-6">
-                                        <div class="form-floating">
-                                            <input required type="text" class="form-control mt-2 " id="floatingNoTelpon"
-                                                placeholder="Address" name="address" value="{{ $datacpo->address }}">
-                                            <label for="floatingNoTelpon">Alamat</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-floating">
-                                            <input required type="text" class="form-control mt-2 "
-                                                id="floatingNoTelpon" placeholder="No_Telp" name="no_telp"
-                                                value="{{ $datacpo->no_telp }}">
-                                            <label for="floatingNoTelpon">Nomor Telpon</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-floating">
-                                            <input required type="text" class="form-control mt-2 "
-                                                id="floatingNoTelpon" placeholder="NPWP" name="no_npwp"
-                                                value="{{ $datacpo->no_npwp }}">
-                                            <label for="floatingNoTelpon">NPWP</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
+
+                                    <div class="col-md-6">
                                         <div class="form-floating">
                                             <input required type="text" class="form-control mt-2 "
                                                 id="floatingNoTelpon" placeholder="Quotation" name="quotation"
@@ -154,7 +132,7 @@
                                         }
                                     </style>
 
-                                    <div class="col-6">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <select class="form-select page mt-2" id="pageSelector"
                                                 placeholder="Terms and Conditions" name="term_conditions">
@@ -194,7 +172,11 @@
                                             @foreach ($item as $i)
                                                 <tr>
 
-                                                    <td class="text"><input type="text" name="item[]"
+                                                    <td class="text">
+                                                        <input type="text" name="id[]"
+                                                            placeholder="Input Item" class="form-control"
+                                                            style="text-align: center;" value="{{ $i->id }}" hidden />
+                                                        <input type="text" name="item[]"
                                                             placeholder="Input Item" class="form-control"
                                                             style="text-align: center;" value="{{ $i->item }}"
                                                             required />

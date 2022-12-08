@@ -19,9 +19,6 @@ return new class extends Migration
             $table->foreignId('term_conditions')->constrained('terms_and_condition');
             $table->morphs('vendorable');
             $table->string('quotation');
-            $table->string('address');
-            $table->string('no_telp');
-            $table->string('no_npwp');
             $table->string('signature')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
