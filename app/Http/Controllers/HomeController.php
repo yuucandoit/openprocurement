@@ -35,6 +35,12 @@ class HomeController extends Controller
         $pembelian_barang=CategoryPB::where('created_at','like',$this_year.'%')->get();
         $purchase_submission=CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->get();
         $purchase_order=CategoryPO::where('created_at','like',$this_year.'%')->get();
+        $pengajuan  =  CategoryPengajuanPembelian::where('atasan', 6)->count();
+        // foreach($pengajuan as $p) {
+        //     dd($p->atasan);
+        // }
+        //dd($pengajuan);
+
         for ($i=1;$i<=12;$i++){
             $data_qu[(int)$i]=0;
             $data_pd[(int)$i]=0;
@@ -69,7 +75,8 @@ class HomeController extends Controller
             ->with('data_pd', $data_pd)
             ->with('data_pb', $data_pb)
             ->with('data_po', $data_po)
-            ->with('data_ps', $data_ps);
+            ->with('data_ps', $data_ps)
+            ->with('pengajuan', $pengajuan);
 
         }
     }

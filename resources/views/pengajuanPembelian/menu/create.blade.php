@@ -137,7 +137,7 @@
                                         </div>
                                         @enderror
                                         {{-- Project Dropdown --}}
-                                        <select class=" form-select hide mt-2" id="selectedInput" name="sub_purpose">
+                                        <select class=" form-select hide mt-2 js-example-basic-single" id="selectedInput" name="project" data-live-search="true">
                                             @foreach ($purpose as $p)
                                             <option value="{{ $p->id }}">{{ $p->name }}</option>
                                             @endforeach
@@ -145,7 +145,7 @@
                                         {{-- End Project Dropdown --}}
 
                                         {{-- Office Dropdown --}}
-                                        <select class=" form-select hide" id="selectedInput2" name="sub_purpose">
+                                        <select class=" form-select hide js-example-basic-single" id="selectedInput2" name="company" data-live-search="true">
                                             @foreach ($purpose_office as $o)
                                             <option value="{{ $o->id }}">{{ $o->name }}</option>
                                             @endforeach
@@ -153,7 +153,7 @@
                                         {{-- End Office Dropdown --}}
 
                                         {{-- Workshop Dropdown --}}
-                                        <select class=" form-select hide" id="selectedInput3" name="sub_purpose">
+                                        <select class=" form-select hide js-example-basic-single" id="selectedInput3" name="workshop" data-live-search="true">
                                             @foreach ($purpose_workshop as $e)
                                             <option value="{{ $e->id }}">{{ $e->name }}</option>
                                             @endforeach
@@ -161,7 +161,7 @@
                                         {{-- End Workshop Dropdown --}}
 
                                         {{-- Inventory Dropdown --}}
-                                        <select class=" form-select hide" id="selectedInput4" name="sub_purpose">
+                                        <select class=" form-select hide js-example-basic-single" id="selectedInput4" name="inventory" data-live-search="true">
                                             @foreach ($purpose_inventory as $pi)
                                             <option value="{{ $pi->id }}">{{ $pi->name }}</option>
                                             @endforeach
@@ -169,7 +169,7 @@
                                         {{-- End Inventory Dropdown --}}
 
                                         {{-- Inventory Dropdown --}}
-                                        <select class=" form-select hide" id="selectedInput5" name="sub_purpose">
+                                        <select class=" form-select hide selectedInput4" id="selectedInput5" name="rnd" data-live-search="true">
                                             @foreach ($purpose_rnd as $rnd)
                                             <option value="{{ $rnd->id }}">{{ $rnd->name }}</option>
                                             @endforeach
@@ -357,6 +357,7 @@
     <!-- JavaScript Item -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script type="text/javascript">
         //Math
         $(document).ready(function() {
@@ -404,6 +405,7 @@
                     }
                 })
             });
+            $(".js-example-basic-single").select2();
         });
         //Add Form
         $(".addItem").on('click', function() {
@@ -467,7 +469,7 @@
         // Project
         pageSelect.addEventListener('change', function() {
             if (this.value == "project") {
-                selectedInput.classList.remove('hide');
+                selectedInput.classList.remove('hide').select2();
             } else {
                 selectedInput.classList.add('hide');
             }
@@ -476,7 +478,7 @@
         // Office
         pageSelect.addEventListener('change', function() {
             if (this.value == "office") {
-                selectedInput2.classList.remove('hide');
+                selectedInput2.classList.remove('hide').select2();
             } else {
                 selectedInput2.classList.add('hide');
             }
@@ -485,7 +487,7 @@
         // Workshop
         pageSelect.addEventListener('change', function() {
             if (this.value == "workshop") {
-                selectedInput3.classList.remove('hide');
+                selectedInput3.classList.remove('hide').select2();
             } else {
                 selectedInput3.classList.add('hide');
             }
@@ -494,7 +496,7 @@
         // inventory
         pageSelect.addEventListener('change', function() {
             if (this.value == "inventory") {
-                selectedInput4.classList.remove('hide');
+                selectedInput4.classList.remove('hide').select2();
             } else {
                 selectedInput4.classList.add('hide');
             }
@@ -510,6 +512,8 @@
         })
 
     </script>
+
+
 
     {{-- <script type="text/javascript">
     function otherOptionCheck() {

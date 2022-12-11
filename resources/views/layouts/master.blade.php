@@ -60,6 +60,10 @@
     <link id="color" rel="stylesheet" href="{{ asset('../assets/css/color-1.css') }}" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/responsive.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/...; rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </head>
 
@@ -375,11 +379,9 @@
                                             <span>E-commerce</span>
                                         </a>
                                     </li>
+                                @endhasrole
 
-                                    @endhasrole
-
-                                    @hasrole('admin|super admin')
-
+                                @hasrole('admin|super admin')
                                     <li class="sidebar-main-title">
                                         <div>
                                             <h6>Data Master Submission</h6>
@@ -666,6 +668,11 @@
 
     <script src="../assets/js/chart/google/google-chart-loader.js"></script>
     <script src="../assets/js/chart/google/google-chart.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
 
 
     <!-- Plugins JS Ends-->

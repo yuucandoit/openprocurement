@@ -131,11 +131,13 @@ class CategoryPengajuanPembelianController extends Controller
         //dd($atasan);
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
-        $purpose            = ReferensiNamaProject::all();
+        $purpose            = ReferensiNamaProject::get();
         $purpose_office     = Office::all();
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
         $purpose_rnd        = RND::all();
+
+
 
         return view('pengajuanPembelian.menu.create')
             ->with('atasan', $atasan)
@@ -200,47 +202,37 @@ class CategoryPengajuanPembelianController extends Controller
 
 
         if ($request->category_purpose == "project") {
-            $purpose1 = ReferensiNamaProject::find($request->sub_purpose);
+            $purpose1 = ReferensiNamaProject::find($request->project);
             $pengajuan = $purpose1->purposes()->save($pengajuan);
         } elseif ($request->category_purpose == "office") {
-            $purpose2 = Office::find($request->sub_purpose);
+            $purpose2 = Office::find($request->company);
             $pengajuan = $purpose2->purposes()->save($pengajuan);
         } elseif ($request->category_purpose == "workshop") {
-            $purpose3 = Workshop::find($request->sub_purpose);
+            $purpose3 = Workshop::find($request->workshop);
             $pengajuan = $purpose3->purposes()->save($pengajuan);
         } elseif ($request->category_purpose == "inventory") {
-            $purpose4 = Inventory::find($request->sub_purpose);
+            $purpose4 = Inventory::find($request->inventory);
             $pengajuan = $purpose4->purposes()->save($pengajuan);
         } elseif ($request->category_purpose == "rnd") {
-            $purpose5 = RND::find($request->sub_purpose);
+            $purpose5 = RND::find($request->rnd);
             $pengajuan = $purpose5->purposes()->save($pengajuan);
         }
 
 
-        if ($request->file('path_file') == null) {
-            foreach ($data['item'] as $item => $value) {
-                $data2 = array(
-                    'pp_id'             => $pengajuan->id,
-                    'item'              => $data['item'][$item],
-                    'qty'               => $data['qty'][$item],
-                    'kategori'          => $data['kategori'][$item],
-                );
-                PengajuanPembelian::create($data2);
+        foreach ($data['item'] as $item => $value) {
+            $file = null;
+            if($path = $request->file('path_file')[$item] ?? null) {
+                $file = $path->getClientOriginalName();
+                $path->move(public_path('upload_pengajuan'), $file);
             }
-        }
-        else {
-            foreach ($request->file('path_file') as $key => $path) {
-                $name = $path->getClientOriginalName();
-                $path->move(public_path('upload_pengajuan'), $name);
-                $data2 = array(
-                    'pp_id'             => $pengajuan->id,
-                    'item'              => $data['item'][$key],
-                    'qty'               => $data['qty'][$key],
-                    'kategori'          => $data['kategori'][$key],
-                    'path_file'         => $name,
-                );
-                PengajuanPembelian::create($data2);
-            }
+            $data2 = array(
+                'pp_id'             => $pengajuan->id,
+                'item'              => $data['item'][$item],
+                'qty'               => $data['qty'][$item],
+                'kategori'          => $data['kategori'][$item],
+                'path_file'         => $file,
+            );
+            PengajuanPembelian::create($data2);
         }
 } catch (Exception $err) {
        dd($err);

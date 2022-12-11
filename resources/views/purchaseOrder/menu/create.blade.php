@@ -245,7 +245,7 @@
                                                 </select>
                                                 {{-- Perusahaan Dropdown --}}
                                                 <select class=" form-select hide mt-2" id="selectedInput"
-                                                    name="vendor_id">
+                                                    name="perusahaan">
                                                     @foreach ($pt as $p)
                                                         <option value="{{ $p->id }}">{{ $p->nama }}
                                                         </option>
@@ -254,7 +254,7 @@
                                                 {{-- End Perusahaan Dropdown --}}
 
                                                 {{-- Private Person Dropdown --}}
-                                                <select class=" form-select hide" id="selectedInput2" name="vendor_id">
+                                                <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
                                                     @foreach ($op as $o)
                                                         <option value="{{ $o->id }}">{{ $o->nama }}
                                                         </option>
@@ -263,7 +263,7 @@
                                                 {{-- End Private Person Dropdown --}}
 
                                                 {{-- Ecommerce Dropdown --}}
-                                                <select class=" form-select hide" id="selectedInput3" name="vendor_id">
+                                                <select class=" form-select hide" id="selectedInput3" name="ecommerce">
                                                     @foreach ($ec as $e)
                                                         <option value="{{ $e->id }}">{{ $e->nama }}
                                                         </option>

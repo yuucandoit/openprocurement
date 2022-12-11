@@ -70,7 +70,7 @@
                                             </select>
                                             <p style="color: red;">*Please select the vendor again</p>
                                             {{-- Perusahaan Dropdown --}}
-                                            <select class=" form-select hide mt-2" id="selectedInput" name="vendor_id">
+                                            <select class=" form-select hide mt-2" id="selectedInput" name="perusahaan">
                                                 @foreach ($datapt as $p)
                                                     <option value="{{ $p->id }}">{{ $p->nama }}</option>
                                                 @endforeach
@@ -78,7 +78,7 @@
                                             {{-- End Perusahaan Dropdown --}}
 
                                             {{-- Private Person Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput2" name="vendor_id">
+                                            <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
                                                 @foreach ($op as $o)
                                                     <option value="{{ $o->id }}">{{ $o->nama }}</option>
                                                 @endforeach
@@ -86,7 +86,7 @@
                                             {{-- End Private Person Dropdown --}}
 
                                             {{-- Ecommerce Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput3" name="vendor_id">
+                                            <select class=" form-select hide" id="selectedInput3" name="ecommerce">
                                                 @foreach ($ec as $e)
                                                     <option value="{{ $e->id }}">{{ $e->nama }}</option>
                                                 @endforeach
@@ -160,8 +160,8 @@
                                                 <th
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                     Category</th>
-                                                <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                        File</th>
+                                                {{-- <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                        File</th> --}}
                                                 <th
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                     Price-per-unit</th>
@@ -173,22 +173,21 @@
                                                 <tr>
 
                                                     <td class="text">
-                                                        <input type="text" name="id[]"
-                                                            placeholder="Input Item" class="form-control"
-                                                            style="text-align: center;" value="{{ $i->id }}" hidden />
                                                         <input type="text" name="item[]"
                                                             placeholder="Input Item" class="form-control"
-                                                            style="text-align: center;" value="{{ $i->item }}"
-                                                            required />
+                                                            style="text-align: center;" value="{{ $i->id }}" hidden />
+                                                        <input type="text"
+                                                            placeholder="Input Item" class="form-control"
+                                                            style="text-align: center;" value="{{ $i->item }}" disabled/>
                                                     </td>
                                                     <td><input type="number" name="qty[]" placeholder="Input Quantity"
                                                             class="form-control form-calc form-qty"
                                                             style="text-align: center;" value="{{ $i->qty }}"
-                                                            required />
+                                                            required disabled />
                                                     </td>
                                                     <td>
                                                         <select class="form-select " placeholder="Kategori"
-                                                            name="kategori[]" required>
+                                                            name="kategori[]" disabled>
                                                             <option value="{{ $i->kategori }}" selected>
                                                                 {{ $i->kategori }}</option>
                                                             <option value="Pcs">Pcs </option>
@@ -197,12 +196,12 @@
                                                             <option value="Unit">Unit </option>
                                                         </select>
                                                     </td>
-                                                    <td>
+                                                    {{-- <td>
                                                         <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
                                                         @error('path_file')
                                                         <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                                         @enderror
-                                                    </td>
+                                                    </td> --}}
                                                     <td>
                                                         <input type="text" name="unit_price[]"
                                                             placeholder="Input Price"

@@ -43,7 +43,9 @@
         <!-- Container-fluid starts-->
         <div class="container-fluid general-widget">
             <div class="row">
+                @hasrole('super admin')
                 <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/menu-pengajuan-pembelian') }}"></a>
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-3"
                             style="border-left: 10px solid rgba(150, 148, 255, 0.9);">
@@ -63,7 +65,9 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
+
                 <div class="col-sm-6 col-xl-3 col-lg-6">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-4"
@@ -103,6 +107,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-sm-6 col-xl-3 col-lg-6">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid red;">
@@ -122,6 +127,426 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(251, 140, 1);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="dollar-sign"
+                                        style="color: rgb(251, 140, 1);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: rgb(251, 140, 1); font-family: 'Times New Roman', Times, serif;">
+                                        PAYMENT <br>
+                                        PROSES</h6>
+                                    <h2 class="mb-0 counter" style="color: rgb(251, 140, 1);">
+                                        {{ \App\Models\CategoryPD::count() }}</h2>
+                                    <i class="icon-bg" data-feather="dollar-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @endhasrole
+                @hasrole('user')
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/menu-pengajuan-pembelian') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3"
+                            style="border-left: 10px solid rgba(150, 148, 255, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                        style="color: rgba(150, 148, 255, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6
+                                        style="color: rgba(150, 148, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                        PURCHASE <br>
+                                        REQUEST</h6>
+                                    <h2 class="mb-0 counter" style="color: rgba(150, 148, 255, 0.9);">
+                                        {{ \App\Models\CategoryPengajuanPembelian::count() }}</h2>
+                                    <i class="icon-bg" data-feather="file-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </div>
+
+                @endhasrole
+                @hasrole('super user')
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('menu-taskList-atasan') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-4"
+                            style="border-left: 10px solid rgba(87, 188, 255, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="check-circle"
+                                        style="color: rgba(87, 188, 255, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
+                                        <h6
+                                            style="color: rgba(87, 188, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                            TASK LIST <br>
+                                            PURCHASE REQUEST</h6>
+                                       @if (Auth::user()->id === 3)
+
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 188, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan',3)->count() }}
+                                        </h2>
+
+                                        @elseif(Auth::user()->id === 6)
+
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 188, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan',6)->count() }}
+                                        </h2>
+
+                                        @elseif(Auth::user()->id === 7)
+
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 188, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan',7)->count() }}
+                                        </h2>
+
+                                        @elseif(Auth::user()->id === 8)
+
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 188, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan',8)->count() }}
+                                        </h2>
+
+                                        @elseif(Auth::user()->id === 9)
+
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 188, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan',9)->count() }}
+                                        </h2>
+
+                                        @endif
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </a>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/menu-taskList-atasan-po') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-4"
+                            style="border-left: 10px solid rgba(35, 96, 117, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="check-circle"
+                                        style="color: rgba(35, 96, 117, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
+                                        <h6
+                                            style="color: rgba(35, 96, 117, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                            TASK LIST <br>PURCHASE ORDER</h6>
+                                    @if(Auth::user()->id === 3)
+                                        <h2 class="mb-0 counter" style="color: rgba(35, 96, 117, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan_po',3)->count() }}
+                                        </h2>
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                    @elseif (Auth::user()->id === 6)
+
+                                        <h2 class="mb-0 counter" style="color: rgba(35, 96, 117, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan_po',6)->count() }}
+                                        </h2>
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                    @elseif (Auth::user()->id === 7)
+
+                                        <h2 class="mb-0 counter" style="color: rgba(35, 96, 117, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan_po',7)->count() }}
+                                        </h2>
+                                    @elseif (Auth::user()->id === 8)
+                                    <h2 class="mb-0 counter" style="color: rgba(35, 96, 117, 0.9);">
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('atasan_po',8)->count() }}
+                                    </h2>
+
+                                    @elseif (Auth::user()->id === 9)
+                                    <h2 class="mb-0 counter" style="color: rgba(35, 96, 117, 0.9);">
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('atasan_po',9)->count() }}
+                                    </h2>
+                                    @endif
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/menu-taskList-atasan-payment') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-4"
+                            style="border-left: 10px solid rgba(117, 0, 184, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="check-circle"
+                                        style="color: rgba(117, 0, 184, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
+
+                                        <h6
+                                            style="color: rgba(117, 0, 184, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                            TASK LIST <br> PAYMENT REQUEST</h6>
+                                        @if(Auth::user()->id === 3)
+                                            <h2 class="mb-0 counter" style="color: rgba(117, 0, 184, 0.9);">
+                                                {{ \App\Models\CategoryPengajuanPembelian::where('atasan_py',3)->count() }}
+                                            </h2>
+                                            <i class="icon-bg" data-feather="check-circle"></i>
+                                        @elseif (Auth::user()->id === 6)
+
+                                            <h2 class="mb-0 counter" style="color: rgba(117, 0, 184, 0.9);">
+                                                {{ \App\Models\CategoryPengajuanPembelian::where('atasan_py',6)->count() }}
+                                            </h2>
+                                            <i class="icon-bg" data-feather="check-circle"></i>
+                                        @elseif (Auth::user()->id === 7)
+
+                                            <h2 class="mb-0 counter" style="color: rgba(117, 0, 184, 0.9);">
+                                                {{ \App\Models\CategoryPengajuanPembelian::where('atasan_py',7)->count() }}
+                                            </h2>
+                                        @elseif (Auth::user()->id === 8)
+                                        <h2 class="mb-0 counter" style="color: rgba(117, 0, 184, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan_py',8)->count() }}
+                                        </h2>
+
+                                        @elseif (Auth::user()->id === 9)
+                                        <h2 class="mb-0 counter" style="color: rgba(117, 0, 184, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan_py',9)->count() }}
+                                        </h2>
+                                        @endif
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+
+                @endhasrole
+                @hasrole('purchasing')
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/menu-task-list') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid red;">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                        style="color: red;"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: red; font-family: 'Times New Roman', Times, serif;">
+                                        TASK LIST <br>
+                                        PURCHASE</h6>
+                                    <h2 class="mb-0 counter" style="color: red;">
+                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                    <i class="icon-bg" data-feather="file-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/menu-purchase-order') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid  rgba(87, 212, 255, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="shopping-cart"
+                                        style="color:  rgba(87, 212, 255, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color:  rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                        PURCHASE <br>
+                                        ORDER</h6>
+                                    <h2 class="mb-0 counter" style="color:  rgba(87, 212, 255, 0.9);">
+                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                    <i class="icon-bg" data-feather="shopping-cart"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/payment_request') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(254, 159, 56);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                        style="color: rgb(254, 159, 56);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: rgb(254, 159, 56); font-family: 'Times New Roman', Times, serif;">
+                                        PAYMENT <br>
+                                        REQUEST</h6>
+                                    <h2 class="mb-0 counter" style="color: rgb(254, 159, 56);">
+                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                    <i class="icon-bg" data-feather="file-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/delivery') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(21, 180, 18);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="truck"
+                                        style="color: rgb(21, 180, 18);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: rgb(21, 180, 18); font-family: 'Times New Roman', Times, serif;">
+                                        DELIVERY <br>
+                                    PROCES</h6>
+                                    <h2 class="mb-0 counter" style="color: rgb(21, 180, 18);">
+                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                    <i class="icon-bg" data-feather="truck"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </a>
+                </div>
+
+                @endhasrole
+                @hasrole('finance')
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/menu-tasklist-finance') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(251, 9, 1);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="dollar-sign"
+                                        style="color: rgb(251, 9, 1);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: rgb(251, 9, 1); font-family: 'Times New Roman', Times, serif;">
+                                        TASK LIST <br>
+                                        FINANCE</h6>
+                                    <h2 class="mb-0 counter" style="color: rgb(251, 9, 1);">
+                                        {{ \App\Models\CategoryPD::count() }}</h2>
+                                    <i class="icon-bg" data-feather="dollar-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/menu-pengajuan-dana') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(37, 178, 68);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="dollar-sign"
+                                        style="color: rgb(37, 178, 68);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: rgb(37, 178, 68); font-family: 'Times New Roman', Times, serif;">
+                                        PAYMENT <br>
+                                        PROCESS</h6>
+                                    <h2 class="mb-0 counter" style="color: rgb(37, 178, 68);">
+                                        {{ \App\Models\CategoryPD::count() }}</h2>
+                                    <i class="icon-bg" data-feather="dollar-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </a>
+                </div>
+
+                @endhasrole
+
+
+                {{-- <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3"
+                            style="border-left: 10px solid rgba(150, 148, 255, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                        style="color: rgba(150, 148, 255, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6
+                                        style="color: rgba(150, 148, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                        PURCHASE <br>
+                                        REQUEST</h6>
+                                    <h2 class="mb-0 counter" style="color: rgba(150, 148, 255, 0.9);">
+                                        {{ \App\Models\CategoryPengajuanPembelian::count() }}</h2>
+                                    <i class="icon-bg" data-feather="file-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-4"
+                            style="border-left: 10px solid rgba(87, 212, 255, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="check-circle"
+                                        style="color: rgba(87, 212, 255, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
+                                    @if (\App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval'))
+                                        <h6
+                                            style="color: rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                            TASK LIST <br> </h6>
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 212, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
+                                        </h2>
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                    @elseif (\App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Submission Approved'))
+                                        <h6
+                                            style="color: rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                            TASK LIST <br> </h6>
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 212, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
+                                        </h2>
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                    @elseif (\App\Models\CategoryPengajuanPembelian::where('status', 'Waiting For PO Approval'))
+                                        <h6
+                                            style="color: rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                            TASK LIST <br> </h6>
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 212, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
+                                        </h2>
+                                        <i class="icon-bg" data-feather="check-circle"></i>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid red;">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                        style="color: red;"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: red; font-family: 'Times New Roman', Times, serif;">
+                                        PURCHASE <br>
+                                        ORDER</h6>
+                                    <h2 class="mb-0 counter" style="color: red;">
+                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                    <i class="icon-bg" data-feather="file-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-sm-6 col-xl-3 col-lg-6">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(251, 140, 1);">
@@ -140,7 +565,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
+
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 box-col-12">
@@ -216,7 +642,7 @@
 
 
                 {
-                    label: 'Fund Submission',
+                    label: 'Payment Process',
                     backgroundColor: 'rgb(255, 255, 0)',
                     borderColor: 'rgb(93, 218, 180)',
                     borderRadius: 5,
