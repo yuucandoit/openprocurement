@@ -105,6 +105,7 @@
                                     <thead>
                                         <tr class="text-center"
                                             style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
+                                            <th>No</th>
                                             <th>Item</th>
                                             <th>Qty</th>
                                             <th>Categori</th>
@@ -112,10 +113,14 @@
                                             <th>Total</th>
                                         </tr>
                                     </thead>
+                                    @php
+                                        $no = 1;
+                                    @endphp
 
                                     <tbody>
                                         @foreach ($pengajuan as $p)
                                             <tr>
+                                                <td style="text-align: center;">{{ $no++ }}</td>
                                                 <td style="text-align: center;">{{ $p->item }}</td>
                                                 <td style="text-align: center;">{{ $p->qty }}</td>
                                                 <td style="text-align: center;">{{ $p->kategori }}</td>

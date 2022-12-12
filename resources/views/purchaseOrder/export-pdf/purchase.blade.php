@@ -86,6 +86,9 @@
         <tbody>
             <tr class="text-center">
                 <td>
+                    <h6>No</h6>
+                </td>
+                <td>
                     <h6>Item</h6>
                 </td>
                 <td class="Hours">
@@ -101,8 +104,14 @@
                     <h6>Total</h6>
                 </td>
             </tr>
+            @php
+                $no = 1
+            @endphp
             @foreach ($category_q as $q)
                 <tr>
+                    <td>
+                        <p>{{ $no++ }}</p>
+                    </td>
                     <td>
                         <label>{!! nl2br($q->item) !!}</label>
                     </td>
@@ -121,6 +130,9 @@
                 </tr>
             @endforeach
             <tr>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
                 <td>
                     <p class="itemtext"></p>
                 </td>
@@ -150,11 +162,14 @@
                     <p class="itemtext"></p>
                 </td>
                 <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
                     <p class="m-0">PPN 11% </p>
                 </td>
                 @foreach ($cpp as $c)
                     @if ($c->ppn == 0)
-                        <td class="text-right>
+                        <td class="text-right">
                             <p class="m-0 digits text-end">Rp.0</p>
                         </td>
                     @else
@@ -167,6 +182,7 @@
                 @endforeach
             </tr>
             <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
