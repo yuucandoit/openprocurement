@@ -60,8 +60,8 @@
     <link id="color" rel="stylesheet" href="{{ asset('../assets/css/color-1.css') }}" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/responsive.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/...; rel="stylesheet" />
-
+    <!-- Latest compiled and minified CSS -->
+    <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
 </head>
 

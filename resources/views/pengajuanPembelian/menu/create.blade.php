@@ -89,7 +89,7 @@
                                     <div class="form-group">
                                         <label for="floatingrequestby"><i class="fa fa-user"></i> Request By
                                             :</label>
-                                        <select class="form-select page @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" required="">
+                                        <select class="form-select page @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" required="" data-live-search="true">
                                             <option value="" disabled selected hidden>Request By</option>
                                             @foreach ($dataws as $ws)
                                             <option value="{{ $ws->id }}">{{ $ws->name }}</option>
@@ -123,7 +123,7 @@
                                         <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i>
                                             Purpose
                                             :</label>
-                                        <select class="form-select page pageSelect" id="pageSelect" placeholder="Purpose" name="category_purpose">
+                                        <select class="form-select page pageSelect" id="pageSelect" placeholder="Purpose" name="category_purpose" data-live-search="true">
                                             <option value="">Select Category Purpose</option>
                                             <option value="project">Project</option>
                                             <option value="office">Office</option>
@@ -137,7 +137,7 @@
                                         </div>
                                         @enderror
                                         {{-- Project Dropdown --}}
-                                        <select class=" form-select hide mt-2 " id="selectedInput" name="project" data-show-subtext="false" data-live-search="true">
+                                        <select class=" form-select hide mt-2  " id="selectedInput" name="project"  data-live-search="true">
                                             @foreach ($purpose as $p)
                                             <option value="{{ $p->id }}">{{ $p->name }}</option>
                                             @endforeach
@@ -145,7 +145,7 @@
                                         {{-- End Project Dropdown --}}
 
                                         {{-- Office Dropdown --}}
-                                        <select class=" form-select hide " id="selectedInput2" name="company" data-show-subtext="false" data-live-search="true">
+                                        <select class=" form-select hide " id="selectedInput2" name="company"  data-live-search="true">
                                             @foreach ($purpose_office as $o)
                                             <option value="{{ $o->id }}">{{ $o->name }}</option>
                                             @endforeach
@@ -153,7 +153,7 @@
                                         {{-- End Office Dropdown --}}
 
                                         {{-- Workshop Dropdown --}}
-                                        <select class=" form-select hide " id="selectedInput3" name="workshop" data-show-subtext="false" data-live-search="true">
+                                        <select class=" form-select hide " id="selectedInput3" name="workshop"  data-live-search="true">
                                             @foreach ($purpose_workshop as $e)
                                             <option value="{{ $e->id }}">{{ $e->name }}</option>
                                             @endforeach
@@ -161,7 +161,7 @@
                                         {{-- End Workshop Dropdown --}}
 
                                         {{-- Inventory Dropdown --}}
-                                        <select class=" form-select hide " id="selectedInput4" name="inventory" data-show-subtext="false" data-live-search="true">
+                                        <select class=" form-select hide " id="selectedInput4" name="inventory"  data-live-search="true">
                                             @foreach ($purpose_inventory as $pi)
                                             <option value="{{ $pi->id }}">{{ $pi->name }}</option>
                                             @endforeach
@@ -169,7 +169,7 @@
                                         {{-- End Inventory Dropdown --}}
 
                                         {{-- Inventory Dropdown --}}
-                                        <select class=" form-select hide " id="selectedInput5" name="rnd" data-show-subtext="false" data-live-search="true">
+                                        <select class=" form-select hide " id="selectedInput5" name="rnd"  data-live-search="true">
                                             @foreach ($purpose_rnd as $rnd)
                                             <option value="{{ $rnd->id }}">{{ $rnd->name }}</option>
                                             @endforeach
@@ -355,6 +355,7 @@
         </div>
     </div>
     <!-- JavaScript Item -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -547,9 +548,8 @@
         })
 
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+
 
 </section>
 @endsection
+

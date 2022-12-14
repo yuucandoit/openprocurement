@@ -130,14 +130,14 @@
                                                 $id++;
                                             @endphp
                                             @foreach ($pengajuan as $i)
-                                                    <td class="text">
-                                                        <input type="text" name="item[]"
-                                                            placeholder="Input Item" class="form-control"
-                                                            style="text-align: center;" value="{{ $i->id }}" hidden />
-                                                        <input type="text"
-                                                            placeholder="Input Item" class="form-control"
-                                                            style="text-align: center;" value="{{ $i->item }}" disabled/>
-                                                    </td>
+                                                        <td class="text">
+                                                            <input type="text" name="id[]"
+                                                                placeholder="Input Item" class="form-control"
+                                                                style="text-align: center;" value="{{ $i->id }}" hidden />
+                                                            <input type="text"
+                                                                placeholder="Input Item" class="form-control" name="item[]"
+                                                                style="text-align: center;" value="{{ $i->item }}" disabled/>
+                                                        </td>
                                                     <td><input type="number" name="qty[]" placeholder="Input Quantity"
                                                             class="form-control form-calc form-qty"
                                                             style="text-align: center;" value="{{ $i->qty }}"
@@ -146,7 +146,7 @@
                                                     <td>
                                                         <select class="form-select " placeholder="Kategori"
                                                             name="kategori[]" value="{{ $i->kategori }}" disabled>
-                                                            <option disabled value="{{ $i->kategori }}">
+                                                            <option value="{{ $i->kategori }}">
                                                                 {{ $i->kategori }}</option>
                                                             <option value="Pcs">Pcs </option>
                                                             <option value="Lusin">Lusin </option>
