@@ -151,6 +151,7 @@ class PurchaseOrderController extends Controller
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->get()->first();
         $data['vendorpo'] = CategoryPO::where('ppb_id', $id)->get();
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->get()->first();
+        //dd($data);
         $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
         $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();

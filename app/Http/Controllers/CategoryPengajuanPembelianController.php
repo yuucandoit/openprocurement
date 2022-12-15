@@ -317,11 +317,10 @@ class CategoryPengajuanPembelianController extends Controller
             'send_to.required' => 'The Send To field is required.',
         ]);
 
-        CategoryPengajuanPembelian::where('id', $id)->delete();
-        PengajuanPembelian::where('pp_id', $id)->delete();
         try {
             DB::beginTransaction();
-            $pengajuan = new CategoryPengajuanPembelian([
+            $pengajuan = CategoryPengajuanPembelian::where('id',$id)->first();
+            $pengajuan->update([
                 'user_id' =>  Auth::user()->id,
                 'date_ps' => $request->date_ps,
                 'dateline' => $request->dateline,
@@ -334,38 +333,41 @@ class CategoryPengajuanPembelianController extends Controller
             ]);
 
             if ($request->category_purpose == "project") {
-                $purpose1 = ReferensiNamaProject::find($request->sub_purpose);
+                $purpose1 = ReferensiNamaProject::find($request->project);
+                $purpose1->purposes()->where('id',$id)->delete();
                 $pengajuan = $purpose1->purposes()->save($pengajuan);
             } elseif ($request->category_purpose == "office") {
-                $purpose2 = Office::find($request->sub_purpose);
+                $purpose2 = Office::find($request->office);
+                $purpose2->purposes()->where('id',$id)->delete();
                 $pengajuan = $purpose2->purposes()->save($pengajuan);
             } elseif ($request->category_purpose == "workshop") {
-                $purpose3 = Workshop::find($request->sub_purpose);
+                $purpose3 = Workshop::find($request->workshop);
+                $purpose3->purposes()->where('id',$id)->delete();
                 $pengajuan = $purpose3->purposes()->save($pengajuan);
             } elseif ($request->category_purpose == "inventory") {
-                $purpose4 = Inventory::find($request->sub_purpose);
+                $purpose4 = Inventory::find($request->inventory);
+                $purpose4->purposes()->where('id',$id)->delete();
                 $pengajuan = $purpose4->purposes()->save($pengajuan);
             }
 
-            if ($request->item > 0) {
-                foreach ($request->file('path_file') as $key => $path) {
-                    $name = $path->getClientOriginalName();
-                    $path->move(public_path('upload_pengajuan'), $name);
-                    $data2 = array(
-                        'pp_id'             => $pengajuan->id,
-                        'item'              => $data['item'][$key],
-                        'qty'               => $data['qty'][$key],
-                        'kategori'          => $data['kategori'][$key],
-                        'path_file'         => $name,
-                    );
-                    PengajuanPembelian::create($data2);
+            foreach ($data['id'] as $item => $value) {
+                $file = null;
+                if($path = $request->file('path_file')[$item] ?? null) {
+                    $file = $path->getClientOriginalName();
+                    $path->move(public_path('upload_pengajuan'), $file);
                 }
+                $data2 = array(
+                    'item'              => $data['item'][$item],
+                    'qty'               => $data['qty'][$item],
+                    'kategori'          => $data['kategori'][$item],
+                    'path_file'         => $file,
+                );
+                PengajuanPembelian::where('id',$value)->update($data2);
             }
             DB::commit();
 
             return redirect('menu-pengajuan-pembelian/')->with(['success' => true, 'message' => 'Update Successfully']);
         } catch (\Exception $e) {
-            DB::rollBack();
             return ['success' => false, 'message' => $e->getMessage()];
         }
 

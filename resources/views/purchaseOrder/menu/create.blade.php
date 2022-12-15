@@ -136,16 +136,16 @@
                                                                 style="text-align: center;" value="{{ $i->id }}" hidden />
                                                             <input type="text"
                                                                 placeholder="Input Item" class="form-control" name="item[]"
-                                                                style="text-align: center;" value="{{ $i->item }}" disabled/>
+                                                                style="text-align: center;" value="{{ $i->item }}" />
                                                         </td>
                                                     <td><input type="number" name="qty[]" placeholder="Input Quantity"
                                                             class="form-control form-calc form-qty"
                                                             style="text-align: center;" value="{{ $i->qty }}"
-                                                            disabled />
+                                                             />
                                                     </td>
                                                     <td>
                                                         <select class="form-select " placeholder="Kategori"
-                                                            name="kategori[]" value="{{ $i->kategori }}" disabled>
+                                                            name="kategori[]" value="{{ $i->kategori }}" >
                                                             <option value="{{ $i->kategori }}">
                                                                 {{ $i->kategori }}</option>
                                                             <option value="Pcs">Pcs </option>

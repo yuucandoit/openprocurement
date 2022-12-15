@@ -77,16 +77,18 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="floatingdateline"><i class="fa fa-clock-o"></i> Date Line :</label>
+                                            <label for="floatingdeadline"><i class="fa fa-clock-o"></i> Deadline :</label>
                                             <select class="form-select page @error('dateline') is-invalid @enderror"
-                                                id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}"
+                                                id="floatingdeadline" placeholder="Dateline" value="{{ old('dateline') }}"
                                                 name="dateline">
                                                 <option selected value="{{ $dv->dateline }}"
                                                     {{ $dv->dateline ? 'selected' : '' }}>{{ $dv->dateline }}</option>
-                                                <option value="≤3Jam">≤ 3 Jam</option>
-                                                <option value="≤24Jam">≤ 24 Jam</option>
-                                                <option value="≤2Hari">≤ 2 Hari</option>
-                                                <option value="SesuaiPo">Sesuai PO</option>
+                                                    <option value="≤24Jam">1 hari</option>
+                                                    {{-- <option value="≤48Jam">2 hari</option> --}}
+                                                    <option value="≤72Jam">2 sd 3 hari</option>
+                                                    {{-- <option value="≤96Jam">4 hari</option> --}}
+                                                    <option value="≤168Jam">4 sd 7 hari</option>
+                                                    <option value="≤336Jam">8 sd 14 hari</option>
                                             </select>
                                             @error('dateline')
                                                 <div class="invalid-feedback">
@@ -146,7 +148,7 @@
                                             </select>
                                             <p style="color: red;">* Please re-input form purpose</p>
                                             {{-- Project Dropdown --}}
-                                            <select class=" form-select hide mt-2" id="selectedInput" name="sub_purpose">
+                                            <select class=" form-select hide mt-2" id="selectedInput" name="project">
                                                 @foreach ($purpose as $p)
                                                     <option value="{{ $p->id }}">{{ $p->name }}</option>
                                                 @endforeach
@@ -154,7 +156,7 @@
                                             {{-- End Project Dropdown --}}
 
                                             {{-- Office Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput2" name="sub_purpose">
+                                            <select class=" form-select hide" id="selectedInput2" name="office">
                                                 @foreach ($purpose_office as $o)
                                                     <option value="{{ $o->id }}">{{ $o->name }}</option>
                                                 @endforeach
@@ -162,7 +164,7 @@
                                             {{-- End Office Dropdown --}}
 
                                             {{-- Workshop Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput3" name="sub_purpose">
+                                            <select class=" form-select hide" id="selectedInput3" name="workshop">
                                                 @foreach ($purpose_workshop as $e)
                                                     <option value="{{ $e->id }}">{{ $e->name }}</option>
                                                 @endforeach
@@ -170,7 +172,7 @@
                                             {{-- End Workshop Dropdown --}}
 
                                             {{-- Inventory Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput4" name="sub_purpose">
+                                            <select class=" form-select hide" id="selectedInput4" name="inventory">
                                                 @foreach ($purpose_inventory as $pi)
                                                     <option value="{{ $pi->id }}">{{ $pi->name }}</option>
                                                 @endforeach
@@ -328,7 +330,11 @@
                                         @endphp
                                         @foreach ($item as $i)
                                             <tr>
-                                                <td class="text"><input type="text" name="item[]"
+                                                <td class="text">
+                                                    <input type="text" name="id[]"
+                                                    placeholder="Input Item" class="form-control"
+                                                    style="text-align: center;" value="{{ $i->id }}" hidden />
+                                                    <input type="text" name="item[]"
                                                         placeholder="Input Item" class="form-control"
                                                         style="text-align: center;" value="{{ $i->item }}"
                                                         required />

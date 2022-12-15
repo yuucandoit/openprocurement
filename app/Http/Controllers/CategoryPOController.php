@@ -201,7 +201,7 @@ class CategoryPOController extends Controller
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
-                PengajuanPembelian::updateOrCreate(['pp_id', $id], [$update]);
+                PengajuanPembelian::where('id',$item)->update($update);
             }
         } else {
 
@@ -236,11 +236,7 @@ class CategoryPOController extends Controller
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
-                PengajuanPembelian::updateOrCreate([
-                    'pp_id' => $item,
-                ],[
-                    $update
-                ]);
+                PengajuanPembelian::where('id',$item)->update($update);
             }
 
         }
@@ -325,26 +321,27 @@ class CategoryPOController extends Controller
             $ppn->atasan_po = $request->atasan_po;
             $ppn->save();
 
+            $purchase =  CategoryPO::where('ppb_id', $id)->first();
+            $purchase->update([
+                "term_conditions" => $request->term_conditions,
+                "quotation" => $request->quotation,
+            ]);
+
+
             if ($request->vendor == "company") {
                 $vendor1 = CategoryPT::find($request->perusahaan);
-                $purchase = $vendor1->vendors()->update([
-                        "term_conditions" => $request->term_conditions,
-                        "quotation" => $request->quotation,
-                ]);
+                $vendor1->vendors()->where('id',$id)->delete();
+                $vendor1->vendors()->save($purchase);
 
             } elseif ($request->vendor == "privateperson") {
                 $vendor2 = CategoryPP::find($request->orangpribadi);
-                dd($vendor2);
-                $purchase = $vendor2->vendors()->update([
-                    "term_conditions" => $request->term_conditions,
-                    "quotation" => $request->quotation,
-            ]);
+                $vendor2->vendors()->where('id',$id)->delete();
+                $vendor2->vendors()->save($purchase);
+
             } elseif ($request->vendor == "ecommerce") {
                 $vendor3 = CategoryEcommerce::find($request->ecommerce);
-                $purchase = $vendor3->vendors()->update([
-                    "term_conditions" => $request->term_conditions,
-                    "quotation" => $request->quotation,
-            ]);
+                $vendor3->vendors()->where('id',$id)->delete();
+                $vendor3->vendors()->save($purchase);
             }
 
 
@@ -376,27 +373,20 @@ class CategoryPOController extends Controller
             ]);
 
 
-            $purchase = CategoryPO::where('ppb_id',$id)->first();
-
             if ($request->vendor == "company") {
                 $vendor1 = CategoryPT::find($request->perusahaan);
-                $vendor1->vendors()->update([
-                    "term_conditions" => $request->term_conditions,
-                    "quotation" => $request->quotation,
-                ]);
+                $vendor1->vendors()->where('id',$id)->delete();
+                $vendor1->vendors()->save($purchase);
+
             } elseif ($request->vendor == "privateperson") {
                 $vendor2 = CategoryPP::find($request->orangpribadi);
-                $vendor2->vendors()->update([
-                    "term_conditions" => $request->term_conditions,
-                    "quotation" => $request->quotation,
-                ]);
+                $vendor2->vendors()->where('id',$id)->delete();
+                $vendor2->vendors()->save($purchase);
 
             } elseif ($request->vendor == "ecommerce") {
                 $vendor3 = CategoryEcommerce::find($request->ecommerce);
-                $vendor3->vendors()->update([
-                    "term_conditions" => $request->term_conditions,
-                    "quotation" => $request->quotation,
-                ]);
+                $vendor3->vendors()->where('id',$id)->delete();
+                $vendor3->vendors()->save($purchase);
             }
 
 

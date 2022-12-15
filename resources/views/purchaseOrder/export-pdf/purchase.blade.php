@@ -29,8 +29,12 @@
             @endphp
         </tr>
     </table>
+    @php
+        $id_po = $id->pp_id;
+        $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
+    @endphp
     <h3 class="text-center">Purchase Order</h3>
-    <h6 class="text-center"><span class="digits counter">000{{ $id->id }}/PO/SII/{{ $month }}/{{ $year }}</span>
+    <h6 class="text-center"><span class="digits counter">{{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
      </h6>
 
     <table width="100%" class="mt-5">
@@ -53,18 +57,20 @@
                         </span>
                     </p>
                 @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
-                    <p>Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
-                        Address &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
+                    <p>Name &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; :&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
+                        Address &nbsp; &nbsp; &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
                         NIK
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nik }}</span><br>
-                        NPWP &nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
-                        <span class="digits">
+                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; :&nbsp;<span>{{ $cpo->vendorable->nik }}</span><br>
+                        NPWP &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; :&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span><br>
+                        Quotation&nbsp; &nbsp;:
+                        <span >
                             @if (empty($cpo->quotation))
                                 -
                             @else
                                 {{ $cpo->quotation }}
                             @endif
                         </span>
+                    </p>
                 @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
                     <p>Name &nbsp;:&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
                         Link &nbsp;&nbsp;&nbsp; :&nbsp;<span>
