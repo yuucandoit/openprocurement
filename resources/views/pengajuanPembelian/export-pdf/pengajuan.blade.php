@@ -37,7 +37,7 @@
         }
     </style>
 
-    <h3 class="text-center  ">Pengajuan Pembelian</h3>
+    <h3 class="text-center">Pengajuan Pembelian</h3>
     <h6 class="text-center"><span class="digits counter">000{{ $id->id }}/PPB/SII/{{ $month }}/{{ $year }}</span>
     </h6>
     <table width="100%" class="mt-4">
@@ -137,7 +137,7 @@
                 <div style="text-align: center;">
                     @if (empty($atasan->signature))
                     @else
-                        <p><img style=" width:100px;"
+                        <p><img style=" max-height:120px;"
                                 src="{{ public_path('assets/images/signature_super_user/' . $atasan->signature) }}"
                                 alt=""></p>
                     @endif
@@ -153,14 +153,7 @@
                 @endif
                 @endif
                 @endforeach
-                {{-- @foreach ($cpp as $c)
-                            @if ($c->status == 'PO Approved' || $c->status == 'Invoicing Process' || $c->status == 'Payment Approved' || $c->status == 'Unpaid' || $c->status == 'Paid' || $c->status == 'Delivery Success') --}}
-                {{-- <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style=" width:80px;"> --}}
-                {{-- <strong>{{ $atasan->atasans->name }}</strong>
-                            @else
-                            <strong>BOD Name</strong>
-                            @endif
-                            {{-- @endforeach --}}
+
             </td>
         </tr>
     </table>
