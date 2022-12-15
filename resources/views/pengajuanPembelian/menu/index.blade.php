@@ -172,13 +172,13 @@
                     </a>
                     <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"><i class="icon-zoom-in" title="Details"></i>
                     </a>
-                  {{-- @if ($ppembelian->status == 'Awaiting Purchase Submission Approval' ) --}}
+                  @if ($ppembelian->status == 'Awaiting Purchase Submission Approval' )
 
                   <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
                   </a>
-                  {{-- @else
+                  @else
 
-                  @endif --}}
+                  @endif
                   <button class="btn btn-danger mt-1" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ppembelian->id }}"><i class="icon-trash" title="Delete"></i>
                   </button>
                 </td>
