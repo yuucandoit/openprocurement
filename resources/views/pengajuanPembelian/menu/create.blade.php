@@ -423,9 +423,6 @@
                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                      @enderror
                     </td>
-                    <td>
-                    <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
-                    </td>
                      <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
             $(".item").append(item)
         }

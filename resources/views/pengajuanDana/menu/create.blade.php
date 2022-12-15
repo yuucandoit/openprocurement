@@ -71,7 +71,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
-                                <a href="{{ route('delivery.index') }}" class="btn btn-dark mt-3">Back</a>
+                                <a href="{{ route('menu-pengajuan-dana.index') }}" class="btn btn-dark mt-3">Back</a>
                             </div>
                         </form>
                         </div>

@@ -318,7 +318,7 @@ class CategoryPengajuanPembelianController extends Controller
         ]);
 
         try {
-            DB::beginTransaction();
+
             $pengajuan = CategoryPengajuanPembelian::where('id',$id)->first();
             $pengajuan->update([
                 'user_id' =>  Auth::user()->id,
@@ -364,7 +364,6 @@ class CategoryPengajuanPembelianController extends Controller
                 );
                 PengajuanPembelian::where('id',$value)->update($data2);
             }
-            DB::commit();
 
             return redirect('menu-pengajuan-pembelian/')->with(['success' => true, 'message' => 'Update Successfully']);
         } catch (\Exception $e) {
