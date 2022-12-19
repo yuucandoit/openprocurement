@@ -33,9 +33,10 @@ class NotifPengajuanController extends Controller
         try {
             foreach($pengajuan as $p)
             if ($p->atasan == 3){
+            // $link = "<a href='http://174.138.24.202:6305/menu-taskList-atasan'>";
             // $response = Http::post($url, [
             //         'phone' => '6289618786152',
-            //         'message' => 'Testt',
+            //         'message' => 'Test Link 1 '.$link.'',
             // ]);
 
             // print_r($response);

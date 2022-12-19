@@ -340,7 +340,7 @@
                                         TASK LIST <br>
                                         PURCHASE</h6>
                                     <h2 class="mb-0 counter" style="color: red;">
-                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','Purchase Request Approved')->count() }}</h2>
                                     <i class="icon-bg" data-feather="file-text"></i>
                                 </div>
                             </div>
@@ -362,7 +362,7 @@
                                         PURCHASE <br>
                                         ORDER</h6>
                                     <h2 class="mb-0 counter" style="color:  rgba(87, 212, 255, 0.9);">
-                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','Purchase Proses')->count() }}</h2>
                                     <i class="icon-bg" data-feather="shopping-cart"></i>
                                 </div>
                             </div>
@@ -384,7 +384,7 @@
                                         PAYMENT <br>
                                         REQUEST</h6>
                                     <h2 class="mb-0 counter" style="color: rgb(254, 159, 56);">
-                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','PO Approved')->count() }}</h2>
                                     <i class="icon-bg" data-feather="file-text"></i>
                                 </div>
                             </div>
@@ -406,7 +406,7 @@
                                         DELIVERY <br>
                                     PROCES</h6>
                                     <h2 class="mb-0 counter" style="color: rgb(21, 180, 18);">
-                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','Paid')->count() }}</h2>
                                     <i class="icon-bg" data-feather="truck"></i>
                                 </div>
                             </div>
@@ -431,7 +431,7 @@
                                         TASK LIST <br>
                                         FINANCE</h6>
                                     <h2 class="mb-0 counter" style="color: rgb(251, 9, 1);">
-                                        {{ \App\Models\CategoryPD::count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','Payment Approved')->count() }}</h2>
                                     <i class="icon-bg" data-feather="dollar-sign"></i>
                                 </div>
                             </div>
@@ -453,7 +453,7 @@
                                         PAYMENT <br>
                                         PROCESS</h6>
                                     <h2 class="mb-0 counter" style="color: rgb(37, 178, 68);">
-                                        {{ \App\Models\CategoryPD::count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','Unpaid')->count() }}</h2>
                                     <i class="icon-bg" data-feather="dollar-sign"></i>
                                 </div>
                             </div>
