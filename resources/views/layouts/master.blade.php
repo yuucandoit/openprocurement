@@ -42,6 +42,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/prism.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/vector-map.css') }}">
     <!-- Plugins css Ends-->
+    <!-- Select2 css-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+    <!-- End Select2 css-->
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/bootstrap.css') }}">
     <!-- App css-->
@@ -663,14 +666,15 @@
     <script src="{{ asset('../assets/js/clipboard/clipboard.min.js') }}"></script>
     <script src="{{ asset('../assets/js/custom-card/custom-card.js') }}"></script>
     <!-- Plugins JS Ends-->
+    <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 
     <script src="../assets/js/chart/google/google-chart-loader.js"></script>
     <script src="../assets/js/chart/google/google-chart.js"></script>
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
-    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+    
 
 
     <!-- Plugins JS Ends-->

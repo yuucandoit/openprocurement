@@ -2,6 +2,7 @@
 @extends('layouts.master')
 
 @section('main')
+<link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 <section>
     <div class="container-fluid">
         <div class="page-header">
@@ -106,9 +107,9 @@
                                 {{-- css hide --}}
                                 <style>
                                     .hide {
-                                        width: 0;
-                                        height: 0;
-                                        opacity: 0;
+                                       width: 0;
+                                       height: 0;
+                                       opacity: 0;
                                     }
 
                                     .page {
@@ -137,43 +138,53 @@
                                         </div>
                                         @enderror
                                         {{-- Project Dropdown --}}
-                                        <select class=" form-select hide mt-2  " id="selectedInput" name="project"  data-live-search="true">
+                                        <div class="hide mt-2" id="selectedInput">
+                                        <select class= "js-example-basic-single mt-2 "  name="project">
                                             @foreach ($purpose as $p)
                                             <option value="{{ $p->id }}">{{ $p->name }}</option>
                                             @endforeach
                                         </select>
+                                         </div>
                                         {{-- End Project Dropdown --}}
 
                                         {{-- Office Dropdown --}}
-                                        <select class=" form-select hide " id="selectedInput2" name="company"  data-live-search="true">
+                                        <div class="hide" id="selectedInput2">
+                                        <select class="js-example-basic-single" name="company">
                                             @foreach ($purpose_office as $o)
                                             <option value="{{ $o->id }}">{{ $o->name }}</option>
                                             @endforeach
                                         </select>
+                                        </div>
                                         {{-- End Office Dropdown --}}
 
                                         {{-- Workshop Dropdown --}}
-                                        <select class=" form-select hide " id="selectedInput3" name="workshop"  data-live-search="true">
+                                        <div class="hide" id="selectedInput3">
+                                        <select class="js-example-basic-single" name="workshop">
                                             @foreach ($purpose_workshop as $e)
                                             <option value="{{ $e->id }}">{{ $e->name }}</option>
                                             @endforeach
                                         </select>
+                                        </div>
                                         {{-- End Workshop Dropdown --}}
 
                                         {{-- Inventory Dropdown --}}
-                                        <select class=" form-select hide " id="selectedInput4" name="inventory"  data-live-search="true">
+                                        <div class="hide" id="selectedInput4">
+                                        <select class="js-example-basic-single" name="inventory">
                                             @foreach ($purpose_inventory as $pi)
                                             <option value="{{ $pi->id }}">{{ $pi->name }}</option>
                                             @endforeach
                                         </select>
+                                        </div>
                                         {{-- End Inventory Dropdown --}}
 
                                         {{-- Inventory Dropdown --}}
-                                        <select class=" form-select hide " id="selectedInput5" name="rnd"  data-live-search="true">
+                                        <div class="hide" id="selectedInput5">
+                                        <select class="js-example-basic-single" name="rnd">
                                             @foreach ($purpose_rnd as $rnd)
                                             <option value="{{ $rnd->id }}">{{ $rnd->name }}</option>
                                             @endforeach
                                         </select>
+                                        </div>
                                         {{-- End Inventory Dropdown --}}
                                     </div>
                                 </div>
@@ -357,7 +368,9 @@
     <!-- JavaScript Item -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js"></script>
+
+
 
     <script type="text/javascript">
         //Math
@@ -416,7 +429,7 @@
         function addItem() {
             var item =
                 `<tr><td> <textarea name="item[]" id="" cols="30" rows="1"></textarea></td>
-                     <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td>
+                     <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/></td>
                      <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td>
                      <td><input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
                     @error('path_file')
@@ -447,6 +460,7 @@
         }
 
     </script>
+
 
     <script type="text/javascript">
         var pageSelect = document.getElementById('pageSelect');
@@ -479,7 +493,7 @@
         // Office
         pageSelect.addEventListener('change', function() {
             if (this.value == "office") {
-                selectedInput2.classList.remove('hide').select2();
+                selectedInput2.classList.remove('hide');
             } else {
                 selectedInput2.classList.add('hide');
             }
@@ -488,7 +502,7 @@
         // Workshop
         pageSelect.addEventListener('change', function() {
             if (this.value == "workshop") {
-                selectedInput3.classList.remove('hide').select2();
+                selectedInput3.classList.remove('hide');
             } else {
                 selectedInput3.classList.add('hide');
             }
@@ -497,7 +511,7 @@
         // inventory
         pageSelect.addEventListener('change', function() {
             if (this.value == "inventory") {
-                selectedInput4.classList.remove('hide').select2();
+                selectedInput4.classList.remove('hide');
             } else {
                 selectedInput4.classList.add('hide');
             }
