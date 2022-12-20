@@ -118,15 +118,15 @@
                             ?>
                         </li>
                         <h5 style="margin-bottom: 4px; margin-right: 12px; margin-bottom: 5px;">|</h5>
-                        <li style="font-weight: bold; font-size: 13px; margin-bottom: 5px;">
+                        {{-- <li style="font-weight: bold; font-size: 13px; margin-bottom: 5px;">
                             <i class="icofont icofont-time"></i>&nbsp;
                             <?php
                             date_default_timezone_set('Asia/Jakarta'); // Zona Waktu indonesia
                             echo date('H : i : s a'); // menampilkan jam sekarang
                             ?>
-                        </li>
-                        {{-- <li id="clock" style="font-weight: bold; font-size: 14px;">
                         </li> --}}
+                        <li id="clock" style="font-weight: bold; font-size: 14px;">
+                        </li>
 
                         <li style="margin-bottom: 5px;">
                             <a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()">
@@ -650,7 +650,7 @@
     <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.scroller.min.js') }}"></script>
     <script src="{{ asset('../assets/js/datatable/datatable-extension/custom.js') }}"></script>
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
-    <script src="{{ asset('../assets/Js/jam.js') }}"></script>
+    <script src="{{ asset('assets/js/jam.js') }}"></script>
     <script src="{{ asset('../assets/js/chart/chartjs/chart.min.js') }}"></script>
     <script src="{{ asset('../assets/js/chart/chartjs/chart.custom.js') }}"></script>
     <script src="{{ asset('../assets/js/form-wizard/form-wizard-three.js') }}"></script>
