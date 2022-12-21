@@ -128,7 +128,8 @@
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Name</th>
-                                                <th>Send To</th>
+                                                <th>Description</th>
+                                                {{-- <th>Send To</th> --}}
                                                 <th>Date Line</th>
                                                 <th>Countdown</th>
                                                 <th>Warning</th>
@@ -154,8 +155,9 @@
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->send_to }}</td>
-                                                        @if ($ppb->status == 'Purchase Proses')
+                                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                                        {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
+                                                     @if ($ppb->status == 'Purchase Proses')
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td class="ppb-countdown"></td>
                                                             <td>
@@ -187,6 +189,11 @@
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                             </a>
+                                                            <a class="btn btn-iconsolid mt-1"
+                                                            style="background-color: #c713e7;"
+                                                            href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}"><i
+                                                                class="icon-eye" title="Preview PDF"></i>
+                                                        </a>
 
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style=  "background-color: #008000;"
@@ -241,7 +248,8 @@
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Name</th>
-                                                <th>Send To</th>
+                                                <th>Description</th>
+                                                {{-- <th>Send To</th> --}}
                                                 <th>Date Line</th>
                                                 <th>Countdown</th>
                                                 <th>Warning</th>
@@ -272,7 +280,8 @@
                                                     <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->send_to }}</td>
+                                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                                        {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                         @if ($ppb->status == 'Purchase Proses')
 
                                                         @else
@@ -295,6 +304,11 @@
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                             </a>
+                                                            <a class="btn btn-iconsolid mt-1"
+                                                            style="background-color: #c713e7;"
+                                                            href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}"><i
+                                                                class="icon-eye" title="Preview PDF"></i>
+                                                        </a>
                                                                 @if ($ppb->status == 'Purchase Proses')
                                                                     <a class="btn btn-iconsolid mt-1"
                                                                         style="background-color: #008000;"
