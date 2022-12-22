@@ -86,16 +86,16 @@
                                         </tr>
                                         @foreach ($datapo as $po)
                                             <tr>
-                                                <td>Contact No</td>
-                                                <td>{{ $po->no_telp }}</td>
-                                            </tr>
-                                            <tr>
                                                 <td>Quotation</td>
                                                 <td>{{ $po->quotation }}</td>
                                             </tr>
                                             <tr>
-                                                <td>NPWP</td>
-                                                <td>{{ $po->no_npwp }}</td>
+                                                <td>Nama Vendor</td>
+                                                @if(empty($po->vendorable_type))
+                                                    Belum Diisi Datanya
+                                                @else
+                                                <td>{{ $po->vendorable->nama }}</td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>
