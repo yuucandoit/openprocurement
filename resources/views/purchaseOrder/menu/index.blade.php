@@ -315,13 +315,12 @@
                                                                         href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
                                                                             class="icon-file" title="Record Data"></i>
                                                                     </a>
-
-                                                                    <a class="btn btn-iconsolid mt-1"
-                                                                        style="background-color: #FF8C00;"
-                                                                        href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
-                                                                            class="icon-pencil-alt" title="Edit"></i>
-                                                                    </a>
                                                                 @endif
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #FF8C00;"
+                                                                href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
+                                                                    class="icon-pencil-alt" title="Edit"></i>
+                                                            </a>
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
                                                                     href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i
