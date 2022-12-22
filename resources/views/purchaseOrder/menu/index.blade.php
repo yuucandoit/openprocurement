@@ -178,22 +178,12 @@
                                                         <td style="text-align: center;">{{ $ppb->approved_at }}</td>
                                                         @hasrole('purchasing|super admin')
                                                             <td>
-                                                                <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #0014FF;"
-                                                                href="{{ url('/exportpdf/ppb/' . $ppb->id) }}"><i
-                                                                    class="icon-eye" title="Preview PDF Purchase request"></i>
-                                                                </a>
 
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                             </a>
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #c713e7;"
-                                                            href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}"><i
-                                                                class="icon-eye" title="Preview PDF"></i>
-                                                        </a>
 
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style=  "background-color: #008000;"
@@ -285,7 +275,7 @@
                                                         @if ($ppb->status == 'Purchase Proses')
 
                                                         @else
-                                                            <td> -/- </td>
+                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td> -/- </td>
                                                             <td> -/- </td>
                                                             <td> -/- </td>
@@ -294,21 +284,10 @@
                                                         @hasrole('purchasing|super admin')
                                                             <td>
                                                                 <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #0014FF;"
-                                                                href="{{ url('/exportpdf/ppb/' . $ppb->id) }}"><i
-                                                                    class="icon-eye" title="Preview PDF Purchase request"></i>
-                                                                </a>
-
-                                                                <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                             </a>
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #c713e7;"
-                                                            href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}"><i
-                                                                class="icon-eye" title="Preview PDF"></i>
-                                                        </a>
                                                                 @if ($ppb->status == 'Purchase Proses')
                                                                     <a class="btn btn-iconsolid mt-1"
                                                                         style="background-color: #008000;"

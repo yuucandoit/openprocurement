@@ -94,6 +94,22 @@
                                                             style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                     </td>
                                                     <td style="text-align: center;">
+                                                        <a class="btn btn-iconsolid mt-1"
+                                                        style="background-color: #0014FF;"
+                                                        href="{{ url('/exportpdf/ppb/' . $ppb->id) }}"><i
+                                                            class="icon-eye" title="Preview PDF Purchase request"></i>
+                                                        </a>
+
+                                                        <a class="btn btn-iconsolid mt-1"
+                                                        style="background-color: #B1D0E0;"
+                                                        href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
+                                                            class="icon-eye" title="Preview Purchase Order"></i>
+                                                    </a>
+                                                    <a class="btn btn-iconsolid mt-1"
+                                                    style="background-color: #c713e7;"
+                                                    href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}"><i
+                                                        class="icon-eye" title="Preview PDF"></i>
+                                                </a>
 
                                                         <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
                                                             href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i

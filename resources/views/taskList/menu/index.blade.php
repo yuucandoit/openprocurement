@@ -189,7 +189,6 @@
                                                             style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                     </td>
                                                     <td style="text-align: center;">
-
                                                         <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
                                                             href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i
                                                                 class="icon-zoom-in" title="Details"></i>
