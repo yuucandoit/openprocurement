@@ -178,12 +178,12 @@
                                                         <td style="text-align: center;">{{ $ppb->approved_at }}</td>
                                                         @hasrole('purchasing|super admin')
                                                             <td>
-
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                             </a>
+
 
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style=  "background-color: #008000;"
@@ -263,6 +263,7 @@
                                                     $ppb->status == 'Waiting For PO Approval' ||
                                                     $ppb->status == 'PO Approved' ||
                                                     $ppb->status == 'Invoicing Process' ||
+                                                    $ppb->status == 'Payment Approved' ||
                                                     $ppb->status == 'Unpaid' ||
                                                     $ppb->status == 'Paid' ||
                                                     $ppb->status == 'Delivery Process' ||
@@ -283,6 +284,7 @@
                                                         <td style="text-align: center;">{{ $ppb->approved_at }}</td>
                                                         @hasrole('purchasing|super admin')
                                                             <td>
+
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i

@@ -142,8 +142,10 @@
                                         @foreach ($datappb as $ppb)
                                             @if (
                                                 $ppb->status == 'Waiting For PO Approval' ||
+                                                $ppb->status == 'Waiting For PO Approval' ||
                                                 $ppb->status == 'PO Approved' ||
                                                 $ppb->status == 'Invoicing Process' ||
+                                                $ppb->status == 'Payment Approved' ||
                                                 $ppb->status == 'Unpaid' ||
                                                 $ppb->status == 'Paid' ||
                                                 $ppb->status == 'Delivery Process' ||
@@ -164,10 +166,21 @@
                                                     @hasrole('purchasing|super admin')
                                                         <td>
                                                             <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #ADD8E6;"
+                                                                style="background-color: #0014FF;"
+                                                                href="{{ url('/exportpdf/ppb/' . $ppb->id) }}"><i
+                                                                    class="icon-eye" title="Preview PDF Purchase request"></i>
+                                                                </a>
+
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #B1D0E0;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
-                                                                    class="icon-eye" title="Preview PO"></i>
+                                                                    class="icon-eye" title="Preview Purchase Order"></i>
                                                             </a>
+                                                            <a class="btn btn-iconsolid mt-1"
+                                                            style="background-color: #c713e7;"
+                                                            href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}"><i
+                                                                class="icon-eye" title="Preview PDF"></i>
+                                                        </a>
                                                             @if ($ppb->status == 'Purchase Proses')
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #008000;"
