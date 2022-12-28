@@ -35,7 +35,7 @@ class CategoryPOController extends Controller
             $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(5);
             $datappb->setPageName('in');
             $datappb2           = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->first();
-            $datahstry          = CategoryPengajuanPembelian::whereIn('status',array('Waiting For PO Approval','PO Approved','Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success') )->paginate(2);
+            $datahstry          = CategoryPengajuanPembelian::paginate(2);
             $datahstry->setPageName('out');
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();

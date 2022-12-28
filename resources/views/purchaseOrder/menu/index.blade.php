@@ -279,14 +279,14 @@
                                         <tbody>
                                             @foreach ($datahstry as $ppb)
                                                 @if (
-                                                    $ppb->status == 'Waiting For PO Approval' ||
-                                                    $ppb->status == 'PO Approved' ||
-                                                    $ppb->status == 'Invoicing Process' ||
-                                                    $ppb->status == 'Payment Approved' ||
-                                                    $ppb->status == 'Unpaid' ||
-                                                    $ppb->status == 'Paid' ||
-                                                    $ppb->status == 'Delivery Process' ||
-                                                    $ppb->status == 'Delivery Success')
+                                                $ppb->status == 'Waiting For PO Approval' ||
+                                                $ppb->status == 'PO Approved' ||
+                                                $ppb->status == 'Invoicing Process' ||
+                                                $ppb->status == 'Payment Approved' ||
+                                                $ppb->status == 'Unpaid' ||
+                                                $ppb->status == 'Paid' ||
+                                                $ppb->status == 'Delivery Process' ||
+                                                $ppb->status == 'Delivery Success')
                                                     <tr>
                                                         <td style="text-align: center;">{{ $ppb->id }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
