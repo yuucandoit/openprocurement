@@ -375,7 +375,7 @@ class CategoryPOController extends Controller
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
-                PengajuanPembelian::where('id',$item)->update($update);
+                PengajuanPembelian::updateOrCreate($update);
             }
         } else {
 
