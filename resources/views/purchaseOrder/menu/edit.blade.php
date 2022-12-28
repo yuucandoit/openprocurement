@@ -173,21 +173,21 @@
                                                 <tr>
 
                                                     <td class="text">
-                                                        <input type="text" name="item[]"
+                                                        <input type="text" name="id[]"
                                                             placeholder="Input Item" class="form-control"
                                                             style="text-align: center;" value="{{ $i->id }}" hidden />
-                                                        <input type="text"
+                                                        <input type="text" name="item[]"
                                                             placeholder="Input Item" class="form-control"
-                                                            style="text-align: center;" value="{{ $i->item }}" disabled/>
+                                                            style="text-align: center;" value="{{ $i->item }}" />
                                                     </td>
                                                     <td><input type="number" name="qty[]" placeholder="Input Quantity"
                                                             class="form-control form-calc form-qty"
                                                             style="text-align: center;" value="{{ $i->qty }}"
-                                                            required disabled />
+                                                            required  />
                                                     </td>
                                                     <td>
                                                         <select class="form-select " placeholder="Kategori"
-                                                            name="kategori[]" disabled>
+                                                            name="kategori[]" >
                                                             <option value="{{ $i->kategori }}" selected>
                                                                 {{ $i->kategori }}</option>
                                                             <option value="Pcs">Pcs </option>

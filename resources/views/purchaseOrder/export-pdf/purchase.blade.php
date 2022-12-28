@@ -34,7 +34,7 @@
         $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
     @endphp
     <h3 class="text-center">Purchase Order</h3>
-    <h6 class="text-center"><span class="digits counter">{{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
+    <h6 class="text-center"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
      </h6>
 
     <table width="100%" class="mt-5">
@@ -119,7 +119,7 @@
                         <p>{{ $no++ }}</p>
                     </td>
                     <td>
-                        <label>{!! nl2br($q->item) !!}</label>
+                        <label style="word-break: break-word;">{!! nl2br($q->item) !!}</label>
                     </td>
                     <td>
                         <p class="text-center">{{ $q->qty }}</p>

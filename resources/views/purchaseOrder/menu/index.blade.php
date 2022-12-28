@@ -121,9 +121,17 @@
                             <div class="card-header bg-primary">
                                 <h5>Purchase order data list In</h5>
                             </div>
+                            <div class="mt-4">
+                                <div style="max-width: 50%;" class="pull-right">
+                                    <form action="{{ route('menu-purchase-order.SearchPO') }}" method="get" class="input-group">
+                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                    </form>
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="display" id="basic-1">
+                                    <table class="table table-bordered" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -153,7 +161,7 @@
                                                 @if ($ppb->status == 'Purchase Proses')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
+                                                        <td style="text-align: center;">{{ $ppb->id }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
@@ -214,6 +222,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    <div class="mt-4">
+                                        {{-- {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }} --}}
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -231,9 +242,17 @@
                             <div class="card-header bg-primary">
                                 <h5>Purchase order data list Out</h5>
                             </div>
+                            <div class="mt-4">
+                                <div style="max-width: 50%;" class="pull-right">
+                                    <form action="{{ route('menu-purchase-order.SearchPO') }}" method="get" class="input-group">
+                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                    </form>
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="display" id="advance-1">
+                                    <table class="table table-bordered" id="advance-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -269,7 +288,7 @@
                                                     $ppb->status == 'Delivery Process' ||
                                                     $ppb->status == 'Delivery Success')
                                                     <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
+                                                        <td style="text-align: center;">{{ $ppb->id }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                         <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
@@ -320,6 +339,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    <div class="mt-4">
+                                        {{-- {{ $datahstry->appends(['out'=> request('out')])->withQueryString()->links('pagination::bootstrap-5') }} --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>

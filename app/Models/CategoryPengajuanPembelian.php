@@ -59,6 +59,11 @@ class CategoryPengajuanPembelian extends Model
         return $this->morphTo();
     }
 
+    public function ws()
+    {
+        return $this->belongsTo(WhoSubmitted::class);
+    }
+
     public function whosubmit()
     {
         return $this->belongsTo(WhoSubmitted::class, 'ws');

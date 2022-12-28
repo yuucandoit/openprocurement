@@ -48,9 +48,8 @@ class CategoryPengajuanPembelianController extends Controller
             $datadepartment = Department::all();
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
-            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
-
-            $progress = Delivery::where('ppb_id',);
+            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->paginate(5);
+           // $progress = Delivery::where('ppb_id');
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
                 ->with('datapt', $datapt)
@@ -70,7 +69,7 @@ class CategoryPengajuanPembelianController extends Controller
             $datadepartment = Department::all();
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
-            $datadv = CategoryPengajuanPembelian::all();
+            $datadv = CategoryPengajuanPembelian::paginate(5);
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
                 ->with('datapt', $datapt)
@@ -83,6 +82,24 @@ class CategoryPengajuanPembelianController extends Controller
                 ->with('datadepartment', $datadepartment);
         }
     }
+
+    public function SearchPRQ(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $dataws = WhoSubmitted::all();
+    $datadv = CategoryPengajuanPembelian::Where('id','like',"%".$cari."%")
+    ->orWhere('status','like',"%".$cari."%")
+    ->orWhere('desc','like',"%".$cari."%")
+    ->orWhereHas('whosubmit', function($q) use($cari){
+         $q->where('name','like',"%".$cari."%");
+    })
+    ->paginate(5);
+
+    return view('pengajuanPembelian.menu.index')
+    ->with('datadv',$datadv)
+    ->with('dataws',$dataws);
+   }
 
     public function detail($id)
     {

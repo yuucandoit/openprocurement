@@ -32,9 +32,11 @@ class CategoryPOController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
 
         if ($check->role_id == 4 || $check->role_id == 3) {
-            $datappb            = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->get();
+            $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(5);
+            $datappb->setPageName('in');
             $datappb2           = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->first();
-            $datahstry          = CategoryPengajuanPembelian::get();
+            $datahstry          = CategoryPengajuanPembelian::whereIn('status',array('Waiting For PO Approval','PO Approved','Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success') )->paginate(2);
+            $datahstry->setPageName('out');
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();
             $dataws             = WhoSubmitted::all();
@@ -54,6 +56,24 @@ class CategoryPOController extends Controller
                 ->with('datapo', $datapo);
         }
     }
+
+    public function SearchPO(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+    ->orWhere('id','like',"%".$cari."%")
+    ->orWhere('status','like',"%".$cari."%")
+    ->orWhere('desc','like',"%".$cari."%")
+    ->orWhereHas('whosubmit', function($q) use($cari){
+         $q->where('name','like',"%".$cari."%");
+    })
+    ->paginate(5);
+
+    return view('purchaseOrder.menu.index')
+    ->with('datappb',$datappb);
+   }
+
 
     public function history()
     {
@@ -347,11 +367,11 @@ class CategoryPOController extends Controller
             foreach ($data2['item'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
                 $update = array(
-                    // 'pp_id'             => $id,
-                    // 'item'              => $data['item'][$key],
-                    // 'qty'               => $data['qty'][$key],
-                    // 'kategori'          => $data['kategori'][$key],
-                    // 'path_file'         => $name,
+                    'pp_id'             => $id,
+                    'item'              => $data2['item'][$key],
+                    'qty'               => $data2['qty'][$key],
+                    'kategori'          => $data2['kategori'][$key],
+
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
@@ -392,15 +412,17 @@ class CategoryPOController extends Controller
             foreach ($data2['item'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
                 $update = array(
-                    // 'pp_id'             => $id,
-                    // 'item'              => $data['item'][$key],
-                    // 'qty'               => $data['qty'][$key],
-                    // 'kategori'          => $data['kategori'][$key],
+                    'pp_id'             => $id,
+                    'item'              => $data2['item'][$key],
+                    'qty'               => $data2['qty'][$key],
+                    'kategori'          => $data2['kategori'][$key],
                     // 'path_file'         => $name,
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
-                PengajuanPembelian::where('id',$item)->update($update);
+
+                // dd($data2);
+                PengajuanPembelian::updateOrCreate($update);
             }
         }
         // dd($data2);

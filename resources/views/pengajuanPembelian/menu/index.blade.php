@@ -70,10 +70,16 @@
         <div class="card">
           <div class="card-header">
             <a href="{{ url('menu-pengajuan-pembelian/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
+            <div style="max-width: 50%;" class="pull-right">
+                <form action="{{ route('menu-pengajuan-pembelian.SearchPRQ') }}" method="get" class="input-group">
+                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
+                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                </form>
+            </div>
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="display" id="basic-1">
+              <table class="table table-bordered ">
                 <thead>
                  <tr style="text-align: center;">
                   <th>No</th>
@@ -90,10 +96,10 @@
                @php
                $no = 1;
                @endphp
-               @foreach ($datadv as $ppembelian)
+               @foreach($datadv as $ppembelian)
                {{-- @if ($ppembelian->status == '') --}}
                <tr>
-                <td style="text-align: center;">{{ $no++ }}</td>
+                <td style="text-align: center;">{{ $ppembelian->id }}</td>
                 <td style="text-align: center;">{{ $ppembelian->date_ps }}</td>
                 <td style="text-align: center;">{{ $ppembelian->whosubmit->name }}</td>
                 <td><a href="{{ $ppembelian->desc }}" target="_blank">{{ $ppembelian->desc }}</a></td>
@@ -122,41 +128,6 @@
                 <td>
                   @if ($ppembelian->status == 'Paid')
                   <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:18" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> Delivery On Process</a>
-                  {{-- <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="myLargeModalLabel">Progress</h4>
-                                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="card-body text-center">
-                                    <div class="row">
-                                      <div class="col-lg-4">
-                                        <div class="u-steps u-steps-vertical">
-                                          <div class="u-step"><span class="u-step-number">1</span>
-                                            <div class="u-step-desc"><span class="u-step-title">Shopping</span>
-                                              <p>Choose what you want</p>
-                                            </div>
-                                          </div>
-                                          <div class="u-step current"><span class="u-step-number">2</span>
-                                            <div class="u-step-desc"><span class="u-step-title">Billing</span>
-                                              <p>Pay for the bill</p>
-                                            </div>
-                                          </div>
-                                          <div class="u-step"><span class="u-step-number">3</span>
-                                            <div class="u-step-desc"><span class="u-step-title">Getting</span>
-                                              <p>Waiting for the goods</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                            </div>
-                        </div>
-                    </div>
-                  </div> --}}
                   @elseif ($ppembelian->status == 'Delivery Success')
                   <a class="badge bg-success mt-1" style="color: white; font-size:18">Delivery Success</a>
                   @endif
@@ -184,12 +155,12 @@
                 </td>
 
               </tr>
-              {{-- @endif --}}
               @endforeach
             </tbody>
           </table>
-
-
+          <div class="mt-4">
+          {{ $datadv->withQueryString()->links('pagination::bootstrap-5') }}
+          </div>
         </div>
       </div>
     </div>
