@@ -371,7 +371,6 @@ class CategoryPOController extends Controller
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
-
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
