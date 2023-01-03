@@ -122,16 +122,16 @@
                                 <h5>Purchase order data list In</h5>
                             </div>
                             <div class="mt-4">
-                                <div style="max-width: 50%;" class="pull-right">
+                                {{-- <div style="max-width: 50%;" class="pull-right">
                                     <form action="{{ route('menu-purchase-order.SearchPO') }}" method="get" class="input-group">
                                         <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
                                         <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                     </form>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -222,9 +222,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="mt-4">
+                                    {{-- <div class="mt-4">
                                         {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
-                                        </div>
+                                        </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -243,16 +243,16 @@
                                 <h5>Purchase order data list Out</h5>
                             </div>
                             <div class="mt-4">
-                                <div style="max-width: 50%;" class="pull-right">
+                                {{-- <div style="max-width: 50%;" class="pull-right">
                                     <form action="{{ route('menu-purchase-order.SearchPO') }}" method="get" class="input-group">
                                         <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
                                         <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                     </form>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" >
+                                    <table class="table table-bordered" id="advance-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -339,9 +339,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="mt-4">
+                                    {{-- <div class="mt-4">
                                         {{ $datahstry->appends(['out'=> request('out')])->withQueryString()->links('pagination::bootstrap-5') }}
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
