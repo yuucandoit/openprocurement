@@ -104,7 +104,7 @@
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
@@ -174,7 +174,7 @@
                                                         <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                    >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
@@ -238,7 +238,7 @@
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                    >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
@@ -316,7 +316,7 @@
                                                         <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                    >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
@@ -380,7 +380,7 @@
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                    >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
@@ -449,7 +449,7 @@
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                    >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
@@ -516,7 +516,7 @@
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                    >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
@@ -586,7 +586,7 @@
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                    >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
@@ -657,7 +657,7 @@
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                    >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
@@ -724,7 +724,7 @@
                                                     <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    target="_blank">{{ $ppb->desc }}</a></td>
+                                                                    >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
