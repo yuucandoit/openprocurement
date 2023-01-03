@@ -122,7 +122,8 @@
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Name</th>
-                                                <th>Send To</th>
+                                                <th>Description</th>
+                                                {{-- <th>Send To</th> --}}
                                                 <th>Date Line</th>
                                                 <th>Countdown</th>
                                                 <th>Warning</th>
@@ -147,7 +148,8 @@
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->send_to }}</td>
+                                                        <td style="text-align: center;"><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                        {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td class="ppb-countdown" style="text-align: center;"></td>
                                                         <td style="text-align: center;">
@@ -207,7 +209,8 @@
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Name</th>
-                                                <th>Send To</th>
+                                                <th>Description</th>
+                                                {{-- <th>Send To</th> --}}
                                                 <th>Date Line</th>
                                                 <th>Date</th>
                                                 @hasrole('purchasing|super admin')
@@ -226,7 +229,8 @@
                                                     <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->send_to }}</td>
+                                                        <td style="text-align: center;"><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                        {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td>{{ $ppb->created_at }}</td>
                                                         @hasrole('purchasing|super admin')

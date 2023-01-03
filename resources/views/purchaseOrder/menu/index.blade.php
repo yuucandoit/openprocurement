@@ -122,16 +122,16 @@
                                 <h5>Purchase order data list In</h5>
                             </div>
                             <div class="mt-4">
-                                {{-- <div style="max-width: 50%;" class="pull-right">
-                                    <form action="{{ route('menu-purchase-order.SearchPO') }}" method="get" class="input-group">
-                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
-                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                <div style="max-width: 50%;" class="pull-right">
+                                    <form action="{{ route('menu-purchase-order.SearchPOIn') }}" method="get" class="input-group disabled">
+                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
                                     </form>
-                                </div> --}}
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="basic-1">
+                                    <table class="table table-bordered" >
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -153,7 +153,7 @@
                                         </thead>
 
                                         @php
-                                            $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                             $approvedPPB = [];
                                         @endphp
                                         <tbody>
@@ -161,9 +161,9 @@
                                                 @if ($ppb->status == 'Purchase Proses')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
-                                                        <td style="text-align: center;">{{ $ppb->id }}</td>
+                                                        <td style="text-align: center;">{{ $i++ }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                                        <td style="text-align: center;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                      @if ($ppb->status == 'Purchase Proses')
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -222,9 +222,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    {{-- <div class="mt-4">
-                                        {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
-                                        </div> --}}
+                                    <div class="mt-4">
+                                        {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -243,16 +243,16 @@
                                 <h5>Purchase order data list Out</h5>
                             </div>
                             <div class="mt-4">
-                                {{-- <div style="max-width: 50%;" class="pull-right">
-                                    <form action="{{ route('menu-purchase-order.SearchPO') }}" method="get" class="input-group">
-                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
-                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                <div style="max-width: 50%;" class="pull-right">
+                                    <form action="{{ route('menu-purchase-order.SearchPOOut') }}" method="get" class="input-group disabled" >
+                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
                                     </form>
-                                </div> --}}
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="advance-1">
+                                    <table class="table table-bordered">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -274,7 +274,7 @@
                                         </thead>
 
                                         @php
-                                            $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         <tbody>
                                             @foreach ($datahstry as $ppb)
@@ -288,9 +288,9 @@
                                                 $ppb->status == 'Delivery Process' ||
                                                 $ppb->status == 'Delivery Success')
                                                     <tr>
-                                                        <td style="text-align: center;">{{ $ppb->id }}</td>
+                                                        <td style="text-align: center;">{{ $i++ }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                                        <td style="text-align: center;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                         @if ($ppb->status == 'Purchase Proses')
 
@@ -339,9 +339,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    {{-- <div class="mt-4">
-                                        {{ $datahstry->appends(['out'=> request('out')])->withQueryString()->links('pagination::bootstrap-5') }}
-                                    </div> --}}
+                                    <div class="mt-4">
+                                        {{ $datahstry->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

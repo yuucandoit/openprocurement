@@ -92,7 +92,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -104,7 +104,7 @@
                                             <tbody>
                                                 <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
@@ -113,14 +113,14 @@
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
 
-                                                    <td style="text-align: center;">
+                                                    {{-- <td style="text-align: center;">
 
                                                         <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
                                                             href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
                                                                 class="icon-zoom-in" title="Details"></i>
-                                                        </a>
-                                                    </td>
+                                                        </a> --}}
+                                                    {{-- </td> --}}
                                                 </tr>
                                             @endif
                                         @endif
@@ -154,7 +154,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -170,7 +170,7 @@
                                              <tbody>
                                                     <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
@@ -179,14 +179,14 @@
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
 
-                                                    <td style="text-align: center;">
+                                                  {{-- <td style="text-align: center;">
 
                                                         <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
                                                             href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
                                                                 class="icon-zoom-in" title="Details"></i>
                                                         </a>
-                                                    </td>
+                                                    </td> --}}
                                                  </tr>
                                             </tbody>
                                             @endif
@@ -222,7 +222,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -234,7 +234,7 @@
                                             <tbody>
                                                 <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
@@ -243,13 +243,13 @@
                                                                 class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
-                                                    <td style="text-align: center;">
+                                                    {{-- <td style="text-align: center;">
 
                                                         <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
                                                             href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
                                                                 class="icon-zoom-in" title="Details"></i>
-                                                        </a>
+                                                        </a> --}}
 
                                                         {{-- <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #FF8C00;"
@@ -257,7 +257,7 @@
                                                                 class="icon-pencil-alt" title="Edit"></i>
                                                         </a> --}}
 
-                                                    </td>
+                                                    {{-- </td> --}}
                                                 </tr>
                                                 @endif
                                         @endif
@@ -291,7 +291,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -307,7 +307,7 @@
                                              <tbody>
                                                     <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
@@ -316,14 +316,14 @@
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
 
-                                                    <td style="text-align: center;">
+                                                    {{-- <td style="text-align: center;">
 
                                                         <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
                                                             href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
                                                                 class="icon-zoom-in" title="Details"></i>
-                                                        </a>
-                                                    </td>
+                                                        </a> --}}
+                                                    {{-- </td> --}}
                                                  </tr>
                                             </tbody>
                                             @endif
@@ -361,7 +361,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -373,7 +373,7 @@
                                             <tbody>
                                                 <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
@@ -382,14 +382,14 @@
                                                                 class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
-                                                    <td style="text-align: center;">
+                                                    {{-- <td style="text-align: center;">
 
                                                         <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
                                                             href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
                                                                 class="icon-zoom-in" title="Details"></i>
                                                         </a>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                             @endif
                                         @endif
@@ -422,7 +422,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -438,7 +438,7 @@
                                             <tbody>
                                                 <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
@@ -447,7 +447,7 @@
                                                                 class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
-                                                    <td style="text-align: center;">
+                                                    {{-- <td style="text-align: center;">
 
                                                         <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
@@ -455,7 +455,7 @@
                                                                 class="icon-zoom-in" title="Details"></i>
                                                         </a>
 
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                              </tbody>
                                           @endif
@@ -493,7 +493,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -505,7 +505,7 @@
                                             <tbody>
                                                 <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
@@ -515,14 +515,14 @@
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
 
-                                                    <td style="text-align: center;">
+                                                    {{-- <td style="text-align: center;">
 
                                                         <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
                                                             href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
                                                                 class="icon-zoom-in" title="Details"></i>
                                                         </a>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                           </tbody>
                                          @endif
@@ -555,7 +555,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -571,7 +571,7 @@
                                             <tbody>
                                                 <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
@@ -580,13 +580,13 @@
                                                                 class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
-                                                    <td style="text-align: center;">
+                                                    {{-- <td style="text-align: center;">
 
                                                         <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #00008B;"
                                                             href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
                                                                 class="icon-zoom-in" title="Details"></i>
-                                                        </a>
+                                                        </a> --}}
 
                                                         {{-- <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #FF8C00;"
@@ -594,7 +594,7 @@
                                                                 class="icon-pencil-alt" title="Edit"></i>
                                                         </a> --}}
 
-                                                    </td>
+                                                    {{-- </td> --}}
                                                 </tr>
                                             </tbody>
                                          @endif
@@ -630,7 +630,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -642,7 +642,7 @@
                                             <tbody>
                                                 <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
@@ -652,13 +652,13 @@
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
 
-                                                        <td style="text-align: center;">
+                                                        {{-- <td style="text-align: center;">
 
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #00008B;"
                                                                 href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
-                                                            </a>
+                                                            </a> --}}
                                                    </tr>
                                              </tbody>
                                          @endif
@@ -689,7 +689,7 @@
                                             <th>Date Line</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -705,7 +705,7 @@
                                             <tbody>
                                                 <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ $ppb->desc }}"
+                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
@@ -715,12 +715,12 @@
                                                                 style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                         </td>
 
-                                                        <td style="text-align: center;">
+                                                        {{-- <td style="text-align: center;">
                                                      <a class="btn btn-iconsolid mt-1"
                                                         style="background-color: #00008B;"
                                                         href="{{ url('menu-taskList-atasan-payment/detail/'.$ppb->id) }}"><i
                                                         class="icon-zoom-in" title="Details"></i>
-                                                     </a>
+                                                     </a> --}}
                                                 </tr>
                                         </tbody>
                                         @endif

@@ -32,11 +32,13 @@ class CategoryPOController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
 
         if ($check->role_id == 4 || $check->role_id == 3) {
-            $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(5);
-            $datappb->setPageName('in');
+            $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'in');
+            // $datappb->setPageName('in');
             $datappb2           = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->first();
-            $datahstry          = CategoryPengajuanPembelian::paginate(2);
-            $datahstry->setPageName('out');
+            $datahstry          = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
+            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
+            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->paginate(10, ['*'],'out');
+            // $datahstry->setPageName('out');
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();
             $dataws             = WhoSubmitted::all();
@@ -57,7 +59,7 @@ class CategoryPOController extends Controller
         }
     }
 
-    public function SearchPO(Request $request)
+    public function SearchPOIn(Request $request)
    {
     $cari = $request->cari;
     //dd($cari);
@@ -74,6 +76,23 @@ class CategoryPOController extends Controller
     ->with('datappb',$datappb);
    }
 
+   public function SearchPOOut(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $datahstry = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+    ->orWhere('id','like',"%".$cari."%")
+    ->orWhere('status','like',"%".$cari."%")
+    ->orWhere('desc','like',"%".$cari."%")
+    ->orWhereHas('whosubmit', function($q) use($cari){
+         $q->where('name','like',"%".$cari."%");
+    })
+    ->paginate(5);
+
+    return view('purchaseOrder.menu.index')
+    ->with('datahstry',$datahstry);
+   }
+
 
     public function history()
     {
@@ -81,7 +100,7 @@ class CategoryPOController extends Controller
         if ($check->role_id == 4 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
             $pt = CategoryPT::all();
-            $op = CategoryPP::all(); 
+            $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
             $datapo = CategoryPO::all();
             return view('purchaseOrder.menu.history')

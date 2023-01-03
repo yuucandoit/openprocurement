@@ -106,7 +106,7 @@
                                             <tbody>
                                                 <tr id="ppb-{{ $ppb->id }}">
                                                     <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td>{{ $ppb->desc }}</td>
+                                                    <td><a href="{{ url('menu-task-list/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                     <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                     <td class="ppb-countdown" style="text-align: center;"></td>
                                                     <td style="text-align: center;">
@@ -120,14 +120,14 @@
                                                         <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                             style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                     </td>
-                                                    <td style="text-align: center;">
+                                                        <td style="text-align: center;">
 
-                                                        <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
-                                                            href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a>
+                                                            <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
+                                                                href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i
+                                                                    class="icon-zoom-in" title="Details"></i>
+                                                            </a>
 
-                                                    </td>
+                                                        </td>
                                                 </tr>
                                         @endif
                                     @endforeach
@@ -180,7 +180,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td>{{ $ppb->desc }}</td>
+                                                    <td><a href="{{ url('menu-task-list/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                     <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                     <td style="text-align: center;">{{ $ppb->approved_at }}</td>
                                                     <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>

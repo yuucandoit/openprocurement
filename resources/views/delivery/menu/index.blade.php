@@ -134,7 +134,7 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr>
                                                         <td>{{ $no++ }}</td>
-                                                        <td>{{ $ppb->whosubmit->name }}</td>
+                                                        <td><a href="{{ url('/delivery/detail/' . $ppb->id) }}">{{ $ppb->whosubmit->name }}</a></td>
                                                         <td>{{ $ppb->created_at }}</td>
                                                         @hasrole('purchasing|super admin')
                                                             <td>
@@ -197,7 +197,7 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr>
                                                         <td>{{ $no++ }}</td>
-                                                        <td>{{ $ppb->whosubmit->name }}</td>
+                                                        <td><a href="{{ url('/delivery/detail/' . $ppb->id) }}">{{ $ppb->whosubmit->name }}</a></td>
                                                         <td>{{ $ppb->created_at }}</td>
                                                         @hasrole('purchasing|super admin')
                                                             <td>

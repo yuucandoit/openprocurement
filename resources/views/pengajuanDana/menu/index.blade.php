@@ -62,7 +62,8 @@
                                             <th><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Name</th>
-                                            <th>Send To</th>
+                                            <th>Description</th>
+                                            {{-- <th>Send To</th> --}}
                                             <th>Date Line</th>
                                             <th>Countdown</th>
                                             <th>Warning</th>
@@ -86,8 +87,9 @@
                                                             id=""></td>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
                                                     <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->send_to }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                    <td style="text-align: center;"><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
+                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td   >
                                                     <td class="ppb-countdown" style="text-align: center;"></td>
                                                     <td style="text-align: center;">
                                                         <a class="badge badge-lable" style="font-size: 18">
@@ -157,7 +159,8 @@
                                             <th><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Name</th>
-                                            <th>Send To</th>
+                                            <th>Description</th>
+                                            {{-- <th>Send To</th> --}}
                                             <th>Date Line</th>
                                             <th>Date</th>
                                             @hasrole('finance|super admin')
@@ -178,7 +181,8 @@
                                                             id=""></td>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
                                                     <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->send_to }}</td>
+                                                    <td style="text-align: center;"><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                     <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                     <td style="text-align: center;">{{ $ppb->created_at }}</td>
                                                     @hasrole('finance|super admin')

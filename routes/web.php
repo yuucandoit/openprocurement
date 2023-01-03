@@ -315,7 +315,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/ajukan_keatasan/{id}', [CategoryPOController::class, 'ajukan_keatasan'])->name('menu-purchase-order-ajukan_keatasan');
         Route::get('/ajukan_dana/{id}', [CategoryPOController::class, 'ajukan_dana'])->name('menu-purchase-order-ajukan_dana');
         Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
-        Route::get('/search/po',[CategoryPOController::class, 'SearchPO'])->name('menu-purchase-order.SearchPO');
+        Route::get('/search/po_in',[CategoryPOController::class, 'SearchPOIn'])->name('menu-purchase-order.SearchPOIn');
+        Route::get('/search/po_out',[CategoryPOController::class, 'SearchPOOut'])->name('menu-purchase-order.SearchPOOut');
     });
 
     // Menu Pengajuan dana Purchase Order

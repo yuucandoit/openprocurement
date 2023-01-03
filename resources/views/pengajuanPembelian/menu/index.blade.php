@@ -70,13 +70,15 @@
         <div class="card">
           <div class="card-header">
             <a href="{{ url('menu-pengajuan-pembelian/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
-            <div style="max-width: 50%;" class="pull-right">
+          </div>
+          <div class="box-header">
+            <div class="pull-right">
                 <form action="{{ route('menu-pengajuan-pembelian.SearchPRQ') }}" method="get" class="input-group">
                     <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                 </form>
             </div>
-          </div>
+        </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered ">
@@ -102,7 +104,7 @@
                 <td style="text-align: center;">{{ $ppembelian->id }}</td>
                 <td style="text-align: center;">{{ $ppembelian->date_ps }}</td>
                 <td style="text-align: center;">{{ $ppembelian->whosubmit->name }}</td>
-                <td><a href="{{ $ppembelian->desc }}" target="_blank">{{ $ppembelian->desc }}</a></td>
+                <td><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" target="_blank">{{ $ppembelian->desc }}</a></td>
                 @hasrole('user|super admin')
                 <td>
                   @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
@@ -141,9 +143,13 @@
                     href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}"><i
                         class="icon-eye" title="Preview PDF"></i>
                     </a>
-                    <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;" href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"><i class="icon-zoom-in" title="Details"></i>
+                   <div>
+                    <button class="btn btn-iconsolid mt-1 example-popover"  style="background-color: #00008B;"  title="Details" data-placement="right" data-bs-toggle="tooltip">
+                    <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"><i class="icon-zoom-in"></i>
                     </a>
-                  @if ($ppembelian->status == 'Awaiting Purchase Submission Approval' )
+                </button>
+                </div>
+                    @if ($ppembelian->status == 'Awaiting Purchase Submission Approval' )
 
                   <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
                   </a>
