@@ -28,6 +28,7 @@ class TasklistAtasanPoController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
+            $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
             $data_atasan = CategoryPO::all();
 
             //dd($data_atasan);
@@ -255,6 +256,53 @@ class TasklistAtasanPoController extends Controller
             $cpo->signature = 'erwin.png';
             $cpo->approved_at = Carbon::now();
             $cpo->save();
+        }
+
+        return redirect('menu-taskList-atasan-po');
+    }
+
+    public function accept_atasan_selected_po(Request $request)
+    {
+        $ids = explode(',', $request->ids);
+        $data = CategoryPengajuanPembelian::find($ids);
+    //    dd($data);
+       foreach($data as $d){
+        if($d->atasan_po == 3){
+            CategoryPO::whereIn('ppb_id',$ids)->update([
+            'signature' => 'superadmin.png',
+            'approved_at' => Carbon::now(),
+            ]);
+            $d->status = 'PO Approved';
+            $d->save();
+        }elseif($d->atasan_po == 6){
+            CategoryPO::whereIn('ppb_id',$ids)->update([
+                'signature' => 'sinduirawan.png',
+                'approved_at' => Carbon::now(),
+                ]);
+            $d->status = 'PO Approved';
+            $d->save();
+        }elseif($d->atasan_po == 7){
+            CategoryPO::whereIn('ppb_id',$ids)->update([
+                'signature' => 'bayu.png',
+                'approved_at' => Carbon::now(),
+            ]);
+            $d->status = 'PO Approved';
+            $d->save();
+        }elseif($d->atasan_po == 8){
+            CategoryPO::whereIn('ppb_id',$ids)->update([
+                'signature' => 'victor.png',
+                'approved_at' => Carbon::now(),
+            ]);
+            $d->status = 'PO Approved';
+            $d->save();
+        }elseif($d->atasan_po == 9){
+            CategoryPO::whereIn('ppb_id',$ids)->update([
+                'signature' => 'erwin.png',
+                'approved_at' => Carbon::now(),
+            ]);
+            $d->status = 'PO Approved';
+            $d->save();
+            }
         }
 
         return redirect('menu-taskList-atasan-po');

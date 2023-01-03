@@ -239,6 +239,14 @@
                             <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
                             style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
                         </div>
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-purchase-order.SearchPOOut') }}" method="get" class="input-group disabled" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                     <table class="table table-striped tasklist" >

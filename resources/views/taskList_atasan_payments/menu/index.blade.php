@@ -81,12 +81,17 @@
                     <div class="card-header bg-primary">
                         <h5>Task List Super User In</h5>
                     </div>
+                    <div >
+                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
+                            style="margin-top: -8px;" onclick="approveDataTerpilihPY()">Approve Selected Data</button>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
                     {{-- Data Masuk --}}
-                         <table class="display" id="basic-1">
+                         <table class="display tasklistpy" id="basic-1">
                                     <thead>
                                         <tr style="text-align: center;">
+                                            <th><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -103,6 +108,7 @@
                                             @if ($ppb->atasan_py == 3)
                                             <tbody>
                                                 <tr>
+                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
@@ -133,6 +139,10 @@
                 </div>
             </div>
         </div>
+        <form action="{{ route('menu-taskList-atasan-payment.accept_atasan_selected_py') }}" method="get" id="form-export-terpilih" class="hidden">
+            <input type="hidden" name="ids">
+            <button class="hidden" style="display: none;" type="submit">S</button>
+        </form>
 <!-- Container-fluid Ends-->
 <!-- Container-fluid starts-->
     <div class="container-fluid">
@@ -212,11 +222,16 @@
                     <div class="card-header bg-primary">
                         <h5>Task List Super User In</h5>
                     </div>
+                    <div >
+                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
+                            style="margin-top: -8px;" onclick="approveDataTerpilihPY()">Approve Selected Data</button>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                                <table class="display" id="basic-1">
+                                <table class="display tasklistpy" id="basic-1">
                                     <thead>
                                         <tr style="text-align: center;">
+                                            <th><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -233,6 +248,7 @@
                                         @if ($ppb->atasan_py == 6)
                                             <tbody>
                                                 <tr>
+                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
@@ -270,7 +286,10 @@
                 </div>
             </div>
         </div>
-
+        <form action="{{ route('menu-taskList-atasan-payment.accept_atasan_selected_py') }}" method="get" id="form-export-terpilih" class="hidden">
+            <input type="hidden" name="ids">
+            <button class="hidden" style="display: none;" type="submit">S</button>
+        </form>
  <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
@@ -351,11 +370,16 @@
                     <div class="card-header bg-primary">
                         <h5>Task List Super User In</h5>
                     </div>
+                    <div >
+                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
+                            style="margin-top: -8px;" onclick="approveDataTerpilihPY()">Approve Selected Data</button>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                                <table class="display" id="basic-1">
+                                <table class="display tasklistpy" id="basic-1">
                                     <thead>
                                         <tr style="text-align: center;">
+                                            <th><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -372,6 +396,7 @@
                                          @if ($ppb->atasan_py == 7)
                                             <tbody>
                                                 <tr>
+                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
@@ -402,7 +427,10 @@
                 </div>
             </div>
         </div>
-
+        <form action="{{ route('menu-taskList-atasan-payment.accept_atasan_selected_py') }}" method="get" id="form-export-terpilih" class="hidden">
+            <input type="hidden" name="ids">
+            <button class="hidden" style="display: none;" type="submit">S</button>
+        </form>
    <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
@@ -483,11 +511,16 @@
                     <div class="card-header bg-primary">
                         <h5>Task List Super User In</h5>
                     </div>
+                    <div >
+                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
+                            style="margin-top: -8px;" onclick="approveDataTerpilihPY()">Approve Selected Data</button>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                                <table class="display" id="basic-1">
+                                <table class="display tasklistpy" id="basic-1">
                                     <thead>
                                         <tr style="text-align: center;">
+                                             <th><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -504,6 +537,7 @@
                                         @if ($ppb->atasan_py == 8)
                                             <tbody>
                                                 <tr>
+                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
@@ -535,7 +569,10 @@
                 </div>
             </div>
         </div>
-
+        <form action="{{ route('menu-taskList-atasan-payment.accept_atasan_selected_py') }}" method="get" id="form-export-terpilih" class="hidden">
+            <input type="hidden" name="ids">
+            <button class="hidden" style="display: none;" type="submit">S</button>
+        </form>
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
@@ -620,11 +657,16 @@
                     <div class="card-header bg-primary">
                         <h5>Task List Super User In</h5>
                     </div>
+                    <div >
+                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
+                            style="margin-top: -8px;" onclick="approveDataTerpilihPY()">Approve Selected Data</button>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                                <table class="display" id="basic-1">
+                                <table class="display tasklistpy" id="basic-1">
                                     <thead>
                                         <tr style="text-align: center;">
+                                            <th><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -641,6 +683,7 @@
                                         @if ($ppb->atasan_py == 9)
                                             <tbody>
                                                 <tr>
+                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
@@ -669,7 +712,10 @@
                         </div>
                     </div>
                 </div>
-
+                <form action="{{ route('menu-taskList-atasan-payment.accept_atasan_selected_py') }}" method="get" id="form-export-terpilih" class="hidden">
+                    <input type="hidden" name="ids">
+                    <button class="hidden" style="display: none;" type="submit">S</button>
+                </form>
 <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
@@ -749,4 +795,45 @@
                     });
                 </script>
     </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        //Checkbox Cek All
+        $("#head-cb").on('click', function() {
+            var isChecked = $('#head-cb').prop('checked')
+            $(".child-cb").prop('checked', isChecked)
+            $("#button-approve-selected").prop('disabled', !isChecked)
+        })
+
+        $(".tasklistpy ").on('click', '.child-cb', function() {
+            if ($(this).prop('checked') != true) {
+                $("#head-cb").prop('checked', false)
+            }
+            let semua_checkbox = $(".tasklistpy  .child-cb:checked")
+            let button_approve_selected = (semua_checkbox.length > 0)
+
+            $("#button-approve-selected").prop('disabled', !button_approve_selected)
+        })
+
+        function approveDataTerpilihPY() {
+            let checkbox_terpilih = $(".tasklistpy .child-cb:checked")
+            let semua_id = []
+            $.each(checkbox_terpilih, function(index, elm) {
+                semua_id.push(elm.value)
+            })
+            let ids = semua_id.join(',')
+            $("#button-approve-selected").prop('disabled', true)
+            $("#form-export-terpilih [name='ids']").val(ids)
+            $("#form-export-terpilih").submit()
+            // $.ajax({
+            //     url: "{{ url('products') }}" + '/barcodeSelected'+ '/'+ id,
+            //     method:'GET',
+            //     success:function(res){
+            //         console.log(res)
+            //         $("#button-export-selected").prop('disabled',true)
+            //     }
+            // })
+        }
+    </script>
 @endsection

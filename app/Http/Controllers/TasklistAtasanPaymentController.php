@@ -258,6 +258,56 @@ class TasklistAtasanPaymentController extends Controller
         return redirect('menu-taskList-atasan-payment');
     }
 
+    public function accept_atasan_selected_py(Request $request)
+    {
+        $ids = explode(',', $request->ids);
+        // dd($ids);
+        $data = CategoryPengajuanPembelian::find($ids);
+        // dd($po);
+
+        foreach($data as $d){
+        if($d->atasan_py == 3){
+            Invoicing::whereIn('ppb_id',$ids)->update([
+            'signature' => 'superadmin.png',
+            'approved_at' => Carbon::now(),
+            ]);
+            $d->status = 'Payment Approved';
+            $d->save();
+        }elseif($d->atasan_py == 6){
+            Invoicing::whereIn('ppb_id',$ids)->update([
+                'signature' => 'sinduirawan.png',
+                'approved_at' => Carbon::now(),
+                ]);
+            $d->status = 'Payment Approved';
+            $d->save();
+        }elseif($d->atasan_py == 7){
+            Invoicing::whereIn('ppb_id',$ids)->update([
+                'signature' => 'bayu.png',
+                'approved_at' => Carbon::now(),
+            ]);
+            $d->status = 'Payment Approved';
+            $d->save();
+        }elseif($d->atasan_py == 8){
+            Invoicing::whereIn('ppb_id',$ids)->update([
+                'signature' => 'victor.png',
+                'approved_at' => Carbon::now(),
+            ]);
+            $d->status = 'Payment Approved';
+            $d->save();
+        }elseif($d->atasan_py == 9){
+            Invoicing::whereIn('ppb_id',$ids)->update([
+                'signature' => 'erwin.png',
+                'approved_at' => Carbon::now(),
+            ]);
+            $d->status = 'Payment Approved';
+            $d->save();
+            }
+        }
+
+        return redirect('menu-taskList-atasan-payment');
+    }
+
+
     public function reject($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
