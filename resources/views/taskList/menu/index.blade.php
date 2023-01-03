@@ -81,7 +81,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="basic-1">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr>
                                         <tr style="text-align: center;">
@@ -133,6 +133,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>
@@ -152,7 +153,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="advance-1">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr>
                                         <tr style="text-align: center;">
@@ -166,7 +167,7 @@
                                         </tr>
                                     </thead>
 
-                                    @foreach ($datappb as $ppb)
+                                    @foreach ($datappb2 as $ppb)
                                         @if ($ppb->status == 'Purchase Proses' ||
                                         $ppb->status == 'Waiting For PO Approval' ||
                                         $ppb->status == 'PO Approved' ||
@@ -200,6 +201,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                {{ $datappb2->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>

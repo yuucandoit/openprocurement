@@ -114,6 +114,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>
@@ -171,6 +172,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                {{ $datappb2->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>

@@ -88,7 +88,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                         {{-- Data Masuk --}}
-                             <table class="display tasklistpo" id="basic-1">
+                             <table class="table table-striped tasklistpo" >
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
@@ -133,6 +133,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -156,7 +157,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
-                                    <table class="display mt-4" id="advance-1">
+                                    <table class="table table-striped mt-4">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -170,7 +171,7 @@
                                         @php
                                             $no = 1;
                                         @endphp
-                                        @foreach ($datappb as $ppb)
+                                        @foreach ($datappb2 as $ppb)
                                         @if ($ppb->status == 'PO Approved'||
                                         $ppb->status == 'Invoicing Process'||
                                         $ppb->status == 'Payment Approved' ||
@@ -205,6 +206,7 @@
                                         @endif
                                         @endforeach
                                     </table>
+                                    {{ $datappb2->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -230,7 +232,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display tasklistpo" id="basic-1">
+                                    <table class="table table-striped tasklistpo" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
@@ -275,6 +277,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -298,7 +301,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
-                                    <table class="display mt-4" id="advance-1">
+                                    <table class="table table-striped mt-4">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -312,7 +315,7 @@
                                         @php
                                             $no = 1;
                                         @endphp
-                                        @foreach ($datappb as $ppb)
+                                        @foreach ($datappb2 as $ppb)
                                         @if ($ppb->status == 'PO Approved'||
                                         $ppb->status == 'Invoicing Process'||
                                         $ppb->status == 'Payment Approved' ||
@@ -347,6 +350,7 @@
                                         @endif
                                         @endforeach
                                     </table>
+                                    {{ $datappb2->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -372,7 +376,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display tasklistpo" id="basic-1">
+                                    <table class="table table-striped tasklistpo" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
@@ -417,6 +421,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -439,7 +444,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display mt-4" id="advance-1">
+                                    <table class="table table-striped mt-4">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -453,7 +458,7 @@
                                         @php
                                             $no = 1;
                                         @endphp
-                                        @foreach ($datappb as $ppb)
+                                        @foreach ($datappb2 as $ppb)
                                             @if ($ppb->status == 'PO Approved'||
                                             $ppb->status == 'Invoicing Process'||
                                             $ppb->status == 'Payment Approved' ||
@@ -489,6 +494,7 @@
                                             @endif
                                         @endforeach
                                     </table>
+                                    {{ $datappb2->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -516,7 +522,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display tasklistpo" id="basic-1">
+                                    <table class="table table-striped tasklistpo" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
@@ -562,6 +568,7 @@
                                         @endif
                                     @endforeach
                                     </table>
+                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -584,7 +591,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display mt-4" id="advance-1">
+                                    <table class="table table-striped mt-4">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -598,7 +605,7 @@
                                         @php
                                             $no = 1;
                                         @endphp
-                                        @foreach ($datappb as $ppb)
+                                        @foreach ($datappb2 as $ppb)
                                             @if ($ppb->status == 'PO Approved'||
                                             $ppb->status == 'Invoicing Process'||
                                             $ppb->status == 'Payment Approved' ||
@@ -634,6 +641,7 @@
                                          @endif
                                     @endforeach
                                     </table>
+                                    {{ $datappb2->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -659,7 +667,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display tasklistpo" id="basic-1">
+                                    <table class="table table-striped tasklistpo" id="basic-1">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
@@ -704,6 +712,7 @@
                                             @endif
                                         @endforeach
                                     </table>
+                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -724,7 +733,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display mt-4" id="advance-1">
+                                    <table class="table table-striped mt-4">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -738,7 +747,7 @@
                                         @php
                                             $no = 1;
                                         @endphp
-                                        @foreach ($datappb as $ppb)
+                                        @foreach ($datappb2 as $ppb)
                                             @if ($ppb->status == 'PO Approved'||
                                             $ppb->status == 'Invoicing Process'||
                                             $ppb->status == 'Payment Approved' ||
@@ -772,6 +781,7 @@
                                         @endif
                                     @endforeach
                                     </table>
+                                    {{ $datappb2->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>

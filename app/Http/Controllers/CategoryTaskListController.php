@@ -21,11 +21,13 @@ class CategoryTaskListController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
+            $datappb = CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            $datappb2 = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')->orWhere('status','Payment Approved')->orWhere('status','Unpaid')->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
             $purpose = ReferensiNamaProject::all();
             return view('taskList.menu.index')
             ->with('purpose', $purpose)
-            ->with('datappb', $datappb);
+            ->with('datappb', $datappb)
+            ->with('datappb2', $datappb2);
         }
     }
 

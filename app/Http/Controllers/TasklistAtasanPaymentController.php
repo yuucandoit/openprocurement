@@ -29,15 +29,55 @@ class TasklistAtasanPaymentController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
+            $datappb = CategoryPengajuanPembelian::where('status','Invoicing Process')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            $datappb2 = CategoryPengajuanPembelian::where('status','Payment Approved')->
+            orWhere('status','Unpaid')->
+            orWhere('status','Paid')->
+            orWhere('status','Delivery Process')->
+            orWhere('status','Delivery Success')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
             $data_atasan = CategoryPO::all()->first();
             // $py   = Invoicing::orderBy('ppb_id', 'asc')->first();
 
             return view('taskList_atasan_payments.menu.index')
             // ->with('py',$py)
             ->with('data_atasan', $data_atasan)
-            ->with('datappb', $datappb);
+            ->with('datappb', $datappb)
+            ->with('datappb2', $datappb2);
         }
+    }
+
+    public function SearchTaskPYIn(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     ->orWhere('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->paginate(5);
+
+     return view('purchaseOrder.menu.index')
+     ->with('datappb',$datappb);
+    }
+
+    public function SearchTaskPYOut(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $datahstry = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     ->orWhere('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->paginate(5);
+
+     return view('purchaseOrder.menu.index')
+     ->with('datahstry',$datahstry);
     }
 
     public function history()
