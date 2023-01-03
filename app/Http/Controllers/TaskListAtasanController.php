@@ -26,12 +26,14 @@ class TaskListAtasanController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->get();
+            $datappb = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $datappb2 = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'out');
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
             return view('taskList_atasan.menu.index')
             ->with('datappb', $datappb)
+            ->with('datappb2', $datappb2)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('datadv', $datadv);
@@ -346,6 +348,133 @@ class TaskListAtasanController extends Controller
         }
 
         $data->save();
+        return redirect("menu-taskList-atasan/");
+    }
+
+    public function accept_atasan_selected(Request $request)
+    {
+        $ids = explode(',', $request->ids);
+        $data = CategoryPengajuanPembelian::find($ids);
+        // dd($data);
+        // if($data->dateline == '≤3Jam'){
+        //     $data->dateline_time = ('03:00:00');
+        //     $data->updated_at = Carbon::now();
+        //     $data->approved_at = now();
+        //     $data->status = 'Purchase Submission Approved' ;
+        // }
+        // dd($data);
+        foreach($data as $d) {
+        if($d->dateline == '≤24Jam'){
+            $d->dateline_time = ('24:00:00');
+            $d->updated_at = Carbon::now();
+            $d->approved_at = now();
+            $d->status = 'Purchase Request Approved';
+
+            if($d->atasan == 3){
+                $d->signature = 'superadmin.png';
+            }elseif($d->atasan == 6){
+                $d->signature = 'sinduirawan.png';
+            }elseif($d->atasan == 7){
+                $d->signature = 'bayu.png';
+            }elseif($d->atasan == 8){
+                $d->signature = 'victor.png';
+            }elseif($d->atasan == 9){
+                $d->signature = 'erwin.png';
+            }
+
+        }elseif($d->dateline == '≤48Jam'){
+            $d->dateline_time = ('49:00:00');
+            $d->updated_at = Carbon::now();
+            $d->approved_at = now();
+            $d->status = 'Purchase Request Approved';
+
+            if($d->atasan == 3){
+                $d->signature = 'superadmin.png';
+            }elseif($d->atasan == 6){
+                $d->signature = 'sinduirawan.png';
+            }elseif($d->atasan == 7){
+                $d->signature = 'bayu.png';
+            }elseif($d->atasan == 8){
+                $d->signature = 'victor.png';
+            }elseif($d->atasan == 9){
+                $d->signature = 'erwin.png';
+            }
+
+        }elseif($d->dateline == '≤72Jam'){
+            $d->dateline_time = ('73:00:00');
+            $d->updated_at = Carbon::now();
+            $d->approved_at = now();
+            $d->status = 'Purchase Request Approved';
+
+            if($d->atasan == 3){
+                $d->signature = 'superadmin.png';
+            }elseif($d->atasan == 6){
+                $d->signature = 'sinduirawan.png';
+            }elseif($d->atasan == 7){
+                $d->signature = 'bayu.png';
+            }elseif($d->atasan == 8){
+                $d->signature = 'victor.png';
+            }elseif($d->atasan == 9){
+                $d->signature = 'erwin.png';
+            }
+
+        }elseif($d->dateline == '≤96Jam'){
+            $d->dateline_time = ('97:00:00');
+            $d->updated_at = Carbon::now();
+            $d->approved_at = now();
+            $d->status = 'Purchase Request Approved';
+
+            if($d->atasan == 3){
+                $d->signature = 'superadmin.png';
+            }elseif($d->atasan == 6){
+                $d->signature = 'sinduirawan.png';
+            }elseif($d->atasan == 7){
+                $d->signature = 'bayu.png';
+            }elseif($d->atasan == 8){
+                $d->signature = 'victor.png';
+            }elseif($d->atasan == 9){
+                $d->signature = 'erwin.png';
+            }
+
+        }elseif($d->dateline == '≤168Jam'){
+            $d->dateline_time = ('169:00:00');
+            $d->updated_at = Carbon::now();
+            $d->approved_at = now();
+            $d->status = 'Purchase Request Approved';
+
+            if($d->atasan == 3){
+                $d->signature = 'superadmin.png';
+            }elseif($d->atasan == 6){
+                $d->signature = 'sinduirawan.png';
+            }elseif($d->atasan == 7){
+                $d->signature = 'bayu.png';
+            }elseif($d->atasan == 8){
+                $d->signature = 'victor.png';
+            }elseif($d->atasan == 9){
+                $d->signature = 'erwin.png';
+            }
+
+        }elseif($d->dateline == '≤336Jam'){
+            $d->dateline_time = ('338:00:00');
+            $d->updated_at = Carbon::now();
+            $d->approved_at = now();
+            $d->status = 'Purchase Request Approved';
+
+            if($d->atasan == 3){
+                $d->signature = 'superadmin.png';
+            }elseif($d->atasan == 6){
+                $d->signature = 'sinduirawan.png';
+            }elseif($d->atasan == 7){
+                $d->signature = 'bayu.png';
+            }elseif($d->atasan == 8){
+                $d->signature = 'victor.png';
+            }elseif($d->atasan == 9){
+                $d->signature = 'erwin.png';
+            }
+
+        }
+        $d->save();
+    }
         return redirect("menu-taskList-atasan/");
     }
 

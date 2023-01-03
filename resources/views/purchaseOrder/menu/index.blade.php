@@ -131,7 +131,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" >
+                                    <table class="table table-striped" >
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -252,7 +252,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-striped">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -274,7 +274,7 @@
                                         </thead>
 
                                         @php
-                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+                                            $i = 1 ;
                                         @endphp
                                         <tbody>
                                             @foreach ($datahstry as $ppb)

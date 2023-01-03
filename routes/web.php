@@ -259,8 +259,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/detail/{id}', [TaskListAtasanController::class, 'detail'])->name('menu-taskList-atasan.detail');
         Route::get('/destroy/{id}', [TaskListAtasanController::class, 'destroy'])->name('menu-taskList-atasan.destroy');
         Route::get('/accept_atasan/{id}', [TaskListAtasanController::class, 'accept_atasan'])->name('menu-taskList-atasan-accept_atasan');
+        Route::get('/accept_atasan_selected', [TaskListAtasanController::class, 'accept_atasan_selected'])->name('menu-taskList-atasan.accept_atasan_selected');
+        Route::get('/reject_atasan_selected', [TaskListAtasanController::class, 'reject_atasan_selected'])->name('menu-taskList-atasan.reject_atasan_selected');
         Route::get('/reject/{id}', [TaskListAtasanController::class, 'reject'])->name('menu-taskList-atasan-reject');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/tlppbIn',[TaskListAtasanController::class, 'SearchTlppbIn'])->name('menu-taskList-atasan.SearchTlppbIn');
+        Route::get('/search/tlppbOut',[TaskListAtasanController::class, 'SearchTlppbOut'])->name('menu-taskList-atasan.SearchTlppbOut');
     });
 
     // Menu Task list atasan Payment/Pendanaan
@@ -331,7 +334,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('payment_request.destroy');
         Route::get('/ajukan_dana/{id}', [InvoicingController::class, 'ajukan_dana'])->name('payment_request-ajukan_dana');
         Route::get('/denied/{id}', [InvoicingController::class, 'denied'])->name('payment_request-denied');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/prq_in',[InvoicingController::class, 'SearchPRQIn'])->name('payment_request.SearchPRQIn');
+        Route::get('/search/prq_out',[InvoicingController::class, 'SearchPRQOut'])->name('payment_request.SearchPRQOut');
     });
 
     // Menu Pengajuan dana
@@ -344,7 +348,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
         Route::get('/paid/{id}', [CategoryPDController::class, 'paid'])->name('menu-pengajuan-dana-paid');
         Route::get('/reject/{id}', [CategoryPDController::class, 'reject'])->name('menu-pengajuan-dana-reject');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/pd_in',[CategoryPDController::class, 'SearchPDIn'])->name('menu-pengajuan-dana.SearchPDIn');
+        Route::get('/search/pd_out',[CategoryPDController::class, 'SearchPDOut'])->name('menu-pengajuan-dana.SearchPDOut');
     });
 
     // Menu Pengiriman
@@ -359,7 +364,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [DeliveryController::class, 'destroy'])->name('delivery.destroy');
         Route::get('/complete/{id}', [DeliveryController::class, 'complete'])->name('delivery-complete');
         Route::get('/denied/{id}', [DeliveryController::class, 'denied'])->name('delivery-denied');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/delivery_in',[DeliveryController::class, 'SearchDeliveryIn'])->name('delivery.SearchDeliveryIn');
+        Route::get('/search/delivery_out',[DeliveryController::class, 'SearchDeliveryOut'])->name('delivery.SearchDeliveryOut');
     });
 
     //admin

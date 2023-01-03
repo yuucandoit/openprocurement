@@ -52,11 +52,19 @@
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
-                            <h5>Payment Process</h5>
+                            <h5>Payment Process In</h5>
+                        </div>
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-pengajuan-dana.SearchPDIn') }}" method="get" class="input-group disabled" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="basic-1">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr style="text-align: center;">
                                             <th><input type="checkbox" id="head-cb"></th>
@@ -134,6 +142,7 @@
 
                                     </tbody>
                                 </table>
+                                {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>
@@ -149,11 +158,19 @@
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
-                            <h5>Payment Process</h5>
+                            <h5>Payment Process Out</h5>
+                        </div>
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-pengajuan-dana.SearchPDOut') }}" method="get" class="input-group disabled" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="advance-1">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr style="text-align: center;">
                                             <th><input type="checkbox" id="head-cb"></th>
@@ -171,7 +188,7 @@
                                     </thead>
 
                                     <tbody>
-                                        @foreach ($datappb as $ppb)
+                                        @foreach ($datappb2 as $ppb)
                                             @if ($ppb->status == 'Paid'||
                                                 $ppb->status == 'Delivery Process'||
                                                 $ppb->status == 'Delivery Success')
@@ -215,6 +232,9 @@
 
                                     </tbody>
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datappb2->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>

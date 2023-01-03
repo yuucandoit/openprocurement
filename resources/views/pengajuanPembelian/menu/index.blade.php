@@ -81,7 +81,7 @@
         </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered ">
+              <table class="table table-striped ">
                 <thead>
                  <tr style="text-align: center;">
                   <th>No</th>
@@ -101,7 +101,7 @@
                @foreach($datadv as $ppembelian)
                {{-- @if ($ppembelian->status == '') --}}
                <tr>
-                <td style="text-align: center;">{{ $ppembelian->id }}</td>
+                <td style="text-align: center;">{{ $loop->iteration }}</td>
                 <td style="text-align: center;">{{ $ppembelian->date_ps }}</td>
                 <td style="text-align: center;">{{ $ppembelian->whosubmit->name }}</td>
                 <td><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" target="_blank">{{ $ppembelian->desc }}</a></td>

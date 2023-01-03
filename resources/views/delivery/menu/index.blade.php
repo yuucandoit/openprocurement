@@ -113,9 +113,17 @@
                             <div class="card-header bg-primary">
                                 <h5>Shipping Process In List</h5>
                             </div>
+                            <div class="mt-4">
+                                <div style="max-width: 50%;" class="pull-right">
+                                    <form action="{{ route('delivery.SearchDeliveryIn') }}" method="get" class="input-group disabled" >
+                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                    </form>
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <div class="order-history table-responsive">
-                                    <table class="table table-bordernone display" id="basic-1">
+                                    <table class="table table-striped" >
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -160,6 +168,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    <div class="mt-4">
+                                        {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -176,9 +187,17 @@
                             <div class="card-header bg-primary">
                                 <h5>Shipping Process Out List</h5>
                             </div>
+                            <div class="mt-4">
+                                <div style="max-width: 50%;" class="pull-right">
+                                    <form action="{{ route('delivery.SearchDeliveryOut') }}" method="get" class="input-group disabled" >
+                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                    </form>
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <div class="order-history table-responsive">
-                                    <table class="table table-bordernone display" id="advance-1">
+                                    <table class="table table-striped display">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -192,7 +211,7 @@
                                             $approvedPPB = [];
                                         @endphp
                                         <tbody>
-                                            @foreach ($datappb as $ppb)
+                                            @foreach ($datappb2 as $ppb)
                                                 @if ($ppb->status == 'Delivery Success')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr>
@@ -214,6 +233,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    <div class="mt-4">
+                                        {{ $datappb2->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
