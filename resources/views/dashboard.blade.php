@@ -10,7 +10,7 @@
                     <div class="col-sm-6 mt-4">
                         <h3>Dashboard</h3>
                     </div>
-                    <div class="col-sm-6 mt-4">
+                    {{-- <div class="col-sm-6 mt-4">
                         <!-- Bookmark Start-->
                         <div class="bookmark">
                             <ul>
@@ -36,7 +36,7 @@
                             </ul>
                         </div>
                         <!-- Bookmark Ends-->
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

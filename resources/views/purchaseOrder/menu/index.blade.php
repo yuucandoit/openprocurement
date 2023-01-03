@@ -131,7 +131,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="basic-1">
+                                    <table class="table table-bordered">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -223,7 +223,7 @@
                                         </tbody>
                                     </table>
                                     <div class="mt-4">
-                                        {{-- {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }} --}}
+                                        {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
                                         </div>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="advance-1">
+                                    <table class="table table-bordered" >
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -340,7 +340,7 @@
                                         </tbody>
                                     </table>
                                     <div class="mt-4">
-                                        {{-- {{ $datahstry->appends(['out'=> request('out')])->withQueryString()->links('pagination::bootstrap-5') }} --}}
+                                        {{ $datahstry->appends(['out'=> request('out')])->withQueryString()->links('pagination::bootstrap-5') }}
                                     </div>
                                 </div>
                             </div>
@@ -348,7 +348,7 @@
                     </div>
                 </div>
             </div>
-
+            {{-- multiple pagination --}}
                     <script>
                         $(document).ready(function() {
 

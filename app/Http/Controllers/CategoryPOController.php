@@ -81,7 +81,7 @@ class CategoryPOController extends Controller
         if ($check->role_id == 4 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::all();
             $pt = CategoryPT::all();
-            $op = CategoryPP::all();
+            $op = CategoryPP::all(); 
             $ec = CategoryEcommerce::all();
             $datapo = CategoryPO::all();
             return view('purchaseOrder.menu.history')
