@@ -76,7 +76,7 @@
                                 <li class="breadcrumb-item active"><a href="{{ url('/payment_request') }}">Payment Request</a></li>
                             </ol>
                         </div>
-                        <div class="col-sm-6 mt-4">
+                        {{-- <div class="col-sm-6 mt-4">
                             <!-- Bookmark Start-->
                             <div class="bookmark">
                                 <ul>
@@ -102,7 +102,7 @@
                                 </ul>
                             </div>
                             <!-- Bookmark Ends-->
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
