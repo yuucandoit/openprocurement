@@ -232,7 +232,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped tasklistpo" id="basic-1">
+                                    <table class="table table-striped tasklistpo">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
@@ -376,7 +376,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped tasklistpo" id="basic-1">
+                                    <table class="table table-striped tasklistpo">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
@@ -522,7 +522,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped tasklistpo" id="basic-1">
+                                    <table class="table table-striped tasklistpo">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
@@ -667,7 +667,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped tasklistpo" id="basic-1">
+                                    <table class="table table-striped tasklistpo">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
