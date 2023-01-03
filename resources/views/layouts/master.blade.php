@@ -574,9 +574,9 @@
                             </h5>
                         </div>
                         <div class="col-md-6">
-                            <p class="pull-right mb-0" style="color: green;">Copyright &copy; 2022 | PT SOLUSI INTEK
-                                INDONESIA | <mark
-                                    style="background-color: black; color: #FFFFFF; font-weight: bold;">E-Procurement</mark>
+                            <p class="pull-right mb-0" style="color: green;">
+                            <mark
+                                    style="background-color: black; color: #FFFFFF; font-weight: bold; font-size:10px;" >E-Procurement</mark>
                             </p>
                         </div>
                     </div>
