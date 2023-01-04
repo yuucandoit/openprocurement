@@ -67,7 +67,6 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr style="text-align: center;">
-                                            <th><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Name</th>
                                             <th>Description</th>
@@ -91,8 +90,7 @@
                                             @if ($ppb->status == 'Unpaid')
                                                 @php $approvedPPB[] =$ppb; @endphp
                                                 <tr id="ppb-{{ $ppb->id }}">
-                                                    <td style="text-align: center;"><input type="checkbox" name=""
-                                                            id=""></td>
+
                                                     <td style="text-align: center;">{{ $no++ }}</td>
                                                     <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                     <td style="text-align: center;"><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
