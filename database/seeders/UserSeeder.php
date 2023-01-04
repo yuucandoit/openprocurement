@@ -230,6 +230,12 @@ class UserSeeder extends Seeder
             'password' => bcrypt('finance1;')
         ]);
 
+        // Faisal Nursalim
+        // Indah Wardani
+
+        // finance2;
+        // finance3;
+        // finance4;
         $finance->assignRole('finance');
     }
 }

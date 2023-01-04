@@ -14,6 +14,8 @@ class CategoryPengajuanPembelian extends Model
         'user_id',
         'date_ps',
         'atasan',
+        'atasan_po',
+        'atasan_py',
         'matauang',
         'ws',
         'desc',
