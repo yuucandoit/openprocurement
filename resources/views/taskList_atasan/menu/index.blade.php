@@ -485,7 +485,7 @@
                                         @php
                                             $no = 1;
                                         @endphp
-                                        @foreach ($datappb as $ppb)
+                                        @foreach ($datappb2 as $ppb)
                                             @if ($ppb->status == 'Purchase Request Approved' ||
                                                  $ppb->status == 'Purchase Proses' ||
                                                  $ppb->status == 'Waiting For PO Approval' ||
@@ -703,7 +703,7 @@
                             <div class="box-header">
                                 <button type="button" id="button-approve-selected" disabled class="btn btn-danger"
                                 style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
-                            </div>  
+                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklist" >
                                         <thead>

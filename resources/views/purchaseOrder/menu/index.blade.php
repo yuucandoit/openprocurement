@@ -151,7 +151,6 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-
                                         @php
                                             $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                             $approvedPPB = [];
@@ -272,7 +271,6 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-
                                         @php
                                             $i = 1 ;
                                         @endphp

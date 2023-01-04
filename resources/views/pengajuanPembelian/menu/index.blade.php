@@ -88,66 +88,116 @@
                   <th>Date</th>
                   <th>Who Filed</th>
                   <th>Description</th>
-                  <th>Purchase Status</th>
-                  <th>Payment Status</th>
-                  <th>Delivery Status</th>
+                  <th>Progress</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                @php
                $no = 1;
+               $i = 1 + $datadv->currentPage() * $datadv->perPage() - $datadv->perPage();
                @endphp
                @foreach($datadv as $ppembelian)
                {{-- @if ($ppembelian->status == '') --}}
                <tr>
-                <td style="text-align: center;">{{ $loop->iteration }}</td>
+                <td style="text-align: center;">{{ $i++ }}</td>
                 <td style="text-align: center;">{{ $ppembelian->date_ps }}</td>
-                <td style="text-align: center;">{{ $ppembelian->whosubmit->name }}</td>
-                <td><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" target="_blank">{{ $ppembelian->desc }}</a></td>
+                <td style="text-align: center; width:10%;">{{ $ppembelian->whosubmit->name }}</td>
+                <td style="text-align: center; word-break: break-word; width:25%;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{!! nl2br($ppembelian->desc) !!}</a></td>
                 @hasrole('user|super admin')
-                <td>
+                <td >
+                <p>Purchase :
                   @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
-                  <a class="badge bg-warning mt-1" style="color: white; font-size:18">Waiting Approval 1</a>
+                  -
                   @elseif ($ppembelian->status == 'Waiting For PO Approval')
-                  <a class="badge bg-warning mt-1" style="color: white; font-size:18">Waiting Approval 2</a>
-                  @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved' || $ppembelian->status == 'Invoicing Process' || $ppembelian->status == 'Payment Approved' )
-                  <a class="badge bg-success mt-1" style="color:white; font-size:18;" >On Process</a>
+                  -
+                  @elseif($ppembelian->status == 'Invoicing Process')
+                  -
+                  @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
+                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process</a>
                   @elseif ($ppembelian->status == 'Unpaid' || $ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery process' || $ppembelian->status == 'Delivery Success')
-                  <a class="badge bg-success mt-1" style="color:white; font-size:18;">Done</a>
+                  <a class="badge bg-success mt-1" style="color:white; font-size:8;">Done</a>
                   @elseif ($ppembelian->status == 'Rejected')
                   @endif
-                  {{-- <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18">{{ $ppembelian->status }}</a> --}}
-                </td>
-                <td>
+                </p>
+                <p>Payment&nbsp;:
                   @if ($ppembelian->status == 'Unpaid')
-                  <a class="badge bg-warning mt-1" style="color: white; font-size:18">Unpaid</a>
+                  <a class="badge bg-warning mt-1" style="color: white; font-size:8">Unpaid</a>
                   @elseif ($ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery Success' )
-                  <a class="badge bg-success mt-1" style="color: white; font-size:18">Paid</a>
+                  <a class="badge bg-success mt-1" style="color: white; font-size:8">Paid</a>
+                  @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
+                  -
+                  @elseif ($ppembelian->status == 'Awaiting Purchase Request Approval')
+                  -
+                  @elseif ($ppembelian->status == 'Waiting For PO Approval')
+                  -
+                  @elseif($ppembelian->status == 'Invoicing Process')
+                  -
                   @endif
-                  {{-- <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18"></a> --}}
+                </p>
+                <p>Delivery &nbsp;:
+                    @if ($ppembelian->status == 'Paid')
+                    <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> Delivery On Process</a>
+                    @elseif ($ppembelian->status == 'Delivery Success')
+                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Delivery Success</a>
+                    @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
+                    -
+                    @elseif ($ppembelian->status == 'Awaiting Purchase Request Approval')
+                    -
+                    @elseif ($ppembelian->status == 'Waiting For PO Approval')
+                    -
+                    @elseif($ppembelian->status == 'Invoicing Process')
+                    -
+                    @endif
+                </p>
                 </td>
-                <td>
-                  @if ($ppembelian->status == 'Paid')
-                  <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:18" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> Delivery On Process</a>
-                  @elseif ($ppembelian->status == 'Delivery Success')
-                  <a class="badge bg-success mt-1" style="color: white; font-size:18">Delivery Success</a>
-                  @endif
-                  {{-- <a class="badge {{ $ppembelian->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppembelian->status == 'Accepted by Super user' || 'Accepted by Purchasing' ? 'bg-success' : 'bg-danger') }} mt-1" style="color: white; font-size:18"></a> --}}
+                <td style="text-align: center;">
+                    @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
+                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Purchase Request</a>
+                    @endif
+                    @if($ppembelian->status == 'Purchase Request Approved')
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Request Approved By {{ $ppembelian->bod->name }}</a>
+                    @endif
+                    @if($ppembelian->status == 'Purchase Proses')
+                    <a class="badge bg-primary mt-1" style="color: white; font-size:12">Request On Process Purchase</a>
+                    @endif
+                    @if($ppembelian->status == 'Waiting For PO Approval')
+                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Purchase Order</a>
+                    @endif
+                    @if($ppembelian->status == 'PO Approved' )
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">PO Approved By {{ $ppembelian->atasans->name }}</a>
+                    @endif
+                    @if($ppembelian->status == 'Invoicing Process')
+                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Payment Request</a>
+                    @endif
+                    @if($ppembelian->status == 'Payment Approved')
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Payment Approved By {{ $ppembelian->atasanpymnt->name }}</a>
+                    @endif
+                    @if($ppembelian->status == 'Unpaid')
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Unpaid</a>
+                    @endif
+                    @if($ppembelian->status == 'Paid')
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Paid & Delivery Process</a>
+                    @endif
+                    @if($ppembelian->status == 'Delivery Success')
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Delivery Succes & Done</a>
+                    @endif
                 </td>
+
                 @endhasrole
 
                 <td style="text-align: center;">
-                    <a class="btn btn-iconsolid mt-1"
-                    style="background-color: #ADD8E6;"
+                    <a class="btn btn-iconsolid mt-1"  title="Preview PDF"
+                    style="background-color: #ADD8E6; font-size:10;"
                     href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}"><i
-                        class="icon-eye" title="Preview PDF"></i>
+                        class="icon-eye"></i>
                     </a>
                    <div>
-                    <button class="btn btn-iconsolid mt-1 example-popover"  style="background-color: #00008B;"  title="Details" data-placement="right" data-bs-toggle="tooltip">
-                    <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}"><i class="icon-zoom-in"></i>
+                    {{-- <button class="btn btn-iconsolid mt-1"  style="background-color: #00008B; font-size:10;" >
+                    <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" class="example-popover"  title="Details" data-placement="right" data-bs-toggle="tooltip"><i class="icon-zoom-in"></i>
                     </a>
-                </button>
+                </button> --}}
                 </div>
                     @if ($ppembelian->status == 'Awaiting Purchase Submission Approval' )
 
@@ -156,7 +206,7 @@
                   @else
 
                   @endif
-                  <button class="btn btn-danger mt-1" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $ppembelian->id }}"><i class="icon-trash" title="Delete"></i>
+                  <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal" style="background-color: #ff0000; font-size:10;" data-bs-target="#modalDelete{{ $ppembelian->id }}"><i class="icon-trash" title="Delete"></i>
                   </button>
                 </td>
 
