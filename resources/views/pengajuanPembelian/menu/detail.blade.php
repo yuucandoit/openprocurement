@@ -56,6 +56,7 @@
                                  <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
                              </div>
                              <div class="card-body text-center">
+                                <p>{{ $data_pengajuan->status }}</p>
                                  <table class="table table-bordered mt-4" style="">
                                      <tbody>
                                          <tr>
