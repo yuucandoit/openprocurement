@@ -522,7 +522,7 @@ class TaskListAtasanController extends Controller
     public function reject($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Purchase Submission Rejected';
+        $data->status = 'Purchase Request Rejected By BOD';
         $data->save();
         return redirect()->back();
     }

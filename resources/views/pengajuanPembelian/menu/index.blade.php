@@ -114,11 +114,18 @@
                   -
                   @elseif($ppembelian->status == 'Invoicing Process')
                   -
-                  @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
-                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process</a>
+                  @elseif ($ppembelian->status == 'Purchase Request Approved' )
+                  <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Waiting PO Process</a>
+                  @elseif( $ppembelian->status == 'Purchase Proses')
+                  <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >On Process PO</a>
+                  @elseif( $ppembelian->status == 'PO Approved')
+                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Waiting Payment Request</a>
+                  @elseif($ppembelian->status == 'Payment Approved' )
+                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Waiting Payment Process</a>
                   @elseif ($ppembelian->status == 'Unpaid' || $ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery process' || $ppembelian->status == 'Delivery Success')
                   <a class="badge bg-success mt-1" style="color:white; font-size:8;">Done</a>
-                  @elseif ($ppembelian->status == 'Rejected')
+                  @elseif ($ppembelian->status == 'Rejected by Purchasing')
+                  -
                   @endif
                 </p>
                 <p>Payment&nbsp;:
@@ -134,6 +141,8 @@
                   -
                   @elseif($ppembelian->status == 'Invoicing Process')
                   -
+                  @elseif ($ppembelian->status == 'Rejected by Purchasing')
+                  -
                   @endif
                 </p>
                 <p>Delivery &nbsp;:
@@ -148,6 +157,8 @@
                     @elseif ($ppembelian->status == 'Waiting For PO Approval')
                     -
                     @elseif($ppembelian->status == 'Invoicing Process')
+                    -
+                    @elseif ($ppembelian->status == 'Rejected by Purchasing')
                     -
                     @endif
                 </p>
@@ -182,6 +193,18 @@
                     @endif
                     @if($ppembelian->status == 'Delivery Success')
                     <a class="badge bg-success mt-1" style="color: white; font-size:12">Delivery Succes & Done</a>
+                    @endif
+                    @if ($ppembelian->status == 'Rejected by Purchasing')
+                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Purchase</a>
+                    @endif
+                    @if ($ppembelian->status == 'Purchase Request Rejected By BOD')
+                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->bod->name }} )</a>
+                    @endif
+                    @if ($ppembelian->status == 'Payment Rejected By BOD')
+                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasanpymnt->name }} )</a>
+                    @endif
+                    @if ($ppembelian->status == 'PO Rejected By BOD')
+                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasans->name }} )</a>
                     @endif
                 </td>
 

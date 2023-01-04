@@ -351,7 +351,7 @@ class TasklistAtasanPaymentController extends Controller
     public function reject($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Rejected by Super user';
+        $data->status = 'Payment Rejected by BOD';
         $data->save();
         return redirect()->back();
     }

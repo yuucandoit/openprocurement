@@ -351,7 +351,7 @@ class TasklistAtasanPoController extends Controller
     public function reject($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Rejected by Super user';
+        $data->status = 'PO Rejected by BOD';
         $data->save();
         return redirect()->back();
     }
