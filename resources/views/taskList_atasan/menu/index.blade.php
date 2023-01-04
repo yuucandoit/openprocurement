@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>  
         @endforeach
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
