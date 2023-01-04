@@ -90,7 +90,7 @@
             @foreach ($category_q as $q)
                 <tr>
                     <td>
-                        <label>{!! nl2br($q->item) !!}</label>
+                        <label style="word-break: break-word;">{!! nl2br($q->item) !!}</label>
                     </td>
 
                     <td>
