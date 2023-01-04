@@ -117,7 +117,7 @@
                   @elseif ($ppembelian->status == 'Purchase Request Approved' )
                   <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Waiting PO Process</a>
                   @elseif( $ppembelian->status == 'Purchase Proses')
-                  <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >On Process PO</a>
+                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process PO</a>
                   @elseif( $ppembelian->status == 'PO Approved')
                   <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Waiting Payment Request</a>
                   @elseif($ppembelian->status == 'Payment Approved' )
