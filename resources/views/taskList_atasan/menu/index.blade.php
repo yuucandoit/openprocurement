@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div>
         @endforeach
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
@@ -80,10 +80,6 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
-                        </div>
                         <div class="mt-4">
                             <div style="max-width: 50%;" class="pull-right">
                                 <form action="{{ route('menu-purchase-order.SearchPOOut') }}" method="get" class="input-group disabled" >
@@ -93,6 +89,10 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger"
+                                style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
+                            </div>
                             <div class="table-responsive">
                         {{-- Data Masuk --}}
                              <table class="table table-striped tasklist" >
@@ -235,10 +235,6 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
-                        </div>
                         <div class="mt-4">
                             <div style="max-width: 50%;" class="pull-right">
                                 <form action="{{ route('menu-purchase-order.SearchPOOut') }}" method="get" class="input-group disabled" >
@@ -248,6 +244,10 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger"
+                                style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
+                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklist" >
                                         <thead>
@@ -396,11 +396,12 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
-                        </div>
+
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger"
+                                style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
+                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklist" >
                                         <thead>
@@ -544,11 +545,12 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
-                        </div>
+
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger"
+                                style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
+                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklist" >
                                         <thead>
@@ -697,11 +699,11 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
-                        </div>
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger"
+                                style="margin-top: -8px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
+                            </div>  
                             <div class="table-responsive">
                                     <table class="table table-striped tasklist" >
                                         <thead>

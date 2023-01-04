@@ -81,11 +81,11 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                        </div>
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                            </div>
                             <div class="table-responsive">
                         {{-- Data Masuk --}}
                              <table class="table table-striped tasklistpo" >
@@ -226,11 +226,11 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                        </div>
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklistpo">
                                         <thead>
@@ -370,11 +370,11 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                        </div>
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklistpo">
                                         <thead>
@@ -516,11 +516,11 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                        </div>
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklistpo">
                                         <thead>
@@ -661,11 +661,11 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-                        <div >
-                            <button type="button" id="button-approve-selected" disabled class="btn btn-danger pull-right"
-                            style="margin-top: -8px;" onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                        </div>
                         <div class="card-body">
+                            <div class="box-header">
+                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklistpo">
                                         <thead>

@@ -27,15 +27,14 @@ class TaskListAtasanController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status', 'Purchase Request Approved')->
-            orWhere('status','Purchase Proses')->
-            orWhere('status','Waiting For PO Approval')->
+            $datappb2 = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status', 'Purchase Request Approved')->orWhere('status','Purchase Proses')->orWhere('status','Waiting For PO Approval')->
             orWhere('status','PO Approved')->
             orWhere('status','Invoicing Process')->
            orWhere('status','Unpaid')->
            orWhere('status','Paid')->
            orWhere('status','Delivery Process')->
            orWhere('status','Delivery Success')-> orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'out');
+        //    dd(Auth::user()->id);
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
