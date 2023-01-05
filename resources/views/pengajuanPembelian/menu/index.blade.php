@@ -151,7 +151,7 @@
                 <li>
                 <p><strong>Delivery &nbsp;&nbsp;:</strong>
                     @if ($ppembelian->status == 'Paid')
-                    <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> Delivery On Process</a>
+                    <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> On The Way</a>
                     @elseif ($ppembelian->status == 'Delivery Success')
                     <a class="badge bg-success mt-1" style="color: white; font-size:8">Delivered</a>
                     @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
@@ -195,7 +195,7 @@
                     <a class="badge bg-success mt-1" style="color: white; font-size:12">Unpaid</a>
                     @endif
                     @if($ppembelian->status == 'Paid')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Paid & Delivery Process</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Delivery on Process</a>
                     @endif
                     @if($ppembelian->status == 'Delivery Success')
                     <a class="badge bg-success mt-1" style="color: white; font-size:12">Completed</a>

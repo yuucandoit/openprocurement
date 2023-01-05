@@ -94,6 +94,9 @@
         <tbody>
             <tr>
                 <td>
+                    <h6>No</h6>
+                </td>
+                <td>
                     <h6>Item</h6>
                 </td>
                 <td class="Hours">
@@ -109,26 +112,55 @@
                     <h6>Total</h6>
                 </td>
             </tr>
-            @foreach ($category_q as $q)
-                <tr>
-                    <td>
-                        <label style="word-break: break-word;">{!! nl2br($q->item) !!}</label>
-                    </td>
-                    <td>
-                        <p class="itemtext digits text-center">{{ $q->qty }}</p>
-                    </td>
-                    <td>
-                        <p class="itemtext digits">{{ $q->kategori }}</p>
-                    </td>
-                    <td>
-                        <p class="itemtext digits text-end">Rp.{{ number_format($q->unit_price) }}</p>
-                    </td>
-                    <td>
-                        <p class="itemtext digits text-end">Rp.{{ number_format($q->total) }}</p>
-                    </td>
-                </tr>
+            @php
+            $no = 1
+        @endphp
+        @foreach ($category_q as $q)
+            @foreach ($cpp as $c)
+            <tr>
+                <td>
+                    <p>{{ $no++ }}</p>
+                </td>
+                <td>
+                    <label style="word-break: break-word;">{!! nl2br($q->item) !!}</label>
+                </td>
+                <td>
+                    <p class="text-center">{{ $q->qty }}</p>
+                </td>
+                <td>
+                    <p>{{ $q->kategori }}</p>
+                </td>
+                @if($c->matauang == 'RP')
+                <td class="text-right">
+                    <p>Rp.{{ number_format($q->unit_price) }}</p>
+                </td>
+                @endif
+                @if($c->matauang == 'USD')
+                <td class="text-right">
+                    <p>$ {{ number_format($q->unit_price) }}.00</p>
+                </td>
+                @endif
+
+                @if($c->matauang == 'RP')
+                <td class="text-right">
+                    <p>Rp.{{ number_format($q->total) }}</p>
+                </td>
+                @endif
+                @if($c->matauang == 'USD')
+                <td class="text-right">
+                    <p>$ {{ number_format($q->total) }}.00</p>
+                </td>
+                @endif
+                {{-- <td class="text-right">
+                    <p>Rp.{{ number_format($q->unit_price) }}</p>
+                </td> --}}
+            </tr>
+        @endforeach
             @endforeach
             <tr>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
                 <td>
                     <p class="itemtext"></p>
                 </td>
@@ -142,12 +174,24 @@
                     <p class="m-0">DPP </p>
                 </td>
                 @foreach ($dpp as $dp)
-                    <td>
-                        <p class="m-0 digits text-end">Rp.{{ number_format($dp->total) }}</p>
-                    </td>
+                @foreach ($cpp as $c)
+                @if($c->matauang == 'RP')
+                <td>
+                    <p class="m-0 digits text-right">Rp.{{ number_format($dp->total) }}</p>
+                </td>
+                @endif
+                @if($c->matauang == 'USD')
+                <td>
+                    <p class="m-0 digits text-right">$ {{ number_format($dp->total) }}.00</p>
+                </td>
+                @endif
+                @endforeach
                 @endforeach
             </tr>
             <tr>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
                 <td>
                     <p class="itemtext"></p>
                 </td>
@@ -162,19 +206,27 @@
                 </td>
                 @foreach ($cpp as $c)
                     @if ($c->ppn == 0)
-                        <td>
-                            <p class="m-0 digits text-end">Rp.0</p>
-                        </td>
+                    @if($c->matauang == 'RP')
+                    <td>
+                        <p class="m-0 digits text-right">Rp.0</p>
+                    </td>
+                    @endif
+                    @if($c->matauang == 'USD')
+                    <td>
+                        <p class="m-0 digits text-right">$ 0</p>
+                    </td>
+                    @endif
                     @else
                         @foreach ($ppn as $pn)
                             <td>
-                                <p class="m-0 digits text-end">Rp.{{ number_format($pn->total) }}</p>
+                                <p class="m-0 digits text-right">Rp.{{ number_format($pn->total) }}</p>
                             </td>
                         @endforeach
                     @endif
                 @endforeach
             </tr>
             <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -185,24 +237,24 @@
                     @if ($c->ppn == 0)
                         @foreach ($total_tnp_ppn as $tpn)
                             @if ($c->matauang == 'RP')
-                                <td style="payment digits text-end">
+                                <td style="payment digits text-right">
                                     <h6 class="mb-0 "> Rp.{{ number_format($tpn->total) }}</h6>
                                 </td>
                             @elseif ($c->matauang == 'USD')
-                                <td style="payment digits text-end">
-                                    <h6 class="mb-0 "> $ {{ number_format($tpn->total) }}</h6>
+                                <td style="payment digits text-right">
+                                    <h6 class="mb-0 "> $ {{ number_format($tpn->total) }}.00</h6>
                                 </td>
                             @endif
                         @endforeach
                     @elseif($c->ppn == 1)
                         @foreach ($total as $t)
                             @if ($c->matauang == 'RP')
-                                <td style="payment digits text-end">
+                                <td style="payment digits text-right">
                                     <h6 class="mb-0 "> Rp. {{ number_format($t->total) }}</h6>
                                 </td>
                             @elseif ($c->matauang == 'USD')
-                                <td style="payment digits text-end">
-                                    <h6 class="mb-0 "> $.{{ number_format($t->total) }}</h6>
+                                <td style="payment digits text-right">
+                                    <h6 class="mb-0 "> $ {{ number_format($t->total) }}.00</h6>
                                 </td>
                             @endif
                         @endforeach
