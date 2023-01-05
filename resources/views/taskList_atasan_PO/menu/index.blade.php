@@ -82,10 +82,6 @@
                             <h5>Task List Super User In</h5>
                         </div>
                         <div class="card-body">
-                            <div class="box-header">
-                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                            </div>
                             <div class="table-responsive">
                         {{-- Data Masuk --}}
                              <table class="table table-striped tasklistpo" >
@@ -134,6 +130,10 @@
                                         </tbody>
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    <div class="box-header">
+                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -227,10 +227,6 @@
                             <h5>Task List Super User In</h5>
                         </div>
                         <div class="card-body">
-                            <div class="box-header">
-                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklistpo">
                                         <thead>
@@ -278,6 +274,10 @@
                                         </tbody>
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    <div class="box-header">
+                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -371,10 +371,6 @@
                             <h5>Task List Super User In</h5>
                         </div>
                         <div class="card-body">
-                            <div class="box-header">
-                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklistpo">
                                         <thead>
@@ -422,6 +418,10 @@
                                         </tbody>
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    <div class="box-header">
+                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -517,10 +517,6 @@
                             <h5>Task List Super User In</h5>
                         </div>
                         <div class="card-body">
-                            <div class="box-header">
-                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklistpo">
                                         <thead>
@@ -569,6 +565,10 @@
                                     @endforeach
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    <div class="box-header">
+                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -662,10 +662,6 @@
                             <h5>Task List Super User In</h5>
                         </div>
                         <div class="card-body">
-                            <div class="box-header">
-                                <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                            </div>
                             <div class="table-responsive">
                                     <table class="table table-striped tasklistpo">
                                         <thead>
@@ -713,6 +709,10 @@
                                         @endforeach
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    <div class="box-header">
+                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
