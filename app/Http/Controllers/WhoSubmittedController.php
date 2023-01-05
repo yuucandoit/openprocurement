@@ -14,9 +14,21 @@ class WhoSubmittedController extends Controller
      */
     public function index()
     {
-        $data = WhoSubmitted::all();
+        $data = WhoSubmitted::paginate(10);
         return view('dataWhoSubmitted.index')
         ->with('data',$data);
+    }
+
+    public function SearchWS(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $data = WhoSubmitted::Where('id','like',"%".$cari."%")
+     ->orWhere('name','like',"%".$cari."%")
+     ->paginate(10);
+
+     return view('dataWhoSubmitted.index')
+     ->with('data',$data);
     }
 
     /**
@@ -73,7 +85,7 @@ class WhoSubmittedController extends Controller
         $data = WhoSubmitted::find($id);
         return view('dataWhoSubmitted.edit')
         ->with('data', $data);
-    }   
+    }
 
     /**
      * Update the specified resource in storage.

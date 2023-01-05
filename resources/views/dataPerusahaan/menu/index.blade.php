@@ -252,16 +252,25 @@
                         <div class="card-header bg-primary">
                             <h5>List Of Company Data</h5>
                         </div>
-                        <div class="card-body" style="text-align: right;">
+                        <div class="card-body">
                             <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                                     class="bx bx-list-plus"></i> Add <i class="fa fa-plus"></i></button>
                             <a href={{ url('/export_excel/perusahaan/') }} class="btn btn-success mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-export"></i> Export to Excel</a>
                             <a href={{ url('file-import-pt') }} class="btn btn-danger mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-import"></i> Import From Excel</a>
+                            <div class="pull-right">
+                                <form action="{{ route('menu-perusahaan.SearchPT') }}" method="get"
+                                            class="input-group">
+                                            <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                                value="{{ old('cari') }}">
+                                            <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                                    value="Go"></span>
+                                        </form>
+                                    </div>
                             <div class="table-responsive">
-                                <table class="display" id="basic-1">
-                                    <thead>
+                                <table class="table table-striped">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Nama Perusahaan</th>
@@ -269,49 +278,20 @@
                                             <th>Contact Kantor</th>
                                             <th>Website</th>
                                             <th>Action</th>
-                                            {{-- <th>Nama PIC</th>
-                                    <th>Contact PIC</th>
-                                    <th>Email</th>
-                                    <th>NPWP PT</th>
-                                    <th>PKP</th>
-                                    <th>NIB</th>
-                                    <th>Bidang Usaha</th>
-                                    <th>No_rekening</th>
-                                    <th>Bank</th>
-                                    <th>Nama Penerima</th>
-                                    <th>Created At</th>
-                                    <th>Actions</th> --}}
-                                            @hasrole('admin|super admin')
-                                            @endhasrole
-
-                                            @hasrole('admin|super admin')
-                                            @endhasrole
-                                            @hasrole('user')
-                                            @endhasrole
                                         </tr>
                                     </thead>
                                     @php
                                         $no = 1;
+                                        $i = 1 + $admin->currentPage() * $admin->perPage() - $admin->perPage();
                                     @endphp
                                     <tbody>
                                         @foreach ($datadv as $vendor)
                                             <tr>
-                                                <td style="text-align: center;">{{ $no++ }}</td>
+                                                <td style="text-align: center;">{{ $i++ }}</td>
                                                 <td>{{ $vendor->nama }}</td>
                                                 <td>{{ $vendor->alamat }}</td>
                                                 <td>{{ $vendor->no_telp_kantor }}</td>
                                                 <td><a href="{{ $vendor->website }}">{{ $vendor->website }}</a></td>
-                                                {{-- <td>{{ $vendor->nama_pic }}</td>
-                                    <td>{{ $vendor->no_telp_pic }}</td>
-                                    <td>{{ $vendor->email }}</td>
-                                    <td>{{ $vendor->npwp_perusahaan }}</td>
-                                    <td>{{ $vendor->Pkp }}</td>
-                                    <td>{{ $vendor->nib }}</td>
-                                    <td>{{ $vendor->bidang_usaha }}</td>
-                                    <td>{{ $vendor->no_rekening }}</td>
-                                    <td>{{ $vendor->bank }}</td>
-                                    <td>{{ $vendor->nama_penerima    }}</td> --}}
-                                                {{-- <td>{{ $vendor->created_at }}</td> --}}
                                                 @hasrole('admin|super admin')
                                                 @endhasrole
                                                 <td>
@@ -328,44 +308,11 @@
                                                             class="icon-trash" title="Delete"></i>
                                                     </button>
                                                 </td>
-                                                {{-- @hasrole('admin|super admin')
-                                        @if ($vendor->status == 'Accepted')
-                                            <td>
-                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                    class="btn btn-success" onclick="return"><b>Accepted</b></a>
-                                            </td>
-                                            <td>
-                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                    class="btn btn-danger" onclick="return">Reject</a>
-                                            </td>
-                                        @elseif($purchase->status == 'pending')
-                                            <td>
-                                                <a href="{{ url('menu-purchase-order/accept', $purchase->id) }}"
-                                                    class="btn btn-success" onclick="return">Accept</a>
-                                            </td>
-                                            <td>
-                                                <a href="{{ url('menu-purchase-order/Reject', $purchase->id) }}"
-                                                    class="btn btn-danger" onclick="return">Reject</a>
-                                            </td>
-                                        @else
-                                            <td>
-                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                    class="btn btn-success" onclick="return">Accept</a>
-                                            </td>
-                                            <td>
-                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                    class="btn btn-danger" onclick="return"><b>Rejected</b></a>
-                                            </td>
-                                        @endif
-                                    @endhasrole
-                                    @hasrole('user')
-                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
-                                                style="color: white; font-size:18">{{ $purchase->status }}</a></td>
-                                    @endhasrole --}}
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                {{ $datadv->withQueryString()->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>

@@ -141,16 +141,25 @@
                         <div class="card-header bg-primary">
                             <h5>List Of Private Person Data</h5>
                         </div>
-                        <div class="card-body" style="text-align: right;">
+                        <div class="card-body">
                             <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"> Add
                                 <i class="fa fa-plus"></i></button>
                             <a href={{ url('/export_excel/private_person') }} class="btn btn-success mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-export"></i> Export to Excel</a>
                             <a href={{ url('file-import-pp') }} class="btn btn-danger mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-import"></i> Import From Excel</a>
+                                    <div class="pull-right">
+                                        <form action="{{ route('menu-private-person.SearchPP') }}" method="get"
+                                            class="input-group">
+                                            <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                                value="{{ old('cari') }}">
+                                            <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                                    value="Go"></span>
+                                        </form>
+                                    </div>
                             <div class="table-responsive">
-                                <table class="display" id="basic-1">
-                                    <thead>
+                                <table class="table table-striped">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center">
                                             <th>No</th>
                                             <th>Full Name</th>
@@ -159,22 +168,17 @@
                                             <th>NPWP</th>
                                             <th>PKP</th>
                                             <th>Action</th>
-                                            @hasrole('admin|super admin')
-                                            @endhasrole
 
-                                            @hasrole('admin|super admin')
-                                            @endhasrole
-                                            @hasrole('user')
-                                            @endhasrole
                                         </tr>
                                     </thead>
                                     @php
                                         $no = 1;
+                                        $i = 1 + $datadv->currentPage() * $datadv->perPage() - $datadv->perPage();
                                     @endphp
                                     <tbody>
                                         @foreach ($datadv as $person)
                                             <tr>
-                                                <td style="text-align: center;">{{ $no++ }}</td>
+                                                <td style="text-align: center;">{{ $i++ }}</td>
                                                 <td>{{ $person->nama }}</td>
                                                 <td>{{ $person->alamat }}</td>
                                                 <td>{{ $person->nik }}</td>
@@ -197,44 +201,13 @@
                                                             class="icon-trash" title="Delete"></i>
                                                     </button>
                                                 </td>
-                                                {{-- @hasrole('admin|super admin')
-                                        @if ($vendor->status == 'Accepted')
-                                            <td>
-                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                    class="btn btn-success" onclick="return"><b>Accepted</b></a>
-                                            </td>
-                                            <td>
-                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                    class="btn btn-danger" onclick="return">Reject</a>
-                                            </td>
-                                        @elseif($purchase->status == 'pending')
-                                            <td>
-                                                <a href="{{ url('menu-purchase-order/accept', $purchase->id) }}"
-                                                    class="btn btn-success" onclick="return">Accept</a>
-                                            </td>
-                                            <td>
-                                                <a href="{{ url('menu-purchase-order/Reject', $purchase->id) }}"
-                                                    class="btn btn-danger" onclick="return">Reject</a>
-                                            </td>
-                                        @else
-                                            <td>
-                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                    class="btn btn-success" onclick="return">Accept</a>
-                                            </td>
-                                            <td>
-                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                    class="btn btn-danger" onclick="return"><b>Rejected</b></a>
-                                            </td>
-                                        @endif
-                                    @endhasrole
-                                    @hasrole('user')
-                                        <td> <a class="badge {{ $purchase->status == 'pending' ? 'bg-warning' : ($purchase->status == 'Accepted' ? 'bg-success' : 'bg-danger') }} mt-1"
-                                                style="color: white; font-size:18">{{ $purchase->status }}</a></td>
-                                    @endhasrole --}}
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datadv->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>

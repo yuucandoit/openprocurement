@@ -196,7 +196,7 @@
                                 @endif
                             </table>
                             <hr>
-                            <div class="mt-3" style="text-align: center;">
+                            <div class="mt-3">
                                 @hasrole('super user|super admin')
                                     @if ($data_pengajuan->status == 'PO Approved' ||
                                         $data_pengajuan->status == 'Invoicing Process' ||

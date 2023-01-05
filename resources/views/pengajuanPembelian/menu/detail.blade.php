@@ -14,7 +14,7 @@
                          <ol class="breadcrumb">
                              <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                              <li class="breadcrumb-item"><a href="{{ url('/menu-pengajuan-pembelian') }}">Purchase
-                                     Submission</a></li>
+                                     Request</a></li>
                              <li class="breadcrumb-item active">Details</li>
                          </ol>
                      </div>
@@ -56,7 +56,7 @@
                                  <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
                              </div>
                              <div class="card-body text-center">
-                                <p>{{ $data_pengajuan->status }}</p>
+                                {{-- <p>{{ $data_pengajuan->status }}</p> --}}
                                  <table class="table table-bordered mt-4" style="">
                                      <tbody>
                                          <tr>

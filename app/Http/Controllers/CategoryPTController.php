@@ -24,14 +24,29 @@ class CategoryPTController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
-            $datadv = CategoryPT::where('user_id', Auth::user()->id)->get();
+            $datadv = CategoryPT::where('user_id', Auth::user()->id)->paginate(10);
             return view('dataPerusahaan.menu.index')
                 ->with('datadv', $datadv);
         } else if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
-            $datadv = CategoryPT::all();
+            $datadv = CategoryPT::paginate(10);
             return view('dataPerusahaan.menu.index')
                 ->with('datadv', $datadv);
         }
+    }
+
+public function SearchPT(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $datadv = CategoryPT::Where('id','like',"%".$cari."%")
+     ->orWhere('nama','like',"%".$cari."%")
+     ->orWhere('alamat','like',"%".$cari."%")
+     ->orWhere('no_telp_kantor','like',"%".$cari."%")
+     ->orWhere('website','like',"%".$cari."%")
+     ->paginate(10);
+
+     return view('dataperusahaan.menu.index')
+     ->with('datadv',$datadv);
     }
 
     /**

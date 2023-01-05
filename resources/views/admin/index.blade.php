@@ -15,8 +15,8 @@
                     <div class="modal-body container">
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <input required type="text" class="form-control mt-2" id="floatingName" placeholder="Name"
-                                    name="name" required>
+                                <input required type="text" class="form-control mt-2" id="floatingName"
+                                    placeholder="Name" name="name" required>
                                 <label for="floatingKeterangan">Name</label>
                             </div>
                         </div>
@@ -101,15 +101,25 @@
 
     <div class="container-fluid">
         <div class="row">
-                <div class="card card-absolute">
-                    <div class="card-header bg-primary">
-                        <h5>Add Users</h5>
-                    </div>
+            <div class="card card-absolute">
+                <div class="card-header bg-primary">
+                    <h5>Add Users</h5>
+                </div>
                 <div class="card-body">
                     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
                             class="bx bx-list-plus"></i> Add+</button>
-                    <table class="table table-striped" id="advance-1" style="width: 100%">
-                        <thead>
+                        <div class="pull-right">
+                            <form action="{{ route('admin.SearchUser') }}" method="get"
+                                class="input-group">
+                                <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                    value="{{ old('cari') }}">
+                                <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                        value="Go"></span>
+                            </form>
+                        </div>
+                <div class="table-responsive">
+                    <table class="table table-striped" style="width: 100%">
+                        <thead class="bg-primary">
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
@@ -120,10 +130,11 @@
                         </thead>
                         @php
                             $serial = 1;
+                            $i = 1 + $admin->currentPage() * $admin->perPage() - $admin->perPage();
                         @endphp
                         @foreach ($admin as $dataAdmin)
                             <tr>
-                                <td>{{ $serial++ }}</td>
+                                <td>{{ $i++ }}</td>
                                 <td>{{ $dataAdmin->name }}</td>
                                 <td>{{ $dataAdmin->email }}</td>
                                 <td>{{ $dataAdmin->roles->pluck('name')->implode('') }}</td>
@@ -134,8 +145,12 @@
                             </tr>
                         @endforeach
                     </table>
+                </div>
+                    <div class="mt-4">
+                        {{ $admin->withQueryString()->links('pagination::bootstrap-5') }}
+                    </div>
+                </div>
             </div>
-         </div>
         </div>
     </div>
     </section>

@@ -14,10 +14,22 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $data = Department::all();
+        $data = Department::paginate(10);
         return view('dataDepartment.index')
         ->with('data',$data);
     }
+
+    public function SearchDepartment(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $data = Department::Where('id','like',"%".$cari."%")
+    ->orWhere('name','like',"%".$cari."%")
+    ->paginate(10);
+
+    return view('dataDepartment.index')
+    ->with('data',$data);
+   }
 
     /**
      * Show the form for creating a new resource.

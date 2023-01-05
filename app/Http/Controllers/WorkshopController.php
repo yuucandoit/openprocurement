@@ -14,10 +14,22 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        $data = Workshop::all();
+        $data = Workshop::paginate(10);
         return view('dataWorkshop.index')
         ->with('data',$data);
     }
+
+    public function SearchWorkshop(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $data = Workshop::Where('id','like',"%".$cari."%")
+    ->orWhere('name','like',"%".$cari."%")
+    ->paginate(10);
+
+    return view('dataWorkshop.index')
+    ->with('data',$data);
+   }
 
     /**
      * Show the form for creating a new resource.

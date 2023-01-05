@@ -14,10 +14,22 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        $data = Office::all();
+        $data = Office::paginate(10);
         return view('dataOffice.index')
         ->with('data',$data);
     }
+
+    public function SearchOffice(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $data = Office::Where('id','like',"%".$cari."%")
+    ->orWhere('name','like',"%".$cari."%")
+    ->paginate(10);
+
+    return view('dataOffice.index')
+    ->with('data',$data);
+   }
 
     /**
      * Show the form for creating a new resource.

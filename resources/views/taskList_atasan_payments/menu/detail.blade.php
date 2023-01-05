@@ -196,7 +196,7 @@
                                 @endif
                             </table>
                             <hr>
-                            <div class="mt-3" style="text-align: right;">
+                            <div class="mt-3">
                                 @hasrole('super user|super admin')
                                     @if ($data_pengajuan->status == 'Unpaid' ||
                                         $data_pengajuan->status == 'Paid' ||

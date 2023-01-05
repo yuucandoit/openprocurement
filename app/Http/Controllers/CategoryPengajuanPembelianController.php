@@ -133,9 +133,27 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function history()
     {
-        $datappb = CategoryPengajuanPembelian::all();
+        $datappb = CategoryPengajuanPembelian::where('status','Delivery Success')->paginate(10);
         return view('pengajuanPembelian.menu.history')
             ->with('datappb', $datappb);
+    }
+
+    public function SearchHistoryPRQ(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $dataws = WhoSubmitted::all();
+     $datappb = CategoryPengajuanPembelian::Where('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->paginate(5);
+
+     return view('pengajuanPembelian.menu.history')
+     ->with('datadv',$datappb)
+     ->with('dataws',$dataws);
     }
     /**
      * Show the form for creating a new resource.

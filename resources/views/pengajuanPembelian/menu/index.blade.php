@@ -107,7 +107,7 @@
                 <td style="text-align: center; word-break: break-word; width:25%;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{!! nl2br($ppembelian->desc) !!}</a></td>
                 @hasrole('user|super admin')
                 <td >
-                <p>Purchase :
+                <p><strong>Purchase :</strong>
                   @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
                   -
                   @elseif ($ppembelian->status == 'Waiting For PO Approval')
@@ -115,13 +115,13 @@
                   @elseif($ppembelian->status == 'Invoicing Process')
                   -
                   @elseif ($ppembelian->status == 'Purchase Request Approved' )
-                  <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Waiting PO Process</a>
+                  <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Waiting</a>
                   @elseif( $ppembelian->status == 'Purchase Proses')
                   <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process PO</a>
                   @elseif( $ppembelian->status == 'PO Approved')
                   <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Creating Payment Request</a>
                   @elseif($ppembelian->status == 'Payment Approved' )
-                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Waiting Payment Process</a>
+                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Waiting</a>
                   @elseif ($ppembelian->status == 'Unpaid' || $ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery process' || $ppembelian->status == 'Delivery Success')
                   <a class="badge bg-success mt-1" style="color:white; font-size:8;">Done</a>
                   @elseif ($ppembelian->status == 'Rejected by Purchasing')
@@ -132,7 +132,7 @@
                   @if ($ppembelian->status == 'Unpaid')
                   <a class="badge bg-warning mt-1" style="color: white; font-size:8">Unpaid</a>
                   @elseif ($ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery Success' )
-                  <a class="badge bg-success mt-1" style="color: white; font-size:8">Paid</a>
+                  <a class="badge bg-success mt-1" style="color: white; font-size:8">Done</a>
                   @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
                   -
                   @elseif ($ppembelian->status == 'Awaiting Purchase Request Approval')
@@ -149,7 +149,7 @@
                     @if ($ppembelian->status == 'Paid')
                     <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> Delivery On Process</a>
                     @elseif ($ppembelian->status == 'Delivery Success')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Delivery Success</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Delivered</a>
                     @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
                     -
                     @elseif ($ppembelian->status == 'Awaiting Purchase Request Approval')
@@ -192,7 +192,7 @@
                     <a class="badge bg-success mt-1" style="color: white; font-size:12">Paid & Delivery Process</a>
                     @endif
                     @if($ppembelian->status == 'Delivery Success')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Delivery Succes & Done</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Completed</a>
                     @endif
                     @if ($ppembelian->status == 'Rejected by Purchasing')
                     <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Purchase</a>

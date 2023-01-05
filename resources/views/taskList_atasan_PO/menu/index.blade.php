@@ -104,7 +104,7 @@
                                                 @if ($ppb->atasan_po == 3)
                                                 <tbody>
                                                     <tr>
-                                                        <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
@@ -248,7 +248,7 @@
                                             @if ($ppb->atasan_po == 6)
                                                 <tbody>
                                                     <tr>
-                                                        <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
@@ -392,7 +392,7 @@
                                              @if ($ppb->atasan_po == 7)
                                                 <tbody>
                                                     <tr>
-                                                        <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
@@ -538,7 +538,7 @@
                                             @if ($ppb->atasan_po == 8)
                                                 <tbody>
                                                     <tr>
-                                                        <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
@@ -683,7 +683,7 @@
                                             @if ($ppb->atasan_po == 9)
                                                 <tbody>
                                                     <tr>
-                                                        <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>

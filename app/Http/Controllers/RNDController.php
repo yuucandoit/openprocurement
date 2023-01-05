@@ -14,10 +14,22 @@ class RNDController extends Controller
      */
     public function index()
     {
-        $data = RND::all();
+        $data = RND::paginate(10);
         return view('dataRnD.index')
         ->with('data',$data);
     }
+
+    public function SearchRND(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $data = RND::Where('id','like',"%".$cari."%")
+    ->orWhere('name','like',"%".$cari."%")
+    ->paginate(10);
+
+    return view('dataRnD.index')
+    ->with('data',$data);
+   }
 
     /**
      * Show the form for creating a new resource.

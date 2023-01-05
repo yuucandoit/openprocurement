@@ -109,7 +109,7 @@
                                 </table>
                                 <hr>
 
-                                <div class="mt-3" style="text-align: right;">
+                                <div class="mt-3" >
                                     @hasrole('super user|super admin')
                                         @if ($data_pengajuan->status == 'Purchase Submission Approved')
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"

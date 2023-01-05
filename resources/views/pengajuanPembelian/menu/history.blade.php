@@ -113,8 +113,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="display" id="basic-1">
-                                        <thead>
+                                    <table class="table table-striped">
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Date</th>
@@ -129,17 +129,18 @@
                                         <tbody>
                                             @php
                                                 $no = 1;
+                                                $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                             @endphp
                                             @foreach ($datappb as $ppembelian)
                                                 @if ($ppembelian->status == 'Delivery Success')
                                                     <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
+                                                        <td style="text-align: center;">{{ $i++ }}</td>
                                                         <td style="text-align: center;">{{ $ppembelian->date_ps }}</td>
                                                         <td style="text-align: center;">{{ $ppembelian->whosubmit->name }}
                                                         </td>
                                                         <td><a href="{{ $ppembelian->desc }}"
                                                                 target="_blank">{{ $ppembelian->desc }}</a></td>
-                                                        @hasrole('user')
+                                                        @hasrole('user|super admin')
                                                             <td>
                                                                 @if ($ppembelian->status == 'Awaiting Purchase Submission Approval')
                                                                     <a class="badge bg-warning mt-1"
@@ -214,6 +215,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    <div class="mt-4">
+                                        {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

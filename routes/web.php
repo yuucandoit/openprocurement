@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/show/{id_company}/{id}', [PerusahaanController::class, 'show'])->name('perusahaan.show');
         Route::post('/update/{id}', [PerusahaanController::class, 'update'])->name('perusahaan.update');
         Route::post('/destroy/{id}', [PerusahaanController::class, 'destroy'])->name('perusahaan.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/company',[PerusahaanController::class, 'SearchCompany'])->name('perusaahaan.SearchCompany');
     });
 
     // Menu Data vendor perusahaan
@@ -88,7 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [CategoryPTController::class, 'edit'])->name('menu-perusahaan.edit');
         Route::post('/update/{id}', [CategoryPTController::class, 'update'])->name('menu-perusahaan.update');
         Route::get('/destroy/{id}', [CategoryPTController::class, 'destroy'])->name('menu-perusahaan.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/company',[CategoryPTController::class, 'SearchPT'])->name('menu-perusahaan.SearchPT');
     });
 
     // Route untuk vendor Private Person
@@ -100,7 +100,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/show/{id_company}/{id}', [PrivatePersonController::class, 'show'])->name('private-person.show');
         Route::post('/update/{id}', [PrivatePersonController::class, 'update'])->name('private-person.update');
         Route::post('/destroy/{id}', [PrivatePersonController::class, 'destroy'])->name('private-person.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        // Route::get('/search/pp',[CategoryPengajuanPembelianController::class, 'SearchPP'])->name('private-person.SearchP');
     });
 
     // Menu vendor menu Private Person
@@ -111,7 +111,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [CategoryPPController::class, 'edit'])->name('menu-private-person.edit');
         Route::post('/update/{id}', [CategoryPPController::class, 'update'])->name('menu-private-person.update');
         Route::get('/destroy/{id}', [CategoryPPController::class, 'destroy'])->name('menu-private-person.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/pp',[CategoryPPController::class, 'SearchPP'])->name('menu-private-person.SearchPP');
     });
 
     // Route untuk vendor Ecommerce
@@ -134,7 +134,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [CategoryEcommerceController::class, 'edit'])->name('menu-ecommerce.edit');
         Route::post('/update/{id}', [CategoryEcommerceController::class, 'update'])->name('menu-ecommerce.update');
         Route::get('/destroy/{id}', [CategoryEcommerceController::class, 'destroy'])->name('menu-ecommerce.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/ecommerce',[CategoryEcommerceController::class, 'SearchEC'])->name('menu-ecommerce.SearchEC');
     });
     //end Vendor
 
@@ -147,7 +147,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [WhoSubmittedController::class, 'edit'])->name('who-submitted.edit');
         Route::post('/update/{id}', [WhoSubmittedController::class, 'update'])->name('who-submitted.update');
         Route::get('/destroy/{id}', [WhoSubmittedController::class, 'destroy'])->name('who-submitted.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/ws',[WhoSubmittedController::class, 'SearchWS'])->name('who-submitted.SearchWS');
     });
 
     Route::group(['prefix' => 'project-reference'], function () {
@@ -157,7 +157,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [ReferensiNamaProjectController::class, 'edit'])->name('project-reference.edit');
         Route::post('/update/{id}', [ReferensiNamaProjectController::class, 'update'])->name('project-reference.update');
         Route::get('/destroy/{id}', [ReferensiNamaProjectController::class, 'destroy'])->name('project-reference.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/project',[ReferensiNamaProjectController::class, 'SearchProject'])->name('project-reference.SearchProject');
     });
 
     Route::group(['prefix' => 'office'], function () {
@@ -167,7 +167,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [OfficeController::class, 'edit'])->name('office.edit');
         Route::post('/update/{id}', [OfficeController::class, 'update'])->name('office.update');
         Route::get('/destroy/{id}', [OfficeController::class, 'destroy'])->name('office.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/office',[officeController::class, 'SearchOffice'])->name('office.SearchOffice');
     });
 
     Route::group(['prefix' => 'workshop'], function () {
@@ -177,7 +177,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [WorkshopController::class, 'edit'])->name('workshop.edit');
         Route::post('/update/{id}', [WorkshopController::class, 'update'])->name('workshop.update');
         Route::get('/destroy/{id}', [WorkshopController::class, 'destroy'])->name('workshop.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/workshop',[WorkshopController::class, 'SearchWorkshop'])->name('workshop.SearchWorkshop');
     });
 
     Route::group(['prefix' => 'inventory'], function () {
@@ -187,7 +187,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [InventoryController::class, 'edit'])->name('inventory.edit');
         Route::post('/update/{id}', [InventoryController::class, 'update'])->name('inventory.update');
         Route::get('/destroy/{id}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/inventory',[InventoryController::class, 'SearchInventory'])->name('inventory.SearchInventory');
     });
 
     Route::group(['prefix' => 'RnD'], function () {
@@ -197,7 +197,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [RNDController::class, 'edit'])->name('RnD.edit');
         Route::post('/update/{id}', [RNDController::class, 'update'])->name('RnD.update');
         Route::get('/destroy/{id}', [RNDController::class, 'destroy'])->name('RnD.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/RnD',[RNDController::class, 'SearchRND'])->name('RnD.SearchRND');
     });
 
     Route::group(['prefix' => 'department'], function () {
@@ -207,7 +207,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [DepartmentController::class, 'edit'])->name('department.edit');
         Route::post('/update/{id}', [DepartmentController::class, 'update'])->name('department.update');
         Route::get('/destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/department',[DepartmentController::class, 'SearchDepartment'])->name('department.SearchDepartment');
     });
 
     // End Data Master Submission
@@ -236,6 +236,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [CategoryPengajuanPembelianController::class, 'edit'])->name('menu-pengajuan-pembelian.edit');
         Route::get('/destroy/{id}', [CategoryPengajuanPembelianController::class, 'destroy'])->name('menu-pengajuan-pembelian.destroy');
         Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/historyprq',[CategoryPengajuanPembelianController::class, 'SearchHistoryPRQ'])->name('menu-pengajuan-pembelian.SearchHistoryPRQ');
     });
 
     //Tasklist's Super User
@@ -379,7 +380,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/store-admin', [AdminController::class, 'store']);
     Route::post('/admin-update/{id}', [AdminController::class, 'update']);
     Route::get('/admin-destroy/{id}', [AdminController::class, 'destroy']);
-    Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+    Route::get('/search/users',[AdminController::class, 'SearchUsers'])->name('admin.SearchUser');
 
     //Route excel
     Route::get('/export_excel/pengajuan_dana/{id}', [PengajuanDanaController::class, 'export'])->name('export-pd');

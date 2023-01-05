@@ -23,11 +23,27 @@ class AdminController extends Controller
     public function index()
     {
         // $id_admin = Admin::all();
-        $admin = User::orderBy('name', 'ASC')->get();
+        $admin = User::orderBy('name', 'ASC')->paginate(10);
         return view('admin.index')
             ->with('admin', $admin);
         // ->with('id_admin', $id_admin);
     }
+
+    public function SearchUsers(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $admin = User::Where('id','like',"%".$cari."%")
+    ->orWhere('name','like',"%".$cari."%")
+    ->orWhere('email','like',"%".$cari."%")
+    ->orWhereHas('roles', function($q) use($cari){
+         $q->where('name','like',"%".$cari."%");
+    })
+    ->paginate(10);
+
+    return view('admin.index')
+    ->with('admin',$admin);
+   }
 
     /**
      * Show the form for creating a new resource.

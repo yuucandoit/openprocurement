@@ -81,9 +81,18 @@
                         <div class="card-body">
                             <a href="{{ url('/department/create/') }}" class="btn btn-primary mb-3"></i> Add <i
                                     class="fa fa-plus"></i></a>
+                                    <div class="pull-right">
+                                        <form action="{{ route('department.SearchDepartment') }}" method="get"
+                                            class="input-group">
+                                            <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                                value="{{ old('cari') }}">
+                                            <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                                    value="Go"></span>
+                                        </form>
+                                    </div>
                             <div class="table-responsive">
-                                <table class="display" id="basic-1">
-                                    <thead>
+                                <table class="table table-striped" >
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Name</th>
@@ -93,10 +102,11 @@
                                     <tbody>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $data->currentPage() * $data->perPage() - $data->perPage();
                                         @endphp
                                         @foreach ($data as $ws)
                                             <tr>
-                                                <td style="text-align: center;">{{ $no++ }}</td>
+                                                <td style="text-align: center;">{{ $i++ }}</td>
                                                 <td>{{ $ws->name }}</td>
                                                 <td style="text-align: center;">
                                                     <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;"
@@ -113,6 +123,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div class="mt-4">
+                                    {{ $data->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>

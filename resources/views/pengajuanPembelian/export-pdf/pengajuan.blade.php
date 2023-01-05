@@ -35,6 +35,9 @@
         .tapper >  h6,p,span{
             display: inline;
         }
+        .tapper .pagebreak {
+            
+        }
     </style>
 
     <h3 class="text-center">Pengajuan Pembelian</h3>
@@ -61,7 +64,7 @@
                 </h6>
              </div>
 
-                <div class="tapper">
+                <div class="tapper ">
                 <h6>Description &nbsp;:  <p><span>{{ $atasan->desc }}</span></p></h6>
                 </div>
 

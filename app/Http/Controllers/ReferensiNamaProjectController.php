@@ -17,10 +17,22 @@ class ReferensiNamaProjectController extends Controller
      */
     public function index()
     {
-        $data = ReferensiNamaProject::all();
+        $data = ReferensiNamaProject::paginate(10);
         return view('dataReferenceProject.index')
         ->with('data',$data);
     }
+
+    public function SearchProject(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $data = ReferensiNamaProject::Where('id','like',"%".$cari."%")
+    ->orWhere('name','like',"%".$cari."%")
+    ->paginate(10);
+
+    return view('dataReferenceProject.index')
+    ->with('data',$data);
+   }
 
     /**
      * Show the form for creating a new resource.

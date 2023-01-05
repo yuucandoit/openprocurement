@@ -14,10 +14,22 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $data = Inventory::all();
+        $data = Inventory::paginate(10);
         return view('dataInventory.index')
         ->with('data',$data);
     }
+
+    public function SearchInventory(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $data = Inventory::Where('id','like',"%".$cari."%")
+    ->orWhere('name','like',"%".$cari."%")
+    ->paginate(10);
+
+    return view('dataInventory.index')
+    ->with('data',$data);
+   }
 
     /**
      * Show the form for creating a new resource.
