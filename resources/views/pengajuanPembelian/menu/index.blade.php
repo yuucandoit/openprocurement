@@ -69,13 +69,17 @@
       <div class="col-sm-12">
         <div class="card">
           <div class="card-body">
+            <div class="row">
+            <div class="col-sm-8">
             <a href="{{ url('menu-pengajuan-pembelian/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
-            <div class="pull-right">
+            </div>
+            <div class="col-sm-4 ">
                 <form action="{{ route('menu-pengajuan-pembelian.SearchPRQ') }}" method="get" class="input-group">
                     <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                 </form>
             </div>
+        </div>
             <div class="table-responsive">
               <table class="table table-striped ">
                 <thead class="bg-primary">
