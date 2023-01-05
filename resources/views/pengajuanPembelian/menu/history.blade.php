@@ -112,6 +112,15 @@
                                 <h5 class="text-white">History Purchase Request</h5>
                             </div>
                             <div class="card-body">
+                                <div class="card pull-right">
+                                    <form action="{{ route('admin.SearchUser') }}" method="get"
+                                        class="input-group">
+                                        <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                            value="{{ old('cari') }}">
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                                value="Go"></span>
+                                    </form>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
                                         <thead class="bg-primary">

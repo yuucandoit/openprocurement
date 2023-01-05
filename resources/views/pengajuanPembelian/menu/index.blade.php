@@ -70,22 +70,20 @@
         <div class="card">
           <div class="card-header">
             <a href="{{ url('menu-pengajuan-pembelian/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
-          </div>
-          <div class="box-header">
             <div class="pull-right">
                 <form action="{{ route('menu-pengajuan-pembelian.SearchPRQ') }}" method="get" class="input-group">
                     <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                 </form>
             </div>
-        </div>
+          </div>
+
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-striped ">
                 <thead>
-                 <tr style="text-align: center;">
+                 <tr>
                   <th>No</th>
-                  <th>Date</th>
                   <th>Who Filed</th>
                   <th>Description</th>
                   <th>Progress</th>
@@ -101,15 +99,14 @@
                @foreach($datadv as $ppembelian)
                {{-- @if ($ppembelian->status == '') --}}
                <tr>
-                <td style="text-align: center;">{{ $i++ }}</td>
-                <td style="text-align: center;">{{ $ppembelian->date_ps }}</td>
-                <td style="text-align: center; width:10%;">{{ $ppembelian->whosubmit->name }}</td>
-                <td style="text-align: center; word-break: break-word; width:25%;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{!! nl2br($ppembelian->desc) !!}</a></td>
+                <td style="">{{ $i++ }}</td>
+                <td style=" width:10%;"><ul> <li>{{ $ppembelian->whosubmit->name }}</li> <li>{{ $ppembelian->date_ps }}</li></ul></td>
+                <td style=" word-break: break-word; width:25%;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{!! nl2br($ppembelian->desc) !!}</a></td>
                 @hasrole('user|super admin')
-                <td >
+                <td>
             <ul>
                 <li>
-                <p><strong>Purchase :</strong>
+                <p><strong>Purchase&nbsp;: </strong>
                   @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
                   -
                   @elseif ($ppembelian->status == 'Waiting For PO Approval')
@@ -132,7 +129,7 @@
                 </p>
                 </li>
                 <li>
-                <p><strong>Payment&nbsp;:</strong>
+                <p><strong>Payment&nbsp; :</strong>
                   @if ($ppembelian->status == 'Unpaid')
                   <a class="badge bg-warning mt-1" style="color: white; font-size:8">Unpaid</a>
                   @elseif ($ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery Success' )
@@ -151,7 +148,7 @@
                 </p>
                 </li>
                 <li>
-                <p><strong>Delivery &nbsp;:</strong>
+                <p><strong>Delivery &nbsp;&nbsp;:</strong>
                     @if ($ppembelian->status == 'Paid')
                     <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> Delivery On Process</a>
                     @elseif ($ppembelian->status == 'Delivery Success')
@@ -171,12 +168,12 @@
                 </li>
             </ul>
                 </td>
-                <td style="text-align: center;">
+                <td style="">
                     @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
                     <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Purchase Request</a>
                     @endif
                     @if($ppembelian->status == 'Purchase Request Approved')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Request Approved By {{ $ppembelian->bod->name }}</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved By {{ $ppembelian->bod->name }}</a>
                     @endif
                     @if($ppembelian->status == 'Purchase Proses')
                     <a class="badge bg-primary mt-1" style="color: white; font-size:12">Request On Process Purchase</a>
@@ -185,13 +182,13 @@
                     <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Purchase Order</a>
                     @endif
                     @if($ppembelian->status == 'PO Approved' )
-                    <a class="badge bg-success mt-1" style="color: white; font-size:12">PO Approved By {{ $ppembelian->atasans->name }}</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved By {{ $ppembelian->atasans->name }}</a>
                     @endif
                     @if($ppembelian->status == 'Invoicing Process')
                     <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Payment Request</a>
                     @endif
                     @if($ppembelian->status == 'Payment Approved')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Payment Approved By {{ $ppembelian->atasanpymnt->name }}</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved By {{ $ppembelian->atasanpymnt->name }}</a>
                     @endif
                     @if($ppembelian->status == 'Unpaid')
                     <a class="badge bg-success mt-1" style="color: white; font-size:12">Unpaid</a>
@@ -218,11 +215,11 @@
 
                 @endhasrole
 
-                <td style="text-align: center;">
-                    <a class="btn btn-iconsolid mt-1"  title="Preview PDF"
-                    style="background-color: #ADD8E6; font-size:10;"
-                    href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}"><i
-                        class="icon-eye"></i>
+                <td style="">
+                    <a class="btn btn-iconsolid mt-1"
+                    style="background-color: #0693c2; font-size:10;"
+                    href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}" title="Preview PDF"><i
+                        class="icon-eye"  title="Preview PDF"></i>
                     </a>
                    <div>
                     {{-- <button class="btn btn-iconsolid mt-1"  style="background-color: #00008B; font-size:10;" >
