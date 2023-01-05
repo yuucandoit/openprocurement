@@ -47,18 +47,18 @@ class TaskListAtasanController extends Controller
         }
     }
 
-    public function SearchTaskPPBIn(Request $request)
+    public function SearchTlppbIn(Request $request)
     {
      $cari = $request->cari;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
      ->orWhereHas('whosubmit', function($q) use($cari){
           $q->where('name','like',"%".$cari."%");
      })
-     ->paginate(5);
+     ->paginate(10,['*'],'in');
 
      return view('purchaseOrder.menu.index')
      ->with('datappb',$datappb);

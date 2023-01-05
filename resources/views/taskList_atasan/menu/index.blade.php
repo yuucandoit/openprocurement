@@ -82,7 +82,7 @@
                         </div>
                         <div class="mt-4">
                             <div style="max-width: 50%;" class="pull-right">
-                                <form action="{{ route('menu-purchase-order.SearchPOOut') }}" method="get" class="input-group disabled" >
+                                <form action="{{ route('menu-taskList-atasan.SearchTlppbIn') }}" method="get" class="input-group" >
                                     <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
                                 </form>
