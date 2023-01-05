@@ -85,7 +85,7 @@
                 <thead class="bg-primary">
                  <tr>
                   <th>No</th>
-                  <th>Request By</th>
+                  <th style="white-space: nowrap;">Request By</th>
                   <th>Description</th>
                   <th>Progress</th>
                   <th>Status</th>
@@ -101,8 +101,8 @@
 
                <tr>
                 <td>{{ $i++ }}</td>
-                <td><ul><li><strong>{{ Carbon\Carbon::parse($ppembelian->date_ps)->format('d-m-Y') }}</strong></li><li>{{ $ppembelian->whosubmit->name }}</li></ul></td>
-                <td style=" word-break: break-word;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{!! nl2br($ppembelian->desc) !!}</a></td>
+                <td style="white-space: nowrap;"><ul><li><strong>{{ Carbon\Carbon::parse($ppembelian->date_ps)->format('d-m-Y') }}</strong></li><li>{{ $ppembelian->whosubmit->name }}</li></ul></td>
+                <td style=" word-break: break-word;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{{ $ppembelian->desc}}</a></td>
                 @hasrole('user|super admin')
                 <td style="white-space: nowrap;">
             <ul>
