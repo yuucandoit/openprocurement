@@ -171,55 +171,55 @@
                 </td>
                 <td>
                     @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
-                    <a class="badge bg-warning mt-1" style="color: white; font-size:8">Waiting Approval Purchase Request</a>
+                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Purchase Request</a>
                     @endif
                     @if($ppembelian->status == 'Purchase Request Approved')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Approved By {{ $ppembelian->bod->name }}</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved By {{ $ppembelian->bod->name }}</a>
                     @endif
                     @if($ppembelian->status == 'Purchase Proses')
-                    <a class="badge bg-primary mt-1" style="color: white; font-size:8">Request On Process Purchase</a>
+                    <a class="badge bg-primary mt-1" style="color: white; font-size:12">Request On Process Purchase</a>
                     @endif
                     @if($ppembelian->status == 'Waiting For PO Approval')
-                    <a class="badge bg-warning mt-1" style="color: white; font-size:8">Waiting Approval Purchase Order</a>
+                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Purchase Order</a>
                     @endif
                     @if($ppembelian->status == 'PO Approved' )
-                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Approved By {{ $ppembelian->atasans->name }}</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved By {{ $ppembelian->atasans->name }}</a>
                     @endif
                     @if($ppembelian->status == 'Invoicing Process')
-                    <a class="badge bg-warning mt-1" style="color: white; font-size:8">Waiting Approval Payment Request</a>
+                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Payment Request</a>
                     @endif
                     @if($ppembelian->status == 'Payment Approved')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Approved By {{ $ppembelian->atasanpymnt->name }}</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved By {{ $ppembelian->atasanpymnt->name }}</a>
                     @endif
                     @if($ppembelian->status == 'Unpaid')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Unpaid</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Unpaid</a>
                     @endif
                     @if($ppembelian->status == 'Paid')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Delivery on Process</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Delivery on Process</a>
                     @endif
                     @if($ppembelian->status == 'Delivery Success')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Completed</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Completed</a>
                     @endif
                     @if ($ppembelian->status == 'Rejected by Purchasing')
-                    <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected By Purchase</a>
+                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Purchase</a>
                     @endif
                     @if ($ppembelian->status == 'Purchase Request Rejected By BOD')
-                    <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected By Bod ( {{ $ppembelian->bod->name }} )</a>
+                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->bod->name }} )</a>
                     @endif
                     @if ($ppembelian->status == 'Payment Rejected By BOD')
-                    <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected By Bod ( {{ $ppembelian->atasanpymnt->name }} )</a>
+                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasanpymnt->name }} )</a>
                     @endif
                     @if ($ppembelian->status == 'PO Rejected By BOD')
-                    <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected By Bod ( {{ $ppembelian->atasans->name }} )</a>
+                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasans->name }} )</a>
                     @endif
                 </td>
 
                 @endhasrole
 
                 <td>
-                <div>
+                <div data-toggle="tooltip" data-placement="bottom" title="Preview PDF">
                 <button class="btn btn-iconsolid mt-1" style="background-color: #0693c2; font-size:10;"   >
-                    <a href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}" title="Preview PDF"><i
+                    <a href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}" ><i
                         class="icon-eye"></i>
                     </a>
                 </button>
@@ -237,8 +237,10 @@
                   @else
 
                   @endif
-                  <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal" style="background-color: #ff0000; font-size:10;" data-bs-target="#modalDelete{{ $ppembelian->id }}"><i class="icon-trash" title="Delete"></i>
+                  <div>
+                  <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal" style="background-color: #ff0000; font-size:10;" data-bs-target="#modalDelete{{ $ppembelian->id }}"  data-toggle="tooltip" data-placement="right" title="Delete"><i class="icon-trash" title="Delete"></i>
                   </button>
+                  </div>
                 </td>
 
               </tr>
@@ -285,81 +287,10 @@
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
                     <script src="jquery.maskMoney.js" type="text/javascript"></script>
                     <script type="text/javascript">
-
-                      $(document).ready(function(){
-                        $('#rupiah').maskMoney();
-                      });
-
-                    //Math
-
                     $(document).ready(function() {
-                      $(".order-entry").on("keyup", ".form-calc", function() {
-                        var parent = $(this).closest("tr");
-                        parent.find(".form-line").val((parent.find(".form-qty").val() * parent.find(".form-cost").val()) .toFixed(0));
-                        var total = 0;
-                        $(".form-line").each(function(){
-                          total += parseInt($(this).val()||0);
-                        });
-                        var checkbox =  document.querySelector(".check-box");
-                        checkbox.addEventListener('change', (event) =>{
-                          if(event.currentTarget.checked){
-                            totalppn = total * 11 / 100;
-                            $(".total").text(totalppn);
-                          }
-                          else{
-                            $(".total").text(total.toFixed(0));
-                          }
-                        })
-
-                      });
+                    $('[data-toggle="tooltip"]').tooltip();
                     });
-
-                    //Add Form
-
-                    var i = 0;
-                    $("#dynamic-ar").click(function () {
-                      ++i;
-                      $("#dynamicAddRemove").append('<tr><td><input type="text" name="addMoreInputFields[' + i +
-                        '][item]" placeholder="Input Item" class="form-control" /></td> <td><input type="text" name="addMoreInputFields[' + i +
-                        '][qty]" placeholder="Input Quantity" class="form-control form-calc form-qty" /></td> <td><select class="form-select" placeholder="Kategori" name="addMoreInputFields[' + i +
-                        '][kategori]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="addMoreInputFields[' + i +
-                        '][unit_price]" placeholder="Input Price" class="form-control text-end form-calc form-cost"/></td> <td><input type="text" name="addMoreInputFields[' + i +
-                        '][total]" class="form-control form-line" /></td></tr>'
-                        );
-                    });
-                    $(document).on('click', '.remove-input-field', function () {
-                      $(this).parents('tr').remove();
-                    });
-
-                    //Convert To Rupiah
-
-                    // var rupiah = document.querySelector(".rupiah");
-                    //     rupiah.addEventListener('keyup', function(e) {
-                    //     // tambahkan 'Rp.' pada saat form di ketik
-                    //     // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                    //     rupiah.value = formatRupiah(this.value, "Rp. ");
-                    //     });
-
-                    //     /* Fungsi formatRupiah */
-                    //     function formatRupiah(angka, prefix) {
-                    //     var number_string = angka.replace(/[^,\d]/g, ""),
-                    //         split = number_string.split(","),
-                    //         sisa = split[0].length % 3,
-                    //         rupiah = split[0].substr(0, sisa),
-                    //         ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                    //     // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                    //     if (ribuan) {
-                    //         separator = sisa ? "." : "";
-                    //         rupiah += separator + ribuan.join(".");
-                    //     }
-
-                    //     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                    //     return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-                    //     }
-
-
-                  </script>
+                    </script>
 
 
                   <script type="text/javascript">
@@ -374,6 +305,7 @@
                       }
                     })
                   </script>
+
 
                 </section>
                 @endsection
