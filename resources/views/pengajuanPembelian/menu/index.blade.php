@@ -98,10 +98,10 @@
                $i = 1 + $datadv->currentPage() * $datadv->perPage() - $datadv->perPage();
                @endphp
                @foreach($datadv as $ppembelian)
-               {{-- @if ($ppembelian->status == '') --}}
+
                <tr>
                 <td style="">{{ $i++ }}</td>
-                <td style=""><ul><li><strong>{{ $ppembelian->date_ps }}</strong></li><li>{{ $ppembelian->whosubmit->name }}</li></ul></td>
+                <td style=""><ul><li><strong>{{ Carbon\Carbon::parse($ppembelian->date_ps)->format('d-m-Y') }}</strong></li><li>{{ $ppembelian->whosubmit->name }}</li></ul></td>
                 <td style=" word-break: break-word; width:32%;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{!! nl2br($ppembelian->desc) !!}</a></td>
                 @hasrole('user|super admin')
                 <td>
@@ -119,7 +119,7 @@
                   @elseif( $ppembelian->status == 'Purchase Proses')
                   <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process PO</a>
                   @elseif( $ppembelian->status == 'PO Approved')
-                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Creating Payment Request</a>
+                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Waiting</a>
                   @elseif($ppembelian->status == 'Payment Approved' )
                   <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Waiting</a>
                   @elseif ($ppembelian->status == 'Unpaid' || $ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery process' || $ppembelian->status == 'Delivery Success')
