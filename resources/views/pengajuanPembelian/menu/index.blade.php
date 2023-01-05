@@ -68,7 +68,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="card">
-          <div class="card-header">
+          <div class="card-body">
             <a href="{{ url('menu-pengajuan-pembelian/create/') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
             <div class="pull-right">
                 <form action="{{ route('menu-pengajuan-pembelian.SearchPRQ') }}" method="get" class="input-group">
@@ -76,15 +76,12 @@
                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                 </form>
             </div>
-          </div>
-
-          <div class="card-body">
             <div class="table-responsive">
               <table class="table table-striped ">
                 <thead>
                  <tr>
                   <th>No</th>
-                  <th>Who Filed</th>
+                  <th>Request By</th>
                   <th>Description</th>
                   <th>Progress</th>
                   <th>Status</th>
@@ -100,8 +97,8 @@
                {{-- @if ($ppembelian->status == '') --}}
                <tr>
                 <td style="">{{ $i++ }}</td>
-                <td style=" width:10%;"><ul> <li>{{ $ppembelian->whosubmit->name }}</li> <li>{{ $ppembelian->date_ps }}</li></ul></td>
-                <td style=" word-break: break-word; width:25%;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{!! nl2br($ppembelian->desc) !!}</a></td>
+                <td style=" width:14%;"><ul><li><strong>{{ $ppembelian->date_ps }}</strong></li><li>{{ $ppembelian->whosubmit->name }}</li></ul></td>
+                <td style=" word-break: break-word; width:40%;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{!! nl2br($ppembelian->desc) !!}</a></td>
                 @hasrole('user|super admin')
                 <td>
             <ul>
@@ -215,18 +212,20 @@
 
                 @endhasrole
 
-                <td style="">
-                    <a class="btn btn-iconsolid mt-1"
-                    style="background-color: #0693c2; font-size:10;"
-                    href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}" title="Preview PDF"><i
-                        class="icon-eye"  title="Preview PDF"></i>
+                <td>
+                <div>
+                <button class="btn btn-iconsolid mt-1" style="background-color: #0693c2; font-size:10;"   >
+                    <a href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}" title="Preview PDF"><i
+                        class="icon-eye"></i>
                     </a>
-                   <div>
-                    {{-- <button class="btn btn-iconsolid mt-1"  style="background-color: #00008B; font-size:10;" >
+                </button>
+            </div>
+                   {{-- <div>
+                    <button class="btn btn-iconsolid mt-1"  style="background-color: #00008B; font-size:10;" >
                     <a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}" class="example-popover"  title="Details" data-placement="right" data-bs-toggle="tooltip"><i class="icon-zoom-in"></i>
                     </a>
-                </button> --}}
-                </div>
+                </button>
+                </div> --}}
                     @if ($ppembelian->status == 'Awaiting Purchase Submission Approval' )
 
                   <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
