@@ -80,8 +80,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="basic-1">
-                                    <thead>
+                                <table class="table table-striped">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Description</th>
@@ -134,21 +134,21 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="advance-1">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Request By</th>
-                                            <th>Status</th>
-                                            <th>Function</th>
+                                <table class="table table-striped">
+                                    <thead style="background-color:rgb(255, 0, 0);">
+                                        <tr style="text-align: center; " >
+                                            <th style="color: white">No</th>
+                                            <th style="color: white">Description</th>
+                                            <th style="color: white">Date Line</th>
+                                            <th style="color: white">Request By</th>
+                                            <th style="color: white">Status</th>
+                                            <th style="color: white">Function</th>
                                         </tr>
                                     </thead>
                                     @php
                                         $no = 1;
                                     @endphp
-                                    @foreach ($datappb as $ppb)
+                                    @foreach ($datappb2 as $ppb)
                                         @if ($ppb->status == 'Unpaid' ||
                                             $ppb->status == 'Paid' ||
                                             $ppb->status == 'Delivery Process' ||

@@ -21,8 +21,11 @@ class TaskListFinanceController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 ||$check->role_id == 5) {
-            $datappb = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            $datappb = CategoryPengajuanPembelian::where('status','Payment Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            $datappb2 = CategoryPengajuanPembelian::where('status','Unpaid')->
+            orWhere('status','Paid')->
+            orWhere('status','Delivery Process')->
+            orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
             $datadv = TaskListFinance::all();
             return view('taskList_finance.menu.index')
             ->with('datappb2', $datappb2)
