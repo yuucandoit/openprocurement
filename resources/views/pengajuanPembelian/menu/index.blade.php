@@ -107,6 +107,8 @@
                 <td style="text-align: center; word-break: break-word; width:25%;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{!! nl2br($ppembelian->desc) !!}</a></td>
                 @hasrole('user|super admin')
                 <td >
+            <ul>
+                <li>
                 <p><strong>Purchase :</strong>
                   @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
                   -
@@ -128,7 +130,9 @@
                   -
                   @endif
                 </p>
-                <p>Payment&nbsp;:
+                </li>
+                <li>
+                <p><strong>Payment&nbsp;:</strong>
                   @if ($ppembelian->status == 'Unpaid')
                   <a class="badge bg-warning mt-1" style="color: white; font-size:8">Unpaid</a>
                   @elseif ($ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery Success' )
@@ -145,7 +149,9 @@
                   -
                   @endif
                 </p>
-                <p>Delivery &nbsp;:
+                </li>
+                <li>
+                <p><strong>Delivery &nbsp;:</strong>
                     @if ($ppembelian->status == 'Paid')
                     <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> Delivery On Process</a>
                     @elseif ($ppembelian->status == 'Delivery Success')
@@ -162,6 +168,8 @@
                     -
                     @endif
                 </p>
+                </li>
+            </ul>
                 </td>
                 <td style="text-align: center;">
                     @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
