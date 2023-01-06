@@ -200,8 +200,8 @@
                                     </div>
                                 </li>
 
-                                <li class="dropdown {{ request()->is('*/dashboard*') ? 'active' : '' }}">
-                                    <a class="nav-link menu-title link-nav" href="{{ url('/dashboard') }}">
+                                <li>
+                                    <a class="nav-link menu-title link-nav active" href="{{ url('/dashboard') }}">
                                         <i data-feather="home"></i>
                                         <span>Dashboard</span>
                                     </a>
@@ -225,9 +225,9 @@
                                 @endhasrole
 
                                 @hasrole('user|super admin')
-                                    <li class="dropdown  {{ request()->is('*pengajuan-pembelian*') ? 'active' : '' }}">
+                                    <li class=" {{ request()->is('/menu-pengajuan-pembelian') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav"
-                                            href="{{ url('/menu-pengajuan-pembelian') }}">
+                                            href="{{ url('menu-pengajuan-pembelian') }}">
                                             <i data-feather="file-text"></i>
                                             <span>Purchase Request </span>
                                         </a>
@@ -364,11 +364,17 @@
 
                                 <!--Data Master-->
                                 @hasrole('admin|super admin|purchasing')
+
                                     <li class="sidebar-main-title">
                                         <div>
                                             <h6>Data Master Supplier</h6>
                                         </div>
                                     </li>
+                             <li class="dropdown">
+                                <a class="nav-link menu-title" href="javascript:void(0)">
+                                    <i data-feather="package"></i>
+                                    <span>Suppliers</span></a>
+                                <ul class="nav-submenu menu-content">
                                     <li class="dropdown {{ request()->is('*perusahaan*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav" href="{{ url('/menu-perusahaan') }}">
                                             <i class="icofont icofont-building-alt"></i>
@@ -387,6 +393,8 @@
                                             <span>E-commerce</span>
                                         </a>
                                     </li>
+                                </ul>
+                                </li>
                                 @endhasrole
 
                                 @hasrole('admin|super admin')
@@ -395,6 +403,11 @@
                                             <h6>Data Master Submission</h6>
                                         </div>
                                     </li>
+                                    <li class="dropdown">
+                                        <a class="nav-link menu-title" href="javascript:void(0)">
+                                            <i data-feather="file"></i>
+                                            <span>Submissions</span></a>
+                                        <ul class="nav-submenu menu-content">
                                     <li class="dropdown {{ request()->is('*who-submitted*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav" href="{{ url('/who-submitted') }}">
                                             <i class="fa fa-user"></i>
@@ -437,6 +450,8 @@
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
                                         </a>
                                     </li>
+                                </ul>
+                            </li>
                                 @endhasrole
                                 <!--end Data Master-->
                                 <!--History-->

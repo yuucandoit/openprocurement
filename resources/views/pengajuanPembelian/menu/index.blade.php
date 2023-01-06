@@ -212,6 +212,9 @@
                     @if ($ppembelian->status == 'PO Rejected By BOD')
                     <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasans->name }} )</a>
                     @endif
+                    @if($ppembelian->status == 'Rejected by Finance')
+                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Finance ( {{ $ppembelian->atasans->name }} )</a>
+                    @endif
                 </td>
 
                 @endhasrole
