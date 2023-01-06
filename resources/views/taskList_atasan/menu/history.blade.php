@@ -4,30 +4,6 @@
 
 @section('main')
     <section>
-        @foreach ($datadv as $a)
-            <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h2 class="modal-title" style="color: white">Delete</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mx-5 mb-3">
-                            <span class="warning">
-                                <img src="assets/images/warning.png">
-                            </span>
-                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
-                        </div>
-                        <div class="modal-footer">
-                            <form action="{{ url('/menu-pengajuan-pembelian/destroy/' . $a->id) }}">
-                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
-                                    Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header mt-4">
@@ -79,11 +55,22 @@
                         <div class="card-header bg-primary">
                             <h5>History Task List Super User Purchase Request</h5>
                         </div>
+                        <div class="box-header mt-4">
+                            <div style="width: 30%; margin-bottom:-20px; " class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan.SearchHistoryRequestTask') }}" method="get"
+                                    class="input-group">
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                        value="{{ old('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                            value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
-                                    <table class="display mt-4" id="advance-1">
-                                        <thead>
+                                    <table class="table table-bordered table-hover mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>
@@ -95,6 +82,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                             $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                         @if ($ppb->status == 'Purchase Submission Approved' ||
@@ -109,7 +97,7 @@
                                             @if ($ppb->atasan == 3)
                                                  <tbody>
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ $ppb->desc }}"
                                                                     target="_blank">{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -133,6 +121,9 @@
                                         @endif
                                         @endforeach
                                     </table>
+                                    <div class="mt-4">
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -155,8 +146,8 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
-                                    <table class="display mt-4" id="advance-1">
-                                        <thead>
+                                    <table class="table table-bordered table-hover mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>
@@ -168,6 +159,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                             $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                         @if ($ppb->status == 'Purchase Submission Approved' ||
@@ -182,7 +174,7 @@
                                             @if ($ppb->atasan == 6)
                                                  <tbody>
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ $ppb->desc }}"
                                                                     target="_blank">{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -206,6 +198,9 @@
                                         @endif
                                         @endforeach
                                     </table>
+                                    <div class="mt-4">
+                                        {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -227,8 +222,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display mt-4" id="advance-1">
-                                        <thead>
+                                    <table class="table table-bordered table-hover mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>
@@ -240,6 +235,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                             $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Purchase Submission Approved' ||
@@ -254,7 +250,7 @@
                                             @if ($ppb->atasan == 7)
                                                 <tbody>
                                                     <tr>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ $ppb->desc }}"
                                                                     target="_blank">{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -279,6 +275,9 @@
                                             @endif
                                         @endforeach
                                     </table>
+                                    <div class="mt-4">
+                                        {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -302,8 +301,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display mt-4" id="advance-1">
-                                        <thead>
+                                    <table class="table table-bordered table-hover mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>
@@ -315,6 +314,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                             $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Purchase Submission Approved' ||
@@ -329,7 +329,7 @@
                                             @if ($ppb->atasan == 8)
                                                 <tbody>
                                                     <tr>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ $ppb->desc }}"
                                                                     target="_blank">{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -360,6 +360,9 @@
                                          @endif
                                     @endforeach
                                     </table>
+                                    <div class="mt-4">
+                                        {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -381,8 +384,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="display mt-4" id="advance-1">
-                                        <thead>
+                                    <table class="table table-bordered table-hover mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>
@@ -394,6 +397,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                             $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Purchase Submission Approved' ||
@@ -408,7 +412,7 @@
                                                 @if ($ppb->atasan == 9)
                                                 <tbody>
                                                     <tr>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ $ppb->desc }}"
                                                                     target="_blank">{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -431,6 +435,9 @@
                                         @endif
                                     @endforeach
                                     </table>
+                                    <div class="mt-4">
+                                        {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                        </div>
                                 </div>
                             </div>
                         </div>

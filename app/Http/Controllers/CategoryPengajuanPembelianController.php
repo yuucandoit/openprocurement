@@ -141,8 +141,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function SearchHistoryPRQ(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
-     $dataws = WhoSubmitted::all();
+     //dd($cari);=
      $datappb = CategoryPengajuanPembelian::Where('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
@@ -152,8 +151,7 @@ class CategoryPengajuanPembelianController extends Controller
      ->paginate(5);
 
      return view('pengajuanPembelian.menu.history')
-     ->with('datadv',$datappb)
-     ->with('dataws',$dataws);
+     ->with('datappb',$datappb);
     }
     /**
      * Show the form for creating a new resource.

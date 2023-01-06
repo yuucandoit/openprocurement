@@ -85,12 +85,38 @@ class TaskListAtasanController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
+            $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Purchase Submission Approved')->
+            orWhere('status','Purchase Proses')->
+            orWhere('status','Waiting For PO Approval')->
+            orWhere('status','PO Approved')->
+            orWhere('status','Invoicing Process')->
+            orWhere('status','Unpaid')->
+            orWhere('status','Paid')->
+            orWhere('status','Delivery Process')->
+            orWhere('status','Delivery Success')->paginate(10);
             $datadv = TaskListAtasan::all();
             return view('taskList_atasan.menu.history')
             ->with('datappb', $datappb)
             ->with('datadv', $datadv);
         }
+    }
+
+    public function SearchHistoryRequestTask(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $datappb = CategoryPengajuanPembelian::
+     orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     ->where('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->paginate(10);
+
+     return view('taskList_atasan.menu.history')
+     ->with('datappb',$datappb);
     }
 
     public function detail($id)

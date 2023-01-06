@@ -88,8 +88,8 @@
                   <th style="white-space: nowrap;">Request By</th>
                   <th>Description</th>
                   <th>Progress</th>
-                  <th>Status</th>
-                  <th>Action</th>
+                  <th style="text-align: center">Status</th>
+                  <th style="text-align: center">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -190,18 +190,18 @@
                 </li>
             </ul>
                 </td>
-                <td>
+                <td style="text-align: center" >
                     @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
-                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request By{{ $ppembelian->bod->name }}</a>
+                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a>
                     @endif
                     @if($ppembelian->status == 'Purchase Request Approved')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved By {{ $ppembelian->bod->name }}</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved Request By {{ $ppembelian->bod->name }}</a>
                     @endif
                     @if($ppembelian->status == 'Purchase Proses')
                     <a class="badge bg-primary mt-1" style="color: white; font-size:12">Waiting Purchasing PO</a>
                     @endif
                     @if($ppembelian->status == 'Waiting For PO Approval')
-                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval PO By {{ $ppembelian->atasans->name }}</a>
+                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval PO {{ $ppembelian->atasans->name }}</a>
                     @endif
                     @if($ppembelian->status == 'PO Approved' )
                     <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved PO By {{ $ppembelian->atasans->name }}</a>
@@ -210,7 +210,7 @@
                     <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Purchasing Request </a>
                     @endif
                     @if($ppembelian->status == 'Payment Approved')
-                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved Payment By {{ $ppembelian->atasanpymnt->name }}</a>
+                    <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved Payment By  {{ $ppembelian->atasanpymnt->name }}</a>
                     @endif
                     @if($ppembelian->status == 'Unpaid')
                     <a class="badge bg-success mt-1" style="color: white; font-size:12">Waiting Finance Pay</a>
@@ -240,7 +240,7 @@
 
                 @endhasrole
 
-                <td>
+                <td style="text-align: center;">
                 <div data-toggle="tooltip" data-placement="bottom" title="Preview PDF">
                 <button class="btn btn-iconsolid mt-1" style="background-color: #0693c2; font-size:10;"   >
                     <a href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}" ><i
