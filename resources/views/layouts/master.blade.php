@@ -202,7 +202,7 @@
                                 </li>
 
                                 <li class="dropdown">
-                                    <a class="nav-link menu-title link-nav {{  request()->is('dashboard') }}" href="{{ url('/dashboard') }}">
+                                    <a class="nav-link menu-title link-nav {{  request()->is('*dashboard*') ?  'active' : ''}}" href="{{ url('/dashboard') }}">
                                         <i data-feather="home"></i>
                                         <span>Dashboard</span>
                                     </a>
@@ -227,7 +227,7 @@
 
                                 @hasrole('user|super admin')
                                     <li class="dropdown">
-                                        <a class="nav-link {{  request()->is('menu-pengajuan-pembelian') }}"
+                                        <a class="nav-link {{  request()->is('menu-pengajuan-pembelian') ?  'active' : '' }}"
                                             href="{{ url('menu-pengajuan-pembelian') }}">
                                             <i data-feather="file-text"></i>
                                             <span>Purchase Request </span>
@@ -245,13 +245,13 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class="dropdown">
-                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-purchase-order') }}" href="{{ url('/menu-purchase-order') }}">
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-purchase-order')  ?  'active' : '' }}" href="{{ url('/menu-purchase-order') }}">
                                             <i data-feather="file-text"></i>
                                             <span>Purchase Order</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*payment_request*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{  request()->is('payment_request') }}" href="{{ url('/payment_request') }}">
+                                        <a class="nav-link menu-title link-nav {{  request()->is('payment_request') ?  'active' : '' }}" href="{{ url('/payment_request') }}">
                                             <i class="fa fa-money"></i>
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp;Payment Request</span>
                                         </a>
@@ -267,7 +267,7 @@
 
                                 @hasrole('finance|super admin')
                                     <li class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-dana') }}" href="{{ url('/menu-pengajuan-dana') }}">
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-dana') ?  'active' : '' }}" href="{{ url('/menu-pengajuan-dana') }}">
                                             <i data-feather="dollar-sign"></i>
                                             <span> Payment Process</span>
                                         </a>
@@ -275,7 +275,7 @@
                                 @endhasrole
                                 @hasrole('purchasing|super admin')
                                     <li class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{  request()->is('delivery') }}" href="{{ url('/delivery') }}">
+                                        <a class="nav-link menu-title link-nav {{  request()->is('delivery')  ?  'active' : ''}}" href="{{ url('/delivery') }}">
                                             <i class="fa fa-truck"></i>
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp;Delivery</span>
                                         </a>
@@ -294,13 +294,13 @@
                                     </li>
 
                                     <li class="dropdown">
-                                        <a class="nav-link menu-title {{ request()->is('menu-taskList-atasan') }} {{  request()->is('menu-taskList-atasan-po') }} {{  request()->is('menu-taskList-atasan-payment') }} {{  request()->is('menu-task-list') }} {{  request()->is('menu-tasklist-finance') }}" href="javascript:void(0)">
+                                        <a class="nav-link menu-title {{ request()->is('menu-taskList-atasan') ?  'active' : '' }} {{  request()->is('menu-taskList-atasan-po') ?  'active' : '' }} {{  request()->is('menu-taskList-atasan-payment') ?  'active' : '' }} {{  request()->is('menu-task-list') ?  'active' : '' }} {{  request()->is('menu-tasklist-finance') ?  'active' : '' }}" href="javascript:void(0)">
                                             <i data-feather="check-circle"></i>
                                             <span>Task List</span></a>
                                         <ul class="nav-submenu menu-content">
                                             @hasrole('super user|super admin')
                                                 <li class=" {{ request()->is('*task-list-atasan*') ? 'active' : '' }}">
-                                                    <a href="{{ url('/menu-taskList-atasan') }}" class="{{  request()->is('menu-taskList-atasan') }}">
+                                                    <a href="{{ url('/menu-taskList-atasan') }}" class="{{  request()->is('menu-taskList-atasan') ?  'active' : '' }}">
                                                         <i class="bi bi-file-text"></i>
                                                         <span>Task List Super User</span>
                                                     </a>
@@ -308,7 +308,7 @@
                                             @endhasrole
                                             @hasrole('super user|super admin')
                                                 <li class=" {{ request()->is('*task-list-atasan-po*') ? 'active' : '' }}">
-                                                    <a href="{{ url('/menu-taskList-atasan-po') }}" class="{{  request()->is('menu-taskList-atasan-po') }}">
+                                                    <a href="{{ url('/menu-taskList-atasan-po') }}" class="{{  request()->is('menu-taskList-atasan-po') ?  'active' : '' }}">
                                                         <i class="bi bi-file-text"></i>
                                                         <span>Task List Super User Purchase Order</span>
                                                     </a>
@@ -317,7 +317,7 @@
                                             @hasrole('super user|super admin')
                                                 <li
                                                     class="">
-                                                    <a href="{{ url('/menu-taskList-atasan-payment') }}" class="{{  request()->is('menu-taskList-atasan-payment') }}">
+                                                    <a href="{{ url('/menu-taskList-atasan-payment') }}" class="{{  request()->is('menu-taskList-atasan-payment') ?  'active' : '' }}">
                                                         <i class="bi bi-file-text"></i>
                                                         <span>Task List Super User Payment Request</span>
                                                     </a>
@@ -325,7 +325,7 @@
                                             @endhasrole
                                             @hasrole('purchasing|super admin')
                                                 <li class=" {{ request()->is('*task-list*') ? 'active' : '' }}">
-                                                    <a href="{{ url('/menu-task-list') }}" class="{{  request()->is('menu-task-list') }}">
+                                                    <a href="{{ url('/menu-task-list') }}" class="{{  request()->is('menu-task-list') ?  'active' : '' }}">
                                                         <i class="bi bi-calendar-x"></i>
                                                         <span>Task List Purchasing</span>
                                                         <div class="notification-box"></span></div>
@@ -334,7 +334,7 @@
                                             @endhasrole
                                             @hasrole('finance|super admin')
                                                 <li class=" {{ request()->is('*task-list-finance*') ? 'active' : '' }}">
-                                                    <a href="{{ url('/menu-tasklist-finance') }}" class="{{  request()->is('menu-tasklist-finance') }}">
+                                                    <a href="{{ url('/menu-tasklist-finance') }}" class="{{  request()->is('menu-tasklist-finance') ?  'active' : '' }}">
                                                         <i class="bi bi-calendar-x"></i>
                                                         <span>Task List Finance</span>
                                                         <div class="notification-box"></span></div>
@@ -355,7 +355,7 @@
                                     </li>
 
                                     <li class="sidebar-item {{ request()->is('*admin*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{  request()->is('admin') }}" href="{{ url('/admin') }}">
+                                        <a class="nav-link menu-title link-nav {{  request()->is('admin') ?  'active' : '' }}" href="{{ url('/admin') }}">
                                             <i class="bi bi-person-workspace"></i>
                                             <span>+Add Users</span>
                                         </a>
@@ -379,19 +379,19 @@
                                     <span>Suppliers</span></a>
                                 <ul class="nav-submenu menu-content">
                                     <li class="{{  request()->is('menu-perusahaan') }}">
-                                        <a class="{{  request()->is('menu-perusahaan') }}" href="{{ url('/menu-perusahaan') }}">
+                                        <a class="{{  request()->is('menu-perusahaan') ?  'active' : '' }}" href="{{ url('/menu-perusahaan') }}">
                                             <i class="icofont icofont-building-alt"></i>
                                             <span> &nbsp;&nbsp;&nbsp;&nbsp; Company</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="{{  request()->is('menu-private-person') }}" href="{{ url('/menu-private-person') }}">
+                                        <a class="{{  request()->is('menu-private-person') ?  'active' : '' }}" href="{{ url('/menu-private-person') }}">
                                             <i data-feather="user-check"></i>
                                             <span>Private Person</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="{{  request()->is('menu-ecommerce') }}" href="{{ url('/menu-ecommerce') }}">
+                                        <a class="{{  request()->is('menu-ecommerce') ?  'active' : '' }}" href="{{ url('/menu-ecommerce') }}">
                                             <i data-feather="shopping-cart"></i>
                                             <span>E-commerce</span>
                                         </a>
@@ -412,43 +412,43 @@
                                             <span>Submissions</span></a>
                                         <ul class="nav-submenu menu-content">
                                     <li class="dropdown {{ request()->is('*who-submitted*') ? 'active' : '' }}">
-                                        <a class="{{  request()->is('who-submitted') }}" href="{{ url('/who-submitted') }}">
+                                        <a class="{{  request()->is('who-submitted') ?  'active' : '' }}" href="{{ url('/who-submitted') }}">
                                             <i class="fa fa-user"></i>
                                             <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Who Submitted</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*project-reference*') ? 'active' : '' }}">
-                                        <a class="{{  request()->is('project-reference') }}" href="{{ url('/project-reference') }}">
+                                        <a class="{{  request()->is('project-reference') ?  'active' : '' }}" href="{{ url('/project-reference') }}">
                                             <i class="fa fa-laptop"></i>
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Project</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*office*') ? 'active' : '' }}">
-                                        <a class="{{  request()->is('office') }}" href="{{ url('/office') }}">
+                                        <a class="{{  request()->is('office') ?  'active' : '' }}" href="{{ url('/office') }}">
                                             <i class="fa fa-building"></i>
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Office</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*workshop*') ? 'active' : '' }}">
-                                        <a class="{{  request()->is('workshop') }}" href="{{ url('/workshop') }}">
+                                        <a class="{{  request()->is('workshop') ?  'active' : '' }}" href="{{ url('/workshop') }}">
                                             <i class="icofont icofont-people"></i>
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Workshop</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*inventory*') ? 'active' : '' }}">
-                                        <a class="{{  request()->is('invetory') }}" href="{{ url('/inventory') }}">
+                                        <a class="{{  request()->is('invetory') ?  'active' : '' }}" href="{{ url('/inventory') }}">
                                             <i class="icofont icofont-list"></i>
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Inventory</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*RnD*') ? 'active' : '' }}">
-                                        <a class="{{  request()->is('RnD') }}" href="{{ url('/RnD') }}">
+                                        <a class="{{  request()->is('RnD') ?  'active' : '' }}" href="{{ url('/RnD') }}">
                                             <i class="icofont icofont-presentation-alt  "></i>
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose R&D</span>
                                         </a>
                                     </li>
                                     <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">
-                                        <a class="{{  request()->is('department') }}" href="{{ url('/department') }}">
+                                        <a class="{{  request()->is('department') ?  'active' : '' }}" href="{{ url('/department') }}">
                                             <i class="fa fa-institution"></i>
                                             <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
                                         </a>
@@ -467,7 +467,7 @@
                                 @hasrole('user|super admin')
                                     <li
                                         class="dropdown {{ request()->is('*/menu-pengajuan-pembelian/history*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-pembelian/history') ?  'active' : '' }}"
                                             href="{{ url('/menu-pengajuan-pembelian/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Purchase Request</span>
@@ -478,7 +478,7 @@
                                 @hasrole('super user|super admin')
                                     <li
                                         class="dropdown {{ request()->is('*/menu-taskList-atasan/history*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-pembelian/history') ?  'active' : '' }}"
                                             href="{{ url('/menu-taskList-atasan/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Task List Purchase Request</span>
@@ -489,7 +489,7 @@
                                 @hasrole('super user|super admin')
                                     <li
                                         class="dropdown {{ request()->is('*/menu-taskList-atasan-po/history*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-pembelian/history') ?  'active' : '' }}"
                                             href="{{ url('/menu-taskList-atasan-po/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Task List Purchase Order</span>
@@ -510,7 +510,7 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class=" dropdown {{ request()->is('*menu-task-list*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-pembelian/history') ?  'active' : '' }}"
                                             href="{{ url('/menu-task-list/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Purchase Task</span>
@@ -520,7 +520,7 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-pembelian/history') ?  'active' : '' }}"
                                             href="{{ url('/menu-purchase-order/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Purchase Order</span>
@@ -530,7 +530,7 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-pembelian/history') ?  'active' : '' }}"
                                             href="{{ url('/payment_request/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Payment Reqs</span>
@@ -540,7 +540,7 @@
 
                                 @hasrole('finance|super admin')
                                     <li class=" dropdowns {{ request()->is('*menu-tasklist-finance*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-pembelian/history') ?  'active' : '' }}"
                                             href="{{ url('/menu-tasklist-finance/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Finance Task</span>
@@ -550,7 +550,7 @@
 
                                 @hasrole('finance|super admin')
                                     <li class=" dropdowns {{ request()->is('*menu-pengajuan-dana*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-pembelian/history') ?  'active' : '' }}"
                                             href="{{ url('/menu-pengajuan-dana/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Payment Process</span>
@@ -560,7 +560,7 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav" href="{{ url('/delivery/history') }}">
+                                        <a class="nav-link menu-title link-nav {{  request()->is('menu-pengajuan-pembelian/history') ?  'active' : '' }}" href="{{ url('/delivery/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Delivery</span>
                                         </a>
