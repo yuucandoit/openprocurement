@@ -131,8 +131,10 @@
                   @endif
                   @if ($ppembelian->status == 'Rejected by Purchasing')
                   <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                  @endif
                   @if ($ppembelian->status == 'Purchase Request Rejected By BOD')
                   <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                  @endif
                   @if ($ppembelian->status == 'PO Rejected By BOD')
                   <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected PO</a>
                   @endif
