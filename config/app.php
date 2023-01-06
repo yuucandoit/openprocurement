@@ -166,7 +166,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Watson\Active\ActiveServiceProvider::class,
+        // Watson\Active\ActiveServiceProvider::class,
 
         /*
         * Package Service Providers...
@@ -204,7 +204,7 @@ return [
 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF'=> Barryvdh\DomPDF\Facade::class,
-        'Active' => Watson\Active\Facades\Active::class,
+        // 'Active' => Watson\Active\Facades\Active::class,
     ])->toArray(),
     'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
