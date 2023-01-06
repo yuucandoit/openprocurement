@@ -282,7 +282,7 @@
                                     </thead>
                                     @php
                                         $no = 1;
-                                        $i = 1 + $admin->currentPage() * $admin->perPage() - $admin->perPage();
+                                        $i = 1 + $datadv->currentPage() * $datadv->perPage() - $datadv->perPage();
                                     @endphp
                                     <tbody>
                                         @foreach ($datadv as $vendor)

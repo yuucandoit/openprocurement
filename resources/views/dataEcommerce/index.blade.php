@@ -58,10 +58,11 @@
                             </thead>
                             @php
                                 $serial = 1;
+                                $i = 1 + $datadv->currentPage() * $datadv->perPage() - $datadv->perPage();
                             @endphp
                             @foreach ($dv as $dataVendor)
                                 <tr>
-                                    <td>{{ $serial++ }}</td>
+                                    <td>{{ $i++ }}</td>
                                     <td>{{ $dataVendor->npwp }}</td>
                                     <td>{{ $dataVendor->Pkp }}</td>
                                     <td>{{ $dataVendor->jenis_usaha }}</td>

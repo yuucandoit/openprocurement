@@ -64,6 +64,7 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/responsive.css') }}">
     <!-- Latest compiled and minified CSS -->
+        
 
 
 </head>
@@ -201,7 +202,7 @@
                                 </li>
 
                                 <li>
-                                    <a class="nav-link menu-title link-nav active" href="{{ url('/dashboard') }}">
+                                    <a class="nav-link menu-title link-nav" href="{{ url('/dashboard') }}">
                                         <i data-feather="home"></i>
                                         <span>Dashboard</span>
                                     </a>
@@ -225,8 +226,8 @@
                                 @endhasrole
 
                                 @hasrole('user|super admin')
-                                    <li class=" {{ request()->is('/menu-pengajuan-pembelian') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                    <li class="dropdown">
+                                        <a class="nav-link "
                                             href="{{ url('menu-pengajuan-pembelian') }}">
                                             <i data-feather="file-text"></i>
                                             <span>Purchase Request </span>
