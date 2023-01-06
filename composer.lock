@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10e43198251b139d11747670b4418c58",
+    "content-hash": "0907da1bb5b3beb4a56e06215f176d42",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -6381,6 +6381,72 @@
                 }
             ],
             "time": "2022-03-08T17:03:00+00:00"
+        },
+        {
+            "name": "watson/active",
+            "version": "6.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dwightwatson/active.git",
+                "reference": "acef9f7c8d9a122bd9fd4047437fbf76c760891d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dwightwatson/active/zipball/acef9f7c8d9a122bd9fd4047437fbf76c760891d",
+                "reference": "acef9f7c8d9a122bd9fd4047437fbf76c760891d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "^8.0|^9.0",
+                "illuminate/http": "^8.0|^9.0",
+                "illuminate/routing": "^8.0|^9.0",
+                "illuminate/support": "^8.0|^9.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.1",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Watson\\Active\\ActiveServiceProvider"
+                    ],
+                    "aliases": {
+                        "Active": "Watson\\Watson\\Facades\\Active"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Watson\\Active\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dwight Watson",
+                    "email": "dwight@studiousapp.com"
+                }
+            ],
+            "description": "Laravel helper for recognising the current route, controller and action",
+            "keywords": [
+                "active",
+                "laravel",
+                "routing"
+            ],
+            "support": {
+                "issues": "https://github.com/dwightwatson/active/issues",
+                "source": "https://github.com/dwightwatson/active/tree/6.1.0"
+            },
+            "time": "2022-01-26T09:54:27+00:00"
         },
         {
             "name": "webmozart/assert",

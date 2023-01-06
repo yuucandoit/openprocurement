@@ -87,6 +87,10 @@
                                              <td>Date Line</td>
                                              <td>{{ $data_pengajuan->dateline }}</td>
                                          </tr>
+                                         <tr>
+                                            <td>Approver</td>
+                                            <td>{{ $data_pengajuan->bod->name }}</td>
+                                        </tr>
                                      </tbody>
                                  </table>
 
