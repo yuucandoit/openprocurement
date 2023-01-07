@@ -75,7 +75,7 @@
             </div>
             <div class="col-sm-4 ">
                 <form action="{{ route('menu-pengajuan-pembelian.SearchPRQ') }}" method="get" class="input-group">
-                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
+                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                 </form>
             </div>

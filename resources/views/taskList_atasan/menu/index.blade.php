@@ -4,30 +4,6 @@
 
 @section('main')
     <section>
-        @foreach ($datadv as $a)
-            <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h2 class="modal-title" style="color: white">Delete</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mx-5 mb-3">
-                            <span class="warning">
-                                <img src="assets/images/warning.png">
-                            </span>
-                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
-                        </div>
-                        <div class="modal-footer">
-                            <form action="{{ url('/menu-pengajuan-pembelian/destroy/' . $a->id) }}">
-                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
-                                    Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -82,9 +58,9 @@
                         </div>
                         <div class="mt-4">
                             <div style="max-width: 50%;" class="pull-right">
-                                <form action="{{ route('menu-taskList-atasan.SearchTlppbIn') }}" method="get" class="input-group" >
-                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
                         </div>
@@ -161,6 +137,14 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User Out</h5>
                         </div>
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
@@ -186,7 +170,6 @@
                                         $ppb->status == 'Invoicing Process' ||
                                         $ppb->status == 'Unpaid' ||
                                         $ppb->status == 'Paid' ||
-                                        $ppb->status == 'Delivery Process' ||
                                         $ppb->status == 'Delivery Success')
                                             @if ($ppb->atasan == 3)
                                                  <tbody>
@@ -237,9 +220,9 @@
                         </div>
                         <div class="mt-4">
                             <div style="max-width: 50%;" class="pull-right">
-                                <form action="{{ route('menu-purchase-order.SearchPOOut') }}" method="get" class="input-group disabled" >
-                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
                         </div>
@@ -322,6 +305,14 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User Out</h5>
                         </div>
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
@@ -396,7 +387,14 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                     <table class="table table-striped tasklist" >
@@ -468,6 +466,14 @@
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
                             <h5>Task List Super User Out</h5>
+                        </div>
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -545,7 +551,14 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
-
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                     <table class="table table-striped tasklist" >
@@ -618,6 +631,14 @@
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
                             <h5>Task List Super User Out</h5>
+                        </div>
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -699,6 +720,14 @@
                         <div class="card-header bg-primary">
                             <h5>Task List Super User In</h5>
                         </div>
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                     <table class="table table-striped tasklist" >
@@ -768,6 +797,14 @@
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
                             <h5>Task List Super User Out</h5>
+                        </div>
+                        <div class="mt-4">
+                            <div style="max-width: 50%;" class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBod') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

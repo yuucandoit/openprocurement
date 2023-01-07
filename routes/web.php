@@ -266,8 +266,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/accept_atasan_selected', [TaskListAtasanController::class, 'accept_atasan_selected'])->name('menu-taskList-atasan.accept_atasan_selected');
         Route::get('/reject_atasan_selected', [TaskListAtasanController::class, 'reject_atasan_selected'])->name('menu-taskList-atasan.reject_atasan_selected');
         Route::get('/reject/{id}', [TaskListAtasanController::class, 'reject'])->name('menu-taskList-atasan-reject');
-        Route::get('/search/tlppbIn',[TaskListAtasanController::class, 'SearchTlppbIn'])->name('menu-taskList-atasan.SearchTlppbIn');
-        Route::get('/search/tlppbOut',[TaskListAtasanController::class, 'SearchTlppbOut'])->name('menu-taskList-atasan.SearchTlppbOut');
+        Route::get('/search/tasksrequestbod',[TaskListAtasanController::class, 'SearchTaskRequestBod'])->name('menu-taskList-atasan.SearchTaskRequestBod');
         Route::get('/search/historyRequestTask',[TaskListAtasanController::class, 'SearchHistoryRequestTask'])->name('menu-taskList-atasan.SearchHistoryRequestTask');
     });
 
