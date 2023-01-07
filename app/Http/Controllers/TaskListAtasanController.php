@@ -53,7 +53,7 @@ class TaskListAtasanController extends Controller
     {
      $cariIn = $request->cariIn;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     $datappb = CategoryPengajuanPembelian::where('status','Awaiting Purchase Request Approval')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->orWhere('id','like',"%".$cariIn."%")
      ->orWhere('status','like',"%".$cariIn."%")
      ->orWhere('desc','like',"%".$cariIn."%")
@@ -63,7 +63,15 @@ class TaskListAtasanController extends Controller
      ->paginate(10,['*'],'in');
      $cariOut = $request->cariOut;
      //dd($cari);
-     $datappb2 = CategoryPengajuanPembelian::orWhere('id','like',"%".$cariOut."%")
+     $datappb2 = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status', 'Purchase Request Approved')->
+     orWhere('status','Purchase Proses')->
+     orWhere('status','Waiting For PO Approval')->
+     orWhere('status','PO Approved')->
+     orWhere('status','Invoicing Process')->
+    orWhere('status','Unpaid')->
+    orWhere('status','Paid')->
+    orWhere('status','Delivery Success')->
+     orWhere('id','like',"%".$cariOut."%")
      ->orWhere('status','like',"%".$cariOut."%")
      ->orWhere('desc','like',"%".$cariOut."%")
      ->orWhereHas('whosubmit', function($q) use($cariOut){
