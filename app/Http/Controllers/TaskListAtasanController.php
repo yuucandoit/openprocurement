@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPT;
 use App\Models\Department;
+use App\Models\Inventory;
+use App\Models\Office;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
+use App\Models\RND;
 use App\Models\Role;
 use App\Models\TaskListAtasan;
 use App\Models\User;
 use App\Models\WhoSubmitted;
+use App\Models\Workshop;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -182,6 +186,11 @@ class TaskListAtasanController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
+        $purpose            = ReferensiNamaProject::get();
+        $purpose_office     = Office::all();
+        $purpose_inventory  = Inventory::all();
+        $purpose_workshop   = Workshop::all();
+        $purpose_rnd        = RND::all();
         return view('taskList_atasan.menu.edit')
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
@@ -189,7 +198,12 @@ class TaskListAtasanController extends Controller
             ->with('item', $item)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
-            ->with('dv', $dv);
+            ->with('dv', $dv)
+            ->with('purpose', $purpose)
+            ->with('purpose_office', $purpose_office)
+            ->with('purpose_inventory', $purpose_inventory)
+            ->with('purpose_workshop', $purpose_workshop)
+            ->with('purpose_rnd', $purpose_rnd);
 
     }
 
@@ -203,11 +217,11 @@ class TaskListAtasanController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        //dd($data);
-        PengajuanPembelian::where('pp_id',$id)->delete();
+        // dd($data);
+        // PengajuanPembelian::where('pp_id',$id)->delete();
 
         $request->validate([
-            'purpose' => 'required',
+            // 'purpose' => 'required',
             'date_ps' => 'required',
             'dateline'=> 'required',
             'ws'      => 'required',
@@ -217,7 +231,7 @@ class TaskListAtasanController extends Controller
             'matauang'=>'required',
             'send_to'=>'required',
         ],[
-            'purpose.required' => 'The Purpose field is required.',
+            // 'purpose.required' => 'The Purpose field is required.',
             'date_ps.required' => 'The Date field is required.',
             'dateline.required' => 'The Date Line field is required.',
             'ws.required' => 'The Who Submitted field is required.',
@@ -228,55 +242,56 @@ class TaskListAtasanController extends Controller
             'send_to.required' => 'The Send To field is required.',
         ]);
 
-        if ($request->purpose == "custom") {
-            $project = ReferensiNamaProject::where("id", $id)->update([
-                'nama' => $request->nama,
-            ]);
-            $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
+        $pengajuan = CategoryPengajuanPembelian::where('id',$id)->first();
+            $pengajuan->update([
                 'user_id' =>  Auth::user()->id,
                 'date_ps' => $request->date_ps,
                 'dateline' => $request->dateline,
                 'ws' => $request->ws,
-                'purpose' => $project->id,
                 'department' => $request->department,
                 'desc' => $request->desc,
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
-                // 'proposed_supplier' => $request->proposed_supplier,
                 'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
             ]);
-        } else {
-            $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
-                'user_id' =>  Auth::user()->id,
-                'date_ps' => $request->date_ps,
-                'dateline' => $request->dateline,
-                'ws' => $request->ws,
-                'purpose' => $request->purpose,
-                'department' => $request->department,
-                'desc' => $request->desc,
-                'atasan' => $request->atasan,
-                'matauang' => $request->matauang,
-                // 'proposed_supplier' => $request->proposed_supplier,
-                'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
-            ]);
+        if($request->category_purpose){
+            if ($request->category_purpose == "project") {
+                $purpose1 = ReferensiNamaProject::find($request->project);
+                $purpose1->purposes()->where('id',$id)->delete();
+                $pengajuan = $purpose1->purposes()->save($pengajuan);
+            } elseif ($request->category_purpose == "office") {
+                $purpose2 = Office::find($request->office);
+                $purpose2->purposes()->where('id',$id)->delete();
+                $pengajuan = $purpose2->purposes()->save($pengajuan);
+            } elseif ($request->category_purpose == "workshop") {
+                $purpose3 = Workshop::find($request->workshop);
+                $purpose3->purposes()->where('id',$id)->delete();
+                $pengajuan = $purpose3->purposes()->save($pengajuan);
+            } elseif ($request->category_purpose == "inventory") {
+                $purpose4 = Inventory::find($request->inventory);
+                $purpose4->purposes()->where('id',$id)->delete();
+                $pengajuan = $purpose4->purposes()->save($pengajuan);
+            }
         }
 
 
-        if($request->item > 0){
-            foreach ($data['item'] as $item => $value) {
-
+            foreach ($data['id'] as $item => $value) {
+                $file = null;
+                if($path = $request->file('path_file')[$item] ?? null) {
+                    $file = $path->getClientOriginalName();
+                    $path->move(public_path('upload_pengajuan'), $file);
+                }
                 $data2 = array(
-                    'pp_id'             => $id,
                     'item'              => $data['item'][$item],
                     'qty'               => $data['qty'][$item],
                     'kategori'          => $data['kategori'][$item],
+                    'path_file'         => $file,
                 );
-                // $unit_price = str_replace(".", "", $item['unit_price']);
-                PengajuanPembelian::create($data2);
+                PengajuanPembelian::updateOrCreate([
+                    'id' => $value,
+                ],$data2
+            );
             }
-        }
         return redirect("menu-taskList-atasan/");
     }
 
@@ -290,10 +305,9 @@ class TaskListAtasanController extends Controller
     {
         //
     }
-    public function accept_atasan($id)
+    public function accept_atasan(Request $request,$id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        // dd($data);
         // if($data->dateline == '≤3Jam'){
         //     $data->dateline_time = ('03:00:00');
         //     $data->updated_at = Carbon::now();
@@ -303,6 +317,7 @@ class TaskListAtasanController extends Controller
         if($data->dateline == '≤24Jam'){
             $data->dateline_time = ('24:00:00');
             $data->updated_at = Carbon::now();
+            $data->note_bod_pr = $request->note_pr;
             $data->approved_at = now();
             $data->status = 'Purchase Request Approved';
 
@@ -321,6 +336,7 @@ class TaskListAtasanController extends Controller
         }elseif($data->dateline == '≤48Jam'){
             $data->dateline_time = ('49:00:00');
             $data->updated_at = Carbon::now();
+            $data->note_bod_pr = $request->note_pr;
             $data->approved_at = now();
             $data->status = 'Purchase Request Approved';
 
@@ -339,6 +355,7 @@ class TaskListAtasanController extends Controller
         }elseif($data->dateline == '≤72Jam'){
             $data->dateline_time = ('73:00:00');
             $data->updated_at = Carbon::now();
+            $data->note_bod_pr = $request->note_pr;
             $data->approved_at = now();
             $data->status = 'Purchase Request Approved';
 
@@ -357,6 +374,7 @@ class TaskListAtasanController extends Controller
         }elseif($data->dateline == '≤96Jam'){
             $data->dateline_time = ('97:00:00');
             $data->updated_at = Carbon::now();
+            $data->note_bod_pr = $request->note_pr;
             $data->approved_at = now();
             $data->status = 'Purchase Request Approved';
 
@@ -375,6 +393,7 @@ class TaskListAtasanController extends Controller
         }elseif($data->dateline == '≤168Jam'){
             $data->dateline_time = ('169:00:00');
             $data->updated_at = Carbon::now();
+            $data->note_bod_pr = $request->note_pr;
             $data->approved_at = now();
             $data->status = 'Purchase Request Approved';
 
@@ -393,6 +412,7 @@ class TaskListAtasanController extends Controller
         }elseif($data->dateline == '≤336Jam'){
             $data->dateline_time = ('338:00:00');
             $data->updated_at = Carbon::now();
+            $data->note_bod_pr = $request->note_pr;
             $data->approved_at = now();
             $data->status = 'Purchase Request Approved';
 
@@ -409,7 +429,7 @@ class TaskListAtasanController extends Controller
             }
 
         }
-
+        //dd($data);
         $data->save();
         return redirect("menu-taskList-atasan/");
     }
@@ -541,11 +561,12 @@ class TaskListAtasanController extends Controller
         return redirect("menu-taskList-atasan/");
     }
 
-    public function reject($id)
+    public function reject(Request $request,$id)
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Purchase Request Rejected By BOD';
+        $data->note_bod_pr = $request->note_pr;
         $data->save();
-        return redirect()->back();
+        return redirect("menu-taskList-atasan/");
     }
 }

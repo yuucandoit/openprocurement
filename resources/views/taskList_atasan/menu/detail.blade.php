@@ -108,31 +108,55 @@
                                     </tbody>
                                 </table>
                                 <hr>
-
-                                <div class="mt-3" >
-                                    @hasrole('super user|super admin')
-                                        @if ($data_pengajuan->status == 'Purchase Submission Approved')
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
-
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-danger text-center" onclick="return">Reject</a>
-                                        @elseif($data_pengajuan->status == 'Awaiting Purchase Request Approval')
-                                            <a href="{{ url('menu-taskList-atasan/accept_atasan', $data_pengajuan->id) }}"
-                                                class="btn btn-success text-center" onclick="return">Approve</a>
-
-                                            <a href="{{ url('menu-taskList-atasan/reject', $data_pengajuan->id) }}"
-                                                class="btn btn-danger text-center" onclick="return">Reject</a>
-                                        @else
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return">Aprove</a>
-
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
-                                        @endif
-                                    @endhasrole
-
+                                <!-- Modal -->
+                                <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="rejectLabel">Reject Message</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ url('menu-taskList-atasan/reject', $data_pengajuan->id) }}" id="formAdd" method="get"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="note" class="form-label">Comment</label>
+                                                <textarea name="note_pr" id="note" class="form-control" cols="30" rows="0" required></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                        </form>
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
+                                @hasrole('super user|super admin')
+                                <div class="mt-3">
+                                <form action="{{ url('menu-taskList-atasan/accept_atasan', $data_pengajuan->id) }}" method="get">
+                                    <div class="mb-3">
+                                        <label for="note" class="form-label">Comment</label>
+                                        <textarea name="note_pr" id="note" class="form-control" cols="30" rows="0"></textarea>
+                                    </div>
+                                    @if ($data_pengajuan->status == 'Purchase Submission Approved')
+                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                    class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
+                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                    class="btn btn-danger text-center" onclick="return">Reject</a>
+                                    @elseif($data_pengajuan->status == 'Awaiting Purchase Request Approval')
+                                    <button type="submit" class="btn btn-success text-center"> Approve</button>
+                                    <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
+                                    @else
+                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                    class="btn btn-success text-center" onclick="return">Aprove</a>
+                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                    class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                    @endif
+                                </form>
+                                </div>
+                                @endhasrole
                             </div>
                         </div>
                     </div>

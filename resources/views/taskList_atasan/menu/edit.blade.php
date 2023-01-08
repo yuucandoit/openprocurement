@@ -16,7 +16,7 @@
                             <li class="breadcrumb-item">Edit Task List</li>
                         </ol>
                     </div>
-                    <div class="col-sm-6 mt-4">
+                    {{-- <div class="col-sm-6 mt-4">
                         <!-- Bookmark Start-->
                         <div class="bookmark">
                             <ul>
@@ -42,7 +42,7 @@
                             </ul>
                         </div>
                         <!-- Bookmark Ends-->
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
                                             <select class="form-select page @error('dateline') is-invalid @enderror"
                                                 id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}"
                                                 name="dateline">
-                                                <option selected hidden>{{ $dv->dateline }} *Select For Update Data</option>
+                                                <option selected hidden value="{{ $dv->dateline }}">{{ $dv->dateline }}</option>
                                                 <option value="≤3Jam">≤ 3 Jam</option>
                                                 <option value="≤24Jam">≤ 24 Jam</option>
                                                 <option value="≤2Hari">≤ 2 Hari</option>
@@ -101,7 +101,7 @@
                                                 :</label>
                                             <select class="form-select page @error('ws') is-invalid @enderror"
                                                 id="floatingwhosubmitted" placeholder="Who Submitted" name="ws">
-                                                <option selected hidden>{{ $dv->whosubmit->name }} *Select For Update Data
+                                                <option selected hidden value="{{ $dv->whosubmit->id }}">{{ $dv->whosubmit->name }}
                                                 </option>
                                                 @foreach ($dataws as $w)
                                                     <option value="{{ $w->id }}">{{ $w->name }} </option>
@@ -129,12 +129,65 @@
                                     </style>
                                     {{-- End Css Hide --}}
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="margin-bottom: -20px;">
+                                        <div class="form-group">
+                                            <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i>
+                                                Purpose
+                                                : </label>
+                                            <select class="form-select page pageSelect" id="pageSelect"
+                                                placeholder="Purpose" name="category_purpose">
+                                                <option value="">Select Category Purpose</option>
+                                                <option value="project">Project</option>
+                                                <option value="office">Office</option>
+                                                <option value="workshop">Workshop</option>
+                                                <option value="inventory">Inventory</option>
+                                            </select>
+                                            <p style="color: red;">* Please re-input form purpose</p>
+                                            {{-- Project Dropdown --}}
+                                            <select class=" form-select hide mt-2" id="selectedInput" name="project">
+                                                @foreach ($purpose as $p)
+                                                    <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            {{-- End Project Dropdown --}}
+
+                                            {{-- Office Dropdown --}}
+                                            <select class=" form-select hide" id="selectedInput2" name="office">
+                                                @foreach ($purpose_office as $o)
+                                                    <option value="{{ $o->id }}">{{ $o->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            {{-- End Office Dropdown --}}
+
+                                            {{-- Workshop Dropdown --}}
+                                            <select class=" form-select hide" id="selectedInput3" name="workshop">
+                                                @foreach ($purpose_workshop as $e)
+                                                    <option value="{{ $e->id }}">{{ $e->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            {{-- End Workshop Dropdown --}}
+
+                                            {{-- Inventory Dropdown --}}
+                                            <select class=" form-select hide" id="selectedInput4" name="inventory">
+                                                @foreach ($purpose_inventory as $pi)
+                                                    <option value="{{ $pi->id }}">{{ $pi->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            {{-- End Inventory Dropdown --}}
+                                        </div>
+
+                                        @error('category_purpose')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    {{-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="floatingwhosubmitted"><i class="fa fa-laptop"></i> Purpose :</label>
                                             <select class="form-select page @error('purpose') is-invalid @enderror"
                                                 id="pageSelector" placeholder="Purpose" name="purpose">
-                                                <option selected hidden>{{ $dv->referensi->name }} *Select For Update Data
+                                                <option selected hidden value="{{ $dv->purpose->name }}">{{ $dv->purpose->name }}
                                                 </option>
                                                 @foreach ($purpose as $p)
                                                     <option value="{{ $p->id }}">{{ $p->name }}</option>
@@ -149,7 +202,7 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -157,8 +210,7 @@
                                                 :</label>
                                             <select class="form-select page @error('department') is-invalid @enderror"
                                                 id="floatingdepartment" placeholder="department" name="department">
-                                                <option value="{{ $dv->dps->name }}" selected hidden>{{ $dv->dps->name }}
-                                                    *Select For Update Data</option>
+                                                <option value="{{ $dv->dps->id }}" selected hidden>{{ $dv->dps->name }}</option>
                                                 @foreach ($datadepartment as $d)
                                                     <option value="{{ $d->id }}">{{ $d->name }}</option>
                                                 @endforeach
@@ -192,7 +244,8 @@
                                                     class="icofont icofont-stamp"></i> Approved By :</label>
                                             <select class="form-select page @error('atasan') is-invalid @enderror"
                                                 id="floatingproposedto" placeholder="Proposed To" name="atasan">
-                                                <option selected="" value="">* Select For Update Data</option>
+                                                <option selected hidden value="{{ $dv->bod->id }}"
+                                                    {{ $dv->bod->id ? 'selected' : '' }}> {{ $dv->bod->name }}</option>
                                                 @foreach ($atasan as $sui)
                                                     <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                                 @endforeach
@@ -211,8 +264,7 @@
                                                     class="fa fa-money"></i> Currency :</label>
                                             <select class="form-select page @error('matauang') is-invalid @enderror"
                                                 id="floatingdateline" placeholder="Mata Uang" name="matauang">
-                                                <option selected="" value="{{ $dv->matauang }}">{{ $dv->matauang }} *
-                                                    Select For Update Data</option>
+                                                <option selected="" value="{{ $dv->matauang }}">{{ $dv->matauang }}</option>
                                                 <option value="USD">USD</option>
                                                 <option value="RP">RP</option>
                                             </select>
@@ -225,21 +277,19 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <div
-                                            class=" form-group m-checkbox-inline mb-0 @error('send_to') is-invalid @enderror">
-                                            <div class="col-6">
-                                                <label><i class="fa fa-send"></i> Send To :</label>
-                                            </div>
-                                            <div class="radio radio-primary col-md-6">
-                                                <input id="tebet" type="radio" name="send_to" value="Tebet"
-                                                    @if ($dv->send_to === 'Tebet') checked @endif required />
-                                                <label for="tebet">Tebet</label>
-                                            </div>
-                                            <div class="radio radio-primary col-md-6">
-                                                <input id="cikunir" type="radio" name="send_to" value="Cikunir"
-                                                    @if ($dv->send_to === 'Cikunir') checked @endif required />
-                                                <label for="cikunir">Cikunir</label>
-                                            </div>
+                                        <div class="form-group">
+                                            <label class="form-label" style="font-weight: bold;"><i
+                                                    class="fa fa-send"></i> Send To</label>
+                                            <select class="form-select page" id="pageSelector" placeholder="Send To"
+                                                name="send_to">
+                                                <option selected value="{{ $dv->send_to }}">{{ $dv->send_to }}
+                                                </option>
+                                                <option value="Tebet">Tebet</option>
+                                                <option value="Cikunir">Cikunir</option>
+                                                <option value="other">Other Option</option>
+                                            </select>
+                                            <input class="hide form-control mt-2" type="text" id="customOther"
+                                                placeholder="Input Send To">
                                         </div>
                                     </div>
                                     <hr>
@@ -254,9 +304,9 @@
                                             <th
                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Category</th>
-                                            <th
+                                            {{-- <th
                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Action</th>
+                                                Action</th> --}}
                                         </tr>
                                         @php
                                             $id = 0;
@@ -264,19 +314,23 @@
                                         @endphp
                                         @foreach ($item as $i)
                                             <tr>
-                                                <td class="text"><input type="text" name="item[]"
+                                                <td class="text">
+                                                    <input type="text" name="id[]"
+                                                    placeholder="Input Item" class="form-control"
+                                                    style="text-align: center;" value="{{ $i->id }}" hidden />
+                                                    <input type="text" name="item[]"
                                                         placeholder="Input Item" class="form-control"
                                                         style="text-align: center;" value="{{ $i->item }}"
-                                                        required />
+                                                     />
                                                 </td>
                                                 <td><input type="number" name="qty[]" placeholder="Input Quantity"
                                                         class="form-control form-calc form-qty"
                                                         style="text-align: center;" value="{{ $i->qty }}"
-                                                        required />
+                                                     />
                                                 </td>
                                                 <td>
                                                     <select class="form-select " placeholder="Kategori" name="kategori[]"
-                                                        value="{{ $i->kategori }}" required>
+                                                        value="{{ $i->kategori }}">
                                                         <option selected value="{{ $i->kategori }}">{{ $i->kategori }}
                                                         </option>
                                                         <option value="Pcs">Pcs </option>
@@ -285,12 +339,12 @@
                                                         <option value="Unit">Unit </option>
                                                     </select>
                                                 </td>
-                                                <td style="text-align: center;">
+                                                {{-- <td style="text-align: center;">
                                                     <button type="button" name="add"
                                                         class="btn btn-danger remove-input-field">
                                                         <i class="fa fa-times"></i>
                                                     </button>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </table>
@@ -343,6 +397,72 @@
                 }
             })
         </script>
+
+<script type="text/javascript">
+    var pageSelect = document.getElementById('pageSelect');
+    var selectedInput = document.getElementById('selectedInput');
+    var selectedInputCustom = document.getElementById('selectedInputCustom');
+
+    var selectedInput2 = document.getElementById('selectedInput2');
+    var selectedInputCustom2 = document.getElementById('selectedInputCustom2');
+
+    var selectedInput3 = document.getElementById('selectedInput3');
+    var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
+
+    var selectedInput4 = document.getElementById('selectedInput4');
+    var selectedInputCustom4 = document.getElementById('selectedInputCustom4');
+
+
+    // Company
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "project") {
+            selectedInput.classList.remove('hide');
+        } else {
+            selectedInput.classList.add('hide');
+        }
+    })
+
+    // Private Person
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "office") {
+            selectedInput2.classList.remove('hide');
+        } else {
+            selectedInput2.classList.add('hide');
+        }
+    })
+
+    // Ecommerce
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "workshop") {
+            selectedInput3.classList.remove('hide');
+        } else {
+            selectedInput3.classList.add('hide');
+        }
+    })
+
+    // Inventory
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "inventory") {
+            selectedInput4.classList.remove('hide');
+        } else {
+            selectedInput4.classList.add('hide');
+        }
+    })
+</script>
+<script type="text/javascript">
+    var pageSelector = document.getElementById('pageSelector');
+    var customOther = document.getElementById('customOther');
+
+    pageSelector.addEventListener('change', function() {
+        if (this.value == "other") {
+            customOther.setAttribute('name', 'send_to');
+            customOther.classList.remove('hide');
+        } else {
+            customOther.removeAttribute('name', 'send_to');
+            customOther.classList.add('hide');
+        }
+    })
+</script>
 
     </section>
 @endsection

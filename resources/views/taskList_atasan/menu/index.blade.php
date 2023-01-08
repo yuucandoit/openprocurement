@@ -67,8 +67,8 @@
                         <div class="card-body">
                             <div class="table-responsive">
                         {{-- Data Masuk --}}
-                             <table class="table table-striped tasklist" >
-                                        <thead>
+                             <table class="table table-bordered table-hover tasklist" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
@@ -76,7 +76,7 @@
                                                 <th>Date Line</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                {{-- <th>Action</th> --}}
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -98,14 +98,14 @@
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
-                                                        {{-- <td style="text-align: center;">
+                                                        <td style="text-align: center;">
 
                                                             <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Details"></i>
+                                                                style="background-color: #ffa600;"
+                                                                href="{{ url('menu-taskList-atasan/edit/' . $ppb->id) }}"><i
+                                                                    class="icon-pencil-alt" title="Edit"></i>
                                                             </a>
-                                                        </td> --}}
+                                                        </td>
                                                     </tr>
                                                 @endif
                                             @endif
@@ -148,8 +148,8 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
-                                    <table class="table table-striped mt-4" >
-                                        <thead>
+                                    <table class="table table-bordered table-hover mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>
@@ -228,8 +228,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped tasklist" >
-                                        <thead>
+                                    <table class="table table-bordered table-hover tasklist" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
@@ -237,7 +237,7 @@
                                                 <th>Date Line</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                {{-- <th>Action</th> --}}
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -259,21 +259,13 @@
                                                                     class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
-                                                        {{-- <td style="text-align: center;">
-
+                                                        <td style="text-align: center;">
                                                             <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Details"></i>
-                                                            </a>
-
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #FF8C00;"
+                                                                style="background-color: #ffa600;"
                                                                 href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"><i
                                                                     class="icon-pencil-alt" title="Edit"></i>
                                                             </a>
-
-                                                        </td> --}}
+                                                        </td>
                                                     </tr>
                                                     @endif
                                             @endif
@@ -316,8 +308,8 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
-                                    <table class="table table-striped mt-4" >
-                                        <thead>
+                                    <table class="table table-bordered mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>
@@ -397,8 +389,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped tasklist" >
-                                        <thead>
+                                    <table class="table table-bordered table-hover tasklist" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
@@ -406,7 +398,7 @@
                                                 <th>Date Line</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                {{-- <th>Action</th> --}}
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -428,14 +420,14 @@
                                                                     class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
-                                                        {{-- <td style="text-align: center;">
+                                                        <td style="text-align: center;">
 
                                                             <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #00008B;"
+                                                                style="background-color: #ffa600;"
                                                                 href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Details"></i>
+                                                                    class="icon-zoom-in" title="Edit"></i>
                                                             </a>
-                                                        </td> --}}
+                                                        </td>
                                                     </tr>
                                                 @endif
                                             @endif
@@ -477,8 +469,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped mt-4" >
-                                        <thead>
+                                    <table class="table table-bordered table-hover mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>
@@ -561,8 +553,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped tasklist" >
-                                        <thead>
+                                    <table class="table table-bordered table-hover tasklist" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
@@ -570,7 +562,7 @@
                                                 <th>Date Line</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                {{-- <th>Action</th> --}}
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -593,14 +585,14 @@
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
 
-                                                        {{-- <td style="text-align: center;">
+                                                        <td style="text-align: center;">
 
                                                             <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #00008B;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Details"></i>
+                                                                style="background-color: #ffa600;"
+                                                                href="{{ url('menu-taskList-atasan/edit/' . $ppb->id) }}"><i
+                                                                    class="icon-zoom-in" title="Edit"></i>
                                                             </a>
-                                                        </td> --}}
+                                                        </td>
                                                     </tr>
                                               </tbody>
                                              @endif
@@ -642,8 +634,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped mt-4" >
-                                        <thead>
+                                    <table class="table table-bordered table-hover mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>
@@ -730,8 +722,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped tasklist" >
-                                        <thead>
+                                    <table class="table table-bordered table-hover tasklist" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
@@ -739,7 +731,7 @@
                                                 <th>Date Line</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                {{-- <th>Action</th> --}}
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -761,14 +753,13 @@
                                                                 <a class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:18">{{ $ppb->status }}</a>
                                                             </td>
-
-                                                            {{-- <td style="text-align: center;">
+                                                            <td style="text-align: center;">
 
                                                                 <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #00008B;"
-                                                                    href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
-                                                                        class="icon-zoom-in" title="Details"></i>
-                                                                </a> --}}
+                                                                    style="background-color: #ffa600;"
+                                                                    href="{{ url('menu-taskList-atasan/edit/' . $ppb->id) }}"><i
+                                                                        class="icon-zoom-in" title="Edit"></i>
+                                                                </a>
                                                        </tr>
                                                  </tbody>
                                              @endif
@@ -808,8 +799,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped mt-4" >
-                                        <thead>
+                                    <table class="table table-bordered mt-4" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Description</th>

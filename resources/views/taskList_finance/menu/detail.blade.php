@@ -194,7 +194,59 @@
                                     @endif
                                 </table>
                                 <hr>
-                                <div class="mt-3" style="text-align: right;">
+                                  <!-- Modal -->
+                              <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="rejectLabel">Reject Message</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{ url('menu-tasklist-finance/reject', $data_pengajuan->id) }}" id="formAdd" method="get"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="note" class="form-label">Comment</label>
+                                            <textarea name="note_finance" id="note" class="form-control" cols="30" rows="0" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                    </form>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                @hasrole('finance|super admin')
+                                    <form action="{{ url('menu-tasklist-finance/approve', $data_pengajuan->id) }}" method="get">
+                                        <div class="mb-3">
+                                            <label for="note" class="form-label">Comment</label>
+                                            <textarea name="note_finance" id="note" class="form-control" cols="30" rows="0"></textarea>
+                                        </div>
+                                        @if ($data_pengajuan->status == 'Unpaid' ||
+                                        $data_pengajuan->status == 'Paid' ||
+                                        $data_pengajuan->status == 'Delivery Process' ||
+                                        $data_pengajuan->status == 'Delivery Success')
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-danger text-center" onclick="return">Reject</a>
+                                        @elseif($data_pengajuan->status == 'Payment Approved')
+                                        <button type="submit" class="btn btn-success text-center"> Approve</button>
+                                        <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
+                                        @else
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-success text-center" onclick="return">Aprove</a>
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                        @endif
+                                    </form>
+                                    @endhasrole
+                                </div>
+                                {{-- <div class="mt-3" style="text-align: right;">
                                     <a type="reset" class="btn btn-dark" href="{{ url('/menu-tasklist-finance/') }}"
                                         style="float: right;">Back</a>
                                     @hasrole('finance|super admin')
@@ -226,10 +278,7 @@
                                                     class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
                                             </div>
                                         @endif
-                                    @endhasrole
-
-
-                                </div>
+                                    @endhasrole --}}
                             </div>
                         </div>
                     </div>

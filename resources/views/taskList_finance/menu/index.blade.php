@@ -98,7 +98,7 @@
                                         @if ($ppb->status == 'Payment Approved')
                                             <tr>
                                                 <td style="text-align: center;">{{ $no++ }}</td>
-                                                <td><a href="{{ $ppb->desc }}" target="_blank">{{ $ppb->desc }}</a>
+                                                <td><a href="{{ url('menu-tasklist-finance/detail/' . $ppb->id)}}" >{{ $ppb->desc }}</a>
                                                 </td>
                                                 <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                 <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>

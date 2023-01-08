@@ -123,8 +123,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="order-history table-responsive">
-                                    <table class="table table-striped" >
-                                        <thead>
+                                    <table class="table table-bordered table-hover" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Applicant Name</th>
@@ -197,8 +197,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="order-history table-responsive">
-                                    <table class="table table-striped display">
-                                        <thead>
+                                    <table class="table table-bordered table-hover display">
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Applicant Name</th>

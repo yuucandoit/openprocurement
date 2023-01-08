@@ -125,21 +125,23 @@ class CategoryTaskListController extends Controller
         $delete = CategoryPengajuanPembelian::find($id);
         $delete->delete();
     }
-    public function accept($id)
+    public function accept(Request $request,$id)
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
+        $data->note_purchase = $request->note_purchase;
         $data->updated_at = now();
         $data->status = 'Purchase Proses';
         $data->save();
         return redirect('menu-task-list');
     }
 
-    public function reject($id)
+    public function reject(Request $request,$id)
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Rejected by Purchasing';
+         $data->note_purchase = $request->note_purchase;
         $data->save();
-        return redirect()->back();
+        return redirect('menu-task-list');
     }
 }

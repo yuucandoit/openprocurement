@@ -259,6 +259,8 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list atasan Pengajuan Pembelian
     Route::group(['prefix' => 'menu-taskList-atasan'], function () {
         Route::get('/', [TaskListAtasanController::class, 'index'])->name('menu-taskList-atasan.index');
+        Route::get('/edit/{id}', [TaskListAtasanController::class, 'edit'])->name('menu-taskList-atasan.edit');
+        Route::post('/update/{id}', [TaskListAtasanController::class, 'update'])->name('menu-taskList-atasan.update');
         Route::get('/history', [TaskListAtasanController::class, 'history'])->name('menu-taskList-atasan.history');
         Route::get('/detail/{id}', [TaskListAtasanController::class, 'detail'])->name('menu-taskList-atasan.detail');
         Route::get('/destroy/{id}', [TaskListAtasanController::class, 'destroy'])->name('menu-taskList-atasan.destroy');

@@ -267,10 +267,11 @@ class TasklistAtasanPaymentController extends Controller
         //
     }
 
-    public function approve_payment($id)
+    public function approve_payment(Request $request,$id)
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Payment Approved';
+        $data->note_bod_py = $request->note_py;
         $data->save();
 
         $po = Invoicing::where('ppb_id', $id)->first();
@@ -348,11 +349,12 @@ class TasklistAtasanPaymentController extends Controller
     }
 
 
-    public function reject($id)
+    public function reject(Request $request,$id)
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Payment Rejected by BOD';
+        $data->note_bod_py = $request->note_py;
         $data->save();
-        return redirect()->back();
+        return redirect('menu-taskList-atasan-payment');
     }
 }

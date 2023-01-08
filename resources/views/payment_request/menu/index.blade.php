@@ -125,8 +125,8 @@
                                 </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped" >
-                                        <thead>
+                                    <table class="table table-bordered table-hover" >
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Name</th>
@@ -223,8 +223,8 @@
                                 </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
                                                 <th>Name</th>

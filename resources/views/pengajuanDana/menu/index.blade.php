@@ -64,8 +64,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Name</th>
@@ -98,7 +98,7 @@
                                                     <td style="text-align: center;">{{ $ppb->dateline }}</td   >
                                                     <td class="ppb-countdown" style="text-align: center;"></td>
                                                     <td style="text-align: center;">
-                                                        <a class="badge badge-lable" style="font-size: 18">
+                                                        <a class="badge badge-lable" style="font-size: 10">
                                                             Complete This Task!
                                                         </a>
                                                     </td>
@@ -106,7 +106,7 @@
                                                     @hasrole('finance|super admin')
                                                         <td>
                                                             <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                                style="color: white; font-size:10">{{ $ppb->status }}</a>
                                                         </td>
 
                                                         <td>
@@ -168,8 +168,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Name</th>
@@ -200,7 +200,7 @@
                                                     @hasrole('finance|super admin')
                                                         <td>
                                                             <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                                style="color: white; font-size:10">{{ $ppb->status }}</a>
                                                         </td>
 
                                                         <td>
