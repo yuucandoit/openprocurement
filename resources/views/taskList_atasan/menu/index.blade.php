@@ -425,7 +425,7 @@
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #ffa600;"
                                                                 href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Edit"></i>
+                                                                    class="icon-pencil-alt" title="Edit"></i>
                                                             </a>
                                                         </td>
                                                     </tr>
@@ -590,7 +590,7 @@
                                                             <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #ffa600;"
                                                                 href="{{ url('menu-taskList-atasan/edit/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Edit"></i>
+                                                                    class="icon-pencil-alt" title="Edit"></i>
                                                             </a>
                                                         </td>
                                                     </tr>
@@ -758,7 +758,7 @@
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #ffa600;"
                                                                     href="{{ url('menu-taskList-atasan/edit/' . $ppb->id) }}"><i
-                                                                        class="icon-zoom-in" title="Edit"></i>
+                                                                        class="icon-pencil-alt" title="Edit"></i>
                                                                 </a>
                                                        </tr>
                                                  </tbody>
