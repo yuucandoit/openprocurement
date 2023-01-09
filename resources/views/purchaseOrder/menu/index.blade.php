@@ -175,7 +175,7 @@
                                                                         <strong><p>7 sd 14 Hari</p></strong>
                                                                         @endif
                                                                     </li>
-                                                                    <li  style="white-space: nowrap;">
+                                                                    <li>
                                                                         <p class="ppb-countdown"></p>
                                                                     </li>
                                                                 </ul>

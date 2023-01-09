@@ -174,7 +174,7 @@
                                                                     </a>
                                                                 </li>
                                                                 <li>
-                                                                <a class="badge  mt-1" style="color: white; background-color:rgb(255, 0, 0); font-size:10">
+                                                                <a class="badge  mt-1" style="color: white; background-color:rgb(255, 132, 0); font-size:10">
                                                                         {{ $ppb->status }}
                                                                 </a>
                                                                 </li>
