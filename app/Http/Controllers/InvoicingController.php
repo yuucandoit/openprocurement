@@ -38,7 +38,7 @@ class InvoicingController extends Controller
             $pt = CategoryPT::all();
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
-            $datapo = CategoryPO::all();
+            $datapo = CategoryPO::get();
             return view('payment_request.menu.index')
                 ->with('pt',$pt)
                 ->with('op',$op)
@@ -60,7 +60,7 @@ class InvoicingController extends Controller
     ->orWhereHas('whosubmit', function($q) use($cari){
          $q->where('name','like',"%".$cari."%");
     })
-    ->paginate(5);
+    ->paginate(10);
 
     return view('purchaseOrder.menu.index')
     ->with('datappb',$datappb);
@@ -77,7 +77,7 @@ class InvoicingController extends Controller
     ->orWhereHas('whosubmit', function($q) use($cari){
          $q->where('name','like',"%".$cari."%");
     })
-    ->paginate(5);
+    ->paginate(10);
 
     return view('purchaseOrder.menu.index')
     ->with('datahstry',$datahstry);

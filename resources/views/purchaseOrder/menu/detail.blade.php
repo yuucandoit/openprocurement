@@ -98,6 +98,16 @@
                                                 @endif
                                             </tr>
                                         @endforeach
+                                        <tr>
+                                            <td>Approver Note</td>
+                                            <td>
+                                                @if(empty($data_pengajuan->note_bod_pr))
+                                                -
+                                                @else
+                                                {{ $data_pengajuan->note_bod_pr }}
+                                                @endif
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
 

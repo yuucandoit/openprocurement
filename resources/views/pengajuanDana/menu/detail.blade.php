@@ -86,6 +86,16 @@
                                             <td>Date Line</td>
                                             <td>{{ $data_pengajuan->dateline }}</td>
                                         </tr>
+                                        <tr>
+                                            <td>Approver Note</td>
+                                            <td>
+                                                @if(empty($data_pengajuan->note_bod_py))
+                                                -
+                                                @else
+                                                {{ $data_pengajuan->note_bod_py }}
+                                                @endif
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <table class="table table-bordered mt-4 mb-4 order-entry">

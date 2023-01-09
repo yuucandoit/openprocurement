@@ -145,7 +145,7 @@
                                                 <th style="text-align: center;">Status</th>
                                                 @endhasrole --}}
                                                 <th style="white-space: nowrap;">Approved At</th>
-                                                <th>Action</th>
+                                                <th style="text-align: center;">Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -163,16 +163,22 @@
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                      @if ($ppb->status == 'Purchase Proses')
                                                             <td>
-                                                            @if($ppb->dateline == '≤24Jam')
-                                                            <strong><p>1 Hari</p></strong>
-                                                            @elseif ($ppb->dateline == '≤72Jam')
-                                                            <strong><p>2 sd 3 Hari</p></strong>
-                                                            @elseif ($ppb->dateline == '≤168Jam')
-                                                            <strong><p>4 sd 7 Hari</p></strong>
-                                                            @elseif ($ppb->dateline == '≤336Jam')
-                                                            <strong><p>7 sd 14 Hari</p></strong>
-                                                            @endif
-                                                            <p class="ppb-countdown"></p>
+                                                                <ul>
+                                                                    <li>
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                    <li>
+                                                                        <p class="ppb-countdown"></p>
+                                                                    </li>
+                                                                </ul>
                                                             </td>
                                                             {{-- <td class="ppb-countdown"></td> --}}
                                                             <td style="text-align: center;">
@@ -183,7 +189,7 @@
                                                                         </a>
                                                                     </li>
                                                                     <li>
-                                                                        <a class="badge badge-lable"
+                                                                        <a class="badge"
                                                                             style="color: white; background-color:rgb(255, 132, 0); font-size:10">
                                                                             @if($ppb->status == 'Purchase Proses')
                                                                             Waiting Process
@@ -203,35 +209,61 @@
 
                                                         <td style="font-size: 10;"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
                                                         @hasrole('purchasing|super admin')
-                                                            <td style="text-align: center;  ">
-                                                                <a class="btn btn-iconsolid mt-1"
+                                                            <td style="text-align: center;">
+                                                                <ul>
+                                                                    <li>
+                                                                        <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0; font-size:10;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
-                                                            </a>
-
-
+                                                                </a>
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style=  "background-color: #008000;font-size:10;"
                                                                 href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
                                                                     class="icon-file" title="Record Data"></i>
                                                                 </a>
-
-                                                                    <a class="btn btn-iconsolid mt-1"
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="btn btn-iconsolid mt-1"
                                                                         style="background-color: #FF8C00;font-size:10;"
                                                                         href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
                                                                             class="icon-pencil-alt" title="Edit"></i>
                                                                     </a>
+
+                                                                    <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
+                                                                    data-bs-target="#modalDelete{{ $ppb->id }}"><i
+                                                                        class="icon-trash" title="Delete"></i>
+                                                                </button>
+                                                                    </li>
+                                                                </ul>
+                                                                {{-- <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #B1D0E0; font-size:10;"
+                                                                href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
+                                                                    class="icon-eye" title="Preview Purchase Order"></i>
+                                                                </a> --}}
+
+
+                                                                {{-- <a class="btn btn-iconsolid mt-1"
+                                                                style=  "background-color: #008000;font-size:10;"
+                                                                href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
+                                                                    class="icon-file" title="Record Data"></i>
+                                                                </a> --}}
+
+                                                                    {{-- <a class="btn btn-iconsolid mt-1"
+                                                                        style="background-color: #FF8C00;font-size:10;"
+                                                                        href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
+                                                                            class="icon-pencil-alt" title="Edit"></i>
+                                                                    </a> --}}
                                                                 {{-- <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
                                                                     href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i
                                                                         class="icon-zoom-in" title="Details"></i>
                                                                 </a> --}}
 
-                                                                <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
+                                                                {{-- <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
                                                                     data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                         class="icon-trash" title="Delete"></i>
-                                                                </button>
+                                                                </button> --}}
 
                                                             </td>
                                                         @endhasrole
@@ -272,13 +304,13 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead class="bg-primary">
-                                            <tr style="text-align: center;">
+                                            <tr >
                                                 <th>No</th>
                                                 <th>Name</th>
                                                 <th>Description</th>
                                                 {{-- <th>Send To</th> --}}
-                                                <th style="white-space: nowrap;">Approved At</th>
-                                                <th>Action</th>
+                                                <th style="white-space: nowrap; text-align:center;">Approved At</th>
+                                                <th style="text-align: center;">Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -298,7 +330,7 @@
                                                     <tr>
                                                         <td>{{ $i++ }}</td>
                                                         <td style="white-space: nowrap;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                        <td><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break: break-word;">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                         <td style="text-align: center; font-size:10"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
                                                         @hasrole('purchasing|super admin')
@@ -395,7 +427,7 @@
             console.log(dateline_time, remainingTime.getTime());
 
             if (remainingTime.getTime() < 1) return "Your time is up";
-            console.log(Death);
+
             let colors = [];
             const lable = elmnt.querySelector('.badge-lable');
             const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
@@ -403,6 +435,7 @@
             const minutes = remainingTime.getUTCMinutes().toString();
             const seconds = remainingTime.getUTCSeconds().toString();
 
+            lable.classList.remove('bg-dark');
             lable.classList.remove('bg-danger');
             lable.classList.remove('bg-warning');
             lable.classList.remove('bg-success');
@@ -412,7 +445,7 @@
                 const dueDate   = dueDateTime.getTime();
                 const remaining = remainingTime.getTime();
 
-                if (remainingTime.getTime() < 1) return "bg-dark";
+                if (remainingTime.getTime() < 1) return "Your time is up";
                 if(remaining <= 60*60*1000) return 'bg-dark';
                 if(remaining <= dueDate*1/3) return'bg-danger';
                 if(remaining <= dueDate*2/3) return'bg-warning';

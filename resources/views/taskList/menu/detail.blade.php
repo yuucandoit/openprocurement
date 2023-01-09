@@ -82,8 +82,18 @@
                                             <td>{{ $data_pengajuan->send_to }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Date Line</td>
+                                            <td>Deadline</td>
                                             <td>{{ $data_pengajuan->dateline }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Approver Note</td>
+                                            <td>
+                                                @if(empty($data_pengajuan->note_bod_pr))
+                                                -
+                                                @else
+                                                {{ $data_pengajuan->note_bod_pr }}
+                                                @endif
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -132,16 +132,8 @@
                                                 <th>Name</th>
                                                 <th>Description</th>
                                                 {{-- <th>Send To</th> --}}
-                                                <th>Date Line</th>
-                                                <th>Countdown</th>
-                                                <th>Warning</th>
-                                                <th>Date</th>
-                                                @hasrole('purchasing|super admin')
-                                                    <th>Status</th>
-                                                @endhasrole
-                                                @hasrole('user')
-                                                    <th>Status</th>
-                                                @endhasrole
+                                                <th>Deadline</th>
+                                                <th>Status</th>
                                                 <th>Function</th>
                                             </tr>
                                         </thead>
@@ -158,31 +150,55 @@
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                         <td style="text-align: center;"><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                        <td class="ppb-countdown" style="text-align: center;"></td>
                                                         <td style="text-align: center;">
-                                                            <a class="badge badge-lable" style="font-size: 18">
-                                                                Complete This Task!
-                                                            </a>
+                                                            <ul>
+                                                                <li> @if($ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif</li>
+                                                                <li>
+                                                                    <p class="ppb-countdown"></p>
+                                                                </li>
+                                                            </ul>
                                                         </td>
-                                                        <td>{{ $ppb->created_at }}</td>
+                                                        <td style="text-align: center;">
+                                                            <ul>
+                                                                <li>
+                                                                    <a class="badge badge-lable" style="font-size: 10">
+                                                                        Complete This Task!
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                <a class="badge  mt-1" style="color: white; background-color:rgb(255, 132, 0); font-size:10">
+                                                                        {{ $ppb->status }}
+                                                                </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+
+
+                                                        {{-- <td>{{ $ppb->created_at }}</td> --}}
                                                         @hasrole('purchasing|super admin')
-                                                            <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                                            </td>
-                                                            <td>
+
+                                                            <td class="text-center">
                                                                 <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #008000;"
+                                                                style="background-color: #008000; font-size:10;"
                                                                 href="{{ url('/payment_request/create/' . $ppb->id) }}"><i
                                                                     class="icon-file" title="Record Data Payment"></i>
                                                                 </a>
 
-                                                                <a class="btn btn-iconsolid mt-1"
+                                                                {{-- <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
                                                                     href="{{ url('/payment_request/detail/' . $ppb->id) }}"><i
                                                                         class="icon-zoom-in" title="Details"></i>
-                                                                </a>
-                                                                <button class="btn btn-danger mt-1" data-bs-toggle="modal"
+                                                                </a> --}}
+                                                                <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal"
+                                                                    style="background-color: #ff0000; font-size:10;"
                                                                     data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                         class="icon-trash" title="Delete"></i>
                                                                 </button>
@@ -225,17 +241,16 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead class="bg-primary">
-                                            <tr style="text-align: center;">
+                                            <tr>
                                                 <th>No</th>
                                                 <th>Name</th>
                                                 <th>Description</th>
                                                 {{-- <th>Send To</th> --}}
-                                                <th>Date Line</th>
-                                                <th>Date</th>
+                                                <th>Deadline</th>
                                                 @hasrole('purchasing|super admin')
                                                     <th>Status</th>
                                                 @endhasrole
-                                                <th>Function</th>
+                                                {{-- <th>Function</th> --}}
                                             </tr>
                                         </thead>
                                         @php
@@ -247,23 +262,33 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;"><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                        <td >{{ $ppb->whosubmit->name }}</td>
+                                                        <td ><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                        <td>{{ $ppb->created_at }}</td>
+                                                        <td style="text-align: center;">
+                                                            @if($ppb->dateline == '≤24Jam')
+                                                            <strong><p>1 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤72Jam')
+                                                            <strong><p>2 sd 3 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤168Jam')
+                                                            <strong><p>4 sd 7 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤336Jam')
+                                                            <strong><p>7 sd 14 Hari</p></strong>
+                                                            @endif
+                                                            {{-- {{ $ppb->dateline }} --}}
+                                                        </td>
                                                         @hasrole('purchasing|super admin')
                                                             <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                                    style="color: white; font-size:10">{{ $ppb->status }}</a>
                                                             </td>
 
-                                                            <td style="text-align: center;">
+                                                            {{-- <td style="text-align: center;">
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
                                                                     href="{{ url('/payment_request/detail/' . $ppb->id) }}"><i
                                                                         class="icon-zoom-in" title="Details"></i>
                                                                 </a>
-                                                            </td>
+                                                            </td> --}}
                                                         @endhasrole
                                                     </tr>
                                                 @endif

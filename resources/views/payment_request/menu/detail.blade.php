@@ -102,6 +102,16 @@
                                             <td>{{ $po->no_npwp }}</td>
                                         </tr>
                                     @endforeach
+                                    <tr>
+                                        <td>Approver Note</td>
+                                        <td>
+                                            @if(empty($data_pengajuan->note_bod_po))
+                                            -
+                                            @else
+                                            {{ $data_pengajuan->note_bod_po }}
+                                            @endif
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
 
