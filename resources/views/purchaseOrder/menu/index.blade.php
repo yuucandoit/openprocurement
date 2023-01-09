@@ -164,7 +164,7 @@
                                                      @if ($ppb->status == 'Purchase Proses')
                                                             <td>
                                                                 <ul>
-                                                                    <li>
+                                                                    <li style="white-space: nowrap;">
                                                                         @if($ppb->dateline == '≤24Jam')
                                                                         <strong><p>1 Hari</p></strong>
                                                                         @elseif ($ppb->dateline == '≤72Jam')
@@ -175,7 +175,7 @@
                                                                         <strong><p>7 sd 14 Hari</p></strong>
                                                                         @endif
                                                                     </li>
-                                                                    <li>
+                                                                    <li  style="white-space: nowrap;">
                                                                         <p class="ppb-countdown"></p>
                                                                     </li>
                                                                 </ul>
