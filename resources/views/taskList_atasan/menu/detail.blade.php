@@ -52,7 +52,13 @@
                     <div class="col-sm-12">
                         <div class="card card-absolute">
                             <div class="card-header bg-primary">
-                                <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
+                                <h5 class="text-white">Details
+                                    @if(empty($data_pengajuan->whosubmit->name))
+                                    Not Filled
+                                    @else
+                                    {{ $data_pengajuan->whosubmit->name }}
+                                    @endif
+                                </h5>
                             </div>
                             <div class="card-body">
 
@@ -60,7 +66,12 @@
                                     <tbody>
                                         <tr>
                                             <td>Who Submitted</td>
-                                            <td>{{ $data_pengajuan->whosubmit->name }}</td>
+                                            <td>@if(empty($data_pengajuan->whosubmit->name))
+                                                Not Filled
+                                                @else
+                                                {{ $data_pengajuan->whosubmit->name }}
+                                                @endif
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Date</td>
