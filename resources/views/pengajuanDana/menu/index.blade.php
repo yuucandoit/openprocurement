@@ -179,16 +179,16 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
+                                        <tr >
                                             <th>No</th>
                                             <th>Name</th>
                                             <th>Description</th>
                                             {{-- <th>Send To</th> --}}
                                             <th>Deadline</th>
                                             @hasrole('finance|super admin')
-                                                <th>Status</th>
+                                                <th style="text-align: center;">Status</th>
                                             @endhasrole
-                                            <th>Function</th>
+                                            <th style="text-align: center;">Function</th>
                                         </tr>
                                     </thead>
 
@@ -200,9 +200,9 @@
                                                 @php $approvedPPB[] =$ppb; @endphp
                                                 <tr>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                    <td style="text-align: center;"><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
-                                                    {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
+                                                    <td>{{ $ppb->whosubmit->name }}</td>
+                                                    <td><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    {{-- <td>{{ $ppb->send_to }}</td> --}}
                                                     <td style="white-space: nowrap;">
                                                         @if($ppb->dateline == '≤24Jam')
                                                         <strong><p>1 Hari</p></strong>

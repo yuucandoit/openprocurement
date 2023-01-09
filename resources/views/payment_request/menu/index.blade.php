@@ -127,14 +127,14 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover" >
                                         <thead class="bg-primary">
-                                            <tr style="text-align: center;">
+                                            <tr>
                                                 <th>No</th>
                                                 <th>Name</th>
                                                 <th>Description</th>
                                                 {{-- <th>Send To</th> --}}
                                                 <th>Deadline</th>
-                                                <th>Status</th>
-                                                <th>Function</th>
+                                                <th style="text-align: center;">Status</th>
+                                                <th style="text-align: center;">Function</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -147,10 +147,10 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;"><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                        <td>{{ $ppb->whosubmit->name }}</td>
+                                                        <td><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                                        <td style="text-align: center;">
+                                                        <td>
                                                             <ul>
                                                                 <li> @if($ppb->dateline == '≤24Jam')
                                                                     <strong><p>1 Hari</p></strong>
