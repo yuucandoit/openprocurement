@@ -123,9 +123,9 @@
                             </div>
                             <div class="mt-4">
                                 <div style="max-width: 50%;" class="pull-right">
-                                    <form action="{{ route('menu-purchase-order.SearchPOIn') }}" method="get" class="input-group disabled">
-                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                    <form action="{{ route('menu-purchase-order.SearchPOIn') }}" method="get" class="input-group">
+                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                     </form>
                                 </div>
                             </div>
@@ -133,21 +133,18 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover" >
                                         <thead class="bg-primary">
-                                            <tr style="text-align: center;">
+                                            <tr>
                                                 <th>No</th>
                                                 <th>Name</th>
                                                 <th>Description</th>
                                                 {{-- <th>Send To</th> --}}
-                                                <th>Date Line</th>
+                                                <th>Deadline</th>
                                                 <th>Countdown</th>
-                                                <th>Warning</th>
+                                                <th style="text-align: center;">Warning</th>
                                                 @hasrole('purchasing|super admin')
-                                                    <th>Status</th>
+                                                <th style="text-align: center;">Status</th>
                                                 @endhasrole
-                                                @hasrole('user')
-                                                    <th>Status</th>
-                                                @endhasrole
-                                                <th>Date</th>
+                                                <th style="white-space: nowrap;">Approved At</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -161,11 +158,21 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" target="_blank">{{ $ppb->desc }}</a></td>
+                                                        <td >{{ $ppb->whosubmit->name }}</td>
+                                                        <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                      @if ($ppb->status == 'Purchase Proses')
-                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style=" white-space:nowrap">
+                                                            @if($ppb->dateline == '≤24Jam')
+                                                            <p>1 Hari</p>
+                                                            @elseif ($ppb->dateline == '≤72Jam')
+                                                            <p>2 sd 3 Hari</p>
+                                                            @elseif ($ppb->dateline == '≤168Jam')
+                                                            <p>4 sd 7 Hari</p>
+                                                            @elseif ($ppb->dateline == '≤336Jam')
+                                                            <p>7 sd 14 Hari</p>
+                                                            @endif
+                                                            </td>
                                                             <td class="ppb-countdown"></td>
                                                             <td>
                                                                 <a class="badge badge-lable" style="font-size: 10">
@@ -173,8 +180,12 @@
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                                <a class="badge {{ $ppb->status == '' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                    style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                                <a class="badge badge-lable"
+                                                                    style="color: white; background-color:rgb(255, 132, 0); font-size:10">
+                                                                    @if($ppb->status == 'Purchase Proses')
+                                                                    Waiting Process
+                                                                    @endif
+                                                                   </a>
                                                             </td>
                                                         @else
                                                             <td> -/- </td>
@@ -182,34 +193,35 @@
                                                             <td> -/- </td>
                                                             <td> -/- </td>
                                                         @endif
-                                                        <td style="text-align: center;">{{ $ppb->approved_at }}</td>
+
+                                                        <td style="font-size: 10;">{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</td>
                                                         @hasrole('purchasing|super admin')
-                                                            <td>
+                                                            <td style="text-align: center;">
                                                                 <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #B1D0E0;"
+                                                                style="background-color: #B1D0E0; font-size:10;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                             </a>
 
 
                                                                 <a class="btn btn-iconsolid mt-1"
-                                                                style=  "background-color: #008000;"
+                                                                style=  "background-color: #008000;font-size:10;"
                                                                 href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
                                                                     class="icon-file" title="Record Data"></i>
                                                                 </a>
 
                                                                     <a class="btn btn-iconsolid mt-1"
-                                                                        style="background-color: #FF8C00;"
+                                                                        style="background-color: #FF8C00;font-size:10;"
                                                                         href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
                                                                             class="icon-pencil-alt" title="Edit"></i>
                                                                     </a>
-                                                                <a class="btn btn-iconsolid mt-1"
+                                                                {{-- <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"
                                                                     href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i
                                                                         class="icon-zoom-in" title="Details"></i>
-                                                                </a>
+                                                                </a> --}}
 
-                                                                <button class="btn btn-danger mt-1" data-bs-toggle="modal"
+                                                                <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
                                                                     data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                         class="icon-trash" title="Delete"></i>
                                                                 </button>
@@ -258,16 +270,7 @@
                                                 <th>Name</th>
                                                 <th>Description</th>
                                                 {{-- <th>Send To</th> --}}
-                                                <th>Date Line</th>
-                                                <th>Countdown</th>
-                                                <th>Warning</th>
-                                                @hasrole('purchasing|super admin')
-                                                    <th>Status</th>
-                                                @endhasrole
-                                                @hasrole('user')
-                                                    <th>Status</th>
-                                                @endhasrole
-                                                <th>Date</th>
+                                                <th style="white-space: nowrap;">Approved At</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -290,15 +293,7 @@
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                         <td style="text-align: center;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" target="_blank">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                                        @if ($ppb->status == 'Purchase Proses')
-
-                                                        @else
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                            <td> -/- </td>
-                                                            <td> -/- </td>
-                                                            <td> -/- </td>
-                                                        @endif
-                                                        <td style="text-align: center;">{{ $ppb->approved_at }}</td>
+                                                        <td style="text-align: center; font-size:10">{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</td>
                                                         @hasrole('purchasing|super admin')
                                                             <td>
 

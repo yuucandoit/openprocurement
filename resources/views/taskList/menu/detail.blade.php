@@ -215,7 +215,7 @@
                                 </div>
                             </div>
                                 <div class="mt-3">
-                                    @hasrole('super user|super admin')
+                                    @hasrole('purchasing|super admin')
                                         <form action="{{ url('menu-task-list/accept', $data_pengajuan->id) }}" method="get">
                                             <div class="mb-3">
                                                 <label for="note" class="form-label">Comment</label>

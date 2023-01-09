@@ -63,17 +63,22 @@ class CategoryPOController extends Controller
    {
     $cari = $request->cari;
     //dd($cari);
-    $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+    $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')
     ->orWhere('id','like',"%".$cari."%")
     ->orWhere('status','like',"%".$cari."%")
     ->orWhere('desc','like',"%".$cari."%")
     ->orWhereHas('whosubmit', function($q) use($cari){
          $q->where('name','like',"%".$cari."%");
     })
-    ->paginate(5);
+    ->paginate(10);
+
+    $datahstry = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
+    ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
+    ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10);
 
     return view('purchaseOrder.menu.index')
-    ->with('datappb',$datappb);
+    ->with('datappb',$datappb)
+    ->with('datahstry',$datahstry);
    }
 
    public function SearchPOOut(Request $request)
@@ -87,7 +92,7 @@ class CategoryPOController extends Controller
     ->orWhereHas('whosubmit', function($q) use($cari){
          $q->where('name','like',"%".$cari."%");
     })
-    ->paginate(5);
+    ->paginate(10);
 
     return view('purchaseOrder.menu.index')
     ->with('datahstry',$datahstry);
