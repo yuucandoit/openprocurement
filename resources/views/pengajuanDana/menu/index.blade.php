@@ -220,7 +220,7 @@
                                                                 style="color: white; font-size:10">{{ $ppb->status }}</a>
                                                         </td>
 
-                                                        <td>
+                                                        <td style="text-align: center">
                                                             <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #ADD8E6;font-size:10;"
                                                             href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}" target="_blank"><i
