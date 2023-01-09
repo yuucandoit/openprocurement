@@ -111,7 +111,7 @@
                   @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
                   -
                   @elseif ($ppembelian->status == 'Waiting For PO Approval')
-                  <a class="badge mt-1" style="background-color:#ffe600; color:white; font-size:8;" >Process PO</a>
+                  <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Process PO</a>
                   @elseif($ppembelian->status == 'Invoicing Process')
                   -
                   @elseif ($ppembelian->status == 'Purchase Request Approved' )

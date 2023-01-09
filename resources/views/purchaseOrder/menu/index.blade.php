@@ -124,7 +124,7 @@
                             <div class="mt-4">
                                 <div style="max-width: 50%;" class="pull-right">
                                     <form action="{{ route('menu-purchase-order.SearchPOIn') }}" method="get" class="input-group">
-                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}">
+                                        <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
                                         <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                     </form>
                                 </div>
@@ -162,20 +162,20 @@
                                                         <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                      @if ($ppb->status == 'Purchase Proses')
-                                                            <td style=" white-space:nowrap">
+                                                            <td >
                                                             @if($ppb->dateline == '≤24Jam')
-                                                            <p>1 Hari</p>
+                                                            <strong><p>1 Hari</p></strong>
                                                             @elseif ($ppb->dateline == '≤72Jam')
-                                                            <p>2 sd 3 Hari</p>
+                                                            <strong><p>2 sd 3 Hari</p></strong>
                                                             @elseif ($ppb->dateline == '≤168Jam')
-                                                            <p>4 sd 7 Hari</p>
+                                                            <strong><p>4 sd 7 Hari</p></strong>
                                                             @elseif ($ppb->dateline == '≤336Jam')
-                                                            <p>7 sd 14 Hari</p>
+                                                            <strong><p>7 sd 14 Hari</p></strong>
                                                             @endif
                                                             <p class="ppb-countdown"></p>
                                                             </td>
                                                             {{-- <td class="ppb-countdown"></td> --}}
-                                                            <td>
+                                                            <td style="text-align: center;">
                                                                 <ul>
                                                                     <li>
                                                                         <a class="badge badge-lable" style="font-size: 10">
@@ -262,9 +262,9 @@
                             </div>
                             <div class="mt-4">
                                 <div style="max-width: 50%;" class="pull-right">
-                                    <form action="{{ route('menu-purchase-order.SearchPOOut') }}" method="get" class="input-group disabled" >
-                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                    <form action="{{ route('menu-purchase-order.SearchPOOut') }}" method="get" class="input-group" >
+                                        <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                     </form>
                                 </div>
                             </div>
@@ -412,6 +412,7 @@
                 const dueDate   = dueDateTime.getTime();
                 const remaining = remainingTime.getTime();
 
+                if(remaining <= 1) return 'bg-danger';
                 if(remaining <= 60*60*1000) return 'bg-dark';
                 if(remaining <= dueDate*1/3) return'bg-danger';
                 if(remaining <= dueDate*2/3) return'bg-warning';
