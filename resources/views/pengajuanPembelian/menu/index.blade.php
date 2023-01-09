@@ -113,15 +113,15 @@
                   @elseif ($ppembelian->status == 'Waiting For PO Approval')
                   <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Process PO</a>
                   @elseif($ppembelian->status == 'Invoicing Process')
-                  -
+                  <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
                   @elseif ($ppembelian->status == 'Purchase Request Approved' )
                   <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
 
                   @elseif( $ppembelian->status == 'Purchase Proses')
-                  <a class="badge bg-success mt-1" style="color:white; font-size:8;" >Process PO</a>
+                  <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Process PO</a>
 
                   @elseif( $ppembelian->status == 'PO Approved')
-                  <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
+                  <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
 
                   @elseif($ppembelian->status == 'Payment Approved' )
                   <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process</a>
@@ -146,14 +146,16 @@
                   <a class="badge bg-warning mt-1" style="color: white; font-size:8">Unpaid</a>
                   @elseif ($ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery Success' )
                   <a class="badge bg-success mt-1" style="color: white; font-size:8">Done</a>
-                  @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
+                  @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses'  || $ppembelian->status == 'Payment Approved' )
                   -
+                  @elseif ($ppembelian->status == 'PO Approved')
+                  <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
                   @elseif ($ppembelian->status == 'Awaiting Purchase Request Approval')
                   -
                   @elseif ($ppembelian->status == 'Waiting For PO Approval')
                   -
                   @elseif($ppembelian->status == 'Invoicing Process')
-                  -
+                  <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >On-Process</a>
                   @elseif ($ppembelian->status == 'Payment Rejected By BOD')
                   <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
                   @elseif ($ppembelian->status == 'Rejected by Finance')
@@ -201,14 +203,21 @@
                     @endif
                     @if($ppembelian->status == 'Purchase Request Approved')
                         @if(empty( $ppembelian->bod->name))
-                        <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved Request By BOD</a>
+                            <ul>
+                                <li><a class="badge bg-success mt-1" style="color: white; font-size:12">Approved Request By BOD </a></li>
+                                <li><a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Purchasing PO</a></li>
+                            </ul>
                         @else
-                        <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved Request By {{ $ppembelian->bod->name }}</a>
+                        <ul>
+                            <li><a class="badge bg-success mt-1" style="color: white; font-size:12">Approved Request By {{ $ppembelian->bod->name }} </a></li>
+                            <li><a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Purchasing PO</a></li>
+                        </ul>
+                        {{-- <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved Request By {{ $ppembelian->bod->name }}</a> --}}
                         @endif
                     {{-- <a class="badge bg-success mt-1" style="color: white; font-size:12">Approved Request By {{ $ppembelian->bod->name }}</a> --}}
                     @endif
                     @if($ppembelian->status == 'Purchase Proses')
-                    <a class="badge bg-primary mt-1" style="color: white; font-size:12">Waiting Purchasing PO</a>
+                    <a class="badge bg-primary mt-1" style="color: white; font-size:12">On Process Purchasing </a>
                     @endif
                     @if($ppembelian->status == 'Waiting For PO Approval')
                         @if(empty( $ppembelian->atasans->name))
@@ -219,13 +228,29 @@
                     @endif
                     @if($ppembelian->status == 'PO Approved' )
                         @if(empty( $ppembelian->atasans->name))
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Approved PO By BOD</a>
+                        <ul>
+                            <li><a class="badge bg-success mt-1" style="color: white; font-size:12">Approved PO By BOD</a></li>
+                            <li><a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Purchasing Request</a></li>
+                        </ul>
+                        {{-- <a class="badge bg-warning mt-1" style="color: white; font-size:12">Approved PO By BOD</a> --}}
                         @else
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Approved PO By {{ $ppembelian->atasans->name }}</a>
+                        <ul>
+                            <li><a class="badge bg-success mt-1" style="color: white; font-size:12">Approved PO By {{ $ppembelian->atasans->name }}</a></li>
+                            <li><a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Purchasing Request</a></li>
+                        </ul>
+                        {{-- <a class="badge bg-warning mt-1" style="color: white; font-size:12">Approved PO By {{ $ppembelian->atasans->name }}</a> --}}
                         @endif
                     @endif
                     @if($ppembelian->status == 'Invoicing Process')
-                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Purchasing Request </a>
+                        @if(empty($ppembelian->atasanpymnt->name))
+                            <ul>
+                                <li><a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Payment By BOD</a></li>
+                            </ul>
+                        @else
+                            <ul>
+                                <li><a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Payment By {{ $ppembelian->atasanpymnt->name }}</a></li>
+                            </ul>
+                        @endif
                     @endif
                     @if($ppembelian->status == 'Payment Approved')
                         @if(empty( $ppembelian->atasanpymnt->name))

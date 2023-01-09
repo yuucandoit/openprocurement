@@ -162,7 +162,7 @@
                                                         <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                      @if ($ppb->status == 'Purchase Proses')
-                                                            <td >
+                                                            <td>
                                                             @if($ppb->dateline == '≤24Jam')
                                                             <strong><p>1 Hari</p></strong>
                                                             @elseif ($ppb->dateline == '≤72Jam')
@@ -395,7 +395,7 @@
             console.log(dateline_time, remainingTime.getTime());
 
             if (remainingTime.getTime() < 1) return "Your time is up";
-
+            console.log(Death);
             let colors = [];
             const lable = elmnt.querySelector('.badge-lable');
             const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
@@ -412,7 +412,7 @@
                 const dueDate   = dueDateTime.getTime();
                 const remaining = remainingTime.getTime();
 
-                if(remaining <= 1) return 'bg-danger';
+                if (remainingTime.getTime() < 1) return "bg-dark";
                 if(remaining <= 60*60*1000) return 'bg-dark';
                 if(remaining <= dueDate*1/3) return'bg-danger';
                 if(remaining <= dueDate*2/3) return'bg-warning';
