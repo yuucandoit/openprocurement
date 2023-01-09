@@ -139,11 +139,11 @@
                                                 <th>Description</th>
                                                 {{-- <th>Send To</th> --}}
                                                 <th>Deadline</th>
-                                                <th>Countdown</th>
-                                                <th style="text-align: center;">Warning</th>
-                                                @hasrole('purchasing|super admin')
+                                                {{-- <th>Countdown</th> --}}
                                                 <th style="text-align: center;">Status</th>
-                                                @endhasrole
+                                                {{-- @hasrole('purchasing|super admin')
+                                                <th style="text-align: center;">Status</th>
+                                                @endhasrole --}}
                                                 <th style="white-space: nowrap;">Approved At</th>
                                                 <th>Action</th>
                                             </tr>
@@ -158,7 +158,7 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
-                                                        <td >{{ $ppb->whosubmit->name }}</td>
+                                                        <td style="white-space: nowrap;">{{ $ppb->whosubmit->name }}</td>
                                                         <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                      @if ($ppb->status == 'Purchase Proses')
@@ -172,21 +172,28 @@
                                                             @elseif ($ppb->dateline == '≤336Jam')
                                                             <p>7 sd 14 Hari</p>
                                                             @endif
+                                                            <p class="ppb-countdown"></p>
                                                             </td>
-                                                            <td class="ppb-countdown"></td>
+                                                            {{-- <td class="ppb-countdown"></td> --}}
                                                             <td>
-                                                                <a class="badge badge-lable" style="font-size: 10">
-                                                                    Complete This Task!
-                                                                </a>
+                                                                <ul>
+                                                                    <li>
+                                                                        <a class="badge badge-lable" style="font-size: 10">
+                                                                            Complete This Task!
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="badge badge-lable"
+                                                                            style="color: white; background-color:rgb(255, 132, 0); font-size:10">
+                                                                            @if($ppb->status == 'Purchase Proses')
+                                                                            Waiting Process
+                                                                            @endif
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
                                                             </td>
-                                                            <td>
-                                                                <a class="badge badge-lable"
-                                                                    style="color: white; background-color:rgb(255, 132, 0); font-size:10">
-                                                                    @if($ppb->status == 'Purchase Proses')
-                                                                    Waiting Process
-                                                                    @endif
-                                                                   </a>
-                                                            </td>
+                                                            {{-- <td>
+                                                            </td> --}}
                                                         @else
                                                             <td> -/- </td>
                                                             <td> -/- </td>
@@ -194,7 +201,7 @@
                                                             <td> -/- </td>
                                                         @endif
 
-                                                        <td style="font-size: 10;">{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</td>
+                                                        <td style="font-size: 10;"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
                                                         @hasrole('purchasing|super admin')
                                                             <td style="text-align: center;  ">
                                                                 <a class="btn btn-iconsolid mt-1"
@@ -290,10 +297,10 @@
                                                 $ppb->status == 'Delivery Success')
                                                     <tr>
                                                         <td>{{ $i++ }}</td>
-                                                        <td>{{ $ppb->whosubmit->name }}</td>
+                                                        <td style="white-space: nowrap;">{{ $ppb->whosubmit->name }}</td>
                                                         <td><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                                        <td style="text-align: center; font-size:10">{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</td>
+                                                        <td style="text-align: center; font-size:10"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
                                                         @hasrole('purchasing|super admin')
                                                             <td style="text-align: center; white-space:nowrap;">
 
