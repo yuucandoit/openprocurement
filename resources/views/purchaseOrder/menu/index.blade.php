@@ -211,7 +211,7 @@
                                                         @hasrole('purchasing|super admin')
                                                             <td style="text-align: center;">
                                                                 <ul>
-                                                                    <li>
+                                                                    <li style="white-space: nowrap;">
                                                                         <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0; font-size:10;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
@@ -223,7 +223,7 @@
                                                                     class="icon-file" title="Record Data"></i>
                                                                 </a>
                                                                     </li>
-                                                                    <li>
+                                                                    <li style="white-space: nowrap;">
                                                                         <a class="btn btn-iconsolid mt-1"
                                                                         style="background-color: #FF8C00;font-size:10;"
                                                                         href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
