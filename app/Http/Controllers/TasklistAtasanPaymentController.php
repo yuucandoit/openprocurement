@@ -63,6 +63,16 @@ class TasklistAtasanPaymentController extends Controller
      ->with('datappb',$datappb);
     }
 
+    public function history()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::all();
+            return view('taskList_atasan_payments.menu.history')
+            ->with('datappb', $datappb);
+        }
+    }
+
     public function SearchTaskPYOut(Request $request)
     {
      $cari = $request->cari;
@@ -80,12 +90,16 @@ class TasklistAtasanPaymentController extends Controller
      ->with('datahstry',$datahstry);
     }
 
-    public function history()
+    public function out()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
-            return view('taskList_atasan_payments.menu.history')
+            $datappb = CategoryPengajuanPembelian::where('atasan_py', Auth::user()->id)->where('status','Payment Approved')->
+            orWhere('status','Unpaid')->
+            orWhere('status','Paid')->
+            orWhere('status','Delivery Process')->
+            orWhere('status','Delivery Success')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            return view('taskList_atasan_payments.out')
             ->with('datappb', $datappb);
         }
     }
@@ -296,7 +310,7 @@ class TasklistAtasanPaymentController extends Controller
             $po->approved_at = Carbon::now();
             $po->save();
         }
-        return redirect('menu-taskList-atasan-payment');
+        return redirect('menu-taskList-atasan-payment/in');
     }
 
     public function accept_atasan_selected_py(Request $request)
@@ -345,7 +359,7 @@ class TasklistAtasanPaymentController extends Controller
             }
         }
 
-        return redirect('menu-taskList-atasan-payment');
+        return redirect('menu-taskList-atasan-payment/in');
     }
 
 
@@ -355,6 +369,6 @@ class TasklistAtasanPaymentController extends Controller
         $data->status = 'Payment Rejected by BOD';
         $data->note_bod_py = $request->note_py;
         $data->save();
-        return redirect('menu-taskList-atasan-payment');
+        return redirect('menu-taskList-atasan-payment/in');
     }
 }

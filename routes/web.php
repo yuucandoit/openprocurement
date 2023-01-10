@@ -242,7 +242,8 @@ Route::group(['middleware' => ['auth']], function () {
     //Tasklist's Super User
     // Menu Task list atasan Purchase Order
     Route::group(['prefix' => 'menu-taskList-atasan-po'], function () {
-        Route::get('/', [TasklistAtasanPoController::class, 'index'])->name('menu-taskList-atasan-po.index');
+        Route::get('/in', [TasklistAtasanPoController::class, 'index'])->name('menu-taskList-atasan-po.index');
+        Route::get('/out', [TasklistAtasanPoController::class, 'out'])->name('menu-taskList-atasan-po.out');
         Route::get('/history', [TasklistAtasanPoController::class, 'history'])->name('menu-taskList-atasan-po.history');
         Route::get('/detail/{id}', [TasklistAtasanPoController::class, 'detail'])->name('menu-taskList-atasan-po.detail');
         Route::post('/update/{id}', [TasklistAtasanPoController::class, 'update'])->name('menu-taskList-atasan-po.update');
@@ -250,7 +251,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [TasklistAtasanPoController::class, 'destroy'])->name('menu-taskList-atasan-po.destroy');
         Route::get('/accept_atasan/{id}', [TasklistAtasanPoController::class, 'accept_atasan'])->name('menu-taskList-atasan-po-accept_atasan');
         Route::get('/reject/{id}', [TasklistAtasanPoController::class, 'reject'])->name('menu-taskList-atasan-po-reject');
-        Route::get('/search/atasanpo',[TasklistAtasanPoController::class, 'SearchAtasanPO'])->name('menu-taskList-atasan-po.SearchAtasanPO');
+        Route::get('/search/atasanpoIn',[TasklistAtasanPoController::class, 'SearchAtasanPOIn'])->name('menu-taskList-atasan-po.SearchAtasanPOIn');
+        Route::get('/search/atasanpoOut',[TasklistAtasanPoController::class, 'SearchAtasanPOOut'])->name('menu-taskList-atasan-po.SearchAtasanPOOut');
         Route::get('/search/historyatasanpo',[TasklistAtasanPoController::class, 'SearchHistoryAtasanPO'])->name('menu-taskList-atasan-po.SearchHistoryAtasanPO');
         Route::get('/accept_atasan_selected_po', [TasklistAtasanPoController::class, 'accept_atasan_selected_po'])->name('menu-taskList-atasan-po.accept_atasan_selected_po');
         Route::get('/reject_atasan_selected', [TasklistAtasanPoController::class, 'reject_atasan_selected_po'])->name('menu-taskList-atasan-po.reject_atasan_selected_po');
@@ -258,7 +260,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Menu Task list atasan Pengajuan Pembelian
     Route::group(['prefix' => 'menu-taskList-atasan'], function () {
-        Route::get('/', [TaskListAtasanController::class, 'index'])->name('menu-taskList-atasan.index');
+        Route::get('/in', [TaskListAtasanController::class, 'index'])->name('menu-taskList-atasan.index');
+        Route::get('/out', [TaskListAtasanController::class, 'out'])->name('menu-taskList-atasan.out');
         Route::get('/edit/{id}', [TaskListAtasanController::class, 'edit'])->name('menu-taskList-atasan.edit');
         Route::post('/update/{id}', [TaskListAtasanController::class, 'update'])->name('menu-taskList-atasan.update');
         Route::get('/history', [TaskListAtasanController::class, 'history'])->name('menu-taskList-atasan.history');
@@ -268,19 +271,22 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/accept_atasan_selected', [TaskListAtasanController::class, 'accept_atasan_selected'])->name('menu-taskList-atasan.accept_atasan_selected');
         Route::get('/reject_atasan_selected', [TaskListAtasanController::class, 'reject_atasan_selected'])->name('menu-taskList-atasan.reject_atasan_selected');
         Route::get('/reject/{id}', [TaskListAtasanController::class, 'reject'])->name('menu-taskList-atasan-reject');
-        Route::get('/search/tasksrequestbod',[TaskListAtasanController::class, 'SearchTaskRequestBod'])->name('menu-taskList-atasan.SearchTaskRequestBod');
+        Route::get('/search/tasksrequestbodIn',[TaskListAtasanController::class, 'SearchTaskRequestBodIn'])->name('menu-taskList-atasan.SearchTaskRequestBodIn');
+        Route::get('/search/tasksrequestbodOut',[TaskListAtasanController::class, 'SearchTaskRequestBodOut'])->name('menu-taskList-atasan.SearchTaskRequestBodOut');
         Route::get('/search/historyRequestTask',[TaskListAtasanController::class, 'SearchHistoryRequestTask'])->name('menu-taskList-atasan.SearchHistoryRequestTask');
     });
 
     // Menu Task list atasan Payment/Pendanaan
     Route::group(['prefix' => 'menu-taskList-atasan-payment'], function () {
-        Route::get('/', [TasklistAtasanPaymentController::class, 'index'])->name('menu-taskList-atasan-payment.index');
+        Route::get('/in', [TasklistAtasanPaymentController::class, 'index'])->name('menu-taskList-atasan-payment.index');
+        Route::get('/out', [TasklistAtasanPaymentController::class, 'out'])->name('menu-taskList-atasan-payment.out');
         Route::get('/history', [TasklistAtasanPaymentController::class, 'history'])->name('menu-taskList-atasan-payment.history');
         Route::get('/detail/{id}', [TasklistAtasanPaymentController::class, 'detail'])->name('menu-taskList-atasan-payment.detail');
         Route::get('/destroy/{id}', [TasklistAtasanPaymentController::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
         Route::get('/approve_payment/{id}', [TasklistAtasanPaymentController::class, 'approve_payment'])->name('menu-taskList-atasan-payment-approve_payment');
         Route::get('/reject/{id}', [TasklistAtasanPaymentController::class, 'reject'])->name('menu-taskList-atasan-payment-reject');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/tasksrequestbodIn',[TaskListAtasanController::class, 'SearchTaskRequestBodIn'])->name('menu-taskList-atasan.SearchTaskRequestBodIn');
+        Route::get('/search/tasksrequestbodOut',[TaskListAtasanController::class, 'SearchTaskRequestBodOut'])->name('menu-taskList-atasan.SearchTaskRequestBodOut');
         Route::get('/accept_atasan_selected_py', [TasklistAtasanPaymentController::class, 'accept_atasan_selected_py'])->name('menu-taskList-atasan-payment.accept_atasan_selected_py');
         Route::get('/reject_atasan_selected', [TasklistAtasanPaymentController::class, 'reject_atasan_selected'])->name('menu-taskList-atasan-payment.reject_atasan_selected_py');
     });
@@ -290,6 +296,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list po
     Route::group(['prefix' => 'menu-task-list'], function () {
         Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
+        Route::get('/out', [CategoryTaskListController::class, 'out'])->name('menu-task-list.out');
         Route::get('/history', [CategoryTaskListController::class, 'history'])->name('menu-task-list.history');
         Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
         Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
@@ -303,6 +310,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list finance
     Route::group(['prefix' => 'menu-tasklist-finance'], function () {
         Route::get('/', [TaskListFinanceController::class, 'index'])->name('menu-tasklist-finance.index');
+        Route::get('/out', [TaskListFinanceController::class, 'out'])->name('menu-tasklist-finance.out');
         Route::get('/history', [TaskListFinanceController::class, 'history'])->name('menu-tasklist-finance.history');
         Route::get('/detail/{id}', [TaskListFinanceController::class, 'detail'])->name('menu-tasklist-finance.detail');
         Route::get('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
@@ -317,6 +325,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'menu-purchase-order'], function () {
         Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
         Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
+        Route::get('/out', [CategoryPOController::class, 'out'])->name('menu-purchase-order.out');
         Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
         Route::get('/create/{id}', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
         Route::post('/store/{id}', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
@@ -333,6 +342,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Pengajuan dana Purchase Order
     Route::group(['prefix' => 'payment_request'], function () {
         Route::get('/', [InvoicingController::class, 'index'])->name('payment_request.index');
+        Route::get('/out', [InvoicingController::class, 'out'])->name('payment_request.out');
         Route::get('/history', [InvoicingController::class, 'history'])->name('payment_request.history');
         Route::get('/detail/{id}', [InvoicingController::class, 'detail'])->name('payment_request.detail');
         Route::get('/create/{id}', [InvoicingController::class, 'create'])->name('payment_request.create');
@@ -349,6 +359,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Pengajuan dana
     Route::group(['prefix' => 'menu-pengajuan-dana'], function () {
         Route::get('/', [CategoryPDController::class, 'index'])->name('menu-pengajuan-dana.index');
+        Route::get('/out', [CategoryPDController::class, 'out'])->name('menu-pengajuan-dana.out');
         Route::get('/history', [CategoryPDController::class, 'history'])->name('menu-pengajuan-dana.history');
         Route::get('/detail/{id}', [CategoryPDController::class, 'detail'])->name('menu-pengajuan-dana.detail');
         Route::get('/create/{id}', [CategoryPDController::class, 'create'])->name('menu-pengajuan-dana.create');
@@ -363,6 +374,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Pengiriman
     Route::group(['prefix' => 'delivery'], function () {
         Route::get('/', [DeliveryController::class, 'index'])->name('delivery.index');
+        Route::get('/out', [DeliveryController::class, 'out'])->name('delivery.out');
         Route::get('/history', [DeliveryController::class, 'history'])->name('delivery.history');
         Route::get('/detail/{id}', [DeliveryController::class, 'detail'])->name('delivery.detail');
         Route::get('/create/{id}', [DeliveryController::class, 'create'])->name('delivery.create');

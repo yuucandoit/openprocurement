@@ -72,13 +72,32 @@ class InvoicingController extends Controller
     ->with('datappb2',$datappb2);
    }
 
+   public function out()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 4 || $check->role_id == 3) {
+            $datappb =  CategoryPengajuanPembelian::where('status','Invoicing Process')
+            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
+            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->
+            orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            $pt = CategoryPT::all();
+            $op = CategoryPP::all();
+            $ec = CategoryEcommerce::all();
+            $datapo = CategoryPO::all();
+            return view('payment_request.menu.out')
+                ->with('pt',$pt)
+                ->with('op',$op)
+                ->with('ec',$ec)
+                ->with('datappb',$datappb)
+                ->with('datapo', $datapo);
+        }
+    }
+
    public function SearchPaymentreq_out(Request $request)
    {
     $cariOut = $request->caripyOut;
     //dd($cari);
-    $datappb = CategoryPengajuanPembelian::where('status','PO Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-
-    $datappb2 = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+    $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
     ->orWhere('id','like',"%".$cariOut."%")
     ->orWhere('status','like',"%".$cariOut."%")
     ->orWhere('desc','like',"%".$cariOut."%")
@@ -87,9 +106,8 @@ class InvoicingController extends Controller
     })
     ->paginate(10, ['*'],'out');
 
-    return view('payment_request.menu.index')
-    ->with('datappb',$datappb)
-    ->with('datappb2',$datappb2);
+    return view('payment_request.menu.out')
+    ->with('datappb',$datappb);
    }
 
     public function history()

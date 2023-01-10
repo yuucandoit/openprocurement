@@ -38,7 +38,8 @@ class TaskListAtasanController extends Controller
             orWhere('status','Invoicing Process')->
            orWhere('status','Unpaid')->
            orWhere('status','Paid')->
-           orWhere('status','Delivery Success')-> orderBy('date_ps', 'desc')->orderBy('dateline', 'desc')->paginate(10, ['*'],'out');
+           orWhere('status','Delivery Success')->orderBy('date_ps', 'desc')->orderBy('dateline', 'desc')->paginate(10, ['*'],'out');
+        //    dd($datappb2);
         //    dd($datappb2);
         //    dd(Auth::user()->id);
             $dataws             = WhoSubmitted::all();
@@ -53,7 +54,7 @@ class TaskListAtasanController extends Controller
         }
     }
 
-    public function SearchTaskRequestBod(Request $request)
+    public function SearchTaskRequestBodIn(Request $request)
     {
      $cariIn = $request->cariIn;
      //dd($cari);
@@ -79,6 +80,27 @@ class TaskListAtasanController extends Controller
      return view('taskList_atasan.menu.index')
      ->with('datappb',$datappb)
      ->with('datappb2',$datappb2);
+    }
+
+    public function out()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Purchase Submission Approved')->
+            orWhere('status','Purchase Proses')->
+            orWhere('status','Waiting For PO Approval')->
+            orWhere('status','PO Approved')->
+            orWhere('status','Invoicing Process')->
+            orWhere('status','Unpaid')->
+            orWhere('status','Paid')->
+            orWhere('status','Delivery Process')->
+            orWhere('status','Delivery Success')->paginate(10);
+            // dd($datappb);
+            $datadv = TaskListAtasan::all();
+            return view('taskList_atasan.menu.out')
+            ->with('datappb', $datappb)
+            ->with('datadv', $datadv);
+        }
     }
 
     public function history()
@@ -431,7 +453,7 @@ class TaskListAtasanController extends Controller
         }
         //dd($data);
         $data->save();
-        return redirect("menu-taskList-atasan/");
+        return redirect("menu-taskList-atasan/in");
     }
 
     public function accept_atasan_selected(Request $request)
@@ -558,7 +580,7 @@ class TaskListAtasanController extends Controller
         }
         $d->save();
     }
-        return redirect("menu-taskList-atasan/");
+        return redirect("menu-taskList-atasan/in");
     }
 
     public function reject(Request $request,$id)
@@ -567,6 +589,6 @@ class TaskListAtasanController extends Controller
         $data->status = 'Purchase Request Rejected By BOD';
         $data->note_bod_pr = $request->note_pr;
         $data->save();
-        return redirect("menu-taskList-atasan/");
+        return redirect("menu-taskList-atasan/in");
     }
 }

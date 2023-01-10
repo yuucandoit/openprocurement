@@ -61,15 +61,31 @@ class DeliveryController extends Controller
      ->with('datappb',$datappb)
      ->with('datappb2',$datappb2);
     }
+    public function out()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 4 || $check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('status','Delivery Success')
+            ->orderBy('status', 'asc')->orderBy('dateline', 'asc')
+            ->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            $pt = CategoryPT::all();
+            $op = CategoryPP::all();
+            $ec = CategoryEcommerce::all();
+            $datapo = CategoryPO::all();
+            return view('delivery.menu.out')
+                ->with('pt',$pt)
+                ->with('op',$op)
+                ->with('ec',$ec)
+                ->with('datappb',$datappb)
+                ->with('datapo', $datapo);
+        }
+    }
 
     public function SearchDeliveryOut(Request $request)
     {
      $cari = $request->cariOut;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where('status','Paid')->orderBy('status', 'asc')
-     ->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-
-     $datappb2 = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
@@ -79,8 +95,7 @@ class DeliveryController extends Controller
      ->paginate(10, ['*'], 'out');
 
      return view('delivery.menu.index')
-     ->with('datappb',$datappb)
-     ->with('datappb2',$datappb2);
+     ->with('datappb',$datappb);
     }
 
 

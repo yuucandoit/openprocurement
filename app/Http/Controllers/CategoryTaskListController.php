@@ -31,6 +31,16 @@ class CategoryTaskListController extends Controller
         }
     }
 
+    public function out()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 4 ||$check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')->orWhere('status','Payment Approved')->orWhere('status','Unpaid')->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            return view('taskList.menu.out')
+            ->with('datappb', $datappb);
+        }
+    }
+
     public function history()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();

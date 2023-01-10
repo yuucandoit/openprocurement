@@ -33,12 +33,12 @@ class CategoryPOController extends Controller
 
         if ($check->role_id == 4 || $check->role_id == 3) {
             $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'in');
-            $datappb->setPageName('in');
+            // $datappb->setPageName('in');
             $datappb2           = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->first();
-            $datahstry          = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
-            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10, ['*'],'out');
-            $datahstry->setPageName('out');
+            // $datahstry          = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
+            // ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
+            // ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10, ['*'],'out');
+            // $datahstry->setPageName('out');
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();
             $dataws             = WhoSubmitted::all();
@@ -50,7 +50,7 @@ class CategoryPOController extends Controller
                 ->with('pt', $pt)
                 ->with('op', $op)
                 ->with('ec', $ec)
-                ->with('datahstry', $datahstry)
+                // ->with('datahstry', $datahstry)
                 ->with('dataws', $dataws)
                 ->with('datadepartment', $datadepartment)
                 ->with('datappb2', $datappb2)
@@ -81,16 +81,31 @@ class CategoryPOController extends Controller
     ->with('datahstry',$datahstry);
    }
 
+   public function out()
+   {
+       $check = Role::where('model_id', Auth::user()->id)->first();
+       if ($check->role_id == 4 || $check->role_id == 3) {
+        $datappb          = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
+        ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
+        ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10, ['*'],'out');
+           $pt = CategoryPT::all();
+           $op = CategoryPP::all();
+           $ec = CategoryEcommerce::all();
+           $datapo = CategoryPO::all();
+           return view('purchaseOrder.menu.out')
+               ->with('pt', $pt)
+               ->with('op', $op)
+               ->with('ec', $ec)
+               ->with('datappb', $datappb)
+               ->with('datapo', $datapo);
+       }
+   }
+
    public function SearchPOOut(Request $request)
    {
     $cariOut = $request->cariOut;
     //dd($cari);
-
-    $datappb  = CategoryPengajuanPembelian::where('status','Purchase Proses')
-    ->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
-    ->paginate(10);
-
-    $datahstry = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+    $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
     ->orWhere('id','like',"%".$cariOut."%")
     ->orWhere('status','like',"%".$cariOut."%")
     ->orWhere('desc','like',"%".$cariOut."%")
@@ -99,9 +114,8 @@ class CategoryPOController extends Controller
     })
     ->paginate(10, ['*'],'out');
 
-    return view('purchaseOrder.menu.index')
-    ->with('datappb',$datappb)
-    ->with('datahstry',$datahstry);
+    return view('purchaseOrder.menu.out')
+    ->with('datappb',$datappb);
    }
 
 

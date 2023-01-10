@@ -45,7 +45,7 @@ class TasklistAtasanPoController extends Controller
         }
     }
 
-    public function SearchTaskPOIn(Request $request)
+    public function SearchAtasanPOIn(Request $request)
     {
      $cari = $request->cari;
      //dd($cari);
@@ -56,37 +56,43 @@ class TasklistAtasanPoController extends Controller
      ->orWhereHas('whosubmit', function($q) use($cari){
           $q->where('name','like',"%".$cari."%");
      })
-     ->paginate(5);
+     ->paginate(10);
 
-     return view('purchaseOrder.menu.index')
+     return view('taskList_atasan_PO.menu.index')
      ->with('datappb',$datappb);
     }
 
-    public function SearchTaskPOOut(Request $request)
+    public function out()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('atasan_po', Auth::user()->id)->where('status','PO Approved')->
+            orWhere('status','Invoicing Process')->
+            orWhere('status','Payment Approved')->
+            orWhere('status','Unpaid')->
+            orWhere('status','Paid')->
+            orWhere('status','Delivery Process')->
+            orWhere('status','Delivery Success')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            return view('taskList_atasan_PO.menu.out')
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function SearchAtasanPOOut(Request $request)
     {
      $cari = $request->cari;
      //dd($cari);
-     $datahstry = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
      ->orWhereHas('whosubmit', function($q) use($cari){
           $q->where('name','like',"%".$cari."%");
      })
-     ->paginate(5);
+     ->paginate(10);
 
-     return view('purchaseOrder.menu.index')
-     ->with('datahstry',$datahstry);
-    }
-
-    public function history()
-    {
-        $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
-            return view('taskList_atasan_PO.menu.history')
-            ->with('datappb', $datappb);
-        }
+     return view('taskList_atasan_PO.menu.out')
+     ->with('datappb',$datappb);
     }
 
     public function detail($id)
@@ -252,7 +258,7 @@ class TasklistAtasanPoController extends Controller
                 PengajuanPembelian::create($data3);
         }
     }
-        return redirect("menu-taskList-atasan-po/");
+        return redirect("menu-taskList-atasan-po/in");
     }
 
     /**
@@ -299,7 +305,7 @@ class TasklistAtasanPoController extends Controller
             $cpo->save();
         }
 
-        return redirect('menu-taskList-atasan-po');
+        return redirect('menu-taskList-atasan-po/in');
     }
 
     public function accept_atasan_selected_po(Request $request)
@@ -355,6 +361,6 @@ class TasklistAtasanPoController extends Controller
         $data->status = 'PO Rejected by BOD';
         $data->note_bod_po = $request->note_po;
         $data->save();
-        return redirect('menu-taskList-atasan-po');
+        return redirect('menu-taskList-atasan-po/in');
     }
 }

@@ -177,7 +177,7 @@
                 @endhasrole
                 @hasrole('super user|super admin')
                 <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <a href="{{ url('menu-taskList-atasan') }}">
+                    <a href="{{ url('menu-taskList-atasan/in') }}">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-4"
                             style="border-left: 10px solid rgba(87, 188, 255, 0.9);">
@@ -230,7 +230,7 @@
                 </div>
 
                 <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <a href="{{ url('/menu-taskList-atasan-po') }}">
+                    <a href="{{ url('/menu-taskList-atasan-po/in') }}">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-4"
                             style="border-left: 10px solid rgba(35, 96, 117, 0.9);">
@@ -277,7 +277,7 @@
                 </div>
 
                 <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <a href="{{ url('/menu-taskList-atasan-payment') }}">
+                    <a href="{{ url('/menu-taskList-atasan-payment/in') }}">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-4"
                             style="border-left: 10px solid rgba(117, 0, 184, 0.9);">

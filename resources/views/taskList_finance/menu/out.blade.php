@@ -39,36 +39,10 @@
                             <li class="breadcrumb-item active">Task List Finance</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
+
         <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
@@ -82,23 +56,27 @@
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Request By</th>
-                                            <th>Status</th>
-                                            <th>Function</th>
+                                        <tr style="text-align: center; " >
+                                            <th style="color: white">No</th>
+                                            <th style="color: white">Description</th>
+                                            <th style="color: white">Date Line</th>
+                                            <th style="color: white">Request By</th>
+                                            <th style="color: white">Status</th>
+                                            <th style="color: white">Function</th>
                                         </tr>
                                     </thead>
                                     @php
                                         $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                        @if ($ppb->status == 'Payment Approved')
+                                        @if ($ppb->status == 'Unpaid' ||
+                                            $ppb->status == 'Paid' ||
+                                            $ppb->status == 'Delivery Process' ||
+                                            $ppb->status == 'Delivery Success')
                                             <tr>
                                                 <td style="text-align: center;">{{ $no++ }}</td>
-                                                <td><a href="{{ url('menu-tasklist-finance/detail/' . $ppb->id)}}" >{{ $ppb->desc }}</a>
+                                                <td><a href="{{ $ppb->desc }}"
+                                                        target="_blank">{{ $ppb->desc }}</a>
                                                 </td>
                                                 <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                 <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
@@ -114,7 +92,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                                {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                {{ $datappb->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>
@@ -122,7 +100,15 @@
                 <!-- Zero Configuration  Ends-->
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
 
-     
+                $('.servidelet  ebtn').click(function(e) {
+                    e.preventDefault();
+                    alert('hello');
+                });
+
+            });
+        </script>
     </section>
 @endsection

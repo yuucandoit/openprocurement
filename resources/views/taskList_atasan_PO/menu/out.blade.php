@@ -40,38 +40,12 @@
                             <li class="breadcrumb-item active">Task List Super User PO</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
 
         @if (Auth::user()->id === 3)
+
     <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
@@ -79,15 +53,14 @@
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
-                            <h5>Task List Super User In</h5>
+                            <h5>Task List Super User Out</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                        {{-- Data Masuk --}}
-                             <table class="table table-bordered table-hover tasklistpo" >
+                                    {{-- Data Keluar --}}
+                                    <table class="table table-bordered table-hover mt-4">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
-                                                <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
                                                 <th>Date Line</th>
@@ -100,11 +73,16 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Waiting For PO Approval')
-                                                @if ($ppb->atasan_po == 3)
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                        @if ($ppb->status == 'PO Approved'||
+                                        $ppb->status == 'Invoicing Process'||
+                                        $ppb->status == 'Payment Approved' ||
+                                        $ppb->status == 'Unpaid'||
+                                        $ppb->status == 'Paid'||
+                                        $ppb->status == 'Delivery Process' ||
+                                        $ppb->status == 'Delivery Success')
+                                            @if ($ppb->atasan_po == 3)
+                                                 <tbody>
+                                                        <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
@@ -123,47 +101,38 @@
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td> --}}
-                                                    </tr>
+                                                     </tr>
+                                                </tbody>
                                                 @endif
-                                            @endif
+                                        @endif
                                         @endforeach
-                                        </tbody>
                                     </table>
-                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
-                                    <div class="box-header">
-                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                                    </div>
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <form action="{{ route('menu-taskList-atasan-po.accept_atasan_selected_po') }}" method="get" id="form-export-terpilih" class="hidden">
-                <input type="hidden" name="ids">
-                <button class="hidden" style="display: none;" type="submit">S</button>
-            </form>
-    <!-- Container-fluid Ends-->
-
+    <!-- Container-fluid Ends -->
 @endif
 
     @if (Auth::user()->id === 6)
-    <!-- Container-fluid starts-->
+   <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
-                            <h5>Task List Super User In</h5>
+                            <h5>Task List Super User Out</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-bordered table-hover tasklistpo">
+                                    {{-- Data Keluar --}}
+                                    <table class="table table-bordered table-hover mt-4">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
-                                                <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
                                                 <th>Date Line</th>
@@ -176,21 +145,26 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Waiting For PO Approval')
+                                        @if ($ppb->status == 'PO Approved'||
+                                        $ppb->status == 'Invoicing Process'||
+                                        $ppb->status == 'Payment Approved' ||
+                                        $ppb->status == 'Unpaid'||
+                                        $ppb->status == 'Paid'||
+                                        $ppb->status == 'Delivery Process' ||
+                                        $ppb->status == 'Delivery Success')
                                             @if ($ppb->atasan_po == 6)
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                 <tbody>
+                                                        <tr>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                            </td>
+                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;"> <a
                                                                     class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                             </td>
+
                                                         {{-- <td style="text-align: center;">
 
                                                             <a class="btn btn-iconsolid mt-1"
@@ -199,28 +173,20 @@
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
                                                         </td> --}}
-                                                    </tr>
-                                                    @endif
-                                            @endif
+                                                     </tr>
+                                                </tbody>
+                                                @endif
+                                        @endif
                                         @endforeach
-                                        </tbody>
                                     </table>
-                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
-                                    <div class="box-header">
-                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                                    </div>
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <form action="{{ route('menu-taskList-atasan-po.accept_atasan_selected_po') }}" method="get" id="form-export-terpilih" class="hidden">
-                <input type="hidden" name="ids">
-                <button class="hidden" style="display: none;" type="submit">S</button>
-            </form>
-
+    <!-- Container-fluid Ends -->
     @endif
 
     @if (Auth::user()->id === 7)
@@ -231,14 +197,13 @@
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
-                            <h5>Task List Super User In</h5>
+                            <h5>Task List Super User Out</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-bordered table-hover tasklistpo">
+                                    <table class="table table-bordered table-hover mt-4">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
-                                                <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
                                                 <th>Date Line</th>
@@ -251,11 +216,16 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Waiting For PO Approval')
-                                             @if ($ppb->atasan_po == 7)
+                                            @if ($ppb->status == 'PO Approved'||
+                                            $ppb->status == 'Invoicing Process'||
+                                            $ppb->status == 'Payment Approved' ||
+                                            $ppb->status == 'Unpaid'||
+                                            $ppb->status == 'Paid'||
+                                            $ppb->status == 'Delivery Process' ||
+                                            $ppb->status == 'Delivery Success')
+                                            @if ($ppb->atasan_po == 7)
                                                 <tbody>
                                                     <tr>
-                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
@@ -273,47 +243,41 @@
                                                                 href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
+
                                                         </td> --}}
                                                     </tr>
-                                                @endif
+                                                 </tbody>
+                                              @endif
                                             @endif
                                         @endforeach
-                                        </tbody>
                                     </table>
-                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
-                                    <div class="box-header">
-                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                                    </div>
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <form action="{{ route('menu-taskList-atasan-po.accept_atasan_selected_po') }}" method="get" id="form-export-terpilih" class="hidden">
-                <input type="hidden" name="ids">
-                <button class="hidden" style="display: none;" type="submit">S</button>
-            </form>
-     @endif
+
+     <!-- Container-fluid Ends-->
+    @endif
 
 
     @if (Auth::user()->id === 8)
-    <!-- Container-fluid starts -->
+   <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
-                            <h5>Task List Super User In</h5>
+                            <h5>Task List Super User Out</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-bordered table-hover tasklistpo">
+                                    <table class="table table-bordered table-hover mt-4">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
-                                                <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
                                                 <th>Date Line</th>
@@ -326,22 +290,26 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Waiting For PO Approval')
+                                            @if ($ppb->status == 'PO Approved'||
+                                            $ppb->status == 'Invoicing Process'||
+                                            $ppb->status == 'Payment Approved' ||
+                                            $ppb->status == 'Unpaid'||
+                                            $ppb->status == 'Paid'||
+                                            $ppb->status == 'Delivery Process' ||
+                                            $ppb->status == 'Delivery Success')
                                             @if ($ppb->atasan_po == 8)
                                                 <tbody>
                                                     <tr>
-                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
+                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
                                                                     class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                     style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                             </td>
-
                                                         {{-- <td style="text-align: center;">
 
                                                             <a class="btn btn-iconsolid mt-1"
@@ -349,47 +317,39 @@
                                                                 href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
+
                                                         </td> --}}
                                                     </tr>
-                                              </tbody>
+                                                </tbody>
                                              @endif
-                                        @endif
+                                         @endif
                                     @endforeach
                                     </table>
-                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
-                                    <div class="box-header">
-                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                                    </div>
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <form action="{{ route('menu-taskList-atasan-po.accept_atasan_selected_po') }}" method="get" id="form-export-terpilih" class="hidden">
-                <input type="hidden" name="ids">
-                <button class="hidden" style="display: none;" type="submit">S</button>
-            </form>
 
-   @endif
+    @endif
 
     @if (Auth::user()->id === 9)
-    <!-- Container-fluid starts-->
+   <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="card-header bg-primary">
-                            <h5>Task List Super User In</h5>
+                            <h5>Task List Super User Out</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-bordered table-hover tasklistpo">
+                                    <table class="table table-bordered table-hover mt-4">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
-                                                <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
                                                 <th>Date Line</th>
@@ -402,11 +362,16 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Waiting For PO Approval')
-                                            @if ($ppb->atasan_po == 9)
+                                            @if ($ppb->status == 'PO Approved'||
+                                            $ppb->status == 'Invoicing Process'||
+                                            $ppb->status == 'Payment Approved' ||
+                                            $ppb->status == 'Unpaid'||
+                                            $ppb->status == 'Paid'||
+                                            $ppb->status == 'Delivery Process' ||
+                                            $ppb->status == 'Delivery Success')
+                                                @if ($ppb->atasan_po == 9)
                                                 <tbody>
                                                     <tr>
-                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                             <td style="text-align: center;">{{ $no++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
@@ -419,34 +384,37 @@
                                                             </td>
 
                                                             {{-- <td style="text-align: center;">
-
-                                                                <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #00008B;"
-                                                                    href="{{ url('menu-taskList-atasan-po/detail/' . $ppb->id) }}"><i
-                                                                        class="icon-zoom-in" title="Details"></i>
-                                                                </a> --}}
-                                                       </tr>
-                                                 </tbody>
-                                             @endif
+                                                         <a class="btn btn-iconsolid mt-1"
+                                                            style="background-color: #00008B;"
+                                                            href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"><i
+                                                            class="icon-zoom-in" title="Details"></i>
+                                                         </a> --}}
+                                                    </tr>
+                                            </tbody>
                                             @endif
-                                        @endforeach
+                                        @endif
+                                    @endforeach
                                     </table>
-                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
-                                    <div class="box-header">
-                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
-                                        style="margin-top: 20px; font-size:12px"  onclick="approveDataTerpilihPO()">Approve Selected Data</button>
-                                    </div>
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <form action="{{ route('menu-taskList-atasan-po.accept_atasan_selected_po') }}" method="get" id="form-export-terpilih" class="hidden">
-                        <input type="hidden" name="ids">
-                        <button class="hidden" style="display: none;" type="submit">S</button>
-                    </form>
+                </div>
+            </div>
 
-   @endif
+    @endif
+<!-- Zero Configuration  Ends-->
+                <script>
+                    $(document).ready(function() {
 
+                        $('.servidelet  ebtn').click(function(e) {
+                            e.preventDefault();
+                            alert('hello');
+                        });
+
+                    });
+                </script>
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 

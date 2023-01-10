@@ -1,4 +1,4 @@
-    <title>Purchase order</title>
+    <title>Purchase order In</title>
 
     @extends('layouts.master')
 
@@ -73,7 +73,7 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6 mt-4">
-                            <h3>Purchase Order</h3>
+                            <h3>Purchase Order In</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                                 <li class="breadcrumb-item">Purchase Order</li>
@@ -121,14 +121,17 @@
                             <div class="card-header bg-primary">
                                 <h5>Purchase order data list In</h5>
                             </div>
-                            <div class="mt-4">
-                                <div style="max-width: 50%;" class="pull-right">
+                            <div class="row">
+                                <div class="col-sm-8"></div>
+                                <div class="col-sm-4">
+                                <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                     <form action="{{ route('menu-purchase-order.SearchPOIn') }}" method="get" class="input-group">
                                         <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
                                         <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                     </form>
                                 </div>
                             </div>
+                        </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover" >
@@ -164,6 +167,9 @@
                                                      @if ($ppb->status == 'Purchase Proses')
                                                             <td>
                                                                 <ul>
+                                                                    <li>
+                                                                        <p class="ppb-countdown"></p>
+                                                                    </li>
                                                                     <li style="white-space: nowrap;">
                                                                         @if($ppb->dateline == '≤24Jam')
                                                                         <strong><p>1 Hari</p></strong>
@@ -174,9 +180,6 @@
                                                                         @elseif ($ppb->dateline == '≤336Jam')
                                                                         <strong><p>7 sd 14 Hari</p></strong>
                                                                         @endif
-                                                                    </li>
-                                                                    <li>
-                                                                        <p class="ppb-countdown"></p>
                                                                     </li>
                                                                 </ul>
                                                             </td>
@@ -282,108 +285,7 @@
                 </div>
           </div>
 
-            {{-- History  --}}
-              <!-- Container-fluid starts-->
-              <div class="container-fluid">
-                <div class="row">
-                    <!-- Zero Configuration  Starts-->
-                    <div class="col-sm-12">
-                        <div class="card card-absolute">
-                            <div class="card-header bg-primary">
-                                <h5>Purchase order data list Out</h5>
-                            </div>
-                            <div class="mt-4">
-                                <div style="max-width: 50%;" class="pull-right">
-                                    <form action="{{ route('menu-purchase-order.SearchPOOut') }}" method="get" class="input-group" >
-                                        <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
-                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover">
-                                        <thead class="bg-primary">
-                                            <tr >
-                                                <th>No</th>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                                {{-- <th>Send To</th> --}}
-                                                <th style="white-space: nowrap; text-align:center;">Approved At</th>
-                                                <th style="text-align: center;">Action</th>
-                                            </tr>
-                                        </thead>
-                                        @php
-                                            // $i = 1 ;
-                                            $i = 1 + $datahstry->currentPage() * $datahstry->perPage() - $datahstry->perPage();
-                                        @endphp
-                                        <tbody>
-                                            @foreach ($datahstry as $ppb)
-                                                @if (
-                                                $ppb->status == 'Waiting For PO Approval' ||
-                                                $ppb->status == 'PO Approved' ||
-                                                $ppb->status == 'Invoicing Process' ||
-                                                $ppb->status == 'Payment Approved' ||
-                                                $ppb->status == 'Unpaid' ||
-                                                $ppb->status == 'Paid' ||
-                                                $ppb->status == 'Delivery Process' ||
-                                                $ppb->status == 'Delivery Success')
-                                                    <tr>
-                                                        <td>{{ $i++ }}</td>
-                                                        <td style="white-space: nowrap;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break: break-word;">{{ $ppb->desc }}</a></td>
-                                                        {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                                        <td style="text-align: center; font-size:10"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
-                                                        @hasrole('purchasing|super admin')
-                                                            <td style="text-align: center; white-space:nowrap;">
 
-                                                                <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #B1D0E0; font-size:10;"
-                                                                href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
-                                                                    class="icon-eye" title="Preview Purchase Order"></i>
-                                                            </a>
-                                                                @if ($ppb->status == 'Purchase Proses')
-                                                                    <a class="btn btn-iconsolid mt-1"
-                                                                        style="background-color: #008000; font-size:10;"
-                                                                        href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
-                                                                            class="icon-file" title="Record Data"></i>
-                                                                    </a>
-                                                                @endif
-                                                                <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #FF8C00; font-size:10;"
-                                                                href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
-                                                                    class="icon-pencil-alt" title="Edit"></i>
-                                                            </a>
-                                                                {{-- <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #00008B; "
-                                                                    href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i
-                                                                        class="icon-zoom-in" title="Details"></i>
-                                                                </a> --}}
-
-                                                                <button class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #ff0000; font-size:10;"
-                                                                 data-bs-toggle="modal"
-                                                                    data-bs-target="#modalDelete{{ $ppb->id }}"><i
-                                                                        class="icon-trash" title="Delete"></i>
-                                                                </button>
-
-                                                            </td>
-                                                        @endhasrole
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="mt-4">
-                                        {{ $datahstry->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{-- multiple pagination --}}
                     <script>
                         $(document).ready(function() {
 
