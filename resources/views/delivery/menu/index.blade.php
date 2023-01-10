@@ -149,13 +149,13 @@
                                                                 <li>{{ $ppb->whosubmit->name }}</li>
                                                             </ul>
                                                         </td>
-                                                        <td>
+                                                        <td style="text-align: center;">
                                                             @if($ppb->status == 'Paid')
                                                             <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting For Process</a>
                                                             @endif
                                                         </td>
                                                         @hasrole('purchasing|super admin')
-                                                            <td>
+                                                            <td style="text-align: center;">
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #008b2c;font-size:10;"
                                                                     href="{{ url('/delivery/create/' . $ppb->id) }}">
