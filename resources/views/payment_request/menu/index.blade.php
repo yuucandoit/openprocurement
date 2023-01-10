@@ -256,7 +256,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
-                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+                                            $i = 1 + $datappb2->currentPage() * $datappb2->perPage() - $datappb2->perPage();
                                         @endphp
                                         <tbody>
                                             @foreach ($datappb2 as $ppb)
