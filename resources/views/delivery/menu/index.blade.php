@@ -155,11 +155,12 @@
                                                             @endif
                                                         </td>
                                                         @hasrole('purchasing|super admin')
-                                                            <td style="text-align: center;">
+                                                            <td>
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #008b2c;font-size:10;"
                                                                     href="{{ url('/delivery/create/' . $ppb->id) }}"><i
                                                                         class="icon-file" title="Create"></i>
+                                                                git</a>
 
                                                                     {{-- <a class="btn btn-iconsolid mt-1"
                                                                         style="background-color: #00008B;"
