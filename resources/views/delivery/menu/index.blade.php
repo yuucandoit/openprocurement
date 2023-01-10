@@ -156,18 +156,19 @@
                                                         </td>
                                                         @hasrole('purchasing|super admin')
                                                             <td style="text-align: center;">
-                                                                <a class="btn btn-iconsolid mt-1 mx-2"
-                                                                    style="background-color: #008b2c;"
+                                                                <a class="btn btn-iconsolid mt-1"
+                                                                    style="background-color: #008b2c;font-size:10;"
                                                                     href="{{ url('/delivery/create/' . $ppb->id) }}"><i
                                                                         class="icon-file" title="Create"></i>
 
-                                                                    <a class="btn btn-iconsolid mt-1"
+                                                                    {{-- <a class="btn btn-iconsolid mt-1"
                                                                         style="background-color: #00008B;"
                                                                         href="{{ url('/delivery/detail/' . $ppb->id) }}"><i
                                                                             class="icon-zoom-in" title="Details"></i>
-                                                                    </a>
+                                                                    </a> --}}
 
-                                                                    <button class="btn btn-danger mt-1" data-bs-toggle="modal"
+                                                                    <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal"
+                                                                    style="background-color: #ff0000; font-size:10;"
                                                                         data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                             class="icon-trash" title="Delete"></i>
                                                                     </button>
