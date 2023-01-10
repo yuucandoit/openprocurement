@@ -115,37 +115,47 @@
                             </div>
                             <div class="mt-4">
                                 <div style="max-width: 50%;" class="pull-right">
-                                    <form action="{{ route('delivery.SearchDeliveryIn') }}" method="get" class="input-group disabled" >
-                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                    <form action="{{ route('delivery.SearchDeliveryIn') }}" method="get" class="input-group" >
+                                        <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                     </form>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="order-history table-responsive">
+                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover" >
                                         <thead class="bg-primary">
-                                            <tr style="text-align: center;">
+                                            <tr>
                                                 <th>No</th>
                                                 <th>Applicant Name</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
+                                                <th style="text-align: center;">Status</th>
+                                                <th style="text-align: center;">Action</th>
                                             </tr>
                                         </thead>
                                         @php
                                             $no = 1;
                                             $approvedPPB = [];
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         <tbody>
                                             @foreach ($datappb as $ppb)
                                                 @if ($ppb->status == 'Paid')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr>
-                                                        <td>{{ $no++ }}</td>
-                                                        <td><a href="{{ url('/delivery/detail/' . $ppb->id) }}">{{ $ppb->whosubmit->name }}</a></td>
-                                                        <td>{{ $ppb->created_at }}</td>
+                                                        <td>{{ $i++ }}</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li><a href="{{ url('/delivery/detail/' . $ppb->id) }}"><strong>{{ Carbon\Carbon::parse($ppb->date_ps)->format('d-m-Y') }}</strong></a></li>
+                                                                <li>{{ $ppb->whosubmit->name }}</li>
+                                                            </ul>
+                                                        </td>
+                                                        <td>
+                                                            @if($ppb->status == 'Paid')
+                                                            <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting For Process</a>
+                                                            @endif
+                                                        </td>
                                                         @hasrole('purchasing|super admin')
-                                                            <td>
+                                                            <td style="text-align: center;">
                                                                 <a class="btn btn-iconsolid mt-1 mx-2"
                                                                     style="background-color: #008b2c;"
                                                                     href="{{ url('/delivery/create/' . $ppb->id) }}"><i
@@ -189,45 +199,45 @@
                             </div>
                             <div class="mt-4">
                                 <div style="max-width: 50%;" class="pull-right">
-                                    <form action="{{ route('delivery.SearchDeliveryOut') }}" method="get" class="input-group disabled" >
-                                        <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                    <form action="{{ route('delivery.SearchDeliveryOut') }}" method="get" class="input-group" >
+                                        <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
+                                        <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                     </form>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="order-history table-responsive">
+                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover display">
                                         <thead class="bg-primary">
-                                            <tr style="text-align: center;">
+                                            <tr>
                                                 <th>No</th>
                                                 <th>Applicant Name</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
+                                                <th style="text-align: center;">Status</th>
                                             </tr>
                                         </thead>
                                         @php
                                             $no = 1;
                                             $approvedPPB = [];
+                                            $i = 1 + $datappb2->currentPage() * $datappb2->perPage() - $datappb2->perPage();
                                         @endphp
                                         <tbody>
                                             @foreach ($datappb2 as $ppb)
                                                 @if ($ppb->status == 'Delivery Success')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr>
-                                                        <td>{{ $no++ }}</td>
-                                                        <td><a href="{{ url('/delivery/detail/' . $ppb->id) }}">{{ $ppb->whosubmit->name }}</a></td>
-                                                        <td>{{ $ppb->created_at }}</td>
-                                                        @hasrole('purchasing|super admin')
-                                                            <td>
-                                                                    <a class="btn btn-iconsolid mt-1"
-                                                                        style="background-color: #00008B;"
-                                                                        href="{{ url('/delivery/detail/' . $ppb->id) }}"><i
-                                                                            class="icon-zoom-in" title="Details"></i>
-                                                                    </a>
-
-                                                            </td>
-                                                        @endhasrole
+                                                        <td>{{ $i++ }}</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li><a href="{{ url('/delivery/detail/' . $ppb->id) }}"><strong>{{ Carbon\Carbon::parse($ppb->date_ps)->format('d-m-Y') }}</strong></a></li>
+                                                                <li>{{ $ppb->whosubmit->name }}</li>
+                                                            </ul>
+                                                            {{-- <a href="{{ url('/delivery/detail/' . $ppb->id) }}">{{ $ppb->whosubmit->name }}</a> --}}
+                                                        </td>
+                                                        <td style="text-align: center">
+                                                            @if($ppb->status == 'Delivery Success')
+                                                            <a class="badge bg-success mt-1" style="color: white; font-size:12">Request Completed</a>
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                 @endif
                                             @endforeach

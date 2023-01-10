@@ -56,9 +56,9 @@
                         </div>
                         <div class="mt-4">
                             <div style="max-width: 50%;" class="pull-right">
-                                <form action="{{ route('menu-pengajuan-dana.SearchPDIn') }}" method="get" class="input-group disabled" >
-                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                <form action="{{ route('menu-pengajuan-dana.SearchPDIn') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
                         </div>
@@ -80,6 +80,7 @@
                                     @php
                                         $no = 1;
                                         $approvedPPB = [];
+                                        $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                     @endphp
                                     <tbody>
                                         @foreach ($datappb as $ppb)
@@ -87,7 +88,7 @@
                                                 @php $approvedPPB[] =$ppb; @endphp
                                                 <tr id="ppb-{{ $ppb->id }}">
 
-                                                    <td>{{ $no++ }}</td>
+                                                    <td>{{ $i++ }}</td>
                                                     <td>{{ $ppb->whosubmit->name }}</td>
                                                     <td><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                     {{-- <td>{{ $ppb->send_to }}</td> --}}
@@ -124,7 +125,7 @@
                                                     </td>
                                                     @hasrole('finance|super admin')
 
-                                                        <td class="text-center">
+                                                        <td class="text-center" style="white-space: nowrap;">
                                                             <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #ADD8E6; font-size:10"
                                                                     href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}" target="_blank"><i
@@ -169,9 +170,9 @@
                         </div>
                         <div class="mt-4">
                             <div style="max-width: 50%;" class="pull-right">
-                                <form action="{{ route('menu-pengajuan-dana.SearchPDOut') }}" method="get" class="input-group disabled" >
-                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                <form action="{{ route('menu-pengajuan-dana.SearchPDOut') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
                         </div>
@@ -193,13 +194,16 @@
                                     </thead>
 
                                     <tbody>
+                                        @php
+                                         $i = 1 + $datappb2->currentPage() * $datappb2->perPage() - $datappb2->perPage();
+                                        @endphp
                                         @foreach ($datappb2 as $ppb)
                                             @if ($ppb->status == 'Paid'||
                                                 $ppb->status == 'Delivery Process'||
                                                 $ppb->status == 'Delivery Success')
                                                 @php $approvedPPB[] =$ppb; @endphp
                                                 <tr>
-                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td style="text-align: center;">{{ $i++ }}</td>
                                                     <td>{{ $ppb->whosubmit->name }}</td>
                                                     <td><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                     {{-- <td>{{ $ppb->send_to }}</td> --}}
@@ -232,11 +236,11 @@
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a> --}}
 
-                                                            <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal"
+                                                            {{-- <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal"
                                                                 style="background-color: #ff0000; font-size:10;"
                                                                 data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                     class="icon-trash" title="Delete"></i>
-                                                            </button>
+                                                            </button> --}}
                                                         </td>
                                                     @endhasrole
                                                 </tr>

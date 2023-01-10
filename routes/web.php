@@ -342,8 +342,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('payment_request.destroy');
         Route::get('/ajukan_dana/{id}', [InvoicingController::class, 'ajukan_dana'])->name('payment_request-ajukan_dana');
         Route::get('/denied/{id}', [InvoicingController::class, 'denied'])->name('payment_request-denied');
-        Route::get('/search/prq_in',[InvoicingController::class, 'SearchPRQIn'])->name('payment_request.SearchPRQIn');
-        Route::get('/search/prq_out',[InvoicingController::class, 'SearchPRQOut'])->name('payment_request.SearchPRQOut');
+        Route::get('/search/paymentreq_in',[InvoicingController::class, 'SearchPaymentreq_in'])->name('payment_request.SearchPaymentreq_in');
+        Route::get('/search/paymentreq_out',[InvoicingController::class, 'SearchPaymentreq_out'])->name('payment_request.SearchPaymentreq_out');
     });
 
     // Menu Pengajuan dana

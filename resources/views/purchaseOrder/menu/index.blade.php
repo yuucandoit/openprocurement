@@ -314,7 +314,8 @@
                                             </tr>
                                         </thead>
                                         @php
-                                            $i = 1 ;
+                                            // $i = 1 ;
+                                            $i = 1 + $datahstry->currentPage() * $datahstry->perPage() - $datahstry->perPage();
                                         @endphp
                                         <tbody>
                                             @foreach ($datahstry as $ppb)

@@ -117,9 +117,9 @@
                                 </div>
                                 <div class="mt-4">
                                     <div style="max-width: 50%;" class="pull-right">
-                                        <form action="{{ route('payment_request.SearchPRQIn') }}" method="get" class="input-group disabled">
-                                            <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                            <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                        <form action="{{ route('payment_request.SearchPaymentreq_in') }}" method="get" class="input-group">
+                                            <input type="text" name="caripyIn" class="form-control " placeholder="Search ..." value="{{ request('caripyIn') }}">
+                                            <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                         </form>
                                     </div>
                                 </div>
@@ -140,13 +140,14 @@
                                         @php
                                             $no = 1;
                                             $approvedPPB = [];
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         <tbody>
                                             @foreach ($datappb as $ppb)
                                                 @if ($ppb->status == 'PO Approved')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
+                                                        <td style="text-align: center;">{{ $i++ }}</td>
                                                         <td>{{ $ppb->whosubmit->name }}</td>
                                                         <td><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
@@ -231,9 +232,9 @@
                                 </div>
                                 <div class="mt-4">
                                     <div style="max-width: 50%;" class="pull-right">
-                                        <form action="{{ route('payment_request.SearchPRQOut') }}" method="get" class="input-group disabled">
-                                            <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ old('cari') }}" disabled>
-                                            <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go" disabled></span>
+                                        <form action="{{ route('payment_request.SearchPaymentreq_out') }}" method="get" class="input-group">
+                                            <input type="text" name="caripyOut" class="form-control " placeholder="Search ..." value="{{ request('caripyOut') }}">
+                                            <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                         </form>
                                     </div>
                                 </div>
@@ -255,13 +256,14 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         <tbody>
                                             @foreach ($datappb2 as $ppb)
                                                 @if ($ppb->status == 'Invoicing Process' || $ppb->status == 'Payment Approved' || $ppb->status == 'Unpaid' ||  $ppb->status == 'Paid'  ||  $ppb->status == 'Delivery Process' ||  $ppb->status == 'Delivery Success'  )
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
+                                                        <td style="text-align: center;">{{ $i++ }}</td>
                                                         <td >{{ $ppb->whosubmit->name }}</td>
                                                         <td ><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
