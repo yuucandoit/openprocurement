@@ -193,76 +193,88 @@
         </section>
     @endsection
     @section('scripts')
-        {{-- <script src="{{  }}"></script> --}}
-        <script>
-            const data = @json($approvedPPB);
-            const item = data[0];
-            console.log(data);
+    {{-- <script src="{{  }}"></script> --}}
+    <script>
+        const data = @json($approvedPPB);
+        const item = data[0];
 
-            // FOR CALCULATE REMAINING DEADLINE TIME 😃
-            const remainingTime = (data, elmnt) => {
-                const {
-                    approved_at,
-                    dateline_time,
-                    datetime
-                } = data;
-                const approvedAt = new Date(approved_at);
-                const dueDateTime = new Date(`1970-01-01T${dateline_time}Z`);
-                const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
-                const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+        // FOR CALCULATE REMAINING DEADLINE TIME 😃
+        const remainingTime = (data, elmnt) => {
+            const {
+                approved_at,
+                dateline_time,
+                datetime
+            } = data;
 
-                if (remainingTime.getTime() < 1) return "Your time is up";
-
-                let colors = [];
-                const lable = elmnt.querySelector('.badge-lable');
-                const hours = remainingTime.getUTCHours().toString();
-                const minutes = remainingTime.getUTCMinutes().toString();
-                const seconds = remainingTime.getUTCSeconds().toString();
-
-                if (data.dateline == '≤3Jam') colors = [
-                    [1, 'bg-danger'],
-                    [2, 'bg-warning'],
-                    [3, 'bg-success'],
-                ]
-                if (data.dateline == '≤24Jam') colors = [
-                    [8, 'bg-danger'],
-                    [16, 'bg-warning'],
-                    [24, 'bg-success'],
-                ]
-                if (data.dateline == '≤2Hari') colors = [
-                    [16, 'bg-danger'],
-                    [32, 'bg-warning'],
-                    [48, 'bg-success'],
-                ]
-
-                lable.classList.remove('bg-danger');
-                lable.classList.remove('bg-warning');
-                lable.classList.remove('bg-success');
-                lable.classList.add(colors.find(item => item[0] > hours)[1]);
-
-                return (
-                    (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
-                    (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
-                    (seconds.length == 1 ? `0${seconds}:` : `${seconds}`)
-                );
+            const dateline = {
+                day     : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])/24.1) || 1),
+                hours   : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])%24.1)),
+                minutes : () => dateline.split()[1],
+                seconds : () => dateline.split()[2],
+                time    : () => `${dateline.hours()}:${dateline.minutes()}:${dateline.seconds()}`,
+                split   : () => dateline_time.split(':'),
+                toDigit : (val) => val > 9 ? val : '0'+val,
             }
 
-            // FOR HANDLE REWRITE ELEMENT 😃
-            const countdownHandle = (elmnt, item) => {
-                const countdownElmnt = elmnt.querySelector('.ppb-countdown');
-                countdownElmnt.innerText = remainingTime(item, elmnt);
+            const approvedAt = new Date(approved_at);
+            const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
+            const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
+            const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+            const lable = elmnt.querySelector('.badge-lable');
+
+            console.log(dateline_time, remainingTime.getTime());
+
+            if (remainingTime.getTime() < 1) {
+                lable.classList.remove('bg-dark');
+                lable.classList.add('bg-dark');
+                return "Your time is up";
             }
 
-            // FOR INITIALIZE COUNTDOWN 😃
-            const initCountdown = (data) => {
-                data.forEach(item => {
-                    if (!item.approved_at) return;
-                    setInterval(() => countdownHandle(document.querySelector(
-                        `#ppb-${item.id}`
-                    ), item), 1000);
-                });
-            }
+            let colors = [];
+            const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
+            const hours = remainingTime.getUTCHours().toString();
+            const minutes = remainingTime.getUTCMinutes().toString();
+            const seconds = remainingTime.getUTCSeconds().toString();
 
-            initCountdown(data);
-        </script>
-    @endsection
+            lable.classList.remove('bg-danger');
+            lable.classList.remove('bg-warning');
+            lable.classList.remove('bg-success');
+
+            // SUDAH OTOMATIS HITUNG DISINI YAAAAA 😁
+            lable.classList.add((() => {
+                const dueDate   = dueDateTime.getTime();
+                const remaining = remainingTime.getTime();
+
+                if(remaining <= 60*60*1000) return 'bg-dark';
+                if(remaining <= dueDate*1/3) return'bg-danger';
+                if(remaining <= dueDate*2/3) return'bg-warning';
+                if(remaining <= dueDate*3/3) return'bg-success';
+            })());
+
+            return (
+                (days.length == 1 ? `0${days}:` : `${days}:`)+
+                (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
+                (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
+                (seconds.length == 1 ? `0${seconds}` : `${seconds}`)
+            );
+        }
+
+        // FOR HANDLE REWRITE ELEMENT 😃
+        const countdownHandle = (elmnt, item) => {
+            const countdownElmnt = elmnt.querySelector('.ppb-countdown');
+            countdownElmnt.innerText = remainingTime(item, elmnt);
+        }
+
+        // FOR INITIALIZE COUNTDOWN 😃
+        const initCountdown = (data) => {
+            data.forEach(item => {
+                if (!item.approved_at) return;
+                setInterval(() => countdownHandle(document.querySelector(
+                    `#ppb-${item.id}`
+                ), item), 1000);
+            });
+        }
+
+        initCountdown(data);
+    </script>
+@endsection

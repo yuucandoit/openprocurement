@@ -73,7 +73,7 @@
                             <h3>Payment Request In</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active"><a href="{{ url('/payment_request') }}">Payment Request In</a></li>
+                                <li class="breadcrumb-item active"><a href="{{ url('/payment_request') }}">Payment Request</a></li>
                             </ol>
                         </div>
                         {{-- <div class="col-sm-6 mt-4">
@@ -265,13 +265,17 @@
             const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
             const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+            const lable = elmnt.querySelector('.badge-lable');
 
             console.log(dateline_time, remainingTime.getTime());
 
-            if (remainingTime.getTime() < 1) return "Your time is up";
+            if (remainingTime.getTime() < 1) {
+                lable.classList.remove('bg-dark');
+                lable.classList.add('bg-dark');
+                return "Your time is up";
+            }
 
             let colors = [];
-            const lable = elmnt.querySelector('.badge-lable');
             const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
             const hours = remainingTime.getUTCHours().toString();
             const minutes = remainingTime.getUTCMinutes().toString();
