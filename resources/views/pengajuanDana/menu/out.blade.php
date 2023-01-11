@@ -15,33 +15,6 @@
                             <li class="breadcrumb-item active">Payment Process Out</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -52,16 +25,16 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Payment Process Out</h5>
-                        </div>
-                        <div class="mt-4">
-                            <div style="max-width: 50%;" class="pull-right">
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                 <form action="{{ route('menu-pengajuan-dana.SearchPDOut') }}" method="get" class="input-group" >
                                     <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

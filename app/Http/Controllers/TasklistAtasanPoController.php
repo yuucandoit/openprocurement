@@ -49,7 +49,7 @@ class TasklistAtasanPoController extends Controller
     {
      $cari = $request->cari;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     $datappb = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->where('atasan_po', Auth::user()->id)->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
@@ -57,7 +57,6 @@ class TasklistAtasanPoController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
-
      return view('taskList_atasan_PO.menu.index')
      ->with('datappb',$datappb);
     }
@@ -352,7 +351,7 @@ class TasklistAtasanPoController extends Controller
             }
         }
 
-        return redirect('menu-taskList-atasan-po');
+        return redirect('menu-taskList-atasan-po/in');
     }
 
     public function reject(Request $request,$id)

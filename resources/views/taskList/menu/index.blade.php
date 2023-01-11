@@ -76,23 +76,29 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List PO</h5>
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-task-list.SearchtaskPOIn') }}" method="get" class="input-group" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
-                                    <thead class="bg">
+                                    <thead class="bg-primary">
                                         <tr>
-                                        <tr style="text-align: center;">
+                                        <tr>
                                             <th>No</th>
                                             <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Countdown</th>
-                                            <th>Warning</th>
-                                            <th>Approved At</th>
+                                            <th style="text-align: center;">Deadline</th>
+                                            <th style="text-align: center;">Status</th>
+                                            <th style="text-align: center;">Approved At</th>
                                             <th>Request By</th>
-                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -107,28 +113,48 @@
                                                 <tr id="ppb-{{ $ppb->id }}">
                                                     <td style="text-align: center;">{{ $no++ }}</td>
                                                     <td><a href="{{ url('menu-task-list/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
-                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                    <td class="ppb-countdown" style="text-align: center;"></td>
                                                     <td style="text-align: center;">
-                                                        <p class="ppb-countdown">
-                                                        <a class="badge badge-lable" style="font-size: 18">
-                                                            Complete This Task!
-                                                        </a>
-                                                        </p>
-                                                    </td style="text-align: center;">
-                                                    <td style="text-align: center;">{{ $ppb->approved_at }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                    <td>
-                                                        <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                            style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                        <ul>
+                                                            <li style="white-space: nowrap;">
+                                                                <p class="ppb-countdown"></p>
+                                                            </li>
+                                                            <li style="white-space: nowrap;">
+                                                                @if($ppb->dateline == '≤24Jam')
+                                                                <strong><p>1 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤72Jam')
+                                                                <strong><p>2 sd 3 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤168Jam')
+                                                                <strong><p>4 sd 7 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤336Jam')
+                                                                <strong><p>7 sd 14 Hari</p></strong>
+                                                                @endif
+                                                            </li>
+                                                        </ul>
                                                     </td>
+                                                    <td style="text-align: center;">
+                                                        <ul>
+                                                            <li>
+                                                                <a class="badge badge-lable" style="font-size: 10">
+                                                                    Complete This Task!
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="badge"
+                                                                    style="color: white; background-color:rgb(255, 132, 0); font-size:10">
+                                                                    @if($ppb->status == 'Purchase Request Approved')
+                                                                    Waiting Process
+                                                                    @endif
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td style="text-align: center; font-size:12;"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
+                                                    <td>{{ $ppb->whosubmit->name }}</td>
                                                         <td style="text-align: center;">
-
                                                             <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
                                                                 href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
-
                                                         </td>
                                                 </tr>
                                         @endif

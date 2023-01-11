@@ -118,9 +118,6 @@
                     <!-- Zero Configuration  Starts-->
                     <div class="col-sm-12">
                         <div class="card card-absolute">
-                            <div class="card-header bg-primary">
-                                <h5>Purchase order data list In</h5>
-                            </div>
                             <div class="row">
                                 <div class="col-sm-8"></div>
                                 <div class="col-sm-4">

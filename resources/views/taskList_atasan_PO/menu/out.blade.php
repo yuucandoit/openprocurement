@@ -52,13 +52,22 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List Super User Out</h5>
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-taskList-atasan-po.SearchAtasanPOOut') }}" method="get" class="input-group" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
                         </div>
+                        </div>
+
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
-                                    <table class="table table-bordered table-hover mt-4">
+                                    <table class="table table-bordered table-hover ">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -124,13 +133,21 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List Super User Out</h5>
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-taskList-atasan-po.SearchAtasanPOOut') }}" method="get" class="input-group" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                     {{-- Data Keluar --}}
-                                    <table class="table table-bordered table-hover mt-4">
+                                    <table class="table table-bordered table-hover ">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -196,12 +213,20 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List Super User Out</h5>
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-taskList-atasan-po.SearchAtasanPOOut') }}" method="get" class="input-group" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-bordered table-hover mt-4">
+                                    <table class="table table-bordered table-hover ">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -270,12 +295,20 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List Super User Out</h5>
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-taskList-atasan-po.SearchAtasanPOOut') }}" method="get" class="input-group" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-bordered table-hover mt-4">
+                                    <table class="table table-bordered table-hover ">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>
@@ -342,12 +375,20 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List Super User Out</h5>
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-taskList-atasan-po.SearchAtasanPOOut') }}" method="get" class="input-group" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                    <table class="table table-bordered table-hover mt-4">
+                                    <table class="table table-bordered table-hover ">
                                         <thead class="bg-primary">
                                             <tr style="text-align: center;">
                                                 <th>No</th>

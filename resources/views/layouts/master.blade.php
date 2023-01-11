@@ -245,12 +245,14 @@
 
                                 @hasrole('purchasing|super admin')
                                 <li class="dropdown">
-                                    <a class="nav-link menu-title {{ request()->is('menu-purchase-order') ?  'active' : '' }} {{  request()->is('menu-purchase-order/out') ?  'active' : '' }}" href="javascript:void(0)">
+
+                                    <a class="nav-link menu-title {{  request()->is('menu-purchase-order')  ?  'active' : '' }} {{  request()->is('menu-purchase-order/out')  ?  'active' : '' }}" >
                                         <i data-feather="file-text"></i>
                                         <span>Purchase Order</span></a>
-                                    <ul class="nav-submenu menu-content">
+                                        
+                                    <ul class="nav-submenu menu-content " style="display: block">
                                     <li>
-                                        <a class=" {{  request()->is('menu-purchase-order')  ?  'active' : '' }}" href="{{ url('/menu-purchase-order') }}">
+                                        <a class=" {{  request()->is('menu-purchase-order/in')  ?  'active' : '' }}" href="{{ url('/menu-purchase-order') }}">
                                             <span>Purchase Order In</span>
                                         </a>
                                     </li>
@@ -293,7 +295,7 @@
                                     <a class="nav-link menu-title {{ request()->is('menu-pengajuan-dana') ?  'active' : '' }} {{  request()->is('menu-pengajuan-dana/out') ?  'active' : '' }}" href="javascript:void(0)">
                                         <i data-feather="dollar-sign"></i>
                                         <span>Payment Process</span></a>
-                                    <ul class="nav-submenu menu-content">
+                                    <ul class="nav-submenu menu-content" >
                                         <li class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
                                             <a class="{{  request()->is('menu-pengajuan-dana') ?  'active' : '' }}" href="{{ url('/menu-pengajuan-dana') }}">
                                                 <span> Payment Process In</span>
@@ -383,7 +385,7 @@
                                                 </li>
                                                 </ul>
                                             </li>
-                                               
+
                                             @endhasrole
                                             @hasrole('super user|super admin')
                                             <li class="dropdown">

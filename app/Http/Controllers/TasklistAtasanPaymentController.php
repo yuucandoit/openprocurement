@@ -50,7 +50,7 @@ class TasklistAtasanPaymentController extends Controller
     {
      $cari = $request->cari;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     $datappb = CategoryPengajuanPembelian::where('status','Invoicing Process')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")

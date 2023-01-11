@@ -285,8 +285,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [TasklistAtasanPaymentController::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
         Route::get('/approve_payment/{id}', [TasklistAtasanPaymentController::class, 'approve_payment'])->name('menu-taskList-atasan-payment-approve_payment');
         Route::get('/reject/{id}', [TasklistAtasanPaymentController::class, 'reject'])->name('menu-taskList-atasan-payment-reject');
-        Route::get('/search/tasksrequestbodIn',[TaskListAtasanController::class, 'SearchTaskRequestBodIn'])->name('menu-taskList-atasan.SearchTaskRequestBodIn');
-        Route::get('/search/tasksrequestbodOut',[TaskListAtasanController::class, 'SearchTaskRequestBodOut'])->name('menu-taskList-atasan.SearchTaskRequestBodOut');
+        Route::get('/search/SearchTaskPYIn',[TaskListAtasanController::class, 'SearchTaskPYIn'])->name('menu-taskList-atasan-payment.SearchTaskPYIn');
+        Route::get('/search/SearchTaskPYOut',[TaskListAtasanController::class, 'SearchTaskPYOut'])->name('menu-taskList-atasan-payment.SearchTaskPYOut');
         Route::get('/accept_atasan_selected_py', [TasklistAtasanPaymentController::class, 'accept_atasan_selected_py'])->name('menu-taskList-atasan-payment.accept_atasan_selected_py');
         Route::get('/reject_atasan_selected', [TasklistAtasanPaymentController::class, 'reject_atasan_selected'])->name('menu-taskList-atasan-payment.reject_atasan_selected_py');
     });
@@ -302,7 +302,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
         Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
         Route::get('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
-        Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
+        Route::get('/search/taskPOIn',[CategoryTaskListController::class, 'SearchtaskPOIn'])->name('menu-task-list.SearchtaskPOIn');
+        Route::get('/search/taskPOOut',[CategoryTaskListController::class, 'SearchtaskPOOut'])->name('menu-task-list.SearchtaskPOOut');
     });
     //End Task List po
 

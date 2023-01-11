@@ -84,16 +84,16 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Shipping Process Out List</h5>
-                        </div>
-                        <div class="mt-4">
-                            <div style="max-width: 50%;" class="pull-right">
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                 <form action="{{ route('delivery.SearchDeliveryOut') }}" method="get" class="input-group" >
                                     <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
