@@ -2,14 +2,11 @@
 
 use App\Http\Controllers\CategoryPDController;
 use App\Http\Controllers\CategoryPOController;
-use App\Http\Controllers\CategoryPBController;
-use App\Http\Controllers\CategoryQuotationController;
 use App\Http\Controllers\PengajuanDanaController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\PembelianBarangController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CategoryDVController;
 use App\Http\Controllers\CategoryEcommerceController;
 use App\Http\Controllers\CategoryPengajuanPembelianController;
 use App\Http\Controllers\CategoryPPController;
@@ -25,12 +22,9 @@ use App\Http\Controllers\NotifPaymentController;
 use App\Http\Controllers\NotifPengajuanController;
 use App\Http\Controllers\NotifPOController;
 use App\Http\Controllers\OfficeController;
-use App\Http\Controllers\PengajuanDanaNewController;
 use App\Http\Controllers\PengajuanPembelianController;
 use App\Http\Controllers\PerusahaanController;
-use App\Http\Controllers\PO_B_Controller;
 use App\Http\Controllers\PrivatePersonController;
-use App\Http\Controllers\PurchaseFundingSubmissionController;
 use App\Http\Controllers\ReferensiNamaProjectController;
 use App\Http\Controllers\RNDController;
 use App\Http\Controllers\TaskListAtasanController;
@@ -39,12 +33,7 @@ use App\Http\Controllers\TasklistAtasanPoController;
 use App\Http\Controllers\TaskListFinanceController;
 use App\Http\Controllers\WhoSubmittedController;
 use App\Http\Controllers\WorkshopController;
-use App\Models\CategoryPP;
-use App\Models\CategoryPT;
-use App\Models\DataVendor;
-use App\Models\PrivatePerson;
-use App\Models\ReferensiNamaProject;
-use App\Models\TasklistAtasanPayment;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -397,6 +386,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/admin-update/{id}', [AdminController::class, 'update']);
     Route::get('/admin-destroy/{id}', [AdminController::class, 'destroy']);
     Route::get('/search/users',[AdminController::class, 'SearchUsers'])->name('admin.SearchUser');
+
+
+    //comment
+    Route::post('/comment/store/{id}',[CommentController::class,'store'])->name('comment.store');
+    Route::post('/comment/update/{id}',[CommentController::class,'update'])->name('comment.update');
+    Route::get('/comment/destroy/{id}',[CommentController::class,'destroy'])->name('comment.destroy');
+
 
     //Route excel
     Route::get('/export_excel/pengajuan_dana/{id}', [PengajuanDanaController::class, 'export'])->name('export-pd');

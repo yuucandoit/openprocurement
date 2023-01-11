@@ -213,6 +213,41 @@
                                              </figure>
                                          </div>
                                      @endforeach
+
+                                     <style>
+                                        .container
+                                        {
+                                            width: 600px;
+                                        }
+                                        .container h2
+                                        {
+                                            text-align: center;
+                                            margin-bottom: 15px
+                                        }
+                                        textarea
+                                        {
+                                            height: 20px;
+                                            width: 100%;
+                                            border: none;
+                                            border-bottom: 2px solid #aaa;
+                                            background-color: transparent;
+                                            margin-bottom: 10px;
+                                            resize: none;
+                                            outline: none;
+                                            transition: .5s
+                                        }
+                            </style>
+                            <div class="container">
+                                     <form action="{{ route('comment.store',$data_pengajuan->id) }}" method="POST" >
+
+                                        @csrf
+                                        <textarea name="comment" placeholder='Add Your Comment'></textarea>
+                                        <div class="text-right">
+                                            <input type="submit" class="btn btn-primary" value="Comme">
+                                            <button id='clear' href='#'>Cancel</button>
+                                        </div>
+                                     </form>
+                                </div>
                                      <hr>
                                      <div class="button mb-1" style="float: right;">
                                          {{-- @if ($data_pengajuan->status == '') --}}
@@ -228,4 +263,5 @@
                              </div>
                          </div>
      </section>
+
  @endsection

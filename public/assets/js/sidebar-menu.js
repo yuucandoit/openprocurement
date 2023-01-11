@@ -27,7 +27,7 @@
                   jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
               }
           });
-          jQuery('.submenu-content').hide();
+        //   jQuery('.submenu-content').hide();
 
           jQuery('.menu-title').append('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
           jQuery('.menu-title').click(function () {
@@ -61,7 +61,7 @@
                   jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
               }
           });
-          jQuery('.submenu-content').hide();
+        //   jQuery('.submenu-content').hide();
 
           jQuery('.menu-title').append('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
           jQuery('.menu-title').click(function () {

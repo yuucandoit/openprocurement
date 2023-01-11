@@ -16,33 +16,7 @@
                             <li class="breadcrumb-item">Edit PO</li>
                         </ol>
                     </div>
-                    <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -98,11 +72,15 @@
                                         <div class="form-floating">
                                             <select class="form-select mt-2" id="floatingproposedto"
                                                 placeholder="Proposed To" name="atasan_po">
+
                                                 @foreach ($atasanpo as $dpo)
+                                                @if(empty($dpo->atasans->id))
+                                                    @foreach ($atasan as $sui)
+                                                        <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                    @endforeach
+                                                @else
                                                 <option value="{{ $dpo->atasans->id }}">{{ $dpo->atasans->name }}</option>
-                                                @endforeach
-                                                @foreach ($atasan as $sui)
-                                                    <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                             <label for="floatingproposedto">-- Approved To --</label>
