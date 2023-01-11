@@ -114,11 +114,17 @@
                                         <div class="form-group">
                                             <select class="form-select page mt-2" id="pageSelector"
                                                 placeholder="Terms and Conditions" name="term_conditions">
-                                                <option value="{{ $datacpo->term->id }}" selected>{{ $datacpo->term->term_condition }}
-                                                </option>
+                                                @if(empty($datacpo->term->term_condition))
                                                 @foreach ($terms as $t)
                                                     <option value="{{ $t->id }}">{{ $t->term_condition }}</option>
                                                 @endforeach
+                                                @else
+                                                <option value="{{ $datacpo->term->id }}" selected>{{ $datacpo->term->term_condition }}</option>
+                                                @endif
+                                                {{-- <option value="{{ $datacpo->term->id }}" selected>{{ $datacpo->term->term_condition }}</option>
+                                                @foreach ($terms as $t)
+                                                    <option value="{{ $t->id }}">{{ $t->term_condition }}</option>
+                                                @endforeach --}}
                                                 <option value="custom">+ Add Terms & Conditions</option>
                                             </select>
                                             <textarea class="hide form-control mt-2" name="term_condition" id="customInput" cols="30" rows="10"
