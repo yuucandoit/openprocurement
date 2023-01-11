@@ -90,6 +90,15 @@
 
                                     <div class="col-md-6">
                                         <div class="form-floating">
+                                            @if(empty($datacpo->quotation))
+                                            <input required type="text" class="form-control mt-2 "
+                                                id="floatingNoTelpon" placeholder="Quotation" name="quotation">
+                                            @else
+
+                                            <input required type="text" class="form-control mt-2 "
+                                                id="floatingNoTelpon" placeholder="Quotation" name="quotation"
+                                                value="{{ $datacpo->quotation }}">
+                                            @endif
                                             <input required type="text" class="form-control mt-2 "
                                                 id="floatingNoTelpon" placeholder="Quotation" name="quotation"
                                                 value="{{ $datacpo->quotation }}">
