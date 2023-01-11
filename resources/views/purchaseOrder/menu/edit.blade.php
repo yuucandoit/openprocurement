@@ -99,9 +99,9 @@
                                                 id="floatingNoTelpon" placeholder="Quotation" name="quotation"
                                                 value="{{ $datacpo->quotation }}">
                                             @endif
-                                            <input required type="text" class="form-control mt-2 "
+                                            {{-- <input required type="text" class="form-control mt-2 "
                                                 id="floatingNoTelpon" placeholder="Quotation" name="quotation"
-                                                value="{{ $datacpo->quotation }}">
+                                                value="{{ $datacpo->quotation }}"> --}}
                                             <label for="floatingNoTelpon">Quotation</label>
                                         </div>
                                     </div>
