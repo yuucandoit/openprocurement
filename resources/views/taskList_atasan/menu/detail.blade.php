@@ -144,20 +144,43 @@
                                     </div>
                                     </div>
                                 </div>
+
+                                <div class="modal fade" id="approve" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="approveLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="approveLabel">Reject Message</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ url('menu-taskList-atasan/accept_atasan', $data_pengajuan->id) }}" id="formAdd" method="get"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="note" class="form-label">Comment</label>
+                                                <textarea name="note_pr" id="note" class="form-control" cols="30" rows="0"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                        </form>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
                                 @hasrole('super user|super admin')
                                 <div class="mt-3">
-                                <form action="{{ url('menu-taskList-atasan/accept_atasan', $data_pengajuan->id) }}" method="get">
-                                    <div class="mb-3">
-                                        <label for="note" class="form-label">Comment</label>
-                                        <textarea name="note_pr" id="note" class="form-control" cols="30" rows="0"></textarea>
-                                    </div>
+
                                     @if ($data_pengajuan->status == 'Purchase Submission Approved')
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                     class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                     class="btn btn-danger text-center" onclick="return">Reject</a>
                                     @elseif($data_pengajuan->status == 'Awaiting Purchase Request Approval')
-                                    <button type="submit" class="btn btn-success text-center"> Approve</button>
+                                    <button type="button" class="btn btn-success text-center" data-bs-toggle="modal" data-bs-target="#approve">Approve</button>
+                                    {{-- <button type="submit" class="btn btn-success text-center"> Approve</button> --}}
                                     <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
                                     @else
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
@@ -165,11 +188,111 @@
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                     class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
                                     @endif
-                                </form>
-                                </div>
-                                @endhasrole
                             </div>
+                                @endhasrole
+                                <style>
+
+                                    textarea
+                                    {
+                                        height: 20px;
+                                        width: 100%;
+                                        border: none;
+                                        border-bottom: 2px solid #aaa;
+                                        background-color: transparent;
+                                        margin-bottom: 10px;
+                                        resize: none;
+                                        outline: none;
+                                        transition: .5s
+                                    }
+                                    .AllComment{
+                                        box-sizing: border-box;
+                                        border: 2px solid #333;
+                                        border-radius: 20px;
+                                        padding: 15px 10px;
+                                    }
+                                </style>
+
+                                 <div class="container">
+                                    <div class="mt-4">
+                                         <form action="{{ route('comment.store',$data_pengajuan->id) }}" method="POST" >
+                                            @csrf
+                                            <textarea name="comment" placeholder='Add Your Comment'></textarea>
+                                            <div style="text-align: right;">
+                                                <input type="submit" class="btn btn-primary" value="Comment">
+                                            </div>
+                                         </form>
+                                        </div>
+                                    </div>
+
+                                    <div class="AllComment">
+                                        <div class="container">
+                                        <table>
+                                            <tbody>
+                                                @foreach($comments as $c)
+                                                <tr>
+                                                    <td>
+                                                        <ul>
+                                                            <li style="margin-top: 10px;">
+                                                                <p>
+                                                                    <strong>
+                                                                    @if(empty($c->users->name))
+
+                                                                    @else
+                                                                    - {{ $c->users->name }}
+                                                                    @endif
+                                                                </strong>
+                                                                @if(empty($c->created_at))
+
+                                                                @else
+                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                                @endif
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                @if(empty($c->comment))
+
+                                                                @else
+                                                                <p>{{ $c->comment }}</p>
+                                                                @endif
+                                                            </li>
+                                                            <hr>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+                                 <!-- Container-fluid Ends-->
+                             </div>
+                         </div>
+                <script>
+                    var feild = document.querySelector('textarea');
+                    var backUp = feild.getAttribute('placeholder');
+                    var btn = document.querySelector('.btn');
+                    var clear = document.getElementById('clear')
+
+                    feild.onfocus = function(){
+                        this.setAttribute('placeholder', '');
+                        this.style.borderColor = '#333';
+                        btn.style.display = 'block'
+                    }
+
+                    feild.onblur = function(){
+                        this.setAttribute('placeholder',backUp);
+                        this.style.borderColor = '#aaa'
+                    }
+
+                    clear.onclick = function(){
+                        btn.style.display = 'none';
+                        feild.value = '';
+                    }
+            </script>
+                            </div>
+
                         </div>
+
                     </div>
                 </div>
             </div>

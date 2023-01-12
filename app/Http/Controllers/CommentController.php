@@ -43,6 +43,8 @@ class CommentController extends Controller
             'user_id' =>  Auth::user()->id,
             'comment' => $request->comment,
         ]);
+
+        return redirect()->back();
     }
 
     /**
@@ -76,6 +78,7 @@ class CommentController extends Controller
      */
     public function update(Request $request,$id)
     {
+        $data = $request->all();
         $pengajuan = CategoryPengajuanPembelian::find($id);
 
         Comment::where('id',$id)->update([
@@ -83,6 +86,9 @@ class CommentController extends Controller
             'user_id' =>  Auth::user()->id,
             'comment' => $request->comment,
         ]);
+
+        dd($data);
+        return redirect()->back();
     }
 
     /**

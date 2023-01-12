@@ -195,9 +195,9 @@
                 <td style="text-align: center" >
                     @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
                         @if(empty( $ppembelian->bod->name))
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request</a>
+                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request </a><span style="background-color: #ff0000; "></span>
                         @else
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request{{ $ppembelian->bod->name }}</a>
+                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a><span class="dot-animated">1</span>
                         @endif
                     {{-- <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a> --}}
                     @endif

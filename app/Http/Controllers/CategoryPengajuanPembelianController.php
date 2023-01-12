@@ -8,6 +8,7 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\Comment;
 use App\Models\Delivery;
 use App\Models\Department;
 use App\Models\Inventory;
@@ -49,6 +50,7 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->orderBy('date_ps','DESC')->paginate(10);
+            $comments = Comment::where('ppb_id',$datadv)->get();
            // $progress = Delivery::where('ppb_id');
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
@@ -59,6 +61,7 @@ class CategoryPengajuanPembelianController extends Controller
                 ->with('purpose', $purpose)
                 ->with('datadv', $datadv)
                 ->with('dataws', $dataws)
+                ->with('comments', $comments)
                 ->with('datadepartment', $datadepartment);
         } else if ($check->role_id == 1 || $check->role_id == 3) {
             $user = User::where('id', Auth::user()->id)->get();
@@ -70,6 +73,7 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::orderBy('date_ps','DESC')->paginate(10);
+            $comments = Comment::where('ppb_id',$datadv)->get();
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
                 ->with('datapt', $datapt)
@@ -79,6 +83,7 @@ class CategoryPengajuanPembelianController extends Controller
                 ->with('purpose', $purpose)
                 ->with('datadv', $datadv)
                 ->with('dataws', $dataws)
+                ->with('comments', $comments)
                 ->with('datadepartment', $datadepartment);
         }
     }
@@ -116,6 +121,7 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose            = ReferensiNamaProject::all();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
+        $comments           = Comment::where('ppb_id',$id)->get();
         return view('pengajuanPembelian.menu.detail')
             ->with('atasan', $atasan)
             ->with('pengajuan', $pengajuan)
@@ -128,7 +134,8 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('purpose', $purpose)
             ->with('data_pengajuan', $data_pengajuan)
             ->with('dataws', $dataws)
-            ->with('datadepartment', $datadepartment);
+            ->with('datadepartment', $datadepartment)
+            ->with('comments', $comments);
     }
 
     public function history()

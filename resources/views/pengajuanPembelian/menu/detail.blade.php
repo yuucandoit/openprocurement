@@ -214,40 +214,6 @@
                                          </div>
                                      @endforeach
 
-                                     <style>
-                                        .container
-                                        {
-                                            width: 600px;
-                                        }
-                                        .container h2
-                                        {
-                                            text-align: center;
-                                            margin-bottom: 15px
-                                        }
-                                        textarea
-                                        {
-                                            height: 20px;
-                                            width: 100%;
-                                            border: none;
-                                            border-bottom: 2px solid #aaa;
-                                            background-color: transparent;
-                                            margin-bottom: 10px;
-                                            resize: none;
-                                            outline: none;
-                                            transition: .5s
-                                        }
-                            </style>
-                            <div class="container">
-                                     <form action="{{ route('comment.store',$data_pengajuan->id) }}" method="POST" >
-
-                                        @csrf
-                                        <textarea name="comment" placeholder='Add Your Comment'></textarea>
-                                        <div class="text-right">
-                                            <input type="submit" class="btn btn-primary" value="Comme">
-                                            <button id='clear' href='#'>Cancel</button>
-                                        </div>
-                                     </form>
-                                </div>
                                      <hr>
                                      <div class="button mb-1" style="float: right;">
                                          {{-- @if ($data_pengajuan->status == '') --}}
@@ -259,9 +225,108 @@
 
                                      </div>
                                  </div>
+
+                                 <style>
+
+                                    textarea
+                                    {
+                                        height: 20px;
+                                        width: 100%;
+                                        border: none;
+                                        border-bottom: 2px solid #aaa;
+                                        background-color: transparent;
+                                        margin-bottom: 10px;
+                                        resize: none;
+                                        outline: none;
+                                        transition: .5s
+                                    }
+                                    .AllComment{
+                                        box-sizing: border-box;
+                                        border: 2px solid #333;
+                                        border-radius: 10px;
+                                        padding: 15px 10px;
+                                    }
+                                    li.users_name + h6 + p{
+                                        white-space: nowrap;
+                                    }
+                                </style>
+
+                                 <div class="container">
+                                    <div class="mt-4">
+                                         <form action="{{ route('comment.store',$data_pengajuan->id) }}" method="POST" >
+                                            @csrf
+                                            <textarea name="comment" placeholder='Add Your Comment'></textarea>
+                                            <div style="text-align: right;">
+                                                <input type="submit" class="btn btn-primary" value="Comment">
+                                            </div>
+                                         </form>
+                                        </div>
+                                    </div>
+                                    <div class="AllComment">
+                                        <div class="container">
+                                        <table>
+                                            <tbody>
+                                                @foreach($comments as $c)
+                                                <tr>
+                                                    <td>
+                                                        <ul>
+                                                            <li style="margin-top: 10px;">
+                                                                <p>
+                                                                    <strong>
+                                                                    @if(empty($c->users->name))
+
+                                                                    @else
+                                                                    - {{ $c->users->name }}
+                                                                    @endif
+                                                                </strong>
+                                                                @if(empty($c->created_at))
+
+                                                                @else
+                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                                @endif
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                @if(empty($c->comment))
+
+                                                                @else
+                                                                <p>{{ $c->comment }}</p>
+                                                                @endif
+                                                            </li>
+                                                            <hr>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
                                  <!-- Container-fluid Ends-->
                              </div>
                          </div>
+                <script>
+                    var feild = document.querySelector('textarea');
+                    var backUp = feild.getAttribute('placeholder');
+                    var btn = document.querySelector('.btn');
+                    var clear = document.getElementById('clear')
+
+                    feild.onfocus = function(){
+                        this.setAttribute('placeholder', '');
+                        this.style.borderColor = '#333';
+                        btn.style.display = 'block'
+                    }
+
+                    feild.onblur = function(){
+                        this.setAttribute('placeholder',backUp);
+                        this.style.borderColor = '#aaa'
+                    }
+
+                    clear.onclick = function(){
+                        btn.style.display = 'none';
+                        feild.value = '';
+                    }
+            </script>
      </section>
 
  @endsection

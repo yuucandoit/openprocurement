@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPT;
+use App\Models\Comment;
 use App\Models\Department;
 use App\Models\Inventory;
 use App\Models\Office;
@@ -151,6 +152,7 @@ class TaskListAtasanController extends Controller
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
+        $comments           = Comment::where('ppb_id',$id)->get();
         return view('taskList_atasan.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('dataws', $dataws)
@@ -158,6 +160,7 @@ class TaskListAtasanController extends Controller
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
             ->with('total', $total)
+            ->with('comments', $comments)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('data_pengajuan', $data_pengajuan);
     }
