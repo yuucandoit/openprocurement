@@ -201,7 +201,7 @@
                                 <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="rejectLabel">Reject Message</h1>
+                                    <h1 class="modal-title fs-5" id="rejectLabel">Message</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <form action="{{ url('menu-taskList-atasan-payment/reject', $data_pengajuan->id) }}" id="formAdd" method="get"
@@ -209,7 +209,7 @@
                                     @csrf
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <label for="note" class="form-label">Comment</label>
+                                            <label for="note" class="form-label">Reject Message</label>
                                             <textarea name="note_py" id="note" class="form-control" cols="30" rows="0" required></textarea>
                                         </div>
                                     </div>
@@ -222,14 +222,35 @@
                                 </div>
                             </div>
 
+                            <!-- Modal -->
+                            <div class="modal fade" id="approve" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="approveLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="approveLabel">Message</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{ url('menu-taskList-atasan-payment/approve_payment', $data_pengajuan->id) }}" method="get">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="note" class="form-label">Approve Message</label>
+                                            <textarea name="note_py" id="note" class="form-control" cols="30" rows="0"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Approve</button>
+                                    </form>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
 
                             <div class="mt-3">
                             @hasrole('super user|super admin')
-                                <form action="{{ url('menu-taskList-atasan-payment/approve_payment', $data_pengajuan->id) }}" method="get">
-                                    <div class="mb-3">
-                                        <label for="note" class="form-label">Comment</label>
-                                        <textarea name="note_py" id="note" class="form-control" cols="30" rows="0"></textarea>
-                                    </div>
+
                                     @if ($data_pengajuan->status == 'Payment Approved' ||
                                     $data_pengajuan->status == 'Unpaid' ||
                                     $data_pengajuan->status == 'Paid' ||
@@ -240,7 +261,7 @@
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                     class="btn btn-danger text-center" onclick="return">Reject</a>
                                     @elseif($data_pengajuan->status == 'Invoicing Process')
-                                    <button type="submit" class="btn btn-success text-center"> Approve</button>
+                                    <button type="button" class="btn btn-success text-center" data-bs-toggle="modal" data-bs-target="#approve"> Approve</button>
                                     <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
                                     @else
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
@@ -248,9 +269,183 @@
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                     class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
                                     @endif
-                                </form>
                                 @endhasrole
                             </div>
+                            <style>
+                                /* textarea {
+                                    height: 20px;
+                                    width: 100%;
+                                    border: none;
+                                    border-bottom: 2px solid #aaa;
+                                    background-color: transparent;
+                                    margin-bottom: 10px;
+                                    resize: none;
+                                    outline: none;
+                                    transition: .5s
+                                } */
+
+                                .AllComment {
+                                    box-sizing: border-box;
+                                    border: 2px solid rgb(236, 236, 236);
+                                    border-radius: 10px;
+                                    padding: 15px 10px;
+                                }
+                            </style>
+
+                             <div class="container">
+                                <div class="mt-4">
+                                     <form action="{{ route('comment.store',$data_pengajuan->id) }}" method="POST" >
+                                        @csrf
+                                        <textarea name="comment" class="form-control" placeholder='Add Your Comment'></textarea>
+                                        <div style="text-align: right; margin-top:20px;">
+                                            <input type="submit" class="btn btn-primary" value="Comment">
+                                        </div>
+                                     </form>
+                                    </div>
+                                </div>
+
+                                <div class="AllComment" id="comment">
+                                    <div class="container">
+                                            @foreach($comments as $c)
+                                        @if($c->ppb->atasan_py == 3)
+                                                    <ul>
+                                                        <li style="margin-top: 10px;">
+                                                            <p>
+                                                                <strong>
+                                                                @if(empty($c->users->name))
+
+                                                                @else
+                                                                - {{ $c->users->name }}
+                                                                @endif
+                                                            </strong>
+                                                            @if(empty($c->created_at))
+
+                                                            @else
+                                                            &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                            @endif
+                                                            </p>
+                                                        </li>
+                                                        <li>
+                                                            @if(empty($c->comment))
+
+                                                            @else
+                                                            <p>{{ $c->comment }}</p>
+                                                            @endif
+                                                        </li>
+                                                        <hr>
+                                                    </ul>
+                                            @elseif($c->ppb->atasan_py == 6)
+                                            <ul>
+                                                <li style="margin-top: 10px;">
+                                                    <p>
+                                                        <strong>
+                                                        @if(empty($c->users->name))
+
+                                                        @else
+                                                        - {{ $c->users->name }}
+                                                        @endif
+                                                    </strong>
+                                                    @if(empty($c->created_at))
+
+                                                    @else
+                                                    &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                    @endif
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    @if(empty($c->comment))
+
+                                                    @else
+                                                    <p>{{ $c->comment }}</p>
+                                                    @endif
+                                                </li>
+                                                <hr>
+                                            </ul>
+                                            @elseif($c->ppb->atasan_py == 7)
+                                            <ul>
+                                                <li style="margin-top: 10px;">
+                                                    <p>
+                                                        <strong>
+                                                        @if(empty($c->users->name))
+
+                                                        @else
+                                                        - {{ $c->users->name }}
+                                                        @endif
+                                                    </strong>
+                                                    @if(empty($c->created_at))
+
+                                                    @else
+                                                    &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                    @endif
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    @if(empty($c->comment))
+
+                                                    @else
+                                                    <p>{{ $c->comment }}</p>
+                                                    @endif
+                                                </li>
+                                                <hr>
+                                            </ul>
+                                            @elseif($c->ppb->atasan_py == 8)
+                                            <ul>
+                                                <li style="margin-top: 10px;">
+                                                    <p>
+                                                        <strong>
+                                                        @if(empty($c->users->name))
+
+                                                        @else
+                                                        - {{ $c->users->name }}
+                                                        @endif
+                                                    </strong>
+                                                    @if(empty($c->created_at))
+
+                                                    @else
+                                                    &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                    @endif
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    @if(empty($c->comment))
+
+                                                    @else
+                                                    <p>{{ $c->comment }}</p>
+                                                    @endif
+                                                </li>
+                                                <hr>
+                                            </ul>
+                                            @elseif($c->ppb->atasan_py == 9)
+                                            <ul>
+                                                <li style="margin-top: 10px;">
+                                                    <p>
+                                                        <strong>
+                                                        @if(empty($c->users->name))
+
+                                                        @else
+                                                        - {{ $c->users->name }}
+                                                        @endif
+                                                    </strong>
+                                                    @if(empty($c->created_at))
+
+                                                    @else
+                                                    &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                    @endif
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    @if(empty($c->comment))
+
+                                                    @else
+                                                    <p>{{ $c->comment }}</p>
+                                                    @endif
+                                                </li>
+                                                <hr>
+                                            </ul>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                </div>
                             {{-- <div class="mt-3">
                                 @hasrole('super user|super admin')
                                     @if ($data_pengajuan->status == 'Unpaid' ||

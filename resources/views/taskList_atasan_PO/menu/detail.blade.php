@@ -271,6 +271,182 @@
                                     @endif
                                 @endhasrole
                             </div>
+                            <style>
+                                /* textarea {
+                                    height: 20px;
+                                    width: 100%;
+                                    border: none;
+                                    border-bottom: 2px solid #aaa;
+                                    background-color: transparent;
+                                    margin-bottom: 10px;
+                                    resize: none;
+                                    outline: none;
+                                    transition: .5s
+                                } */
+
+                                .AllComment {
+                                    box-sizing: border-box;
+                                    border: 2px solid rgb(236, 236, 236);
+                                    border-radius: 10px;
+                                    padding: 15px 10px;
+                                }
+                            </style>
+
+                             <div class="container">
+                                <div class="mt-4">
+                                     <form action="{{ route('comment.store',$data_pengajuan->id) }}" method="POST" >
+                                        @csrf
+                                        <textarea name="comment" class="form-control" placeholder='Add Your Comment'></textarea>
+                                        <div style="text-align: right; margin-top:20px">
+                                            <input type="submit" class="btn btn-primary" value="Comment">
+                                        </div>
+                                     </form>
+                                    </div>
+                                </div>
+
+                                <div class="AllComment" id="comment">
+                                    <div class="container">
+                                            @foreach($comments as $c)
+                                                    {{-- <p>{{ $c->ppb->status }}</p> --}}
+                                                    @if($c->ppb->atasan_po == 3)
+                                                    <ul>
+                                                        <li style="margin-top: 10px;">
+                                                            <p>
+                                                                <strong>
+                                                                @if(empty($c->users->name))
+
+                                                                @else
+                                                                - {{ $c->users->name }}
+                                                                @endif
+                                                            </strong>
+                                                            @if(empty($c->created_at))
+
+                                                            @else
+                                                            &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                            @endif
+                                                            </p>
+                                                        </li>
+                                                        <li>
+                                                            @if(empty($c->comment))
+
+                                                            @else
+                                                            <p>{{ $c->comment }}</p>
+                                                            @endif
+                                                        </li>
+                                                        <hr>
+                                                    </ul>
+                                                        @elseif($c->ppb->atasan_po == 6)
+                                                        <ul>
+                                                            <li style="margin-top: 10px;">
+                                                                <p>
+                                                                    <strong>
+                                                                    @if(empty($c->users->name))
+
+                                                                    @else
+                                                                    - {{ $c->users->name }}
+                                                                    @endif
+                                                                </strong>
+                                                                @if(empty($c->created_at))
+
+                                                                @else
+                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                                @endif
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                @if(empty($c->comment))
+
+                                                                @else
+                                                                <p>{{ $c->comment }}</p>
+                                                                @endif
+                                                            </li>
+                                                            <hr>
+                                                        </ul>
+                                                        @elseif($c->ppb->atasan_po == 7)
+                                                        <ul>
+                                                            <li style="margin-top: 10px;">
+                                                                <p>
+                                                                    <strong>
+                                                                    @if(empty($c->users->name))
+
+                                                                    @else
+                                                                    - {{ $c->users->name }}
+                                                                    @endif
+                                                                </strong>
+                                                                @if(empty($c->created_at))
+
+                                                                @else
+                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                                @endif
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                @if(empty($c->comment))
+
+                                                                @else
+                                                                <p>{{ $c->comment }}</p>
+                                                                @endif
+                                                            </li>
+                                                            <hr>
+                                                        </ul>
+                                                        @elseif($c->ppb->atasan_po == 8)
+                                                        <ul>
+                                                            <li style="margin-top: 10px;">
+                                                                <p>
+                                                                    <strong>
+                                                                    @if(empty($c->users->name))
+
+                                                                    @else
+                                                                    - {{ $c->users->name }}
+                                                                    @endif
+                                                                </strong>
+                                                                @if(empty($c->created_at))
+
+                                                                @else
+                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                                @endif
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                @if(empty($c->comment))
+
+                                                                @else
+                                                                <p>{{ $c->comment }}</p>
+                                                                @endif
+                                                            </li>
+                                                            <hr>
+                                                        </ul>
+                                                        @elseif($c->ppb->atasan_po == 9)
+                                                        <ul>
+                                                            <li style="margin-top: 10px;">
+                                                                <p>
+                                                                    <strong>
+                                                                    @if(empty($c->users->name))
+
+                                                                    @else
+                                                                    - {{ $c->users->name }}
+                                                                    @endif
+                                                                </strong>
+                                                                @if(empty($c->created_at))
+
+                                                                @else
+                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                                @endif
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                @if(empty($c->comment))
+
+                                                                @else
+                                                                <p>{{ $c->comment }}</p>
+                                                                @endif
+                                                            </li>
+                                                            <hr>
+                                                        </ul>
+                                                    @endif
+                                            @endforeach
+                                     </div>
+                                </div>
                             {{-- <div class="mt-3">
                                 @hasrole('super user|super admin')
                                     @if ($data_pengajuan->status == 'PO Approved' ||

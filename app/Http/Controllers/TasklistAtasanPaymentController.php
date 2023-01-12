@@ -6,6 +6,7 @@ use App\Models\CategoryPD;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPT;
+use App\Models\Comment;
 use App\Models\Department;
 use App\Models\Invoicing;
 use App\Models\PengajuanPembelian;
@@ -113,12 +114,14 @@ class TasklistAtasanPaymentController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $comments           = Comment::where('ppb_id',$id)->get();
         return view('taskList_atasan_payments.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
             ->with('datacpo',$datacpo)
             ->with('total', $total)
+            ->with('comments', $comments)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('data_pengajuan', $data_pengajuan);
     }
