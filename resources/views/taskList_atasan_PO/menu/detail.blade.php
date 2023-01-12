@@ -221,15 +221,34 @@
                                 </div>
                                 </div>
                             </div>
+                             <!-- Modal -->
+                             <div class="modal fade" id="approve" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="approveLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="approveLabel">Message</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{ url('menu-taskList-atasan-po/accept_atasan', $data_pengajuan->id) }}" method="get">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="note" class="form-label">Approver Note</label>
+                                            <textarea name="note_po" id="note" class="form-control" ></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Approve</button>
+                                    </form>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
 
 
                                 <div class="mt-3">
                             @hasrole('super user|super admin')
-                                <form action="{{ url('menu-taskList-atasan-po/accept_atasan', $data_pengajuan->id) }}" method="get">
-                                    <div class="mb-3">
-                                        <label for="note" class="form-label">Comment</label>
-                                        <textarea name="note_po" id="note" class="form-control" cols="30" rows="0"></textarea>
-                                    </div>
                                     @if ($data_pengajuan->status == 'PO Approved' ||
                                     $data_pengajuan->status == 'Invoicing Process' ||
                                     $data_pengajuan->status == 'Payment Approved' ||
@@ -242,7 +261,7 @@
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                     class="btn btn-danger text-center" onclick="return">Reject</a>
                                     @elseif($data_pengajuan->status == 'Waiting For PO Approval')
-                                    <button type="submit" class="btn btn-success text-center"> Approve</button>
+                                    <button type="button" class="btn btn-success text-center" data-bs-toggle="modal" data-bs-target="#approve"> Approve</button>
                                     <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
                                     @else
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
@@ -250,7 +269,6 @@
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                     class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
                                     @endif
-                                </form>
                                 @endhasrole
                             </div>
                             {{-- <div class="mt-3">

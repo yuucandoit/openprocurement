@@ -81,6 +81,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Awaiting Purchase Request Approval')
@@ -88,7 +89,7 @@
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -170,6 +171,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Awaiting Purchase Request Approval')
@@ -177,7 +179,7 @@
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -251,6 +253,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Awaiting Purchase Request Approval')
@@ -258,7 +261,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -335,6 +338,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Awaiting Purchase Request Approval')
@@ -342,7 +346,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -420,6 +424,7 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Awaiting Purchase Request Approval')
@@ -427,7 +432,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>

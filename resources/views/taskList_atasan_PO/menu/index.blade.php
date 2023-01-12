@@ -106,6 +106,8 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
@@ -113,7 +115,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -163,7 +165,7 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                       
+
                         <div class="row">
                             <div class="col-sm-8"></div>
                             <div class="col-sm-4">
@@ -191,6 +193,8 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
@@ -198,7 +202,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -247,7 +251,7 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                       
+
                         <div class="row">
                             <div class="col-sm-8"></div>
                             <div class="col-sm-4">
@@ -275,6 +279,8 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
@@ -282,7 +288,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -331,7 +337,7 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                       
+
                         <div class="row">
                             <div class="col-sm-8"></div>
                             <div class="col-sm-4">
@@ -359,6 +365,8 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
@@ -366,7 +374,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
+                                                        <td style="text-align: center;">{{ $i++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">{{ $ppb->dateline }}</td>
@@ -416,7 +424,7 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                       
+
                         <div class="row">
                             <div class="col-sm-8"></div>
                             <div class="col-sm-4">
@@ -444,6 +452,8 @@
                                         </thead>
                                         @php
                                             $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+
                                         @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Waiting For PO Approval')
@@ -451,7 +461,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                                            <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan-po/detail/'.$ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>

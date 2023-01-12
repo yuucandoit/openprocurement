@@ -94,8 +94,8 @@
                     {{-- Data Masuk --}}
                          <table class="display table table-bordered table-hover tasklistpy">
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
-                                            <th><input type="checkbox" id="head-cb"></th>
+                                        <tr>
+                                            <th style="text-align: center"><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -112,7 +112,7 @@
                                             @if ($ppb->atasan_py == 3)
                                             <tbody>
                                                 <tr>
-                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                    <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
@@ -178,8 +178,8 @@
                         <div class="table-responsive">
                                 <table class="display table table-bordered table-hover tasklistpy">
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
-                                            <th><input type="checkbox" id="head-cb"></th>
+                                        <tr>
+                                            <th style="text-align: center"><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -196,7 +196,7 @@
                                         @if ($ppb->atasan_py == 6)
                                             <tbody>
                                                 <tr>
-                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                    <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
@@ -268,8 +268,8 @@
                         <div class="table-responsive">
                                 <table class="display table table-bordered table-hover tasklistpy">
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
-                                            <th><input type="checkbox" id="head-cb"></th>
+                                        <tr>
+                                            <th style="text-align: center"><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -286,7 +286,7 @@
                                          @if ($ppb->atasan_py == 7)
                                             <tbody>
                                                 <tr>
-                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                    <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
@@ -351,8 +351,8 @@
                         <div class="table-responsive">
                                 <table class="display table table-bordered table-hover tasklistpy">
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
-                                             <th><input type="checkbox" id="head-cb"></th>
+                                        <tr>
+                                             <th style="text-align: center"><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -369,7 +369,7 @@
                                         @if ($ppb->atasan_py == 8)
                                             <tbody>
                                                 <tr>
-                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                    <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
@@ -434,8 +434,8 @@
                         <div class="table-responsive">
                                 <table class="display table table-bordered table-hover tasklistpy">
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
-                                            <th><input type="checkbox" id="head-cb"></th>
+                                        <tr>
+                                            <th style="text-align: center"><input type="checkbox" id="head-cb"></th>
                                             <th>No</th>
                                             <th>Description</th>
                                             <th>Date Line</th>
@@ -452,7 +452,7 @@
                                         @if ($ppb->atasan_py == 9)
                                             <tbody>
                                                 <tr>
-                                                    <td><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                    <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>

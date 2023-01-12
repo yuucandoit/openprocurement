@@ -457,7 +457,6 @@ class CategoryPOController extends Controller
             foreach ($data2['id'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
                 $update = array(
-                    'pp_id'             => $id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
