@@ -93,9 +93,18 @@
                                                                 >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                            <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                    style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                            <td style="text-align: center;">
+                                                                <ul>
+                                                                    <li>
+                                                                        <a class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                            style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                                    </li>
+                                                                    <li>
+                                                                    <a style="font-style: italic; font-size:10; " href="{{ route('menu-taskList-atasan.detail',$ppb->id) }}/#comment">
+                                                                        - {{ $ppb->comment->count() }} Comments
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
                                                             </td>
 
                                                         <td style="text-align: center;">

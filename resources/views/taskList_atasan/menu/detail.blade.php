@@ -124,7 +124,7 @@
                                     <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="rejectLabel">Reject Message</h1>
+                                        <h1 class="modal-title fs-5" id="rejectLabel">Message</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <form action="{{ url('menu-taskList-atasan/reject', $data_pengajuan->id) }}" id="formAdd" method="get"
@@ -132,7 +132,7 @@
                                         @csrf
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label for="note" class="form-label">Comment</label>
+                                                <label for="note" class="form-label">Reject Message</label>
                                                 <textarea name="note_pr" id="note" class="form-control" cols="30" rows="0" required></textarea>
                                             </div>
                                         </div>
@@ -149,7 +149,7 @@
                                     <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="approveLabel">Reject Message</h1>
+                                        <h1 class="modal-title fs-5" id="approveLabel">Message</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <form action="{{ url('menu-taskList-atasan/accept_atasan', $data_pengajuan->id) }}" id="formAdd" method="get"
@@ -157,13 +157,13 @@
                                         @csrf
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label for="note" class="form-label">Comment</label>
+                                                <label for="note" class="form-label">Approver Note <p style="color: red; font-size:10;">*Optional</p></label>
                                                 <textarea name="note_pr" id="note" class="form-control" cols="30" rows="0"></textarea>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success">Approve</button>
                                         </form>
                                         </div>
                                     </div>
@@ -224,7 +224,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="AllComment">
+                                    <div class="AllComment" id="comment">
                                         <div class="container">
                                         <table>
                                             <tbody>
