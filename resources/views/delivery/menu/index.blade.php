@@ -145,8 +145,10 @@
                                                         <td>{{ $i++ }}</td>
                                                         <td>
                                                             <ul>
-                                                                <li><a href="{{ url('/delivery/detail/' . $ppb->id) }}"><strong>{{ Carbon\Carbon::parse($ppb->date_ps)->format('d-m-Y') }}</strong></a></li>
+                                                                <a href="{{ url('/delivery/detail/' . $ppb->id) }}">
+                                                                <li><strong>{{ Carbon\Carbon::parse($ppb->date_ps)->format('d-m-Y') }}</strong></li>
                                                                 <li>{{ $ppb->whosubmit->name }}</li>
+                                                                </a>
                                                             </ul>
                                                         </td>
                                                         <td style="text-align: center;">

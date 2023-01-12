@@ -408,17 +408,19 @@ class CategoryPOController extends Controller
             }
 
 
-            foreach ($data2['item'] as $key => $item) {
+            foreach ($data2['id'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
                 $update = array(
-                    'pp_id'             => $id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
-                PengajuanPembelian::updateOrCreate($update);
+                PengajuanPembelian::updateOrCreate([
+                    'id' => $item,
+                ],$update
+            );
             }
         } else {
 
@@ -452,7 +454,7 @@ class CategoryPOController extends Controller
             }
 
 
-            foreach ($data2['item'] as $key => $item) {
+            foreach ($data2['id'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
                 $update = array(
                     'pp_id'             => $id,
@@ -465,12 +467,15 @@ class CategoryPOController extends Controller
                 );
 
                 // dd($data2);
-                PengajuanPembelian::updateOrCreate($update);
+                PengajuanPembelian::updateOrCreate([
+                    'id' => $item,
+                ],$update
+            );
             }
         }
         // dd($data2);
 
-        return redirect("menu-purchase-order/");
+        return redirect("menu-purchase-order/out");
     }
 
     /**

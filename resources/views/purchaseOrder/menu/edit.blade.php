@@ -80,6 +80,9 @@
                                                     @endforeach
                                                 @else
                                                 <option value="{{ $dpo->atasans->id }}">{{ $dpo->atasans->name }}</option>
+                                                @foreach ($atasan as $sui)
+                                                <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                 @endforeach
                                                 @endif
                                                 @endforeach
                                             </select>

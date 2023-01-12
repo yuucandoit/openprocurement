@@ -90,4 +90,9 @@ class CategoryPengajuanPembelian extends Model
         return $this->belongsTo(User::class, 'atasan');
     }
 
+    public function comment()
+    {
+        return $this->hasMany(Comment::class,'ppb_id');
+    }
+
 }

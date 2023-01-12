@@ -193,11 +193,14 @@
             </ul>
                 </td>
                 <td style="text-align: center" >
+                    <ul>
+                        <li>
                     @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
                         @if(empty( $ppembelian->bod->name))
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request </a><span style="background-color: #ff0000; "></span>
+                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request </a>
+                        <button class="btn btn-primary" type="button">Comments <span class="badge rounded-pill badge-light text-dark"><i data-feather="mail"></i></span></button>
                         @else
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a><span class="dot-animated">1</span>
+                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a>
                         @endif
                     {{-- <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a> --}}
                     @endif
@@ -299,6 +302,15 @@
                     @if($ppembelian->status == 'Rejected by Finance')
                     <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Finance</a>
                     @endif
+                    </li>
+                    <li style="text-align: center;">
+                        {{-- @foreach ($comments as $c) --}}
+                            <a style="font-style: italic; font-size:10; " href="{{ route('menu-pengajuan-pembelian.detail',$ppembelian->id) }}/#comment">
+                            - {{ $ppembelian->comment->count() }} Comments
+                            </a>
+                        {{-- @endforeach --}}
+                    </li>
+                    </ul>
                 </td>
 
                 @endhasrole

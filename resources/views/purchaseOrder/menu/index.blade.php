@@ -184,16 +184,16 @@
                                                             <td style="text-align: center;">
                                                                 <ul>
                                                                     <li>
-                                                                        <a class="badge badge-lable" style="font-size: 10">
-                                                                            Complete This Task!
-                                                                        </a>
-                                                                    </li>
-                                                                    <li>
                                                                         <a class="badge"
-                                                                            style="color: white; background-color:rgb(255, 132, 0); font-size:10">
+                                                                            style="color: white; background-color:rgb(255, 0, 0); font-size:10">
                                                                             @if($ppb->status == 'Purchase Proses')
                                                                             Waiting Process
                                                                             @endif
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="badge badge-lable" style="font-size: 10">
+                                                                            Complete This Task!
                                                                         </a>
                                                                     </li>
                                                                 </ul>

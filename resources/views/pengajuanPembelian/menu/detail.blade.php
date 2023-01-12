@@ -262,7 +262,7 @@
                                          </form>
                                         </div>
                                     </div>
-                                    <div class="AllComment">
+                                    <div class="AllComment" id="comment">
                                         <div class="container">
                                         <table>
                                             <tbody>

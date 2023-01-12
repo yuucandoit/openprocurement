@@ -171,14 +171,14 @@
                                                         <td style="text-align: center;">
                                                             <ul>
                                                                 <li>
+                                                                    <a class="badge  mt-1" style="color: white; background-color:rgb(255, 0, 0); font-size:12">
+                                                                            {{ $ppb->status }}
+                                                                    </a>
+                                                                    </li>
+                                                                <li>
                                                                     <a class="badge badge-lable" style="font-size: 12">
                                                                         Complete This Task!
                                                                     </a>
-                                                                </li>
-                                                                <li>
-                                                                <a class="badge  mt-1" style="color: white; background-color:rgb(255, 132, 0); font-size:12">
-                                                                        {{ $ppb->status }}
-                                                                </a>
                                                                 </li>
                                                             </ul>
                                                         </td>

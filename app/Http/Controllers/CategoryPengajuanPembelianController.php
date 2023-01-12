@@ -42,6 +42,7 @@ class CategoryPengajuanPembelianController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
             $user = User::where('id', Auth::user()->id)->get();
+            $datappb = CategoryPengajuanPembelian::all();
             $datapt = CategoryPT::all();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
@@ -50,7 +51,9 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->orderBy('date_ps','DESC')->paginate(10);
-            $comments = Comment::where('ppb_id',$datadv)->get();
+
+            $comments = Comment::where('user_id',Auth::user()->id)->count();
+
            // $progress = Delivery::where('ppb_id');
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
@@ -66,6 +69,7 @@ class CategoryPengajuanPembelianController extends Controller
         } else if ($check->role_id == 1 || $check->role_id == 3) {
             $user = User::where('id', Auth::user()->id)->get();
             $datapt = CategoryPT::all();
+            $datappb = CategoryPengajuanPembelian::all();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
             $dataws = WhoSubmitted::all();
@@ -73,7 +77,9 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::orderBy('date_ps','DESC')->paginate(10);
-            $comments = Comment::where('ppb_id',$datadv)->get();
+
+            $comments = Comment::where('user_id',Auth::user()->id)->count();
+
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
                 ->with('datapt', $datapt)
