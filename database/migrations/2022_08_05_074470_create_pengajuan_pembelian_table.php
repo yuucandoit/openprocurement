@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pengajuan_pembelian', function (Blueprint $table) {
             $table->id();
-            $table->integer('pp_id')->default('0'); 
+            $table->integer('ppb_id')->default('0');
             $table->string('path_file')->nullable();
             $table->text('item');
             $table->bigInteger('qty');

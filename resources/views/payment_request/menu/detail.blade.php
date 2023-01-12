@@ -112,6 +112,16 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>Approve To</td>
+                                        <td>
+                                            @if(empty($data_pengajuan->atasanpymnt->name))
+                                                -
+                                            @else
+                                            {{ $data_pengajuan->atasanpymnt->name }}
+                                            @endif
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
 
