@@ -79,12 +79,12 @@
                     </span>
                 @endif
             </td>
-
+            @foreach ($cpp as $c)
             <td valing="top" align="center">
                 <h6 class="media-heading f-w-600">Request By :</h6>
-                @foreach ($cpp as $p)
-                    <p>{{ $p->dps->name }}</p>
-                @endforeach
+
+                    <p>{{ $c->dps->name }}</p>
+
             </td>
         </tr>
     </table>
@@ -116,7 +116,6 @@
             $no = 1
         @endphp
         @foreach ($category_q as $q)
-            @foreach ($cpp as $c)
             <tr>
                 <td>
                     <p>{{ $no++ }}</p>
@@ -155,7 +154,6 @@
                     <p>Rp.{{ number_format($q->unit_price) }}</p>
                 </td> --}}
             </tr>
-        @endforeach
             @endforeach
             <tr>
                 <td>
@@ -174,7 +172,6 @@
                     <p class="m-0">DPP </p>
                 </td>
                 @foreach ($dpp as $dp)
-                @foreach ($cpp as $c)
                 @if($c->matauang == 'RP')
                 <td>
                     <p class="m-0 digits text-right">Rp.{{ number_format($dp->total) }}</p>
@@ -185,7 +182,6 @@
                     <p class="m-0 digits text-right">$ {{ number_format($dp->total) }}.00</p>
                 </td>
                 @endif
-                @endforeach
                 @endforeach
             </tr>
             <tr>
@@ -204,7 +200,7 @@
                 <td>
                     <p class="m-0">PPN 11% </p>
                 </td>
-                @foreach ($cpp as $c)
+
                     @if ($c->ppn == 0)
                     @if($c->matauang == 'RP')
                     <td>
@@ -223,7 +219,6 @@
                             </td>
                         @endforeach
                     @endif
-                @endforeach
             </tr>
             <tr>
                 <td></td>
@@ -233,33 +228,31 @@
                 <td class="Rate">
                     <h6 class="mb-0">Total </h6>
                 </td>
-                @foreach ($cpp as $c)
                     @if ($c->ppn == 0)
                         @foreach ($total_tnp_ppn as $tpn)
                             @if ($c->matauang == 'RP')
-                                <td style="payment digits text-right">
-                                    <h6 class="mb-0 "> Rp.{{ number_format($tpn->total) }}</h6>
+                                <td style="m-0 digits text-right">
+                                    <h6 class="text-right"> Rp.{{ number_format($tpn->total) }}</h6>
                                 </td>
                             @elseif ($c->matauang == 'USD')
-                                <td style="payment digits text-right">
-                                    <h6 class="mb-0 "> $ {{ number_format($tpn->total) }}.00</h6>
+                                <td style="m-0 digits text-right">
+                                    <h6 class="text-right"> $ {{ number_format($tpn->total) }}.00</h6>
                                 </td>
                             @endif
                         @endforeach
                     @elseif($c->ppn == 1)
                         @foreach ($total as $t)
                             @if ($c->matauang == 'RP')
-                                <td style="payment digits text-right">
-                                    <h6 class="mb-0 "> Rp. {{ number_format($t->total) }}</h6>
+                                <td style="m-0 digits text-right">
+                                    <h6 class="text-right"> Rp. {{ number_format($t->total) }}</h6>
                                 </td>
                             @elseif ($c->matauang == 'USD')
-                                <td style="payment digits text-right">
-                                    <h6 class="mb-0 "> $ {{ number_format($t->total) }}.00</h6>
+                                <td style="m-0 digits text-right">
+                                    <h6 class="text-right"> $ {{ number_format($t->total) }}.00</h6>
                                 </td>
                             @endif
                         @endforeach
                     @endif
-                @endforeach
             </tr>
         </tbody>
     </table>
@@ -277,7 +270,6 @@
             </td>
             <td align="right">
                 <div style="text-align: center;">
-                    @foreach ($cpp as $c)
                         @if ($c->status == 'PO Approved' ||
                             $c->status == 'Invoicing Process' ||
                             $c->status == 'Payment Approved' ||
@@ -302,6 +294,7 @@
                     </div>
                 @endif
                 @endif
+
                 @endforeach
 
             </td>

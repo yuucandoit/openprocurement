@@ -102,6 +102,7 @@
                                         <th>Description</th>
                                         {{-- <th>Send To</th> --}}
                                         <th style="white-space: nowrap; text-align:center;">Approved At</th>
+                                        <th style="white-space: nowrap; text-align:center;">Status</th>
                                         <th style="text-align: center;">Action</th>
                                     </tr>
                                 </thead>
@@ -126,6 +127,20 @@
                                                 <td><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break: break-word;">{{ $ppb->desc }}</a></td>
                                                 {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                 <td style="text-align: center; font-size:10"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
+                                                <td style="text-align: center;">
+                                                    <ul>
+                                                        <li>
+                                                            <a class="badge" style="text-align: center; font-size:10; color: white; background-color:rgb(0, 121, 6);">{{ $ppb->status }}</a>
+                                                        </li>
+                                                        <li style="text-align: center;">
+                                                            {{-- @foreach ($comments as $c) --}}
+                                                                <a style="font-style: italic; font-size:10; " href="{{ route('menu-purchase-order.detail',$ppb->id) }}/#comment">
+                                                                - {{ $ppb->comment->count() }} Comments
+                                                                </a>
+                                                            {{-- @endforeach --}}
+                                                        </li>
+                                                    </ul>
+                                                </td>
                                                 @hasrole('purchasing|super admin')
                                                     <td style="text-align: center; white-space:nowrap;">
 

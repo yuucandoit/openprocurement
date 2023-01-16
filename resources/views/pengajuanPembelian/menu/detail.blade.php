@@ -55,8 +55,8 @@
                              <div class="card-header bg-primary">
                                  <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
                              </div>
-                             <div class="card-body text-center">
-                                {{-- <p>{{ $data_pengajuan->status }}</p> --}}
+                             <div class="card-body ">
+                                 {{-- <p>{{ $data_pengajuan->status }}</p> --}}
                                  <table class="table table-bordered mt-4" style="">
                                      <tbody>
                                          <tr>
@@ -88,9 +88,9 @@
                                              <td>{{ $data_pengajuan->dateline }}</td>
                                          </tr>
                                          <tr>
-                                            <td>Approver</td>
-                                            <td>{{ $data_pengajuan->bod->name }}</td>
-                                        </tr>
+                                             <td>Approver</td>
+                                             <td>{{ $data_pengajuan->bod->name }}</td>
+                                         </tr>
                                      </tbody>
                                  </table>
 
@@ -215,7 +215,7 @@
                                      @endforeach
 
                                      <hr>
-                                     <div class="button mb-1" style="float: right;">
+                                     <div class="button" style="float: right;">
                                          {{-- @if ($data_pengajuan->status == '') --}}
                                          <a href="{{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}"
                                              class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
@@ -224,109 +224,71 @@
                                              href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
 
                                      </div>
+                                    <!-- Container-fluid Ends-->
                                  </div>
-
                                  <style>
+                                    /* textarea {
+                                           height: 20px;
+                                           width: 100%;
+                                           border: none;
+                                           border-bottom: 2px solid #aaa;
+                                           background-color: transparent;
+                                           margin-bottom: 10px;
+                                           resize: none;
+                                           outline: none;
+                                           transition: .5s
+                                       } */
 
-                                    textarea
-                                    {
-                                        height: 20px;
-                                        width: 100%;
-                                        border: none;
-                                        border-bottom: 2px solid #aaa;
-                                        background-color: transparent;
-                                        margin-bottom: 10px;
-                                        resize: none;
-                                        outline: none;
-                                        transition: .5s
-                                    }
-                                    .AllComment{
+                                    .AllComment {
                                         box-sizing: border-box;
-                                        border: 2px solid #333;
+                                        border: 2px solid rgb(236, 236, 236);
                                         border-radius: 10px;
                                         padding: 15px 10px;
                                     }
-                                    li.users_name + h6 + p{
-                                        white-space: nowrap;
-                                    }
                                 </style>
 
-                                 <div class="container">
                                     <div class="mt-4">
-                                         <form action="{{ route('comment.store',$data_pengajuan->id) }}" method="POST" >
+                                        <form action="{{ route('comment.store', $data_pengajuan->id) }}" method="POST">
                                             @csrf
-                                            <textarea name="comment" placeholder='Add Your Comment'></textarea>
-                                            <div style="text-align: right;">
+                                            <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
+                                            <div style="text-align: right; margin-top:20px;">
                                                 <input type="submit" class="btn btn-primary" value="Comment">
                                             </div>
-                                         </form>
-                                        </div>
+                                        </form>
                                     </div>
-                                    <div class="AllComment" id="comment">
-                                        <div class="container">
-                                        <table>
-                                            <tbody>
-                                                @foreach($comments as $c)
-                                                <tr>
-                                                    <td>
-                                                        <ul>
-                                                            <li style="margin-top: 10px;">
-                                                                <p>
-                                                                    <strong>
-                                                                    @if(empty($c->users->name))
-
-                                                                    @else
-                                                                    - {{ $c->users->name }}
-                                                                    @endif
-                                                                </strong>
-                                                                @if(empty($c->created_at))
-
-                                                                @else
-                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
-                                                                @endif
-                                                                </p>
-                                                            </li>
-                                                            <li>
-                                                                @if(empty($c->comment))
-
-                                                                @else
-                                                                <p>{{ $c->comment }}</p>
-                                                                @endif
-                                                            </li>
-                                                            <hr>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                <div class="AllComment" id="comment">
+                                    <div class="container">
+                                        @foreach ($comments as $c)
+                                            <ul>
+                                                <li>
+                                                    <p>
+                                                        <strong>
+                                                            @if (empty($c->users->name))
+                                                            @else
+                                                                - {{ $c->users->name }}
+                                                            @endif
+                                                        </strong>
+                                                        @if (empty($c->created_at))
+                                                        @else
+                                                            &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                        @endif
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    @if (empty($c->comment))
+                                                    @else
+                                                        <p>{{ $c->comment }}</p>
+                                                    @endif
+                                                </li>
+                                                <hr>
+                                            </ul>
+                                        @endforeach
                                     </div>
-                                    </div>
-                                 <!-- Container-fluid Ends-->
+                                </div>
                              </div>
                          </div>
-                <script>
-                    var feild = document.querySelector('textarea');
-                    var backUp = feild.getAttribute('placeholder');
-                    var btn = document.querySelector('.btn');
-                    var clear = document.getElementById('clear')
-
-                    feild.onfocus = function(){
-                        this.setAttribute('placeholder', '');
-                        this.style.borderColor = '#333';
-                        btn.style.display = 'block'
-                    }
-
-                    feild.onblur = function(){
-                        this.setAttribute('placeholder',backUp);
-                        this.style.borderColor = '#aaa'
-                    }
-
-                    clear.onclick = function(){
-                        btn.style.display = 'none';
-                        feild.value = '';
-                    }
-            </script>
+                    </div>
+                </div>
      </section>
 
  @endsection

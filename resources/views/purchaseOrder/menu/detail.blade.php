@@ -53,7 +53,7 @@
                             <div class="card-header bg-primary">
                                 <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
                             </div>
-                            <div class="card-body text-center">
+                            <div class="card-body">
                                 <table class="table table-bordered mt-4">
                                     <tbody>
                                         <tr>
@@ -230,6 +230,66 @@
                                         data-bs-target="#modalSelesai">Send Approval Request For Purchase Order</button>
                                 @endif
 
+                                <style>
+                                    /* textarea {
+                                           height: 20px;
+                                           width: 100%;
+                                           border: none;
+                                           border-bottom: 2px solid #aaa;
+                                           background-color: transparent;
+                                           margin-bottom: 10px;
+                                           resize: none;
+                                           outline: none;
+                                           transition: .5s
+                                       } */
+
+                                    .AllComment {
+                                        box-sizing: border-box;
+                                        border: 2px solid rgb(236, 236, 236);
+                                        border-radius: 10px;
+                                        padding: 15px 10px;
+                                    }
+                                </style>
+
+                                    <div class="mt-4">
+                                        <form action="{{ route('comment.store', $data_pengajuan->id) }}" method="POST">
+                                            @csrf
+                                            <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
+                                            <div style="text-align: right; margin-top:20px;">
+                                                <input type="submit" class="btn btn-primary" value="Comment">
+                                            </div>
+                                        </form>
+                                    </div>
+                                <div class="AllComment" id="comment">
+                                    <div class="container">
+                                        @foreach ($comments as $c)
+                                            <ul>
+                                                <li>
+                                                    <p>
+                                                        <strong>
+                                                            @if (empty($c->users->name))
+                                                            @else
+                                                                - {{ $c->users->name }}
+                                                            @endif
+                                                        </strong>
+                                                        @if (empty($c->created_at))
+                                                        @else
+                                                            &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                        @endif
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    @if (empty($c->comment))
+                                                    @else
+                                                        <p>{{ $c->comment }}</p>
+                                                    @endif
+                                                </li>
+                                                <hr>
+                                            </ul>
+                                        @endforeach
+                                    </div>
+                                </div>
+
                                 <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
@@ -259,10 +319,10 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <!-- Container-fluid Ends-->
+
                         </div>
                     </div>
                 </div>
@@ -271,14 +331,14 @@
                     {{-- <a href="{{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }}"
                         class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a> --}}
 
-                    <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/menu-purchase-order/') }}">Back</a>
+                    <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/menu-purchase-order/in') }}">Back</a>
                 @endif
 
                 @if ($data_pengajuan->status == 'PO Approved')
                     <a href="{{ url('/exportpdf/po/' . $data_pengajuan->id) }}" class="btn btn-danger mb-3 mr-1"
                         style="align-self: flex-end"> Export to PDF</a>
 
-                    <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/menu-purchase-order/') }}">Back</a>
+                    <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/menu-purchase-order/out') }}">Back</a>
                 @endif
 
     </section>

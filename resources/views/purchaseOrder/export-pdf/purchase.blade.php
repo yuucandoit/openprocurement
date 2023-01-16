@@ -37,7 +37,7 @@
     <h6 class="text-center"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
      </h6>
 
-    <table width="100%" class="mt-5">
+    <table width="100%" class="mt-2">
         <tr>
             <td>
                 @if (empty($cpo->vendorable_type))
@@ -45,7 +45,7 @@
                 @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
                     <p>Name Vendor&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
                         Address&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: <span>{{ $cpo->vendorable->alamat }}</span><br>
-                        Contact&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span>{{ $cpo->vendorable->no_telp_kantor }}</span><br>
+                        Contact&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span> {{ $cpo->vendorable->no_telp_kantor }}</span><br>
                         NPWP&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span>{{ $cpo->vendorable->npwp_perusahaan }}</span><br>
                         Quotation&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
                         <span class="digits">
@@ -55,15 +55,14 @@
                                 {{ $cpo->quotation }}
                             @endif
                         </span>
-                    </p>
                 @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
-                    <p>Name &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; :&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
-                        Address &nbsp; &nbsp; &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
+                    <p>Name Vendor&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
+                        Address &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
                         NIK
-                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; :&nbsp;<span>{{ $cpo->vendorable->nik }}</span><br>
-                        NPWP &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; :&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span><br>
-                        Quotation&nbsp; &nbsp;:
-                        <span >
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nik }}</span><br>
+                        NPWP &nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span><br>
+                        Quotation&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
+                        <span class="digits">
                             @if (empty($cpo->quotation))
                                 -
                             @else
@@ -72,9 +71,10 @@
                         </span>
                     </p>
                 @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
-                    <p>Name &nbsp;:&nbsp;<span>{{ $cpo->vendorable->nama }}</span><br>
-                        Link &nbsp;&nbsp;&nbsp; :&nbsp;<span>
-                    <a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></span></p>
+                    <p>Name Vendor&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
+                        Link &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:&nbsp;<span>
+                    <a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></span><br>
+                        Quotation&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
                     <span class="digits">
                         @if (empty($cpo->quotation))
                             -
@@ -82,6 +82,7 @@
                             {{ $cpo->quotation }}
                         @endif
                     </span>
+                </p>
                 @endif
             </td>
 
@@ -113,8 +114,8 @@
             @php
                 $no = 1
             @endphp
+             @foreach ($cpp as $c)
         @foreach ($category_q as $q)
-            @foreach ($cpp as $c)
                 <tr>
                     <td>
                         <p>{{ $no++ }}</p>
@@ -153,7 +154,6 @@
                         <p>Rp.{{ number_format($q->unit_price) }}</p>
                     </td> --}}
                 </tr>
-            @endforeach
         @endforeach
             <tr>
                 <td>
@@ -172,7 +172,6 @@
                     <p class="m-0">DPP </p>
                 </td>
                 @foreach ($dpp as $dp)
-                    @foreach ($cpp as $c)
                     @if($c->matauang == 'RP')
                     <td>
                         <p class="m-0 digits text-right">Rp.{{ number_format($dp->total) }}</p>
@@ -183,7 +182,6 @@
                         <p class="m-0 digits text-right">$ {{ number_format($dp->total) }}.00</p>
                     </td>
                     @endif
-                    @endforeach
                 @endforeach
             </tr>
             <tr>
@@ -202,7 +200,6 @@
                 <td>
                     <p class="m-0">PPN 11% </p>
                 </td>
-                @foreach ($cpp as $c)
                     @if ($c->ppn == 0)
                         @if ($c->matauang == 'RP')
                         <td class="text-right">
@@ -228,7 +225,6 @@
                             @endif
                         @endforeach
                     @endif
-                @endforeach
             </tr>
             <tr>
                 <td></td>
@@ -238,7 +234,6 @@
                 <td class="Rate">
                     <h6 class="mb-0">Total </h6>
                 </td>
-                @foreach ($cpp as $c)
                     @if ($c->ppn == 0)
                         @foreach ($total_tnp_ppn as $tpn)
                             @if ($c->matauang == 'RP')
@@ -264,7 +259,6 @@
                             @endif
                         @endforeach
                     @endif
-                @endforeach
             </tr>
         </tbody>
     </table>
@@ -284,7 +278,6 @@
 
 
                 <div style="text-align: center;">
-                    @foreach ($cpp as $c)
                         @if ($c->status == 'Waiting For PO Approval' ||
                             $c->status == 'Purchase Proses' ||
                             $c->status == 'PO Approved' ||

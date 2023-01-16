@@ -48,7 +48,7 @@
                                     {{-- <th>Send To</th> --}}
                                     <th>Deadline</th>
                                     @hasrole('purchasing|super admin')
-                                        <th>Status</th>
+                                        <th style="text-align: center">Status</th>
                                     @endhasrole
                                     {{-- <th>Function</th> --}}
                                 </tr>
@@ -66,7 +66,7 @@
                                             <td >{{ $ppb->whosubmit->name }}</td>
                                             <td ><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                             {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                            <td style="text-align: center;">
+                                            <td style="text-align: center; white-space:nowrap;">
                                                 @if($ppb->dateline == '≤24Jam')
                                                 <strong><p>1 Hari</p></strong>
                                                 @elseif ($ppb->dateline == '≤72Jam')
@@ -79,17 +79,22 @@
                                                 {{-- {{ $ppb->dateline }} --}}
                                             </td>
                                             @hasrole('purchasing|super admin')
-                                                <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                        style="color: white; font-size:10">{{ $ppb->status }}</a>
+                                                <td style="text-align: center;">
+                                                    <ul>
+                                                        <li>
+                                                         <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:10">{{ $ppb->status }}</a>
+                                                            </li>
+                                                                <li style="text-align: center;">
+                                                                    {{-- @foreach ($comments as $c) --}}
+                                                                        <a style="font-style: italic; font-size:10; " href="{{ route('payment_request.detail',$ppb->id) }}/#comment">
+                                                                        - {{ $ppb->comment->count() }} Comments
+                                                                        </a>
+                                                            {{-- @endforeach --}}
+                                                                </li>
+                                                    </ul>
                                                 </td>
 
-                                                {{-- <td style="text-align: center;">
-                                                    <a class="btn btn-iconsolid mt-1"
-                                                        style="background-color: #00008B;"
-                                                        href="{{ url('/payment_request/detail/' . $ppb->id) }}"><i
-                                                            class="icon-zoom-in" title="Details"></i>
-                                                    </a>
-                                                </td> --}}
                                             @endhasrole
                                         </tr>
                                     @endif

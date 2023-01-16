@@ -219,13 +219,11 @@
                                                 height: 0;
                                                 opacity: 0;
                                             }
-
                                             .hide {
                                                 width: 0;
                                                 height: 0;
                                                 opacity: 0;
                                             }
-
                                             .page {
                                                 height: 56px;
                                             }
@@ -292,7 +290,6 @@
                                                 height: 0;
                                                 opacity: 0;
                                             }
-
                                             .page {
                                                 height: 58px;
                                             }
@@ -399,7 +396,6 @@
                                 $(".addItem").on('click', function() {
                                     addItem();
                                 });
-
                                 function addItem() {
                                     var item =
                                         '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
@@ -526,44 +522,3 @@
                             </script>
     </section>
 @endsection
-
-{{-- <script>
-    var pageSelects = document.querySelectorAll('.pageSelect');
-    var selectedInput = document.querySelectorAll('.selectedInput');
-    var selectedInputCustom = document.querySelectorAll('.selectedInputCustom');
-
-    var selectedInput2 = document.querySelectorAll('.selectedInput2');
-    var selectedInputCustom2 = document.querySelectorAll('.selectedInputCustom2');
-
-    var selectedInput3 = document.querySelectorAll('.selectedInput3');
-    var selectedInputCustom3 = document.querySelectorAll('.selectedInputCustom3');
-    console.log(pageSelects);
-    pageSelects.forEach((pageSelect, index) => {
-        pageSelect.addEventListener('change', function() {
-            if (this.value == "company") {
-                selectedInput[index].classList.remove('hide');
-            } else {
-                selectedInput[index].classList.add('hide');
-            }
-        })
-
-        // Private Person
-        pageSelect.addEventListener('change', function() {
-            if (this.value == "privateperson") {
-                selectedInput2[index].classList.remove('hide');
-            } else {
-                selectedInput2[index].classList.add('hide');
-            }
-        })
-
-        // Ecommerce
-        pageSelect.addEventListener('change', function() {
-            if (this.value == "ecommerce") {
-                selectedInput3[index].classList.remove('hide');
-            } else {
-                selectedInput3[index].classList.add('hide');
-            }
-        })
-    })
-
-</script> --}}

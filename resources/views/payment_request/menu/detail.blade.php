@@ -277,6 +277,65 @@
                                 </div>
                             </div>
                             <!-- Zero Configuration  Ends-->
+                            <style>
+                                /* textarea {
+                                       height: 20px;
+                                       width: 100%;
+                                       border: none;
+                                       border-bottom: 2px solid #aaa;
+                                       background-color: transparent;
+                                       margin-bottom: 10px;
+                                       resize: none;
+                                       outline: none;
+                                       transition: .5s
+                                   } */
+
+                                .AllComment {
+                                    box-sizing: border-box;
+                                    border: 2px solid rgb(236, 236, 236);
+                                    border-radius: 10px;
+                                    padding: 15px 10px;
+                                }
+                            </style>
+
+                                <div class="mt-4">
+                                    <form action="{{ route('comment.store', $data_pengajuan->id) }}" method="POST">
+                                        @csrf
+                                        <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
+                                        <div style="text-align: right; margin-top:20px;">
+                                            <input type="submit" class="btn btn-primary" value="Comment">
+                                        </div>
+                                    </form>
+                                </div>
+                            <div class="AllComment" id="comment">
+                                <div class="container">
+                                    @foreach ($comments as $c)
+                                        <ul>
+                                            <li>
+                                                <p>
+                                                    <strong>
+                                                        @if (empty($c->users->name))
+                                                        @else
+                                                            - {{ $c->users->name }}
+                                                        @endif
+                                                    </strong>
+                                                    @if (empty($c->created_at))
+                                                    @else
+                                                        &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                    @endif
+                                                </p>
+                                            </li>
+                                            <li>
+                                                @if (empty($c->comment))
+                                                @else
+                                                    <p>{{ $c->comment }}</p>
+                                                @endif
+                                            </li>
+                                            <hr>
+                                        </ul>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div style="text-align: right;">

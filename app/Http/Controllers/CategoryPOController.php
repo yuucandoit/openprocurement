@@ -7,6 +7,7 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\Comment;
 use App\Models\Department;
 use App\Models\PengajuanPembelian;
 use App\Models\PrivatePerson;
@@ -149,6 +150,7 @@ class CategoryPOController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $comments           = Comment::where('ppb_id',$id)->get();
 
         //dd($datacpo);
         return view('purchaseOrder.menu.detail')
@@ -161,7 +163,8 @@ class CategoryPOController extends Controller
             ->with('ppn', $ppn)
             ->with('total', $total)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('data_pengajuan', $data_pengajuan);
+            ->with('data_pengajuan', $data_pengajuan)
+            ->with('comments', $comments);
     }
 
     /**
