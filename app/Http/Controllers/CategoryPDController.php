@@ -262,20 +262,23 @@ class CategoryPDController extends Controller
 
     public function exportpdf($id)
     {
-        // $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->get()->first();
-        $data['cpp'] = CategoryPengajuanPembelian::where('id',$id)->get();
-        $data['atasan'] = CategoryPengajuanPembelian::where('id',$id)->first();
-        $data['cpo'] = CategoryPO::where('ppb_id', $id)->get()->first();
-        $data['vendorpo'] = CategoryPO::where('ppb_id', $id)->get();
-        $data['id'] = PengajuanPembelian::where('pp_id', $id)->get()->first();
+        $data['cpp'] = CategoryPengajuanPembelian::find($id);
+        // foreach($cpp->quot as $po){
+        //     dd($po->term_condition);
+        // }
+        // $po = CategoryPengajuanPembelian::where('id',$id)->first();
+        //     dd($po->signature->signature);
+
+
+
+        $data['cpo'] = CategoryPO::first();
+        $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
         $data['sig'] = Invoicing::where('ppb_id', $id)->get()->first();
         $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
         $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $data['day'] = Carbon::now()->format('d');
-        $data['year2'] = Carbon::now()->format('Y');
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
 

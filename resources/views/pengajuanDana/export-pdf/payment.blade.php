@@ -19,8 +19,7 @@
             <h5>PT.SOLUSI INTEK INDONESIA</h5>
         </td>
             @php
-                use Carbon\Carbon;
-                $date = Carbon::parse($id->created_at)->format('d/m/Y');
+               use Carbon\Carbon;
                 if (empty($sig->approved_at)) {
                     $approvedAt = 'Not Record yet';
                 } else {
@@ -29,9 +28,12 @@
             @endphp
         </tr>
     </table>
-
+    @php
+    $id_po = $cpp->id;
+    $py_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
+    @endphp
     <h3 class="text-center">Pengajuan Dana</h3>
-    <h6 class="text-center"><span class="digits counter">000{{ $id->id }}/PD/SII/{{ $month }}/{{ $year }}</span></h6>
+    <h6 class="text-center"><span class="digits counter">{{ $py_number }}/PD/SII/{{ $month }}/{{ $year }}</span></h6>
 
     <table width="100%" class="mt-5">
         <tr>
@@ -44,7 +46,7 @@
                         Contact&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span> {{ $cpo->vendorable->no_telp_kantor }}</span><br>
                         NPWP&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span>{{ $cpo->vendorable->npwp_perusahaan }}</span><br>
                         Quotation&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
-                        <span class="digits">
+                        <span class="digits"></p>
                             @if (empty($cpo->quotation))
                                 -
                             @else
@@ -56,7 +58,7 @@
                         Address &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
                         NIK
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->nik }}</span><br>
-                        NPWP &nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span></p>
+                        NPWP &nbsp;&nbsp;&nbsp;:&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span><br>
                         Quotation&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
                         <span class="digits">
                             @if (empty($cpo->quotation))
@@ -64,11 +66,11 @@
                             @else
                                 {{ $cpo->quotation }}
                             @endif
-                        </span>
+                        </span></p>
                 @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
                     <p>Name Vendor&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
-                        Link &nbsp;&nbsp;&nbsp; :&nbsp;<span>
-                    <a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></span></p>
+                        Link &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:&nbsp;<span>
+                    <a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></span><br>
                         Quotation&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
                     <span class="digits">
                         @if (empty($cpo->quotation))
@@ -76,14 +78,13 @@
                         @else
                             {{ $cpo->quotation }}
                         @endif
-                    </span>
+                    </span></p>
                 @endif
             </td>
-            @foreach ($cpp as $c)
             <td valing="top" align="center">
                 <h6 class="media-heading f-w-600">Request By :</h6>
 
-                    <p>{{ $c->dps->name }}</p>
+                    <p>{{ $cpp->dps->name }}</p>
 
             </td>
         </tr>
@@ -129,23 +130,23 @@
                 <td>
                     <p>{{ $q->kategori }}</p>
                 </td>
-                @if($c->matauang == 'RP')
+                @if($cpp->matauang == 'RP')
                 <td class="text-right">
                     <p>Rp.{{ number_format($q->unit_price) }}</p>
                 </td>
                 @endif
-                @if($c->matauang == 'USD')
+                @if($cpp->matauang == 'USD')
                 <td class="text-right">
                     <p>$ {{ number_format($q->unit_price) }}.00</p>
                 </td>
                 @endif
 
-                @if($c->matauang == 'RP')
+                @if($cpp->matauang == 'RP')
                 <td class="text-right">
                     <p>Rp.{{ number_format($q->total) }}</p>
                 </td>
                 @endif
-                @if($c->matauang == 'USD')
+                @if($cpp->matauang == 'USD')
                 <td class="text-right">
                     <p>$ {{ number_format($q->total) }}.00</p>
                 </td>
@@ -172,12 +173,12 @@
                     <p class="m-0">DPP </p>
                 </td>
                 @foreach ($dpp as $dp)
-                @if($c->matauang == 'RP')
+                @if($cpp->matauang == 'RP')
                 <td>
                     <p class="m-0 digits text-right">Rp.{{ number_format($dp->total) }}</p>
                 </td>
                 @endif
-                @if($c->matauang == 'USD')
+                @if($cpp->matauang == 'USD')
                 <td>
                     <p class="m-0 digits text-right">$ {{ number_format($dp->total) }}.00</p>
                 </td>
@@ -201,13 +202,13 @@
                     <p class="m-0">PPN 11% </p>
                 </td>
 
-                    @if ($c->ppn == 0)
-                    @if($c->matauang == 'RP')
+                    @if ($cpp->ppn == 0)
+                    @if($cpp->matauang == 'RP')
                     <td>
                         <p class="m-0 digits text-right">Rp.0</p>
                     </td>
                     @endif
-                    @if($c->matauang == 'USD')
+                    @if($cpp->matauang == 'USD')
                     <td>
                         <p class="m-0 digits text-right">$ 0</p>
                     </td>
@@ -228,25 +229,25 @@
                 <td class="Rate">
                     <h6 class="mb-0">Total </h6>
                 </td>
-                    @if ($c->ppn == 0)
+                    @if ($cpp->ppn == 0)
                         @foreach ($total_tnp_ppn as $tpn)
-                            @if ($c->matauang == 'RP')
+                            @if ($cpp->matauang == 'RP')
                                 <td style="m-0 digits text-right">
                                     <h6 class="text-right"> Rp.{{ number_format($tpn->total) }}</h6>
                                 </td>
-                            @elseif ($c->matauang == 'USD')
+                            @elseif ($cpp->matauang == 'USD')
                                 <td style="m-0 digits text-right">
                                     <h6 class="text-right"> $ {{ number_format($tpn->total) }}.00</h6>
                                 </td>
                             @endif
                         @endforeach
-                    @elseif($c->ppn == 1)
+                    @elseif($cpp->ppn == 1)
                         @foreach ($total as $t)
-                            @if ($c->matauang == 'RP')
+                            @if ($cpp->matauang == 'RP')
                                 <td style="m-0 digits text-right">
                                     <h6 class="text-right"> Rp. {{ number_format($t->total) }}</h6>
                                 </td>
-                            @elseif ($c->matauang == 'USD')
+                            @elseif ($cpp->matauang == 'USD')
                                 <td style="m-0 digits text-right">
                                     <h6 class="text-right"> $ {{ number_format($t->total) }}.00</h6>
                                 </td>
@@ -260,7 +261,7 @@
     <table width="100%">
         <tr>
             <td>
-                <p class="legal"><strong>Terms & Conditions</strong> <br>
+                <p class="legal" style="font-size: 15px;"><strong>Terms & Conditions</strong> <br>
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
                     @else
@@ -270,33 +271,30 @@
             </td>
             <td align="right">
                 <div style="text-align: center;">
-                        @if ($c->status == 'PO Approved' ||
-                            $c->status == 'Invoicing Process' ||
-                            $c->status == 'Payment Approved' ||
-                            $c->status == 'Unpaid' ||
-                            $c->status == 'Paid' ||
-                            $c->status == 'Delivery Success')
+                        @if ($cpp->status == 'PO Approved' ||
+                            $cpp->status == 'Invoicing Process' ||
+                            $cpp->status == 'Payment Approved' ||
+                            $cpp->status == 'Unpaid' ||
+                            $cpp->status == 'Paid' ||
+                            $cpp->status == 'Delivery Success')
                             <p>Jakarta, {{ $approvedAt }}</p>
                             @if (empty($sig->signature))
                             @else
-                                <p><img style=" width:120px;"
+                                <p><img style=" max-width:80px;"
                                         src="{{ public_path('assets/images/signature_super_user/' . $sig->signature) }}"
                                         alt=""></p>
                             @endif
                 </div>
-                <div style="text-align: center; font-size: 18px;">{{ $atasan->atasanpymnt->name }} <br>
+                <div style="text-align: center; font-size: 15px;">{{ $cpp->atasanpymnt->name }} <br>
                     <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                 </div>
             @else
-                @if (empty($atasan->atasans->name))
-                    <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
+                @if (empty($cpp->atasans->name))
+                    <div style="text-align: center; font-size: 15px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif
                 @endif
-
-                @endforeach
-
             </td>
         </tr>
     </table>

@@ -22,10 +22,10 @@
             @php
                 use Carbon\Carbon;
                 $date = Carbon::parse($id->created_at)->format('d/m/Y');
-                if (empty($atasan->approved_at)) {
+                if (empty($cpp->approved_at)) {
                     $approvedAt = 'Not Record yet';
                 } else {
-                    $approvedAt = Carbon::parse($atasan->approved_at)->format('d F Y');
+                    $approvedAt = Carbon::parse($cpp->approved_at)->format('d F Y');
                 }
             @endphp
         </tr>
@@ -36,7 +36,7 @@
             display: inline;
         }
         .tapper .pagebreak {
-            
+
         }
     </style>
 
@@ -48,31 +48,31 @@
             <td>
                 <div class="tapper">
                 <h6>Project &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                @if (empty($atasan->purpose_type))
+                @if (empty($cpp->purpose_type))
                     <p>Not Filled Yet</p>
-                @elseif($atasan->purpose_type == 'App\Models\ReferensiNamaProject')
-                    <p> <span>{{ $atasan->purpose->name }}</span>
-                @elseif ($atasan->purpose_type == 'App\Models\Office')
-                    <p> <span>{{ $atasan->purpose->name }}</span>
-                @elseif($atasan->purpose_type == 'App\Models\Workshop')
-                    <p> <span>{{ $atasan->purpose->name }}</span>
-                @elseif($atasan->purpose_type == 'App\Models\Inventory')
-                    <p> <span>{{ $atasan->purpose->name }}</span>
-                @elseif($atasan->purpose_type == 'App\Models\RND')
-                    <p> <span>{{ $atasan->purpose->name }}</span>
+                @elseif($cpp->purpose_type == 'App\Models\ReferensiNamaProject')
+                    <p> <span>{{ $cpp->purpose->name }}</span>
+                @elseif ($cpp->purpose_type == 'App\Models\Office')
+                    <p> <span>{{ $cpp->purpose->name }}</span>
+                @elseif($cpp->purpose_type == 'App\Models\Workshop')
+                    <p> <span>{{ $cpp->purpose->name }}</span>
+                @elseif($cpp->purpose_type == 'App\Models\Inventory')
+                    <p> <span>{{ $cpp->purpose->name }}</span>
+                @elseif($cpp->purpose_type == 'App\Models\RND')
+                    <p> <span>{{ $cpp->purpose->name }}</span>
                 @endif
                 </h6>
              </div>
 
                 <div class="tapper ">
-                <h6>Description &nbsp;:  <p><span>{{ $atasan->desc }}</span></p></h6>
+                <h6>Description &nbsp;:  <p><span>{{ $cpp->desc }}</span></p></h6>
                 </div>
 
                 <div class="tapper">
                 <h6 class="media-heading f-w-600">Request By &nbsp;:</h6>
-                @foreach ($cpp as $p)
-                    <p><span>{{ $p->whosubmit->name }}</span></p>
-                @endforeach
+                {{-- @foreach ($cpp as $p) --}}
+                    <p><span>{{ $cpp->whosubmit->name }}</span></p>
+                {{-- @endforeach --}}
                 </div>
             </td>
         </tr>
@@ -123,39 +123,39 @@
 
 
                 <div style="text-align: center;">
-                    @foreach ($cpp as $c)
-                        @if ($c->status == 'Awaiting Purchase Request Approval' ||
-                            $c->status == 'Purchase Request Approved' ||
-                            $c->status == 'Purchase Proses' ||
-                            $c->status == 'Waiting For PO Approval' ||
-                            $c->status == 'Purchase Proses' ||
-                            $c->status == 'PO Approved' ||
-                            $c->status == 'Invoicing Process' ||
-                            $c->status == 'Payment Approved' ||
-                            $c->status == 'Unpaid' ||
-                            $c->status == 'Paid' ||
-                            $c->status == 'Delivery Success')
+                    {{-- @foreach ($cpp as $c) --}}
+                        @if ($cpp->status == 'Awaiting Purchase Request Approval' ||
+                            $cpp->status == 'Purchase Request Approved' ||
+                            $cpp->status == 'Purchase Proses' ||
+                            $cpp->status == 'Waiting For PO Approval' ||
+                            $cpp->status == 'Purchase Proses' ||
+                            $cpp->status == 'PO Approved' ||
+                            $cpp->status == 'Invoicing Process' ||
+                            $cpp->status == 'Payment Approved' ||
+                            $cpp->status == 'Unpaid' ||
+                            $cpp->status == 'Paid' ||
+                            $cpp->status == 'Delivery Success')
                             <p>Jakarta, {{ $approvedAt }}</p>
                 </div>
                 <div style="text-align: center;">
-                    @if (empty($atasan->signature))
+                    @if (empty($cpp->signature))
                     @else
                         <p><img style=" max-height:120px;"
-                                src="{{ public_path('assets/images/signature_super_user/' . $atasan->signature) }}"
+                                src="{{ public_path('assets/images/signature_super_user/' . $cpp->signature) }}"
                                 alt=""></p>
                     @endif
                 </div>
-                @if (empty($atasan->bod->name))
+                @if (empty($cpp->bod->name))
                     <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 18px;">{{ $atasan->bod->name }} <br>
+                    <div style="text-align: center; font-size: 18px;">{{ $cpp->bod->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif
                 @endif
-                @endforeach
+                {{-- @endforeach --}}
 
             </td>
         </tr>

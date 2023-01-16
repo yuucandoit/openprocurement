@@ -114,7 +114,7 @@
             @php
                 $no = 1
             @endphp
-             @foreach ($cpp as $c)
+             {{-- @foreach ($cpp as $c) --}}
         @foreach ($category_q as $q)
                 <tr>
                     <td>
@@ -129,23 +129,23 @@
                     <td>
                         <p>{{ $q->kategori }}</p>
                     </td>
-                    @if($c->matauang == 'RP')
+                    @if($cpp->matauang == 'RP')
                     <td class="text-right">
                         <p>Rp.{{ number_format($q->unit_price) }}</p>
                     </td>
                     @endif
-                    @if($c->matauang == 'USD')
+                    @if($cpp->matauang == 'USD')
                     <td class="text-right">
                         <p>$ {{ number_format($q->unit_price) }}.00</p>
                     </td>
                     @endif
 
-                    @if($c->matauang == 'RP')
+                    @if($cpp->matauang == 'RP')
                     <td class="text-right">
                         <p>Rp.{{ number_format($q->total) }}</p>
                     </td>
                     @endif
-                    @if($c->matauang == 'USD')
+                    @if($cpp->matauang == 'USD')
                     <td class="text-right">
                         <p>$ {{ number_format($q->total) }}.00</p>
                     </td>
@@ -172,12 +172,12 @@
                     <p class="m-0">DPP </p>
                 </td>
                 @foreach ($dpp as $dp)
-                    @if($c->matauang == 'RP')
+                    @if($cpp->matauang == 'RP')
                     <td>
                         <p class="m-0 digits text-right">Rp.{{ number_format($dp->total) }}</p>
                     </td>
                     @endif
-                    @if($c->matauang == 'USD')
+                    @if($cpp->matauang == 'USD')
                     <td>
                         <p class="m-0 digits text-right">$ {{ number_format($dp->total) }}.00</p>
                     </td>
@@ -200,25 +200,25 @@
                 <td>
                     <p class="m-0">PPN 11% </p>
                 </td>
-                    @if ($c->ppn == 0)
-                        @if ($c->matauang == 'RP')
+                    @if ($cpp->ppn == 0)
+                        @if ($cpp->matauang == 'RP')
                         <td class="text-right">
                             <p class="m-0 digits text-end">Rp.0</p>
                         </td>
                         @endif
-                        @if ($c->matauang == 'USD')
+                        @if ($cpp->matauang == 'USD')
                         <td class="text-right">
                             <p class="m-0 digits text-end">$ 0</p>
                         </td>
                         @endif
                     @else
                         @foreach ($ppn as $pn)
-                            @if($c->matauang == 'RP')
+                            @if($cpp->matauang == 'RP')
                             <td class="text-right">
                                 <p class="m-0 digits text-end">Rp.{{ number_format($pn->total) }}</p>
                             </td>
                             @endif
-                            @if($c->matauang == 'USD')
+                            @if($cpp->matauang == 'USD')
                             <td class="text-right">
                                 <p class="m-0 digits text-end">$ {{ number_format($pn->total) }}.00</p>
                             </td>
@@ -234,25 +234,25 @@
                 <td class="Rate">
                     <h6 class="mb-0">Total </h6>
                 </td>
-                    @if ($c->ppn == 0)
+                    @if ($cpp->ppn == 0)
                         @foreach ($total_tnp_ppn as $tpn)
-                            @if ($c->matauang == 'RP')
+                            @if ($cpp->matauang == 'RP')
                                 <td class="text-right">
                                     <h6 class="text-right "> Rp.{{ number_format($tpn->total) }}</h6>
                                 </td>
-                            @elseif ($c->matauang == 'USD')
+                            @elseif ($cpp->matauang == 'USD')
                                 <td class="text-right">
                                     <h6 class="text-right"> $ {{ number_format($tpn->total) }}.00</h6>
                                 </td>
                             @endif
                         @endforeach
-                    @elseif($c->ppn == 1)
+                    @elseif($cpp->ppn == 1)
                         @foreach ($total as $t)
-                            @if ($c->matauang == 'RP')
+                            @if ($cpp->matauang == 'RP')
                                 <td class="text-right">
                                     <h6 class="mb-0 text-right"> Rp. {{ number_format($t->total) }}</h6>
                                 </td>
-                            @elseif ($c->matauang == 'USD')
+                            @elseif ($cpp->matauang == 'USD')
                                 <td class="text-right">
                                     <h6 class="mb-0 text-right"> $.{{ number_format($t->total) }}.00</h6>
                                 </td>
@@ -278,14 +278,14 @@
 
 
                 <div style="text-align: center;">
-                        @if ($c->status == 'Waiting For PO Approval' ||
-                            $c->status == 'Purchase Proses' ||
-                            $c->status == 'PO Approved' ||
-                            $c->status == 'Invoicing Process' ||
-                            $c->status == 'Payment Approved' ||
-                            $c->status == 'Unpaid' ||
-                            $c->status == 'Paid' ||
-                            $c->status == 'Delivery Success')
+                        @if ($cpp->status == 'Waiting For PO Approval' ||
+                            $cpp->status == 'Purchase Proses' ||
+                            $cpp->status == 'PO Approved' ||
+                            $cpp->status == 'Invoicing Process' ||
+                            $cpp->status == 'Payment Approved' ||
+                            $cpp->status == 'Unpaid' ||
+                            $cpp->status == 'Paid' ||
+                            $cpp->status == 'Delivery Success')
                             <p>Jakarta, {{ $approvedAt }}</p>
                             @if (empty($cpo->signature))
                             @else
@@ -294,20 +294,20 @@
                                         alt=""></p>
                             @endif
                 </div>
-                @if (empty($atasan->atasans->name))
+                @if (empty($cpp->atasans->name))
                     <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 18px;">{{ $atasan->atasans->name }} <br>
+                    <div style="text-align: center; font-size: 18px;">{{ $cpp->atasans->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif
                 @endif
-                @endforeach
+                {{-- @endforeach --}}
                 {{-- @foreach ($cpp as $c)
-                            @if ($c->status == 'PO Approved' || $c->status == 'Invoicing Process' || $c->status == 'Payment Approved' || $c->status == 'Unpaid' || $c->status == 'Paid' || $c->status == 'Delivery Success') --}}
-                {{-- <img src="{{ public_path('assets/images/'.$c->image) }}" alt="" style=" width:80px;"> --}}
+                            @if ($cpp->status == 'PO Approved' || $cpp->status == 'Invoicing Process' || $cpp->status == 'Payment Approved' || $cpp->status == 'Unpaid' || $cpp->status == 'Paid' || $cpp->status == 'Delivery Success') --}}
+                {{-- <img src="{{ public_path('assets/images/'.$cpp->image) }}" alt="" style=" width:80px;"> --}}
                 {{-- <strong>{{ $atasan->atasans->name }}</strong>
                             @else
                             <strong>BOD Name</strong>

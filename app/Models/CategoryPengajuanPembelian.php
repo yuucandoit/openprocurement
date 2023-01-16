@@ -95,4 +95,19 @@ class CategoryPengajuanPembelian extends Model
         return $this->hasMany(Comment::class,'ppb_id');
     }
 
+    public function itemppn()
+    {
+        return $this->hasMany(PengajuanPembelian::class,'pp_id');
+    }
+
+    public function quot()
+    {
+        return $this->hasMany(CategoryPO::class,'ppb_id');
+    }
+
+    public function signature()
+    {
+        return $this->hasMany(Invoicing::class,'ppb_id');
+    }
+
 }
