@@ -167,7 +167,8 @@
                                         <td><input class="mt-1 pull-right check-box" type="checkbox"
                                                 value="{{ $data_pengajuan->ppn }}"
                                                 @if ($data_pengajuan->ppn == 1) @checked(true)
-                                        @else @endif
+                                                @else
+                                                 @endif
                                                 disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
                                         <td style="text-align:right;">
                                             @if ($data_pengajuan->ppn == 1)
