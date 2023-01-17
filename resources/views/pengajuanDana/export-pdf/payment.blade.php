@@ -46,7 +46,7 @@
                         Contact&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span> {{ $cpo->vendorable->no_telp_kantor }}</span><br>
                         NPWP&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span>{{ $cpo->vendorable->npwp_perusahaan }}</span><br>
                         Quotation&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
-                        <span class="digits"></p>
+                        <span class="digits">
                             @if (empty($cpo->quotation))
                                 -
                             @else
@@ -66,10 +66,11 @@
                             @else
                                 {{ $cpo->quotation }}
                             @endif
-                        </span></p>
+                        </span>
+                    </p>
                 @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
                     <p>Name Vendor&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
-                        Link &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:&nbsp;<span>
+                        Link &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:&nbsp;<span>
                     <a href="{{ $cpo->vendorable->link }}">{{ $cpo->vendorable->link }}</a></span><br>
                         Quotation&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
                     <span class="digits">
@@ -78,7 +79,8 @@
                         @else
                             {{ $cpo->quotation }}
                         @endif
-                    </span></p>
+                    </span>
+                </p>
                 @endif
             </td>
             <td valing="top" align="center">
