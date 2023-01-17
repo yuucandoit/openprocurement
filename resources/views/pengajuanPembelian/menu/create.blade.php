@@ -337,6 +337,7 @@
                                                 <option value="Lusin">Lusin </option>
                                                 <option value="Box">Box </option>
                                                 <option value="Unit">Unit </option>
+                                                <option value="Lot">Lot </option>
                                             </select>
                                         </td>
                                         <td>

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('pengajuan_pembelian', function (Blueprint $table) {
-            $table->foreignId('po_id')->constrained('category_po')->onDelete('cascade');
+            $table->integer('pp_id')->nullable();
         });
     }
 

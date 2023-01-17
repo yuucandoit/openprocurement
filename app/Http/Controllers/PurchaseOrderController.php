@@ -145,7 +145,7 @@ class PurchaseOrderController extends Controller
 
     public function exportpdf($id)
     {
-        $data['cpp'] = CategoryPengajuanPembelian::find($id)->first();
+        $data['cpp'] = CategoryPengajuanPembelian::find($id);
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->first();
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
         $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
@@ -155,7 +155,7 @@ class PurchaseOrderController extends Controller
         $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
-        
+
         $pdf = PDF::loadView('purchaseOrder.export-pdf.purchase', $data)->setpaper('A4', 'potrait');
         return $pdf->stream('PurchaseOrder.pdf');
 
