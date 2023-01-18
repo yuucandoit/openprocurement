@@ -31,10 +31,7 @@ class PPBExport implements
     public function view(): View
     {
         $data['category_pt'] = CategoryPT::all();
-        $data['category_ppb'] = CategoryPengajuanPembelian::where(
-            'id',
-            $this->id
-        )->first();
+        $data['category_ppb'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
         $data['ppb'] = PengajuanPembelian::where('pp_id', $this->id)->get();
         $data['po'] = CategoryPO::where('ppb_id', $this->id)->get();
         $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();

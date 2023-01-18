@@ -101,7 +101,7 @@ class PoExport implements
         $drawing->setName('Logo');
         $drawing->setDescription('This is my logo');
         $drawing->setPath(public_path('assets/images/Logo-Intek-8K.png'));
-        $drawing->setHeight(110);
+        $drawing->setHeight(35);
         $drawing->setCoordinates('B2');
 
         return $drawing;

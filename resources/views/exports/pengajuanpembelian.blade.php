@@ -10,7 +10,7 @@
                 rowspan="3"></th>
             <th style="border: 1px solid black ; text-align: center; vertical-align: center; font-size: 18;"
                 colspan="14" rowspan="3">
-                <strong>FORM PENGAJUAN PEMBELIAN</strong>
+                <strong>FORM PURCHASE REQUEST</strong>
             </th>
             <th style="border: 1px solid black;width:100px; font-size: 13px;">Date</th>
             @php
@@ -26,7 +26,7 @@
         <tr>
             <th style="border: 1px solid black; font-size: 13px;">No. Quotation</th>
             <th style="border: 1px solid black; font-size: 13px;" colspan="3">
-                QPB/{{ $category_ppb->id }}/SII/{{ $month }}/{{ $year }}/{{ $day }}</th>
+                -</th>
         </tr>
         <tr>
             <th></th>
@@ -84,7 +84,7 @@
             <th style="border: 1px solid black; font-size: 13px;" colspan="6">Yang Mengajukan</th>
             <th style="border: 1px solid black">:</th>
             <th style="border: 1px solid black; text-align:left; font-size: 13px;" colspan="15">&nbsp;
-                {{ $category_ppb->ws }}</th>
+                {{ $category_ppb->whosubmit->name }}</th>
         </tr>
 
         <tr>
@@ -116,7 +116,7 @@
             <td style="border: 1px solid black; font-size: 13px;" colspan="6">Department</td>
             <td style="border: 1px solid black">:</td>
             <td style="border: 1px solid black; text-align:left; font-size: 13px;" colspan="15">&nbsp;
-                {{ $category_ppb->department }}</td>
+                {{ $category_ppb->dps->name }}</td>
         </tr>
         <tr>
             <th></th>
@@ -533,7 +533,7 @@
         <tr>
             <td></td>
             <td style="border: 1px solid black;" colspan="2">Nama</td>
-            <td style="border: 1px solid black; text-align: left;" colspan="6">{{ $category_ppb->ws }}</td>
+            <td style="border: 1px solid black; text-align: left;" colspan="6">{{ $category_ppb->whosubmit->name }}</td>
             <td></td>
             <td></td>
             <td></td>
@@ -541,7 +541,7 @@
             <td></td>
             <td></td>
             <td style="border: 1px solid black;" colspan="2">..Nama Atasan..</td>
-            <td style="border: 1px solid black; text-align: left;" colspan="4"></td>
+            <td style="border: 1px solid black; text-align: left;" colspan="4">{{ $category_ppb->bod->name }}</td>
             <td style="border-right: 1px solid black;"></td>
         </tr>
 

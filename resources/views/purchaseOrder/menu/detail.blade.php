@@ -221,6 +221,7 @@
                                     @endif
                                 </table>
                                 <hr>
+
                                 {{-- Start Modal Approval --}}
                                 @if ($data_pengajuan->status == 'Waiting For PO Approval')
                                     <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
@@ -291,6 +292,7 @@
                                     </div>
                                 </div>
 
+
                                 <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
@@ -323,7 +325,6 @@
                                 </div>
                             </div>
                             <!-- Container-fluid Ends-->
-
                         </div>
                     </div>
                 </div>
