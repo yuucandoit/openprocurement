@@ -51,9 +51,9 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->orderBy('date_ps','DESC')->paginate(10);
-
+            // $count  = \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->count();
             $comments = Comment::where('user_id',Auth::user()->id)->count();
-
+            // dd($count);
            // $progress = Delivery::where('ppb_id');
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
@@ -79,6 +79,8 @@ class CategoryPengajuanPembelianController extends Controller
             $datadv = CategoryPengajuanPembelian::orderBy('date_ps','DESC')->paginate(10);
 
             $comments = Comment::where('user_id',Auth::user()->id)->count();
+            // dd($comments);
+
 
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
@@ -146,31 +148,61 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function history()
     {
-        $datappb = CategoryPengajuanPembelian::where('status','Delivery Success')->paginate(10);
+        $datappb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status','Delivery Success')->paginate(10);
         return view('pengajuanPembelian.menu.history')
             ->with('datappb', $datappb);
     }
+
+
 
     public function SearchHistoryPRQ(Request $request)
     {
      $cari = $request->cari;
      //dd($cari);=
-     $datappb = CategoryPengajuanPembelian::Where('id','like',"%".$cari."%")
+     $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
      ->orWhereHas('whosubmit', function($q) use($cari){
           $q->where('name','like',"%".$cari."%");
      })
+     ->where('status','Delivery Success')
      ->paginate(5);
 
      return view('pengajuanPembelian.menu.history')
      ->with('datappb',$datappb);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
+    public function historyfail()
+    {
+        $datappb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status','like',"%Rejected%")
+            // ->where('status','Purchase Request Rejected By BOD')
+            // ->orWhere('status', 'Rejected by Purchasing')
+            // ->orWhere('status', 'PO Rejected by BOD')
+            // ->orWhere('status', 'Payment Rejected By BOD')
+            // ->orWhere('status', 'Rejected by Finance')
+        ->paginate(10);
+        return view('pengajuanPembelian.menu.historyfailed')
+            ->with('datappb', $datappb);
+    }
+
+    public function SearchHistoryFailPRQ(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);=
+     $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->where('status','like',"%Rejected%")
+     ->paginate(10);
+
+     return view('pengajuanPembelian.menu.historyfailed')
+     ->with('datappb',$datappb);
+    }
+
     public function create()
     {
         $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();

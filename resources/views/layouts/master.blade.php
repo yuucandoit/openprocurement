@@ -195,19 +195,19 @@
                                     <div class="mobile-back text-end"><span>Back</span><i
                                             class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                                 </li>
-                                <li class="sidebar-main-title">
+                                {{-- <li class="sidebar-main-title">
                                     <div>
                                         <h6>Home</h6>
                                     </div>
-                                </li>
+                                </li> --}}
 
-                                <li class="dropdown">
+                                {{-- <li class="dropdown">
                                     <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
                                         href="{{ url('/dashboard') }}">
                                         <i data-feather="home"></i>
                                         <span>Dashboard</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                                 <!--Menu-->
                                 @hasrole('super admin')
@@ -228,6 +228,13 @@
 
                                 @hasrole('user|super admin')
                                     <li class="dropdown">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
+                                            href="{{ url('/dashboard') }}">
+                                            <i data-feather="home"></i>
+                                            <span>Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown">
                                         <a class="nav-link {{ request()->is('menu-pengajuan-pembelian') ? 'active' : '' }}"
                                             href="{{ url('menu-pengajuan-pembelian') }}">
                                             <i data-feather="file-text"></i>
@@ -244,11 +251,18 @@
                                     </li>
                                 @endhasrole
 
+                                @hasrole('purchasing')
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
+                                        href="{{ url('/dashboard') }}">
+                                        <i data-feather="home"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                @endhasrole
                                 @hasrole('purchasing|super admin')
                                     <li class="dropdown">
-
-                                        <a
-                                            class="nav-link menu-title {{ request()->is('menu-purchase-order') ? 'active' : '' }} {{ request()->is('menu-purchase-order/out') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title {{ request()->is('menu-purchase-order') ? 'active' : '' }} {{ request()->is('menu-purchase-order/out') ? 'active' : '' }}">
                                             <i data-feather="file-text"></i>
                                             <span>Purchase Order</span></a>
                                         @if (request()->is('menu-purchase-order') || request()->is('menu-purchase-order/out') ? 'active' : '')
@@ -329,8 +343,18 @@
                                         </div>
                                     </li>
                                 @endhasrole
+                                @hasrole('finance')
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
+                                        href="{{ url('/dashboard') }}">
+                                        <i data-feather="home"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                @endhasrole
 
                                 @hasrole('finance|super admin')
+
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('menu-pengajuan-dana') ? 'active' : '' }} {{ request()->is('menu-pengajuan-dana/out') ? 'active' : '' }}"
                                             href="javascript:void(0)">
@@ -410,9 +434,22 @@
                                         </ul>
                                     </li>
                                 @endhasrole
-
-
                                 <!--Menu-->
+
+                        @hasrole('super user')
+                            <li class="sidebar-main-title">
+                                <div>
+                                <h6>Home</h6>
+                                </div>
+                            </li>
+                         <li class="dropdown">
+                              <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
+                              href="{{ url('/dashboard') }}">
+                              <i data-feather="home"></i>
+                              <span>Dashboard</span>
+                            </a>
+                         </li>
+                        @endhasrole
 
                                 <!--TaskList-->
                                 @hasrole('super user|super admin|purchasing|finance')
@@ -447,6 +484,7 @@
                                             : '')
                                             <ul class="nav-submenu menu-content" style="display: block">
                                                 @hasrole('super user|super admin')
+
                                                     <li class="dropdown">
                                                         <a class="submenu-title {{ request()->is('menu-taskList-atasan/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/detail/*') ? 'active' : '' }}"
                                                             href="javascript:void(0)">
@@ -1022,7 +1060,15 @@
                                         <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-pengajuan-pembelian/history') }}">
                                             <i data-feather="activity"></i>
-                                            <span>History Purchase Request</span>
+                                            <span>History Purchase Request Success</span>
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="dropdown {{ request()->is('*/menu-pengajuan-pembelian/history-fail*') || request()->is('menu-pengajuan-pembelian/search/historyfailprq') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history-fail') || request()->is('menu-pengajuan-pembelian/search/historyfailprq') ? 'active' : '' }}"
+                                            href="{{ url('/menu-pengajuan-pembelian/history-fail') }}">
+                                            <i data-feather="activity"></i>
+                                            <span>History Purchase Request Fail</span>
                                         </a>
                                     </li>
                                 @endhasrole
@@ -1033,7 +1079,7 @@
                                         <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-taskList-atasan/history') }}">
                                             <i data-feather="activity"></i>
-                                            <span>History Task List Purchase Request</span>
+                                            <span>History Task List Purchase Request </span>
                                         </a>
                                     </li>
                                 @endhasrole

@@ -9,6 +9,7 @@ use App\Models\CategoryPO;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\CategoryQuotation;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -33,7 +34,7 @@ class HomeController extends Controller
         $quotation=CategoryQuotation::where('created_at','like',$this_year.'%')->get();
         $pengajuan_dana=CategoryPD::where('created_at','like',$this_year.'%')->get();
         $pembelian_barang=CategoryPB::where('created_at','like',$this_year.'%')->get();
-        $purchase_submission=CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->get();
+        $purchase_submission=CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('user_id',Auth::user()->id)->get();
         $purchase_order=CategoryPO::where('created_at','like',$this_year.'%')->get();
         $pengajuan  =  CategoryPengajuanPembelian::where('atasan', 6)->count();
         // foreach($pengajuan as $p) {
@@ -66,7 +67,7 @@ class HomeController extends Controller
         }
         foreach($purchase_submission as $c){
             $check=explode('-',$c->created_at)[1];
-            $data_po[(int)$check]+=1;
+            $data_ps[(int)$check]+=1;
         }
         // dd($data_pb);
         // dd($data_month);

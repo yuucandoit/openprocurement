@@ -219,6 +219,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [CategoryPengajuanPembelianController::class, 'index'])->name('menu-pengajuan-pembelian.index');
         Route::get('/detail/{id}', [CategoryPengajuanPembelianController::class, 'detail'])->name('menu-pengajuan-pembelian.detail');
         Route::get('/history', [CategoryPengajuanPembelianController::class, 'history'])->name('menu-pengajuan-pembelian.history');
+        Route::get('/history-fail', [CategoryPengajuanPembelianController::class, 'historyfail'])->name('menu-pengajuan-pembelian.historyfail');
         Route::get('/create', [CategoryPengajuanPembelianController::class, 'create'])->name('menu-pengajuan-pembelian.create');
         Route::post('/store', [CategoryPengajuanPembelianController::class, 'store'])->name('menu-pengajuan-pembelian.store');
         Route::post('/update/{id}', [CategoryPengajuanPembelianController::class, 'update'])->name('menu-pengajuan-pembelian.update');
@@ -226,6 +227,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [CategoryPengajuanPembelianController::class, 'destroy'])->name('menu-pengajuan-pembelian.destroy');
         Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
         Route::get('/search/historyprq',[CategoryPengajuanPembelianController::class, 'SearchHistoryPRQ'])->name('menu-pengajuan-pembelian.SearchHistoryPRQ');
+        Route::get('/search/historyfailprq',[CategoryPengajuanPembelianController::class, 'SearchHistoryFailPRQ'])->name('menu-pengajuan-pembelian.SearchHistoryFailPRQ');
     });
 
     //Tasklist's Super User

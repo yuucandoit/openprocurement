@@ -273,34 +273,45 @@
                     <a class="badge bg-success mt-1" style="color: white; font-size:12">Request Completed</a>
                     @endif
                     @if ($ppembelian->status == 'Rejected by Purchasing')
-                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Purchase</a>
+                    <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Purchase</a></li>
+                    <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">{{ $ppembelian->note_purchase }}</a></li>
                     @endif
                     @if ($ppembelian->status == 'Purchase Request Rejected By BOD')
                         @if(empty( $ppembelian->bod->name))
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Rejected By Bod</a>
+                        <li> <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod</a></li>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:12"> - </a></li>
                         @else
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Rejected By Bod{{ $ppembelian->bod->name }}</a>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod {{ $ppembelian->bod->name }}</a></li>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:8"> {{ $ppembelian->note_bod_pr }} </a></li>
                         @endif
                     {{-- <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->bod->name }} )</a> --}}
                     @endif
                     @if ($ppembelian->status == 'Payment Rejected By BOD')
                         @if(empty( $ppembelian->atasanpymnt->name))
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Rejected By Bod</a>
+                        <li> <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod</a></li>
+                        <li> <a class="badge bg-danger mt-1" style="color: white; font-size:8">-</a></li>
+
                         @else
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Rejected By Bod{{ $ppembelian->atasanpymnt->name }}</a>
+                        <li> <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod {{ $ppembelian->atasanpymnt->name }}</a></li>
+                        <li> <a class="badge bg-danger mt-1" style="color: white; font-size:12">{{ $ppembelian->note_bod_py }}</a></li>
+
                         @endif
                     {{-- <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasanpymnt->name }} )</a> --}}
                     @endif
                     @if ($ppembelian->status == 'PO Rejected By BOD')
                         @if(empty( $ppembelian->atasans->name))
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Rejected By Bod</a>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod</a></li>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">-</a></li>
                         @else
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Rejected By Bod{{ $ppembelian->atasans->name }}</a>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod {{ $ppembelian->atasans->name }}</a></li>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected By Bod {{ $ppembelian->note_bod_po }}</a></li>
+
                         @endif
-                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasans->name }} )</a>
+                    {{-- <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasans->name }} )</a> --}}
                     @endif
                     @if($ppembelian->status == 'Rejected by Finance')
-                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Finance</a>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Finance</a></li>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">{{ $ppembelian->note_finance }}</a></li>
                     @endif
                     </li>
                     <li style="text-align: center;">
