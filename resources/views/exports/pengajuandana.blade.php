@@ -13,14 +13,14 @@
             <th style="border: 1px solid black ">Date</th>
             @php
                 use Carbon\Carbon;
-                $date = Carbon::parse($category_pd->created_at)->format('d/m/Y');
+                $date = Carbon::parse($category_ppb->created_at)->format('d/m/Y');
             @endphp
             <th style="border: 1px solid black" colspan="2">{{ $date }}</th>
         </tr>
 
         <tr>
             <th style="border: 1px solid black">No. Doc</th>
-            <th style="border: 1px solid black" colspan="2">PD/{{ $category_pd->id }}/SII/{{ $month }}/{{ $year }}</th>
+            <th style="border: 1px solid black" colspan="2">PD/{{ $category_ppb->id }}/SII/{{ $month }}/{{ $year }}</th>
         </tr>
 
         <tr>
@@ -38,7 +38,7 @@
             <tr>
                 <th style="border: 1px solid black" colspan="3">Subject</th>
                 <th style="border: 1px solid black">:</th>
-                <th style="border: 1px solid black" colspan="14">{{ $category_pd->subject }}</th>
+                <th style="border: 1px solid black" colspan="14"></th>
             </tr>
 
         <tr>
@@ -48,7 +48,7 @@
         <tr>
             <td style="border: 1px solid black" colspan="3">Nama Pemohon</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="14">{{ $category_pd->name }}</td>
+            <td style="border: 1px solid black" colspan="14">{{ $category_ppb->whosubmit->name }}</td>
         </tr>
 
         <tr>
@@ -59,35 +59,35 @@
             <td style="border: 1px solid black ; text-align:center">1</td>
             <td style="border: 1px solid black" colspan="4">Tujuan</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="12">{{ $category_pd->tujuan }}</td>
+            <td style="border: 1px solid black" colspan="12">-</td>
         </tr>
 
         <tr>
             <td style="border: 1px solid black ; text-align:center">2</td>
             <td style="border: 1px solid black" colspan="4">Lokasi</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="12">{{ $category_pd->lokasi }}</td>
+            <td style="border: 1px solid black" colspan="12"></td>
         </tr>
 
         <tr>
             <td style="border: 1px solid black ; text-align:center">3</td>
             <td style="border: 1px solid black" colspan="4">Jangka Waktu</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="12">{{ $category_pd->jangka_waktu }}</td>
+            <td style="border: 1px solid black" colspan="12"></td>
         </tr>
 
         <tr>
             <td style="border: 1px solid black ; text-align:center">4</td>
             <td style="border: 1px solid black ; text-align: left" colspan="4">Nominal</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="12">{{ $category_pd->nominal }}</td>
+            <td style="border: 1px solid black" colspan="12"></td>
         </tr>
 
         <tr>
             <td style="border: 1px solid black ; text-align:center">5</td>
             <td style="border: 1px solid black ; text-align: left" colspan="4">No Rekening</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="12">{{ $category_pd->no_rek }}</td>
+            <td style="border: 1px solid black" colspan="12"></td>
         </tr>
 
         <tr>
@@ -118,22 +118,22 @@
             $no = 1;
             $total = 0;
         @endphp
-        @foreach ($pengajuan_d as $pd)
-        @php
-            $total += $pd->total;
-        @endphp
+        @foreach ($item as $i)
+        {{-- @php
+
+        @endphp --}}
         <tr>
             <td style="text-align: center ; border: 1px solid black" colspan="2">{{ $no++ }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="6">{{ $pd->item }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $pd->qty }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $pd->harga }}</td>
-            <td style="text-align: right ; border: 1px solid black" colspan="4">{{ $pd->total}}</td>
+            <td style="text-align: center ; border: 1px solid black" colspan="6">{{ $i->item }}</td>
+            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $i->qty }}</td>
+            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ number_format($i->harga) }}</td>
+            <td style="text-align: right ; border: 1px solid black" colspan="4">{{ number_format($i->total)}}</td>
         </tr>
 
         @endforeach
 
         <tr>
-            <td style="text-align: right ; border: 1px solid black ; font-size: 12px" colspan="14" rowspan="2"><strong>Sub Total</strong></td>
+            <td style="text-align: right ; border: 1px solid black ; font-size: 12px" colspan="14" rowspan="2"><strong>Grand Total</strong></td>
             <td style="text-align: right ; border: 1px solid black" colspan="4" rowspan="2">{{$total}}</td>
         </tr>
 
@@ -160,11 +160,11 @@
         <tr>
             <td style="border: 1px solid black ; text-align: center" colspan="5">Diajukan Oleh</td>
             <td></td>
-            <td style="border: 1px solid black ; text-align: center" colspan="12">Diperiksa Dan Disetujui Oleh,</td>    
+            <td style="border: 1px solid black ; text-align: center" colspan="12">Diperiksa Dan Disetujui Oleh,</td>
         </tr>
 
-        <tr>    
-            <td style="text-align: right ; border: 1px solid black" colspan="5" rowspan="4"></td>  
+        <tr>
+            <td style="text-align: right ; border: 1px solid black" colspan="5" rowspan="4"></td>
             <td></td>
             <td style="text-align: right ; border: 1px solid black" colspan="3" rowspan="4"></td>
             <td style="text-align: right ; border: 1px solid black" colspan="3" rowspan="4"></td>
@@ -186,7 +186,7 @@
 
         <tr>
             <td style="border: 1px solid black">Nama</td>
-            <td style="border: 1px solid black" colspan="4">{{ $category_pd->name }}</td>
+            <td style="border: 1px solid black" colspan="4">{{ $category_ppb->whosubmit->name }}</td>
             <td></td>
             <td style="border: 1px solid black">Nama</td>
             <td style="border: 1px solid black" colspan="2">Nama dua</td>

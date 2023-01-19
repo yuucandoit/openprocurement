@@ -3,7 +3,10 @@
 namespace App\Exports;
 
 use App\Models\CategoryPD;
+use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPO;
 use App\Models\PengajuanDana;
+use App\Models\PengajuanPembelian;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -23,7 +26,7 @@ use Carbon\Carbon;
 
 class PdExport implements WithColumnFormatting, FromView, WithCustomStartCell, WithColumnWidths
 {
-    // RETURN VIEWS 
+    // RETURN VIEWS
 
     public function __construct($id)
     {
@@ -34,6 +37,13 @@ class PdExport implements WithColumnFormatting, FromView, WithCustomStartCell, W
     {
         $data['pengajuan_d'] = PengajuanDana::where('pd_id', $this->id)->get();
         $data['category_pd'] = CategoryPD::where('id', $this->id)->first();
+        $data['category_ppb'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
+        $data['item'] = PengajuanPembelian::where('pp_id', $this->id)->get();
+        $data['po'] = CategoryPO::where('ppb_id', $this->id)->get();
+        $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
+        $data['total_tnpa_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
         return view('exports.pengajuandana', $data);

@@ -77,10 +77,37 @@ class CategoryTaskListController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
+            $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')
+            ->orWhere('status','Waiting For PO Approval')
+            ->orWhere('status', 'PO Approved')
+            ->orWhere('status', 'Invoicing Process')->orWhere('status', 'Payment Approved')
+            ->orWhere('status', 'Unpaid')->orWhere('status', 'Paid')->orWhere('status', 'Delivery Process')
+            ->orWhere('status','Delivery Success')->orderBy('approved_at','desc')->paginate(10);
             return view('taskList.menu.history')
             ->with('datappb', $datappb);
         }
+    }
+
+    public function SearchtaskPOHistory(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $datappb = CategoryPengajuanPembelian::where('atasan_po', Auth::user()->id)->orderBy('dateline', 'asc')->orderBy('approved_at','desc')
+     ->orWhere('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+    ->where('status','Purchase Proses')
+    ->orWhere('status','Waiting For PO Approval')
+    ->orWhere('status', 'PO Approved')
+    ->orWhere('status', 'Invoicing Process')->orWhere('status', 'Payment Approved')
+    ->orWhere('status', 'Unpaid')->orWhere('status', 'Paid')->orWhere('status', 'Delivery Process')
+    ->orWhere('status','Delivery Success')
+     ->paginate(10);
+     return view('taskList.menu.history')
+     ->with('datappb',$datappb);
     }
 
     public function detail($id)

@@ -677,6 +677,7 @@
         const dataPo = {
             labels: labels,
             datasets: [{
+
                     label: 'Purchase Request',
                     backgroundColor: 'rgba(150, 148, 255, 0.9)',
                     borderColor: 'rgb(150, 148, 255)',
@@ -693,8 +694,8 @@
                     borderColor: 'rgb(150, 148, 255)',
                     borderRadius: 5,
                     data: [
-                        @foreach ($data_po as $po)
-                            {{ $po }},
+                        @foreach ($data_qu as $qu)
+                            {{ $qu }},
                         @endforeach
                     ],
                 },

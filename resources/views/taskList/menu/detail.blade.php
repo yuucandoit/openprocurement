@@ -204,6 +204,8 @@
                                         class="btn btn-success" style="align-self: flex-end"> Export Excel Purchase Request</a>
                                         <a href="{{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }}"
                                             class="btn btn-success" style="align-self: flex-end"> Export Excel Purchase Order</a>
+                                        <a href="{{ url('/export_excel/pengajuan_dana/' . $data_pengajuan->id) }}"
+                                            class="btn btn-success" style="align-self: flex-end"> Export Excel Payment</a>
                                 </div>
                                   <!-- Modal -->
                               <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">

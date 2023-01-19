@@ -51,13 +51,24 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-task-list.SearchtaskPOHistory') }}" method="get" class="input-group" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
                         <div class="card-header bg-primary">
                             <h5>History Task List</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="advance-1">
-                                    <thead>
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
                                         <tr>
                                         <tr style="text-align: center;">
                                             <th>No</th>
@@ -122,6 +133,9 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>
