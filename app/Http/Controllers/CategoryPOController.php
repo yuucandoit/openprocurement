@@ -214,18 +214,12 @@ class CategoryPOController extends Controller
         $item = PengajuanPembelian::all();
 
         $data2 = $request->all();
-       // dd($data2);
+    //    dd($data2);
 
         $pt = CategoryPT::find($id);
         $pp = CategoryPP::find($id);
         $ec = CategoryEcommerce::find($id);
 
-
-        //dd($data2);
-
-        //PengajuanPembelian::where('pp_id', $id)->delete();
-
-        //dd($data2);
 
         if ($request->term_conditions == "custom") {
 
@@ -254,8 +248,8 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
 
-            foreach ($data2['id'] as $key => $item) {
-                $unit_price = str_replace(",", "", $data2['unit_price'][$key]);
+             foreach ($data2['item'] as $key => $item) {
+                $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
                 $update = array(
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
@@ -263,7 +257,10 @@ class CategoryPOController extends Controller
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
-                PengajuanPembelian::where('id',$item)->update($update);
+                PengajuanPembelian::updateOrCreate([
+                    'item' => $data2['item'][$key],
+                    'pp_id' => $id
+            ], $update);
             }
         } else {
 
@@ -288,7 +285,8 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
 
-            foreach ($data2['id'] as $key => $item) {
+
+             foreach ($data2['item'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
                 $update = array(
                     'item'              => $data2['item'][$key],
@@ -297,7 +295,10 @@ class CategoryPOController extends Controller
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
-                PengajuanPembelian::where('id',$item)->update($update);
+                PengajuanPembelian::updateOrCreate([
+                    'item' => $data2['item'][$key],
+                    'pp_id' => $id
+            ], $update);
             }
 
         }
@@ -369,7 +370,7 @@ class CategoryPOController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data2 = $request->all();
-        //dd($data2);
+        // dd($data2);
 
 
         if ($request->term_conditions == "custom") {
@@ -405,8 +406,10 @@ class CategoryPOController extends Controller
                 $vendor3->vendors()->save($purchase);
             }
 
-
-            foreach ($data2['id'] as $key => $item) {
+            // dd($data2['item']);
+             // $data2 = $request->all();
+             // $data2 = $request->all();
+             foreach ($data2['item'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
                 $update = array(
                     'item'              => $data2['item'][$key],
@@ -415,10 +418,12 @@ class CategoryPOController extends Controller
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
+
+                // dd($item);
                 PengajuanPembelian::updateOrCreate([
-                    'id' => $item,
-                ],$update
-            );
+                    'item' => $data2['item'][$key],
+                    'pp_id' => $id
+            ], $update);
             }
         } else {
 
@@ -451,26 +456,25 @@ class CategoryPOController extends Controller
                 $vendor3->vendors()->save($purchase);
             }
 
-
-            foreach ($data2['id'] as $key => $item) {
+            // $data2 = $request->all();
+            foreach ($data2['item'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
                 $update = array(
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
-                    // 'path_file'         => $name,
                     'unit_price'        => $unit_price,
                     'total'             => $data2['total'][$key],
                 );
 
-                // dd($data2);
+                // dd($item);
                 PengajuanPembelian::updateOrCreate([
-                    'id' => $item,
-                ],$update
-            );
+                    'item' => $data2['item'][$key],
+                    'pp_id' => $id
+            ], $update);
             }
         }
-        // dd($data2);
+        // dd($key);
 
         return redirect("menu-purchase-order/out");
     }

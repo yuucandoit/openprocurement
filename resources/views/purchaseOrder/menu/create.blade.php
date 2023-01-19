@@ -123,9 +123,7 @@
                                                 <th
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                     Total</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    </th>
+
 
 
                                             </tr>
@@ -168,12 +166,7 @@
                                                         <input type="text" name="total[]" class="form-control form-line"
                                                             style="text-align: right;" required />
                                                     </td>
-                                                    <td style="text-align: center;">
-                                                        <button type="button" name="add"
-                                                            class="btn btn-danger remove-input-field">
-                                                            <i class="fa fa-times"></i>
-                                                        </button>
-                                                    </td>
+
                                                 </tr>
                                             @endforeach
                                         </table>
@@ -245,7 +238,7 @@
                                                     <option value="privateperson">Private Person</option>
                                                     <option value="ecommerce">Ecommerce</option>
                                                 </select>
-                                                {{-- Perusahaan Dropdown --}}
+
                                                 <select class=" form-select hide mt-2" id="selectedInput"
                                                     name="perusahaan">
                                                     @foreach ($pt as $p)
@@ -253,25 +246,20 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                {{-- End Perusahaan Dropdown --}}
 
-                                                {{-- Private Person Dropdown --}}
                                                 <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
                                                     @foreach ($op as $o)
                                                         <option value="{{ $o->id }}">{{ $o->nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                {{-- End Private Person Dropdown --}}
 
-                                                {{-- Ecommerce Dropdown --}}
                                                 <select class=" form-select hide" id="selectedInput3" name="ecommerce">
                                                     @foreach ($ec as $e)
                                                         <option value="{{ $e->id }}">{{ $e->nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                {{-- End Ecommerce Dropdown --}}
                                             </div>
                                         </div>
 
@@ -286,19 +274,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {{-- css hide --}}
-                                        <style>
-                                            .hide {
-                                                width: 0;
-                                                height: 0;
-                                                opacity: 0;
-                                            }
-                                            .page {
-                                                height: 58px;
-                                            }
-                                        </style>
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
@@ -334,9 +309,23 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        {{-- <style>
+                                            .tutup {
+                                                width: 0;
+                                                height: 0;
+                                                opacity: 0;
+                                            }
+                                            .hide {
+                                                width: 0;
+                                                height: 0;
+                                                opacity: 0;
+                                            }
+                                            .page {
+                                                height: 56px;
+                                            }
+                                        </style>
 
-
-                                    {{-- <table class="table table-bordered mt-4 mx-2 po ">
+                                    <table class="table table-bordered mt-4 mx-2 po ">
                                         <thead>
                                             <tr class="text-center" style="font-size: 17; font-weight: bold;">
                                                 <th>Item id</th>
@@ -364,41 +353,40 @@
                                                     <option value="company">Company</option>
                                                     <option value="privateperson">Private Person</option>
                                                     <option value="ecommerce">Ecommerce</option>
-                                                </select> --}}
-                                                {{-- Perusahaan Dropdown --}}
-                                                 {{-- <select class=" form-select hide mt-2" id="selectedInput"
+                                                </select>
+
+                                                <select class=" form-select hide mt-2" id="selectedInput"
                                                     name="perusahaan">
                                                     @foreach ($pt as $p)
                                                         <option value="{{ $p->id }}">{{ $p->nama }}
                                                         </option>
                                                     @endforeach
-                                                </select> --}}
-                                                {{-- End Perusahaan Dropdown --}}
+                                                </select>
 
-                                                {{-- Private Person Dropdown --}}
-                                                 {{-- <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
+                                                <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
                                                     @foreach ($op as $o)
                                                         <option value="{{ $o->id }}">{{ $o->nama }}
                                                         </option>
                                                     @endforeach
-                                                </select> --}}
-                                                {{-- End Private Person Dropdown --}}
+                                                </select>
 
-                                                {{-- Ecommerce Dropdown --}}
-                                                {{-- <select class=" form-select hide" id="selectedInput3" name="ecommerce">
+                                                <select class=" form-select hide" id="selectedInput3" name="ecommerce">
                                                     @foreach ($ec as $e)
                                                         <option value="{{ $e->id }}">{{ $e->nama }}
                                                         </option>
                                                     @endforeach
-                                                </select> --}}
-                                                {{-- End Ecommerce Dropdown --}}
-                                                 {{-- </td>
+                                                </select>
+                                            </td>
 
                                                  <td>
                                                     <div >
                                                         <input required type="text" class="form-control"
                                                             id="floatingQuotation" placeholder="Quotation" name="quotation[]" >
                                                         <div class="invalid-feedback"></div>
+                                                        <input class="mt-1 pull-right check-box" type="checkbox"name="ppn" value="1"
+                                                        {{ old('ppn', 0) === 1 ? 'checked' : '' }}>
+                                                    <label class="" style="font-weight: bold;"> PPN 11%
+                                                    </label>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -495,7 +483,9 @@
                                 });
                                 function addItem() {
                                     var item =
-                                        '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
+                                        `<tr><td><input type="text" name="id[]"
+                                                                placeholder="Input Item" class="form-control"
+                                                                style="text-align: center;" value="{{ $i->id }}" hidden /><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
                                     $(".item").append(item)
                                     var rupiah = document.querySelectorAll(".rupiah");
                                     rupiah.forEach((item) => {
@@ -626,18 +616,12 @@
                                 function addPO() {
                                     var po =
                                         `
-                                        <tbody>
-                                    <tr>
-                                        <td>
-                                            <select class="js-example-basic-multiple" multiple="multiple"
+                                <tbody><tr><td><select class="js-example-basic-multiple" multiple="multiple"
                                                             placeholder="Proposed To" name="item_pid[]">
                                                             @foreach ($pengajuan as $i)
                                                             <option value="{{ $i->id }}">{{ $i->item }}</option>
                                                             @endforeach
-                                                    </select>
-
-                                                </td>
-                                                <td>
+                                                    </select></td><td>
                                                     <select class="form-select  pageSelect" id="pageSelect"
                                                     placeholder="Proposed To" name="vendor[]">
                                                     <option value="" disabled selected hidden>Select Vendor

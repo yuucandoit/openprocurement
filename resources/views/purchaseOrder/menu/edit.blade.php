@@ -215,6 +215,7 @@
                                         </table>
                                         <p style="color: red;">*Please fill in the price per unit again to trigger the total and please refill the file then update the data</p>
                                         <br>
+
                                         <table class="table table-bordered mx-2">
                                             <tr>
                                                 <td>
