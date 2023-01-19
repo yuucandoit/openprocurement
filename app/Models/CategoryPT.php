@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoryPT extends Model
 {
-    use HasFactory;
+    use HasFactory; 
 
     protected $table = "category_pt";
     protected $fillable = [

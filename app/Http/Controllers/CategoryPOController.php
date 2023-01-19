@@ -209,6 +209,30 @@ class CategoryPOController extends Controller
      */
     public function store(Request $request, $id)
     {
+
+        // $request->validate([
+        //     'category_purpose' => 'required',
+        //     'date_ps' => 'required',
+        //     'dateline' => 'required',
+        //     'ws'      => 'required',
+        //     'department' => 'required',
+        //     'desc'  => 'required',
+        //     'atasan' => 'required',
+        //     'matauang' => 'required',
+        //     'send_to' => 'required',
+        //     // 'path_file.*' => 'mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf'
+        // ], [
+        //     'category_purpose.required' => 'The Purpose field is required.',
+        //     'date_ps.required' => 'The Date field is required.',
+        //     'dateline.required' => 'The Date Line field is required.',
+        //     'ws.required' => 'The Who Submitted field is required.',
+        //     'department.required' => 'The Department field is required.',
+        //     'desc.required' => 'The Description field is required.',
+        //     'atasan.required' => 'The Super User field is required.',
+        //     'mata_uang.required' => 'The Currency field is required.',
+        //     'send_to.required' => 'The Send To field is required.',
+        //     'ppn.required' => 'The PPN To field is required.',
+        // ]);
         // dd($request->all());
         $data = CategoryPengajuanPembelian::find($id);
         $item = PengajuanPembelian::all();
@@ -222,7 +246,6 @@ class CategoryPOController extends Controller
 
 
         if ($request->term_conditions == "custom") {
-
             $term = TermsAndConditions::create([
                 "term_condition" => $request->term_condition,
             ]);
@@ -245,7 +268,9 @@ class CategoryPOController extends Controller
                 $purchase = $vendor2->vendors()->save($purchase);
             } elseif ($request->vendor == "ecommerce") {
                 $vendor3 = CategoryEcommerce::find($request->ecommerce);
+
                 $purchase = $vendor3->vendors()->save($purchase);
+
             }
 
              foreach ($data2['item'] as $key => $item) {
@@ -262,7 +287,9 @@ class CategoryPOController extends Controller
                     'pp_id' => $id
             ], $update);
             }
-        } else {
+        }
+
+        else {
 
             $ppn = CategoryPengajuanPembelian::find($id);
             $ppn->ppn =  $request->ppn;
@@ -273,6 +300,7 @@ class CategoryPOController extends Controller
                 "ppb_id" => $data->id,
                 "term_conditions" => $request->term_conditions,
                 "quotation" => $request->quotation,
+                // "ppn" => $request->ppn
             ]);
             if ($request->vendor == "company") {
                 $vendor1 = CategoryPT::find($request->perusahaan);
@@ -284,7 +312,31 @@ class CategoryPOController extends Controller
                 $vendor3 = CategoryEcommerce::find($request->ecommerce);
                 $purchase = $vendor3->vendors()->save($purchase);
             }
+        }
 
+    //     foreach($data2['vendor'] as $key => $vendor_po){
+    //         $purchase = array (
+    //             'ppb_id' =>  $data->id,
+    //             "term_conditions" =>  $data2['term_conditions'][$key],
+    //             "quotation" => $data2['quotation'][$key],
+    //             "item_ppid" => $data2['item_pid'][$key],
+    //         );
+
+
+    //         if ($vendor_po == "company") {
+    //             $vendor1 = CategoryPT::find($data2['perusahaan'][$key]);
+    //             $purchase = $vendor1->vendors()->create($purchase);
+    //         } elseif ($vendor_po == "privateperson") {
+    //             $vendor2 = CategoryPP::find($data2['orangpribadi'][$key]);
+    //             $purchase = $vendor2->vendors()->create($purchase);
+    //         } elseif ($vendor_po == "ecommerce") {
+    //             $vendor3 = CategoryEcommerce::find($data2['ecommerce'][$key]);
+    //             //  dd($vendor3->vendors());
+    //             $vendor3->vendors()->create($purchase);
+    //         }
+    //         // dd($purchase);
+    //     }
+    // }
 
              foreach ($data2['item'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
@@ -299,7 +351,7 @@ class CategoryPOController extends Controller
                     'item' => $data2['item'][$key],
                     'pp_id' => $id
             ], $update);
-            }
+
 
         }
 
@@ -368,6 +420,31 @@ class CategoryPOController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        // $request->validate([
+        //     'category_purpose' => 'required',
+        //     'date_ps' => 'required',
+        //     'dateline' => 'required',
+        //     'ws'      => 'required',
+        //     'department' => 'required',
+        //     'desc'  => 'required',
+        //     'atasan' => 'required',
+        //     'matauang' => 'required',
+        //     'send_to' => 'required',
+        //     // 'path_file.*' => 'mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf'
+        // ], [
+        //     'category_purpose.required' => 'The Purpose field is required.',
+        //     'date_ps.required' => 'The Date field is required.',
+        //     'dateline.required' => 'The Date Line field is required.',
+        //     'ws.required' => 'The Who Submitted field is required.',
+        //     'department.required' => 'The Department field is required.',
+        //     'desc.required' => 'The Description field is required.',
+        //     'atasan.required' => 'The Super User field is required.',
+        //     'mata_uang.required' => 'The Currency field is required.',
+        //     'send_to.required' => 'The Send To field is required.',
+        //     'ppn.required' => 'The PPN To field is required.',
+        // ]);
+
         $data = CategoryPengajuanPembelian::find($id);
         $data2 = $request->all();
         // dd($data2);

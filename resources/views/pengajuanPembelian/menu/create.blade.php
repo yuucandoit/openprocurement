@@ -431,7 +431,8 @@
             var item =
                 `<tr><td> <textarea name="item[]" id="" cols="30" rows="1"></textarea></td>
                      <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/></td>
-                     <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td>
+                     <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option><option value="Lot">Lot </option>
+                    </select></td>
                      <td><input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
                     @error('path_file')
                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -480,6 +481,9 @@
 
         var selectedInput5 = document.getElementById('selectedInput5');
         var selectedInputCustom5 = document.getElementById('selectedInputCustom5');
+
+        var selectedInput6 = document.getElementById('selectedInput6');
+        var selectedInputCustom6 = document.getElementById('selectedInputCustom6');
 
 
         // Project

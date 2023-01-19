@@ -240,7 +240,7 @@
                                                     <option value="ecommerce">Ecommerce</option>
                                                 </select>
 
-                                                <select class=" form-select hide mt-2" id="selectedInput"
+                                                <select class=" form-select selectedInput hide mt-2" id="selectedInput"
                                                     name="perusahaan">
                                                     @foreach ($pt as $p)
                                                         <option value="{{ $p->id }}">{{ $p->nama }}
@@ -248,14 +248,14 @@
                                                     @endforeach
                                                 </select>
 
-                                                <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
+                                                <select class=" form-select selectedInput2 hide" id="selectedInput2" name="orangpribadi">
                                                     @foreach ($op as $o)
                                                         <option value="{{ $o->id }}">{{ $o->nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
 
-                                                <select class=" form-select hide" id="selectedInput3" name="ecommerce">
+                                                <select class=" form-select selectedInput3 hide" id="selectedInput3" name="ecommerce">
                                                     @foreach ($ec as $e)
                                                         <option value="{{ $e->id }}">{{ $e->nama }}
                                                         </option>
@@ -310,6 +310,8 @@
                                                 </select>
                                             </div>
                                         </div>
+
+
                                         {{-- <style>
                                             .tutup {
                                                 width: 0;
@@ -326,8 +328,8 @@
                                             }
                                         </style>
 
-                                    <table class="table table-bordered mt-4 mx-2 po ">
-                                        <thead>
+                                    <table class="table table-bordered  mt-4 mx-2 po ">
+                                        <thead class="bg-primary">
                                             <tr class="text-center" style="font-size: 17; font-weight: bold;">
                                                 <th>Item id</th>
                                                 <th>Vendor</th>
@@ -338,6 +340,9 @@
                                         <tbody>
                                             <tr>
                                                 <td>
+                                                    <input type="text" name="item_id[]"
+                                                    placeholder="Input Item" class="form-control"
+                                                    style="text-align: center;" hidden />
                                                      <select class="js-example-basic-multiple" multiple="multiple"
                                                             placeholder="Proposed To" name="item_pid[]">
                                                             @foreach ($pengajuan as $i)
@@ -356,22 +361,22 @@
                                                     <option value="ecommerce">Ecommerce</option>
                                                 </select>
 
-                                                <select class=" form-select hide mt-2" id="selectedInput"
-                                                    name="perusahaan">
+                                                <select class=" form-select hide mt-2 selectedInput" id=""
+                                                    name="perusahaan[]">
                                                     @foreach ($pt as $p)
                                                         <option value="{{ $p->id }}">{{ $p->nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
 
-                                                <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
+                                                <select class=" form-select hide selectedInput2" id="" name="orangpribadi[]">
                                                     @foreach ($op as $o)
                                                         <option value="{{ $o->id }}">{{ $o->nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
 
-                                                <select class=" form-select hide" id="selectedInput3" name="ecommerce">
+                                                <select class=" form-select hide selectedInput3" id="" name="ecommerce[]">
                                                     @foreach ($ec as $e)
                                                         <option value="{{ $e->id }}">{{ $e->nama }}
                                                         </option>
@@ -576,13 +581,13 @@
                                 })
                             </script>
                             <script type="text/javascript">
-                                var pageSelect = document.getElementById('pageSelect');
-                                var selectedInput = document.getElementById('selectedInput');
-                                var selectedInputCustom = document.getElementById('selectedInputCustom');
-                                var selectedInput2 = document.getElementById('selectedInput2');
-                                var selectedInputCustom2 = document.getElementById('selectedInputCustom2');
-                                var selectedInput3 = document.getElementById('selectedInput3');
-                                var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
+                                var pageSelect = document.querySelector('.pageSelect');
+                                var selectedInput = document.querySelector('.selectedInput');
+                                var selectedInputCustom = document.querySelector('.selectedInputCustom');
+                                var selectedInput2 = document.querySelector('.selectedInput2');
+                                var selectedInputCustom2 = document.querySelector('.selectedInputCustom2');
+                                var selectedInput3 = document.querySelector('.selectedInput3');
+                                var selectedInputCustom3 = document.querySelector('.selectedInputCustom3');
                                 // Company
                                 pageSelect.addEventListener('change', function() {
                                     if (this.value == "company") {
@@ -618,12 +623,12 @@
                                     var po =
                                         `
                                 <tbody><tr><td><select class="js-example-basic-multiple" multiple="multiple"
-                                                            placeholder="Proposed To" name="item_pid[]">
+                                                            placeholder="Proposed To" name="item_pid[]" >
                                                             @foreach ($pengajuan as $i)
                                                             <option value="{{ $i->id }}">{{ $i->item }}</option>
                                                             @endforeach
                                                     </select></td><td>
-                                                    <select class="form-select  pageSelect" id="pageSelect"
+                                                    <select class="form-select  pageSelect" id=""
                                                     placeholder="Proposed To" name="vendor[]">
                                                     <option value="" disabled selected hidden>Select Vendor
                                                     </option>
@@ -632,8 +637,8 @@
                                                     <option value="ecommerce">Ecommerce</option>
                                                 </select>
                                                 {{-- Perusahaan Dropdown --}}
-                                                 <select class=" form-select hide mt-2" id="selectedInput"
-                                                    name="perusahaan">
+                                                 <select class=" form-select  mt-2 selectedInput" id=""
+                                                    name="perusahaan[]">
                                                     @foreach ($pt as $p)
                                                         <option value="{{ $p->id }}">{{ $p->nama }}
                                                         </option>
@@ -642,7 +647,7 @@
                                                 {{-- End Perusahaan Dropdown --}}
 
                                                 {{-- Private Person Dropdown --}}
-                                                 <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
+                                                 <select class=" form-select  selectedInput2" id="" name="orangpribadi[]">
                                                     @foreach ($op as $o)
                                                         <option value="{{ $o->id }}">{{ $o->nama }}
                                                         </option>
@@ -651,7 +656,7 @@
                                                 {{-- End Private Person Dropdown --}}
 
                                                 {{-- Ecommerce Dropdown --}}
-                                                <select class=" form-select hide" id="selectedInput3" name="ecommerce">
+                                                <select class=" form-select  selectedInput3" id="" name="ecommerce[]">
                                                     @foreach ($ec as $e)
                                                         <option value="{{ $e->id }}">{{ $e->nama }}
                                                         </option>
@@ -687,6 +692,38 @@
                                         `;
                                     $(".po").append(po)
                                     $('.js-example-basic-multiple').select2();
+
+                                var pageSelect = document.querySelector('.pageSelect');
+                                var selectedInput = document.querySelector('.selectedInput');
+                                var selectedInputCustom = document.querySelector('.selectedInputCustom');
+                                var selectedInput2 = document.querySelector('.selectedInput2');
+                                var selectedInputCustom2 = document.querySelector('.selectedInputCustom2');
+                                var selectedInput3 = document.querySelector('.selectedInput3');
+                                var selectedInputCustom3 = document.querySelector('.selectedInputCustom3');
+                                // Company
+                                pageSelect.addEventListener('change', function() {
+                                    if (this.value == "company") {
+                                        selectedInput.classList.remove('hide');
+                                    } else {
+                                        selectedInput.classList.add('hide');
+                                    }
+                                })
+                                // Private Person
+                                pageSelect.addEventListener('change', function() {
+                                    if (this.value == "privateperson") {
+                                        selectedInput2.classList.remove('hide');
+                                    } else {
+                                        selectedInput2.classList.add('hide');
+                                    }
+                                })
+                                // Ecommerce
+                                pageSelect.addEventListener('change', function() {
+                                    if (this.value == "ecommerce") {
+                                        selectedInput3.classList.remove('hide');
+                                    } else {
+                                        selectedInput3.classList.add('hide');
+                                    }
+                                })
                                 }
                                 $(document).on('click', '.remove-input-field', function() {
                                     $(this).parents('tr').remove();
