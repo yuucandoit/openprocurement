@@ -33,13 +33,8 @@ class CategoryPOController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
 
         if ($check->role_id == 4 || $check->role_id == 3) {
-            $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'in');
-            // $datappb->setPageName('in');
+            $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('dateline', 'asc')->orderBy('approved_at', 'desc')->paginate(10, ['*'],'in');
             $datappb2           = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->first();
-            // $datahstry          = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
-            // ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            // ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10, ['*'],'out');
-            // $datahstry->setPageName('out');
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();
             $dataws             = WhoSubmitted::all();
