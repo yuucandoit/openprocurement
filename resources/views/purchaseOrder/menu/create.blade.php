@@ -211,7 +211,7 @@
                                             </tr>
                                         </table>
                                         {{-- css hide --}}
-                                        <style>
+                                        {{-- <style>
                                             .tutup {
                                                 width: 0;
                                                 height: 0;
@@ -309,10 +309,10 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
 
-                                        {{-- <style>
+                                        <style>
                                             .tutup {
                                                 width: 0;
                                                 height: 0;
@@ -328,7 +328,7 @@
                                             }
                                         </style>
 
-                                    <table class="table table-bordered  mt-4 mx-2 po ">
+                                    <table class="table table-bordered  mt-4 mx-2 po" id="po">
                                         <thead class="bg-primary">
                                             <tr class="text-center" style="font-size: 17; font-weight: bold;">
                                                 <th>Item id</th>
@@ -341,7 +341,7 @@
                                             <tr>
                                                 <td>
                                                      <select class="js-example-basic-multiple" multiple="multiple"
-                                                            placeholder="Proposed To" name="item_ppid[]">
+                                                            placeholder="Proposed To" name="item_ppid_0[]]">
                                                             @foreach ($pengajuan as $i)
                                                             <option value="{{ $i->id }}">{{ $i->item }}</option>
                                                             @endforeach
@@ -414,10 +414,10 @@
                                     </table>
                                     <div>
                                         <button type="button" name="add"
-                                            class="addPo btn btn-outline-primary"> AddPO
+                                            class="btn btn-outline-primary addPo" id="addPo"> AddPO
                                             <i class="fa fa-plus"></i>
                                         </button>
-                                    </div> --}}
+                                    </div>
 
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -612,120 +612,26 @@
                                 })
                 </script>
 
-                <script>
-                    //Add Form
-                    $(".addPo").on('click', function() {
-                                    addPO();
-                                });
-                                function addPO() {
-                                    var po =
-                                        `
-                                <tbody><tr><td><select class="js-example-basic-multiple" multiple="multiple"
-                                                            placeholder="Proposed To" name="item_ppid[]" >
-                                                            @foreach ($pengajuan as $i)
-                                                            <option value="{{ $i->id }}">{{ $i->item }}</option>
-                                                            @endforeach
-                                                    </select></td><td>
-                                                    <select class="form-select  pageSelect" id=""
-                                                    placeholder="Proposed To" name="vendor[]">
-                                                    <option value="" disabled selected hidden>Select Vendor
-                                                    </option>
-                                                    <option value="company">Company</option>
-                                                    <option value="privateperson">Private Person</option>
-                                                    <option value="ecommerce">Ecommerce</option>
-                                                </select>
-                                                {{-- Perusahaan Dropdown --}}
-                                                 <select class=" form-select  mt-2 selectedInput" id=""
-                                                    name="perusahaan[]">
-                                                    @foreach ($pt as $p)
-                                                        <option value="{{ $p->id }}">{{ $p->nama }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                {{-- End Perusahaan Dropdown --}}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+ //Add Form
+ var a = 0;
+ $(".addPo").on('click', function() {
+    addPO();
+    console.log(addPO);
+    });
+    function addPO() {
+        ++a;
+       var po = `<tbody><tr><td><select class="js-example-basic-multiple" multiple="multiple"placeholder="Proposed To" name="item_ppid_`+ a +`[]" >@foreach ($pengajuan as $i)<option value="{{ $i->id }}">{{ $i->item }}</option>@endforeach</select></td><td><select class="form-select  pageSelect" id=""placeholder="Proposed To" name="vendor[]"><option value="" disabled selected hidden>Select Vendor</option><option value="company">Company</option><option value="privateperson">Private Person</option><option value="ecommerce">Ecommerce</option></select><select class=" form-select  mt-2 selectedInput" id=""name="perusahaan[]">@foreach ($pt as $p)<option value="{{ $p->id }}">{{ $p->nama }}</option>@endforeach</select><select class=" form-select  selectedInput2" id="" name="orangpribadi[]">@foreach ($op as $o)<option value="{{ $o->id }}">{{ $o->nama }}</option>@endforeach</select><select class=" form-select  selectedInput3" id="" name="ecommerce[]">@foreach ($ec as $e)<option value="{{ $e->id }}">{{ $e->nama }}</option>@endforeach</select></td><td><div><input required type="text" class="form-control"id="floatingQuotation" placeholder="Quotation" name="quotation[]"><div class="invalid-feedback"></div></div> </td><td><select class="form-select" id="pageSelector"placeholder="Terms and Conditions" name="term_conditions[]"><option value="" disabled selected hidden>Terms And Conditions</option>@foreach ($terms as $t)<option value="{{ $t->id }}">{{ $t->term_condition }}</option>@endforeach<option value="custom">+ Add Terms & Conditions</option></select><textarea class="hide form-control mt-2 " name="term_condition[]" id="customInput" cols="30" rows="5"placeholder="Input Terms And Conditions"></textarea></td></tr></tbody>`;
+        $(".po").append(po)
 
-                                                {{-- Private Person Dropdown --}}
-                                                 <select class=" form-select  selectedInput2" id="" name="orangpribadi[]">
-                                                    @foreach ($op as $o)
-                                                        <option value="{{ $o->id }}">{{ $o->nama }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                {{-- End Private Person Dropdown --}}
+        $('.js-example-basic-multiple').select2();
 
-                                                {{-- Ecommerce Dropdown --}}
-                                                <select class=" form-select  selectedInput3" id="" name="ecommerce[]">
-                                                    @foreach ($ec as $e)
-                                                        <option value="{{ $e->id }}">{{ $e->nama }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                {{-- End Ecommerce Dropdown --}}
-                                                 </td>
-
-                                                <td>
-                                                    <div >
-                                                        <input required type="text" class="form-control"
-                                                            id="floatingQuotation" placeholder="Quotation" name="quotation[]" >
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                 <select class="form-select" id="pageSelector"
-                                                    placeholder="Terms and Conditions" name="term_conditions[]">
-                                                    <option value="" disabled selected hidden>Terms And Conditions
-                                                    </option>
-                                                    @foreach ($terms as $t)
-                                                        <option value="{{ $t->id }}">
-                                                            {{ $t->term_condition }}
-                                                        </option>
-                                                    @endforeach
-                                                    <option value="custom">+ Add Terms & Conditions</option>
-                                                </select>
-                                                    <textarea class="hide form-control mt-2 " name="term_condition[]" id="customInput" cols="30" rows="5"
-                                                        placeholder="Input Terms And Conditions"></textarea>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        `;
-                                    $(".po").append(po)
-                                    $('.js-example-basic-multiple').select2();
-
-                                var pageSelect = document.querySelector('.pageSelect');
-                                var selectedInput = document.querySelector('.selectedInput');
-                                var selectedInputCustom = document.querySelector('.selectedInputCustom');
-                                var selectedInput2 = document.querySelector('.selectedInput2');
-                                var selectedInputCustom2 = document.querySelector('.selectedInputCustom2');
-                                var selectedInput3 = document.querySelector('.selectedInput3');
-                                var selectedInputCustom3 = document.querySelector('.selectedInputCustom3');
-                                // Company
-                                pageSelect.addEventListener('change', function() {
-                                    if (this.value == "company") {
-                                        selectedInput.classList.remove('hide');
-                                    } else {
-                                        selectedInput.classList.add('hide');
-                                    }
-                                })
-                                // Private Person
-                                pageSelect.addEventListener('change', function() {
-                                    if (this.value == "privateperson") {
-                                        selectedInput2.classList.remove('hide');
-                                    } else {
-                                        selectedInput2.classList.add('hide');
-                                    }
-                                })
-                                // Ecommerce
-                                pageSelect.addEventListener('change', function() {
-                                    if (this.value == "ecommerce") {
-                                        selectedInput3.classList.remove('hide');
-                                    } else {
-                                        selectedInput3.classList.add('hide');
-                                    }
-                                })
                                 }
                                 $(document).on('click', '.remove-input-field', function() {
                                     $(this).parents('tr').remove();
                                 });
-                </script>
-    </section>
+                            </script>
+                                </section>
 @endsection
