@@ -304,10 +304,13 @@ class InvoicingController extends Controller
     public function ajukan_dana($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        // dd($data);
+        if(empty($data->atasan_po)){
+            return redirect()->back()->withErrors(["Approver Not Found"]);
+        }else{
         $data->status = 'Invoicing Process';
         $data->save();
         return redirect('send-payment/'.$data->id);
+        }
     }
 
     public function Reject($id)
