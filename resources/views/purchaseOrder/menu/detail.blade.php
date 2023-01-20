@@ -108,6 +108,16 @@
                                                 @endif
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>Approve To</td>
+                                            <td>
+                                                @if(empty($data_pengajuan->atasans->name))
+                                                    -
+                                                @else
+                                                {{ $data_pengajuan->atasans->name }}
+                                                @endif
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
 
@@ -228,8 +238,13 @@
                                         data-bs-target="#modalSelesai" disabled>Approval Request Sent
                                     </button>
                                 @elseif ($data_pengajuan->status == 'Purchase Proses')
-                                    <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                        data-bs-target="#modalSelesai">Send Approval Request For Purchase Order</button>
+                                @if(empty($data_pengajuan->atasans->name))
+                                <button class="btn btn-outline-success mt-2 disabled" data-bs-toggle="modal"
+                                data-bs-target="#modalSelesai">Send Approval Request For Purchase Order</button>
+                                @else
+                                <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
+                                data-bs-target="#modalSelesai">Send Approval Request For Purchase Order</button>
+                                @endif
                                 @endif
 
                                 <style>

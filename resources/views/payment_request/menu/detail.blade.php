@@ -237,12 +237,22 @@
                                         data-bs-target="#modalSelesai" disabled>Successfully send data</button>
                                 </div>
                             @elseif ($data_pengajuan->status == 'PO Approved')
-                                <div class="text-center">
-                                    <button class="btn btn-success mt-4 " data-bs-toggle="modal"
-                                        data-bs-target="#modalSelesai">Apply For Payment
-                                        Process
-                                    </button>
-                                </div>
+                            @if(empty($data_pengajuan->atasanpymnt->name))
+                            <div class="text-center">
+                                <button class="btn btn-success mt-4 disabled" data-bs-toggle="modal"
+                                    data-bs-target="#modalSelesai">Apply For Payment
+                                    Process
+                                </button>
+                            </div>
+                            @else
+                            <div class="text-center">
+                                <button class="btn btn-success mt-4 " data-bs-toggle="modal"
+                                    data-bs-target="#modalSelesai">Apply For Payment
+                                    Process
+                                </button>
+                            </div>
+                            @endif
+
                             @endif
 
                             <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">

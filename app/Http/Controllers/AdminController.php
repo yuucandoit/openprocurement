@@ -223,10 +223,20 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $item = User::findOrFail($id);
-        $admin = $request->except('_token');
-        $item->update($admin);
-        return redirect('/purchase-order');
+        $this->validate($request, [
+            "name" => 'required',
+            "email" => 'required',
+        ]);
+        $data2 = $request->all();
+
+        $data = User::find($id);
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->password = Hash::make($request->password);
+        $data->save();
+
+
+        return redirect()->route('admin.index')->with('success', 'Task Created Successfully!');
     }
 
     /**

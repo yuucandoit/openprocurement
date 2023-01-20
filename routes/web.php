@@ -386,6 +386,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/create-admin', [AdminController::class, 'create']);
     Route::get('/show-admin/{id}', [AdminController::class, 'show']);
     Route::post('/store-admin', [AdminController::class, 'store']);
+    Route::get('/admin-edit/{id}', [AdminController::class, 'edit']);
     Route::post('/admin-update/{id}', [AdminController::class, 'update']);
     Route::get('/admin-destroy/{id}', [AdminController::class, 'destroy']);
     Route::get('/search/users',[AdminController::class, 'SearchUsers'])->name('admin.SearchUser');

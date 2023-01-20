@@ -73,6 +73,59 @@
             </div>
         </div>
     </div>
+
+    @foreach ($admin as $edit)
+    <div class="modal fade" id="modalEdit{{ $edit->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h2 class="modal-title" style="color: white">Edit User</h2>
+                    <button style="color: white" type="button" class="" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <form action={{ url('admin-update/'.$edit->id) }} id="formEdit" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body container">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input required type="text" class="form-control mt-2" id="floatingName"
+                                    placeholder="Name" name="name" value="{{ $edit->name }}" required>
+                                <label for="floatingKeterangan">Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input required asp-for="email" type="email"
+                                    class="form-control mt-3 @error('email') is invalid @enderror" id="floatingEmail"
+                                    placeholder="Email" name="email" value="{{ $edit->email }}" required>
+                                <label for="floatingEmail">Email</label>
+                            </div>
+                            @error('email')
+                                <div class='mt-1'>
+                                    <span class=" text-danger" asp-validation-for="email">
+                                        {{ $message }}
+                                    </span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input type="password" class="form-control mt-3" id="floatingPassword"
+                                    placeholder="Password" name="password">
+                                <label for="floatingPassword">Password</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
     @foreach ($admin as $a)
         <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -139,6 +192,7 @@
                                 <td>{{ $dataAdmin->email }}</td>
                                 <td>{{ $dataAdmin->roles->pluck('name')->implode('') }}</td>
                                 <td>
+                                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdit{{ $dataAdmin->id }}">Edit</button>
                                     <button class="btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#modalDelete{{ $dataAdmin->id }}">Delete</button>
                                 </td>

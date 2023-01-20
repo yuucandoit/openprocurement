@@ -313,29 +313,37 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
         }
+        // foreach($data2['item_ppid'] as $ppid => $item_id){
+        // foreach($data2['vendor'] as $vendorable => $vendor_po){
+        //         $purchase = array (
+        //             'ppb_id' =>  $data->id,
+        //             "term_conditions" =>  $data2['term_conditions'][$vendorable],
+        //             "quotation" => $data2['quotation'][$vendorable],
+        //             "item_ppid" =>  $data2['item_ppid'][$vendorable],
+        //         );
 
-    //     foreach($data2['vendor'] as $key => $vendor_po){
-    //         $purchase = array (
-    //             'ppb_id' =>  $data->id,
-    //             "term_conditions" =>  $data2['term_conditions'][$key],
-    //             "quotation" => $data2['quotation'][$key],
-    //             "item_ppid" => $data2['item_pid'][$key],
-    //         );
+
+        //         if ($vendor_po == "company") {
+        //             $vendor1 = CategoryPT::find($data2['perusahaan'][$vendorable]);
+        //              $vendor1->vendors()->create($purchase);
+
+        //         } elseif ($vendor_po == "privateperson") {
+        //             $vendor2 = CategoryPP::find($data2['orangpribadi'][$vendorable]);
+        //              $vendor2->vendors()->create($purchase);
+
+        //         } elseif ($vendor_po == "ecommerce") {
+        //             $vendor3 = CategoryEcommerce::find($data2['ecommerce'][$vendorable]);
+        //             //    dd($vendor3->vendors());
+        //             $vendor3->vendors()->create($purchase);
+        //         }
+        //         // print_r($data2['item_ppid'][$vendorable]);
+        //         print_r($data2['vendor'][$vendorable]);
+        //         dd($data2);
+        //     // }
+
+        // }
 
 
-    //         if ($vendor_po == "company") {
-    //             $vendor1 = CategoryPT::find($data2['perusahaan'][$key]);
-    //             $purchase = $vendor1->vendors()->create($purchase);
-    //         } elseif ($vendor_po == "privateperson") {
-    //             $vendor2 = CategoryPP::find($data2['orangpribadi'][$key]);
-    //             $purchase = $vendor2->vendors()->create($purchase);
-    //         } elseif ($vendor_po == "ecommerce") {
-    //             $vendor3 = CategoryEcommerce::find($data2['ecommerce'][$key]);
-    //             //  dd($vendor3->vendors());
-    //             $vendor3->vendors()->create($purchase);
-    //         }
-    //         // dd($purchase);
-    //     }
     // }
 
              foreach ($data2['item'] as $key => $item) {
@@ -571,10 +579,15 @@ class CategoryPOController extends Controller
 
     public function ajukan_keatasan($id)
     {
+
         $data = CategoryPengajuanPembelian::find($id);
+        if(empty($data->atasan_po)){
+            return redirect()->back()->withErrors(["Approver Not Found"]);
+        }else{
         $data->status = 'Waiting For PO Approval';
         $data->save();
         return redirect('send-purchase/'.$data->id);
+        }
     }
 
     public function Reject($id)

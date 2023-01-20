@@ -340,15 +340,13 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <input type="text" name="item_id[]"
-                                                    placeholder="Input Item" class="form-control"
-                                                    style="text-align: center;" hidden />
                                                      <select class="js-example-basic-multiple" multiple="multiple"
-                                                            placeholder="Proposed To" name="item_pid[]">
+                                                            placeholder="Proposed To" name="item_ppid[]">
                                                             @foreach ($pengajuan as $i)
                                                             <option value="{{ $i->id }}">{{ $i->item }}</option>
                                                             @endforeach
                                                     </select>
+
 
                                                 </td>
                                                 <td>
@@ -623,7 +621,7 @@
                                     var po =
                                         `
                                 <tbody><tr><td><select class="js-example-basic-multiple" multiple="multiple"
-                                                            placeholder="Proposed To" name="item_pid[]" >
+                                                            placeholder="Proposed To" name="item_ppid[]" >
                                                             @foreach ($pengajuan as $i)
                                                             <option value="{{ $i->id }}">{{ $i->item }}</option>
                                                             @endforeach

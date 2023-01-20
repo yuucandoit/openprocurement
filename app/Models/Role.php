@@ -15,3 +15,4 @@ class Role extends Model
         'model_id',
     ];
 }
+
