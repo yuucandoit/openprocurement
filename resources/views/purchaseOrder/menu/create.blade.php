@@ -211,7 +211,7 @@
                                             </tr>
                                         </table>
                                         {{-- css hide --}}
-                                        {{-- <style>
+                                        <style>
                                             .tutup {
                                                 width: 0;
                                                 height: 0;
@@ -309,10 +309,10 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div> --}}
+                                        </div>
 
 
-                                        <style>
+                                        {{-- <style>
                                             .tutup {
                                                 width: 0;
                                                 height: 0;
@@ -417,7 +417,7 @@
                                             class="btn btn-outline-primary addPo" id="addPo"> AddPO
                                             <i class="fa fa-plus"></i>
                                         </button>
-                                    </div>
+                                    </div> --}}
 
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Submit</button>
