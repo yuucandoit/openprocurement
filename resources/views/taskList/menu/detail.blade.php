@@ -98,12 +98,13 @@
                                     </tbody>
                                 </table>
 
-                                <table class="table table-bordered mt-4 mb-4">
-                                    <thead>
+                                <table class="table table-bordered table-hover mt-4 mb-4">
+                                    <thead class="bg-primary">
                                         <tr class="text-center">
                                             <th>Item</th>
                                             <th>Qty</th>
                                             <th>Category</th>
+                                            <th>File</th>
                                             <th>Price-per-unit</th>
                                             <th>Total</th>
                                         </tr>
@@ -114,6 +115,11 @@
                                                 <td style="text-align: center;">{{ $p->item }}</td>
                                                 <td style="text-align: center;">{{ $p->qty }}</td>
                                                 <td style="text-align: center;">{{ $p->kategori }}</td>
+                                                @if(empty($p->path_file))
+                                                <td></td>
+                                                @else
+                                                <td style="text-align: center;"><a href="/upload_pengajuan/{{ $p->path_file }}" class="btn btn-danger " target="_blank">See File</a></td>
+                                                @endif
                                                 @if ($data_pengajuan->matauang == 'RP')
                                                     <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}
                                                     </td>

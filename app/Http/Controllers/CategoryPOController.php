@@ -284,7 +284,7 @@ class CategoryPOController extends Controller
                 );
                 PengajuanPembelian::updateOrCreate([
                     'item' => $data2['item'][$key],
-                    'id' => $item
+                    'pp_id' => $id,
             ], $update);
             }
         }
@@ -363,7 +363,6 @@ class CategoryPOController extends Controller
                 PengajuanPembelian::updateOrCreate([
                     'item' => $data2['item'][$key],
                     'pp_id' => $id,
-                    'id' => $item,
             ], $update);
 
 

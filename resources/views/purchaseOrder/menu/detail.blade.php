@@ -128,7 +128,8 @@
                                             <th>No</th>
                                             <th>Item</th>
                                             <th>Qty</th>
-                                            <th>Categori</th>
+                                            <th>Category</th>
+                                            <th>File</th>
                                             <th>Price-per-unit</th>
                                             <th>Total</th>
                                         </tr>
@@ -144,6 +145,11 @@
                                                 <td style="text-align: center;">{{ $p->item }}</td>
                                                 <td style="text-align: center;">{{ $p->qty }}</td>
                                                 <td style="text-align: center;">{{ $p->kategori }}</td>
+                                                @if(empty($p->path_file))
+                                                <td></td>
+                                                @else
+                                                <td style="text-align: center;"><a href="/upload_pengajuan/{{ $p->path_file }}" class="btn btn-danger" target="_blank">See File</a></td>
+                                                @endif
                                                 @if ($data_pengajuan->matauang == 'RP')
                                                     <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}
                                                     </td>
@@ -239,11 +245,15 @@
                                     </button>
                                 @elseif ($data_pengajuan->status == 'Purchase Proses')
                                 @if(empty($data_pengajuan->atasans->name))
+                                <div class="text-center">
                                 <button class="btn btn-outline-success mt-2 disabled" data-bs-toggle="modal"
                                 data-bs-target="#modalSelesai">Send Approval Request For Purchase Order</button>
+                                </div>
                                 @else
+                                <div class="text-center">
                                 <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
                                 data-bs-target="#modalSelesai">Send Approval Request For Purchase Order</button>
+                                </div>
                                 @endif
                                 @endif
 
@@ -324,11 +334,11 @@
                                             </div>
                                             {{-- End Modal Approval --}}
 
-                                            <div class="modal-footer">
+                                            <div class="modal-footer" >
                                                 @if ($data_pengajuan->status == 'Purchase Proses')
-                                                    <form class="text-center"
+                                                    <form class="text-center" style="text-align: center;"
                                                         action="{{ url('menu-purchase-order/ajukan_keatasan/' . $data_pengajuan->id) }}">
-                                                        <button type="submit" class="btn btn-outline-danger "><i
+                                                        <button type="submit" class="btn btn-outline-danger " ><i
                                                                 class="bx bx-trash"></i>
                                                             Send Approval Request For Purchase Order
                                                         </button>
