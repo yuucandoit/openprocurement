@@ -34,13 +34,14 @@ class CategoryPOController extends Controller
 
         if ($check->role_id == 4 || $check->role_id == 3) {
             $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('dateline', 'asc')->orderBy('approved_at', 'desc')->paginate(10, ['*'],'in');
-            $datappb2           = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->first();
+            $datappb2           = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->get();
+
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $ec                 = CategoryEcommerce::all();
-            $datapo             = CategoryPO::first();
+            $datapo             = CategoryPO::all();
             //dd($datappb);
             return view('purchaseOrder.menu.index')
                 ->with('pt', $pt)
@@ -63,6 +64,9 @@ class CategoryPOController extends Controller
     orWhere('id','like',"%".$cariIn."%")
     ->orWhere('status','like',"%".$cariIn."%")
     ->orWhere('desc','like',"%".$cariIn."%")
+    ->orWhereHas('itemppn', function($i) use($cariIn){
+        $i->where('item','like',"%".$cariIn."%");
+    })
     ->orWhereHas('whosubmit', function($q) use($cariIn){
          $q->where('name','like',"%".$cariIn."%");
     })
@@ -83,7 +87,7 @@ class CategoryPOController extends Controller
        if ($check->role_id == 4 || $check->role_id == 3) {
         $datappb          = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
         ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-        ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10, ['*'],'out');
+        ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('updated_at','desc')->paginate(10, ['*'],'out');
            $pt = CategoryPT::all();
            $op = CategoryPP::all();
            $ec = CategoryEcommerce::all();
@@ -105,6 +109,9 @@ class CategoryPOController extends Controller
     ->orWhere('id','like',"%".$cariOut."%")
     ->orWhere('status','like',"%".$cariOut."%")
     ->orWhere('desc','like',"%".$cariOut."%")
+    ->orWhereHas('itemppn', function($i) use($cariOut){
+        $i->where('item','like',"%".$cariOut."%");
+    })
     ->orWhereHas('whosubmit', function($q) use($cariOut){
          $q->where('name','like',"%".$cariOut."%");
     })
@@ -210,29 +217,6 @@ class CategoryPOController extends Controller
     public function store(Request $request, $id)
     {
 
-        // $request->validate([
-        //     'category_purpose' => 'required',
-        //     'date_ps' => 'required',
-        //     'dateline' => 'required',
-        //     'ws'      => 'required',
-        //     'department' => 'required',
-        //     'desc'  => 'required',
-        //     'atasan' => 'required',
-        //     'matauang' => 'required',
-        //     'send_to' => 'required',
-        //     // 'path_file.*' => 'mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf'
-        // ], [
-        //     'category_purpose.required' => 'The Purpose field is required.',
-        //     'date_ps.required' => 'The Date field is required.',
-        //     'dateline.required' => 'The Date Line field is required.',
-        //     'ws.required' => 'The Who Submitted field is required.',
-        //     'department.required' => 'The Department field is required.',
-        //     'desc.required' => 'The Description field is required.',
-        //     'atasan.required' => 'The Super User field is required.',
-        //     'mata_uang.required' => 'The Currency field is required.',
-        //     'send_to.required' => 'The Send To field is required.',
-        //     'ppn.required' => 'The PPN To field is required.',
-        // ]);
         // dd($request->all());
         $data = CategoryPengajuanPembelian::find($id);
         $item = PengajuanPembelian::all();
@@ -268,18 +252,20 @@ class CategoryPOController extends Controller
                 $purchase = $vendor2->vendors()->save($purchase);
             } elseif ($request->vendor == "ecommerce") {
                 $vendor3 = CategoryEcommerce::find($request->ecommerce);
-
                 $purchase = $vendor3->vendors()->save($purchase);
 
             }
 
              foreach ($data2['id'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
+                // $diskon = str_replace(".", "", $data2['discount'],);
+                //dd($diskon);
                 $update = array(
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
                     'unit_price'        => $unit_price,
+                    // 'discount'          => $data2['discount'][$key],
                     'total'             => $data2['total'][$key],
                 );
                 PengajuanPembelian::updateOrCreate([
@@ -290,6 +276,7 @@ class CategoryPOController extends Controller
         }
 
         else {
+            $po = CategoryPO::where('ppb_id',$id)->first();
 
             $ppn = CategoryPengajuanPembelian::find($id);
             $ppn->ppn =  $request->ppn;
@@ -314,50 +301,52 @@ class CategoryPOController extends Controller
             }
         }
         // foreach($data2['item_ppid'] as $ppid => $item_id){
-        // foreach($data2['vendor'] as $vendorable => $vendor_po){
-        //     dd($data2['item_ppid_'.$vendorable]);
-        //     foreach($data2['item_ppid_'.$vendorable] as $item_id){
-        //         $purchase = array (
-        //             'ppb_id' =>  $data->id,
-        //             "term_conditions" =>  $data2['term_conditions'][$vendorable],
-        //             "quotation" => $data2['quotation'][$vendorable],
-        //             "item_ppid" =>  $item_id,
-        //         );
+    //     foreach($data2['vendor'] as $vendorable => $vendor_po){
+    //         // dd($data2['item_ppid_'.$vendorable]);
+    //         foreach($data2['item_ppid_'.$vendorable] as $item_id){
+    //             $purchase = array (
+    //                 'ppb_id' =>  $data->id,
+    //                 "term_conditions" =>  $data2['term_conditions'][$vendorable],
+    //                 "quotation" => $data2['quotation'][$vendorable],
+    //                 "item_ppid" =>  $item_id,
+    //             );
 
 
-        //         if ($vendor_po == "company") {
+    //             if ($vendor_po == "company") {
 
-        //             $vendor1 = CategoryPT::find($data2['perusahaan'][$vendorable]);
-        //             // dd($vendor1->vendors());
-        //              $vendor1->vendors()->create($purchase);
+    //                 $vendor1 = CategoryPT::find($data2['perusahaan'][$vendorable]);
+    //                 // dd($vendor1->vendors());
+    //                  $vendor1->vendors()->create($purchase);
 
-        //         } elseif ($vendor_po == "privateperson") {
-        //             $vendor2 = CategoryPP::find($data2['orangpribadi'][$vendorable]);
-        //              $vendor2->vendors()->create($purchase);
+    //             } elseif ($vendor_po == "privateperson") {
+    //                 $vendor2 = CategoryPP::find($data2['orangpribadi'][$vendorable]);
+    //                  $vendor2->vendors()->create($purchase);
 
-        //         } elseif ($vendor_po == "ecommerce") {
-        //             $vendor3 = CategoryEcommerce::find($data2['ecommerce'][$vendorable]);
-        //             //    dd($vendor3->vendors());
-        //             $vendor3->vendors()->create($purchase);
-        //         }
-        //         // print_r($data2['item_ppid'][$vendorable]);
-        //         // dd($data2);
-        //         // print_r($data2['vendor'][$vendorable]);
-        //         // dd($data2['item_ppid_'.$vendorable]);
-        //     // }
-        //     }
-        // }
-
-
+    //             } elseif ($vendor_po == "ecommerce") {
+    //                 $vendor3 = CategoryEcommerce::find($data2['ecommerce'][$vendorable]);
+    //                 //    dd($vendor3->vendors());
+    //                 $vendor3->vendors()->create($purchase);
+    //             }
+    //             // print_r($data2['item_ppid'][$vendorable]);
+    //             // dd($data2);
+    //             // print_r($data2['vendor'][$vendorable]);
+    //             // dd($data2['item_ppid_'.$vendorable]);
+    //         // }
+    //         }
+    //     }
     // }
+
 
              foreach ($data2['id'] as $key => $item) {
                 $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
+                // $diskon = str_replace(".", "", $data2['discount'],);
+                // dd($diskon);
                 $update = array(
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
                     'unit_price'        => $unit_price,
+                    // 'discount'          => $diskon,
                     'total'             => $data2['total'][$key],
                 );
                 PengajuanPembelian::updateOrCreate([

@@ -207,9 +207,17 @@ class CategoryTaskListController extends Controller
 
     public function reject(Request $request,$id)
     {
+        // dd($request->all());
+        $path_name        = $request->file('path_img');
+        // dd( $request->file('path_img'));
+        $name             = $path_name->getClientOriginalName();
+        // dd($name);
+        $path_name->move('upload_pengajuan_reject', $name);
+
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Rejected by Purchasing';
-         $data->note_purchase = $request->note_purchase;
+        $data->path_img = $name;
+        $data->note_purchase = $request->note_purchase;
         $data->save();
         return redirect('menu-task-list');
     }

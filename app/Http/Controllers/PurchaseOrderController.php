@@ -145,8 +145,13 @@ class PurchaseOrderController extends Controller
 
     public function exportpdf($id)
     {
+        // dd($id);
         $data['cpp'] = CategoryPengajuanPembelian::find($id);
+        // $data['cpo'] = CategoryPO::where('ppb_id', $id)->get();
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->first();
+        // foreach($data['cpo'] as $po){
+        // dd($po);
+        // }
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
         $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
         $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -157,6 +162,29 @@ class PurchaseOrderController extends Controller
         $data['month'] = Carbon::now()->format('m');
 
         $pdf = PDF::loadView('purchaseOrder.export-pdf.purchase', $data)->setpaper('A4', 'potrait');
+        return $pdf->stream('PurchaseOrder.pdf');
+
+    }
+
+    public function exportpdf_poid($id)
+    {
+        // dd($id);
+        // $data['cpp'] = CategoryPengajuanPembelian::get();
+        $data['cpo'] = CategoryPO::find($id);
+
+        // dd($data['cpo']->items->pp_id);
+        $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
+        // $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
+        // dd( $data['category_q']);
+        $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('id', $id)->get();
+        // dd($data['dpp']);
+        $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('id', $id)->get();
+        $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('id', $id)->get();
+        $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('id', $id)->get();
+        $data['year'] = Carbon::now()->format('y');
+        $data['month'] = Carbon::now()->format('m');
+
+        $pdf = PDF::loadView('purchaseOrder.export-pdf.purchase_id', $data)->setpaper('A4', 'potrait');
         return $pdf->stream('PurchaseOrder.pdf');
 
     }

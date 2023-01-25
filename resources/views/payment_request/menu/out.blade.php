@@ -44,7 +44,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Name</th>
-                                    <th>Description</th>
+                                    <th>Item</th>
                                     {{-- <th>Send To</th> --}}
                                     <th>Deadline</th>
                                     @hasrole('purchasing|super admin')
@@ -63,8 +63,19 @@
                                         @php $approvedPPB[] =$ppb; @endphp
                                         <tr>
                                             <td style="text-align: center;">{{ $i++ }}</td>
-                                            <td >{{ $ppb->whosubmit->name }}</td>
-                                            <td ><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                            <td >
+                                                <ul>
+                                                    <li>{{ $ppb->whosubmit->name }}</li>
+                                                    <li><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{!! nl2br($ppb->desc) !!}</a></li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                @foreach ($ppb->itemppn as $item)
+                                                <ul>
+                                                    <li style="word-break: break-all;">{{ $item->item }}</li>
+                                                </ul>
+                                                @endforeach
+                                            </td>
                                             {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                             <td style="text-align: center; white-space:nowrap;">
                                                 @if($ppb->dateline == '≤24Jam')

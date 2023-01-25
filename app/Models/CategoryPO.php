@@ -30,7 +30,7 @@ class CategoryPO extends Model
     }
     public function items()
     {
-        return $this->belongsTo(PengajuanPembelian::class);
+        return $this->belongsTo(PengajuanPembelian::class, 'item_ppid');
     }
     public function term()
     {

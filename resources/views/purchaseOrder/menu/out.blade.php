@@ -99,7 +99,7 @@
                                     <tr >
                                         <th>No</th>
                                         <th>Name</th>
-                                        <th>Description</th>
+                                        <th>Item</th>
                                         {{-- <th>Send To</th> --}}
                                         <th style="white-space: nowrap; text-align:center;">Approved At</th>
                                         <th style="white-space: nowrap; text-align:center;">Status</th>
@@ -123,8 +123,19 @@
                                         $ppb->status == 'Delivery Success')
                                             <tr>
                                                 <td>{{ $i++ }}</td>
-                                                <td style="white-space: nowrap;">{{ $ppb->whosubmit->name }}</td>
-                                                <td><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break: break-word;">{{ $ppb->desc }}</a></td>
+                                                <td style="white-space: nowrap;">
+                                                    <ul>
+                                                        <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
+                                                        <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break: break-word;">{{ $ppb->desc }}</a></li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    @foreach ($ppb->itemppn as $item)
+                                                    <ul>
+                                                        <li style="word-break: break-word;">{{ $item->item }}</li>
+                                                    </ul>
+                                                    @endforeach
+                                                </td>
                                                 {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                 <td style="text-align: center; font-size:10"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
                                                 <td style="text-align: center;">

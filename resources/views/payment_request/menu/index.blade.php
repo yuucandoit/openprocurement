@@ -76,33 +76,6 @@
                                 <li class="breadcrumb-item active"><a href="{{ url('/payment_request') }}">Payment Request</a></li>
                             </ol>
                         </div>
-                        {{-- <div class="col-sm-6 mt-4">
-                            <!-- Bookmark Start-->
-                            <div class="bookmark">
-                                <ul>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Tables"><i
-                                                data-feather="inbox"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Chat"><i
-                                                data-feather="message-square"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Icons"><i
-                                                data-feather="command"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Learning"><i
-                                                data-feather="layers"></i></a></li>
-                                    <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                        <form class="form-inline search-form">
-                                            <div class="form-group form-control-search">
-                                                <input type="text" placeholder="Search..">
-                                            </div>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- Bookmark Ends-->
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -130,8 +103,7 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Name</th>
-                                                <th>Description</th>
-                                                {{-- <th>Send To</th> --}}
+                                                <th>Item</th>
                                                 <th>Deadline</th>
                                                 <th style="text-align: center;">Status</th>
                                                 <th style="text-align: center;">Function</th>
@@ -148,8 +120,19 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
-                                                        <td>{{ $ppb->whosubmit->name }}</td>
-                                                        <td><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                        <td>
+                                                            <ul>
+                                                                <li><a href="{{ url('/payment_request/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
+                                                                <li><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></li>
+                                                            </ul>
+                                                        </td>
+                                                        <td>
+                                                            @foreach ($ppb->itemppn as $item)
+                                                            <ul>
+                                                                <li style="word-break: break-word;">{{ $item->item }}</li>
+                                                            </ul>
+                                                            @endforeach 
+                                                        </td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                         <td>
                                                             <ul>

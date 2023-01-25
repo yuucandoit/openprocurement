@@ -275,6 +275,11 @@
                     @if ($ppembelian->status == 'Rejected by Purchasing')
                     <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Purchase</a></li>
                     <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">{{ $ppembelian->note_purchase }}</a></li>
+                        @if(empty($ppembelian->path_img))
+                            <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">No Image</a></li>
+                            @else
+                            <li><a class="badge bg-danger mt-1" style="color: white; font-size:8" href="upload_pengajuan_reject/{{ $ppembelian->path_img }}" target="_blank"><i class="icofont icofont-image"></i>Show Image</a></li>
+                        @endif
                     @endif
                     @if ($ppembelian->status == 'Purchase Request Rejected By BOD')
                         @if(empty( $ppembelian->bod->name))

@@ -25,10 +25,10 @@ class SendEmailPaymentJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($id, $email)
+    public function __construct($email,$id)
     {
-        $this->id = $id;
         $this->email = $email;
+        $this->id = $id;
     }
 
     /**

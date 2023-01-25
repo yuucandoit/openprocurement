@@ -54,10 +54,13 @@ class InvoicingController extends Controller
    {
     $cariIn = $request->caripyIn;
     //dd($cari);
-    $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+    $datappb = CategoryPengajuanPembelian::where('status','PO Approved')
     ->orWhere('id','like',"%".$cariIn."%")
     ->orWhere('status','like',"%".$cariIn."%")
     ->orWhere('desc','like',"%".$cariIn."%")
+    ->orWhereHas('itemppn', function($i) use($cariIn){
+        $i->where('item','like',"%".$cariIn."%");
+   })
     ->orWhereHas('whosubmit', function($q) use($cariIn){
          $q->where('name','like',"%".$cariIn."%");
     })
@@ -102,6 +105,9 @@ class InvoicingController extends Controller
     ->orWhere('id','like',"%".$cariOut."%")
     ->orWhere('status','like',"%".$cariOut."%")
     ->orWhere('desc','like',"%".$cariOut."%")
+    ->orWhereHas('itemppn', function($i) use($cariOut){
+        $i->where('item','like',"%".$cariOut."%");
+   })
     ->orWhereHas('whosubmit', function($q) use($cariOut){
          $q->where('name','like',"%".$cariOut."%");
     })

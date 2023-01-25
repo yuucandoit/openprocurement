@@ -136,8 +136,9 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Name</th>
-                                                <th>Description</th>
-                                                {{-- <th>Send To</th> --}}
+                                                {{-- <th>Description</th> --}}
+                                                {{-- <th>PO</th> --}}
+                                                <th>Item</th>
                                                 <th>Deadline</th>
                                                 {{-- <th>Countdown</th> --}}
                                                 <th style="text-align: center;">Status</th>
@@ -158,9 +159,29 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
-                                                        <td style="white-space: nowrap;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                        <td style="white-space: nowrap;">
+                                                            <ul>
+                                                                <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
+                                                                <li style="margin-top: 5px;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></li>
+                                                            </ul>
+                                                            {{-- {{ $ppb->whosubmit->name }} --}}
+                                                        </td>
+                                                        <td>
+                                                            @foreach ($ppb->itemppn as $item)
+                                                            <ul>
+                                                                <li style="word-break: break-word;">{{ $item->item }}</li>
+                                                            </ul>
+                                                            @endforeach
+                                                        </td>
+                                                        {{-- <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td> --}}
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
+                                                        {{-- <td>
+                                                            @foreach ($ppb->quot as  $quot)
+                                                            <ul>
+                                                                <li style="margin-top: 5px;"><a href="{{ url('/exportpdf/po_id/'.$quot->id) }}" target="_blank"> PO {{$quot->id}}</a></li>
+                                                            </ul>
+                                                            @endforeach
+                                                        </td> --}}
                                                      @if ($ppb->status == 'Purchase Proses')
                                                             <td>
                                                                 <ul>

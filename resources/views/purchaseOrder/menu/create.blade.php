@@ -17,7 +17,7 @@
                             <li class="breadcrumb-item">Record Purchase Order</li>
                         </ol>
                     </div>
-                    <div class="col-sm-6 mt-4">
+                    {{-- <div class="col-sm-6 mt-4">
                         <!-- Bookmark Start-->
                         <div class="bookmark">
                             <ul>
@@ -43,7 +43,7 @@
                             </ul>
                         </div>
                         <!-- Bookmark Ends-->
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -163,6 +163,11 @@
                                                             class="form-control text-end form-calc form-cost rupiah"
                                                             style="text-align: right;" required />
                                                     </td>
+                                                    {{-- <td>
+                                                        <input type="text" name="discount[]" placeholder="Input Price"
+                                                            class="form-control text-end form-calc form-cost rupiah"
+                                                            style="text-align: right;"/>
+                                                    </td> --}}
                                                     <td>
                                                         <input type="text" name="total[]" class="form-control form-line"
                                                             style="text-align: right;" required />
@@ -171,12 +176,12 @@
                                                 </tr>
                                             @endforeach
                                         </table>
-                                        <div class="mt-2">
+                                        {{-- <div class="mt-2">
                                             <button type="button" name="add"
                                                 class="addItem btn btn-outline-primary"> AddItem
                                                 <i class="fa fa-plus"></i>
                                             </button>
-                                        </div>
+                                        </div> --}}
                                         <br>
                                         <table class="table table-bordered mx-2">
                                             <tr>
@@ -189,6 +194,27 @@
                                                         name="total_a">
                                                 </td>
                                             </tr>
+                                            {{-- <tr>
+                                                <td>
+                                                    <label class="pull-right mx-2"
+                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; Discount :</label>
+                                                </td>
+                                                <td class="text-end">
+                                                    <input class="form-control discount form-calc rupiah text-end" type="text" id="discount"
+                                                        name="discount">
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label class="pull-right mx-2"
+                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;After Discount :</label>
+                                                </td>
+                                                <td class="total_disc text-end">
+                                                    <input style="display: none;" class=" total_disc " type="text"
+                                                        name="total_disc">
+                                                </td>
+                                            </tr> --}}
                                             <tr>
                                                 <td>
                                                     <input class="mt-1 pull-right check-box" type="checkbox"
@@ -417,6 +443,22 @@
                                             class="btn btn-outline-primary addPo" id="addPo"> AddPO
                                             <i class="fa fa-plus"></i>
                                         </button>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" style="font-weight: bold;"><i
+                                                    class="icofont icofont-stamp"></i> Send Approval To:</label>
+                                            <select class="form-select page" id="floatingproposedto"
+                                                placeholder="Proposed To" name="atasan_po" required="">
+                                                <option selected="" disabled="" value="">-- Please Choose
+                                                    One
+                                                    --
+                                                </option>
+                                                @foreach ($atasan as $sui)
+                                                    <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div> --}}
 
                                         <div class="modal-footer">
@@ -444,7 +486,7 @@
                                     /* Fungsi formatRupiah */
                                     function formatRupiah(angka, prefix) {
                                         var number_string = angka.replace(/[^,\d]/g, ""),
-                                            split = number_string.split(","),
+                                            split = number_string.split("."),
                                             sisa = split[0].length % 3,
                                             rupiah = split[0].substr(0, sisa),
                                             ribuan = split[0].substr(sisa).match(/\d{3}/gi);
@@ -453,9 +495,45 @@
                                             separator = sisa ? "." : "";
                                             rupiah += separator + ribuan.join(".");
                                         }
-                                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                                        rupiah = split[1] != undefined ? rupiah + "." + split[1] : rupiah;
                                         return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                     }
+                                    // $(".order-entry").on("keyup", ".form-calc", function() {
+                                    //     var parent = $(this).closest("tr");
+                                    //     var str = parent.find(".form-cost").val();
+                                    //     var res = str.replace(/\D/g, "");
+                                    //     // console.log(res);
+                                    //     parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
+                                    //     var total = 0;
+                                    //     $(".form-line").each(function() {
+                                    //         total += parseInt($(this).val() || 0);
+                                    //     });
+                                    //     $(".total_A").text(total.toLocaleString('en-US'));
+
+                                    //     var diskon = document.querySelector(".discount");
+                                    //     diskon.addEventListener("input", function() {
+                                    //         var disc = diskon.value;
+                                    //         var rep = disc.replace(/\D/g, "");
+                                    //         var discint = parseInt(rep);
+                                    //        discount = total - discint;
+                                    //        console.log(discount);
+                                    //        $(".total_disc").text(discount.toLocaleString('en-US'));
+
+                                    //        var checkbox = document.querySelector(".check-box");
+                                    //     checkbox.addEventListener('change', (event) => {
+                                    //         if (event.currentTarget.checked) {
+                                    //             totalppn = discount * 11 / 100;
+                                    //             grandtotal = discount + totalppn;
+                                    //             $(".ppn").text(totalppn.toLocaleString('en-US'));
+                                    //             $(".total").text(grandtotal.toLocaleString('en-US'));
+                                    //         } else {
+                                    //             totalppn = discount * 0;
+                                    //             $(".ppn").text(totalppn);
+                                    //             $(".total").text(discount.toLocaleString('en-US'));
+                                    //         }
+                                    //     });
+                                    //     });
+                                    // });
                                     $(".order-entry").on("keyup", ".form-calc", function() {
                                         var parent = $(this).closest("tr");
                                         var str = parent.find(".form-cost").val();
@@ -514,6 +592,7 @@
                                         rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
                                         return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                     }
+
                                     $(".order-entry").on("keyup", ".form-calc", function() {
                                         var parent = $(this).closest("tr");
                                         var str = parent.find(".form-cost").val();

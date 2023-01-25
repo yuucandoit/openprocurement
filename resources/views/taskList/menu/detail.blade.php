@@ -221,19 +221,29 @@
                                     <h1 class="modal-title fs-5" id="rejectLabel">Reject Message</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <form action="{{ url('menu-task-list/reject', $data_pengajuan->id) }}" id="formAdd" method="get"
-                                    enctype="multipart/form-data">
+                                    <form action="{{ url('menu-task-list/reject', $data_pengajuan->id) }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="modal-body">
                                         <div class="mb-3">
                                             <label for="note" class="form-label">Comment</label>
                                             <textarea name="note_purchase" id="note" class="form-control" cols="30" rows="0" required></textarea>
                                         </div>
+                                        <div class="col-md-12 mt-4">
+                                            <div class="form-group">
+                                                <input type="file" name="path_img" placeholder="Choose file" onchange="loadFile(event)" enctype="multipart/form-data"  class="form-control" >
+                                                {{-- <input type="file" name="path_file[]" placeholder="Choose File"> --}}
+                                                @error('path_img')
+                                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                       <img id="output" style="width: 200px;" />
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-danger">Reject</button>
                                     </form>
+
                                     </div>
                                 </div>
                                 </div>
@@ -306,7 +316,18 @@
             <!-- Container-fluid Ends-->
         </div>
         </div>
-        <!--
-                            {{-- <a href={{ url('#')('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) class="btn btn-success" style="align-self: flex-end"> Export to Excel</a> -- }} --}}-->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript">
+            var loadFile = function(event) {
+                var output = document.getElementById('output');
+
+                if (output === null) {
+                    output.src = "Image Not Found";
+                } else {
+                    output.src = URL.createObjectURL(event.target.files[0]);
+                }
+            };
+        </script>
     </section>
 @endsection

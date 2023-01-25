@@ -292,7 +292,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
         Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
         Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
-        Route::get('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
+        Route::post('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
         Route::get('/search/taskPOIn',[CategoryTaskListController::class, 'SearchtaskPOIn'])->name('menu-task-list.SearchtaskPOIn');
         Route::get('/search/taskPOOut',[CategoryTaskListController::class, 'SearchtaskPOOut'])->name('menu-task-list.SearchtaskPOOut');
         Route::get('/search/taskPOHistory',[CategoryTaskListController::class, 'SearchtaskPOHistory'])->name('menu-task-list.SearchtaskPOHistory');
@@ -426,6 +426,7 @@ Route::group(['middleware' => ['auth']], function () {
     //Route Export PDF
     Route::get('/exportpdf/ppb/{id}', [CategoryPengajuanPembelianController::class, 'exportpdf'])->name('export_ppb.pdf');
     Route::get('/exportpdf/po/{id}', [PurchaseOrderController::class, 'exportpdf'])->name('export_po.pdf');
+    Route::get('/exportpdf/po_id/{id}', [PurchaseOrderController::class, 'exportpdf_poid'])->name('export_po_id.pdf');
     Route::get('/exportpdf/pymnt/{id}', [CategoryPDController::class, 'exportpdf'])->name('export_po.pdf');
     //End Route Export
 

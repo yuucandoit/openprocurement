@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('pengajuan_pembelian', function (Blueprint $table) {
-            $table->integer('pp_id')->nullable();
+            $table->bigInteger('discount')->nullable();
         });
     }
 

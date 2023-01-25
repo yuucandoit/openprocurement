@@ -96,7 +96,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td>{{ $ppb->desc }}</td>
+                                                    <td> <a href="{{ url('/menu-task-list/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                     <td style="text-align: center;">{{ $ppb->dateline }}</td>
                                                     <td style="text-align: center;">{{ $ppb->approved_at }}</td>
                                                     <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
