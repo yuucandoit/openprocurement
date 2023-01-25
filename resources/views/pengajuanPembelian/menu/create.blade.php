@@ -338,6 +338,11 @@
                                                 <option value="Box">Box </option>
                                                 <option value="Unit">Unit </option>
                                                 <option value="Lot">Lot </option>
+                                                <option value="Rim">Rim </option>
+                                                <option value="Org">Org </option>
+                                                <option value="Line">Line </option>
+                                                <option value="Ruang">Ruang </option>
+                                                <option value="Pax">Pax </option>
                                             </select>
                                         </td>
                                         <td>
