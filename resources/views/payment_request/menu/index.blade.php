@@ -129,9 +129,9 @@
                                                         <td>
                                                             @foreach ($ppb->itemppn as $item)
                                                             <ul>
-                                                                <li style="word-break: break-word;">{{ $item->item }}</li>
+                                                                <li style="margin-top:4px;">{{ $item->item }}</li>
                                                             </ul>
-                                                            @endforeach 
+                                                            @endforeach
                                                         </td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                         <td>

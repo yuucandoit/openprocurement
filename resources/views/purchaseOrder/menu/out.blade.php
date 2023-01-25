@@ -123,7 +123,7 @@
                                         $ppb->status == 'Delivery Success')
                                             <tr>
                                                 <td>{{ $i++ }}</td>
-                                                <td style="white-space: nowrap;">
+                                                <td>
                                                     <ul>
                                                         <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
                                                         <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break: break-word;">{{ $ppb->desc }}</a></li>
@@ -132,7 +132,7 @@
                                                 <td>
                                                     @foreach ($ppb->itemppn as $item)
                                                     <ul>
-                                                        <li style="word-break: break-word;">{{ $item->item }}</li>
+                                                        <li style=" margin-top:4px;">-{{ $item->item }}</li>
                                                     </ul>
                                                     @endforeach
                                                 </td>

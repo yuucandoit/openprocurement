@@ -159,7 +159,7 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
-                                                        <td style="white-space: nowrap;">
+                                                        <td>
                                                             <ul>
                                                                 <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
                                                                 <li style="margin-top: 5px;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></li>
@@ -169,7 +169,7 @@
                                                         <td>
                                                             @foreach ($ppb->itemppn as $item)
                                                             <ul>
-                                                                <li style="word-break: break-word;">{{ $item->item }}</li>
+                                                                <li style=" margin-top:4px;">-{{ $item->item }}</li>
                                                             </ul>
                                                             @endforeach
                                                         </td>
