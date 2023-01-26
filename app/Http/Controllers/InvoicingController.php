@@ -83,7 +83,7 @@ class InvoicingController extends Controller
             $datappb =  CategoryPengajuanPembelian::where('status','Invoicing Process')
             ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
             ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->
-            orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            orderBy('updated_at', 'desc')->paginate(10, ['*'],'out');
             $pt = CategoryPT::all();
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
