@@ -10,7 +10,7 @@
     <title>Purchase Order</title>
 </head>
 
-<body>
+{{-- <body>
 
     @php
     use Carbon\Carbon;
@@ -322,8 +322,8 @@
     </footer>
     <div style="page-break-before: always;"></div>
     @endforeach
-</body>
-{{-- <body>
+</body> --}}
+<body>
     <table width="100%">
         <tr>
             <td valign="top" style="padding-right: 2px; width:20px; margin-top:100px"><img
@@ -629,6 +629,6 @@
             Marketing Office : Jl Tebet Barat dalam raya No.31 Tebet Barat, Jakarta Selatan,<br>
             Telp. 021-21383852</p>
     </footer>
-</body> --}}
+</body>
 
 </html>
