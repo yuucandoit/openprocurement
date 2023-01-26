@@ -10,7 +10,7 @@
     <title>Purchase Order</title>
 </head>
 
-{{-- <body>
+<body>
 
     @php
     use Carbon\Carbon;
@@ -118,42 +118,43 @@
             @php
                 $no = 1
             @endphp
+             @foreach($item_po as $po)
                 <tr>
                     <td>
                         <p>{{ $no++ }}</p>
                     </td>
                     <td>
-                        <label style="word-break: break-word;">{!! nl2br($p->items->item) !!}</label>
+                        <label style="word-break: break-word;">{!! nl2br($po->items->item) !!}</label>
                     </td>
                     <td>
-                        <p class="text-center">{{ $p->items->qty }}</p>
+                        <p class="text-center">{{ $po->items->qty }}</p>
                     </td>
                     <td>
-                        <p>{{ $p->kategori }}</p>
+                        <p>{{ $po->items->kategori }}</p>
                     </td>
-                    @if($cpp->matauang == 'RP')
+                    @if($p->ppb->matauang == 'RP')
                     <td class="text-right">
-                        <p>Rp.{{ number_format($p->items->unit_price) }}</p>
+                        <p>Rp.{{ number_format($po->items->unit_price) }}</p>
                     </td>
                     @endif
-                    @if($cpp->matauang == 'USD')
+                    @if($p->ppb->matauang == 'USD')
                     <td class="text-right">
-                        <p>$ {{ number_format($p->items->unit_price) }}.00</p>
+                        <p>$ {{ number_format($po->items->unit_price) }}.00</p>
                     </td>
                     @endif
 
-                    @if($cpp->matauang == 'RP')
+                    @if($p->ppb->matauang == 'RP')
                     <td class="text-right">
-                        <p>Rp.{{ number_format($p->items->total) }}</p>
+                        <p>Rp.{{ number_format($po->items->total) }}</p>
                     </td>
                     @endif
-                    @if($cpp->matauang == 'USD')
+                    @if($p->ppb->matauang == 'USD')
                     <td class="text-right">
-                        <p>$ {{ number_format($p->items->total) }}.00</p>
+                        <p>$ {{ number_format($po->items->total) }}.00</p>
                     </td>
                     @endif
-
                 </tr>
+                @endforeach
             <tr>
                 <td>
                     <p class="itemtext"></p>
@@ -171,12 +172,12 @@
                     <p class="m-0">DPP </p>
                 </td>
                 @foreach ($dpp as $dp)
-                    @if($cpp->matauang == 'RP')
+                    @if($p->ppb->matauang == 'RP')
                     <td>
                         <p class="m-0 digits text-right">Rp.{{ number_format($dp->total) }}</p>
                     </td>
                     @endif
-                    @if($cpp->matauang == 'USD')
+                    @if($p->ppb->matauang == 'USD')
                     <td>
                         <p class="m-0 digits text-right">$ {{ number_format($dp->total) }}.00</p>
                     </td>
@@ -199,25 +200,25 @@
                 <td>
                     <p class="m-0">PPN 11% </p>
                 </td>
-                    @if ($cpp->ppn == 0)
-                        @if ($cpp->matauang == 'RP')
+                    @if ($p->ppb->ppn == 0)
+                        @if ($p->ppb->matauang == 'RP')
                         <td class="text-right">
                             <p class="m-0 digits text-end">Rp.0</p>
                         </td>
                         @endif
-                        @if ($cpp->matauang == 'USD')
+                        @if ($p->ppb->matauang == 'USD')
                         <td class="text-right">
                             <p class="m-0 digits text-end">$ 0</p>
                         </td>
                         @endif
                     @else
                         @foreach ($ppn as $pn)
-                            @if($cpp->matauang == 'RP')
+                            @if($p->ppb->matauang == 'RP')
                             <td class="text-right">
                                 <p class="m-0 digits text-end">Rp.{{ number_format($pn->total) }}</p>
                             </td>
                             @endif
-                            @if($cpp->matauang == 'USD')
+                            @if($p->ppb->matauang == 'USD')
                             <td class="text-right">
                                 <p class="m-0 digits text-end">$ {{ number_format($pn->total) }}.00</p>
                             </td>
@@ -233,25 +234,25 @@
                 <td class="Rate">
                     <h6 class="mb-0">Total </h6>
                 </td>
-                    @if ($cpp->ppn == 0)
+                    @if ($p->ppb->ppn == 0)
                         @foreach ($total_tnp_ppn as $tpn)
-                            @if ($cpp->matauang == 'RP')
+                            @if ($p->ppb->matauang == 'RP')
                                 <td class="text-right">
                                     <h6 class="text-right "> Rp.{{ number_format($tpn->total) }}</h6>
                                 </td>
-                            @elseif ($cpp->matauang == 'USD')
+                            @elseif ($p->ppb->matauang == 'USD')
                                 <td class="text-right">
                                     <h6 class="text-right"> $ {{ number_format($tpn->total) }}.00</h6>
                                 </td>
                             @endif
                         @endforeach
-                    @elseif($cpp->ppn == 1)
+                    @elseif($p->ppb->ppn == 1)
                         @foreach ($total as $t)
-                            @if ($cpp->matauang == 'RP')
+                            @if ($p->ppb->matauang == 'RP')
                                 <td class="text-right">
                                     <h6 class="mb-0 text-right"> Rp. {{ number_format($t->total) }}</h6>
                                 </td>
-                            @elseif ($cpp->matauang == 'USD')
+                            @elseif ($p->ppb->matauang == 'USD')
                                 <td class="text-right">
                                     <h6 class="mb-0 text-right"> $.{{ number_format($t->total) }}.00</h6>
                                 </td>
@@ -277,14 +278,14 @@
 
 
                 <div style="text-align: center;">
-                        @if ($cpp->status == 'Waiting For PO Approval' ||
-                            $cpp->status == 'Purchase Proses' ||
-                            $cpp->status == 'PO Approved' ||
-                            $cpp->status == 'Invoicing Process' ||
-                            $cpp->status == 'Payment Approved' ||
-                            $cpp->status == 'Unpaid' ||
-                            $cpp->status == 'Paid' ||
-                            $cpp->status == 'Delivery Success')
+                        @if ($p->ppb->status == 'Waiting For PO Approval' ||
+                            $p->ppb->status == 'Purchase Proses' ||
+                            $p->ppb->status == 'PO Approved' ||
+                            $p->ppb->status == 'Invoicing Process' ||
+                            $p->ppb->status == 'Payment Approved' ||
+                            $p->ppb->status == 'Unpaid' ||
+                            $p->ppb->status == 'Paid' ||
+                            $p->ppb->status == 'Delivery Success')
                             <p>Jakarta, {{ $approvedAt }}</p>
                             @if (empty($p->signature))
                             @else
@@ -293,12 +294,12 @@
                                         alt=""></p>
                             @endif
                 </div>
-                @if (empty($cpp->atasans->name))
+                @if (empty($p->ppb->atasans->name))
                     <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 18px;">{{ $cpp->atasans->name }} <br>
+                    <div style="text-align: center; font-size: 18px;">{{ $p->ppb->atasans->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif
@@ -319,10 +320,10 @@
             Marketing Office : Jl Tebet Barat dalam raya No.31 Tebet Barat, Jakarta Selatan,<br>
             Telp. 021-21383852</p>
     </footer>
-    <div style="page-break-after: always;"></div>
+    <div style="page-break-before: always;"></div>
     @endforeach
-</body> --}}
-<body>
+</body>
+{{-- <body>
     <table width="100%">
         <tr>
             <td valign="top" style="padding-right: 2px; width:20px; margin-top:100px"><img
@@ -426,7 +427,6 @@
             @php
                 $no = 1
             @endphp
-             {{-- @foreach ($cpp as $c) --}}
         @foreach ($category_q as $q)
                 <tr>
                     <td>
@@ -629,6 +629,6 @@
             Marketing Office : Jl Tebet Barat dalam raya No.31 Tebet Barat, Jakarta Selatan,<br>
             Telp. 021-21383852</p>
     </footer>
-</body>
+</body> --}}
 
 </html>

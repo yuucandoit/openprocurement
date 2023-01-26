@@ -35,21 +35,11 @@ class CategoryPOController extends Controller
         if ($check->role_id == 4 || $check->role_id == 3) {
             $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('dateline', 'asc')->orderBy('approved_at', 'desc')->paginate(10, ['*'],'in');
             $datappb2           = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->get();
-
-            $pt                 = CategoryPT::all();
-            $op                 = CategoryPP::all();
-            $dataws             = WhoSubmitted::all();
-            $datadepartment     = Department::all();
-            $ec                 = CategoryEcommerce::all();
-            $datapo             = CategoryPO::all();
+            foreach($datappb2 as $ppb){
+                $datapo             = CategoryPO::where('ppb_id', $ppb->id)->get();
+            }
             //dd($datappb);
             return view('purchaseOrder.menu.index')
-                ->with('pt', $pt)
-                ->with('op', $op)
-                ->with('ec', $ec)
-                // ->with('datahstry', $datahstry)
-                ->with('dataws', $dataws)
-                ->with('datadepartment', $datadepartment)
                 ->with('datappb2', $datappb2)
                 ->with('datappb', $datappb)
                 ->with('datapo', $datapo);

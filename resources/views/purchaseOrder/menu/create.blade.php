@@ -181,12 +181,12 @@
                                                 </tr>
                                             @endforeach
                                         </table>
-                                        {{-- <div class="mt-2">
+                                        <div class="mt-2">
                                             <button type="button" name="add"
                                                 class="addItem btn btn-outline-primary"> AddItem
                                                 <i class="fa fa-plus"></i>
                                             </button>
-                                        </div> --}}
+                                        </div>
                                         <br>
                                         <table class="table table-bordered mx-2">
                                             <tr>
@@ -271,7 +271,7 @@
                                                     <option value="ecommerce">Ecommerce</option>
                                                 </select>
 
-                                                <select class=" form-select selectedInput hide mt-2" id="selectedInput"
+                                                <select class=" form-select perusahaan_0 hide mt-2" id="selectedInput"
                                                     name="perusahaan">
                                                     @foreach ($pt as $p)
                                                         <option value="{{ $p->id }}">{{ $p->nama }}
@@ -279,14 +279,14 @@
                                                     @endforeach
                                                 </select>
 
-                                                <select class=" form-select selectedInput2 hide" id="selectedInput2" name="orangpribadi">
+                                                <select class=" form-select privateperson_0 hide" id="selectedInput2" name="orangpribadi">
                                                     @foreach ($op as $o)
                                                         <option value="{{ $o->id }}">{{ $o->nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
 
-                                                <select class=" form-select selectedInput3 hide" id="selectedInput3" name="ecommerce">
+                                                <select class=" form-select ecommerce_0 hide" id="selectedInput3" name="ecommerce">
                                                     @foreach ($ec as $e)
                                                         <option value="{{ $e->id }}">{{ $e->nama }}
                                                         </option>
@@ -310,7 +310,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
                                                         class="fa fa-file-pdf-o"></i> Terms & Conditions</label>
-                                                <select class="form-select page" id="pageSelector"
+                                                <select class="form-select page pageSelector" id="pageSelector"
                                                     placeholder="Terms and Conditions" name="term_conditions">
                                                     <option value="" disabled selected hidden>Terms And Conditions
                                                     </option>
@@ -321,7 +321,7 @@
                                                     @endforeach
                                                     <option value="custom">+ Add Terms & Conditions</option>
                                                 </select>
-                                                <textarea class="hide form-control" name="term_condition" id="customInput" cols="30" rows="10"
+                                                <textarea class="hide form-control customInput" name="term_condition" id="customInput" cols="30" rows="10"
                                                     placeholder="Input Terms And Conditions"></textarea>
                                             </div>
                                         </div>
@@ -342,17 +342,19 @@
                                             </div>
                                         </div>
 
-
-                                        {{-- <style>
+{{--
+                                        <style>
                                             .tutup {
                                                 width: 0;
                                                 height: 0;
                                                 opacity: 0;
+                                                display: none;
                                             }
                                             .hide {
                                                 width: 0;
                                                 height: 0;
                                                 opacity: 0;
+                                                display: none;
                                             }
                                             .page {
                                                 height: 56px;
@@ -372,7 +374,7 @@
                                             <tr>
                                                 <td>
                                                      <select class="js-example-basic-multiple" multiple="multiple"
-                                                            placeholder="Proposed To" name="item_ppid_0[]]">
+                                                            placeholder="Proposed To" name="item_ppid_0[]">
                                                             @foreach ($pengajuan as $i)
                                                             <option value="{{ $i->id }}">{{ $i->item }}</option>
                                                             @endforeach
@@ -390,7 +392,7 @@
                                                     <option value="ecommerce">Ecommerce</option>
                                                 </select>
 
-                                                <select class=" form-select hide mt-2 selectedInput" id=""
+                                                <select class=" form-select hide mt-2 perusahaan_0" id=""
                                                     name="perusahaan[]">
                                                     @foreach ($pt as $p)
                                                         <option value="{{ $p->id }}">{{ $p->nama }}
@@ -398,14 +400,14 @@
                                                     @endforeach
                                                 </select>
 
-                                                <select class=" form-select hide selectedInput2" id="" name="orangpribadi[]">
+                                                <select class=" form-select hide privateperson_0" id="" name="orangpribadi[]">
                                                     @foreach ($op as $o)
                                                         <option value="{{ $o->id }}">{{ $o->nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
 
-                                                <select class=" form-select hide selectedInput3" id="" name="ecommerce[]">
+                                                <select class=" form-select hide ecommerce_0" id="" name="ecommerce[]">
                                                     @foreach ($ec as $e)
                                                         <option value="{{ $e->id }}">{{ $e->nama }}
                                                         </option>
@@ -425,7 +427,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                 <select class="form-select" id="pageSelector"
+                                                 <select class="form-select pageSelector" id=""
                                                     placeholder="Terms and Conditions" name="term_conditions[]">
                                                     <option value="" disabled selected hidden>Terms And Conditions
                                                     </option>
@@ -436,7 +438,7 @@
                                                     @endforeach
                                                     <option value="custom">+ Add Terms & Conditions</option>
                                                 </select>
-                                                    <textarea class="hide form-control mt-2 " name="term_condition[]" id="customInput" cols="30" rows="5"
+                                                    <textarea class="hide form-control mt-2 customInput" name="term_condition[]" id="customInput" cols="30" rows="5"
                                                         placeholder="Input Terms And Conditions"></textarea>
                                                 </td>
                                             </tr>
@@ -572,7 +574,7 @@
                                     var item =
                                         `<tr><td><input type="text" name="id[]"
                                                                 placeholder="Input Item" class="form-control"
-                                                                style="text-align: center;" value="{{ $i->id }}" hidden /><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option> <option value="Lot">Lot </option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
+                                                                style="text-align: center;" value="{{ $i->id }}" hidden /><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option> <option value="Lot">Lot </option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
                                     $(".item").append(item)
                                     var rupiah = document.querySelectorAll(".rupiah");
                                     rupiah.forEach((item) => {
@@ -652,8 +654,8 @@
                             </script>
 
                             <script type="text/javascript">
-                                var pageSelector = document.getElementById('pageSelector');
-                                var customInput = document.getElementById('customInput');
+                                var pageSelector = document.querySelector('.pageSelector');
+                                var customInput = document.querySelector('.customInput');
                                 pageSelector.addEventListener('change', function() {
                                     if (this.value == "custom") {
                                         customInput.classList.remove('hide');
@@ -664,17 +666,16 @@
                             </script>
                             <script type="text/javascript">
                                 var pageSelect = document.querySelector('.pageSelect');
-                                var selectedInput = document.querySelector('.selectedInput');
-                                var selectedInputCustom = document.querySelector('.selectedInputCustom');
-                                var selectedInput2 = document.querySelector('.selectedInput2');
-                                var selectedInputCustom2 = document.querySelector('.selectedInputCustom2');
-                                var selectedInput3 = document.querySelector('.selectedInput3');
-                                var selectedInputCustom3 = document.querySelector('.selectedInputCustom3');
+                                var selectedInput = document.querySelector('.perusahaan_0');
+                                var selectedInput2 = document.querySelector('.privateperson_0');
+                                var selectedInput3 = document.querySelector('.ecommerce_0');
                                 // Company
                                 pageSelect.addEventListener('change', function() {
                                     if (this.value == "company") {
                                         selectedInput.classList.remove('hide');
-                                    } else {
+                                    } else if (this.value == "privateperson") {
+                                        selectedInput.classList.add('hide');
+                                    }  else if (this.value == "ecommerce") {
                                         selectedInput.classList.add('hide');
                                     }
                                 })
@@ -682,7 +683,9 @@
                                 pageSelect.addEventListener('change', function() {
                                     if (this.value == "privateperson") {
                                         selectedInput2.classList.remove('hide');
-                                    } else {
+                                    }  else if (this.value == "company") {
+                                        selectedInput2.classList.add('hide');
+                                    }  else if (this.value == "ecommerce") {
                                         selectedInput2.classList.add('hide');
                                     }
                                 })
@@ -690,7 +693,9 @@
                                 pageSelect.addEventListener('change', function() {
                                     if (this.value == "ecommerce") {
                                         selectedInput3.classList.remove('hide');
-                                    } else {
+                                    }  else if (this.value == "privateperson") {
+                                        selectedInput3.classList.add('hide');
+                                    }  else if (this.value == "company") {
                                         selectedInput3.classList.add('hide');
                                     }
                                 })
@@ -701,21 +706,68 @@
 <script>
  //Add Form
  var a = 0;
+ var vendor = 0;
  $(".addPo").on('click', function() {
     addPO();
-    console.log(addPO);
+    // console.log(addPO);
     });
     function addPO() {
         ++a;
-       var po = `<tbody><tr><td><select class="js-example-basic-multiple" multiple="multiple"placeholder="Proposed To" name="item_ppid_`+ a +`[]" >@foreach ($pengajuan as $i)<option value="{{ $i->id }}">{{ $i->item }}</option>@endforeach</select></td><td><select class="form-select  pageSelect" id=""placeholder="Proposed To" name="vendor[]"><option value="" disabled selected hidden>Select Vendor</option><option value="company">Company</option><option value="privateperson">Private Person</option><option value="ecommerce">Ecommerce</option></select><select class=" form-select  mt-2 selectedInput" id=""name="perusahaan[]">@foreach ($pt as $p)<option value="{{ $p->id }}">{{ $p->nama }}</option>@endforeach</select><select class=" form-select  selectedInput2" id="" name="orangpribadi[]">@foreach ($op as $o)<option value="{{ $o->id }}">{{ $o->nama }}</option>@endforeach</select><select class=" form-select  selectedInput3" id="" name="ecommerce[]">@foreach ($ec as $e)<option value="{{ $e->id }}">{{ $e->nama }}</option>@endforeach</select></td><td><div><input required type="text" class="form-control"id="floatingQuotation" placeholder="Quotation" name="quotation[]"><div class="invalid-feedback"></div></div> </td><td><select class="form-select" id="pageSelector"placeholder="Terms and Conditions" name="term_conditions[]"><option value="" disabled selected hidden>Terms And Conditions</option>@foreach ($terms as $t)<option value="{{ $t->id }}">{{ $t->term_condition }}</option>@endforeach<option value="custom">+ Add Terms & Conditions</option></select><textarea class="hide form-control mt-2 " name="term_condition[]" id="customInput" cols="30" rows="5"placeholder="Input Terms And Conditions"></textarea></td></tr></tbody>`;
+        ++vendor;
+       var po = `<tbody>
+        <tr><td><select class="js-example-basic-multiple" multiple="multiple"placeholder="Proposed To" name="item_ppid_`+ a +`[]" >@foreach ($pengajuan as $i)<option value="{{ $i->id }}">{{ $i->item }}</option>@endforeach</select></td><td><select class="form-select  pageSelect" id=""placeholder="Proposed To" name="vendor[]"><option value="" disabled selected hidden>Select Vendor</option><option value="company_`+ vendor +`">Company</option><option value="privateperson_`+ vendor +`">Private Person</option><option value="ecommerce_`+ vendor +`">Ecommerce</option></select><select class=" form-select hide  mt-2 perusahaans_`+ vendor +`" id=""name="perusahaan[]">@foreach ($pt as $p)<option value="{{ $p->id }}">{{ $p->nama }}</option>@endforeach</select><select class=" form-select hide privatepersons_`+ vendor +`" id="" name="orangpribadi[]">@foreach ($op as $o)<option value="{{ $o->id }}">{{ $o->nama }}</option>@endforeach</select><select class=" form-select  hide ecommerces_`+ vendor +`" id="" name="ecommerce[]">@foreach ($ec as $e)<option value="{{ $e->id }}">{{ $e->nama }}</option>@endforeach</select></td><td><div><input required type="text" class="form-control"id="floatingQuotation" placeholder="Quotation" name="quotation[]"><div class="invalid-feedback"></div></div> </td><td><select class="form-select pageSelector" id="pageSelector"placeholder="Terms and Conditions" name="term_conditions[]"><option value="" disabled selected hidden>Terms And Conditions</option>@foreach ($terms as $t)<option value="{{ $t->id }}">{{ $t->term_condition }}</option>@endforeach<option value="customs_`+ vendor +`">+ Add Terms & Conditions</option></select><textarea class="hide form-control mt-2 customInput_`+ vendor +`" name="term_condition[]" id="customInput" cols="30" rows="5"placeholder="Input Terms And Conditions"></textarea></td></tr></tbody>`;
         $(".po").append(po)
 
         $('.js-example-basic-multiple').select2();
+        var pageSelect = $('.pageSelect');
+        var selectedInput = $('.perusahaans_' + vendor);
+        var selectedInput2 = $('.privatepersons_' + vendor);
+        var selectedInput3 = $('.ecommerces_'+ vendor);
+        // Company
+        pageSelect.on('change', function() {
+            if (this.value == "company_"+vendor) {
+            selectedInput.removeClass('hide');
+            }  else if (this.value == "privateperson_"+vendor) {
+            selectedInput.addClass('hide');
+            }  else if (this.value == "ecommerce_"+vendor) {
+            selectedInput.addClass('hide');
+            }
+        })
+        // Private Person
+        pageSelect.on('change', function() {
+            if (this.value == "privateperson_"+vendor) {
+            selectedInput2.removeClass('hide');
+            }  else if (this.value == "company_"+vendor) {
+            selectedInput2.addClass('hide');
+            }  else if (this.value == "ecommerce_"+vendor) {
+            selectedInput2.addClass('hide');
+            }
+        })
+        // Ecommerce
+        pageSelect.on('change', function() {
+            if (this.value == "ecommerce_"+vendor) {
+            selectedInput3.removeClass('hide');
+            }  else if (this.value == "privateperson_"+vendor) {
+            selectedInput3.addClass('hide');
+            }  else if (this.value == "company_"+vendor) {
+            selectedInput3.addClass('hide');
+            }
+        })
 
-                                }
-                                $(document).on('click', '.remove-input-field', function() {
+        var pageSelector = $('.pageSelector');
+        var customInput = $('.customInput_'+vendor);
+        pageSelector.on('change', function() {
+            if (this.value == "customs_"+vendor) {
+            customInput.removeClass('hide');
+            } else {
+            customInput.addClass('hide');
+            }
+        })
+
+        }
+        $(document).on('click', '.remove-input-field', function() {
                                     $(this).parents('tr').remove();
-                                });
-                            </script>
-                                </section>
+        });
+        </script>
+    </section>
 @endsection

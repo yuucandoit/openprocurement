@@ -152,6 +152,7 @@
                     {{-- <td class="text-right">
                         <p>Rp.{{ number_format($cpo->items->unit_price) }}</p>
                     </td> --}}
+                    {{-- @dd($total = $cpo->items->total ); --}}
                 </tr>
             <tr>
                 <td>
@@ -169,20 +170,23 @@
                 <td>
                     <p class="m-0">DPP </p>
                 </td>
-                @foreach ($dpp as $dp)
+
                     @if($cpo->ppb->matauang == 'RP')
                     <td>
-                        <p class="m-0 digits text-right">Rp.{{ number_format($dp->total) }}</p>
+                        <p class="m-0 digits text-right">Rp.{{ number_format($cpo->items->total) }}</p>
                     </td>
                     @endif
                     @if($cpo->ppb->matauang == 'USD')
                     <td>
-                        <p class="m-0 digits text-right">$ {{ number_format($dp->total) }}.00</p>
+                        <p class="m-0 digits text-right">$ {{ number_format($cpo->items->total) }}.00</p>
                     </td>
                     @endif
-                @endforeach
             </tr>
             <tr>
+                @php
+                    $ppn = $cpo->items->total * 11 / 100 ;
+
+                @endphp
                 <td>
                     <p class="itemtext"></p>
                 </td>
@@ -210,18 +214,16 @@
                         </td>
                         @endif
                     @else
-                        @foreach ($ppn as $pn)
                             @if($cpo->ppb->matauang == 'RP')
                             <td class="text-right">
-                                <p class="m-0 digits text-end">Rp.{{ number_format($pn->total) }}</p>
+                                <p class="m-0 digits text-end">Rp.{{ number_format($ppn) }}</p>
                             </td>
                             @endif
                             @if($cpo->ppb->matauang == 'USD')
                             <td class="text-right">
-                                <p class="m-0 digits text-end">$ {{ number_format($pn->total) }}.00</p>
+                                <p class="m-0 digits text-end">$ {{ number_format($ppn) }}.00</p>
                             </td>
                             @endif
-                        @endforeach
                     @endif
             </tr>
             <tr>
@@ -232,30 +234,31 @@
                 <td class="Rate">
                     <h6 class="mb-0">Total </h6>
                 </td>
+                @php
+                $ppn = $cpo->items->total * 11 / 100 ;
+                $total_ppn = $cpo->items->total + $ppn;
+                // dd($total_ppn);
+                @endphp
                     @if ($cpo->ppb->ppn == 0)
-                        @foreach ($total_tnp_ppn as $tpn)
                             @if ($cpo->ppb->matauang == 'RP')
                                 <td class="text-right">
-                                    <h6 class="text-right "> Rp.{{ number_format($tpn->total) }}</h6>
+                                    <h6 class="text-right "> Rp.{{ number_format($cpo->items->total) }}</h6>
                                 </td>
                             @elseif ($cpo->ppb->matauang == 'USD')
                                 <td class="text-right">
-                                    <h6 class="text-right"> $ {{ number_format($tpn->total) }}.00</h6>
+                                    <h6 class="text-right"> $ {{ number_format($cpo->items->total) }}.00</h6>
                                 </td>
                             @endif
-                        @endforeach
                     @elseif($cpo->ppb->ppn == 1)
-                        @foreach ($total as $t)
                             @if ($cpo->ppb->matauang == 'RP')
                                 <td class="text-right">
-                                    <h6 class="mb-0 text-right"> Rp. {{ number_format($t->total) }}</h6>
+                                    <h6 class="mb-0 text-right"> Rp. {{ number_format($total_ppn) }}</h6>
                                 </td>
                             @elseif ($cpo->ppb->matauang == 'USD')
                                 <td class="text-right">
-                                    <h6 class="mb-0 text-right"> $.{{ number_format($t->total) }}.00</h6>
+                                    <h6 class="mb-0 text-right"> $.{{ number_format($total_ppn) }}.00</h6>
                                 </td>
                             @endif
-                        @endforeach
                     @endif
             </tr>
         </tbody>

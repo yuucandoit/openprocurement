@@ -146,9 +146,10 @@ class PurchaseOrderController extends Controller
     public function exportpdf($id)
     {
         // dd($id);
-        $data['cpp'] = CategoryPengajuanPembelian::find($id);
-        // $data['cpo'] = CategoryPO::where('ppb_id', $id)->get();
-        $data['cpo'] = CategoryPO::where('ppb_id', $id)->first();
+        // $data['cpp'] = CategoryPengajuanPembelian::find($id);
+        $data['cpo'] = CategoryPO::where('ppb_id', $id)->get();
+        $data['item_po'] = CategoryPO::where('ppb_id',$id)->orderBy('vendorable_type','ASC')->get();
+        // $data['cpo'] = CategoryPO::where('ppb_id', $id)->first();
         // foreach($data['cpo'] as $po){
         // dd($po);
         // }
@@ -172,7 +173,7 @@ class PurchaseOrderController extends Controller
         // $data['cpp'] = CategoryPengajuanPembelian::get();
         $data['cpo'] = CategoryPO::find($id);
 
-        // dd($data['cpo']->items->pp_id);
+
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
         // $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
         // dd( $data['category_q']);

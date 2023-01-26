@@ -5,43 +5,6 @@
     @section('main')
         <section>
 
-            <div class="modal fade" id="modalAdd" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary">
-                            <h2 class="modal-title" style="color: white">Add Form</h2>
-                            <button style="color: white" type="button" class="" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <form action="{{ url('/menu-purchase-order/store') }}" id="formAdd" method="post"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="modal-body container">
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control mt-2" id="floatingName"
-                                            placeholder="Your Name" name="name">
-                                        <label for="floatingName">Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input required type="text" class="form-control mt-4 mb-4" id="floatingAddress"
-                                            placeholder="Address" name="address">
-                                        <label for="floatingAddress">Address</label>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
-                                </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            </div>
-
-
-
             @foreach ($datappb as $purchase)
                 <div class="modal fade" id="modalDelete{{ $purchase->id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -79,34 +42,6 @@
                                 <li class="breadcrumb-item">Purchase Order</li>
                             </ol>
                         </div>
-                        {{-- <div class="col-sm-6 mt-4">
-                            <!-- Bookmark Start-->
-                            <div class="bookmark">
-                                <ul>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Tables"><i
-                                                data-feather="inbox"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Chat"><i
-                                                data-feather="message-square"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Icons"><i
-                                                data-feather="command"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Learning"><i
-                                                data-feather="layers"></i></a></li>
-                                    <li><a href="javascript:void(0)"><i class="bookmark-search"
-                                                data-feather="star"></i></a>
-                                        <form class="form-inline search-form">
-                                            <div class="form-group form-control-search">
-                                                <input type="text" placeholder="Search..">
-                                            </div>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- Bookmark Ends-->
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -169,19 +104,20 @@
                                                         <td>
                                                             @foreach ($ppb->itemppn as $item)
                                                             <ul>
-                                                                <li style=" margin-top:4px;">-{{ $item->item }}</li>
+                                                                <li style="margin-top:4px;">-{{ $item->item }}</li>
                                                             </ul>
                                                             @endforeach
                                                         </td>
                                                         {{-- <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td> --}}
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                                        {{-- <td>
-                                                            @foreach ($ppb->quot as  $quot)
+                                                        {{-- <td> --}}
+                                                            {{-- AMBIL DATA pengajuan hasMany ke category po --}}
+                                                            {{-- @foreach ($ppb->quot as  $quot)
                                                             <ul>
                                                                 <li style="margin-top: 5px;"><a href="{{ url('/exportpdf/po_id/'.$quot->id) }}" target="_blank"> PO {{$quot->id}}</a></li>
                                                             </ul>
-                                                            @endforeach
-                                                        </td> --}}
+                                                            @endforeach --}}
+                                                        {{-- </td> --}}
                                                      @if ($ppb->status == 'Purchase Proses')
                                                             <td>
                                                                 <ul>
@@ -320,6 +256,7 @@
     {{-- <script src="{{  }}"></script> --}}
     <script>
         const data = @json($approvedPPB);
+        // console.log(data);
         const item = data[0];
 
         // FOR CALCULATE REMAINING DEADLINE TIME 😃
