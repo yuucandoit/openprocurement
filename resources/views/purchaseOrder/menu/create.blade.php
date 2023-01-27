@@ -199,7 +199,7 @@
                                                         name="total_a">
                                                 </td>
                                             </tr>
-                                            {{-- <tr>
+                                            <tr>
                                                 <td>
                                                     <label class="pull-right mx-2"
                                                         style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; Discount :</label>
@@ -219,7 +219,7 @@
                                                     <input style="display: none;" class=" total_disc " type="text"
                                                         name="total_disc">
                                                 </td>
-                                            </tr> --}}
+                                            </tr>
                                             <tr>
                                                 <td>
                                                     <input class="mt-1 pull-right check-box" type="checkbox"
@@ -242,7 +242,7 @@
                                             </tr>
                                         </table>
                                         {{-- css hide --}}
-                                        <style>
+                                        {{-- <style>
                                             .tutup {
                                                 width: 0;
                                                 height: 0;
@@ -350,9 +350,9 @@
                                                 </label>
                                                     <input type="file" name="path_quotation" class="form-control form-control-lg">
                                             </div>
-                                        </div>
+                                        </div> --}}
 
-{{--
+
                                         <style>
                                             .tutup {
                                                 width: 0;
@@ -430,10 +430,7 @@
                                                         <input required type="text" class="form-control"
                                                             id="floatingQuotation" placeholder="Quotation" name="quotation[]" >
                                                         <div class="invalid-feedback"></div>
-                                                        <input class="mt-1 check-box" type="checkbox"name="ppn" value="1"
-                                                        {{ old('ppn', 0) === 1 ? 'checked' : '' }}>
-                                                    <label class="" style="font-weight: bold;"> PPN 11%
-                                                    </label>
+                                                        
                                                     </div>
                                                 </td>
                                                 <td>
@@ -476,7 +473,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div> --}}
+                                    </div>
 
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Submit</button>

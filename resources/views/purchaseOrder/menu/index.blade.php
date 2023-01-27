@@ -31,6 +31,34 @@
                 </div>
             @endforeach
 
+            @foreach ($datappb as $ppb)
+            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h2 class="modal-title" style="color: white">List Item</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($ppb->itemppn as $item)
+                                    <ul style="font-size: 18">
+                                        <li>- {{ $item->item }}</li>
+                                    </ul>
+                                    @endforeach
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+
+
+
             <!-- Page Sidebar Ends-->
             <div class="container-fluid">
                 <div class="page-header">
@@ -72,8 +100,8 @@
                                                 <th>No</th>
                                                 <th>Name</th>
                                                 {{-- <th>Description</th> --}}
-                                                {{-- <th>PO</th> --}}
                                                 <th>Item</th>
+                                                <th>PO</th>
                                                 <th>Deadline</th>
                                                 {{-- <th>Countdown</th> --}}
                                                 <th style="text-align: center;">Status</th>
@@ -102,22 +130,21 @@
                                                             {{-- {{ $ppb->whosubmit->name }} --}}
                                                         </td>
                                                         <td>
-                                                            @foreach ($ppb->itemppn as $item)
                                                             <ul>
-                                                                <li style="margin-top:4px;">-{{ $item->item }}</li>
+                                                                <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
+                                                            </ul>
+                                                        </td>
+                                                        <td>
+                                                            {{-- AMBIL DATA pengajuan hasMany ke category po --}}
+                                                            @foreach ($ppb->quot as  $quot)
+                                                            <ul>
+                                                                <li style="margin-top: 5px;"><a href="{{ url('/exportpdf/po_id/'.$quot->id) }}" target="_blank"> PO {{$quot->id}}</a></li>
                                                             </ul>
                                                             @endforeach
                                                         </td>
                                                         {{-- <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td> --}}
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                                        {{-- <td> --}}
-                                                            {{-- AMBIL DATA pengajuan hasMany ke category po --}}
-                                                            {{-- @foreach ($ppb->quot as  $quot)
-                                                            <ul>
-                                                                <li style="margin-top: 5px;"><a href="{{ url('/exportpdf/po_id/'.$quot->id) }}" target="_blank"> PO {{$quot->id}}</a></li>
-                                                            </ul>
-                                                            @endforeach --}}
-                                                        {{-- </td> --}}
+
                                                      @if ($ppb->status == 'Purchase Proses')
                                                             <td>
                                                                 <ul>
