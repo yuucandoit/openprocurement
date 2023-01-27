@@ -475,7 +475,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function exportpdf($id)
     {
         // $data['category_po'] = CategoryPengajuanPembelian::where('id', $this->id)->get()->first();
-        $data['cpp'] = CategoryPengajuanPembelian::where('id',$id)->first();
+        $data['cpp'] = CategoryPengajuanPembelian::find($id);
         // $data['atasan'] = CategoryPengajuanPembelian::where('id',$id)->first();
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->get()->first();
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();

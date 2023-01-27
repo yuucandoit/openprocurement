@@ -39,9 +39,13 @@
 
         }
     </style>
+    @php
+    $id_pr = $cpp->id;
+    $po_number = str_pad($id_pr,5,'0', STR_PAD_LEFT);
+    @endphp
 
     <h3 class="text-center">Pengajuan Pembelian</h3>
-    <h6 class="text-center"><span class="digits counter">000{{ $id->id }}/PPB/SII/{{ $month }}/{{ $year }}</span>
+    <h6 class="text-center"><span class="digits counter">NO {{ $po_number }}/PPB/SII/{{ $month }}/{{ $year }}</span>
     </h6>
     <table width="100%" class="mt-4">
         <tr>

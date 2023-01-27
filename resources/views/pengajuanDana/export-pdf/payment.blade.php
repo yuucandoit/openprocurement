@@ -33,7 +33,7 @@
     $py_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
     @endphp
     <h3 class="text-center">Pengajuan Dana</h3>
-    <h6 class="text-center"><span class="digits counter">{{ $py_number }}/PD/SII/{{ $month }}/{{ $year }}</span></h6>
+    <h6 class="text-center"><span class="digits counter">NO {{ $py_number }}/PD/SII/{{ $month }}/{{ $year }}</span></h6>
 
     <table width="100%" class="mt-5">
         <tr>
