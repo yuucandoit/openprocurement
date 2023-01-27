@@ -1075,8 +1075,8 @@
 
                                 @hasrole('super user|super admin')
                                     <li
-                                        class="dropdown {{ request()->is('*/menu-taskList-atasan/history*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
+                                        class="dropdown  {{ request()->is('menu-taskList-atasan/history') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-taskList-atasan/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Task List Purchase Request </span>
@@ -1086,8 +1086,8 @@
 
                                 @hasrole('super user|super admin')
                                     <li
-                                        class="dropdown {{ request()->is('*/menu-taskList-atasan-po/history*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
+                                        class="dropdown {{ request()->is('menu-taskList-atasan-po/history') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-taskList-atasan-po/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Task List Purchase Order</span>
@@ -1097,7 +1097,7 @@
 
                                 @hasrole('super user|super admin')
                                     <li
-                                        class="dropdown {{ request()->is('*/menu-taskList-atasan-payment/history*') ? 'active' : '' }}">
+                                        class="dropdown {{ request()->is('menu-taskList-atasan-payment/history') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav"
                                             href="{{ url('/menu-taskList-atasan-payment/history') }}">
                                             <i data-feather="activity"></i>
@@ -1108,7 +1108,7 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class=" dropdown {{ request()->is('*menu-task-list*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('/menu-task-list/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-task-list/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Purchase Task</span>
@@ -1118,7 +1118,7 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('/menu-purchase-order/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-purchase-order/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Purchase Order</span>
@@ -1128,7 +1128,7 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('/payment_request/history') ? 'active' : '' }}"
                                             href="{{ url('/payment_request/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Payment Reqs</span>
@@ -1139,7 +1139,7 @@
                                 @hasrole('finance|super admin')
                                     <li
                                         class=" dropdowns {{ request()->is('*menu-tasklist-finance*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('/menu-tasklist-finance/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-tasklist-finance/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Finance Task</span>
@@ -1149,7 +1149,7 @@
 
                                 @hasrole('finance|super admin')
                                     <li class=" dropdowns {{ request()->is('*menu-pengajuan-dana*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('/menu-pengajuan-dana/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-pengajuan-dana/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Payment Process</span>
@@ -1159,7 +1159,7 @@
 
                                 @hasrole('purchasing|super admin')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('/delivery/history') ? 'active' : '' }}"
                                             href="{{ url('/delivery/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Delivery</span>

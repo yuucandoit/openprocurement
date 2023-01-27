@@ -74,33 +74,6 @@
                             <li class="breadcrumb-item active">History Purchase Order</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -110,27 +83,26 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>History Purchase order</h5>
+                        <div class="box-header mt-4">
+                            <div style="width: 30%; margin-bottom:-20px; " class="pull-right">
+                                <form action="{{ route('menu-purchase-order.SearchHistoryPO') }}" method="get"
+                                    class="input-group">
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                        value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                            value="Go"></span>
+                                </form>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="advance-1">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th>No</th>
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
+                                        <tr>
+                                            <th style="text-align: center;">No</th>
                                             <th>Name</th>
-                                            <th>Send To</th>
-                                            <th>Date Line</th>
-                                            <th>Countdown</th>
-                                            <th>Warning</th>
-                                            @hasrole('purchasing|super admin')
-                                                <th>Status</th>
-                                            @endhasrole
-                                            @hasrole('user')
-                                                <th>Status</th>
-                                            @endhasrole
-                                            <th>Date</th>
+                                            <th style="text-align: center;">Deadline</th>
+                                            <th style="text-align: center;">Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -152,58 +124,46 @@
                                                 $ppb->status == 'Delivery Success')
                                                 <tr>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->send_to }}</td>
-                                                    @if ($ppb->status == 'Purchase Proses')
-
-                                                    @else
-                                                        <td> -/- </td>
-                                                        <td> -/- </td>
-                                                        <td> -/- </td>
-                                                        <td> -/- </td>
-                                                    @endif
-                                                    <td style="text-align: center;">{{ $ppb->approved_at }}</td>
+                                                    <td>
+                                                        <ul><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">
+                                                            <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
+                                                            <li>{{ $ppb->desc }}</li>
+                                                        </a></ul>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <ul>
+                                                            <li style="white-space: nowrap;">
+                                                                    @if($ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif
+                                                                </li>
+                                                            </ul>
+                                                    </td>
+                                                    <td style="text-align: center;"><a class="badge badge-primary">{{ $ppb->status }}</a></td>
                                                     @hasrole('purchasing||super admin')
-                                                        <td>
+                                                        <td style="white-space: nowrap;">
                                                             <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #0014FF;"
+                                                                style=" font-size:10; background-color: #0014FF;"
                                                                 href="{{ url('/exportpdf/ppb/' . $ppb->id) }}"><i
                                                                     class="icon-eye" title="Preview PDF Purchase request"></i>
                                                                 </a>
 
                                                                 <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #B1D0E0;"
+                                                                style=" font-size:10; background-color: #B1D0E0;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                             </a>
                                                             <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #c713e7;"
+                                                            style=" font-size:10; background-color: #c713e7;"
                                                             href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}"><i
                                                                 class="icon-eye" title="Preview PDF"></i>
                                                         </a>
-                                                            @if ($ppb->status == 'Purchase Proses')
-                                                                <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #008000;"
-                                                                    href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
-                                                                        class="icon-file" title="Record Data"></i>
-                                                                </a>
-                                                            @endif
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #FF8C00;"
-                                                            href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
-                                                                class="icon-pencil-alt" title="Edit"></i>
-                                                            </a>
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #00008B;"
-                                                                href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Details"></i>
-                                                            </a>
-
-                                                            <button class="btn btn-danger mt-1" data-bs-toggle="modal"
-                                                                data-bs-target="#modalDelete{{ $ppb->id }}"><i
-                                                                    class="icon-trash" title="Delete"></i>
-                                                            </button>
-
                                                         </td>
                                                     @endhasrole
                                                 </tr>

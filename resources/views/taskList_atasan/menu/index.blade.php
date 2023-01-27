@@ -73,7 +73,7 @@
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
-                                                <th>Date Line</th>
+                                                <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -92,7 +92,21 @@
                                                             <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">
+                                                            <ul>
+                                                            <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                             <td style="text-align: center;">
                                                                 <ul>
@@ -163,7 +177,7 @@
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
-                                                <th>Date Line</th>
+                                                <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -182,7 +196,21 @@
                                                             <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">
+                                                            <ul>
+                                                            <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
@@ -245,7 +273,7 @@
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
-                                                <th>Date Line</th>
+                                                <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -264,7 +292,21 @@
                                                             <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">
+                                                            <ul>
+                                                            <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
@@ -330,7 +372,7 @@
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
-                                                <th>Date Line</th>
+                                                <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -349,7 +391,21 @@
                                                             <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">
+                                                            <ul>
+                                                            <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td style="text-align: center;"> <a
@@ -416,7 +472,7 @@
                                                 <th><input type="checkbox" id="head-cb"></th>
                                                 <th>No</th>
                                                 <th>Description</th>
-                                                <th>Date Line</th>
+                                                <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -435,7 +491,21 @@
                                                             <td style="text-align: center;">{{ $i++ }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                            <td style="text-align: center;">
+                                                            <ul>
+                                                            <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
                                                             <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                             </td>
                                                             <td>

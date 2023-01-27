@@ -14,33 +14,6 @@
                             <li class="breadcrumb-item active">History Shipping Process</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -49,17 +22,25 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-absolute">
-                    <div class="card-header bg-primary">
-                        <h5>History Shipping Process</h5>
+                    <div class="row">
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-4">
+                        <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                            <form action="{{ route('delivery.SearchHistoryDelivery') }}" method="get" class="input-group" >
+                                <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                            </form>
+                        </div>
+                    </div>
                     </div>
                     <div class="card-body">
-                        <div class="order-history table-responsive">
-                            <table class="table table-bordernone display" id="advance-1">
-                                <thead>
-                                    <tr style="text-align: center;">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
                                         <th>No</th>
                                         <th>Applicant Name</th>
-                                        <th>Date</th>
+                                        <th>Request Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -73,7 +54,7 @@
                                             @php $approvedPPB[] =$ppb; @endphp
                                             <tr>
                                                 <td>{{ $no++ }}</td>
-                                                <td>{{ $ppb->whosubmit->name }}</td>
+                                                <td style="font-weight: 600;"><a  href="{{ url('/delivery/detail/' . $ppb->id) }}">{{ $ppb->whosubmit->name }}</a></td>
                                                 <td>{{ $ppb->created_at }}</td>
                                                 @hasrole('purchasing|super admin')
                                                     <td>
@@ -90,6 +71,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="mt-4">
+                                {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                            </div>
                         </div>
                     </div>
                 </div>

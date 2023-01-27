@@ -1,4 +1,4 @@
-<title>History Purchase order</title>
+<title>History Payment Request</title>
 
 @extends('layouts.master')
 
@@ -110,13 +110,21 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                                <h5>History Payment Request List</h5>
-                            </div>
+            <div class="row">
+                <div class="col-sm-8"></div>
+                    <div class="col-sm-4">
+                        <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                            <form action="{{ route('payment_request.SearchHistoryPaymentReq') }}" method="get" class="input-group">
+                                <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="advance-1">
-                                    <thead>
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Name</th>
@@ -140,11 +148,21 @@
                                                     <td style="text-align: center;">{{ $no++ }}</td>
                                                     <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                     <td style="text-align: center;">{{ $ppb->send_to }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                    <td style="text-align: center; white-space:nowrap;">
+                                                        @if($ppb->dateline == '≤24Jam')
+                                                        <strong><p>1 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $ppb->created_at }}</td>
                                                     @hasrole('purchasing|super admin')
-                                                        <td> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                        <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
 
                                                         <td style="text-align: center;">
@@ -160,6 +178,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>

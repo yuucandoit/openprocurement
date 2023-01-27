@@ -51,23 +51,28 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>History Payment Process</h5>
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-pengajuan-dana.SearchHistoryPD') }}" method="get" class="input-group" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="advance-1">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th><input type="checkbox" id="head-cb"></th>
-                                            <th>No</th>
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
+                                        <tr>
+                                            <th style="text-align: center;">No</th>
                                             <th>Name</th>
-                                            <th>Send To</th>
-                                            <th>Date Line</th>
-                                            <th>Date</th>
-                                            @hasrole('finance|super admin')
-                                                <th>Status</th>
-                                            @endhasrole
+                                            <th style="text-align: center; white-space:nowrap;">Send To</th>
+                                            <th style="text-align: center; white-space:nowrap;">Deadline</th>
+                                            <th style="text-align: center;">Date</th>
+                                            <th style="text-align: center;">Status</th>
                                             <th>Function</th>
                                         </tr>
                                     </thead>
@@ -82,17 +87,36 @@
                                                 $ppb->status == 'Delivery Process'||
                                                 $ppb->status == 'Delivery Success')
                                                 <tr>
-                                                    <td style="text-align: center;"><input type="checkbox" name=""
-                                                            id=""></td>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                                    <td>
+                                                    <a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">
+                                                        <ul>
+                                                            <li style="font-weight: 600;"> {{ $ppb->whosubmit->name }}</li>
+                                                            <li style="margin-top: 8px;"> {{ $ppb->desc }}</li>
+                                                        </ul>
+                                                    </a>
+                                                    </td>
                                                     <td style="text-align: center;">{{ $ppb->send_to }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                    <td style="text-align: center; white-space:nowrap;">
+                                                        <ul>
+                                                            <li>
+                                                                @if($ppb->dateline == '≤24Jam')
+                                                                <strong><p>1 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤72Jam')
+                                                                <strong><p>2 sd 3 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤168Jam')
+                                                                <strong><p>4 sd 7 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤336Jam')
+                                                                <strong><p>7 sd 14 Hari</p></strong>
+                                                                @endif
+                                                            </li>
+                                                        </ul>
+                                                    </td>
                                                     <td style="text-align: center;">{{ $ppb->created_at }}</td>
                                                     @hasrole('finance|super admin')
-                                                        <td>
+                                                        <td style="text-align: center">
                                                             <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
 
                                                         <td>
@@ -101,11 +125,6 @@
                                                                 href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
-
-                                                            <button class="btn btn-danger mt-1" data-bs-toggle="modal"
-                                                                data-bs-target="#modalDelete{{ $ppb->id }}"><i
-                                                                    class="icon-trash" title="Delete"></i>
-                                                            </button>
                                                         </td>
                                                     @endhasrole
                                                 </tr>
@@ -114,6 +133,9 @@
 
                                     </tbody>
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>

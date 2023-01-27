@@ -207,7 +207,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
                                                         class="icofont icofont-stamp"></i> Send Approval To</label>
-                                                <select class="form-select" id="floatingproposedto"
+                                                <select class="form-select form-select-lg" id="floatingproposedto"
                                                     placeholder="Proposed To" name="atasan_py" required="">
                                                     <option selected="" disabled="" value="">-- Send Approval To
                                                         --
@@ -256,6 +256,14 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label" style="font-weight: bold;"><i
+                                                        class="icofont icofont-list"></i> Upload Invoice</label>
+                                                        <input type="file" name="path_invoice" class="form-control form-control-lg">
+                                                </div>
+                                            </div>
 
 
                                         <div class="modal-footer">

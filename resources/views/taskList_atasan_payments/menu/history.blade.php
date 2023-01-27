@@ -15,33 +15,6 @@
                             <li class="breadcrumb-item active">History Task List Super User Payments </li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -56,18 +29,28 @@
                     <div class="card-header bg-primary">
                         <h5>History Task List Super User Payments</h5>
                     </div>
+                      <div class="box-header mt-4">
+                            <div style="width: 30%; margin-bottom:-20px; " class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan-payment.SearchHistoryTaskPY') }}" method="get"
+                                    class="input-group">
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                        value="{{ old('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                            value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
                                 {{-- Data Keluar --}}
-                                <table class="display mt-4" id="advance-1">
-                                    <thead>
+                                <table class="table table-bordered table-hover mt-4">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Description</th>
-                                            <th>Date Line</th>
+                                            <th>Deadline</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -85,27 +68,35 @@
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ $ppb->desc }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                        <td style="text-align: center;">
+                                                         <ul>
+                                                                <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                        </td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                         <td style="text-align: center;"> <a
                                                                 class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
-
-                                                    <td style="text-align: center;">
-
-                                                        <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a>
-                                                    </td>
                                                  </tr>
                                             </tbody>
                                             @endif
                                     @endif
                                     @endforeach
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -125,18 +116,28 @@
                     <div class="card-header bg-primary">
                         <h5>History Task List Super User Payments</h5>
                     </div>
+                      <div class="box-header mt-4">
+                            <div style="width: 30%; margin-bottom:-20px; " class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan-payment.SearchHistoryTaskPY') }}" method="get"
+                                    class="input-group">
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                        value="{{ old('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                            value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
                                 {{-- Data Keluar --}}
-                                <table class="display mt-4" id="advance-1">
-                                    <thead>
+                                <table class="table table-bordered table-hover mt-4">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Description</th>
-                                            <th>Date Line</th>
+                                            <th>Deadline</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -154,27 +155,35 @@
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ $ppb->desc }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                        <td style="text-align: center;">
+                                                         <ul>
+                                                                <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                        </td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                         <td style="text-align: center;"> <a
                                                                 class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
-
-                                                    <td style="text-align: center;">
-
-                                                        <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a>
-                                                    </td>
                                                  </tr>
                                             </tbody>
                                             @endif
                                         @endif
                                     @endforeach
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -196,17 +205,27 @@
                     <div class="card-header bg-primary">
                         <h5>History Task List Super User Payments</h5>
                     </div>
+                      <div class="box-header mt-4">
+                            <div style="width: 30%; margin-bottom:-20px; " class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan-payment.SearchHistoryTaskPY') }}" method="get"
+                                    class="input-group">
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                        value="{{ old('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                            value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                                <table class="display mt-4" id="advance-1">
-                                    <thead>
+                                <table class="table table-bordered table-hover mt-4">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Description</th>
-                                            <th>Date Line</th>
+                                            <th>Deadline</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -224,28 +243,36 @@
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ $ppb->desc }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                        <td style="text-align: center;">
+                                                         <ul>
+                                                                <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                        </td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                         </td>
                                                         <td style="text-align: center;"> <a
                                                                 class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
-                                                    <td style="text-align: center;">
-
-                                                        <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a>
-
-                                                    </td>
                                                 </tr>
                                              </tbody>
                                           @endif
                                         @endif
                                     @endforeach
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -267,17 +294,27 @@
                     <div class="card-header bg-primary">
                         <h5>History Task List Super User Payments</h5>
                     </div>
+                      <div class="box-header mt-4">
+                            <div style="width: 30%; margin-bottom:-20px; " class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan-payment.SearchHistoryTaskPY') }}" method="get"
+                                    class="input-group">
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                        value="{{ old('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                            value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                                <table class="display mt-4" id="advance-1">
-                                    <thead>
+                                <table class="table table-bordered table-hover mt-4">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Description</th>
-                                            <th>Date Line</th>
+                                            <th>Deadline</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -295,34 +332,36 @@
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ $ppb->desc }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                        <td style="text-align: center;">
+                                                         <ul>
+                                                                <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                        </td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                         </td>
                                                         <td style="text-align: center;"> <a
                                                                 class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
-                                                    <td style="text-align: center;">
-
-                                                        <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a>
-
-                                                        {{-- <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #FF8C00;"
-                                                            href="{{ url('/menu-taskList-atasan-payment/edit/' . $ppb->id) }}"><i
-                                                                class="icon-pencil-alt" title="Edit"></i>
-                                                        </a> --}}
-
-                                                    </td>
                                                 </tr>
                                             </tbody>
                                          @endif
                                      @endif
                                 @endforeach
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -342,17 +381,27 @@
                     <div class="card-header bg-primary">
                         <h5>History Task List Super User Payments</h5>
                     </div>
+                      <div class="box-header mt-4">
+                            <div style="width: 30%; margin-bottom:-20px; " class="pull-right">
+                                <form action="{{ route('menu-taskList-atasan-payment.SearchHistoryTaskPY') }}" method="get"
+                                    class="input-group">
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                        value="{{ old('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                            value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                                <table class="display mt-4" id="advance-1">
-                                    <thead>
+                                <table class="table table-bordered table-hover mt-4">
+                                    <thead class="bg-primary">
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Description</th>
-                                            <th>Date Line</th>
+                                            <th>Deadline</th>
                                             <th>Request By</th>
                                             <th>Status</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -370,26 +419,36 @@
                                                         <td style="text-align: center;">{{ $no++ }}</td>
                                                         <td><a href="{{ $ppb->desc }}"
                                                                 target="_blank">{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                        <td style="text-align: center;">
+                                                         <ul>
+                                                                <li style="white-space: nowrap;">
+                                                                        @if($ppb->dateline == '≤24Jam')
+                                                                        <strong><p>1 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                        </td>
                                                         <td style="text-align: center;">{{ $ppb->whosubmit->name }}
                                                         </td>
                                                         <td>
                                                             <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
-
-                                                        <td style="text-align: center;">
-                                                     <a class="btn btn-iconsolid mt-1"
-                                                        style="background-color: #00008B;"
-                                                        href="{{ url('menu-taskList-atasan-payment/detail/'.$ppb->id) }}"><i
-                                                        class="icon-zoom-in" title="Details"></i>
-                                                     </a>
                                                 </tr>
                                         </tbody>
                                         @endif
                                     @endif
                                 @endforeach
                                 </table>
+                                <div class="mt-4">
+                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>

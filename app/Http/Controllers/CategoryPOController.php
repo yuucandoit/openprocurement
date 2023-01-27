@@ -130,6 +130,26 @@ class CategoryPOController extends Controller
         }
     }
 
+    public function SearchHistoryPO(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     ->orWhere('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('itemppn', function($i) use($cari){
+         $i->where('item','like',"%".$cari."%");
+     })
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->paginate(10);
+
+     return view('purchaseOrder.menu.history')
+     ->with('datappb',$datappb);
+    }
+
     public function detail($id)
     {
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);

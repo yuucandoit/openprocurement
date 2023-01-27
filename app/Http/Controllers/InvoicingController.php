@@ -121,19 +121,34 @@ class InvoicingController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 || $check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
-            $pt = CategoryPT::all();
-            $op = CategoryPP::all();
-            $ec = CategoryEcommerce::all();
-            $datapo = CategoryPO::all();
+            $datappb = CategoryPengajuanPembelian::where('status','Invoicing Process')
+            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
+            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')
+            ->paginate(10);
             return view('payment_request.menu.history')
-                ->with('pt',$pt)
-                ->with('op',$op)
-                ->with('ec',$ec)
-                ->with('datappb',$datappb)
-                ->with('datapo', $datapo);
+                ->with('datappb',$datappb);
         }
     }
+
+    public function SearchHistoryPaymentReq(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+    ->orWhere('id','like',"%".$cari."%")
+    ->orWhere('status','like',"%".$cari."%")
+    ->orWhere('desc','like',"%".$cari."%")
+    ->orWhereHas('itemppn', function($i) use($cari){
+        $i->where('item','like',"%".$cari."%");
+   })
+    ->orWhereHas('whosubmit', function($q) use($cari){
+         $q->where('name','like',"%".$cari."%");
+    })
+    ->paginate(10, ['*'],'out');
+
+    return view('payment_request.menu.history')
+    ->with('datappb',$datappb);
+   }
 
     public function detail($id)
     {
@@ -222,11 +237,24 @@ class InvoicingController extends Controller
      */
     public function store(Request $request,$id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
+        $all = $request->all();
+        // dd($all);
 
         $data = CategoryPengajuanPembelian::find($id);
             $data->atasan_py = $request->atasan_py;
         $data->save();
+
+        if ($request->hasFile('path_invoice')){
+
+            $file = $request->file('path_invoice');
+            $path_file = $file->getClientOriginalName();
+            // dd($path_file);
+            $file->move('upload_invoice',$path_file);
+
+            CategoryPO::where('ppb_id',$id)->update([
+                "path_invoice" => $path_file,
+            ]);
+        }
 
         $pyment = new Invoicing;
         $pyment->ppb_id = $data->id;

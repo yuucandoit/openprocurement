@@ -95,6 +95,40 @@ class TasklistAtasanPoController extends Controller
      ->with('datappb',$datappb);
     }
 
+
+    public function history()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('atasan_po', Auth::user()->id)->where('status','PO Approved')->
+            orWhere('status','Invoicing Process')->
+            orWhere('status','Payment Approved')->
+            orWhere('status','Unpaid')->
+            orWhere('status','Paid')->
+            orWhere('status','Delivery Process')->
+            orWhere('status','Delivery Success')->paginate(10);
+            return view('taskList_atasan_po.menu.history')
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function SearchHistoryAtasanPO(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     ->orWhere('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->paginate(10);
+
+     return view('taskList_atasan_PO.menu.history')
+     ->with('datappb',$datappb);
+    }
+
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);

@@ -63,23 +63,14 @@ class CategoryPDController extends Controller
     {
      $cari = $request->cariIn;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
-     ->orWhere('id','like',"%".$cari."%")
-     ->orWhere('status','like',"%".$cari."%")
+     $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
      ->orWhereHas('whosubmit', function($q) use($cari){
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10, ['*'],'in');
-
-     $datappb2 = CategoryPengajuanPembelian::where('status','Paid')
-     ->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')
-     ->orderBy('status', 'asc')->orderBy('dateline', 'asc')
-     ->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-
      return view('pengajuanDana.menu.index')
-     ->with('datappb',$datappb)
-     ->with('datappb2',$datappb2);
+     ->with('datappb',$datappb);
     }
 
     public function out()
@@ -105,8 +96,7 @@ class CategoryPDController extends Controller
      $cari = $request->cariOut;
      //dd($cari);
 
-     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
-     ->where('id','like',"%".$cari."%")
+     $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
      ->orWhereHas('whosubmit', function($q) use($cari){
@@ -123,7 +113,7 @@ class CategoryPDController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 5 || $check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
+            $datappb = CategoryPengajuanPembelian::where('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10);
             $pt = CategoryPT::all();
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
@@ -135,6 +125,23 @@ class CategoryPDController extends Controller
                 ->with('datappb',$datappb)
                 ->with('datapo', $datapo);
         }
+    }
+
+    public function SearchHistoryPD(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+
+     $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->paginate(10);
+
+     return view('pengajuanDana.menu.history')
+     ->with('datappb',$datappb);
     }
     /**
      * Show the form for creating a new resource.

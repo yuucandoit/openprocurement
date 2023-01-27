@@ -103,7 +103,7 @@ class DeliveryController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 || $check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::all();
+            $datappb = CategoryPengajuanPembelian::where('status','Delivery Success')->paginate(10);
             $pt = CategoryPT::all();
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
@@ -115,6 +115,22 @@ class DeliveryController extends Controller
                 ->with('datappb',$datappb)
                 ->with('datapo', $datapo);
         }
+    }
+
+    public function SearchHistoryDelivery(Request $request)
+    {
+     $cari = $request->cari;
+     //dd($cari);
+     $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->paginate(10);
+
+     return view('delivery.menu.history')
+     ->with('datappb',$datappb);
     }
     /**
      * Show the form for creating a new resource.
