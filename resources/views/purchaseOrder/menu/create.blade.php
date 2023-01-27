@@ -258,7 +258,7 @@
                                             }
                                         </style>
 
-                                        <div class="col-md-6 mt-3">
+                                        <div class="col-md-4 mt-3">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
                                                         class="fa fa-database"></i> Select Vendor</label>
@@ -295,7 +295,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 mt-3">
+                                        <div class="col-md-4 mt-3">
                                             <div class="form-group">
                                                 <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
                                                     Quotation</label>
@@ -306,10 +306,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4 mt-3">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-file-pdf-o"></i> Terms & Conditions</label>
+                                                        class="fa fa-file-text-o"></i> Terms & Conditions</label>
                                                 <select class="form-select page pageSelector" id="pageSelector"
                                                     placeholder="Terms and Conditions" name="term_conditions">
                                                     <option value="" disabled selected hidden>Terms And Conditions
@@ -325,7 +325,7 @@
                                                     placeholder="Input Terms And Conditions"></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
                                                         class="icofont icofont-stamp"></i> Send Approval To:</label>
@@ -339,6 +339,16 @@
                                                         <option value="{{ $sui->id }}">{{ $sui->name }}</option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <label class="form-label">
+                                                    <i class="fa fa-file-pdf-o" style="font-weight: bold;"></i>
+                                                    Upload Quotation
+                                                </label>
+                                                    <input type="file" name="path_quotation" class="form-control form-control-lg">
                                             </div>
                                         </div>
 

@@ -94,12 +94,12 @@
                                         <tr>
                                         <tr>
                                             <th>No</th>
-                                            <th>Description</th>
+                                            <th>Request By</th>
+                                            <th>Item</th>
                                             <th style="text-align: center;">Deadline</th>
                                             <th style="text-align: center;">Status</th>
                                             <th style="text-align: center;">Approved At</th>
-                                            <th>Request By</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -112,7 +112,20 @@
                                             <tbody>
                                                 <tr id="ppb-{{ $ppb->id }}">
                                                     <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td><a href="{{ url('menu-task-list/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    <td><a href="{{ url('menu-task-list/detail/' . $ppb->id) }}">
+                                                        <ul>
+                                                            <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
+                                                            <li>{{ $ppb->desc }}</li>
+                                                        </ul>
+
+                                                    </a></td>
+                                                    <td>
+                                                        @foreach ($ppb->itemppn as $item)
+                                                        <ul>
+                                                            <li style="margin-top:4px;">-{{ $item->item }}</li>
+                                                        </ul>
+                                                        @endforeach
+                                                    </td>
                                                     <td style="text-align: center;">
                                                         <ul>
                                                             <li style="white-space: nowrap;">
@@ -149,13 +162,13 @@
                                                         </ul>
                                                     </td>
                                                     <td style="text-align: center; font-size:12;"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
-                                                    <td>{{ $ppb->whosubmit->name }}</td>
+                                                    {{-- <td>{{ $ppb->whosubmit->name }}</td>
                                                         <td style="text-align: center;">
                                                             <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
                                                                 href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i
                                                                     class="icon-zoom-in" title="Details"></i>
                                                             </a>
-                                                        </td>
+                                                        </td> --}}
                                                 </tr>
                                         @endif
                                     @endforeach

@@ -227,6 +227,20 @@ class CategoryPOController extends Controller
             $ppn->atasan_po = $request->atasan_po;
             $ppn->ppn =  $request->ppn;
             $ppn->save();
+            if ($request->hasFile('path_quotation')){
+            $file = $request->file('path_quotation');
+            $path_file = $file->getClientOriginalName();
+            // dd($path_file);
+            $file->move('upload_quotation',$path_file);
+
+            $purchase = new CategoryPO([
+                "ppb_id" => $data->id,
+                "term_conditions" => $term->id,
+                "quotation" => $request->quotation,
+                "path_quotation" => $path_file,
+                // "ppn" => $request->ppn
+            ]);
+            }
 
             $purchase = new CategoryPO([
                 "ppb_id" => $data->id,
@@ -273,10 +287,25 @@ class CategoryPOController extends Controller
             $ppn->atasan_po = $request->atasan_po;
             $ppn->save();
 
+            if ($request->hasFile('path_quotation')){
+            $file = $request->file('path_quotation');
+            $path_file = $file->getClientOriginalName();
+            // dd($path_file);
+            $file->move('upload_quotation',$path_file);
+
             $purchase = new CategoryPO([
                 "ppb_id" => $data->id,
                 "term_conditions" => $request->term_conditions,
                 "quotation" => $request->quotation,
+                "path_quotation" => $path_file,
+                // "ppn" => $request->ppn
+            ]);
+            }
+            $purchase = new CategoryPO([
+                "ppb_id" => $data->id,
+                "term_conditions" => $request->term_conditions,
+                "quotation" => $request->quotation,
+                // "path_quotation" => $path_file,
                 // "ppn" => $request->ppn
             ]);
             if ($request->vendor == "company") {

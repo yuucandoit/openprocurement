@@ -67,12 +67,11 @@
                                         <tr>
                                         <tr style="text-align: center;">
                                             <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
-                                            <th>Approved At</th>
                                             <th>Request By</th>
+                                            <th>Item</th>
+                                            <th style="white-space: nowrap;">Date Line</th>
+                                            <th>Approved At</th>
                                             <th>Status</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -95,21 +94,49 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="text-align: center;">{{ $i++ }}</td>
-                                                    <td><a href="{{ url('menu-task-list/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
-                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                    <td><a href="{{ url('menu-task-list/detail/' . $ppb->id) }}">
+                                                        <ul>
+                                                            <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
+                                                            <li>{{ $ppb->desc }}</li>
+                                                        </ul>
+                                                        {{-- {{ $ppb->desc }} --}}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @foreach ($ppb->itemppn as $item)
+                                                    <ul>
+                                                        <li style="margin-top:4px;">-{{ $item->item }}</li>
+                                                    </ul>
+                                                    @endforeach
+                                                </td>
+                                                    <td style="text-align: center;">
+                                                        <ul>
+                                                            <li style="white-space: nowrap;">
+                                                                @if($ppb->dateline == '≤24Jam')
+                                                                <strong><p>1 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤72Jam')
+                                                                <strong><p>2 sd 3 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤168Jam')
+                                                                <strong><p>4 sd 7 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤336Jam')
+                                                                <strong><p>7 sd 14 Hari</p></strong>
+                                                                @endif
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    {{-- <td style="text-align: center;">{{ $ppb->dateline }}</td> --}}
                                                     <td style="text-align: center;">{{ $ppb->approved_at }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                     <td>
                                                         <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                            style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                            style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                     </td>
-                                                    <td style="text-align: center;">
+                                                    {{-- <td style="text-align: center;">
                                                         <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
                                                             href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i
                                                                 class="icon-zoom-in" title="Details"></i>
                                                         </a>
 
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                         @endif
                                     @endforeach
