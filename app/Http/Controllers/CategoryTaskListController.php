@@ -101,6 +101,9 @@ class CategoryTaskListController extends Controller
      $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('itemppn', function($i) use($cari){
+        $i->where('item','like',"%".$cari."%");
+    })
      ->orWhereHas('whosubmit', function($q) use($cari){
           $q->where('name','like',"%".$cari."%");
      })

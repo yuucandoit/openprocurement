@@ -68,7 +68,7 @@
                 </h6>
              </div>
 
-                <div class="tapper ">
+                <div class="tapper">
                 <h6>Description &nbsp;:  <p><span>{{ $cpp->desc }}</span></p></h6>
                 </div>
 

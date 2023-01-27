@@ -46,7 +46,8 @@
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Request By</th>
-                                            <th>Date Line</th>
+                                            <th>Item</th>
+                                            <th>Deadline</th>
                                             <th>Approved At</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -75,7 +76,27 @@
                                                         </ul>
                                                         </a>
                                                     </td>
-                                                    <td style="text-align: center;">{{ $ppb->dateline }}</td>
+                                                    <td>
+                                                        @foreach ($ppb->itemppn as $item)
+                                                        <ul>
+                                                            <li style="margin-top:4px;">-{{ $item->item }}</li>
+                                                        </ul>
+                                                        @endforeach
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                       <ul>
+                                                        <li style="white-space: nowrap;">@if($ppb->dateline == '≤24Jam')
+                                                            <strong><p>1 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤72Jam')
+                                                            <strong><p>2 sd 3 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤168Jam')
+                                                            <strong><p>4 sd 7 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤336Jam')
+                                                            <strong><p>7 sd 14 Hari</p></strong>
+                                                            @endif
+                                                        </li>
+                                                       </ul>
+                                                    </td>
                                                     <td style="text-align: center;">{{ $ppb->approved_at }}</td>
                                                     <td style="text-align: center;">
                                                         <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1 "

@@ -295,7 +295,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
         Route::get('/search/taskPOIn',[CategoryTaskListController::class, 'SearchtaskPOIn'])->name('menu-task-list.SearchtaskPOIn');
         Route::get('/out/search/taskPOOut',[CategoryTaskListController::class, 'SearchtaskPOOut'])->name('menu-task-list.SearchtaskPOOut');
-        Route::get('/search/taskPOHistory',[CategoryTaskListController::class, 'SearchtaskPOHistory'])->name('menu-task-list.SearchtaskPOHistory');
+        Route::get('/history/search/taskPOHistory',[CategoryTaskListController::class, 'SearchtaskPOHistory'])->name('menu-task-list.SearchtaskPOHistory');
     });
     //End Task List po
 

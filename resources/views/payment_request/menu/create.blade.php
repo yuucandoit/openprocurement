@@ -16,7 +16,7 @@
                             <li class="breadcrumb-item">Record Payment Request</li>
                         </ol>
                     </div>
-                    <div class="col-sm-6 mt-4">
+                    {{-- <div class="col-sm-6 mt-4">
                         <!-- Bookmark Start-->
                         <div class="bookmark">
                             <ul>
@@ -42,7 +42,7 @@
                             </ul>
                         </div>
                         <!-- Bookmark Ends-->
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -207,7 +207,7 @@
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
                                                         class="icofont icofont-stamp"></i> Send Approval To</label>
-                                                <select class="form-select page" id="floatingproposedto"
+                                                <select class="form-select" id="floatingproposedto"
                                                     placeholder="Proposed To" name="atasan_py" required="">
                                                     <option selected="" disabled="" value="">-- Send Approval To
                                                         --
