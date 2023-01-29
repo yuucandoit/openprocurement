@@ -430,7 +430,7 @@
                                                         <input required type="text" class="form-control"
                                                             id="floatingQuotation" placeholder="Quotation" name="quotation[]" >
                                                         <div class="invalid-feedback"></div>
-                                                        
+
                                                     </div>
                                                 </td>
                                                 <td>
@@ -512,66 +512,66 @@
                                         rupiah = split[1] != undefined ? rupiah + "." + split[1] : rupiah;
                                         return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                     }
-                                    // $(".order-entry").on("keyup", ".form-calc", function() {
-                                    //     var parent = $(this).closest("tr");
-                                    //     var str = parent.find(".form-cost").val();
-                                    //     var res = str.replace(/\D/g, "");
-                                    //     // console.log(res);
-                                    //     parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
-                                    //     var total = 0;
-                                    //     $(".form-line").each(function() {
-                                    //         total += parseInt($(this).val() || 0);
-                                    //     });
-                                    //     $(".total_A").text(total.toLocaleString('en-US'));
-
-                                    //     var diskon = document.querySelector(".discount");
-                                    //     diskon.addEventListener("input", function() {
-                                    //         var disc = diskon.value;
-                                    //         var rep = disc.replace(/\D/g, "");
-                                    //         var discint = parseInt(rep);
-                                    //        discount = total - discint;
-                                    //        console.log(discount);
-                                    //        $(".total_disc").text(discount.toLocaleString('en-US'));
-
-                                    //        var checkbox = document.querySelector(".check-box");
-                                    //     checkbox.addEventListener('change', (event) => {
-                                    //         if (event.currentTarget.checked) {
-                                    //             totalppn = discount * 11 / 100;
-                                    //             grandtotal = discount + totalppn;
-                                    //             $(".ppn").text(totalppn.toLocaleString('en-US'));
-                                    //             $(".total").text(grandtotal.toLocaleString('en-US'));
-                                    //         } else {
-                                    //             totalppn = discount * 0;
-                                    //             $(".ppn").text(totalppn);
-                                    //             $(".total").text(discount.toLocaleString('en-US'));
-                                    //         }
-                                    //     });
-                                    //     });
-                                    // });
                                     $(".order-entry").on("keyup", ".form-calc", function() {
                                         var parent = $(this).closest("tr");
                                         var str = parent.find(".form-cost").val();
                                         var res = str.replace(/\D/g, "");
+                                        // console.log(res);
                                         parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
                                         var total = 0;
                                         $(".form-line").each(function() {
                                             total += parseInt($(this).val() || 0);
                                         });
                                         $(".total_A").text(total.toLocaleString('en-US'));
-                                        var checkbox = document.querySelector(".check-box");
+
+                                        var diskon = document.querySelector(".discount");
+                                        diskon.addEventListener("input", function() {
+                                            var disc = diskon.value;
+                                            var rep = disc.replace(/\D/g, "");
+                                            var discint = parseInt(rep);
+                                           discount = total - discint;
+                                           console.log(discount);
+                                           $(".total_disc").text(discount.toLocaleString('en-US'));
+
+                                           var checkbox = document.querySelector(".check-box");
                                         checkbox.addEventListener('change', (event) => {
                                             if (event.currentTarget.checked) {
-                                                totalppn = total * 11 / 100;
-                                                grandtotal = total + totalppn;
+                                                totalppn = discount * 11 / 100;
+                                                grandtotal = discount + totalppn;
                                                 $(".ppn").text(totalppn.toLocaleString('en-US'));
                                                 $(".total").text(grandtotal.toLocaleString('en-US'));
                                             } else {
-                                                totalppn = total * 0;
+                                                totalppn = discount * 0;
                                                 $(".ppn").text(totalppn);
-                                                $(".total").text(total.toLocaleString('en-US'));
+                                                $(".total").text(discount.toLocaleString('en-US'));
                                             }
                                         });
+                                        });
                                     });
+                                    // $(".order-entry").on("keyup", ".form-calc", function() {
+                                    //     var parent = $(this).closest("tr");
+                                    //     var str = parent.find(".form-cost").val();
+                                    //     var res = str.replace(/\D/g, "");
+                                    //     parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
+                                    //     var total = 0;
+                                    //     $(".form-line").each(function() {
+                                    //         total += parseInt($(this).val() || 0);
+                                    //     });
+                                    //     $(".total_A").text(total.toLocaleString('en-US'));
+                                    //     var checkbox = document.querySelector(".check-box");
+                                    //     checkbox.addEventListener('change', (event) => {
+                                    //         if (event.currentTarget.checked) {
+                                    //             totalppn = total * 11 / 100;
+                                    //             grandtotal = total + totalppn;
+                                    //             $(".ppn").text(totalppn.toLocaleString('en-US'));
+                                    //             $(".total").text(grandtotal.toLocaleString('en-US'));
+                                    //         } else {
+                                    //             totalppn = total * 0;
+                                    //             $(".ppn").text(totalppn);
+                                    //             $(".total").text(total.toLocaleString('en-US'));
+                                    //         }
+                                    //     });
+                                    // });
                                 });
                                 //Add Form
                                 $(".addItem").on('click', function() {

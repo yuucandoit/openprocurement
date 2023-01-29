@@ -138,7 +138,7 @@
                                                             {{-- AMBIL DATA pengajuan hasMany ke category po --}}
                                                             @foreach ($ppb->quot as  $quot)
                                                             <ul>
-                                                                <li style="margin-top: 5px;"><a href="{{ url('/exportpdf/po_id/'.$quot->id) }}" target="_blank"> PO {{$quot->id}}</a></li>
+                                                                <li style="margin-top: 5px;"><a href="{{ url('menu-purchase-order/po_detail/'.$quot->id) }}" target="_blank"> PO {{$quot->id}}</a></li>
                                                             </ul>
                                                             @endforeach
                                                         </td>
@@ -196,11 +196,18 @@
                                                             <td style="text-align: center;">
                                                                 <ul>
                                                                     <li style="white-space: nowrap;">
-                                                                        <a class="btn btn-iconsolid mt-1"
+
+                                                                <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0; font-size:10;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                                 </a>
+
+                                                                {{-- <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #B1D0E0; font-size:10;"
+                                                                href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
+                                                                    class="icon-eye" title="Preview Purchase Order"></i>
+                                                                </a> --}}
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style=  "background-color: #008000;font-size:10;"
                                                                 href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i

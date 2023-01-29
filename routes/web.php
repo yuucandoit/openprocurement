@@ -323,6 +323,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
         Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
         Route::get('/out', [CategoryPOController::class, 'out'])->name('menu-purchase-order.out');
+        Route::get('/po_detail/{id}', [CategoryPOController::class, 'po_detail'])->name('menu-purchase-order.po_detail');
         Route::get('/detail/{id}', [CategoryPOController::class, 'detail'])->name('menu-purchase-order.detail');
         Route::get('/create/{id}', [CategoryPOController::class, 'create'])->name('menu-purchase-order.create');
         Route::post('/store/{id}', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
@@ -435,6 +436,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/exportpdf/ppb/{id}', [CategoryPengajuanPembelianController::class, 'exportpdf'])->name('export_ppb.pdf');
     Route::get('/exportpdf/po/{id}', [PurchaseOrderController::class, 'exportpdf'])->name('export_po.pdf');
     Route::get('/exportpdf/po_id/{id}', [PurchaseOrderController::class, 'exportpdf_poid'])->name('export_po_id.pdf');
+    Route::get('/exportpdf/po_multi/{id}', [PurchaseOrderController::class, 'exportmultipdf'])->name('exportmultipo.pdf');
     Route::get('/exportpdf/pymnt/{id}', [CategoryPDController::class, 'exportpdf'])->name('export_po.pdf');
     //End Route Export
 

@@ -353,20 +353,16 @@
                         </div>
                     </div>
                 </div>
-
-                @if ($data_pengajuan->status == 'Purchase Proses')
                     {{-- <a href="{{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }}"
                         class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a> --}}
 
                     <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/menu-purchase-order/in') }}">Back</a>
-                @endif
 
-                @if ($data_pengajuan->status == 'PO Approved')
                     <a href="{{ url('/exportpdf/po/' . $data_pengajuan->id) }}" class="btn btn-danger mb-3 mr-1"
                         style="align-self: flex-end"> Export to PDF</a>
-
-                    <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/menu-purchase-order/out') }}">Back</a>
-                @endif
+                        <a class="btn btn-danger mt-1" font-size:10;"
+                        href="{{ url('/exportpdf/po_multi/' . $data_pengajuan->id) }}" target="_blank">Export PDF Multi</i>
+                        </a>
 
     </section>
 @endsection
