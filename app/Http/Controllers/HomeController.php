@@ -38,7 +38,7 @@ class HomeController extends Controller
         $purchase_order=CategoryPO::where('created_at','like',$this_year.'%')->get();
         $pengajuan  =  CategoryPengajuanPembelian::where('atasan', 6)->count();
         $po = CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count();
-        dd($po);
+        // dd($po);
         // foreach($pengajuan as $p) {
         //     dd($p->atasan);
         // }

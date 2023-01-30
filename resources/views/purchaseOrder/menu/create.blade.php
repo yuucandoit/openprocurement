@@ -181,12 +181,12 @@
                                                 </tr>
                                             @endforeach
                                         </table>
-                                        <div class="mt-2">
+                                        {{-- <div class="mt-2">
                                             <button type="button" name="add"
                                                 class="addItem btn btn-outline-primary"> AddItem
                                                 <i class="fa fa-plus"></i>
                                             </button>
-                                        </div>
+                                        </div> --}}
                                         <br>
                                         <table class="table table-bordered mx-2">
                                             <tr>
@@ -351,6 +351,8 @@
                                                     <input type="file" name="path_quotation" class="form-control form-control-lg">
                                             </div>
                                         </div>
+
+                                        
 
 
                                         {{-- <style>
