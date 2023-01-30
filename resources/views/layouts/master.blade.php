@@ -261,9 +261,12 @@
                                 </li>
                                 @endhasrole
                                 @hasrole('purchasing|super admin')
+                                @php
+                                    $po =  App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count();
+                                @endphp
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('menu-purchase-order') ? 'active' : '' }} {{ request()->is('menu-purchase-order/out') ? 'active' : '' }}">
-                                            <i data-feather="file-text"></i>
+                                            <i data-feather="file-text" style="margin-right: -2px;"></i><span class="badge rounded-pill badge-danger" style="font-size: 6">{{ $po }}</span>
                                             <span>Purchase Order</span></a>
                                         @if (request()->is('menu-purchase-order') || request()->is('menu-purchase-order/out') ? 'active' : '')
                                             <ul class="nav-submenu menu-content " style="display: block">
