@@ -111,6 +111,31 @@
                                         $no = 1;
                                     @endphp
                                     <tbody>
+                                        @if(empty($po->items->item))
+                                        @foreach ($category_q as $q)
+                                        <tr>
+                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                            <td style="text-align: center;">{{ $q->item }}</td>
+                                            <td style="text-align: center;">{{ $q->qty }}</td>
+                                            <td style="text-align: center;">{{ $q->kategori }}</td>
+                                            @if(empty($q->path_file))
+                                            <td></td>
+                                            @else
+                                            <td style="text-align: center;"><a href="/upload_pengajuan/{{ $q->path_file }}" class="btn btn-danger" target="_blank">See File</a></td>
+                                            @endif
+                                            @if ($po->ppb->matauang == 'RP')
+                                                <td style="text-align:right;">RP. {{ number_format($q->unit_price) }}
+                                                </td>
+                                                <td style="text-align:right;">RP. {{ number_format($q->total) }}</td>
+                                            @elseif ($po->ppb->matauang == 'USD')
+                                                <td style="text-align:right;">$ {{ number_format($q->unit_price) }}
+                                                </td>
+                                                <td style="text-align:right;">$ {{ number_format($q->total) }}</td>
+                                            @endif
+                                        </tr>
+                                        @endforeach
+
+                                        @else
                                             <tr>
                                                 <td style="text-align: center;">{{ $no++ }}</td>
                                                 <td style="text-align: center;">{{ $po->items->item }}</td>
@@ -131,6 +156,7 @@
                                                     <td style="text-align:right;">$ {{ number_format($po->items->total) }}</td>
                                                 @endif
                                             </tr>
+                                            @endif
                                     </tbody>
                                 </table>
                                 <table class="table table-bordered ">
