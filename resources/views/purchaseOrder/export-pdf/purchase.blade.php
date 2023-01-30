@@ -10,7 +10,7 @@
     <title>Purchase Order</title>
 </head>
 
-{
+
 <body>
     <table width="100%">
         <tr>

@@ -358,10 +358,11 @@
 
                     <a type="reset" class="btn btn-dark mb-3 mr-1" href="{{ url('/menu-purchase-order/in') }}">Back</a>
 
-                    <a href="{{ url('/exportpdf/po/' . $data_pengajuan->id) }}" class="btn btn-danger mb-3 mr-1"
-                        style="align-self: flex-end"> Export to PDF</a>
-                        <a class="btn btn-danger mt-1" font-size:10;"
-                        href="{{ url('/exportpdf/po_multi/' . $data_pengajuan->id) }}" target="_blank">Export PDF Multi</i>
+                    {{-- <a href="{{ url('/exportpdf/po/' . $data_pengajuan->id) }}" class="btn btn-danger mb-3 mr-1"
+                        style="align-self: flex-end"> Export to PDF</a> --}}
+                        <a class="btn btn-danger mb-3 mr-1"
+                        href="{{ url('/exportpdf/po_multi/' . $data_pengajuan->id) }}" target="_blank"
+                        style="align-self: flex-end">Export PDF Multi</i>
                         </a>
 
     </section>
