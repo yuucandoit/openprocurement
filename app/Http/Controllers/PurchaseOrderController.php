@@ -177,6 +177,7 @@ class PurchaseOrderController extends Controller
         // foreach($data['cpo'] as $po){
         // dd($po);
         // }
+        
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
         $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
         $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();

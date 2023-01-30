@@ -293,58 +293,58 @@ class CategoryPOController extends Controller
             ]);
             }
 
-            // $purchase = new CategoryPO([
-            //     "ppb_id" => $data->id,
-            //     "term_conditions" => $term->id,
-            //     "quotation" => $request->quotation,
-            //     // "ppn" => $request->ppn
-            // ]);
-            // if ($request->vendor == "company") {
-            //     $vendor1 = CategoryPT::find($request->perusahaan);
-            //     $purchase = $vendor1->vendors()->save($purchase);
-            // } elseif ($request->vendor == "privateperson") {
-            //     $vendor2 = CategoryPP::find($request->orangpribadi);
-            //     $purchase = $vendor2->vendors()->save($purchase);
-            // } elseif ($request->vendor == "ecommerce") {
-            //     $vendor3 = CategoryEcommerce::find($request->ecommerce);
-            //     $purchase = $vendor3->vendors()->save($purchase);
+            $purchase = new CategoryPO([
+                "ppb_id" => $data->id,
+                "term_conditions" => $term->id,
+                "quotation" => $request->quotation,
+                // "ppn" => $request->ppn
+            ]);
+            if ($request->vendor == "company") {
+                $vendor1 = CategoryPT::find($request->perusahaan);
+                $purchase = $vendor1->vendors()->save($purchase);
+            } elseif ($request->vendor == "privateperson") {
+                $vendor2 = CategoryPP::find($request->orangpribadi);
+                $purchase = $vendor2->vendors()->save($purchase);
+            } elseif ($request->vendor == "ecommerce") {
+                $vendor3 = CategoryEcommerce::find($request->ecommerce);
+                $purchase = $vendor3->vendors()->save($purchase);
 
-            // }
+            }
 
             // foreach($data2['item_ppid'] as $ppid => $item_id){
-                foreach($data2['vendor'] as $vendorable => $vendor_po){
-                    // dd($data2['item_ppid_'.$vendorable]);
-                    foreach($data2['item_ppid_'.$vendorable] as $item_id){
-                        $purchase = array (
-                            'ppb_id' =>  $data->id,
-                            "term_conditions" =>  $data2['term_conditions'][$vendorable],
-                            "quotation" => $data2['quotation'][$vendorable],
-                            "item_ppid" =>  $item_id,
-                        );
+                // foreach($data2['vendor'] as $vendorable => $vendor_po){
+                //     // dd($data2['item_ppid_'.$vendorable]);
+                //     foreach($data2['item_ppid_'.$vendorable] as $item_id){
+                //         $purchase = array (
+                //             'ppb_id' =>  $data->id,
+                //             "term_conditions" =>  $data2['term_conditions'][$vendorable],
+                //             "quotation" => $data2['quotation'][$vendorable],
+                //             "item_ppid" =>  $item_id,
+                //         );
 
 
-                        if ($vendor_po == "company") {
+                //         if ($vendor_po == "company") {
 
-                            $vendor1 = CategoryPT::find($data2['perusahaan'][$vendorable]);
-                            // dd($vendor1->vendors());
-                             $vendor1->vendors()->create($purchase);
+                //             $vendor1 = CategoryPT::find($data2['perusahaan'][$vendorable]);
+                //             // dd($vendor1->vendors());
+                //              $vendor1->vendors()->create($purchase);
 
-                        } elseif ($vendor_po == "privateperson") {
-                            $vendor2 = CategoryPP::find($data2['orangpribadi'][$vendorable]);
-                             $vendor2->vendors()->create($purchase);
+                //         } elseif ($vendor_po == "privateperson") {
+                //             $vendor2 = CategoryPP::find($data2['orangpribadi'][$vendorable]);
+                //              $vendor2->vendors()->create($purchase);
 
-                        } elseif ($vendor_po == "ecommerce") {
-                            $vendor3 = CategoryEcommerce::find($data2['ecommerce'][$vendorable]);
-                            //    dd($vendor3->vendors());
-                            $vendor3->vendors()->create($purchase);
-                        }
-                        // print_r($data2['item_ppid'][$vendorable]);
-                        // dd($data2);
-                        // print_r($data2['vendor'][$vendorable]);
-                        // dd($data2['item_ppid_'.$vendorable]);
-                    }
+                //         } elseif ($vendor_po == "ecommerce") {
+                //             $vendor3 = CategoryEcommerce::find($data2['ecommerce'][$vendorable]);
+                //             //    dd($vendor3->vendors());
+                //             $vendor3->vendors()->create($purchase);
+                //         }
+                //         // print_r($data2['item_ppid'][$vendorable]);
+                //         // dd($data2);
+                //         // print_r($data2['vendor'][$vendorable]);
+                //         // dd($data2['item_ppid_'.$vendorable]);
+                //     }
 
-                }
+                // }
 
 
              foreach ($data2['id'] as $key => $item) {
@@ -374,72 +374,72 @@ class CategoryPOController extends Controller
             $ppn->atasan_po = $request->atasan_po;
             $ppn->save();
 
-        //     if ($request->hasFile('path_quotation')){
-        //     $file = $request->file('path_quotation');
-        //     $path_file = $file->getClientOriginalName();
-        //     // dd($path_file);
-        //     $file->move('upload_quotation',$path_file);
+            if ($request->hasFile('path_quotation')){
+            $file = $request->file('path_quotation');
+            $path_file = $file->getClientOriginalName();
+            // dd($path_file);
+            $file->move('upload_quotation',$path_file);
 
-        //     $purchase = new CategoryPO([
-        //         "ppb_id" => $data->id,
-        //         "term_conditions" => $request->term_conditions,
-        //         "quotation" => $request->quotation,
-        //         "path_quotation" => $path_file,
-        //         // "ppn" => $request->ppn
-        //     ]);
-        //     }
-        //     $purchase = new CategoryPO([
-        //         "ppb_id" => $data->id,
-        //         "term_conditions" => $request->term_conditions,
-        //         "quotation" => $request->quotation,
-        //         // "path_quotation" => $path_file,
-        //         // "ppn" => $request->ppn
-        //     ]);
-        //     if ($request->vendor == "company") {
-        //         $vendor1 = CategoryPT::find($request->perusahaan);
-        //         $purchase = $vendor1->vendors()->save($purchase);
-        //     } elseif ($request->vendor == "privateperson") {
-        //         $vendor2 = CategoryPP::find($request->orangpribadi);
-        //         $purchase = $vendor2->vendors()->save($purchase);
-        //     } elseif ($request->vendor == "ecommerce") {
-        //         $vendor3 = CategoryEcommerce::find($request->ecommerce);
-        //         $purchase = $vendor3->vendors()->save($purchase);
-        //     }
-        // }
-        // foreach($data2['item_ppid'] as $ppid => $item_id){
-        foreach($data2['vendor'] as $vendorable => $vendor_po){
-            foreach($data2['item_ppid_'.$vendorable] as $item_id){
-                // dd($data2['item_ppid_'.$vendorable]);
-                $purchase = array (
-                    'ppb_id' =>  $data->id,
-                    "term_conditions" =>  $data2['term_conditions'][$vendorable],
-                    "quotation" => $data2['quotation'][$vendorable],
-                    "item_ppid" =>  $item_id,
-                );
-
-
-                if ($vendor_po == "company") {
-
-                    $vendor1 = CategoryPT::find($data2['perusahaan'][$vendorable]);
-                    // dd($vendor1->vendors());
-                     $vendor1->vendors()->create($purchase);
-
-                } elseif ($vendor_po == "privateperson") {
-                    $vendor2 = CategoryPP::find($data2['orangpribadi'][$vendorable]);
-                     $vendor2->vendors()->create($purchase);
-
-                } elseif ($vendor_po == "ecommerce") {
-                    $vendor3 = CategoryEcommerce::find($data2['ecommerce'][$vendorable]);
-                    //    dd($vendor3->vendors());
-                    $vendor3->vendors()->create($purchase);
-                }
-                // print_r($data2['item_ppid'][$vendorable]);
-                // dd($data2);
-                // print_r($data2['vendor'][$vendorable]);
-                // dd($data2['item_ppid_'.$vendorable]);
+            $purchase = new CategoryPO([
+                "ppb_id" => $data->id,
+                "term_conditions" => $request->term_conditions,
+                "quotation" => $request->quotation,
+                "path_quotation" => $path_file,
+                // "ppn" => $request->ppn
+            ]);
+            }
+            $purchase = new CategoryPO([
+                "ppb_id" => $data->id,
+                "term_conditions" => $request->term_conditions,
+                "quotation" => $request->quotation,
+                // "path_quotation" => $path_file,
+                // "ppn" => $request->ppn
+            ]);
+            if ($request->vendor == "company") {
+                $vendor1 = CategoryPT::find($request->perusahaan);
+                $purchase = $vendor1->vendors()->save($purchase);
+            } elseif ($request->vendor == "privateperson") {
+                $vendor2 = CategoryPP::find($request->orangpribadi);
+                $purchase = $vendor2->vendors()->save($purchase);
+            } elseif ($request->vendor == "ecommerce") {
+                $vendor3 = CategoryEcommerce::find($request->ecommerce);
+                $purchase = $vendor3->vendors()->save($purchase);
             }
 
-        }
+        // foreach($data2['item_ppid'] as $ppid => $item_id){
+        // foreach($data2['vendor'] as $vendorable => $vendor_po){
+        //     foreach($data2['item_ppid_'.$vendorable] as $item_id){
+        //         // dd($data2['item_ppid_'.$vendorable]);
+        //         $purchase = array (
+        //             'ppb_id' =>  $data->id,
+        //             "term_conditions" =>  $data2['term_conditions'][$vendorable],
+        //             "quotation" => $data2['quotation'][$vendorable],
+        //             "item_ppid" =>  $item_id,
+        //         );
+
+
+        //         if ($vendor_po == "company") {
+
+        //             $vendor1 = CategoryPT::find($data2['perusahaan'][$vendorable]);
+        //             // dd($vendor1->vendors());
+        //              $vendor1->vendors()->create($purchase);
+
+        //         } elseif ($vendor_po == "privateperson") {
+        //             $vendor2 = CategoryPP::find($data2['orangpribadi'][$vendorable]);
+        //              $vendor2->vendors()->create($purchase);
+
+        //         } elseif ($vendor_po == "ecommerce") {
+        //             $vendor3 = CategoryEcommerce::find($data2['ecommerce'][$vendorable]);
+        //             //    dd($vendor3->vendors());
+        //             $vendor3->vendors()->create($purchase);
+        //         }
+        //         // print_r($data2['item_ppid'][$vendorable]);
+        //         // dd($data2);
+        //         // print_r($data2['vendor'][$vendorable]);
+        //         // dd($data2['item_ppid_'.$vendorable]);
+        //     }
+
+        // }
 
 
 

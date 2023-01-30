@@ -171,15 +171,13 @@
                 <td>
                     <p class="itemtext"></p>
                 </td>
-                @php
-                    $dpp = $p->items->total + $p->items->total  ;
-                    
-                    // dd($p->items->unit_price);
-                    // dd($dpp);
-                @endphp
+
                 <td>
                     <p class="m-0">DPP </p>
                 </td>
+                @php
+                $dpp = $item->items->total + $item->items->total;
+                @endphp
                     @if($p->ppb->matauang == 'RP')
                     <td>
                         <p class="m-0 digits text-right">Rp.{{ number_format($dpp) }}</p>
@@ -250,6 +248,7 @@
                     // dd($p->ppb->ppn);
 
                 @endphp
+
                     @if ($p->ppb->ppn == 0)
                             @if ($p->ppb->matauang == 'RP')
                                 <td class="text-right">

@@ -242,7 +242,7 @@
                                             </tr>
                                         </table>
                                         {{-- css hide --}}
-                                        {{-- <style>
+                                        <style>
                                             .tutup {
                                                 width: 0;
                                                 height: 0;
@@ -350,10 +350,10 @@
                                                 </label>
                                                     <input type="file" name="path_quotation" class="form-control form-control-lg">
                                             </div>
-                                        </div> --}}
+                                        </div>
 
 
-                                        <style>
+                                        {{-- <style>
                                             .tutup {
                                                 width: 0;
                                                 height: 0;
@@ -473,7 +473,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Submit</button>
