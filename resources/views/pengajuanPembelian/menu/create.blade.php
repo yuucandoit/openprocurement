@@ -436,7 +436,8 @@
             var item =
                 `<tr><td> <textarea name="item[]" id="" cols="30" rows="1"></textarea></td>
                      <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/></td>
-                     <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option><option value="Lot">Lot </option>
+                     <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option><option value="Lot">Lot </option> <option value="Rim">Rim </option>
+                    <option value="Org">Org </option><option value="Line">Line </option><option value="Ruang">Ruang </option><option value="Pax">Pax </option>
                     </select></td>
                      <td><input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
                     @error('path_file')
