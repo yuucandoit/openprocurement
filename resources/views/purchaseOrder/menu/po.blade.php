@@ -112,7 +112,7 @@
                                     @endphp
                                     <tbody>
                                         @if(empty($po->items->item))
-                                        @foreach ($category_q as $q)
+                                        @foreach ($pengajuan as $q)
                                         <tr>
                                             <td style="text-align: center;">{{ $no++ }}</td>
                                             <td style="text-align: center;">{{ $q->item }}</td>

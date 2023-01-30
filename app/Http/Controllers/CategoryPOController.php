@@ -186,8 +186,6 @@ class CategoryPOController extends Controller
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $datapo             = CategoryPO::where('id', $id)->get();
         $datacpo            = CategoryPO::where('id', $id)->first();
-
-
         // dd($datacpo);
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
