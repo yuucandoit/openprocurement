@@ -239,7 +239,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i> Currency :</label>
                                         <select class="form-select page" id="floatingdateline" placeholder="Mata Uang" name="matauang" required="">
@@ -254,7 +254,7 @@
                                         </div>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- css hide --}}
                                 <style>
                                     .hide {
@@ -281,31 +281,6 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="col-md-6">
-                                        <div
-                                            class=" form-group m-radio-inline mb-0 @error('send_to') is-invalid @enderror">
-                                            <div class="col-6">
-                                                <label><i class="fa fa-send"></i> Send To :</label>
-                                            </div>
-                                            <div class="radio radio-primary col-md-6" id="s1" >
-                                                <input id="tebet" type="radio" name="send_to" class="Tebet" value="Tebet"
-                                                    required/>
-                                                <label for="tebet">Tebet</label>
-                                            </div>
-                                            <div class="radio radio-primary col-md-6" id="s2">
-                                                <input id="cikunir" type="radio" name="send_to" class="Cikunir" value="Cikunir"
-                                                    required />
-                                                <label for="cikunir">Cikunir</label>
-                                            </div>
-                                            <div class="radio radio-primary col-md-6">
-                                                <input value="other" id="otherOption" type="radio" name="send_to" onclick="javascript:otherOptionCheck();">
-                                                <label for="otherOption">Other</label>
-                                            </div>
-                                        </div>
-                                        <div id="other" style="display:none">
-                                            <input class="form-control" type='text' id='yes' name='send_to'><br>
-                                        </div>
-                                    </div> --}}
                                 <br>
                                 <hr>
                                 <table class="table table-bordered item order-entry">
@@ -343,6 +318,11 @@
                                                 <option value="Line">Line </option>
                                                 <option value="Ruang">Ruang </option>
                                                 <option value="Pax">Pax </option>
+                                                <option value="Set">Set </option>
+                                                <option value="Piece">Piece </option>
+                                                <option value="Rol">Rol </option>
+                                                <option value="Pack">Pack </option>
+                                                <option value="Batang">Batang </option>
                                             </select>
                                         </td>
                                         <td>
@@ -437,7 +417,8 @@
                 `<tr><td> <textarea name="item[]" id="" cols="30" rows="1"></textarea></td>
                      <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/></td>
                      <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option><option value="Lot">Lot </option> <option value="Rim">Rim </option>
-                    <option value="Org">Org </option><option value="Line">Line </option><option value="Ruang">Ruang </option><option value="Pax">Pax </option>
+                    <option value="Org">Org </option><option value="Line">Line </option><option value="Ruang">Ruang </option><option value="Pax">Pax </option> <option value="Set">Set </option>
+                    <option value="Piece">Piece </option><option value="Rol">Rol </option><option value="Pack">Pack </option><option value="Batang">Batang </option>
                     </select></td>
                      <td><input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
                     @error('path_file')

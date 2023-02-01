@@ -158,6 +158,7 @@ class CategoryPDController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         return view('pengajuanDana.menu.detail')
@@ -168,6 +169,7 @@ class CategoryPDController extends Controller
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
             ->with('total', $total)
+            ->with('disc', $disc)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('data_pengajuan', $data_pengajuan);
     }
@@ -286,6 +288,7 @@ class CategoryPDController extends Controller
         $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $data['total'] = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $data['total_tnp_ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['disc'] = PengajuanPembelian::where('pp_id',$id)->first();
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
 

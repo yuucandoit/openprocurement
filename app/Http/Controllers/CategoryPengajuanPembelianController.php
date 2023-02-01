@@ -126,6 +126,7 @@ class CategoryPengajuanPembelianController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
         $purpose            = ReferensiNamaProject::all();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
@@ -138,6 +139,7 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('ppn', $ppn)
             ->with('datacpo', $datacpo)
             ->with('total', $total)
+            ->with('disc', $disc)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('purpose', $purpose)
             ->with('data_pengajuan', $data_pengajuan)
@@ -246,7 +248,6 @@ class CategoryPengajuanPembelianController extends Controller
             'department' => 'required',
             'desc'  => 'required',
             'atasan' => 'required',
-            'matauang' => 'required',
             'send_to' => 'required',
             // 'path_file.*' => 'mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf'
         ], [
@@ -257,7 +258,6 @@ class CategoryPengajuanPembelianController extends Controller
             'department.required' => 'The Department field is required.',
             'desc.required' => 'The Description field is required.',
             'atasan.required' => 'The Super User field is required.',
-            'mata_uang.required' => 'The Currency field is required.',
             'send_to.required' => 'The Send To field is required.',
             'ppn.required' => 'The PPN To field is required.',
         ]);
@@ -272,7 +272,6 @@ class CategoryPengajuanPembelianController extends Controller
             'department' => $request->department,
             'desc' => $request->desc,
             'atasan' => $request->atasan,
-            'matauang' => $request->matauang,
             'send_to' => $request->send_to,
             'ppn' => $request->ppn,
         ]);

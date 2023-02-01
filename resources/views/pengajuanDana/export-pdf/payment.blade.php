@@ -139,7 +139,7 @@
                 @endif
                 @if($cpp->matauang == 'USD')
                 <td class="text-right">
-                    <p>$ {{ number_format($q->unit_price) }}.00</p>
+                    <p>$ {{ number_format($q->unit_price/100 ,2) }}</p>
                 </td>
                 @endif
 
@@ -150,7 +150,7 @@
                 @endif
                 @if($cpp->matauang == 'USD')
                 <td class="text-right">
-                    <p>$ {{ number_format($q->total) }}.00</p>
+                    <p>$ {{ number_format($q->total /100 ,2) }}.00</p>
                 </td>
                 @endif
                 {{-- <td class="text-right">
@@ -182,10 +182,37 @@
                 @endif
                 @if($cpp->matauang == 'USD')
                 <td>
-                    <p class="m-0 digits text-right">$ {{ number_format($dp->total) }}.00</p>
+                    <p class="m-0 digits text-right">$ {{ number_format($dp->total /100 ,2) }}</p>
                 </td>
                 @endif
                 @endforeach
+            </tr>
+            <tr>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="m-0">Discount </p>
+                </td>
+                @if($cpp->matauang == 'RP')
+                <td>
+                    <p class="m-0 digits text-right">Rp.{{ number_format($disc->discount) }}</p>
+                </td>
+                @endif
+                @if($cpp->matauang == 'USD')
+                <td>
+                    <p class="m-0 digits text-right">$ {{ number_format($disc->discount /100 ,2) }}</p>
+                </td>
+                @endif
             </tr>
             <tr>
                 <td>
@@ -217,9 +244,16 @@
                     @endif
                     @else
                         @foreach ($ppn as $pn)
-                            <td>
-                                <p class="m-0 digits text-right">Rp.{{ number_format($pn->total) }}</p>
-                            </td>
+                        @if($cpp->matauang == 'RP')
+                        <td>
+                            <p class="m-0 digits text-right">Rp.{{ number_format($pn->total) }}</p>
+                        </td>
+                        @elseif($cpp->matauang == 'USD')
+                        <td>
+                            <p class="m-0 digits text-right">$ {{ number_format($pn->total/100 ,2) }}</p>
+                        </td>
+                        @endif
+
                         @endforeach
                     @endif
             </tr>
@@ -239,7 +273,7 @@
                                 </td>
                             @elseif ($cpp->matauang == 'USD')
                                 <td style="m-0 digits text-right">
-                                    <h6 class="text-right"> $ {{ number_format($tpn->total) }}.00</h6>
+                                    <h6 class="text-right"> $ {{ number_format($tpn->total /100 ,2) }}</h6>
                                 </td>
                             @endif
                         @endforeach
@@ -251,7 +285,7 @@
                                 </td>
                             @elseif ($cpp->matauang == 'USD')
                                 <td style="m-0 digits text-right">
-                                    <h6 class="text-right"> $ {{ number_format($t->total) }}.00</h6>
+                                    <h6 class="text-right"> $ {{ number_format($t->total /100 ,2) }}</h6>
                                 </td>
                             @endif
                         @endforeach
