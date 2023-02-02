@@ -90,26 +90,26 @@
         </tr>
     </table>
 
-    <table class="table table-bordered table-striped" style="margin-bottom: 50px;">
+    <table class="table table-md table-bordered table-striped" style="font-size: 10">
         <tbody>
             <tr class="text-center">
                 <td>
-                    <h6>No</h6>
+                    <p style="font-weight:700;">No</p>
                 </td>
                 <td>
-                    <h6>Item</h6>
+                    <p style="font-weight:700;">Item</p>
                 </td>
                 <td class="Hours">
-                    <h6>Quantity</h6>
+                    <p style="font-weight:700;">Quantity</p>
                 </td>
                 <td class="Rate">
-                    <h6>Unit</h6>
+                    <p style="font-weight:700;">Unit</p>
                 </td>
                 <td class="subtotal">
-                    <h6>Price/Unit</h6>
+                    <p style="font-weight:700;">Price/Unit</p>
                 </td>
                 <td class="subtotal">
-                    <h6>Total</h6>
+                    <p style="font-weight:700;">Total</p>
                 </td>
             </tr>
             @php
@@ -332,6 +332,7 @@
             </td>
         </tr>
     </table>
+
     <footer
         style="
                    position: fixed;
