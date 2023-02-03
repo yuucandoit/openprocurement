@@ -79,7 +79,7 @@
                                                     <td>
                                                         @foreach ($ppb->itemppn as $item)
                                                         <ul>
-                                                            <li style="margin-top:4px;">-{{ $item->item }}</li>
+                                                            <li style="margin-top:4px; word-break:break-all;">-{{ $item->item }}</li>
                                                         </ul>
                                                         @endforeach
                                                     </td>
