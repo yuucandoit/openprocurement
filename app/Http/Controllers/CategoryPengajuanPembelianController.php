@@ -50,7 +50,7 @@ class CategoryPengajuanPembelianController extends Controller
             $datadepartment = Department::all();
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
-            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->orderBy('id','ASC')->orderBy('date_ps','DESC')->orderBy('created_at','ASC')->paginate(10);
+            $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->orderBy('id','DESC')->orderBy('date_ps','DESC')->orderBy('created_at','ASC')->paginate(10);
             // $count  = \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->count();
             $comments = Comment::where('user_id',Auth::user()->id)->count();
             // dd($count);
