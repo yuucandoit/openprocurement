@@ -30,6 +30,101 @@
   </div>
   @endforeach
 
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-xl-3 col-lg-6 mt-4" style="margin-bottom: -40px;">
+            <a href="{{ url('/menu-pengajuan-pembelian') }}">
+            <div class="card o-hidden border-0">
+                <div class="b-r-4 card-body shadow h-100 py-3"
+                    style="border-left: 10px solid rgba(150, 148, 255, 0.9);">
+                    <div class="media static-top-widget">
+                        <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                style="color: rgba(150, 148, 255, 0.9);"></i>
+                        </div>
+                        <div class="media-body">
+                            <h6 style="color: rgba(150, 148, 255, 0.9); font-size:12;">
+                                PURCHASE <br>
+                                REQUEST</h6>
+                            <h2 class="mb-0 counter" style="color: rgba(150, 148, 255, 0.9); font-size:12;">
+                                {{ \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->count() }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="col-sm-6 col-xl-3 col-lg-6 mt-4" style="margin-bottom: -40px;" style="font-size: 10">
+            <a href="{{ url('/menu-pengajuan-pembelian') }}">
+            <div class="card o-hidden border-0">
+                <div class="b-r-4 card-body shadow h-100 py-3"
+                    style="border-left: 10px solid rgba(255, 225, 0, 0.9);">
+                    <div class="media static-top-widget">
+                        <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                style="color: rgba(255, 225, 0, 0.9);"></i>
+                        </div>
+                        <div class="media-body">
+                            <h6
+                                style="color: rgba(255, 225, 0, 0.9); font-size:12;">
+                                PENDING <br>
+                                REQUEST</h6>
+                            <h2 class="mb-0 counter" style="color: rgba(255, 230, 0, 0.9); font-size:12;">
+                                {{ \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status', 'Awaiting Purchase Request Approval')->count() }}</h2>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        </div>
+
+        <div class="col-sm-6 col-xl-3 col-lg-6 mt-4" style="margin-bottom: -40px;" style="font-size: 10">
+            <a href="{{ url('/menu-pengajuan-pembelian') }}">
+            <div class="card o-hidden border-0">
+                <div class="b-r-4 card-body shadow h-100 py-3"
+                    style="border-left: 10px solid rgb(12, 174, 0);">
+                    <div class="media static-top-widget">
+                        <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                style="color: rgb(12, 174, 0);"></i>
+                        </div>
+                        <div class="media-body">
+                            <h6
+                                style="color: rgb(12, 174, 0); font-size:12;">
+                                PURCHASE <br>
+                                COMPLETED</h6>
+                            <h2 class="mb-0 counter" style="color: rgb(12, 174, 0); font-size:12;">
+                                {{ \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status', 'Delivery Success')->count() }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        </div>
+
+        <div class="col-sm-6 col-xl-3 col-lg-6 mt-4" style="margin-bottom: -40px;" style="font-size: 10">
+            <a href="{{ url('/menu-pengajuan-pembelian') }}">
+            <div class="card o-hidden border-0">
+                <div class="b-r-4 card-body shadow h-100 py-3"
+                    style="border-left: 10px solid rgb(255, 0, 0);">
+                    <div class="media static-top-widget">
+                        <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                style="color: rgb(255, 0, 0);"></i>
+                        </div>
+                        <div class="media-body">
+                            <h6
+                                style="color: rgb(255, 0, 0); font-size:12;">
+                                PURCHASE <br>
+                                FAILED</h6>
+                            <h2 class="mb-0 counter" style="color: rgb(255, 0, 0); font-size:12;">
+                                {{ \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status','like',"%Rejected%")->count() }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>
   <!-- Page Sidebar Ends-->
   <div class="container-fluid">
     <div class="page-header">
@@ -63,6 +158,8 @@
       </div>
     </div>
   </div>
+
+
   <!-- Container-fluid starts-->
   <div class="container-fluid">
     <div class="row">
