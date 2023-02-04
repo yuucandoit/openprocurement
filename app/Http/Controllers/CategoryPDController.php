@@ -8,6 +8,7 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\Comment;
 use App\Models\Department;
 use App\Models\Invoicing;
 use App\Models\PengajuanPembelian;
@@ -161,8 +162,10 @@ class CategoryPDController extends Controller
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
+        $comments           = Comment::where('ppb_id',$id)->get();
         return view('pengajuanDana.menu.detail')
             ->with('pengajuan', $pengajuan)
+            ->with('comments', $comments)
             ->with('dataws', $dataws)
             ->with('datacpo',$datacpo)
             ->with('datadepartment', $datadepartment)

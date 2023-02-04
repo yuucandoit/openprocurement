@@ -404,6 +404,7 @@ Route::group(['middleware' => ['auth']], function () {
     //comment
     Route::post('/comment/store/{id}',[CommentController::class,'store'])->name('comment.store');
     Route::post('/comment/update/{id}',[CommentController::class,'update'])->name('comment.update');
+    Route::post('/comment/is_read/{id}',[CommentController::class,'is_read'])->name('comment.is_reaad');
     Route::get('/comment/destroy/{id}',[CommentController::class,'destroy'])->name('comment.destroy');
 
 

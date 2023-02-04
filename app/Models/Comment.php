@@ -13,6 +13,7 @@ class Comment extends Model
         'id',
         'ppb_id',
         'user_id',
+        'is_read',
         'comment',
     ];
 

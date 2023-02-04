@@ -265,6 +265,7 @@
                                             <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
                                             <div style="text-align: right; margin-top:20px;">
                                                 <input type="submit" class="btn btn-primary" value="Comment">
+                                                <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
                                             </div>
                                         </form>
                                     </div>

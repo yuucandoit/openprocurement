@@ -77,6 +77,7 @@
         </div>
     </div>
     <!-- Loader ends-->
+
     <!-- page-wrapper Start       -->
     <div class="page-wrapper compact-wrapper" id="pageWrapper">
         <!-- Page Header Start-->
@@ -128,6 +129,153 @@
                         </li> --}}
                         <li id="clock" style="font-weight: bold; font-size: 14px;">
                         </li>
+                        @php
+                           $coment_ppb = App\Models\Comment::groupBy('ppb_id')->get();
+                           $comment_id = App\Models\CommentRead::groupBy('comment_id')->get();
+
+                        @endphp
+
+            @hasrole('user')
+
+                    <li class="onhover-dropdown">
+                            <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
+                            <ul class="notification-dropdown onhover-show-div">
+                                <li>
+                                    <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
+                                  </li>
+                                @foreach ($comment_id as $cid)
+                                @if($cid->comment->ppb->user_id == Auth::user()->id)
+                                @if($cid->is_read_user == 1)
+
+                                @else
+                                <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-user" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <a onclick="document.getElementById('form-user').submit();">
+                                        <li class="noti-success" style="overflow:scroll;">
+                                        <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
+                                            <div class="media-body" style="font-size: 8;">
+                                            <p style="font-size: 10;">{{ $cid->comment->users->name }}</p>
+                                            <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
+
+                                            </div>
+                                            <i class="fa fa-angle-right mt-3"><button type="submit" style="opacity: 0;"></button></i>
+                                        </div>
+
+                                        </li>
+                                        <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
+
+                                    </a>
+                                </form>
+                                @endif
+                                @endif
+                                @endforeach
+                             </ul>
+                        </li>
+            @endhasrole
+
+            @hasrole('purchasing')
+                    <li class="onhover-dropdown">
+                            <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
+                            <ul class="notification-dropdown onhover-show-div">
+                                <li>
+                                    <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
+                                  </li>
+                                @foreach ($comment_id as $cid)
+                                @if($cid->is_read_purchase == 1)
+
+                                @else
+                                <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-purchase" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                <a onclick="document.getElementById('form-purchase').submit();">
+                                    <li class="noti-success" style="overflow:scroll;">
+                                      <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
+                                        <div class="media-body" style="font-size: 8;">
+                                          <p style="font-size: 10;">{{ $cid->comment->users->name }}</p>
+                                          <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
+
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
+                                </a>
+                                </form>
+                                @endif
+                                @endforeach
+                             </ul>
+                        </li>
+            @endhasrole
+
+            @hasrole('finance')
+                <li class="onhover-dropdown">
+                        <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
+                        <ul class="notification-dropdown onhover-show-div">
+                            <li>
+                                <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
+                              </li>
+                            @foreach ($comment_id as $cid)
+                            @if($cid->is_read_finance == 1)
+
+                            @else
+                        <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-finance" method="post" enctype="multipart/form-data">
+                                @csrf
+                            <a onclick="document.getElementById('form-finance').submit();">
+                                <li class="noti-success" style="overflow:scroll;">
+                                  <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
+                                    <div class="media-body" style="font-size: 8;">
+                                      <p style="font-size: 10;">{{ $cid->comment->users->name }}</p>
+                                      <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
+                                      {{ $cid->comment->ppb->id }}
+
+                                      <form action="{{ url('/comment/is_read/'.$cid->item_ppid) }}" id="formAdd" method="post"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                      </form>
+                                    </div>
+                                  </div>
+                                </li>
+                                <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
+                            </a>
+                        </form>
+                            @endif
+                            @endforeach
+                         </ul>
+                    </li>
+            @endhasrole
+
+            @hasrole('super user|super admin')
+                    <li class="onhover-dropdown">
+                    <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
+                    <ul class="notification-dropdown onhover-show-div">
+                        <li>
+                            <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
+                          </li>
+                              @foreach ($comment_id as $c)
+                              @if($c->is_read_bod == 1)
+
+                              @else
+                            <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-bod" method="post" enctype="multipart/form-data">
+                                @csrf
+                            <a onclick="document.getElementById('form-bod').submit();">
+                                <li class="noti-success" style="overflow:scroll;">
+                                  <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
+                                    <div class="media-body" style="font-size: 8;">
+                                      <p style="font-size: 10;">{{ $c->comment->users->name }}</p>
+                                      <p style="font-size: 10;">{{ $c->comment->ppb->purpose->name }}</p><span style="font-size: 10">3 hour ago </span>
+                                      <form action="{{ url('/comment/is_read/'.$c->item_ppid) }}" id="formAdd" method="post"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                      </form>
+                                    </div>
+                                  </div>
+                                </li>
+                                </a>
+                            </form>
+                              @endif
+                              @endforeach
+                            </ul>
+                        </li>
+
+                @endhasrole
 
                         <li style="margin-bottom: 5px;">
                             <a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()">
@@ -1302,6 +1450,12 @@
     <script src="../assets/js/chart/google/google-chart-loader.js"></script>
     <script src="../assets/js/chart/google/google-chart.js"></script>
     <!-- Latest compiled and minified JavaScript -->
+    <script>
+        var form = document.getElementById("form-user");
+        function submitUser(){
+            form.submit();
+        }
+    </script>
 
 
 
