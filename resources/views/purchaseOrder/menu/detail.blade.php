@@ -343,7 +343,7 @@
                                                         target="_blank" style="font-size:12;">Export PDF PO</i>
                                                     </a>
                                                      @else
-                                                    <table class="table table-bordered item order-entry mx-2">
+                                                    {{-- <table class="table table-bordered item order-entry mx-2">
                                                         <tr style="text-align: center;">
                                                             <th
                                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
@@ -396,7 +396,6 @@
                                                         @foreach ($items as $calculate)
                                                         @if ($calculate->vendorable_id == $po->vendorable_id)
                                                         @if ($calculate->vendorable_type == $po->vendorable_type)
-                                                        {{-- @if($calculate->item == $po->item) --}}
                                                             <tr>
                                                                 <td><label class="pull-right mx-2"> DPP :</label></td>
                                                                 <td style="text-align: right;">
@@ -431,7 +430,6 @@
                                                                         $dpp = $calculate->dpp;
                                                                         $disc = $calculate->discount;
                                                                         $afterdisc = $dpp - $disc;
-                                                                        // dd($afterdisc);
                                                                         $ppn = $afterdisc *11 /100;
                                                                     @endphp
                                                                         @if ($calculate->matauang == 'RP')
@@ -469,7 +467,6 @@
                                                                     @endif
                                                                 </td>
                                                                 </tr>
-                                                            {{-- @endif --}}
                                                             @endif
                                                             @endif
                                                         @endif
@@ -478,7 +475,7 @@
                                                     </table>
                                                     <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_multi/' . $data_pengajuan->id) }}"
                                                         target="_blank" style="font-size:12;">Export PDF PO</i>
-                                                    </a>
+                                                    </a> --}}
                                                     @endif
                                                   </div>
                                                 </div>
@@ -946,7 +943,7 @@
                     </div>
                 </div> --}}
     </section>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </script>
     <script type="text/javascript">
         function createPO(element){
@@ -1167,6 +1164,6 @@
                                         selectedInput3.classList.add('hide');
                                     }
                                 })
-    </script>
+    </script> --}}
 
 @endsection
