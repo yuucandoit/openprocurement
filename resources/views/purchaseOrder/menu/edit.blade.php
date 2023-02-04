@@ -21,7 +21,275 @@
             </div>
         </div>
         <!-- Container-fluid starts-->
+
+
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mt-3">
+                        @if (empty($vendor->vendorable->nama))
+                            <div class="card-body">
+                                <h6 style="text-align: center">PO Not Found</h6>
+                            </div>
+                        @else
+                        @foreach ($vendors as $po)
+
+                        <div class="card-body">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#modaledit{{ $po->item_ppid }}"><p>Vendor #<span>{{ $po->vendorable->nama}}</span></p></button>
+
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="modaledit{{ $po->item_ppid }}" tabindex="-1" role="dialog" aria-labelledby="modaledit{{ $po->item_ppid }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Edit Vendor {{ $po->vendorable->nama }}</h5>
+                                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url('/menu-purchase-order/update/'.$po->item_ppid) }}" id="formAdd" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <select class="form-select page mt-2 pageSelect" id="pageSelect"
+                                                        placeholder="Proposed To" name="vendor">
+                                                        <option value="" disabled selected hidden>Select Vendor</option>
+                                                        <option value="company">Company</option>
+                                                        <option value="privateperson">Private Person</option>
+                                                        <option value="ecommerce">Ecommerce</option>
+                                                    </select>
+                                                    <p style="color: red;">*Please select the vendor again</p>
+                                                    <select class=" form-select hide mt-2" id="selectedInput" name="perusahaan">
+                                                        @foreach ($datapt as $p)
+                                                            <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
+                                                        @foreach ($op as $o)
+                                                            <option value="{{ $o->id }}">{{ $o->nama }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <select class=" form-select hide" id="selectedInput3" name="ecommerce">
+                                                        @foreach ($ec as $e)
+                                                            <option value="{{ $e->id }}">{{ $e->nama }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-floating">
+                                                    <select class="form-select mt-2" id="floatingproposedto"
+                                                        placeholder="Proposed To" name="atasan_po">
+
+                                                        @foreach ($atasanpo as $dpo)
+                                                        @if(empty($dpo->atasans->id))
+                                                            @foreach ($atasan as $sui)
+                                                                <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                            @endforeach
+                                                        @else
+                                                        <option value="{{ $dpo->atasans->id }}">{{ $dpo->atasans->name }}</option>
+                                                        @foreach ($atasan as $sui)
+                                                        <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                         @endforeach
+                                                        @endif
+                                                        @endforeach
+                                                    </select>
+                                                    <label for="floatingproposedto">-- Approved To --</label>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="form-floating">
+                                                    @if(empty($po->quotation))
+                                                    <input required type="text" class="form-control mt-2 "
+                                                        id="floatingNoTelpon" placeholder="Quotation" name="quotation">
+                                                    @else
+
+                                                    <input required type="text" class="form-control mt-2 "
+                                                        id="floatingNoTelpon" placeholder="Quotation" name="quotation"
+                                                        value="{{ $po->quotation }}">
+                                                    @endif
+                                                    <label for="floatingNoTelpon">Quotation</label>
+                                                </div>
+                                            </div>
+
+                                            <style>
+                                                .hide {
+                                                    width: 0;
+                                                    height: 0;
+                                                    opacity: 0;
+                                                }
+
+                                                .page {
+                                                    height: 58px;
+                                                }
+                                            </style>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <select class="form-select page mt-2" id="pageSelector"
+                                                        placeholder="Terms and Conditions" name="term_conditions">
+                                                        @if(empty($datacpo->term->term_condition))
+                                                        @foreach ($terms as $t)
+                                                            <option value="{{ $t->id }}">{{ $t->term_condition }}</option>
+                                                        @endforeach
+                                                        @else
+                                                        <option value="{{ $datacpo->term->id }}" selected>{{ $datacpo->term->term_condition }}</option>
+                                                        @endif
+
+                                                        <option value="custom">+ Add Terms & Conditions</option>
+                                                    </select>
+                                                    <textarea class="hide form-control mt-2" name="term_condition" id="customInput" cols="30" rows="10"
+                                                        placeholder="Input Terms And Conditions"></textarea>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered item mx-2 order-entry">
+                                                    <tr style="text-align: center;">
+                                                        <th
+                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                            Item</th>
+                                                        <th
+                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                            Qty</th>
+                                                        <th
+                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                            Category</th>
+                                                        <th
+                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                            Price-per-unit</th>
+                                                        <th
+                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                            Total</th>
+                                                    </tr>
+                                                    @foreach ($items as $i)
+                                                    @if ($i->vendorable_type == $po->vendorable_type)
+                                                    @if ($i->vendorable_id == $po->vendorable_id)
+                                                        <tr>
+
+                                                            <td class="text">
+                                                                <input type="text" name="id[]"
+                                                                    placeholder="Input Item" class="form-control"
+                                                                    style="text-align: center;" value="{{ $i->id }}" hidden />
+                                                                <input type="text" name="item[]"
+                                                                    placeholder="Input Item" class="form-control"
+                                                                    style="text-align: center;" value="{{ $i->item }}" />
+                                                            </td>
+                                                            <td><input type="number" name="qty[]" placeholder="Input Quantity"
+                                                                    class="form-control form-calc form-qty"
+                                                                    style="text-align: center;" value="{{ $i->qty }}"
+                                                                    required  />
+                                                            </td>
+                                                            <td>
+                                                                <select class="form-select " placeholder="Kategori"
+                                                                    name="kategori[]" >
+                                                                    <option value="{{ $i->kategori }}" selected>
+                                                                        {{ $i->kategori }}</option>
+                                                                    <option value="Pcs">Pcs </option>
+                                                                    <option value="Lusin">Lusin </option>
+                                                                    <option value="Box">Box </option>
+                                                                    <option value="Unit">Unit </option>
+                                                                    <option value="Lot">Lot </option>
+                                                                    <option value="Rim">Rim </option>
+                                                                    <option value="Org">Org </option>
+                                                                    <option value="Line">Line </option>
+                                                                    <option value="Ruang">Ruang </option>
+                                                                    <option value="Pax">Pax </option>
+                                                                </select>
+                                                            </td>
+
+                                                            <td>
+                                                                <input type="text" name="unit_price[]"
+                                                                    placeholder="Input Price"
+                                                                    class="form-control text-end form-calc form-cost rupiah"
+                                                                    style="text-align: right;" value="{{ $i->unit_price }}"
+                                                                    required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="total[]"
+                                                                    class="form-control form-line" style="text-align: right;"
+                                                                    required />
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                    @endif
+                                                    @endforeach
+                                                </table>
+                                                <p style="color: red;">*Please fill in the price per unit again to trigger the total and please refill the file then update the data</p>
+                                                <br>
+
+                                                <table class="table table-bordered mx-2">
+                                                    <tr>
+                                                        <td>
+                                                            <label class="pull-right mx-2"
+                                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; DPP :</label>
+                                                        </td>
+                                                        <td class="total_A text-end">
+                                                            <input style="display: none;" class="total_A" type="text"
+                                                                name="total_a">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="mt-1 pull-right check-box" type="checkbox"
+                                                                name="ppn" value="1"
+                                                                {{ old('ppn', 0) === 1 ? 'checked' : '' }}>
+                                                            <label class="pull-right mx-2" style="font-weight: bold;"> PPN 11%
+                                                            </label>
+                                                            <p style="color: red;">*Please click again to trigger javascript count</p>
+                                                        </td>
+                                                        <td class="ppn text-end">
+                                                            <input style="display: none;" class="ppn" type="text">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+                                                        <td class="total text-end">
+                                                            <input style="display: none;" class="total" type="text"
+                                                                name="grand_total">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <div class="mt-2">
+                                                    <button type="button" name="add"
+                                                        class="addItem btn btn-outline-primary"> AddItem
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
+                                        <a href="{{ route('menu-purchase-order.index') }}"
+                                            class="btn btn-dark mt-3">Back</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            @endforeach
+                            @endif
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+          </div>
+
+        {{-- <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card card-absolute">
@@ -29,9 +297,42 @@
                             <h5>Edit Purchase Order</h5>
                         </div>
                         <div class="card-body">
+                            <div class="default-according" id="accordion">
+                                <div class="card">
+                                  <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                      <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Collapsible Group Item #<span>1</span></button>
+                                    </h5>
+                                  </div>
+                                  <div class="collapse show" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                                    <div class="card-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</div>
+                                  </div>
+                                </div>
+                                <div class="card">
+                                  <div class="card-header" id="headingTwo">
+                                    <h5 class="mb-0">
+                                      <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Collapsible Group Item #<span>2</span></button>
+                                    </h5>
+                                  </div>
+                                  <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordion">
+                                    <div class="card-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</div>
+                                  </div>
+                                </div>
+                                <div class="card">
+                                  <div class="card-header" id="headingThree">
+                                    <h5 class="mb-0">
+                                      <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Collapsible Group Item #<span>3</span></button>
+                                    </h5>
+                                  </div>
+                                  <div class="collapse" id="collapseThree" aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                    <div class="card-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</div>
+                                  </div>
+                                </div>
+                              </div>
                             <form action="{{ url('/menu-purchase-order/update/' . $dv->id) }}" id="formAdd" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
+                                @foreach ($vendors as $po)
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -43,29 +344,21 @@
                                                 <option value="ecommerce">Ecommerce</option>
                                             </select>
                                             <p style="color: red;">*Please select the vendor again</p>
-                                            {{-- Perusahaan Dropdown --}}
                                             <select class=" form-select hide mt-2" id="selectedInput" name="perusahaan">
                                                 @foreach ($datapt as $p)
                                                     <option value="{{ $p->id }}">{{ $p->nama }}</option>
                                                 @endforeach
                                             </select>
-                                            {{-- End Perusahaan Dropdown --}}
-
-                                            {{-- Private Person Dropdown --}}
                                             <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
                                                 @foreach ($op as $o)
                                                     <option value="{{ $o->id }}">{{ $o->nama }}</option>
                                                 @endforeach
                                             </select>
-                                            {{-- End Private Person Dropdown --}}
-
-                                            {{-- Ecommerce Dropdown --}}
                                             <select class=" form-select hide" id="selectedInput3" name="ecommerce">
                                                 @foreach ($ec as $e)
                                                     <option value="{{ $e->id }}">{{ $e->nama }}</option>
                                                 @endforeach
                                             </select>
-                                            {{-- End Ecommerce Dropdown --}}
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -102,14 +395,10 @@
                                                 id="floatingNoTelpon" placeholder="Quotation" name="quotation"
                                                 value="{{ $datacpo->quotation }}">
                                             @endif
-                                            {{-- <input required type="text" class="form-control mt-2 "
-                                                id="floatingNoTelpon" placeholder="Quotation" name="quotation"
-                                                value="{{ $datacpo->quotation }}"> --}}
                                             <label for="floatingNoTelpon">Quotation</label>
                                         </div>
                                     </div>
 
-                                    {{-- css hide --}}
                                     <style>
                                         .hide {
                                             width: 0;
@@ -133,10 +422,7 @@
                                                 @else
                                                 <option value="{{ $datacpo->term->id }}" selected>{{ $datacpo->term->term_condition }}</option>
                                                 @endif
-                                                {{-- <option value="{{ $datacpo->term->id }}" selected>{{ $datacpo->term->term_condition }}</option>
-                                                @foreach ($terms as $t)
-                                                    <option value="{{ $t->id }}">{{ $t->term_condition }}</option>
-                                                @endforeach --}}
+
                                                 <option value="custom">+ Add Terms & Conditions</option>
                                             </select>
                                             <textarea class="hide form-control mt-2" name="term_condition" id="customInput" cols="30" rows="10"
@@ -156,8 +442,6 @@
                                                 <th
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                     Category</th>
-                                                {{-- <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                        File</th> --}}
                                                 <th
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                     Price-per-unit</th>
@@ -198,12 +482,7 @@
                                                             <option value="Pax">Pax </option>
                                                         </select>
                                                     </td>
-                                                    {{-- <td>
-                                                        <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
-                                                        @error('path_file')
-                                                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                        @enderror
-                                                    </td> --}}
+
                                                     <td>
                                                         <input type="text" name="unit_price[]"
                                                             placeholder="Input Price"
@@ -261,6 +540,7 @@
                                             </button>
                                         </div>
                                     </div>
+                                    @endforeach
                                     <br>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
@@ -272,7 +552,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- JavaScript Item -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
