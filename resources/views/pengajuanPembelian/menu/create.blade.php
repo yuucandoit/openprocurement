@@ -85,7 +85,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label" for="pageSelector"><b><i class="fa fa-send"></i> Send To</b></label>
+                                        <label class="" for="pageSelector"><b><i class="fa fa-send"></i> Send To</b></label>
                                         <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to">
                                             <option value="" disabled selected hidden>Send To
                                             </option>
@@ -136,7 +136,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Send Approval To:</label>
+                                        <label class="" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Send Approval To:</label>
                                         <select class="form-select" id="floatingproposedto" placeholder="Proposed To" name="atasan" required="">
                                             <option selected="" disabled="" value="">Please Choose One
                                             </option>
