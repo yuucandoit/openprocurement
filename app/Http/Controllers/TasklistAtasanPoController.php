@@ -107,7 +107,7 @@ class TasklistAtasanPoController extends Controller
             orWhere('status','Paid')->
             orWhere('status','Delivery Process')->
             orWhere('status','Delivery Success')->paginate(10);
-            return view('taskList_atasan_po.menu.history')
+            return view('taskList_atasan_PO.menu.history')
             ->with('datappb', $datappb);
         }
     }
@@ -132,24 +132,28 @@ class TasklistAtasanPoController extends Controller
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
-        $datacpo            = CategoryPO::where('ppb_id',$id)->first();
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+        $datapo             = CategoryPO::where('ppb_id', $id)->get();
+        $items              = CategoryPO::where('ppb_id',$id)->groupBy('vendorable_type')->groupBy('vendorable_id')->get();
+        $vendor             = CategoryPO::where('ppb_id',$id)->first();
+        $comments           = Comment::where('ppb_id',$id)->get();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $disc               = PengajuanPembelian::where('pp_id', $id)->first();
-        $comments           = Comment::where('ppb_id',$id)->get();
         return view('taskList_atasan_PO.menu.detail')
             ->with('pengajuan', $pengajuan)
+            ->with('datapo',$datapo)
+            ->with('items',$items)
+            ->with('vendor',$vendor)
+            ->with('comments', $comments)
+            ->with('data_pengajuan', $data_pengajuan)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
-            ->with('datacpo',$datacpo)
             ->with('total', $total)
-            ->with('disc', $disc)
-            ->with('comments', $comments)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('data_pengajuan', $data_pengajuan);
+            ->with('disc', $disc);
     }
     /**
      * Show the form for creating a new resource.
