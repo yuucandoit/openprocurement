@@ -2,12 +2,25 @@
 @extends('layouts.master')
 
 @section('main')
+<style>
+    .hide {
+       width: 0;
+       height: 0;
+       opacity: 0;
+       display: none;
+    }
+
+    .page {
+        height: 50px;
+    }
+
+</style>
 <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 <section>
     <div class="container-fluid">
         <div class="page-header">
             <div class="row">
-                <div class="col-sm-6 mt-4">
+                <div class="col-sm-6 mt-2">
                     <h3>Create Purchase Request</h3>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
@@ -16,24 +29,7 @@
                         <li class="breadcrumb-item">Create Purchase Request</li>
                     </ol>
                 </div>
-                <div class="col-sm-6 mt-4">
-                    <!-- Bookmark Start-->
-                    <div class="bookmark">
-                        <ul>
-                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Tables"><i data-feather="inbox"></i></a></li>
-                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Chat"><i data-feather="message-square"></i></a></li>
-                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Icons"><i data-feather="command"></i></a></li>
-                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover" data-placement="top" title="" data-original-title="Learning"><i data-feather="layers"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                <form class="form-inline search-form">
-                                    <div class="form-group form-control-search">
-                                        <input type="text" placeholder="Search..">
-                                    </div>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- Bookmark Ends-->
+                <div class="col-sm-6 mt-2">
                 </div>
             </div>
         </div>
@@ -42,19 +38,20 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card card-absolute">
-                    <div class="card-header bg-primary">
+                <div class="card">
+                {{-- <div class="card card-absolute"> --}}
+                    {{-- <div class="card-header bg-primary">
                         <h5>Form Purchase Request</h5>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
                         <form action="{{ url('/menu-pengajuan-pembelian/store') }}" id="formAdd" method="post" enctype="multipart/form-data">
                             @csrf
 
-                            <div class="row g-3">
-                                <div class="col-md-6">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
                                     <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date :</label>
                                     <div class="form-group">
-                                        <input type="date" class="form-control page @error('date_ps') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" name="date_ps" value="{{ old('date_ps', date('Y-m-d')) }}">
+                                        <input type="date" class="form-control @error('date_ps') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" name="date_ps" value="{{ old('date_ps', date('Y-m-d')) }}">
                                         @error('date_ps')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -64,10 +61,10 @@
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="floatingdateline"><i class="fa fa-clock-o"></i> Deadline :</label>
-                                        <select class="form-select page @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" required="">
+                                        <select class="form-select @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" required="">
                                             <option selected="" disabled="" value="">Select Deadline
                                             </option>
                                             <option value="≤24Jam">1 hari</option>
@@ -86,11 +83,26 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="pageSelector"><b><i class="fa fa-send"></i> Send To</b></label>
+                                        <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to">
+                                            <option value="" disabled selected hidden>Send To
+                                            </option>
+                                            <option value="Tebet">Tebet</option>
+                                            <option value="Cikunir">Cikunir</option>
+                                            <option value="other">Other Option</option>
+                                        </select>
+                                        <input class="hide form-control mt-1" type="text" id="customOther" placeholder="Input Send To">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="floatingrequestby"><i class="fa fa-user"></i> Request By
                                             :</label>
-                                        <select class="form-select page @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" required="" data-live-search="true">
+                                        <select class="form-select @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" required="" data-live-search="true">
                                             <option value="" disabled selected hidden>Request By</option>
                                             @foreach ($dataws as $ws)
                                             <option value="{{ $ws->id }}">{{ $ws->name }}</option>
@@ -104,27 +116,62 @@
                                     </div>
                                 </div>
 
-                                {{-- css hide --}}
-                                <style>
-                                    .hide {
-                                       width: 0;
-                                       height: 0;
-                                       opacity: 0;
-                                    }
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="floatingdepartment"><i class="fa fa-institution"></i> Department
+                                            :</label>
+                                        <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
+                                            <option value="" disabled selected hidden>Department</option>
+                                            @foreach ($datadepartment as $dp)
+                                            <option value="{{ $dp->id }}">{{ $dp->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('department')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
 
-                                    .page {
-                                        height: 50px;
-                                    }
-
-                                </style>
-                                {{-- End Css Hide --}}
-
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Send Approval To:</label>
+                                        <select class="form-select" id="floatingproposedto" placeholder="Proposed To" name="atasan" required="">
+                                            <option selected="" disabled="" value="">Please Choose One
+                                            </option>
+                                            @foreach ($atasan as $sui)
+                                            <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('atasan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
+                                        <div class="">
+                                            <textarea name="desc" id="floatingNoTelpon" class="form-control" rows="4"></textarea>
+                                            @error('desc')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i>
                                             Purpose
                                             :</label>
-                                        <select class="form-select page pageSelect" id="pageSelect" placeholder="Purpose" name="category_purpose" data-live-search="true">
+                                        <select class="form-select pageSelect" id="pageSelect" placeholder="Purpose" name="category_purpose" data-live-search="true">
                                             <option value="">Select Category Purpose</option>
                                             <option value="project">Project</option>
                                             <option value="office">Office</option>
@@ -189,55 +236,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="floatingdepartment"><i class="fa fa-institution"></i> Department
-                                            :</label>
-                                        <select class="form-select page @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
-                                            <option value="" disabled selected hidden>Department</option>
-                                            @foreach ($datadepartment as $dp)
-                                            <option value="{{ $dp->id }}">{{ $dp->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('department')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
-                                        <div class="form-floating">
-                                            <textarea name="desc" id="floatingNoTelpon" class="form-control page" cols="50" rows="30"></textarea>
-                                            @error('desc')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Send Approval To:</label>
-                                        <select class="form-select page" id="floatingproposedto" placeholder="Proposed To" name="atasan" required="">
-                                            <option selected="" disabled="" value="">Please Choose One
-                                            </option>
-                                            @foreach ($atasan as $sui)
-                                            <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('atasan')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                </div>
 
                                 {{-- <div class="col-md-6">
                                     <div class="form-group">
@@ -267,19 +265,7 @@
 
                                 </style>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i class="fa fa-send"></i> Send To</label>
-                                        <select class="form-select page" id="pageSelector" placeholder="Send To" name="send_to">
-                                            <option value="" disabled selected hidden>Send To
-                                            </option>
-                                            <option value="Tebet">Tebet</option>
-                                            <option value="Cikunir">Cikunir</option>
-                                            <option value="other">Other Option</option>
-                                        </select>
-                                        <input class="hide form-control mt-2" type="text" id="customOther" placeholder="Input Send To">
-                                    </div>
-                                </div>
+
 
                                 <br>
                                 <hr>
@@ -290,7 +276,7 @@
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             Qty</th>
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                            Category</th>
+                                            Unit</th>
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             File</th>
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
@@ -299,16 +285,14 @@
                                     </tr>
                                     <tr>
                                         <td class="text">
-                                            <textarea name="item[]" id="" cols="30" rows="1"></textarea>
+                                            <textarea name="item[]" id="" class="form-control" rows="2" style="min-width: 300px"></textarea>
                                             {{-- <input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required /> --}}
                                         </td>
                                         <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required />
                                         </td>
                                         <td>
-                                            <select class="form-select " placeholder="Kategori" name="kategori[]" required>
-                                                <option selected="" disabled="" value="">Select Category
-                                                </option>
-                                                <option value="Pcs">Pcs </option>
+                                            <select class="form-select " placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
+                                                <option value="Pcs" selected>Pcs </option>
                                                 <option value="Lusin">Lusin </option>
                                                 <option value="Box">Box </option>
                                                 <option value="Unit">Unit </option>
@@ -414,7 +398,7 @@
 
         function addItem() {
             var item =
-                `<tr><td> <textarea name="item[]" id="" cols="30" rows="1"></textarea></td>
+                `<tr><td> <textarea name="item[]" id="" class="form-control" rows="2"></textarea></td>
                      <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/></td>
                      <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option><option value="Lot">Lot </option> <option value="Rim">Rim </option>
                     <option value="Org">Org </option><option value="Line">Line </option><option value="Ruang">Ruang </option><option value="Pax">Pax </option> <option value="Set">Set </option>
