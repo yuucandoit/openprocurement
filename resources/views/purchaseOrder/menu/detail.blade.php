@@ -1390,7 +1390,7 @@
                     </div>
                 </div>
 
-                <style>
+                {{-- <style>
                     .tutup {
                         width: 0;
                         height: 0;
@@ -1713,7 +1713,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
     </section>
     {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
