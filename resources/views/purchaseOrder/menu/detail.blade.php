@@ -136,7 +136,6 @@
                                                         <a href="{{ $p->path_file }}" class="btn btn-danger">See File</a>
                                                         @endif
                                                         </td>
-                                                        <td style="text-align: center;"></td>
                                                         @if ($data_pengajuan->matauang == 'RP')
                                                             <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}
                                                             </td>
