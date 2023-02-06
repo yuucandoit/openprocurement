@@ -129,11 +129,13 @@
                                                         <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
                                                         <td style="text-align: center;">{{ $p->qty }}</td>
                                                         <td style="text-align: center;">{{ $p->kategori }}</td>
+                                                        <td style="text-align: center;">
                                                         @if(empty($p->path_file))
-                                                        <td style="text-align: center;"> - </td>
+                                                         -
                                                         @else
-                                                        <td style="text-align: center;"> <a href="{{ $p->path_file }}" class="btn btn-danger">See File</a></td>
+                                                        <a href="{{ $p->path_file }}" class="btn btn-danger">See File</a>
                                                         @endif
+                                                        </td>
                                                         <td style="text-align: center;"></td>
                                                         @if ($data_pengajuan->matauang == 'RP')
                                                             <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}
