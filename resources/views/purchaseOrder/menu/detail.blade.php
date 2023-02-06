@@ -133,7 +133,7 @@
                                                         @if(empty($p->path_file))
                                                          -
                                                         @else
-                                                        <a href="{{ $p->path_file }}" class="btn btn-danger">See File</a>
+                                                        <a href="/upload_pengajuan/{{ $p->path_file }}" class="btn btn-danger" target="_blank">See File</a>
                                                         @endif
                                                         </td>
                                                         @if ($data_pengajuan->matauang == 'RP')
