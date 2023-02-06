@@ -118,6 +118,7 @@
                                                     <th>Item</th>
                                                     <th>Qty</th>
                                                     <th>Category</th>
+                                                    <th>File</th>
                                                     <th>Price-per-unit</th>
                                                     <th>Total</th>
                                                 </tr>
@@ -128,6 +129,12 @@
                                                         <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
                                                         <td style="text-align: center;">{{ $p->qty }}</td>
                                                         <td style="text-align: center;">{{ $p->kategori }}</td>
+                                                        @if(empty($p->path_file))
+                                                        <td style="text-align: center;"> - </td>
+                                                        @else
+                                                        <td style="text-align: center;"> <a href="{{ $p->path_file }}" class="btn btn-danger">See File</a></td>
+                                                        @endif
+                                                        <td style="text-align: center;"></td>
                                                         @if ($data_pengajuan->matauang == 'RP')
                                                             <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}
                                                             </td>
@@ -640,8 +647,8 @@
                                                         @endif
                                                         @endforeach
                                                         </tbody>
-                                                    </table>
-                                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_multi/' . $data_pengajuan->id) }}"
+                                                    </table> --}}
+                                                    {{-- <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_multi/' . $data_pengajuan->id) }}"
                                                         target="_blank" style="font-size:12;">Export PDF PO</i>
                                                     </a>
                                                     <button type="button" name="add" class=" btn btn-warning mt-3"  data-bs-toggle="modal"
@@ -1070,7 +1077,7 @@
                                     </div>
                                 </div>
 
-                                <div class="modal fade" id="modalCreatePO" tabindex="-1" aria-hidden="true">
+                                {{-- <div class="modal fade" id="modalCreatePO" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -1078,7 +1085,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
-                                            {{-- <div class="modal-body">
+                                            <div class="modal-body">
                                                 <form class="row g-2 mt-4" action="{{ url('/menu-purchase-order/store/' . $data_pengajuan->id) }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
@@ -1201,8 +1208,6 @@
                                                                 Currency :</label>
                                                             <select class="form-select page" id="floatingdateline" placeholder="Mata Uang"
                                                                 name="matauang" required="">
-                                                                <option selected="" disabled="" value="">select currency
-                                                                </option>
                                                                 <option value="RP">RP</option>
                                                                 <option value="USD">USD</option>
                                                             </select>
@@ -1276,7 +1281,11 @@
 
                                                         <td>
                                                             <input type="text" name="unit_price[]" placeholder="Input Price"
-                                                                class="form-control text-end form-calc form-cost rupiah"
+                                                                class="form-control text-end form-calc  rupiah"
+                                                                style="text-align: right;" required />
+
+                                                                <input type="text" name="unit_price[]" placeholder="Input Price"
+                                                                class="form-control text-end form-calc form-cost dollar"
                                                                 style="text-align: right;" required />
                                                         </td>
                                                         <td>
@@ -1363,12 +1372,12 @@
                                                 </div>
                                             </form>
 
-                                            </div> --}}
+                                            </div>
                                         </div>
                                             </div>
                                         </div>
 
-                                {{-- <div class="mt-4">
+                                <div class="mt-4">
                                     <button type="button" name="add" class=" btn btn-outline-primary"  data-bs-toggle="modal"
                                     data-bs-target="#modalCreatePO" > Create
                                         PO
@@ -1381,7 +1390,7 @@
                     </div>
                 </div>
 
-                {{-- <style>
+                <style>
                     .tutup {
                         width: 0;
                         height: 0;
@@ -1704,10 +1713,20 @@
                             </div>
                         </div>
                     </div>
-                </div> --}}
+                </div>
     </section>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
+
+    <script>
+        const dollars = document.querySelectorAll('.dollar');
+        dollars.forEach(dollar => {
+            new AutoNumeric(dollar,'dollar');
+        })
+        const
     </script>
+
+    </script> --}}
     {{-- <script type="text/javascript">
         function createPO(element){
             if(element.style.display === "none"){
@@ -1749,11 +1768,13 @@
                                         rupiah = split[1] != undefined ? rupiah + "." + split[1] : rupiah;
                                         return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                     }
+
                                     $(".order-entry").on("keyup", ".form-calc", function() {
                                         var parent = $(this).closest("tr");
                                         var str = parent.find(".form-cost").val();
                                         var res = str.replace(/\D/g, "");
-                                        // console.log(res);
+                                        // var repl = res.replace
+                                        console.log(str);
                                         parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
                                         var total = 0;
                                         $(".form-line").each(function() {
@@ -1835,6 +1856,8 @@
                                         rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
                                         return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                     }
+                                    new AutoNumeric(document.querySelector('.dollar'), 'dollar');
+
 
                                     $(".order-entry").on("keyup", ".form-calc", function() {
                                         var parent = $(this).closest("tr");
@@ -1888,6 +1911,8 @@
                                     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
                                     return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                 }
+
+
     </script>
 
     <script type="text/javascript">
