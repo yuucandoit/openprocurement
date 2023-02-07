@@ -314,13 +314,18 @@
                     @elseif($cpp->ppn == 1)
                         @foreach ($total as $t)
                             @if(empty($disc->discount))
+                                    @php
+                                    $diskuyy  = $t->total - $disc->discount ;
+                                    $ppndisc  =  $diskuyy * 11 /100;
+                                    $totaltdisc= $ppndisc + $diskuyy;
+                                    @endphp
                                 @if ($cpp->matauang == 'RP')
                                     <td class="text-right">
-                                        <h6 class="mb-0 text-right"> Rp. {{ number_format($t->total) }}</h6>
+                                        <h6 class="mb-0 text-right"> Rp. {{ number_format($totaltdisc) }}</h6>
                                     </td>
                                 @elseif ($cpp->matauang == 'USD')
                                     <td class="text-right">
-                                        <h6 class="mb-0 text-right"> $ {{ number_format($t->total /100 ,2) }}</h6>
+                                        <h6 class="mb-0 text-right"> $ {{ number_format($totaltdisc /100 ,2) }}</h6>
                                     </td>
                                 @endif
                             @else
