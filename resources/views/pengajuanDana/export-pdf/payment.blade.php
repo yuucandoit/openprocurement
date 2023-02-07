@@ -338,11 +338,11 @@
 
                                 @if ($cpp->matauang == 'RP')
                                     <td class="text-right">
-                                        <h6 class="mb-0 text-right"> Rp. {{ number_format($twpndisc) }}</h6>
+                                        <h6 class="mb-0 text-right"> Rp. {{ number_format($t->total) }}</h6>
                                     </td>
                                 @elseif ($cpp->matauang == 'USD')
                                     <td class="text-right">
-                                        <h6 class="mb-0 text-right"> $ {{ number_format($twpndisc /100 ,2) }}</h6>
+                                        <h6 class="mb-0 text-right"> $ {{ number_format($t->total /100 ,2) }}</h6>
                                     </td>
                                 @endif
 
