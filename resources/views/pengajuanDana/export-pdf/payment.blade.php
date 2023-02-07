@@ -329,20 +329,18 @@
                             @endif
                         @else
                             @php
-                            $ppn    = $t->total - $disc->dpp ;
-                            $ppn2   = $ppn * 100 / 11;
-                            $diskuyy =  $ppn2 - $disc->discount ;
-                            $twpndisc =  $diskuyy * 11 /100;
-                            // $twpndisc = $ppndisc + $t->total
+                            $diskuyy  = $t->total - $disc->discount ;
+                            $ppndisc  =  $diskuyy * 11 /100;
+                            $twpndisc = $ppndisc + $diskuyy
                             @endphp
 
                                 @if ($cpp->matauang == 'RP')
                                     <td class="text-right">
-                                        <h6 class="mb-0 text-right"> Rp. {{ number_format($t->total) }}</h6>
+                                        <h6 class="mb-0 text-right"> Rp. {{ number_format($twpndisc) }}</h6>
                                     </td>
                                 @elseif ($cpp->matauang == 'USD')
                                     <td class="text-right">
-                                        <h6 class="mb-0 text-right"> $ {{ number_format($t->total /100 ,2) }}</h6>
+                                        <h6 class="mb-0 text-right"> $ {{ number_format($twpndisc /100 ,2) }}</h6>
                                     </td>
                                 @endif
 
