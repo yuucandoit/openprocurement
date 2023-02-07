@@ -326,10 +326,11 @@
                             @else
 
                             @php
-                            $ppn    = $t->total *100 / 11 - $t->total;
-                            $diskuyy =  $ppn - $disc->discount ;
+                            $ppn    = $t->total - $disc->dpp ;
+                            $ppn2   = $ppn * 100 / 11;
+                            $diskuyy =  $ppn2 - $disc->discount ;
                             $ppndisc =  $diskuyy * 11 /100;
-                            $twpndisc = $ppndisc + $t->total
+                            $twpndisc = $ppndisc + $t->total;
                             @endphp
 
                                 @if ($cpp->matauang == 'RP')
