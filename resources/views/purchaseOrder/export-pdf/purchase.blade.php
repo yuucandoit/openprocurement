@@ -251,8 +251,8 @@
 
                         @else
                         @php
-                        $ppn    = $pn->total *100 / 11;
-                        $diskuyy = $disc->discount - $ppn;
+                        $ppn    =   $pn->total *100 / 11;
+                        $diskuyy =  $ppn - $disc->discount ;
                         $ppndisc =   $diskuyy * 11 /100;
                         @endphp
 
@@ -327,7 +327,7 @@
 
                             @php
                             $ppn    = $t->total *100 / 11;
-                            $diskuyy = $disc->discount - $ppn;
+                            $diskuyy =  $ppn - $disc->discount ;
                             $ppndisc =  $diskuyy * 11 /100;
                             $twpndisc = $ppndisc + $t->total
                             @endphp
