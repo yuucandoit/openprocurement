@@ -256,7 +256,9 @@
                         @endif
                         @else
                         @php
-                        $ppndisc = $pn->total - $disc->discount;
+                        $ppn    = $pn->total *100 / 11;
+                        $diskuyy = $disc->discount - $ppn;
+                        $ppndisc =   $diskuyy * 11 /100;
                         @endphp
 
                         @if($cpp->matauang == 'RP')
@@ -326,9 +328,12 @@
                                 </td>
                             @endif
                         @else
-                            @php
-                            $twpndisc = $t->total - $disc->discount;
-                            @endphp
+                        @php
+                        $ppn    = $t->total *100 / 11;
+                        $diskuyy = $disc->discount - $ppn;
+                        $ppndisc =  $diskuyy * 11 /100;
+                        $twpndisc = $ppndisc + $t->total
+                        @endphp
 
                                 @if ($cpp->matauang == 'RP')
                                     <td class="text-right">
