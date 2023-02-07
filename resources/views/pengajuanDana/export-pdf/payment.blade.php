@@ -244,6 +244,7 @@
                     @endif
                     @else
                         @foreach ($ppn as $pn)
+                        @if(empty($disc->discount))
                         @if($cpp->matauang == 'RP')
                         <td>
                             <p class="m-0 digits text-right">Rp.{{ number_format($pn->total) }}</p>
@@ -252,6 +253,21 @@
                         <td>
                             <p class="m-0 digits text-right">$ {{ number_format($pn->total/100 ,2) }}</p>
                         </td>
+                        @endif
+                        @else
+                        @php
+                        $ppndisc = $pn->total - $disc->discount;
+                        @endphp
+
+                        @if($cpp->matauang == 'RP')
+                        <td class="text-right">
+                            <p class="m-0 digits text-end">Rp.{{ number_format($ppndisc) }}</p>
+                        </td>
+                        @elseif($cpp->matauang == 'USD')
+                        <td class="text-right">
+                            <p class="m-0 digits text-end">$ {{ number_format($ppndisc /100 ,2) }}</p>
+                        </td>
+                        @endif
                         @endif
 
                         @endforeach
@@ -267,18 +283,39 @@
                 </td>
                     @if ($cpp->ppn == 0)
                         @foreach ($total_tnp_ppn as $tpn)
-                            @if ($cpp->matauang == 'RP')
-                                <td style="m-0 digits text-right">
-                                    <h6 class="text-right"> Rp.{{ number_format($tpn->total) }}</h6>
-                                </td>
-                            @elseif ($cpp->matauang == 'USD')
-                                <td style="m-0 digits text-right">
-                                    <h6 class="text-right"> $ {{ number_format($tpn->total /100 ,2) }}</h6>
-                                </td>
+                            @if(empty($disc->discount))
+
+                                @if ($cpp->matauang == 'RP')
+                                    <td style="m-0 digits text-right">
+                                        <h6 class="text-right"> Rp.{{ number_format($tpn->total) }}</h6>
+                                    </td>
+                                @elseif ($cpp->matauang == 'USD')
+                                    <td style="m-0 digits text-right">
+                                        <h6 class="text-right"> $ {{ number_format($tpn->total /100 ,2) }}</h6>
+                                    </td>
+                                @endif
+
+                            @else
+
+                                @php
+                                $tpndisc = $tpn->total - $disc->discount;
+                                @endphp
+
+                                @if ($cpp->matauang == 'RP')
+                                    <td class="text-right">
+                                        <h6 class="text-right "> Rp.{{ number_format($tpndisc) }}</h6>
+                                    </td>
+                                @elseif ($cpp->matauang == 'USD')
+                                    <td class="text-right">
+                                        <h6 class="text-right"> $ {{ number_format($tpndisc /100 ,2) }}</h6>
+                                    </td>
+                                @endif
+
                             @endif
                         @endforeach
                     @elseif($cpp->ppn == 1)
                         @foreach ($total as $t)
+                        @if(empty($disc->discount))
                             @if ($cpp->matauang == 'RP')
                                 <td style="m-0 digits text-right">
                                     <h6 class="text-right"> Rp. {{ number_format($t->total) }}</h6>
@@ -288,6 +325,22 @@
                                     <h6 class="text-right"> $ {{ number_format($t->total /100 ,2) }}</h6>
                                 </td>
                             @endif
+                        @else
+                            @php
+                            $twpndisc = $t->total - $disc->discount;
+                            @endphp
+
+                                @if ($cpp->matauang == 'RP')
+                                    <td class="text-right">
+                                        <h6 class="mb-0 text-right"> Rp. {{ number_format($twpndisc) }}</h6>
+                                    </td>
+                                @elseif ($cpp->matauang == 'USD')
+                                    <td class="text-right">
+                                        <h6 class="mb-0 text-right"> $ {{ number_format($twpndisc /100 ,2) }}</h6>
+                                    </td>
+                                @endif
+
+                        @endif
                         @endforeach
                     @endif
             </tr>
