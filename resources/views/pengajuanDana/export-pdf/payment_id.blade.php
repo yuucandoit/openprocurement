@@ -7,10 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Purchase Order</title>
+    <title>Pengajuan Dana</title>
 </head>
 
 <body>
+    @php
+         use Carbon\Carbon;
+        $date = Carbon::parse($cpo->ppb->created_at)->format('d/m/Y');
+        if (empty($p->approved_at)) {
+            $approvedAt = 'Not Record yet';
+        } else {
+            $approvedAt = Carbon::parse($p->approved_at)->format('d F Y');
+        }
+    @endphp
     <table width="100%">
         <tr>
             <td valign="top" style="padding-right: 2px; width:20px; margin-top:100px"><img
@@ -18,26 +27,16 @@
             <td valign="top">
                 <h5>PT.SOLUSI INTEK INDONESIA</h5>
             </td>
-            @php
-                use Carbon\Carbon;
-                $date = Carbon::parse($cpo->created_at)->format('d/m/Y');
-                if (empty($cpo->approved_at)) {
-                    $approvedAt = 'Not Record yet';
-                } else {
-                    $approvedAt = Carbon::parse($cpo->approved_at)->format('d F Y');
-                }
-            @endphp
         </tr>
     </table>
     @php
         $id_po = $cpo->id;
         $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
     @endphp
-    <h3 class="text-center">Purchase Order</h3>
+    <h3 class="text-center">Pengajuan Dana</h3>
     <h6 class="text-center"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
      </h6>
-
-    <table width="100%" class="mt-2">
+     <table width="100%" class="mt-2">
         <tr>
             <td>
                 @if (empty($cpo->vendorable_type))
@@ -343,38 +342,29 @@
                             $cpo->ppb->status == 'Paid' ||
                             $cpo->ppb->status == 'Delivery Success')
                             <p>Jakarta, {{ $approvedAt }}</p>
-                            @if (empty($cpo->signature))
+                            @if (empty($sig->signature))
                             @else
                                 <p><img style=" width:100px;"
-                                        src="{{ public_path('assets/images/signature_super_user/' . $cpo->signature) }}"
+                                        src="{{ public_path('assets/images/signature_super_user/'.$sig->signature) }}"
                                         alt=""></p>
                             @endif
                 </div>
-                @if (empty($cpo->ppb->atasans->name))
+                @if (empty($p->ppb->atasans->name))
                     <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 18px;">{{ $cpo->ppb->atasans->name }} <br>
+                    <div style="text-align: center; font-size: 18px;">{{ $p->ppb->atasans->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif
                 @endif
-                {{-- @endforeach --}}
-                {{-- @foreach ($cpo->ppb as $c)
-                            @if ($cpo->ppb->status == 'PO Approved' || $cpo->ppb->status == 'Invoicing Process' || $cpo->ppb->status == 'Payment Approved' || $cpo->ppb->status == 'Unpaid' || $cpo->ppb->status == 'Paid' || $cpo->ppb->status == 'Delivery Success') --}}
-                {{-- <img src="{{ public_path('assets/images/'.$cpo->ppb->image) }}" alt="" style=" width:80px;"> --}}
-                {{-- <strong>{{ $atasan->atasans->name }}</strong>
-                            @else
-                            <strong>BOD Name</strong>
-                            @endif
-                            {{-- @endforeach --}}
+
             </td>
         </tr>
     </table>
     <footer
         style="
-
                    position: fixed;
                    bottom: 0cm;
                    left: 0cm;
@@ -384,7 +374,7 @@
             Telp. 021-89454790 <br>
             Marketing Office : Jl Tebet Barat dalam raya No.31 Tebet Barat, Jakarta Selatan,<br>
             Telp. 021-21383852</p>
-    </footer>
+        </footer>
 </body>
 
 </html>

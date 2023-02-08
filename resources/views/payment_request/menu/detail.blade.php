@@ -88,20 +88,6 @@
                                         <td>Date Send</td>
                                         <td>{{ $data_pengajuan->dateline }}</td>
                                     </tr>
-                                    {{-- @foreach ($datapo as $po)
-                                        <tr>
-                                            <td>Contact No</td>
-                                            <td>{{ $po->no_telp }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Quotation</td>
-                                            <td>{{ $po->quotation }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>NPWP</td>
-                                            <td>{{ $po->no_npwp }}</td>
-                                        </tr>
-                                    @endforeach --}}
                                     <tr>
                                         <td>Approver Note</td>
                                         <td>
@@ -200,7 +186,13 @@
                                                             </div>
                                                         </div>
                                                 </div>
-                                                @if(empty($vendor->item))
+                                                @php
+                                                foreach($po->itempo as $i)
+                                                {
+                                                    $e = $i->po_id;
+                                                }
+                                                @endphp
+                                                @if(empty($e))
                                                 <table class="table table-bordered mt-4 mb-4 order-entry">
                                                     <thead>
                                                         <tr class="text-center"
@@ -315,7 +307,7 @@
                                                         </tr>
                                                     @endif
                                                 </table>
-                                                <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po/' . $data_pengajuan->id) }}"
+                                                <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/pymnt/' . $data_pengajuan->id) }}"
                                                     target="_blank" style="font-size:12;">Export PDF PO</i>
                                                 </a>
                                                 @else
@@ -344,42 +336,37 @@
                                                     @php
                                                         $id = 1;
                                                     @endphp
-                                                    @foreach ($datapo as $i)
-                                                        @if ($i->vendorable_id == $po->vendorable_id)
-                                                            @if ($i->vendorable_type == $po->vendorable_type)
+                                                    @foreach ($po->itempo as $i)
                                                             <tr>
                                                                 <td class="text-center">{{ $id++ }}</td>
                                                                 <td class="text-center">{{ $i->item }}</td>
                                                                 <td class="text-center">{{ $i->qty }}</td>
                                                                 <td class="text-center">{{ $i->kategori }}</td>
-                                                                @if ($data_pengajuan->matauang == 'RP')
+                                                                @if ($i->matauang == 'RP')
                                                                     <td class="text-end">RP.
                                                                         {{ number_format($i->unit_price) }}</td>
                                                                     <td class="text-end">RP. {{ number_format($i->total) }}
                                                                     </td>
-                                                                @elseif($data_pengajuan->matauang == 'USD')
+                                                                @elseif($i->matauang == 'USD')
                                                                     <td class="text-end">$
                                                                         {{ number_format($i->unit_price /100,2) }}</td>
                                                                     <td class="text-end">$
                                                                         {{ number_format($i->total /100,2) }}</td>
                                                                 @endif
                                                             </tr>
-                                                            @endif
-                                                        @endif
                                                     @endforeach
                                                 </table>
                                             <table class="table table-bordered">
                                                 <tbody>
-                                                @foreach ($items as $calculate)
-                                                    @if ($calculate->vendorable_id == $po->vendorable_id)
-                                                    @if ($calculate->vendorable_type == $po->vendorable_type)
+                                                @foreach ($groupedItem as $calculate)
+                                                    @if ($calculate->po_id == $po->id)
                                                     {{-- @if($calculate->item == $po->item) --}}
                                                         <tr>
                                                             <td><label class="pull-right mx-2"> DPP :</label></td>
                                                             <td style="text-align: right;">
-                                                                @if ($data_pengajuan->matauang == 'RP')
+                                                                @if ($calculate->matauang == 'RP')
                                                                     RP. {{ number_format($calculate->dpp) }}
-                                                                @elseif ($data_pengajuan->matauang == 'USD')
+                                                                @elseif ($calculate->matauang == 'USD')
                                                                     $ {{ number_format($calculate->dpp /100,2) }}
                                                                 @endif
                                                             </td>
@@ -387,9 +374,9 @@
                                                         <tr>
                                                             <td><label class="pull-right mx-2"> Discount :</label></td>
                                                             <td style="text-align: right;">
-                                                                @if ($data_pengajuan->matauang == 'RP')
+                                                                @if ($calculate->matauang == 'RP')
                                                                     RP. {{ number_format($calculate->discount) }}
-                                                                @elseif ($data_pengajuan->matauang == 'USD')
+                                                                @elseif ($calculate->matauang == 'USD')
                                                                     $ {{ number_format($calculate->discount /100,2) }}
                                                                 @endif
                                                             </td>
@@ -411,15 +398,15 @@
                                                                     // dd($afterdisc);
                                                                     $ppn = $afterdisc *11 /100;
                                                                 @endphp
-                                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                                    @if ($calculate->matauang == 'RP')
                                                                         RP. {{ number_format($ppn) }}
-                                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                                    @elseif ($calculate->matauang == 'USD')
                                                                         $ {{ number_format($ppn /100 ,2) }}
                                                                     @endif
                                                                 @else
-                                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                                    @if ($calculate->matauang == 'RP')
                                                                         RP. 0
-                                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                                    @elseif ($calculate->matauang == 'USD')
                                                                         $ 0
                                                                     @endif
                                                                 @endif
@@ -431,30 +418,31 @@
                                                                     :</td>
                                                             @if ($calculate->ppn == 1)
                                                             <td style="text-align:right;">
-                                                                @if ($data_pengajuan->matauang == 'RP')
+                                                                @if ($calculate->matauang == 'RP')
                                                                     RP.{{ number_format($calculate->grand_total) }}
-                                                                @elseif ($data_pengajuan->matauang == 'USD')
+                                                                @elseif ($calculate->matauang == 'USD')
                                                                     ${{ number_format($calculate->grand_total /100,2) }}
                                                                 @endif
                                                             </td>
                                                             @elseif ($calculate->ppn == 0)
                                                             <td style="text-align:right;">
-                                                                @if ($data_pengajuan->matauang == 'RP')
+                                                                @if ($calculate->matauang == 'RP')
                                                                 RP.{{ number_format($calculate->grand_total) }}</td>
-                                                                @elseif ($data_pengajuan->matauang == 'USD')
+                                                                @elseif ($calculate->matauang == 'USD')
                                                                 ${{ number_format($calculate->grand_total /100 ,2) }}
                                                                 @endif
                                                             </td>
                                                             </tr>
-                                                        {{-- @endif --}}
-                                                        @endif
                                                         @endif
                                                     @endif
                                                     @endforeach
                                                     </tbody>
                                                 </table>
-
                                                 @endif
+                                              </div>
+                                              <div class="pdf">
+                                                <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
+                                                <a href="{{ url('exportpdf/pymnt_id/'.$po->id) }}" class="btn btn-danger mt-3" target="_blank">Export PDF</a>
                                               </div>
                                             </div>
                                           </div>
@@ -466,6 +454,7 @@
                                   </div>
                                 </div>
                               </div>
+
 
                             <hr>
                             {{-- Start Modal Approval --}}

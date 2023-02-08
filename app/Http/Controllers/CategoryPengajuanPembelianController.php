@@ -302,6 +302,7 @@ class CategoryPengajuanPembelianController extends Controller
                 $file = $path->getClientOriginalName();
                 $path->move(public_path('upload_pengajuan'), $file);
             }
+            // dd($pengajuan);
             $data2 = array(
                 'pp_id'             => $pengajuan->id,
                 'item'              => $data['item'][$item],

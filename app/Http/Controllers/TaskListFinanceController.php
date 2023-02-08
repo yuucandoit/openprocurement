@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
+use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\TaskListFinance;
@@ -114,20 +115,30 @@ class TaskListFinanceController extends Controller
 
     public function detail($id)
     {
-        $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        $data_pengajuan     = CategoryPengajuanPembelian::find($id);
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $datacpo            = CategoryPO::where('ppb_id',$id)->first();
+        $vendor             = CategoryPO::where('ppb_id',$id)->first();
+        $items              = CategoryPO::where('ppb_id',$id)->get();
+        $groupedItem        = ItemPO::groupBy('po_id')->get();
+        $itempurchase       = ItemPO::groupBy('po_id')->first();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
         return view('taskList_finance.menu.detail')
             ->with('pengajuan', $pengajuan)
+            ->with('vendor', $vendor)
+            ->with('items', $items)
+            ->with('groupedItem', $groupedItem)
+            ->with('itempurchase', $itempurchase)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
             ->with('total', $total)
             ->with('datacpo', $datacpo)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('disc', $disc)
             ->with('data_pengajuan', $data_pengajuan);
     }
     /**

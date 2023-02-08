@@ -98,6 +98,7 @@
                                         <thead class="bg-primary">
                                             <tr>
                                                 <th>No</th>
+                                                <th>No.PO</th>
                                                 <th>Name</th>
                                                 {{-- <th>Description</th> --}}
                                                 <th>Item</th>
@@ -122,6 +123,7 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
+                                                        <td style="text-align: center;">{{ $ppb->id }}</td>
                                                         <td>
                                                             <ul>
                                                                 <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
@@ -194,8 +196,7 @@
                                                         <td style="font-size: 10;"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
                                                         @hasrole('purchasing|super admin')
                                                             <td style="text-align: center;">
-                                                                <ul>
-                                                                    <li style="white-space: nowrap;">
+
 
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0; font-size:10;"
@@ -208,25 +209,21 @@
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                                 </a> --}}
-                                                                <a class="btn btn-iconsolid mt-1"
+                                                                {{-- <a class="btn btn-iconsolid mt-1"
                                                                 style=  "background-color: #008000;font-size:10;"
                                                                 href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
                                                                     class="icon-file" title="Record Data"></i>
-                                                                </a>
-                                                                    </li>
-                                                                    <li style="white-space: nowrap;">
-                                                                        <a class="btn btn-iconsolid mt-1"
+                                                                </a> --}}
+                                                                        {{-- <a class="btn btn-iconsolid mt-1"
                                                                         style="background-color: #FF8C00;font-size:10;"
                                                                         href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
                                                                             class="icon-pencil-alt" title="Edit"></i>
-                                                                    </a>
+                                                                    </a> --}}
 
                                                                     <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
                                                                     data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                         class="icon-trash" title="Delete"></i>
                                                                 </button>
-                                                                    </li>
-                                                                </ul>
                                                                 {{-- <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0; font-size:10;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i

@@ -11,6 +11,7 @@ use App\Models\CategoryPT;
 use App\Models\Comment;
 use App\Models\Department;
 use App\Models\Invoicing;
+use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -163,6 +164,10 @@ class CategoryPDController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $comments           = Comment::where('ppb_id',$id)->get();
+        $vendor             = CategoryPO::where('ppb_id',$id)->first();
+        $items              = CategoryPO::where('ppb_id',$id)->get();
+        $groupedItem        = ItemPO::groupBy('po_id')->get();
+        $itempurchase       = ItemPO::groupBy('po_id')->first();
         return view('pengajuanDana.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('comments', $comments)
@@ -173,6 +178,10 @@ class CategoryPDController extends Controller
             ->with('ppn', $ppn)
             ->with('total', $total)
             ->with('disc', $disc)
+            ->with('vendor', $vendor)
+            ->with('items', $items)
+            ->with('groupedItem', $groupedItem)
+            ->with('itempurchase', $itempurchase)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('data_pengajuan', $data_pengajuan);
     }
@@ -275,14 +284,6 @@ class CategoryPDController extends Controller
     public function exportpdf($id)
     {
         $data['cpp'] = CategoryPengajuanPembelian::find($id);
-        // foreach($cpp->quot as $po){
-        //     dd($po->term_condition);
-        // }
-        // $po = CategoryPengajuanPembelian::where('id',$id)->first();
-        //     dd($po->signature->signature);
-
-
-
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->first();
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
         $data['sig'] = Invoicing::where('ppb_id', $id)->get()->first();
@@ -295,14 +296,38 @@ class CategoryPDController extends Controller
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
 
-
-
         $pdf = PDF::loadView('pengajuanDana.export-pdf.payment', $data)->setpaper('A4', 'potrait');
         return $pdf->stream('PengajuanDana.pdf');
-        //return $pdf->download('PurchaseOrder.pdf');
+    }
 
-        // $pdf = Dompdf::loadView('export-pdf.purchase', ['data' => $data]);
-        // return Excel::download(new PoPDFExport($id),'PurchaseOrder.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    public function exportpdf_multi($id)
+    {
+        $data['cpp']            = CategoryPengajuanPembelian::find($id);
+        $data['cpo']            = CategoryPO::where('ppb_id', $id)->get();
+        $data['harga']          = ItemPO::groupBy('po_id')->get();
+        $data['id']             = PengajuanPembelian::where('pp_id', $id)->first();
+        $data['sig']            = Invoicing::where('ppb_id', $id)->get()->first();
+        $data['category_q']     = PengajuanPembelian::where('pp_id', $id)->get();
+        $data['dpp']            = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['ppn']            = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['total']          = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['total_tnp_ppn']  = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $data['disc']           = PengajuanPembelian::where('pp_id',$id)->first();
+        $data['year']           = Carbon::now()->format('y');
+        $data['month']          = Carbon::now()->format('m');
 
+        $pdf = PDF::loadView('pengajuanDana.export-pdf.payment_multi', $data)->setpaper('A4', 'potrait');
+        return $pdf->stream('PengajuanDana.pdf');
+    }
+
+    public function exportpdf_pyid($id)
+    {
+        $data['cpo'] = CategoryPO::find($id);
+        $data['harga'] = ItemPO::where('po_id',$id)->groupBy('po_id')->get();
+        $data['year'] = Carbon::now()->format('y');
+        $data['month'] = Carbon::now()->format('m');
+
+        $pdf = PDF::loadView('pengajuanDana.export-pdf.payment_id', $data)->setpaper('A4', 'potrait');
+        return $pdf->stream('PengajuanDana.pdf');
     }
 }

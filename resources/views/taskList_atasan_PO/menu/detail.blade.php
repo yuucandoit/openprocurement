@@ -151,7 +151,13 @@
                                                             </div>
                                                         </div>
                                                 </div>
-                                                @if(empty($vendor->item))
+                                                @php
+                                                foreach($po->itempo as $i)
+                                                {
+                                                    $e = $i->po_id;
+                                                }
+                                                @endphp
+                                                @if(empty($e))
 
                                                 <table class="table table-bordered mt-4 mb-4 order-entry">
                                                     <thead>
@@ -269,6 +275,7 @@
                                                 </table>
 
                                                 @else
+
                                                 <table class="table table-bordered item order-entry mx-2">
                                                     <tr style="text-align: center;">
                                                         <th
@@ -293,114 +300,118 @@
                                                     @php
                                                         $id = 1;
                                                     @endphp
-                                                    @foreach ($datapo as $i)
-                                                        @if ($i->vendorable_id == $po->vendorable_id)
-                                                            @if ($i->vendorable_type == $po->vendorable_type)
+                                                    @foreach ($po->itempo as $item)
                                                             <tr>
                                                                 <td class="text-center">{{ $id++ }}</td>
-                                                                <td class="text-center">{{ $i->item }}</td>
-                                                                <td class="text-center">{{ $i->qty }}</td>
-                                                                <td class="text-center">{{ $i->kategori }}</td>
-                                                                @if ($i->matauang == 'RP')
+                                                                <td class="text-center">{{ $item->item }}</td>
+                                                                <td class="text-center">{{ $item->qty }}</td>
+                                                                <td class="text-center">{{ $item->kategori }}</td>
+
+                                                                @if ($item->matauang == 'RP')
                                                                     <td class="text-end">RP.
-                                                                        {{ number_format($i->unit_price) }}</td>
-                                                                    <td class="text-end">RP. {{ number_format($i->total) }}
+                                                                        {{ number_format($item->unit_price) }}</td>
+                                                                    <td class="text-end">RP. {{ number_format($item->total) }}
                                                                     </td>
-                                                                @elseif($i->matauang == 'USD')
+                                                                @elseif($item->matauang == 'USD')
                                                                     <td class="text-end">$
-                                                                        {{ number_format($i->unit_price) }}.00</td>
+                                                                        {{ number_format($item->unit_price /100 ,2) }}</td>
                                                                     <td class="text-end">$
-                                                                        {{ number_format($i->total) }}.00</td>
+                                                                        {{ number_format($item->total /100 ,2) }}</td>
                                                                 @endif
                                                             </tr>
-                                                            @endif
-                                                        @endif
                                                     @endforeach
                                                 </table>
                                                 <table class="table table-bordered ">
                                                     <tbody>
-                                                @foreach ($items as $calculate)
-                                                    @if ($calculate->vendorable_id == $po->vendorable_id)
-                                                    @if ($calculate->vendorable_type == $po->vendorable_type)
-                                                    {{-- @if($calculate->item == $po->item) --}}
+                                                        @foreach ($groupedItem as $value)
+                                                        @if($value->po_id === $po->id)
                                                         <tr>
                                                             <td><label class="pull-right mx-2"> DPP :</label></td>
                                                             <td style="text-align: right;">
-                                                                @if ($calculate->matauang == 'RP')
-                                                                    RP. {{ number_format($calculate->dpp) }}
-                                                                @elseif ($calculate->matauang == 'USD')
-                                                                    $ {{ number_format($calculate->dpp) }}
+                                                                @if ($value->matauang == 'RP')
+                                                                    RP. {{ number_format($value->dpp) }}
+                                                                @elseif ($value->matauang == 'USD')
+                                                                    $ {{ number_format($value->dpp /100 ,2) }}
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="pull-right mx-2"> Ongkir :</label></td>
+                                                            <td style="text-align: right;">
+                                                                @if ($value->matauang == 'RP')
+                                                                    RP. {{ number_format($value->ongkir) }}
+                                                                @elseif ($value->matauang == 'USD')
+                                                                    $ {{ number_format($value->ongkir /100 ,2) }}
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td><label class="pull-right mx-2"> Discount :</label></td>
                                                             <td style="text-align: right;">
-                                                                @if ($calculate->matauang == 'RP')
-                                                                    RP. {{ number_format($calculate->discount) }}
-                                                                @elseif ($calculate->matauang == 'USD')
-                                                                    $ {{ number_format($calculate->discount) }}
+                                                                @if ($value->matauang == 'RP')
+                                                                    RP. {{ number_format($value->discount) }}
+                                                                @elseif ($value->matauang == 'USD')
+                                                                    $ {{ number_format($value->discount /100 ,2) }}
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                                                    value="{{ $calculate->ppn }}"
-                                                                    @if ($calculate->ppn == 1) @checked(true)
+                                                            <td>
+                                                                <input class="mt-1 pull-right check-box" type="checkbox"
+                                                                    value="{{ $value->ppn }}"
+                                                                    @if ($value->ppn == 1) @checked(true)
                                                                     @else
                                                                     @endif
                                                                     disabled="true"><label class="pull-right mx-2"> PPN 11%
-                                                                    :</label></td>
+                                                                    :</label>
+                                                                </td>
                                                             <td style="text-align:right;">
-                                                                @if ($calculate->ppn == 1)
+                                                                @if ($value->ppn == 1)
                                                                 @php
-                                                                    $dpp = $calculate->dpp;
-                                                                    $disc = $calculate->discount;
+                                                                    $dpp = $value->dpp;
+                                                                    $disc = $value->discount;
                                                                     $afterdisc = $dpp - $disc;
-                                                                    // dd($afterdisc);
                                                                     $ppn = $afterdisc *11 /100;
                                                                 @endphp
-                                                                    @if ($calculate->matauang == 'RP')
+                                                                    @if ($value->matauang == 'RP')
                                                                         RP. {{ number_format($ppn) }}
-                                                                    @elseif ($calculate->matauang == 'USD')
-                                                                        $ {{ number_format($ppn) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($ppn /100 ,2) }}
                                                                     @endif
                                                                 @else
-                                                                    @if ($calculate->matauang == 'RP')
+                                                                    @if ($value->matauang == 'RP')
                                                                         RP. 0
-                                                                    @elseif ($calculate->matauang == 'USD')
+                                                                    @elseif ($value->matauang == 'USD')
                                                                         $ 0
                                                                     @endif
                                                                 @endif
+
                                                             </td>
                                                         </tr>
 
                                                         <tr>
-                                                                <td class="text-end" style="font-weight: bold;">Grand Total
+                                                            <td class="text-end" style="font-weight: bold;">Grand Total
                                                                     :</td>
-                                                            @if ($calculate->ppn == 1)
                                                             <td style="text-align:right;">
-                                                                @if ($calculate->matauang == 'RP')
-                                                                    RP.{{ number_format($calculate->grand_total) }}
-                                                                @elseif ($calculate->matauang == 'USD')
-                                                                    ${{ number_format($calculate->grand_total) }}
+                                                            @if ($value->ppn == 1)
+                                                                @if ($value->matauang == 'RP')
+                                                                    RP.{{ number_format($value->grand_total) }}
+                                                                @elseif ($value->matauang == 'USD')
+                                                                    ${{ number_format($value->grand_total /100 ,2) }}
                                                                 @endif
-                                                            </td>
-                                                            @elseif ($calculate->ppn == 0)
-                                                            <td style="text-align:right;">
-                                                                @if ($calculate->matauang == 'RP')
-                                                                RP.{{ number_format($calculate->grand_total) }}</td>
-                                                                @elseif ($calculate->matauang == 'USD')
-                                                                ${{ number_format($calculate->grand_total) }}
+                                                            @elseif ($value->ppn == 0)
+                                                                @if ($value->matauang == 'RP')
+                                                                RP.{{ number_format($value->grand_total) }}</td>
+                                                                @elseif ($value->matauang == 'USD')
+                                                                ${{ number_format($value->grand_total /100 ,2) }}
                                                                 @endif
-                                                            </td>
-                                                            </tr>
-                                                        {{-- @endif --}}
+
+                                                            @endif
+                                                        </td>
+                                                        </tr>
                                                         @endif
-                                                        @endif
-                                                    @endif
-                                                    @endforeach
-                                                    </tbody>
+                                                        @endforeach
+                                                        </tbody>
                                                 </table>
                                                 @endif
                                               </div>
@@ -413,7 +424,7 @@
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                            </div>
                             <hr>
                              <!-- Modal -->
                              <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">

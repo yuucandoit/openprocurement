@@ -21,14 +21,7 @@ class CategoryPO extends Model
         'signature',
         'path_quotation',
         'path_invoice',
-        'item',
-        'qty',
-        'kategori',
-        'unit_price',
-        'discount',
-        'total',
-        'grand_total',
-        'ppn',
+        'matauang',
         'approved_at',
         'created_at',
         'updated_at'
@@ -45,6 +38,10 @@ class CategoryPO extends Model
     public function term()
     {
         return $this->belongsTo(TermsAndConditions::class, 'term_conditions');
+    }
+    public function itempo()
+    {
+        return $this->hasMany(ItemPO::class, 'po_id');
     }
     public function atasans()
     {

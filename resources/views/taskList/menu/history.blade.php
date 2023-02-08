@@ -102,7 +102,7 @@
                                                         <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1 "
                                                             style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                     </td>
-                                                    <td style="text-align: center;">
+                                                    <td style="text-align: center; white-space:nowrap;">
                                                         <a class="btn btn-iconsolid mt-1"
                                                         style="background-color: #0014FF;"
                                                         href="{{ url('/exportpdf/ppb/' . $ppb->id) }}"><i

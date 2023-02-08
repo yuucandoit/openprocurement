@@ -10,6 +10,7 @@ use App\Models\CategoryPT;
 use App\Models\Comment;
 use App\Models\Department;
 use App\Models\Invoicing;
+use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\PurchaseOrder;
 use App\Models\ReferensiNamaProject;
@@ -153,9 +154,12 @@ class InvoicingController extends Controller
     public function detail($id)
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $datapo             = CategoryPO::where('ppb_id', $id)->get();
-        $datacpo            = CategoryPO::where('ppb_id',$id)->first();
+        $vendor             = CategoryPO::where('ppb_id',$id)->first();
+        $items              = CategoryPO::where('ppb_id',$id)->groupBy('vendorable_type')->groupBy('vendorable_id')->get();
+        $groupedItem        = ItemPO::groupBy('po_id')->get();
+        $itempurchase       = ItemPO::groupBy('po_id')->first();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -166,7 +170,10 @@ class InvoicingController extends Controller
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
         ->with('datapo', $datapo)
-        ->with('datacpo', $datacpo)
+        ->with('vendor', $vendor)
+        ->with('items', $items)
+        ->with('groupedItem', $groupedItem)
+        ->with('itempurchase', $itempurchase)
         ->with('ppn', $ppn)
         ->with('total', $total)
         ->with('disc',$disc)
@@ -187,24 +194,18 @@ class InvoicingController extends Controller
         $atasan1            = User::whereIn('id', [3,6, 8, 9])->get();
         $atasan2            = User::whereIn('id', [3, 8, 9])->get();
         $atasan3            = User::whereIn('id', [3, 8])->get();
-        $datapt             = CategoryPT::all();
-        $op                 = CategoryPP::all();
-        $ec                 = CategoryEcommerce::all();
-        $terms              = TermsAndConditions::all();
         $datapo             = CategoryPO::where('ppb_id',$id)->get();
-        $datacpo            = CategoryPO::where('ppb_id',$id)->first();
+        $vendor             = CategoryPO::where('ppb_id',$id)->first();
+        $items              = CategoryPO::where('ppb_id',$id)->groupBy('vendorable_type')->groupBy('vendorable_id')->get();
+        $groupedItem        = ItemPO::groupBy('po_id')->get();
+        $itempurchase       = ItemPO::groupBy('po_id')->first();
         $dv                 = CategoryPengajuanPembelian::find($id);
-        $purpose            = ReferensiNamaProject::all();
-        $dataws             = WhoSubmitted::all();
-        $datadepartment     = Department::all();
-        $item               = PengajuanPembelian::where('pp_id', $id)->get();
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        // foreach($total_tnpa_ppn as $tpn){
-        // //dd($tpn->total);
-        // }
+
         return view('payment_request.menu.create')
             ->with('data_pengajuan',$data_pengajuan)
             ->with('atasan', $atasan)
@@ -212,22 +213,16 @@ class InvoicingController extends Controller
             ->with('atasan2', $atasan2)
             ->with('atasan3', $atasan3)
             ->with('datapo', $datapo)
-            ->with('datapt', $datapt)
-            ->with('datacpo', $datacpo)
-            ->with('op',$op)
-            ->with('ec',$ec)
-            ->with('terms',$terms)
-            ->with('purpose', $purpose)
-            ->with('dataws', $dataws)
+            ->with('items', $items)
+            ->with('vendor', $vendor)
             ->with('dpp', $dpp)
-            ->with('datapo', $datapo)
-            ->with('datacpo', $datacpo)
+            ->with('groupedItem', $groupedItem)
+            ->with('itempurchase', $itempurchase)
             ->with('ppn', $ppn)
             ->with('total', $total)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('data_pengajuan', $data_pengajuan)
-            ->with('datadepartment', $datadepartment)
-            ->with('item', $item)
+            ->with('pengajuan', $pengajuan)
             ->with('dv', $dv);
     }
 

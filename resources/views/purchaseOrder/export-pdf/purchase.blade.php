@@ -355,7 +355,7 @@
         </tbody>
     </table>
 
-    <table width="100%">
+    <table width="100%" >
         <tr>
             <td>
                 <p class="legal"><strong>Terms & Conditions</strong> <br>
@@ -400,6 +400,7 @@
             </td>
         </tr>
     </table>
+
 
     <footer
         style="

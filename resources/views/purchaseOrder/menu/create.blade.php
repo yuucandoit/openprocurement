@@ -70,7 +70,6 @@
                             {{-- <form class="row g-2 mt-4" action="{{ url('/menu-purchase-order/store/' . $dv->id) }}"
                                 method="POST" enctype="multipart/form-data">
                                 @csrf
-
                                 <table class="table table-bordered mt-2 mx-2 item order-entry">
                                     <tr style="text-align: center;">
                                         <th
@@ -88,9 +87,6 @@
                                         <th
                                             style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             Total</th>
-
-
-
                                     </tr>
                                     @php
                                         $id = 0;
@@ -127,26 +123,21 @@
                                                     <option value="Pax">Pax </option>
                                                 </select>
                                             </td>
-
                                             <td>
                                                 @if($dv->matauang == 'RP')
                                                 <input type="text" name="unit_price[]" placeholder="Input Price"
                                                     class="form-control text-end form-calc form-cost rupiah"
                                                     style="text-align: right;" required />
-
                                                 @elseif($dv->matauang == 'USD')
                                                 <input type="text" name="unit_price[]" placeholder="Input Price"
                                                     class="form-control text-end form-calc form-cost dolar"
                                                     style="text-align: right;" required />
-
                                                 @endif
-
                                             </td>
                                             <td>
                                                 <input type="text" name="total[]" class="form-control form-line"
                                                     style="text-align: right;" required />
                                             </td>
-
                                         </tr>
                                     @endforeach
                                 </table>
@@ -171,7 +162,6 @@
                                             <input class="form-control discount form-calc rupiah text-end" type="text" id="discount"
                                                 name="discount">
                                         </td>
-
                                     </tr>
                                     <tr>
                                         <td>
@@ -219,7 +209,6 @@
                                         height: 56px;
                                     }
                                 </style>
-
                                 <div class="col-md-4 mt-3">
                                     <div class="form-group">
                                         <label class="form-label" style="font-weight: bold;"><i
@@ -232,7 +221,6 @@
                                             <option value="privateperson">Private Person</option>
                                             <option value="ecommerce">Ecommerce</option>
                                         </select>
-
                                         <select class=" form-select perusahaan_0 hide mt-2" id="selectedInput"
                                             name="perusahaan">
                                             @foreach ($pt as $p)
@@ -240,14 +228,12 @@
                                                 </option>
                                             @endforeach
                                         </select>
-
                                         <select class=" form-select privateperson_0 hide" id="selectedInput2" name="orangpribadi">
                                             @foreach ($op as $o)
                                                 <option value="{{ $o->id }}">{{ $o->nama }}
                                                 </option>
                                             @endforeach
                                         </select>
-
                                         <select class=" form-select ecommerce_0 hide" id="selectedInput3" name="ecommerce">
                                             @foreach ($ec as $e)
                                                 <option value="{{ $e->id }}">{{ $e->nama }}
@@ -256,7 +242,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-md-4 mt-3">
                                     <div class="form-group">
                                         <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
@@ -303,7 +288,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-md-12">
                                     <div class="form-group" >
                                         <label class="form-label">
@@ -313,7 +297,6 @@
                                             <input type="file" name="path_quotation" class="form-control form-control-lg">
                                     </div>
                                 </div>
-
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                     <a type="reset" class="btn btn-dark"
@@ -321,7 +304,6 @@
                                 </div>
                             </form> --}}
                             {{-- @if(empty($vendor->vendorable->nama))
-
                             @else
                             @foreach ($items as $po)
                             <div class="card card-absolute mt-4">
@@ -343,7 +325,6 @@
                                             </label>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
@@ -356,7 +337,6 @@
                                             </label>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
@@ -370,8 +350,6 @@
                                             </label>
                                         </div>
                                     </div>
-
-
                                     <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
@@ -443,7 +421,6 @@
                                         </td>
                                     </tr>
                                     <tr>
-
                                         <td><input class="mt-1 pull-right check-box" type="checkbox"
                                                 value="{{ $vendor->ppn }}"
                                                 @if ($vendor->ppn == 1) @checked(true)
@@ -485,7 +462,6 @@
                                     @endif
                                     @endif
                                 </table>
-
                                 <div class="form-group mt-4" style="text-align:right;">
                                     <a type="reset" class="btn btn-dark"
                                         href="{{ url('/menu-purchase-order/') }}">Back</a>
@@ -600,7 +576,7 @@
                                                         Qty</th>
                                                     <th
                                                         style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                        Category</th>
+                                                        UOM</th>
                                                     <th
                                                         style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                         Price-per-unit</th>
@@ -692,6 +668,16 @@
                                                     <td>
                                                         <label class="pull-right"
                                                             style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            Ongkir :</label>
+                                                    </td>
+                                                    <td>
+                                                        <input  class="ongkir form-control text-end rupiah" type="text" name="ongkir">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label class="pull-right"
+                                                            style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
                                                             Discount :</label>
                                                     </td>
                                                     <td class="text-end">
@@ -735,12 +721,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <div class="mt-2" style="float: right;">
-                                                <button type="button" name="add"
-                                                    class="addItem btn btn-outline-primary"> AddItem
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
+
                                             <div class="col-md-12 mt-4">
                                                 <div class="form-group">
                                                     <label class="form-label" style="font-weight: bold;"><i
@@ -779,12 +760,7 @@
                                                 <a type="reset" class="btn btn-dark"
                                                     href="{{ url('/menu-purchase-order/') }}">Back</a>
                                             </div>
-                                            <div>
-                                                <button type="button" name="add"
-                                                    class="addPO btn btn-outline-primary disabled"> Add Vendor
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -798,17 +774,14 @@
                                     height: 0;
                                     opacity: 0;
                                 }
-
                                 .hide {
                                     width: 0;
                                     height: 0;
                                     opacity: 0;
                                 }
-
                                 .page {
                                     height: 60px;
                                 }
-
                                 .terms {
                                     height: 60px;
                                 }
@@ -877,7 +850,6 @@
                                             total += parseInt($(this).val() || 0);
                                         });
                                         $(".total_A").text(total.toLocaleString('en-US'));
-
                                         var diskon = document.querySelector(".discount");
                                         diskon.addEventListener("input", function() {
                                             var disc = diskon.value;
@@ -886,7 +858,6 @@
                                            discount = total - discint;
                                            console.log(discount);
                                            $(".total_disc").text(discount.toLocaleString('en-US'));
-
                                         var checkbox = document.querySelector(".check-box");
                                         checkbox.addEventListener('change', (event) => {
                                             if (event.currentTarget.checked) {
@@ -965,7 +936,6 @@
                                         rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
                                         return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                     }
-
                                     $(".order-entry").on("keyup", ".form-calc", function() {
                                         var parent = $(this).closest("tr");
                                         var str = parent.find(".form-cost").val();
@@ -1105,7 +1075,6 @@
                                                                 </option>
                                                                 <option value="ecommerce">Ecommerce</option>
                                                             </select>
-
                                                             <select class=" form-select perusahaan_0 hide mt-2"
                                                                 id="selectedInput" name="perusahaan">
                                                                 @foreach ($pt as $p)
@@ -1113,7 +1082,6 @@
                                                                 </option>
                                                                 @endforeach
                                                             </select>
-
                                                             <select class=" form-select privateperson_0 hide"
                                                                 id="selectedInput2" name="orangpribadi">
                                                                 @foreach ($op as $o)
@@ -1121,7 +1089,6 @@
                                                                 </option>
                                                                 @endforeach
                                                             </select>
-
                                                             <select class=" form-select ecommerce_0 hide"
                                                                 id="selectedInput3" name="ecommerce">
                                                                 @foreach ($ec as $e)
@@ -1131,7 +1098,6 @@
                                                             </select>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-md-6 page" style="margin-top: 10px;">
                                                         <div class="form-group">
                                                             <label for="floatingQuotation"><i
@@ -1207,10 +1173,6 @@
                                                         <th
                                                             style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                             Action</th>
-
-
-
-
                                                     </tr>
                                                     @php
                                                     $id = 0;
@@ -1247,7 +1209,6 @@
                                                             <option value="Pax">Pax </option>
                                                         </select>
                                                     </td>
-
                                                     <td>
                                                         <input type="text" name="unit_price[]"
                                                             placeholder="Input Price"
@@ -1268,11 +1229,9 @@
                                                     <td style="text-align: center;"><button type="button"
                                                             class="btn btn-danger remove-input-field"><i
                                                                 class="fa fa-times"></i></button></td>
-
                                                     </tr>
                                                     @endforeach
                                                 </table>
-
                                                 <table class="table table-bordered  mx-2" style="margin-top: 0px;">
                                                     <tr>
                                                         <td>
@@ -1296,7 +1255,6 @@
                                                                 class="form-control discount form-calc rupiah text-end"
                                                                 type="text" id="discount" name="discount">
                                                         </td>
-
                                                     </tr>
                                                     <tr>
                                                         <td>
@@ -1369,10 +1327,8 @@
                                         </div>
                                     </div>
                             </form>
-
                             </div>`;
         $(".po").append(po)
-
         $('.js-example-basic-multiple').select2();
         var pageSelect = $('.pageSelect');
         var selectedInput = $('.perusahaans_' + vendor);
@@ -1408,7 +1364,6 @@
             selectedInput3.addClass('hide');
             }
         })
-
         var pageSelector = $('.pageSelector');
         var customInput = $('.customInput_'+vendor);
         pageSelector.on('change', function() {
@@ -1418,7 +1373,6 @@
             customInput.addClass('hide');
             }
         })
-
         }
         $(document).on('click', '.remove-input-field', function() {
                                     $(this).parents('tr').remove();
@@ -1438,7 +1392,6 @@
        var po = `<tbody>
         <tr><td><select class="js-example-basic-multiple" multiple="multiple"placeholder="Proposed To" name="item_ppid_`+ a +`[]" >@foreach ($pengajuan as $i)<option value="{{ $i->id }}">{{ $i->item }}</option>@endforeach</select></td><td><select class="form-select  pageSelect" id=""placeholder="Proposed To" name="vendor[]"><option value="" disabled selected hidden>Select Vendor</option><option value="company_`+ vendor +`">Company</option><option value="privateperson_`+ vendor +`">Private Person</option><option value="ecommerce_`+ vendor +`">Ecommerce</option></select><select class=" form-select hide  mt-2 perusahaans_`+ vendor +`" id=""name="perusahaan[]">@foreach ($pt as $p)<option value="{{ $p->id }}">{{ $p->nama }}</option>@endforeach</select><select class=" form-select hide privatepersons_`+ vendor +`" id="" name="orangpribadi[]">@foreach ($op as $o)<option value="{{ $o->id }}">{{ $o->nama }}</option>@endforeach</select><select class=" form-select  hide ecommerces_`+ vendor +`" id="" name="ecommerce[]">@foreach ($ec as $e)<option value="{{ $e->id }}">{{ $e->nama }}</option>@endforeach</select></td><td><div><input required type="text" class="form-control"id="floatingQuotation" placeholder="Quotation" name="quotation[]"><div class="invalid-feedback"></div></div> </td><td><select class="form-select pageSelector" id="pageSelector"placeholder="Terms and Conditions" name="term_conditions[]"><option value="" disabled selected hidden>Terms And Conditions</option>@foreach ($terms as $t)<option value="{{ $t->id }}">{{ $t->term_condition }}</option>@endforeach<option value="customs_`+ vendor +`">+ Add Terms & Conditions</option></select><textarea class="hide form-control mt-2 customInput_`+ vendor +`" name="term_condition[]" id="customInput" cols="30" rows="5"placeholder="Input Terms And Conditions"></textarea></td></tr></tbody>`;
         $(".po").append(po)
-
         $('.js-example-basic-multiple').select2();
         var pageSelect = $('.pageSelect');
         var selectedInput = $('.perusahaans_' + vendor);
@@ -1474,7 +1427,6 @@
             selectedInput3.addClass('hide');
             }
         })
-
         var pageSelector = $('.pageSelector');
         var customInput = $('.customInput_'+vendor);
         pageSelector.on('change', function() {
@@ -1484,7 +1436,6 @@
             customInput.addClass('hide');
             }
         })
-
         }
         $(document).on('click', '.remove-input-field', function() {
                                     $(this).parents('tr').remove();

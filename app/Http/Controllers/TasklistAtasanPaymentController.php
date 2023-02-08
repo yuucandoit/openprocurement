@@ -9,6 +9,7 @@ use App\Models\CategoryPT;
 use App\Models\Comment;
 use App\Models\Department;
 use App\Models\Invoicing;
+use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
@@ -128,26 +129,57 @@ class TasklistAtasanPaymentController extends Controller
     }
 
     public function detail($id)
+    // {
+    //     $data_pengajuan = CategoryPengajuanPembelian::find($id);
+    //     $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+    //     $datacpo            = CategoryPO::where('ppb_id',$id)->first();
+    //     $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+    //     $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+    //     $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+    //     $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+    //     $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+    //     $comments           = Comment::where('ppb_id',$id)->get();
+    //     return view('taskList_atasan_payments.menu.detail')
+    //         ->with('pengajuan', $pengajuan)
+    //         ->with('dpp', $dpp)
+    //         ->with('ppn', $ppn)
+    //         ->with('datacpo',$datacpo)
+    //         ->with('total', $total)
+    //         ->with('disc', $disc)
+    //         ->with('comments', $comments)
+    //         ->with('total_tnpa_ppn', $total_tnpa_ppn)
+    //         ->with('data_pengajuan', $data_pengajuan);
+    // }
     {
-        $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
-        $datacpo            = CategoryPO::where('ppb_id',$id)->first();
+        $data_pengajuan     = CategoryPengajuanPembelian::find($id);
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+        // dd($pengajuan);
+        $datapo             = CategoryPO::where('ppb_id', $id)->first();
+        $items              = CategoryPO::where('ppb_id',$id)->get();
+        $vendor             = CategoryPO::where('ppb_id',$id)->first();
+        $comments           = Comment::where('ppb_id',$id)->get();
+        $groupedItem        = ItemPO::groupBy('po_id')->get();
+        $itempurchase       = ItemPO::groupBy('po_id')->first();
+        // dd($vendor->itempo);
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
-        $comments           = Comment::where('ppb_id',$id)->get();
+        $disc               = PengajuanPembelian::where('pp_id', $id)->first();
         return view('taskList_atasan_payments.menu.detail')
             ->with('pengajuan', $pengajuan)
+            ->with('datapo',$datapo)
+            ->with('groupedItem',$groupedItem)
+            ->with('items',$items)
+            ->with('itempurchase',$itempurchase)
+            ->with('vendor',$vendor)
+            ->with('comments', $comments)
+            ->with('data_pengajuan', $data_pengajuan)
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
-            ->with('datacpo',$datacpo)
             ->with('total', $total)
-            ->with('disc', $disc)
-            ->with('comments', $comments)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('data_pengajuan', $data_pengajuan);
+            ->with('disc', $disc);
     }
 
     /**

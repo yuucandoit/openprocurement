@@ -438,7 +438,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/exportpdf/po/{id}', [PurchaseOrderController::class, 'exportpdf'])->name('export_po.pdf');
     Route::get('/exportpdf/po_id/{id}', [PurchaseOrderController::class, 'exportpdf_poid'])->name('export_po_id.pdf');
     Route::get('/exportpdf/po_multi/{id}', [PurchaseOrderController::class, 'exportmultipdf'])->name('exportmultipo.pdf');
-    Route::get('/exportpdf/pymnt/{id}', [CategoryPDController::class, 'exportpdf'])->name('export_po.pdf');
+    Route::get('/exportpdf/pymnt/{id}', [CategoryPDController::class, 'exportpdf'])->name('export_py.pdf');
+    Route::get('/exportpdf/pymnt_id/{id}', [CategoryPDController::class, 'exportpdf_pyid'])->name('export_py_id.pdf');
+    Route::get('/exportpdf/pymnt_multi/{id}', [CategoryPDController::class, 'exportpdf_multi'])->name('export_py_multi.pdf');
     //End Route Export
 
     //Route Import Private Person

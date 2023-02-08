@@ -16,33 +16,6 @@
                             <li class="breadcrumb-item active">Details</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
             <!-- Container-fluid starts-->
@@ -54,6 +27,8 @@
                                 <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
                             </div>
                             <div class="card-body">
+                                <div class="row">
+                                <div class="col-md-6">
                                 <table class="table table-bordered mt-4">
                                     <tbody>
                                         <tr>
@@ -106,179 +81,57 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-bordered mt-4 mb-4 order-entry">
+                                        <thead>
+                                            <tr class="text-center"
+                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
+                                                <th>Item</th>
+                                                <th>Qty</th>
+                                                <th>Category</th>
+                                                <th>File</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach ($pengajuan as $p)
+                                            {{-- @php
+                                                foreach ($items as $item) {
+                                                    foreach ($item->itempo as $i) {
+                                                        $qtypo = $i->qty;
+                                                        $qtypp = $p->qty;
+                                                        $sum = $qtypo - $qtypp;
+                                                    }
+                                                }
+                                            @endphp --}}
+                                                <tr>
+                                                    <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
+                                                    <td style="text-align: center;">{{ $p->qty }}</td>
+                                                    <td style="text-align: center;">{{ $p->kategori }}</td>
+                                                    <td style="text-align: center;">
+                                                    @if(empty($p->path_file))
+                                                     -
+                                                    @else
+                                                    <a href="/upload_pengajuan/{{ $p->path_file }}" class="btn btn-danger" target="_blank">See File</a>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
                                 <div class="container-fluid">
                                     <div class="row">
                                       <div class="col-md-12">
                                         <div class="card">
                                         @if (empty($vendor->vendorable->nama))
-                                        <table class="table table-bordered mt-4 mb-4 order-entry">
-                                            <thead>
-                                                <tr class="text-center"
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
-                                                    <th>Item</th>
-                                                    <th>Qty</th>
-                                                    <th>Category</th>
-                                                    <th>File</th>
-                                                    <th>Price-per-unit</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($pengajuan as $p)
-                                                    <tr>
-                                                        <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
-                                                        <td style="text-align: center;">{{ $p->qty }}</td>
-                                                        <td style="text-align: center;">{{ $p->kategori }}</td>
-                                                        <td style="text-align: center;">
-                                                        @if(empty($p->path_file))
-                                                         -
-                                                        @else
-                                                        <a href="/upload_pengajuan/{{ $p->path_file }}" class="btn btn-danger" target="_blank">See File</a>
-                                                        @endif
-                                                        </td>
-                                                        @if ($data_pengajuan->matauang == 'RP')
-                                                            <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}
-                                                            </td>
-                                                            <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
-                                                        @elseif ($data_pengajuan->matauang == 'USD')
-                                                            <td style="text-align:right;">$ {{ number_format($p->unit_price /100 ,2) }}
-                                                            </td>
-                                                            <td style="text-align:right;">$ {{ number_format($p->total /100 ,2) }}</td>
-                                                        @endif
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                        <table class="table table-bordered ">
-                                            <tr>
-                                                <td><label class="pull-right mx-2"> DPP :</label></td>
-                                                <td style="text-align: right;">
-                                                    @foreach ($dpp as $d)
-                                                        {{-- Ketika mata uang yang dipilih RP --}}
-                                                        @if ($data_pengajuan->matauang == 'RP')
-                                                            RP. {{ number_format($d->total) }}
-                                                            {{-- Ketika mata uang yang dipilih USD --}}
-                                                        @elseif ($data_pengajuan->matauang == 'USD')
-                                                            $ {{ number_format($d->total     /100 ,2) }}
-                                                        @endif
-                                                    @endforeach
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><label class="pull-right mx-2"> Discount :</label></td>
-                                                <td style="text-align: right;">
-                                                        {{-- Ketika mata uang yang dipilih RP --}}
-                                                        @if ($data_pengajuan->matauang == 'RP')
-                                                            RP. {{ number_format($disc->discount) }}
-                                                            {{-- Ketika mata uang yang dipilih USD --}}
-                                                        @elseif ($data_pengajuan->matauang == 'USD')
-                                                            $ {{ number_format($disc->discount /100 ,2) }}
-                                                        @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                                        value="{{ $data_pengajuan->ppn }}"
-                                                        @if ($data_pengajuan->ppn == 1) @checked(true)
-                                                    @else
-                                                @endif
-                                                        disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
-                                                <td style="text-align:right;">
-                                                    @if ($data_pengajuan->ppn == 1)
-                                                        @foreach ($ppn as $p)
-                                                        @if(empty($disc->discount))
-                                                         {{-- Ketika mata uang yang dipilih RP --}}
-                                                         @if ($data_pengajuan->matauang == 'RP')
-                                                         RP. {{ number_format($p->total) }}
-                                                         {{-- Ketika mata uang yang dipilih USD --}}
-                                                        @elseif ($data_pengajuan->matauang == 'USD')
-                                                            $ {{ number_format($p->total /100 ,2) }}
-                                                        @endif
-
-                                                        @else
-                                                        @php
-                                                            $ppndisc = $p->total - $disc->discount;
-                                                        @endphp
-                                                         {{-- Ketika mata uang yang dipilih RP --}}
-                                                         @if ($data_pengajuan->matauang == 'RP')
-                                                         RP. {{ number_format($ppndisc) }}
-                                                         {{-- Ketika mata uang yang dipilih USD --}}
-                                                        @elseif ($data_pengajuan->matauang == 'USD')
-                                                            $ {{ number_format($ppndisc /100 ,2) }}
-                                                        @endif
-                                                        @endif
-                                                        @endforeach
-                                                    @else
-                                                        @foreach ($ppn as $p)
-                                                            {{-- Ketika mata uang yang dipilih RP --}}
-                                                            @if ($data_pengajuan->matauang == 'RP')
-                                                                RP. 0
-                                                                {{-- Ketika mata uang yang dipilih USD --}}
-                                                            @elseif ($data_pengajuan->matauang == 'USD')
-                                                                $ 0
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @if ($data_pengajuan->ppn == 1)
-                                                <tr>
-                                                    <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-
-                                                    @foreach ($total as $t)
-                                                    @if(empty($disc->discount))
-                                                     {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
-                                                    @if ($data_pengajuan->matauang == 'RP')
-                                                     <td style="text-align:right;">RP. {{ number_format($t->total) }}</td>
-                                                     {{-- jika mata uang yang di pilih USD Maka Return $    --}}
-                                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                                        <td style="text-align:right;">$ {{ number_format($t->total /100 ,2) }}</td>
-                                                    @endif
-
-                                                    @else
-                                                        @php
-                                                            $totalwithdisc = $t->total - $disc->discount;
-                                                        @endphp
-                                                        {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
-                                                        @if ($data_pengajuan->matauang == 'RP')
-                                                            <td style="text-align:right;">RP. {{ number_format($t->total) }}</td>
-
-                                                            {{-- jika mata uang yang di pilih USD Maka Return $    --}}
-                                                        @elseif ($data_pengajuan->matauang == 'USD')
-                                                            <td style="text-align:right;">$ {{ number_format($t->total /100 ,2) }}</td>
-                                                        @endif
-
-                                                    @endif
-                                                    @endforeach
-                                                @elseif ($data_pengajuan->ppn == 0)
-                                                    <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                                                    @foreach ($total_tnpa_ppn as $tpn)
-                                                    @if(empty($disc->discount))
-                                                        @if ($data_pengajuan->matauang == 'RP')
-                                                        <td style="text-align:right;">RP. {{ number_format($tpn->total) }}</td>
-                                                        @elseif ($data_pengajuan->matauang == 'USD')
-                                                            <td style="text-align:right;">$ {{ number_format($tpn->total /100 ,2) }}</td>
-                                                        @endif
-
-                                                    @else
-                                                    @php
-                                                    $tpnwithdisc = $tpn->total - $disc->discount;
-                                                    @endphp
-                                                        @if ($data_pengajuan->matauang == 'RP')
-                                                        <td style="text-align:right;">RP. {{ number_format($tpnwithdisc) }}</td>
-                                                        @elseif ($data_pengajuan->matauang == 'USD')
-                                                            <td style="text-align:right;">$ {{ number_format($tpnwithdisc /100 ,2) }}</td>
-                                                        @endif
-                                                    @endif
-                                                @endforeach
-                                                </tr>
-                                            @endif
-                                        </table>
                                         <div class="card-body">
                                             <h6 class="text-center">PO Not Found</h6>
                                         </div>
                                         @else
                                         @foreach ($items as $po)
+
                                           <div class="card-body">
                                             <div class="default-according" id="accordionclose{{ $po->id }}">
 
@@ -348,9 +201,16 @@
                                                                 </div>
                                                             </div>
                                                     </div>
+                                                @php
+                                                    foreach($po->itempo as $i)
+                                                {
+                                                    $e = $i->po_id;
+                                                }
+                                                @endphp
 
-                                                     @if(empty($vendor->item))
-                                                     <table class="table table-bordered mt-4 mb-4 order-entry">
+                                                    @if(empty($e))
+
+                                                    <table class="table table-bordered mt-4 mb-4 order-entry">
                                                         <thead>
                                                             <tr class="text-center"
                                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
@@ -417,27 +277,13 @@
                                                             <td style="text-align:right;">
                                                                 @if ($data_pengajuan->ppn == 1)
                                                                     @foreach ($ppn as $p)
-                                                                    @if(empty($disc->discount))
-                                                                     {{-- Ketika mata uang yang dipilih RP --}}
-                                                                     @if ($data_pengajuan->matauang == 'RP')
-                                                                     RP. {{ number_format($p->total) }}
-                                                                     {{-- Ketika mata uang yang dipilih USD --}}
-                                                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                                                        $ {{ number_format($p->total /100 ,2) }}
-                                                                    @endif
-
-                                                                    @else
-                                                                    @php
-                                                                        $ppndisc = $p->total - $disc->discount;
-                                                                    @endphp
-                                                                     {{-- Ketika mata uang yang dipilih RP --}}
-                                                                     @if ($data_pengajuan->matauang == 'RP')
-                                                                     RP. {{ number_format($ppndisc) }}
-                                                                     {{-- Ketika mata uang yang dipilih USD --}}
-                                                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                                                        $ {{ number_format($ppndisc /100 ,2) }}
-                                                                    @endif
-                                                                    @endif
+                                                                        {{-- Ketika mata uang yang dipilih RP --}}
+                                                                        @if ($data_pengajuan->matauang == 'RP')
+                                                                            RP. {{ number_format($p->total) }}
+                                                                            {{-- Ketika mata uang yang dipilih USD --}}
+                                                                        @elseif ($data_pengajuan->matauang == 'USD')
+                                                                            $ {{ number_format($p->total /100 ,2) }}
+                                                                        @endif
                                                                     @endforeach
                                                                 @else
                                                                     @foreach ($ppn as $p)
@@ -457,19 +303,6 @@
                                                                 <td class="text-end" style="font-weight: bold;">Grand Total :</td>
 
                                                                 @foreach ($total as $t)
-                                                                @if(empty($disc->discount))
-                                                                 {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
-                                                                @if ($data_pengajuan->matauang == 'RP')
-                                                                 <td style="text-align:right;">RP. {{ number_format($t->total) }}</td>
-                                                                 {{-- jika mata uang yang di pilih USD Maka Return $    --}}
-                                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                                    <td style="text-align:right;">$ {{ number_format($t->total /100 ,2) }}</td>
-                                                                @endif
-
-                                                                @else
-                                                                    @php
-                                                                        $totalwithdisc = $t->total - $disc->discount;
-                                                                    @endphp
                                                                     {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
                                                                     @if ($data_pengajuan->matauang == 'RP')
                                                                         <td style="text-align:right;">RP. {{ number_format($t->total) }}</td>
@@ -478,38 +311,24 @@
                                                                     @elseif ($data_pengajuan->matauang == 'USD')
                                                                         <td style="text-align:right;">$ {{ number_format($t->total /100 ,2) }}</td>
                                                                     @endif
-
-                                                                @endif
                                                                 @endforeach
                                                             @elseif ($data_pengajuan->ppn == 0)
                                                                 <td class="text-end" style="font-weight: bold;">Grand Total :</td>
                                                                 @foreach ($total_tnpa_ppn as $tpn)
-                                                                @if(empty($disc->discount))
                                                                     @if ($data_pengajuan->matauang == 'RP')
-                                                                    <td style="text-align:right;">RP. {{ number_format($tpn->total) }}</td>
+                                                                        <td style="text-align:right;">RP. {{ number_format($tpn->total) }}</td>
                                                                     @elseif ($data_pengajuan->matauang == 'USD')
                                                                         <td style="text-align:right;">$ {{ number_format($tpn->total /100 ,2) }}</td>
                                                                     @endif
-
-                                                                @else
-                                                                @php
-                                                                $tpnwithdisc = $tpn->total - $disc->discount;
-                                                                @endphp
-                                                                    @if ($data_pengajuan->matauang == 'RP')
-                                                                    <td style="text-align:right;">RP. {{ number_format($tpnwithdisc) }}</td>
-                                                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                                                        <td style="text-align:right;">$ {{ number_format($tpnwithdisc /100 ,2) }}</td>
-                                                                    @endif
-                                                                @endif
-                                                            @endforeach
+                                                                @endforeach
                                                             </tr>
                                                         @endif
                                                     </table>
-                                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po/' . $data_pengajuan->id) }}"
-                                                        target="_blank" style="font-size:12;">Export PDF PO</i>
-                                                    </a>
-                                                     @else
-                                                    {{-- <table class="table table-bordered item order-entry mx-2">
+
+                                                    @else
+
+
+                                                    <table class="table table-bordered item order-entry mx-2">
                                                         <tr style="text-align: center;">
                                                             <th
                                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
@@ -533,422 +352,126 @@
                                                         @php
                                                             $id = 1;
                                                         @endphp
-                                                        @foreach ($datapo as $i)
-                                                            @if ($i->vendorable_id == $po->vendorable_id)
-                                                                @if ($i->vendorable_type == $po->vendorable_type)
+                                                        @foreach ($po->itempo as $item)
+                                                        {{-- {{ dd($item) }} --}}
                                                                 <tr>
                                                                     <td class="text-center">{{ $id++ }}</td>
-                                                                    <td class="text-center">{{ $i->item }}</td>
-                                                                    <td class="text-center">{{ $i->qty }}</td>
-                                                                    <td class="text-center">{{ $i->kategori }}</td>
-                                                                    @if ($i->matauang == 'RP')
+                                                                    <td class="text-center">{{ $item->item }}</td>
+                                                                    <td class="text-center">{{ $item->qty }}</td>
+                                                                    <td class="text-center">{{ $item->kategori }}</td>
+
+                                                                    @if ($item->matauang == 'RP')
                                                                         <td class="text-end">RP.
-                                                                            {{ number_format($i->unit_price) }}</td>
-                                                                        <td class="text-end">RP. {{ number_format($i->total) }}
+                                                                            {{ number_format($item->unit_price) }}</td>
+                                                                        <td class="text-end">RP. {{ number_format($item->total) }}
                                                                         </td>
-                                                                    @elseif($i->matauang == 'USD')
+                                                                    @elseif($item->matauang == 'USD')
                                                                         <td class="text-end">$
-                                                                            {{ number_format($i->unit_price /100 ,2) }}</td>
+                                                                            {{ number_format($item->unit_price /100 ,2) }}</td>
                                                                         <td class="text-end">$
-                                                                            {{ number_format($i->total /100 ,2) }}</td>
+                                                                            {{ number_format($item->total /100 ,2) }}</td>
                                                                     @endif
                                                                 </tr>
-                                                                @endif
-                                                            @endif
                                                         @endforeach
                                                     </table>
                                                     <table class="table table-bordered ">
                                                         <tbody>
-                                                        @foreach ($items as $calculate)
-                                                        @if ($calculate->vendorable_id == $po->vendorable_id)
-                                                        @if ($calculate->vendorable_type == $po->vendorable_type)
+                                                            @foreach ($groupedItem as $value)
+                                                            @if($value->po_id === $po->id)
                                                             <tr>
                                                                 <td><label class="pull-right mx-2"> DPP :</label></td>
                                                                 <td style="text-align: right;">
-                                                                    @if ($calculate->matauang == 'RP')
-                                                                        RP. {{ number_format($calculate->dpp) }}
-                                                                    @elseif ($calculate->matauang == 'USD')
-                                                                        $ {{ number_format($calculate->dpp /100 ,2) }}
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->dpp) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->dpp /100 ,2) }}
                                                                     @endif
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><label class="pull-right mx-2"> Ongkir :</label></td>
                                                                 <td style="text-align: right;">
-                                                                    @if ($calculate->matauang == 'RP')
-                                                                        RP. {{ number_format($calculate->ongkir) }}
-                                                                    @elseif ($calculate->matauang == 'USD')
-                                                                        $ {{ number_format($calculate->ongkir /100 ,2) }}
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->ongkir) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->ongkir /100 ,2) }}
                                                                     @endif
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><label class="pull-right mx-2"> Discount :</label></td>
                                                                 <td style="text-align: right;">
-                                                                    @if ($calculate->matauang == 'RP')
-                                                                        RP. {{ number_format($calculate->discount) }}
-                                                                    @elseif ($calculate->matauang == 'USD')
-                                                                        $ {{ number_format($calculate->discount /100 ,2) }}
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->discount) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->discount /100 ,2) }}
                                                                     @endif
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                                                        value="{{ $calculate->ppn }}"
-                                                                        @if ($calculate->ppn == 1) @checked(true)
+                                                                <td>
+                                                                    <input class="mt-1 pull-right check-box" type="checkbox"
+                                                                        value="{{ $value->ppn }}"
+                                                                        @if ($value->ppn == 1) @checked(true)
                                                                         @else
                                                                         @endif
                                                                         disabled="true"><label class="pull-right mx-2"> PPN 11%
-                                                                        :</label></td>
+                                                                        :</label>
+                                                                    </td>
                                                                 <td style="text-align:right;">
-                                                                    @if ($calculate->ppn == 1)
+                                                                    @if ($value->ppn == 1)
                                                                     @php
-                                                                        $dpp = $calculate->dpp;
-                                                                        $disc = $calculate->discount;
+                                                                        $dpp = $value->dpp;
+                                                                        $disc = $value->discount;
                                                                         $afterdisc = $dpp - $disc;
                                                                         $ppn = $afterdisc *11 /100;
                                                                     @endphp
-                                                                        @if ($calculate->matauang == 'RP')
+                                                                        @if ($value->matauang == 'RP')
                                                                             RP. {{ number_format($ppn) }}
-                                                                        @elseif ($calculate->matauang == 'USD')
+                                                                        @elseif ($value->matauang == 'USD')
                                                                             $ {{ number_format($ppn /100 ,2) }}
                                                                         @endif
                                                                     @else
-                                                                        @if ($calculate->matauang == 'RP')
+                                                                        @if ($value->matauang == 'RP')
                                                                             RP. 0
-                                                                        @elseif ($calculate->matauang == 'USD')
+                                                                        @elseif ($value->matauang == 'USD')
                                                                             $ 0
                                                                         @endif
                                                                     @endif
+
                                                                 </td>
                                                             </tr>
 
                                                             <tr>
-                                                                    <td class="text-end" style="font-weight: bold;">Grand Total
+                                                                <td class="text-end" style="font-weight: bold;">Grand Total
                                                                         :</td>
-                                                                @if ($calculate->ppn == 1)
                                                                 <td style="text-align:right;">
-                                                                    @if ($calculate->matauang == 'RP')
-                                                                        RP.{{ number_format($calculate->grand_total) }}
-                                                                    @elseif ($calculate->matauang == 'USD')
-                                                                        ${{ number_format($calculate->grand_total /100 ,2) }}
+                                                                @if ($value->ppn == 1)
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP.{{ number_format($value->grand_total) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        ${{ number_format($value->grand_total /100 ,2) }}
                                                                     @endif
-                                                                </td>
-                                                                @elseif ($calculate->ppn == 0)
-                                                                <td style="text-align:right;">
-                                                                    @if ($calculate->matauang == 'RP')
-                                                                    RP.{{ number_format($calculate->grand_total) }}</td>
-                                                                    @elseif ($calculate->matauang == 'USD')
-                                                                    ${{ number_format($calculate->grand_total /100 ,2) }}
+                                                                @elseif ($value->ppn == 0)
+                                                                    @if ($value->matauang == 'RP')
+                                                                    RP.{{ number_format($value->grand_total) }}</td>
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                    ${{ number_format($value->grand_total /100 ,2) }}
                                                                     @endif
-                                                                </td>
-                                                                </tr>
+
+                                                                @endif
+                                                            </td>
+                                                            </tr>
                                                             @endif
-                                                            @endif
-                                                        @endif
-                                                        @endforeach
-                                                        </tbody>
-                                                    </table> --}}
-                                                    {{-- <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_multi/' . $data_pengajuan->id) }}"
+                                                            @endforeach
+                                                            </tbody>
+                                                    </table>
+                                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                                         target="_blank" style="font-size:12;">Export PDF PO</i>
                                                     </a>
-                                                    <button type="button" name="add" class=" btn btn-warning mt-3"  data-bs-toggle="modal"
-                                                    data-bs-target="#modalEditPO{{ $po->item_ppid }}" > Edit
-                                                        PO
-                                                        <i class="fa fa-plus"></i>
-                                                    </button> --}}
+                                                    <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
+
                                                     @endif
-                                                    {{-- <div class="modal fade" id="modalEditPO{{ $po->item_ppid }}" tabindex="-1" aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h2 class="modal-title">Edit PO</h2>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form class="row g-2 mt-4" action="{{ url('/menu-purchase-order/update/' . $data_pengajuan->id) }}"
-                                                                        method="POST" enctype="multipart/form-data">
-                                                                        @csrf
-                                                                        <input type="hidden" name="item_ppid" value="{{ $po->item_ppid }}">
-                                                                        <div class="col-md-4 ">
-                                                                            <div class="form-group">
-                                                                                <label class="form-label" style="font-weight: bold;"><i
-                                                                                        class="fa fa-database"></i> Select
-                                                                                    Vendor</label>
-                                                                                <select class="form-select page pageSelectEdit" id="pageSelectEdit"
-                                                                                    placeholder="Proposed To" name="vendor">
-                                                                                    <option value="" disabled selected hidden>Select
-                                                                                        Vendor
-                                                                                    </option>
-                                                                                    <option value="company">Company</option>
-                                                                                    <option value="privateperson">Private Person
-                                                                                    </option>
-                                                                                    <option value="ecommerce">Ecommerce</option>
-                                                                                </select>
-
-                                                                                <select class=" form-select perusahaan_0_edit hide mt-2" id="selectedInput_edit"
-                                                                                    name="perusahaan">
-                                                                                    @foreach ($pt as $p)
-                                                                                    <option value="{{ $p->id }}">{{ $p->nama }}
-                                                                                    </option>
-                                                                                    @endforeach
-                                                                                </select>
-
-                                                                                <select class=" form-select privateperson_0_edit hide" id="selectedInput2_edit"
-                                                                                    name="orangpribadi">
-                                                                                    @foreach ($op as $o)
-                                                                                    <option value="{{ $o->id }}">{{ $o->nama }}
-                                                                                    </option>
-                                                                                    @endforeach
-                                                                                </select>
-
-                                                                                <select class=" form-select ecommerce_0_edit hide" id="selectedInput3_edit"
-                                                                                    name="ecommerce">
-                                                                                    @foreach ($ec as $e)
-                                                                                    <option value="{{ $e->id }}">{{ $e->nama }}
-                                                                                    </option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-md-4 page" style="margin-top: 10px;">
-                                                                            <div class="form-group">
-                                                                                <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
-                                                                                    Quotation</label>
-                                                                                <div class="form-floating">
-                                                                                    <input required type="text" class="form-control" id="floatingQuotation"
-                                                                                        placeholder="Quotation" name="quotation" value="{{ $po->quotation }}">
-                                                                                    <div class="invalid-feedback"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label class="form-label" style="font-weight: bold;"><i
-                                                                                        class="fa fa-file-text-o"></i> Terms &
-                                                                                    Conditions</label>
-                                                                                <select class="form-select page pageSelectorEdit" id="pageSelectorEdit"
-                                                                                    placeholder="Terms and Conditions" name="term_conditions">
-                                                                                    <option value="{{ $po->term_conditions }}" selected >
-                                                                                        {{ $po->term->term_condition }}
-                                                                                    </option>
-                                                                                    @foreach ($terms as $t)
-                                                                                    <option value="{{ $t->id }}">
-                                                                                        {{ $t->term_condition }}
-                                                                                    </option>
-                                                                                    @endforeach
-                                                                                    <option value="custom_edit">+ Add Terms & Conditions
-                                                                                    </option>
-                                                                                </select>
-                                                                                <textarea class="hide form-control customInput_edit" name="term_condition"
-                                                                                    cols="30" rows="10"
-                                                                                    placeholder="Input Terms And Conditions"></textarea>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label class="form-label">
-                                                                                    <i class="fa fa-file-pdf-o" style="font-weight: bold;"></i>
-                                                                                    Upload Quotation
-                                                                                </label>
-                                                                                <input type="file" name="path_quotation" class="form-control form-control-lg">
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-md-4 ">
-                                                                            <div class="form-group">
-                                                                                <label class="form-label" style="font-weight: bold;"><i
-                                                                                        class="icofont icofont-stamp"></i> Send Approval To:</label>
-                                                                                <select class="form-select page" id="floatingproposedto"
-                                                                                    placeholder="Proposed To" name="atasan_po" required="">
-                                                                                    <option selected="" value="{{ $data_pengajuan->atasan_po }}">
-                                                                                        {{ $data_pengajuan->atasans->name }}
-                                                                                    </option>
-                                                                                    @foreach ($atasan as $sui)
-                                                                                    <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i>
-                                                                                    Currency :</label>
-                                                                                <select class="form-select page" id="floatingdateline" placeholder="Mata Uang"
-                                                                                    name="matauang" required="">
-                                                                                    <option selected="" value="{{ $po->matauang }}">
-                                                                                        {{ $po->matauang }}
-                                                                                    </option>
-                                                                                    <option value="USD">USD</option>
-                                                                                    <option value="RP">RP</option>
-                                                                                </select>
-                                                                                @error('matauang')
-                                                                                <div class="invalid-feedback">
-                                                                                    {{ $message }}
-                                                                                </div>
-                                                                                @enderror
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <table class="table table-bordered item order-entry-edit mx-2">
-                                                                            <tr style="text-align: center;">
-                                                                                <th
-                                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                                                    Item</th>
-                                                                                <th
-                                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                                                    Qty</th>
-                                                                                <th
-                                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                                                    Category</th>
-                                                                                <th
-                                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                                                    Price-per-unit</th>
-                                                                                <th
-                                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                                                    Total</th>
-                                                                                <th
-                                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                                                    Action</th>
-                                                                            </tr>
-                                                                            @php
-                                                                            $id = 0;
-                                                                            $id++;
-                                                                            @endphp
-                                                                        @foreach ($datapo as $i)
-                                                                            @if ($i->vendorable_id == $po->vendorable_id)
-                                                                                @if ($i->vendorable_type == $po->vendorable_type)
-
-                                                                            <td class="text">
-                                                                                <input type="text" name="id[]" placeholder="Input Item" class="form-control"
-                                                                                    style="text-align: center;" value="{{ $i->id }}" hidden />
-                                                                                <input type="text" placeholder="Input Item" class="form-control" name="item[]"
-                                                                                    style="text-align: center;" value="{{ $i->item }}" />
-                                                                            </td>
-                                                                            <td><input type="number" name="qty[]" placeholder="Input Quantity"
-                                                                                    class="form-control form-calc-edit form-qty-edit" style="text-align: center;"
-                                                                                    value="{{ $i->qty }}" min="1" max="{{ $i->qty }}" />
-                                                                            </td>
-                                                                            <td>
-                                                                                <select class="form-select " placeholder="Kategori" name="kategori[]"
-                                                                                    value="{{ $i->kategori }}">
-                                                                                    <option value="{{ $i->kategori }}">
-                                                                                        {{ $i->kategori }}</option>
-                                                                                    <option value="Pcs">Pcs </option>
-                                                                                    <option value="Lusin">Lusin </option>
-                                                                                    <option value="Box">Box </option>
-                                                                                    <option value="Unit">Unit </option>
-                                                                                    <option value="Lot">Lot </option>
-                                                                                    <option value="Rim">Rim </option>
-                                                                                    <option value="Org">Org </option>
-                                                                                    <option value="Line">Line </option>
-                                                                                    <option value="Ruang">Ruang </option>
-                                                                                    <option value="Pax">Pax </option>
-                                                                                    <option value="Set">Set </option>
-                                                                                    <option value="Piece">Piece </option>
-                                                                                    <option value="Rol">Rol </option>
-                                                                                    <option value="Pack">Pack </option>
-                                                                                    <option value="Batang">Batang </option>
-                                                                                </select>
-                                                                            </td>
-
-                                                                            <td>
-                                                                                <input type="text" name="unit_price[]" placeholder="Input Price"
-                                                                                    class="form-control text-end form-calc-edit form-cost-edit rupiah"
-                                                                                    style="text-align: right;" value="{{ $i->unit_price }}" required />
-                                                                            </td>
-                                                                            <td>
-                                                                                <input type="text" name="total[]" class="form-control form-line-edit"
-                                                                                    style="text-align: right;" value="{{ $i->total }}" required />
-                                                                            </td>
-                                                                            <td style="text-align: center;"><button type="button"
-                                                                                    class="btn btn-danger remove-input-field"><i
-                                                                                        class="fa fa-times"></i></button></td>
-
-                                                                            </tr>
-                                                                            @endif
-                                                                            @endif
-                                                                            @endforeach
-                                                                        </table>
-
-                                                                        <table class="table table-bordered  mx-2" style="margin-top: 0px;">
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <label class="pull-right"
-                                                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                                        DPP :</label>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input  class="total_A-edit form-control disabled text-end " type="text" name="dpp">
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <label class="pull-right"
-                                                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                                        Ongkir :</label>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input  class="ongkir-edit form-control text-end rupiah" type="text" name="ongkir">
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <label class="pull-right"
-                                                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                                        Discount :</label>
-                                                                                </td>
-                                                                                <td class="text-end">
-                                                                                    <input class="form-control discount-edit form-calc-edit rupiah text-end" type="text"
-                                                                                        id="discount-edit" name="discount">
-                                                                                </td>
-
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <label class="pull-right"
-                                                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;After
-                                                                                        Discount :</label>
-                                                                                </td>
-                                                                                <td class="total_disc-edit text-end">
-                                                                                    <input style="display: none;" class=" total_disc-edit " type="text"
-                                                                                        name="total_disc">
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <input class="mt-1 pull-right check-box-edit" type="checkbox" name="ppn"
-                                                                                        value="1" {{ old('ppn-edit', 0)===1 ? 'checked' : '' }}>
-                                                                                    <label class="pull-right" style="font-weight: bold;"> PPN 11%
-                                                                                    </label>
-                                                                                </td>
-                                                                                <td class="ppn-edit text-end">
-                                                                                    <input style="display: none;" class="ppn-edit" type="text" name="ppn">
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="text-end" style="font-weight: bold;">Grand Total
-                                                                                    :</td>
-                                                                                <td>
-                                                                                    <input class="form-control text-end total-edit"
-                                                                                        type="text" name="grand_total">
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-
-                                                                        <div class="form-group" style="text-align:right;">
-                                                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                                                            <a type="reset" class="btn btn-dark"
-                                                                                href="{{ url('/menu-purchase-order/') }}">Back</a>
-                                                                        </div>
-                                                                </div>
-                                                            </div>
-                                                            </form>
-                                                        </div>
-                                                    </div> --}}
                                                   </div>
                                                 </div>
                                               </div>
@@ -1078,7 +601,7 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="modal fade" id="modalCreatePO" tabindex="-1" aria-hidden="true">
+                                <div class="modal fade" id="modalCreatePO" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -1090,15 +613,7 @@
                                                 <form class="row g-2 mt-4" action="{{ url('/menu-purchase-order/store/' . $data_pengajuan->id) }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
-                                                    @if(empty($id_item->item_ppid))
-                                                    <input type="hidden" name="item_ppid" value="1">
-                                                    @else
-                                                    @php
-                                                    $item_id = $id_item->item_ppid;
-                                                    $val_id = $item_id + 1;
-                                                    @endphp
-                                                    <input type="hidden" name="item_ppid" value="{{ $val_id }}">
-                                                    @endif
+
 
                                                     <div class="col-md-4 ">
                                                         <div class="form-group">
@@ -1207,7 +722,7 @@
                                                         <div class="form-group">
                                                             <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i>
                                                                 Currency :</label>
-                                                            <select class="form-select page" id="floatingdateline" placeholder="Mata Uang"
+                                                            <select class="form-select page currency" id="floatingdateline" placeholder="Mata Uang"
                                                                 name="matauang" required="">
                                                                 <option value="RP">RP</option>
                                                                 <option value="USD">USD</option>
@@ -1230,10 +745,10 @@
                                                                 Qty</th>
                                                             <th
                                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                                Category</th>
+                                                                UOM</th>
                                                             <th
                                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                                Price-per-unit</th>
+                                                                Unit Price</th>
                                                             <th
                                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                                 Total</th>
@@ -1248,8 +763,7 @@
                                                         @foreach ($pengajuan as $i)
 
                                                         <td class="text">
-                                                            <input type="text" name="id[]" placeholder="Input Item" class="form-control"
-                                                                style="text-align: center;" value="{{ $i->id }}" hidden />
+
                                                             <input type="text" placeholder="Input Item" class="form-control" name="item[]"
                                                                 style="text-align: center;" value="{{ $i->item }}" />
                                                         </td>
@@ -1281,12 +795,8 @@
                                                         </td>
 
                                                         <td>
-                                                            <input type="text" name="unit_price[]" placeholder="Input Price"
-                                                                class="form-control text-end form-calc  rupiah"
-                                                                style="text-align: right;" required />
-
                                                                 <input type="text" name="unit_price[]" placeholder="Input Price"
-                                                                class="form-control text-end form-calc form-cost dollar"
+                                                                class="form-control text-end form-calc form-cost"
                                                                 style="text-align: right;" required />
                                                         </td>
                                                         <td>
@@ -1378,20 +888,21 @@
                                             </div>
                                         </div>
 
+
                                 <div class="mt-4">
                                     <button type="button" name="add" class=" btn btn-outline-primary"  data-bs-toggle="modal"
                                     data-bs-target="#modalCreatePO" > Create
                                         PO
                                         <i class="fa fa-plus"></i>
                                     </button>
-                                </div> --}}
+                                </div>
                             </div>
                             <!-- Container-fluid Ends-->
                         </div>
                     </div>
                 </div>
 
-                {{-- <style>
+                <style>
                     .tutup {
                         width: 0;
                         height: 0;
@@ -1415,336 +926,35 @@
                         height: 60px;
                     }
                 </style>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card card-absolute createPO">
-                                <div class="card-header bg-primary">
-                                    <h5 class="text-white">Create PO</h5>
-                                </div>
-                                <div class="card-body">
-                                    <!-- Floating Labels Form -->
-                                    <form class="row g-2 mt-4" action="{{ url('/menu-purchase-order/store/' . $data_pengajuan->id) }}"
-                                        method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        @if(empty($id_item->item_ppid))
-                                        <input type="hidden" name="item_ppid" value="1">
-                                        @else
-                                        @php
-                                        $item_id = $id_item->item_ppid;
-                                        $val_id = $item_id + 1;
-                                        @endphp
-                                        <input type="hidden" name="item_ppid" value="{{ $val_id }}">
-                                        @endif
 
-                                        <div class="col-md-6 ">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i> Select
-                                                    Vendor</label>
-                                                <select class="form-select page pageSelect" id="pageSelect"
-                                                    placeholder="Proposed To" name="vendor">
-                                                    <option value="" disabled selected hidden>Select
-                                                        Vendor
-                                                    </option>
-                                                    <option value="company">Company</option>
-                                                    <option value="privateperson">Private Person
-                                                    </option>
-                                                    <option value="ecommerce">Ecommerce</option>
-                                                </select>
-
-                                                <select class=" form-select perusahaan_0 hide mt-2" id="selectedInput"
-                                                    name="perusahaan">
-                                                    @foreach ($pt as $p)
-                                                    <option value="{{ $p->id }}">{{ $p->nama }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-
-                                                <select class=" form-select privateperson_0 hide" id="selectedInput2"
-                                                    name="orangpribadi">
-                                                    @foreach ($op as $o)
-                                                    <option value="{{ $o->id }}">{{ $o->nama }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-
-                                                <select class=" form-select ecommerce_0 hide" id="selectedInput3"
-                                                    name="ecommerce">
-                                                    @foreach ($ec as $e)
-                                                    <option value="{{ $e->id }}">{{ $e->nama }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 page" style="margin-top: 10px;">
-                                            <div class="form-group">
-                                                <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
-                                                    Quotation</label>
-                                                <div class="form-floating">
-                                                    <input required type="text" class="form-control" id="floatingQuotation"
-                                                        placeholder="Quotation" name="quotation">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-file-text-o"></i> Terms &
-                                                    Conditions</label>
-                                                <select class="form-select page pageSelector" id="pageSelector"
-                                                    placeholder="Terms and Conditions" name="term_conditions">
-                                                    <option value="" disabled selected hidden>Terms And
-                                                        Conditions
-                                                    </option>
-                                                    @foreach ($terms as $t)
-                                                    <option value="{{ $t->id }}">
-                                                        {{ $t->term_condition }}
-                                                    </option>
-                                                    @endforeach
-                                                    <option value="custom">+ Add Terms & Conditions
-                                                    </option>
-                                                </select>
-                                                <textarea class="hide form-control customInput" name="term_condition"
-                                                    id="customInput" cols="30" rows="10"
-                                                    placeholder="Input Terms And Conditions"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">
-                                                    <i class="fa fa-file-pdf-o" style="font-weight: bold;"></i>
-                                                    Upload Quotation
-                                                </label>
-                                                <input type="file" name="path_quotation" class="form-control form-control-lg">
-                                            </div>
-                                        </div>
-                                        <table class="table table-bordered item order-entry mx-2">
-                                            <tr style="text-align: center;">
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Item</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Qty</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Category</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Price-per-unit</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Total</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Action</th>
-                                            </tr>
-                                            @php
-                                            $id = 0;
-                                            $id++;
-                                            @endphp
-                                            @foreach ($pengajuan as $i)
-
-                                            <td class="text">
-                                                <input type="text" name="id[]" placeholder="Input Item" class="form-control"
-                                                    style="text-align: center;" value="{{ $i->id }}" hidden />
-                                                <input type="text" placeholder="Input Item" class="form-control" name="item[]"
-                                                    style="text-align: center;" value="{{ $i->item }}" />
-                                            </td>
-                                            <td><input type="number" name="qty[]" placeholder="Input Quantity"
-                                                    class="form-control form-calc form-qty" style="text-align: center;"
-                                                    value="{{ $i->qty }}" min="1" max="{{ $i->qty }}" />
-                                            </td>
-                                            <td>
-                                                <select class="form-select " placeholder="Kategori" name="kategori[]"
-                                                    value="{{ $i->kategori }}">
-                                                    <option value="{{ $i->kategori }}">
-                                                        {{ $i->kategori }}</option>
-                                                    <option value="Pcs">Pcs </option>
-                                                    <option value="Lusin">Lusin </option>
-                                                    <option value="Box">Box </option>
-                                                    <option value="Unit">Unit </option>
-                                                    <option value="Lot">Lot </option>
-                                                    <option value="Rim">Rim </option>
-                                                    <option value="Org">Org </option>
-                                                    <option value="Line">Line </option>
-                                                    <option value="Ruang">Ruang </option>
-                                                    <option value="Pax">Pax </option>
-                                                    <option value="Set">Set </option>
-                                                    <option value="Piece">Piece </option>
-                                                    <option value="Rol">Rol </option>
-                                                    <option value="Pack">Pack </option>
-                                                    <option value="Batang">Batang </option>
-                                                </select>
-                                            </td>
-
-                                            <td>
-                                                <input type="text" name="unit_price[]" placeholder="Input Price"
-                                                    class="form-control text-end form-calc form-cost rupiah"
-                                                    style="text-align: right;" required />
-                                            </td>
-                                            <td>
-                                                <input type="text" name="total[]" class="form-control form-line"
-                                                    style="text-align: right;" required />
-                                            </td>
-                                            <td style="text-align: center;"><button type="button"
-                                                    class="btn btn-danger remove-input-field"><i
-                                                        class="fa fa-times"></i></button></td>
-
-                                            </tr>
-                                            @endforeach
-                                        </table>
-
-                                        <table class="table table-bordered  mx-2" style="margin-top: 0px;">
-                                            <tr>
-                                                <td>
-                                                    <label class="pull-right"
-                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        DPP :</label>
-                                                </td>
-                                                <td>
-                                                    <input  class="total_A form-control disabled text-end " type="text" name="dpp">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="pull-right"
-                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        Discount :</label>
-                                                </td>
-                                                <td class="text-end">
-                                                    <input class="form-control discount form-calc rupiah text-end" type="text"
-                                                        id="discount" name="discount">
-                                                </td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="pull-right"
-                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;After
-                                                        Discount :</label>
-                                                </td>
-                                                <td class="total_disc text-end">
-                                                    <input style="display: none;" class=" total_disc " type="text"
-                                                        name="total_disc">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input class="mt-1 pull-right check-box" type="checkbox" name="ppn"
-                                                        value="1" {{ old('ppn', 0)===1 ? 'checked' : '' }}>
-                                                    <label class="pull-right" style="font-weight: bold;"> PPN 11%
-                                                    </label>
-                                                </td>
-                                                <td class="ppn text-end">
-                                                    <input style="display: none;" class="ppn" type="text" name="ppn">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-end" style="font-weight: bold;">Grand Total
-                                                    :</td>
-                                                <td>
-                                                    <input class="form-control text-end total"
-                                                        type="text" name="grand_total">
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <div class="mt-2" style="float: right;">
-                                            <button type="button" name="add" class="addItem btn btn-outline-primary"> AddItem
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-
-                                        <div class="col-md-12 mt-4">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="icofont icofont-stamp"></i> Send Approval To:</label>
-                                                <select class="form-select page" id="floatingproposedto"
-                                                    placeholder="Proposed To" name="atasan_po" required="">
-                                                    <option selected="" disabled="" value="">-- Please Choose
-                                                        One
-                                                        --
-                                                    </option>
-                                                    @foreach ($atasan as $sui)
-                                                    <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i>
-                                                    Currency :</label>
-                                                <select class="form-select page" id="floatingdateline" placeholder="Mata Uang"
-                                                    name="matauang" required="">
-                                                    <option selected="" disabled="" value="">select currency
-                                                    </option>
-                                                    <option value="USD">USD</option>
-                                                    <option value="RP">RP</option>
-                                                </select>
-                                                @error('matauang')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="form-group" style="text-align:right;">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                            <a type="reset" class="btn btn-dark"
-                                                href="{{ url('/menu-purchase-order/') }}">Back</a>
-                                        </div>
-                                        <div>
-                                            <button type="button" name="add" class="addPO btn btn-outline-primary disabled"> Add
-                                                Vendor
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                </div>
-                            </div>
-                            </form>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
     </section>
-    {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
 
     <script>
+        var currency =  document.querySelector('.currency');
+        // console.log(currency);
+
+        currency.addEventListener('change', function(){
+            if (this.value == "USD"){
+            document.querySelector('.form-cost').classList.remove('rupiah');
+            document.querySelector('.form-cost').classList.add('dollar');
+        } else if (this.value == "RP") {
+            document.querySelector('.form-cost').classList.remove('dollar');
+            document.querySelector('.form-cost').classList.add('rupiah');
+        }
+        })
+
+    </script>
+    <script>
         const dollars = document.querySelectorAll('.dollar');
         dollars.forEach(dollar => {
-            new AutoNumeric(dollar,'dollar');
+            new AutoNumeric(dollar,'commaDecimalCharDotSeparator');
         })
-        const
+
     </script>
 
-    </script> --}}
-    {{-- <script type="text/javascript">
-        function createPO(element){
-            if(element.style.display === "none"){
-                element.style.display = "block";
-            }else{
-               element.style.display = "none";
-            }
-        }
-        const button  = document.querySelector('.po');
-        const content = document.querySelector('.createPO');
-
-        button.addEventListener("click", function(){
-            createPO(content);
-        })
-
-        </script> --}}
-    {{-- <script type="text/javascript">
+    <script type="text/javascript">
         //Math
                                 $(document).ready(function() {
                                     //Convert To Rupiah
@@ -1775,7 +985,7 @@
                                         var str = parent.find(".form-cost").val();
                                         var res = str.replace(/\D/g, "");
                                         // var repl = res.replace
-                                        console.log(str);
+                                        console.log(res);
                                         parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
                                         var total = 0;
                                         $(".form-line").each(function() {
@@ -1929,6 +1139,7 @@
     </script>
     <script type="text/javascript">
         var pageSelect = document.querySelector('.pageSelect');
+
                                 var selectedInput = document.querySelector('.perusahaan_0');
                                 var selectedInput2 = document.querySelector('.privateperson_0');
                                 var selectedInput3 = document.querySelector('.ecommerce_0');
@@ -1984,6 +1195,9 @@
                                     rupiah = split[1] != undefined ? rupiah + "." + split[1] : rupiah;
                                     return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                 }
+
+                                var a = 0;
+                                ++a;
                                 $(".order-entry-edit").on("keyup", ".form-calc-edit", function() {
                                     var parent = $(this).closest("tr");
                                     var str = parent.find(".form-cost-edit").val();
@@ -1994,9 +1208,10 @@
                                     $(".form-line-edit").each(function() {
                                         total += parseInt($(this).val() || 0);
                                     });
-                                    $(".total_A-edit").val(total);
+                                    console.log(total);
+                                    $(".total_A-edit"a).val(total);
 
-                                    var ongkir = document.querySelector(".ongkir-edit")
+                                    var ongkir = document.querySelector(".ongkir-edit"a)
                                     ongkir.addEventListener("input", function(){
                                         var ongkos = ongkir.value;
                                         var replace = ongkos.replace(/\D/g, "");
@@ -2004,7 +1219,7 @@
                                         ongkoskir = total + ongkoskirim ;
                                         console.log(ongkoskir);
 
-                                    var diskon = document.querySelector(".discount-edit");
+                                    var diskon = document.querySelector(".discount-edit"a);
                                     diskon.addEventListener("input", function() {
                                         var disc = diskon.value;
                                         var rep = disc.replace(/\D/g, "");
@@ -2137,6 +1352,7 @@
                                 }
                             })
 </script>
+
 <script type="text/javascript">
     var pageSelectEdit = document.querySelector('.pageSelectEdit');
                             var selectedInput_edit = document.querySelector('.perusahaan_0_edit');
@@ -2166,6 +1382,6 @@
                                     selectedInput3_edit.classList.add('hide');
                                 }
                             })
-</script> --}}
+</script>
 
 @endsection

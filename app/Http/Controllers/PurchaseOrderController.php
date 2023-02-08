@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PoExport;
 use App\Exports\PoPDFExport;
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -174,6 +175,8 @@ class PurchaseOrderController extends Controller
         // $data['cpp'] = CategoryPengajuanPembelian::find($id);
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->groupBy('vendorable_type')->groupBy('vendorable_id')->get();
         $data['items'] = CategoryPO::where('ppb_id', $id)->get();
+        $data['harga'] = ItemPO::groupBy('po_id')->get();
+        $data['sig']   = CategoryPO::where('ppb_id', $id)->first();
         // $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
         // $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
         // $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -192,6 +195,7 @@ class PurchaseOrderController extends Controller
     public function exportpdf_poid($id)
     {
         $data['cpo'] = CategoryPO::find($id);
+        $data['harga'] = ItemPO::where('po_id',$id)->groupBy('po_id')->get();
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
 

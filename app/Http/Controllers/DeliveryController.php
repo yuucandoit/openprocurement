@@ -11,6 +11,7 @@ use App\Models\Delivery;
 use Illuminate\Http\Request;
 use App\File;
 use App\Models\Department;
+use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\WhoSubmitted;
@@ -147,8 +148,12 @@ class DeliveryController extends Controller
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
-        $datapo             = CategoryPO::where('ppb_id', $id)->get();
-        $datacpo            = CategoryPO::find($id);
+
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+        $vendor             = CategoryPO::where('ppb_id',$id)->first();
+        $items              = CategoryPO::where('ppb_id',$id)->get();
+        $groupedItem        = ItemPO::groupBy('po_id')->get();
+        $itempurchase       = ItemPO::groupBy('po_id')->first();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $delivery           = Delivery::where('ppb_id', $id)->get();
@@ -156,18 +161,22 @@ class DeliveryController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
         return view('delivery.menu.detail')
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
         ->with('delivery',$delivery)
-        ->with('datacpo',$datacpo)
-        ->with('datapo', $datapo)
+        ->with('vendor',$vendor)
+        ->with('items', $items)
+        ->with('groupedItem', $groupedItem)
+        ->with('itempurchase', $itempurchase)
         ->with('dataws', $dataws)
         ->with('datadepartment', $datadepartment)
         ->with('ppn', $ppn)
         ->with('total', $total)
         ->with('total_tnpa_ppn', $total_tnpa_ppn)
-        ->with('data_pengajuan', $data_pengajuan);
+        ->with('data_pengajuan', $data_pengajuan)
+        ->with('disc', $disc);
     }
 
     /**

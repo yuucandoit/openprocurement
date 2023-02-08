@@ -7,6 +7,7 @@ use App\Models\CategoryPO;
 use App\Models\CategoryPT;
 use App\Models\Comment;
 use App\Models\Department;
+use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\PurchaseOrder;
 use App\Models\ReferensiNamaProject;
@@ -131,12 +132,14 @@ class TasklistAtasanPoController extends Controller
 
     public function detail($id)
     {
-        $data_pengajuan = CategoryPengajuanPembelian::find($id);
+        $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $datapo             = CategoryPO::where('ppb_id', $id)->get();
-        $items              = CategoryPO::where('ppb_id',$id)->groupBy('vendorable_type')->groupBy('vendorable_id')->get();
+        $items              = CategoryPO::where('ppb_id',$id)->get();
         $vendor             = CategoryPO::where('ppb_id',$id)->first();
         $comments           = Comment::where('ppb_id',$id)->get();
+        $groupedItem        = ItemPO::groupBy('po_id')->get();
+        $itempurchase       = ItemPO::groupBy('po_id')->first();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -145,7 +148,9 @@ class TasklistAtasanPoController extends Controller
         return view('taskList_atasan_PO.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('datapo',$datapo)
+            ->with('groupedItem',$groupedItem)
             ->with('items',$items)
+            ->with('itempurchase',$itempurchase)
             ->with('vendor',$vendor)
             ->with('comments', $comments)
             ->with('data_pengajuan', $data_pengajuan)

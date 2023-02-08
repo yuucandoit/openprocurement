@@ -21,729 +21,543 @@
             </div>
         </div>
         <!-- Container-fluid starts-->
+        <style>
+            .tutup {
+                width: 0;
+                height: 0;
+                opacity: 0;
+            }
+            .createPO {
+                display: none;
+            }
 
+            .hide {
+                width: 0;
+                height: 0;
+                opacity: 0;
+            }
+
+            .page {
+                height: 60px;
+            }
+
+            .terms {
+                height: 60px;
+            }
+        </style>
 
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card mt-3">
-                        @if (empty($vendor->vendorable->nama))
-                            <div class="card-body">
-                                <h6 style="text-align: center">PO Not Found</h6>
-                            </div>
-                        @else
-                        @foreach ($vendors as $po)
-
                         <div class="card-body">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="mb-0">
-                                            <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#modaledit{{ $po->item_ppid }}"><p>Vendor #<span>{{ $po->vendorable->nama}}</span></p></button>
+                            @foreach ($datapo as $po)
+                            <form class="row g-2 mt-4" action="{{ url('/menu-purchase-order/update/'.$po->id) }}"
+                                method="POST" enctype="multipart/form-data">
+                                @csrf
+                                {{-- {{ dd($po->id) }} --}}
+                                <input type="hidden" name="item_ppid" value="{{ $po->po_id }}">
+                                <div class="col-md-4 ">
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-weight: bold;"><i
+                                                class="fa fa-database"></i> Select
+                                            Vendor</label>
+                                        <select class="form-select page pageSelect" id="pageSelect"
+                                            placeholder="Proposed To" name="vendor">
+                                            <option value="" disabled selected hidden>Select
+                                                Vendor
+                                            </option>
+                                            <option value="company">Company</option>
+                                            <option value="privateperson">Private Person
+                                            </option>
+                                            <option value="ecommerce">Ecommerce</option>
+                                        </select>
 
-                                        </h5>
+                                        <select class=" form-select perusahaan_0 hide mt-2" id="selectedInput"
+                                            name="perusahaan">
+                                            @foreach ($pt as $p)
+                                            <option value="{{ $p->id }}">{{ $p->nama }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+
+                                        <select class=" form-select privateperson_0 hide" id="selectedInput2"
+                                            name="orangpribadi">
+                                            @foreach ($op as $o)
+                                            <option value="{{ $o->id }}">{{ $o->nama }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+
+                                        <select class=" form-select ecommerce_0 hide" id="selectedInput3"
+                                            name="ecommerce">
+                                            @foreach ($ec as $e)
+                                            <option value="{{ $e->id }}">{{ $e->nama }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="modal fade" id="modaledit{{ $po->item_ppid }}" tabindex="-1" role="dialog" aria-labelledby="modaledit{{ $po->item_ppid }}" aria-hidden="true">
-                                <div class="modal-dialog modal-lg" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title">Edit Vendor {{ $po->vendorable->nama }}</h5>
-                                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="col-md-4 page" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
+                                            Quotation</label>
+                                        <div class="form-floating">
+                                            <input required type="text" class="form-control" id="floatingQuotation"
+                                                placeholder="Quotation" name="quotation" value="{{ $po->quotation }}">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
                                     </div>
-                                    <div class="modal-body">
-                                        <form action="{{ url('/menu-purchase-order/update/'.$po->item_ppid) }}" id="formAdd" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <select class="form-select page mt-2 pageSelect" id="pageSelect"
-                                                        placeholder="Proposed To" name="vendor">
-                                                        <option value="" disabled selected hidden>Select Vendor</option>
-                                                        <option value="company">Company</option>
-                                                        <option value="privateperson">Private Person</option>
-                                                        <option value="ecommerce">Ecommerce</option>
-                                                    </select>
-                                                    <p style="color: red;">*Please select the vendor again</p>
-                                                    <select class=" form-select hide mt-2" id="selectedInput" name="perusahaan">
-                                                        @foreach ($datapt as $p)
-                                                            <option value="{{ $p->id }}">{{ $p->nama }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
-                                                        @foreach ($op as $o)
-                                                            <option value="{{ $o->id }}">{{ $o->nama }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <select class=" form-select hide" id="selectedInput3" name="ecommerce">
-                                                        @foreach ($ec as $e)
-                                                            <option value="{{ $e->id }}">{{ $e->nama }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-floating">
-                                                    <select class="form-select mt-2" id="floatingproposedto"
-                                                        placeholder="Proposed To" name="atasan_po">
-
-                                                        @foreach ($atasanpo as $dpo)
-                                                        @if(empty($dpo->atasans->id))
-                                                            @foreach ($atasan as $sui)
-                                                                <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                                            @endforeach
-                                                        @else
-                                                        <option value="{{ $dpo->atasans->id }}">{{ $dpo->atasans->name }}</option>
-                                                        @foreach ($atasan as $sui)
-                                                        <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                                         @endforeach
-                                                        @endif
-                                                        @endforeach
-                                                    </select>
-                                                    <label for="floatingproposedto">-- Approved To --</label>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-md-12">
-                                                <div class="form-floating">
-                                                    @if(empty($po->quotation))
-                                                    <input required type="text" class="form-control mt-2 "
-                                                        id="floatingNoTelpon" placeholder="Quotation" name="quotation">
-                                                    @else
-
-                                                    <input required type="text" class="form-control mt-2 "
-                                                        id="floatingNoTelpon" placeholder="Quotation" name="quotation"
-                                                        value="{{ $po->quotation }}">
-                                                    @endif
-                                                    <label for="floatingNoTelpon">Quotation</label>
-                                                </div>
-                                            </div>
-
-                                            <style>
-                                                .hide {
-                                                    width: 0;
-                                                    height: 0;
-                                                    opacity: 0;
-                                                }
-
-                                                .page {
-                                                    height: 58px;
-                                                }
-                                            </style>
-
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <select class="form-select page mt-2" id="pageSelector"
-                                                        placeholder="Terms and Conditions" name="term_conditions">
-                                                        @if(empty($datacpo->term->term_condition))
-                                                        @foreach ($terms as $t)
-                                                            <option value="{{ $t->id }}">{{ $t->term_condition }}</option>
-                                                        @endforeach
-                                                        @else
-                                                        <option value="{{ $datacpo->term->id }}" selected>{{ $datacpo->term->term_condition }}</option>
-                                                        @endif
-
-                                                        <option value="custom">+ Add Terms & Conditions</option>
-                                                    </select>
-                                                    <textarea class="hide form-control mt-2" name="term_condition" id="customInput" cols="30" rows="10"
-                                                        placeholder="Input Terms And Conditions"></textarea>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="col-md-12">
-                                                <table class="table table-bordered item mx-2 order-entry">
-                                                    <tr style="text-align: center;">
-                                                        <th
-                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                            Item</th>
-                                                        <th
-                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                            Qty</th>
-                                                        <th
-                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                            Category</th>
-                                                        <th
-                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                            Price-per-unit</th>
-                                                        <th
-                                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                            Total</th>
-                                                    </tr>
-                                                    @foreach ($items as $i)
-                                                    @if ($i->vendorable_type == $po->vendorable_type)
-                                                    @if ($i->vendorable_id == $po->vendorable_id)
-                                                        <tr>
-
-                                                            <td class="text">
-                                                                <input type="text" name="id[]"
-                                                                    placeholder="Input Item" class="form-control"
-                                                                    style="text-align: center;" value="{{ $i->id }}" hidden />
-                                                                <input type="text" name="item[]"
-                                                                    placeholder="Input Item" class="form-control"
-                                                                    style="text-align: center;" value="{{ $i->item }}" />
-                                                            </td>
-                                                            <td><input type="number" name="qty[]" placeholder="Input Quantity"
-                                                                    class="form-control form-calc form-qty"
-                                                                    style="text-align: center;" value="{{ $i->qty }}"
-                                                                    required  />
-                                                            </td>
-                                                            <td>
-                                                                <select class="form-select " placeholder="Kategori"
-                                                                    name="kategori[]" >
-                                                                    <option value="{{ $i->kategori }}" selected>
-                                                                        {{ $i->kategori }}</option>
-                                                                    <option value="Pcs">Pcs </option>
-                                                                    <option value="Lusin">Lusin </option>
-                                                                    <option value="Box">Box </option>
-                                                                    <option value="Unit">Unit </option>
-                                                                    <option value="Lot">Lot </option>
-                                                                    <option value="Rim">Rim </option>
-                                                                    <option value="Org">Org </option>
-                                                                    <option value="Line">Line </option>
-                                                                    <option value="Ruang">Ruang </option>
-                                                                    <option value="Pax">Pax </option>
-                                                                </select>
-                                                            </td>
-
-                                                            <td>
-                                                                <input type="text" name="unit_price[]"
-                                                                    placeholder="Input Price"
-                                                                    class="form-control text-end form-calc form-cost rupiah"
-                                                                    style="text-align: right;" value="{{ $i->unit_price }}"
-                                                                    required />
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" name="total[]"
-                                                                    class="form-control form-line" style="text-align: right;"
-                                                                    required />
-                                                            </td>
-                                                        </tr>
-                                                    @endif
-                                                    @endif
-                                                    @endforeach
-                                                </table>
-                                                <p style="color: red;">*Please fill in the price per unit again to trigger the total and please refill the file then update the data</p>
-                                                <br>
-
-                                                <table class="table table-bordered mx-2">
-                                                    <tr>
-                                                        <td>
-                                                            <label class="pull-right mx-2"
-                                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; DPP :</label>
-                                                        </td>
-                                                        <td class="total_A text-end">
-                                                            <input style="display: none;" class="total_A" type="text"
-                                                                name="total_a">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <input class="mt-1 pull-right check-box" type="checkbox"
-                                                                name="ppn" value="1"
-                                                                {{ old('ppn', 0) === 1 ? 'checked' : '' }}>
-                                                            <label class="pull-right mx-2" style="font-weight: bold;"> PPN 11%
-                                                            </label>
-                                                            <p style="color: red;">*Please click again to trigger javascript count</p>
-                                                        </td>
-                                                        <td class="ppn text-end">
-                                                            <input style="display: none;" class="ppn" type="text">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                                                        <td class="total text-end">
-                                                            <input style="display: none;" class="total" type="text"
-                                                                name="grand_total">
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <div class="mt-2">
-                                                    <button type="button" name="add"
-                                                        class="addItem btn btn-outline-primary"> AddItem
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
-                                        <a href="{{ route('menu-purchase-order.index') }}"
-                                            class="btn btn-dark mt-3">Back</a>
-                                    </div>
-                                  </div>
                                 </div>
-                              </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-weight: bold;"><i
+                                                class="fa fa-file-text-o"></i> Terms &
+                                            Conditions</label>
+                                        <select class="form-select page pageSelector" id="pageSelector"
+                                            placeholder="Terms and Conditions" name="term_conditions">
+                                            <option value="{{ $po->term_conditions }}" selected >
+                                                {{ $po->term->term_condition }}
+                                            </option>
+                                            @foreach ($terms as $t)
+                                            <option value="{{ $t->id }}">
+                                                {{ $t->term_condition }}
+                                            </option>
+                                            @endforeach
+                                            <option value="custom">+ Add Terms & Conditions
+                                            </option>
+                                        </select>
+                                        <textarea class="hide form-control customInput" name="term_condition"
+                                            cols="30" rows="10"
+                                            placeholder="Input Terms And Conditions"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            <i class="fa fa-file-pdf-o" style="font-weight: bold;"></i>
+                                            Upload Quotation
+                                        </label>
+                                        <input type="file" name="path_quotation" class="form-control form-control-lg">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 ">
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-weight: bold;"><i
+                                                class="icofont icofont-stamp"></i> Send Approval To:</label>
+                                        <select class="form-select page" id="floatingproposedto"
+                                            placeholder="Proposed To" name="atasan_po" required="">
+                                            <option selected="" value="{{ $po->ppb->atasan_po }}">
+                                                {{ $po->ppb->atasans->name }}
+                                            </option>
+                                            @foreach ($atasan as $sui)
+                                            <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i>
+                                            Currency :</label>
+                                        <select class="form-select page" id="floatingdateline" placeholder="Mata Uang"
+                                            name="matauang" required="">
+                                            <option selected="" value="{{ $currency->matauang }}">
+                                                {{ $currency->matauang }}
+                                            </option>
+                                            <option value="USD">USD</option>
+                                            <option value="RP">RP</option>
+                                        </select>
+                                        @error('matauang')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <table class="table table-bordered item order-entry mx-2">
+                                    <tr style="text-align: center;">
+                                        <th
+                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Item</th>
+                                        <th
+                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Qty</th>
+                                        <th
+                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Category</th>
+                                        <th
+                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Price-per-unit</th>
+                                        <th
+                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Total</th>
+                                        <th
+                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Action</th>
+                                    </tr>
+                                    @php
+                                    $id = 0;
+                                    $id++;
+                                    @endphp
+
+                                    @foreach ($po->itempo as $item)
+                                    <tr>
+                                    <td class="text">
+                                        <input type="text" name="id[]" placeholder="Input Item" class="form-control"
+                                            style="text-align: center;" value="{{ $item->id }}" hidden />
+                                        <input type="text" placeholder="Input Item" class="form-control" name="item[]"
+                                            style="text-align: center;" value="{{ $item->item }}" />
+                                    </td>
+                                    <td><input type="number" name="qty[]" placeholder="Input Quantity"
+                                            class="form-control form-calc form-qty" style="text-align: center;"
+                                            value="{{ $item->qty }}" min="1" max="{{ $item->qty }}" />
+                                    </td>
+                                    <td>
+                                        <select class="form-select " placeholder="Kategori" name="kategori[]"
+                                            value="{{ $item->kategori }}">
+                                            <option value="{{ $item->kategori }}">
+                                                {{ $item->kategori }}</option>
+                                            <option value="Pcs">Pcs </option>
+                                            <option value="Lusin">Lusin </option>
+                                            <option value="Box">Box </option>
+                                            <option value="Unit">Unit </option>
+                                            <option value="Lot">Lot </option>
+                                            <option value="Rim">Rim </option>
+                                            <option value="Org">Org </option>
+                                            <option value="Line">Line </option>
+                                            <option value="Ruang">Ruang </option>
+                                            <option value="Pax">Pax </option>
+                                            <option value="Set">Set </option>
+                                            <option value="Piece">Piece </option>
+                                            <option value="Rol">Rol </option>
+                                            <option value="Pack">Pack </option>
+                                            <option value="Batang">Batang </option>
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <input type="text" name="unit_price[]" placeholder="Input Price"
+                                            class="form-control text-end form-calc form-cost "
+                                            style="text-align: right;" value="{{ $item->unit_price }}" required />
+                                    </td>
+                                    <td>
+                                        <input type="text" name="total[]" class="form-control form-line"
+                                            style="text-align: right;" value="{{ $item->total }}" required />
+                                    </td>
+                                    <td style="text-align: center;"><button type="button"
+                                            class="btn btn-danger remove-input-field"><i
+                                                class="fa fa-times"></i></button></td>
+
+                                        @endforeach
+                                    </tr>
+                                </table>
+                                <table class="table table-bordered  mx-2" style="margin-top: 0px;">
+                                    @foreach ($groupedItem as $count)
+                                    @if($count->po_id === $po->id)
+                                    <tr>
+                                        <td>
+                                            <label class="pull-right"
+                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                DPP :</label>
+                                        </td>
+                                        <td>
+                                            <input  class="total_A form-control disabled text-end " type="text" name="dpp" value="{{ $count->dpp }}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="pull-right"
+                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                Ongkir :</label>
+                                        </td>
+                                        <td>
+                                            <input  class="ongkir form-control text-end rupiah" type="text" name="ongkir" value="{{ $count->ongkir }}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="pull-right"
+                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                Discount :</label>
+                                        </td>
+                                        <td class="text-end">
+                                            <input class="form-control discount form-calc rupiah text-end" type="text"
+                                                id="discount" name="discount" value="{{ $count->discount }}">
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="pull-right"
+                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;After
+                                                Discount :</label>
+                                        </td>
+                                        <td class="total_disc text-end">
+                                            <input style="display: none;" class=" total_disc " type="text"
+                                                name="total_disc">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input class="mt-1 pull-right check-box" type="checkbox" name="ppn"
+                                                value="1" {{ old('ppn', 0)===1 ? 'checked' : '' }}>
+                                            <label class="pull-right" style="font-weight: bold;"> PPN 11%
+                                            </label>
+                                        </td>
+                                        <td class="ppn text-end">
+                                            <input style="display: none;" class="ppn" type="text" name="ppn">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end" style="font-weight: bold;">Grand Total
+                                            :</td>
+                                        <td>
+                                            <input class="form-control text-end total"
+                                                type="text" name="grand_total" value="{{ $count->grand_total }}">
+                                        </td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
+                                </table>
+
+                                <div class="form-group" style="text-align:right;">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <a type="reset" class="btn btn-dark"
+                                        href="{{ url('/menu-purchase-order/') }}">Back</a>
+                                </div>
+                            </form>
                             @endforeach
-                            @endif
-
-
-
-
-
+                        </div>
                     </div>
                 </div>
             </div>
           </div>
 
-        {{-- <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Edit Purchase Order</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="default-according" id="accordion">
-                                <div class="card">
-                                  <div class="card-header" id="headingOne">
-                                    <h5 class="mb-0">
-                                      <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Collapsible Group Item #<span>1</span></button>
-                                    </h5>
-                                  </div>
-                                  <div class="collapse show" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordion">
-                                    <div class="card-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</div>
-                                  </div>
-                                </div>
-                                <div class="card">
-                                  <div class="card-header" id="headingTwo">
-                                    <h5 class="mb-0">
-                                      <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Collapsible Group Item #<span>2</span></button>
-                                    </h5>
-                                  </div>
-                                  <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordion">
-                                    <div class="card-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</div>
-                                  </div>
-                                </div>
-                                <div class="card">
-                                  <div class="card-header" id="headingThree">
-                                    <h5 class="mb-0">
-                                      <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Collapsible Group Item #<span>3</span></button>
-                                    </h5>
-                                  </div>
-                                  <div class="collapse" id="collapseThree" aria-labelledby="headingThree" data-bs-parent="#accordion">
-                                    <div class="card-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</div>
-                                  </div>
-                                </div>
-                              </div>
-                            <form action="{{ url('/menu-purchase-order/update/' . $dv->id) }}" id="formAdd" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
-                                @foreach ($vendors as $po)
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <select class="form-select page mt-2 pageSelect" id="pageSelect"
-                                                placeholder="Proposed To" name="vendor">
-                                                <option value="" disabled selected hidden>Select Vendor</option>
-                                                <option value="company">Company</option>
-                                                <option value="privateperson">Private Person</option>
-                                                <option value="ecommerce">Ecommerce</option>
-                                            </select>
-                                            <p style="color: red;">*Please select the vendor again</p>
-                                            <select class=" form-select hide mt-2" id="selectedInput" name="perusahaan">
-                                                @foreach ($datapt as $p)
-                                                    <option value="{{ $p->id }}">{{ $p->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                            <select class=" form-select hide" id="selectedInput2" name="orangpribadi">
-                                                @foreach ($op as $o)
-                                                    <option value="{{ $o->id }}">{{ $o->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                            <select class=" form-select hide" id="selectedInput3" name="ecommerce">
-                                                @foreach ($ec as $e)
-                                                    <option value="{{ $e->id }}">{{ $e->nama }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select class="form-select mt-2" id="floatingproposedto"
-                                                placeholder="Proposed To" name="atasan_po">
-
-                                                @foreach ($atasanpo as $dpo)
-                                                @if(empty($dpo->atasans->id))
-                                                    @foreach ($atasan as $sui)
-                                                        <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                                    @endforeach
-                                                @else
-                                                <option value="{{ $dpo->atasans->id }}">{{ $dpo->atasans->name }}</option>
-                                                @foreach ($atasan as $sui)
-                                                <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                                 @endforeach
-                                                @endif
-                                                @endforeach
-                                            </select>
-                                            <label for="floatingproposedto">-- Approved To --</label>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            @if(empty($datacpo->quotation))
-                                            <input required type="text" class="form-control mt-2 "
-                                                id="floatingNoTelpon" placeholder="Quotation" name="quotation">
-                                            @else
-
-                                            <input required type="text" class="form-control mt-2 "
-                                                id="floatingNoTelpon" placeholder="Quotation" name="quotation"
-                                                value="{{ $datacpo->quotation }}">
-                                            @endif
-                                            <label for="floatingNoTelpon">Quotation</label>
-                                        </div>
-                                    </div>
-
-                                    <style>
-                                        .hide {
-                                            width: 0;
-                                            height: 0;
-                                            opacity: 0;
-                                        }
-
-                                        .page {
-                                            height: 58px;
-                                        }
-                                    </style>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <select class="form-select page mt-2" id="pageSelector"
-                                                placeholder="Terms and Conditions" name="term_conditions">
-                                                @if(empty($datacpo->term->term_condition))
-                                                @foreach ($terms as $t)
-                                                    <option value="{{ $t->id }}">{{ $t->term_condition }}</option>
-                                                @endforeach
-                                                @else
-                                                <option value="{{ $datacpo->term->id }}" selected>{{ $datacpo->term->term_condition }}</option>
-                                                @endif
-
-                                                <option value="custom">+ Add Terms & Conditions</option>
-                                            </select>
-                                            <textarea class="hide form-control mt-2" name="term_condition" id="customInput" cols="30" rows="10"
-                                                placeholder="Input Terms And Conditions"></textarea>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="col-md-12">
-                                        <table class="table table-bordered item mx-2 order-entry">
-                                            <tr style="text-align: center;">
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Item</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Qty</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Category</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Price-per-unit</th>
-                                                <th
-                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    Total</th>
-                                            </tr>
-                                            @foreach ($item as $i)
-                                                <tr>
-
-                                                    <td class="text">
-                                                        <input type="text" name="id[]"
-                                                            placeholder="Input Item" class="form-control"
-                                                            style="text-align: center;" value="{{ $i->id }}" hidden />
-                                                        <input type="text" name="item[]"
-                                                            placeholder="Input Item" class="form-control"
-                                                            style="text-align: center;" value="{{ $i->item }}" />
-                                                    </td>
-                                                    <td><input type="number" name="qty[]" placeholder="Input Quantity"
-                                                            class="form-control form-calc form-qty"
-                                                            style="text-align: center;" value="{{ $i->qty }}"
-                                                            required  />
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-select " placeholder="Kategori"
-                                                            name="kategori[]" >
-                                                            <option value="{{ $i->kategori }}" selected>
-                                                                {{ $i->kategori }}</option>
-                                                            <option value="Pcs">Pcs </option>
-                                                            <option value="Lusin">Lusin </option>
-                                                            <option value="Box">Box </option>
-                                                            <option value="Unit">Unit </option>
-                                                            <option value="Lot">Lot </option>
-                                                            <option value="Rim">Rim </option>
-                                                            <option value="Org">Org </option>
-                                                            <option value="Line">Line </option>
-                                                            <option value="Ruang">Ruang </option>
-                                                            <option value="Pax">Pax </option>
-                                                        </select>
-                                                    </td>
-
-                                                    <td>
-                                                        <input type="text" name="unit_price[]"
-                                                            placeholder="Input Price"
-                                                            class="form-control text-end form-calc form-cost rupiah"
-                                                            style="text-align: right;" value="{{ $i->unit_price }}"
-                                                            required />
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="total[]"
-                                                            class="form-control form-line" style="text-align: right;"
-                                                            required />
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </table>
-                                        <p style="color: red;">*Please fill in the price per unit again to trigger the total and please refill the file then update the data</p>
-                                        <br>
-
-                                        <table class="table table-bordered mx-2">
-                                            <tr>
-                                                <td>
-                                                    <label class="pull-right mx-2"
-                                                        style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; DPP :</label>
-                                                </td>
-                                                <td class="total_A text-end">
-                                                    <input style="display: none;" class="total_A" type="text"
-                                                        name="total_a">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input class="mt-1 pull-right check-box" type="checkbox"
-                                                        name="ppn" value="1"
-                                                        {{ old('ppn', 0) === 1 ? 'checked' : '' }}>
-                                                    <label class="pull-right mx-2" style="font-weight: bold;"> PPN 11%
-                                                    </label>
-                                                    <p style="color: red;">*Please click again to trigger javascript count</p>
-                                                </td>
-                                                <td class="ppn text-end">
-                                                    <input style="display: none;" class="ppn" type="text">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                                                <td class="total text-end">
-                                                    <input style="display: none;" class="total" type="text"
-                                                        name="grand_total">
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <div class="mt-2">
-                                            <button type="button" name="add"
-                                                class="addItem btn btn-outline-primary"> AddItem
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                    <br>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
-                                        <a href="{{ route('menu-purchase-order.index') }}"
-                                            class="btn btn-dark mt-3">Back</a>
-                                    </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
 
         <!-- JavaScript Item -->
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
+
+        <script>
+            const dollars = document.querySelectorAll('.dollar');
+            dollars.forEach(dollar => {
+                new AutoNumeric(dollar,'commaDecimalCharDotSeparator');
+            })
+
+        </script>
+
         <script type="text/javascript">
             //Math
-            $(document).ready(function() {
-                //Convert To Rupiah
-                var rupiah = document.querySelector(".rupiah");
-                rupiah.addEventListener('keyup', function(e) {
-                    // tambahkan 'Rp.' pada saat form di ketik
-                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                    rupiah.value = formatRupiah(this.value, "");
-                });
-                /* Fungsi formatRupiah */
-                function formatRupiah(angka, prefix) {
-                    var number_string = angka.replace(/[^,\d]/g, ""),
-                        split = number_string.split(","),
-                        sisa = split[0].length % 3,
-                        rupiah = split[0].substr(0, sisa),
-                        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                    if (ribuan) {
-                        separator = sisa ? "." : "";
-                        rupiah += separator + ribuan.join(".");
-                    }
-                    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                    return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-                }
-                $(".order-entry").on("keyup", ".form-calc", function() {
-                    var parent = $(this).closest("tr");
-                    var str = parent.find(".form-cost").val();
-                    var res = str.replace(/\D/g, "");
-                    parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
-                    var total = 0;
-                    $(".form-line").each(function() {
-                        total += parseInt($(this).val() || 0);
-                    });
-                    $(".total_A").text(total.toLocaleString('en-US'));
-                    var checkbox = document.querySelector(".check-box");
-                    checkbox.addEventListener('change', (event) => {
-                        if (event.currentTarget.checked) {
-                            totalppn = total * 11 / 100;
-                            grandtotal = total + totalppn;
-                            $(".ppn").text(totalppn.toLocaleString('en-US'));
-                            $(".total").text(grandtotal.toLocaleString('en-US'));
-                        } else {
-                            totalppn = total * 0;
-                            $(".ppn").text(totalppn);
-                            $(".total").text(total.toLocaleString('en-US'));
-                        }
-                    });
-                });
-            });
-            //Add Form
-            $(".addItem").on('click', function() {
-                addItem();
-            });
+                                    $(document).ready(function() {
+                                        //Convert To Rupiah
+                                        var rupiah = document.querySelector(".rupiah");
+                                        rupiah.addEventListener('keyup', function(e) {
+                                            // tambahkan 'Rp.' pada saat form di ketik
+                                            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                                            rupiah.value = formatRupiah(this.value, "");
+                                        });
+                                        /* Fungsi formatRupiah */
+                                        function formatRupiah(angka, prefix) {
+                                            var number_string = angka.replace(/[^,\d]/g, ""),
+                                                split = number_string.split("."),
+                                                sisa = split[0].length % 3,
+                                                rupiah = split[0].substr(0, sisa),
+                                                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                                            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                            if (ribuan) {
+                                                separator = sisa ? "." : "";
+                                                rupiah += separator + ribuan.join(".");
+                                            }
+                                            rupiah = split[1] != undefined ? rupiah + "." + split[1] : rupiah;
+                                            return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                                        }
 
-            function addItem() {
-                var item =
-                    '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option>  <option value="Lot">Lot </option> </select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line " style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
-                $(".item").append(item)
+                                        $(".order-entry").on("keyup", ".form-calc", function() {
+                                            var parent = $(this).closest("tr");
+                                            console.log($(this).closest("tr"));
+                                            var str = parent.find(".form-cost").val();
+                                            var res = str.replace(/\D/g, "");
+                                            // var repl = res.replace
+                                            console.log(str);
+                                            parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
+                                            var total = 0;
+                                            $(".form-line").each(function() {
+                                                total += parseInt($(this).val() || 0);
+                                            });
+                                            $(".total_A").val(total);
 
-                var rupiah = document.querySelectorAll(".rupiah");
-                rupiah.forEach((item) => {
-                    item.addEventListener('keyup', function(e) {
-                        // tambahkan 'Rp.' pada saat form di ketik
-                        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                        item.value = formatRupiah(this.value, "");
-                    });
-                });
-                /* Fungsi formatRupiah */
-                function formatRupiah(angka, prefix) {
-                    var number_string = angka.replace(/[^,\d]/g, ""),
-                        split = number_string.split(","),
-                        sisa = split[0].length % 3,
-                        rupiah = split[0].substr(0, sisa),
-                        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                    if (ribuan) {
-                        separator = sisa ? "." : "";
-                        rupiah += separator + ribuan.join(".");
-                    }
-                    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                    return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-                }
+                                            var ongkir = document.querySelector(".ongkir")
+                                            ongkir.addEventListener("input", function(){
+                                                var ongkos = ongkir.value;
+                                                var replace = ongkos.replace(/\D/g, "");
+                                                var ongkoskirim = parseInt(replace);
+                                                ongkoskir = total + ongkoskirim ;
+                                                console.log(ongkoskir);
 
-                $(".order-entry").on("keyup", ".form-calc", function() {
-                    var parent = $(this).closest("tr");
-                    var str = parent.find(".form-cost").val();
-                    var res = str.replace(/\D/g, "");
-                    parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
-                    var total = 0;
-                    $(".form-line").each(function() {
-                        total += parseInt($(this).val() || 0);
-                    });
-                    $(".total_A").text(total.toLocaleString('en-US'));
-                    var checkbox = document.querySelector(".check-box");
-                    checkbox.addEventListener('change', (event) => {
-                        if (event.currentTarget.checked) {
-                            totalppn = total * 11 / 100;
-                            grandtotal = total + totalppn;
-                            $(".ppn").text(totalppn.toLocaleString('en-US'));
-                            $(".total").text(grandtotal.toLocaleString('en-US'));
-                        } else {
-                            totalppn = total * 0;
-                            $(".ppn").text(totalppn);
-                            $(".total").text(total.toLocaleString('en-US'));
-                        }
-                    });
-                });
-            }
-            $(document).on('click', '.remove-input-field', function() {
-                $(this).parents('tr').remove();
-            });
-            var rupiah = document.querySelectorAll(".rupiah");
-            rupiah.forEach((item) => {
-                item.addEventListener('keyup', function(e) {
-                    // tambahkan 'Rp.' pada saat form di ketik
-                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                    item.value = formatRupiah(this.value, "");
-                });
-            });
-            /* Fungsi formatRupiah */
-            function formatRupiah(angka, prefix) {
-                var number_string = angka.replace(/[^,\d]/g, ""),
-                    split = number_string.split(","),
-                    sisa = split[0].length % 3,
-                    rupiah = split[0].substr(0, sisa),
-                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                if (ribuan) {
-                    separator = sisa ? "." : "";
-                    rupiah += separator + ribuan.join(".");
-                }
-                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-            }
+                                            var diskon = document.querySelector(".discount");
+                                            diskon.addEventListener("input", function() {
+                                                var disc = diskon.value;
+                                                var rep = disc.replace(/\D/g, "");
+                                                var discint = parseInt(rep);
+                                               discount = ongkoskir - discint;
+                                               console.log(discount);
+                                               $(".total_disc").text(discount.toLocaleString('en-US'));
+
+                                            var checkbox = document.querySelector(".check-box");
+                                            checkbox.addEventListener('change', (event) => {
+                                                // console.log(event.currentTarget.checked);
+                                                if (event.currentTarget.checked) {
+                                                    totalppn = discount * 11 / 100;
+                                                    grandtotal = discount + totalppn;
+                                                    console.log(grandtotal);
+                                                    $(".ppn").text(totalppn.toLocaleString('en-US'));
+                                                    // $(".total").val(grandtotal.toLocaleString('en-US'));
+                                                    $(".total").val(grandtotal);
+                                                } else {
+                                                    totalppn = discount * 0;
+                                                    $(".ppn").text(totalppn);
+                                                    // $(".total").val(discount.toLocaleString('en-US'));
+                                                    $(".total").val(discount);
+                                                }
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                                    //Add Form
+                                    $(".addItem").on('click', function() {
+                                        addItem();
+                                    });
+                                    function addItem() {
+
+                                        $(".item").append(item)
+                                        var rupiah = document.querySelectorAll(".rupiah");
+                                        rupiah.forEach((item) => {
+                                            item.addEventListener('keyup', function(e) {
+                                                // tambahkan 'Rp.' pada saat form di ketik
+                                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                                                item.value = formatRupiah(this.value, "");
+                                            });
+                                        });
+                                        /* Fungsi formatRupiah */
+                                        function formatRupiah(angka, prefix) {
+                                            var number_string = angka.replace(/[^,\d]/g, ""),
+                                                split = number_string.split(","),
+                                                sisa = split[0].length % 3,
+                                                rupiah = split[0].substr(0, sisa),
+                                                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                                            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                            if (ribuan) {
+                                                separator = sisa ? "." : "";
+                                                rupiah += separator + ribuan.join(".");
+                                            }
+                                            rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                                            return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                                        }
+                                        new AutoNumeric(document.querySelector('.dollar'), 'dollar');
+
+
+                                        $(".order-entry").on("keyup", ".form-calc", function() {
+                                            var parent = $(this).closest("tr");
+                                            var str = parent.find(".form-cost").val();
+                                            var res = str.replace(/\D/g, "");
+                                            parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
+                                            var total = 0;
+                                            $(".form-line").each(function() {
+                                                total += parseInt($(this).val() || 0);
+                                            });
+                                            $(".total_A").val(total.toLocaleString('en-US'));
+                                            var checkbox = document.querySelector(".check-box");
+                                            checkbox.addEventListener('change', (event) => {
+
+                                                if (event.currentTarget.checked) {
+                                                    totalppn = total * 11 / 100;
+                                                    grandtotal = total + totalppn;
+                                                    $(".ppn").text(totalppn.toLocaleString('en-US'));
+                                                    $(".total").text(grandtotal.toLocaleString('en-US'));
+                                                } else {
+                                                    totalppn = total * 0;
+                                                    $(".ppn").text(totalppn);
+                                                    $(".total").text(total.toLocaleString('en-US'));
+                                                }
+                                            });
+                                        });
+                                    }
+                                    $(document).on('click', '.remove-input-field', function() {
+                                        $(this).parents('tr').remove();
+                                    });
+                                    var rupiah = document.querySelectorAll(".rupiah");
+                                    rupiah.forEach((item) => {
+                                        item.addEventListener('keyup', function(e) {
+                                            // tambahkan 'Rp.' pada saat form di ketik
+                                            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                                            item.value = formatRupiah(this.value, "");
+                                        });
+                                    });
+                                    /* Fungsi formatRupiah */
+                                    function formatRupiah(angka, prefix) {
+                                        var number_string = angka.replace(/[^,\d]/g, ""),
+                                            split = number_string.split(","),
+                                            sisa = split[0].length % 3,
+                                            rupiah = split[0].substr(0, sisa),
+                                            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                        if (ribuan) {
+                                            separator = sisa ? "." : "";
+                                            rupiah += separator + ribuan.join(".");
+                                        }
+                                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                                        return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
+                                    }
         </script>
-        <script type="text/javascript">
-            var pageSelector = document.getElementById('pageSelector');
-            var customInput = document.getElementById('customInput');
 
-            pageSelector.addEventListener('change', function() {
-                if (this.value == "custom") {
-                    customInput.classList.remove('hide');
-                } else {
-                    customInput.classList.add('hide');
-                }
-            })
-        </script>
-
-        <script type="text/javascript">
-            var pageSelect = document.getElementById('pageSelect');
-            var selectedInput = document.getElementById('selectedInput');
-            var selectedInputCustom = document.getElementById('selectedInputCustom');
-
-            var selectedInput2 = document.getElementById('selectedInput2');
-            var selectedInputCustom2 = document.getElementById('selectedInputCustom2');
-
-            var selectedInput3 = document.getElementById('selectedInput3');
-            var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
-
-            // Company
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "company") {
-                    selectedInput.classList.remove('hide');
-                } else {
-                    selectedInput.classList.add('hide');
-                }
-            })
-
-            // Private Person
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "privateperson") {
-                    selectedInput2.classList.remove('hide');
-                } else {
-                    selectedInput2.classList.add('hide');
-                }
-            })
-
-            // Ecommerce
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "ecommerce") {
-                    selectedInput3.classList.remove('hide');
-                } else {
-                    selectedInput3.classList.add('hide');
-                }
-            })
-        </script>
+<script type="text/javascript">
+    var pageSelector = document.querySelector('.pageSelector');
+                            var customInput = document.querySelector('.customInput');
+                            pageSelector.addEventListener('change', function() {
+                                if (this.value == "custom") {
+                                    customInput.classList.remove('hide');
+                                } else {
+                                    customInput.classList.add('hide');
+                                }
+                            })
+</script>
+<script type="text/javascript">
+    var pageSelect = document.querySelector('.pageSelect');
+                            var selectedInput = document.querySelector('.perusahaan_0');
+                            var selectedInput2 = document.querySelector('.privateperson_0');
+                            var selectedInput3 = document.querySelector('.ecommerce_0');
+                            // Company
+                            pageSelect.addEventListener('change', function() {
+                                if (this.value == "company") {
+                                    selectedInput.classList.remove('hide');
+                                } else {
+                                    selectedInput.classList.add('hide');
+                                }
+                            })
+                            // Private Person
+                            pageSelect.addEventListener('change', function() {
+                                if (this.value == "privateperson") {
+                                    selectedInput2.classList.remove('hide');
+                                }  else {
+                                    selectedInput2.classList.add('hide');
+                                }
+                            })
+                            // Ecommerce
+                            pageSelect.addEventListener('change', function() {
+                                if (this.value == "ecommerce") {
+                                    selectedInput3.classList.remove('hide');
+                                }  else {
+                                    selectedInput3.classList.add('hide');
+                                }
+                            })
+</script>
 
     </section>
 @endsection
