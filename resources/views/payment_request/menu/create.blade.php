@@ -187,11 +187,24 @@
                                                                 <td><label class="pull-right mx-2"> Discount :</label></td>
                                                                 <td style="text-align: right;">
                                                                         {{-- Ketika mata uang yang dipilih RP --}}
+                                                                        @if(empty($disc->discount))
+
+                                                                        @if ($data_pengajuan->matauang == 'RP')
+                                                                            RP. 0{{ number_format() }}
+                                                                            {{-- Ketika mata uang yang dipilih USD --}}
+                                                                        @elseif ($data_pengajuan->matauang == 'USD')
+                                                                            $ 0{{ number_format( /100 ,2) }}
+                                                                        @endif
+
+                                                                        @else
+
                                                                         @if ($data_pengajuan->matauang == 'RP')
                                                                             RP. {{ number_format($disc->discount) }}
                                                                             {{-- Ketika mata uang yang dipilih USD --}}
                                                                         @elseif ($data_pengajuan->matauang == 'USD')
                                                                             $ {{ number_format($disc->discount /100 ,2) }}
+                                                                        @endif
+
                                                                         @endif
                                                                 </td>
                                                             </tr>
