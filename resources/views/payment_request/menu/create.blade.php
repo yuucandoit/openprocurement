@@ -190,10 +190,10 @@
                                                                         @if(empty($disc->discount))
 
                                                                         @if ($data_pengajuan->matauang == 'RP')
-                                                                            RP. 0{{ number_format() }}
+                                                                            RP. 0
                                                                             {{-- Ketika mata uang yang dipilih USD --}}
                                                                         @elseif ($data_pengajuan->matauang == 'USD')
-                                                                            $ 0{{ number_format( /100 ,2) }}
+                                                                            $ 0
                                                                         @endif
 
                                                                         @else
