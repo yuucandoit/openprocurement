@@ -372,6 +372,16 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
+                                                            <td><label class="pull-right mx-2"> Shipping & Protection Fee :</label></td>
+                                                            <td style="text-align: right;">
+                                                                @if ($calculate->matauang == 'RP')
+                                                                    RP. {{ number_format($calculate->ongkir) }}
+                                                                @elseif ($calculate->matauang == 'USD')
+                                                                    $ {{ number_format($calculate->ongkir /100 ,2) }}
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
                                                             <td><label class="pull-right mx-2"> Discount :</label></td>
                                                             <td style="text-align: right;">
                                                                 @if ($calculate->matauang == 'RP')
@@ -441,7 +451,6 @@
                                                 @endif
                                               </div>
                                               <div class="pdf">
-                                                <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
                                                 <a href="{{ url('exportpdf/pymnt_id/'.$po->id) }}" class="btn btn-danger mt-3" target="_blank">Export PDF</a>
                                               </div>
                                             </div>

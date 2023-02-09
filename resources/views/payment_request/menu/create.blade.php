@@ -330,6 +330,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
+                                                                    <td><label class="pull-right mx-2"> Shipping & Protection Fee :</label></td>
+                                                                    <td style="text-align: right;">
+                                                                        @if ($calculate->matauang == 'RP')
+                                                                            RP. {{ number_format($calculate->ongkir) }}
+                                                                        @elseif ($calculate->matauang == 'USD')
+                                                                            $ {{ number_format($calculate->ongkir /100 ,2) }}
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
                                                                     <td><label class="pull-right mx-2"> Discount :</label></td>
                                                                     <td style="text-align: right;">
                                                                         @if ($calculate->matauang == 'RP')

@@ -329,7 +329,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="pull-right mx-2"> Ongkir :</label></td>
+                                                                <td><label class="pull-right mx-2"> Shipping & Protection Fee :</label></td>
                                                                 <td style="text-align: right;">
                                                                     @if ($value->matauang == 'RP')
                                                                         RP. {{ number_format($value->ongkir) }}
@@ -406,11 +406,12 @@
                                                             @endforeach
                                                             </tbody>
                                                     </table>
-                                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_multi/' . $data_pengajuan->id) }}"
+                                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                                         target="_blank" style="font-size:12;">Export PDF PO</i>
                                                     </a>
-                                                    <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3"> Edit PO <i class="fa fa-plus"></i></a>
-
+                                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/pymnt_id/' . $po->id) }}"
+                                                        target="_blank" style="font-size:12;">Export PDF Payment</i>
+                                                    </a>
                                                     @endif
                                                   </div>
                                                 </div>
