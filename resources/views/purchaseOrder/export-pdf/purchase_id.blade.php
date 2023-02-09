@@ -225,7 +225,7 @@
                     <p class="itemtext"></p>
                 </td>
                 <td>
-                    <p class="m-0">Shipping Cost </p>
+                    <p class="m-0">Shipping & Protection Fee </p>
                 </td>
                 {{-- {{ dd($value) }} --}}
                     @if($value->matauang == 'RP')

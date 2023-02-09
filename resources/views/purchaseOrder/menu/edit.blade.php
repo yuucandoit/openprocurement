@@ -242,7 +242,7 @@
 
                                     <td>
                                         <input type="text" name="unit_price[]" placeholder="Input Price"
-                                            class="form-control text-end form-calc form-cost "
+                                            class="form-control text-end form-calc form-cost rupiah"
                                             style="text-align: right;" value="{{ $item->unit_price }}" required />
                                     </td>
                                     <td>
@@ -273,7 +273,7 @@
                                         <td>
                                             <label class="pull-right"
                                                 style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                Ongkir :</label>
+                                                Shipping & Protection Fee :</label>
                                         </td>
                                         <td>
                                             <input  class="ongkir form-control text-end rupiah" type="text" name="ongkir" value="{{ $count->ongkir }}">
@@ -365,7 +365,7 @@
                                         /* Fungsi formatRupiah */
                                         function formatRupiah(angka, prefix) {
                                             var number_string = angka.replace(/[^,\d]/g, ""),
-                                                split = number_string.split("."),
+                                                split = number_string.split(","),
                                                 sisa = split[0].length % 3,
                                                 rupiah = split[0].substr(0, sisa),
                                                 ribuan = split[0].substr(sisa).match(/\d{3}/gi);
@@ -374,7 +374,7 @@
                                                 separator = sisa ? "." : "";
                                                 rupiah += separator + ribuan.join(".");
                                             }
-                                            rupiah = split[1] != undefined ? rupiah + "." + split[1] : rupiah;
+                                            rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
                                             return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                         }
 
