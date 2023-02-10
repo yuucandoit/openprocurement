@@ -330,7 +330,9 @@
                 @endif
             </td>
             <td align="right">
-
+                @php
+                    $sig =  App\Models\ItemPO::where('ppb_id', $cpo->ppb_id)->first();
+                @endphp
 
                 <div style="text-align: center;">
                         @if (
