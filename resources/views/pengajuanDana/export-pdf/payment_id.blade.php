@@ -295,21 +295,21 @@
                 </td>
                     @if ($value->ppn == 0)
                             @if ($value->matauang == 'RP')
-                                <td class="text-right">
+                                <td class="text-right" style="white-space: nowrap;">
                                     <p style="font-weight: 700;" class="text-right"> Rp.{{ number_format($value->grand_total) }}</p>
                                 </td>
                             @elseif ($value->matauang == 'USD')
-                                <td class="text-right">
+                                <td class="text-right" style="white-space: nowrap;">
                                     <p style="font-weight: 700;" class="text-right"> $ {{ number_format($value->grand_total /100 ,2) }}</p>
                                 </td>
                             @endif
                     @elseif($value->ppn == 1)
                             @if ($value->matauang == 'RP')
-                                <td class="text-right">
+                                <td class="text-right" style="white-space: nowrap;">
                                     <p style="font-weight: 700;" class="mb-0 text-right"> Rp. {{ number_format($value->grand_total) }}</p>
                                 </td>
                             @elseif ($value->matauang == 'USD')
-                                <td class="text-right">
+                                <td class="text-right" style="white-space: nowrap;">
                                     <p style="font-weight: 700;" class="mb-0 text-right"> $.{{ number_format($value->grand_total /100 ,2) }}</p>
                                 </td>
                             @endif
