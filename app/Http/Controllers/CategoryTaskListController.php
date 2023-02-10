@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
+use App\Models\CategoryPO;
 use App\Models\CategoryTL;
+use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
@@ -121,6 +123,10 @@ class CategoryTaskListController extends Controller
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $vendor             = CategoryPO::where('ppb_id',$id)->first();
+        $items              = CategoryPO::where('ppb_id',$id)->get();
+        $groupedItem        = ItemPO::groupBy('po_id')->get();
+        $itempurchase       = ItemPO::groupBy('po_id')->first();
         return view('taskList.menu.detail')
         ->with('purpose',$purpose)
         ->with('pengajuan', $pengajuan)
@@ -128,7 +134,11 @@ class CategoryTaskListController extends Controller
         ->with('ppn', $ppn)
         ->with('total', $total)
         ->with('total_tnpa_ppn', $total_tnpa_ppn)
-        ->with('data_pengajuan', $data_pengajuan);
+        ->with('data_pengajuan', $data_pengajuan)
+        ->with('items', $items)
+        ->with('vendor', $vendor)
+        ->with('groupedItem', $groupedItem)
+        ->with('itempurchase', $itempurchase);
     }
     /**
      * Show the form for creating a new resource.

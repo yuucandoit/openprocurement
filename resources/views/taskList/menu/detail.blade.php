@@ -98,113 +98,377 @@
                                     </tbody>
                                 </table>
 
-                                <table class="table table-bordered table-hover mt-4 mb-4">
-                                    <thead class="bg-primary">
-                                        <tr class="text-center">
-                                            <th>Item</th>
-                                            <th>Qty</th>
-                                            <th>Category</th>
-                                            <th>File</th>
-                                            <th>Price-per-unit</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($pengajuan as $p)
-                                            <tr>
-                                                <td style="text-align: center;">{{ $p->item }}</td>
-                                                <td style="text-align: center;">{{ $p->qty }}</td>
-                                                <td style="text-align: center;">{{ $p->kategori }}</td>
-                                                @if(empty($p->path_file))
-                                                <td></td>
-                                                @else
-                                                <td style="text-align: center;"><a href="/upload_pengajuan/{{ $p->path_file }}" class="btn btn-danger " target="_blank">See File</a></td>
-                                                @endif
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}
-                                                    </td>
-                                                    <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    <td style="text-align:right;">$ {{ number_format($p->unit_price) }}
-                                                    </td>
-                                                    <td style="text-align:right;">$ {{ number_format($p->total) }}</td>
-                                                @endif
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered ">
-                                    <tr>
-                                        <td><label class="pull-right mx-2"> DPP :</label></td>
-                                        <td style="text-align: right;">
-                                            @foreach ($dpp as $d)
-                                                {{-- Ketika mata uang yang dipilih RP --}}
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    RP. {{ number_format($d->total) }}
-                                                    {{-- Ketika mata uang yang dipilih USD --}}
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    $ {{ number_format($d->total) }}
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                                value="{{ $data_pengajuan->ppn }}"
-                                                @if ($data_pengajuan->ppn == 1) @checked(true)
-                                                @else @endif
-                                                disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
-                                        <td style="text-align:right;">
-                                            @if ($data_pengajuan->ppn == 1)
-                                                @foreach ($ppn as $p)
-                                                    {{-- Ketika mata uang yang dipilih RP --}}
-                                                    @if ($data_pengajuan->matauang == 'RP')
-                                                        RP. {{ number_format($p->total) }}
-                                                        {{-- Ketika mata uang yang dipilih USD --}}
-                                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                                        $ {{ number_format($p->total) }}
-                                                    @endif
-                                                @endforeach
-                                            @else
-                                                @foreach ($ppn as $p)
-                                                    {{-- Ketika mata uang yang dipilih RP --}}
-                                                    @if ($data_pengajuan->matauang == 'RP')
-                                                        RP. 0
-                                                        {{-- Ketika mata uang yang dipilih USD --}}
-                                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                                        $ 0
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @if ($data_pengajuan->ppn == 1)
-                                        <tr>
-                                            <td class="text-end" style="font-weight: bold">Grand Total :</td>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <div class="card">
+                                        @if (empty($vendor->vendorable->nama))
+                                        <div class="card-body">
+                                            <h6 class="text-center">PO Not Found</h6>
+                                        </div>
+                                        @else
+                                        @foreach ($items as $po)
 
-                                            @foreach ($total as $t)
-                                                {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    <td style="text-align:right;">RP. {{ number_format($t->total) }}</td>
+                                          <div class="card-body">
+                                            <div class="default-according" id="accordionclose{{ $po->id }}">
 
-                                                    {{-- jika mata uang yang di pilih USD Maka Return $    --}}
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    <td style="text-align:right;">$ {{ number_format($t->total) }}</td>
-                                                @endif
-                                            @endforeach
-                                        @elseif ($data_pengajuan->ppn == 0)
-                                            <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                                            @foreach ($total_tnpa_ppn as $tpn)
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    <td style="text-align:right;">RP. {{ number_format($tpn->total) }}</td>
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    <td style="text-align:right;">$ {{ number_format($tpn->total) }}</td>
-                                                @endif
-                                            @endforeach
-                                        </tr>
-                                    @endif
-                                </table>
+                                              <div class="card">
+                                                <div class="card-header" id="heading{{ $po->id }}">
+                                                  <h5 class="mb-0">
+                                                    <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1">Vendor #<span>{{ $po->vendorable->nama }}</span></button>
+                                                  </h5>
+                                                </div>
+                                                <div class="collapse" id="collapse{{ $po->id }}" aria-labelledby="heading{{ $po->id }}" data-bs-parent="#accordionclose{{ $po->id }}">
+                                                  <div class="card-body">
+                                                    <div class="row">
+                                                            <div class="col-md-6 ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                                            class="fa fa-database"></i>
+                                                                        Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                                        &nbsp; &nbsp;:
+                                                                        @if (empty($po->vendorable->nama))
+                                                                        @else
+                                                                            {{ $po->vendorable->nama }}
+                                                                        @endif
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6 ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                                            class="fa fa-database"></i>
+                                                                        Quotation  :
+                                                                        @if (empty($po->quotation))
+                                                                        @else
+                                                                            {{ $po->quotation }}
+                                                                        @endif
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6 ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                                            class="fa fa-database"></i>
+                                                                        Terms conditions :
+                                                                        @if (empty($po->term->term_condition))
+                                                                        @else
+                                                                            <br>
+                                                                            {!! nl2br($po->term->term_condition) !!}
+                                                                        @endif
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="col-md-6 ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                                            class="fa fa-database"></i>
+                                                                        File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
+                                                                        @if (empty($po->path_quotation))
+                                                                            -
+                                                                        @else
+                                                                            <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank">{!! nl2br($po->path_quotation) !!}</a>
+                                                                        @endif
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                @php
+                                                    foreach($po->itempo as $i)
+                                                {
+                                                    $e = $i->po_id;
+                                                }
+                                                @endphp
+
+                                                    @if(empty($e))
+
+                                                    <table class="table table-bordered mt-4 mb-4 order-entry">
+                                                        <thead>
+                                                            <tr class="text-center"
+                                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
+                                                                <th>Item</th>
+                                                                <th>Qty</th>
+                                                                <th>Category</th>
+                                                                <th>Price-per-unit</th>
+                                                                <th>Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($pengajuan as $p)
+                                                                <tr>
+                                                                    <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
+                                                                    <td style="text-align: center;">{{ $p->qty }}</td>
+                                                                    <td style="text-align: center;">{{ $p->kategori }}</td>
+                                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                                        <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}
+                                                                        </td>
+                                                                        <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
+                                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                                        <td style="text-align:right;">$ {{ number_format($p->unit_price /100 ,2) }}
+                                                                        </td>
+                                                                        <td style="text-align:right;">$ {{ number_format($p->total /100 ,2) }}</td>
+                                                                    @endif
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                    <table class="table table-bordered ">
+                                                        <tr>
+                                                            <td><label class="pull-right mx-2"> DPP :</label></td>
+                                                            <td style="text-align: right;">
+                                                                @foreach ($dpp as $d)
+                                                                    {{-- Ketika mata uang yang dipilih RP --}}
+                                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                                        RP. {{ number_format($d->total) }}
+                                                                        {{-- Ketika mata uang yang dipilih USD --}}
+                                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                                        $ {{ number_format($d->total /100 ,2) }}
+                                                                    @endif
+                                                                @endforeach
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="pull-right mx-2"> Discount :</label></td>
+                                                            <td style="text-align: right;">
+                                                                    {{-- Ketika mata uang yang dipilih RP --}}
+                                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                                        RP. {{ number_format($disc->discount) }}
+                                                                        {{-- Ketika mata uang yang dipilih USD --}}
+                                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                                        $ {{ number_format($disc->discount /100 ,2) }}
+                                                                    @endif
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><input class="mt-1 pull-right check-box" type="checkbox"
+                                                                    value="{{ $data_pengajuan->ppn }}"
+                                                                    @if ($data_pengajuan->ppn == 1) @checked(true)
+                                                                @else
+                                                            @endif
+                                                                    disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                                            <td style="text-align:right;">
+                                                                @if ($data_pengajuan->ppn == 1)
+                                                                    @foreach ($ppn as $p)
+                                                                        {{-- Ketika mata uang yang dipilih RP --}}
+                                                                        @if ($data_pengajuan->matauang == 'RP')
+                                                                            RP. {{ number_format($p->total) }}
+                                                                            {{-- Ketika mata uang yang dipilih USD --}}
+                                                                        @elseif ($data_pengajuan->matauang == 'USD')
+                                                                            $ {{ number_format($p->total /100 ,2) }}
+                                                                        @endif
+                                                                    @endforeach
+                                                                @else
+                                                                    @foreach ($ppn as $p)
+                                                                        {{-- Ketika mata uang yang dipilih RP --}}
+                                                                        @if ($data_pengajuan->matauang == 'RP')
+                                                                            RP. 0
+                                                                            {{-- Ketika mata uang yang dipilih USD --}}
+                                                                        @elseif ($data_pengajuan->matauang == 'USD')
+                                                                            $ 0
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                        @if ($data_pengajuan->ppn == 1)
+                                                            <tr>
+                                                                <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+
+                                                                @foreach ($total as $t)
+                                                                    {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
+                                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                                        <td style="text-align:right;">RP. {{ number_format($t->total) }}</td>
+
+                                                                        {{-- jika mata uang yang di pilih USD Maka Return $    --}}
+                                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                                        <td style="text-align:right;">$ {{ number_format($t->total /100 ,2) }}</td>
+                                                                    @endif
+                                                                @endforeach
+                                                            @elseif ($data_pengajuan->ppn == 0)
+                                                                <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+                                                                @foreach ($total_tnpa_ppn as $tpn)
+                                                                    @if ($data_pengajuan->matauang == 'RP')
+                                                                        <td style="text-align:right;">RP. {{ number_format($tpn->total) }}</td>
+                                                                    @elseif ($data_pengajuan->matauang == 'USD')
+                                                                        <td style="text-align:right;">$ {{ number_format($tpn->total /100 ,2) }}</td>
+                                                                    @endif
+                                                                @endforeach
+                                                            </tr>
+                                                        @endif
+                                                    </table>
+
+                                                    @else
+
+
+                                                    <table class="table table-bordered item order-entry mx-2">
+                                                        <tr style="text-align: center;">
+                                                            <th
+                                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                No</th>
+                                                            <th
+                                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                Item</th>
+                                                            <th
+                                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                Qty</th>
+                                                            <th
+                                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                Category</th>
+                                                            <th
+                                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                Price-per-unit</th>
+                                                            <th
+                                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                Total</th>
+                                                        </tr>
+                                                        @php
+                                                            $id = 1;
+                                                        @endphp
+                                                        @foreach ($po->itempo as $item)
+                                                        {{-- {{ dd($item) }} --}}
+                                                                <tr>
+                                                                    <td class="text-center">{{ $id++ }}</td>
+                                                                    <td class="text-center">{{ $item->item }}</td>
+                                                                    <td class="text-center">{{ $item->qty }}</td>
+                                                                    <td class="text-center">{{ $item->kategori }}</td>
+
+                                                                    @if ($item->matauang == 'RP')
+                                                                        <td class="text-end">RP.
+                                                                            {{ number_format($item->unit_price,2) }}</td>
+                                                                        <td class="text-end">RP. {{ number_format($item->total,2)  }}
+                                                                        </td>
+                                                                    @elseif($item->matauang == 'USD')
+                                                                        <td class="text-end">$
+                                                                            {{ number_format($item->unit_price  ,2) }}</td>
+                                                                        <td class="text-end">$
+                                                                            {{ number_format($item->total  ,2) }}</td>
+                                                                    @endif
+                                                                </tr>
+                                                        @endforeach
+                                                    </table>
+                                                    <table class="table table-bordered ">
+                                                        <tbody>
+                                                            @foreach ($groupedItem as $value)
+                                                            @if($value->po_id === $po->id)
+                                                            <tr>
+                                                                <td><label class="pull-right mx-2"> DPP :</label></td>
+                                                                <td style="text-align: right;">
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->dpp ,2) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->dpp ,2) }}
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
+                                                                <td style="text-align: right;">
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->ongkir,2) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->ongkir ,2) }}
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="pull-right mx-2"> Discount :</label></td>
+                                                                <td style="text-align: right;">
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->discount) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->discount ,2) }}
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <input class="mt-1 pull-right check-box" type="checkbox"
+                                                                        value="{{ $value->ppn }}"
+                                                                        @if ($value->ppn == 1) @checked(true)
+                                                                        @else
+                                                                        @endif
+                                                                        disabled="true"><label class="pull-right mx-2"> PPN 11%
+                                                                        :</label>
+                                                                    </td>
+                                                                <td style="text-align:right;">
+                                                                    @if ($value->ppn == 1)
+
+
+                                                                    {{-- @dd($value->ppn) --}}
+                                                                    @php
+                                                                        $dpp = $value->dpp;
+                                                                        $disc = $value->discount;
+                                                                        $afterdisc = $dpp - $disc;
+                                                                        // dd($dpp);
+                                                                        $ppn = $afterdisc *11 /100;
+                                                                    @endphp
+                                                                        @if ($value->matauang == 'RP')
+                                                                            RP. {{ number_format($ppn,2) }}
+                                                                        @elseif ($value->matauang == 'USD')
+                                                                            $ {{ number_format($ppn ,2) }}
+                                                                        @endif
+                                                                    @else
+                                                                        @if ($value->matauang == 'RP')
+                                                                            RP. 0
+                                                                        @elseif ($value->matauang == 'USD')
+                                                                            $ 0
+                                                                        @endif
+                                                                    @endif
+
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td class="text-end" style="font-weight: bold;">Grand Total
+                                                                        :</td>
+                                                                <td style="text-align:right;">
+                                                                @if ($value->ppn == 1)
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP.{{ number_format($value->grand_total) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        ${{ number_format($value->grand_total /100 ,2) }}
+                                                                    @endif
+                                                                @elseif ($value->ppn == 0)
+                                                                    @if ($value->matauang == 'RP')
+                                                                    RP.{{ number_format($value->grand_total) }}</td>
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                    ${{ number_format($value->grand_total /100 ,2) }}
+                                                                    @endif
+
+                                                                @endif
+                                                            </td>
+                                                            </tr>
+                                                            @endif
+                                                            @endforeach
+                                                            </tbody>
+                                                    </table>
+                                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
+                                                        target="_blank" style="font-size:12;">Export PDF PO</i>
+                                                    </a>
+                                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/pymnt_id/' . $po->id) }}"
+                                                        target="_blank" style="font-size:12;">Export PDF Payment</i>
+                                                    </a>
+                                                    <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
+
+                                                    @endif
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          @endforeach
+                                        @endif
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                                 <hr>
+
+
                                 <div>
                                     <a href="{{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}"
                                         class="btn btn-success" style="align-self: flex-end"> Export Excel Purchase Request</a>
