@@ -333,12 +333,13 @@
 
 
                 <div style="text-align: center;">
-                        @if  ($cpp->status == 'PO Approved' ||
-                        $cpp->status == 'Invoicing Process' ||
-                        $cpp->status == 'Payment Approved' ||
-                        $cpp->status == 'Unpaid' ||
-                        $cpp->status == 'Paid' ||
-                        $cpp->status == 'Delivery Success')
+                        @if (
+                            $cpo->ppb->status == 'PO Approved' ||
+                            $cpo->ppb->status == 'Invoicing Process' ||
+                            $cpo->ppb->status == 'Payment Approved' ||
+                            $cpo->ppb->status == 'Unpaid' ||
+                            $cpo->ppb->status == 'Paid' ||
+                            $cpo->ppb->status == 'Delivery Success')
                             <p>Jakarta, {{ $approvedAt }}</p>
                             @if (empty($sig->signature))
                             @else
