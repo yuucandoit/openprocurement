@@ -14,6 +14,7 @@
     @php
          use Carbon\Carbon;
         $date = Carbon::parse($cpo->ppb->created_at)->format('d/m/Y');
+        $p =  App\Models\Invoicing::where('ppb_id', $cpo->ppb_id)->first();
         if (empty($p->approved_at)) {
             $approvedAt = 'Not Record yet';
         } else {
