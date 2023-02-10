@@ -324,6 +324,7 @@ class CategoryPDController extends Controller
     {
         $data['cpo'] = CategoryPO::find($id);
         $data['harga'] = ItemPO::where('po_id',$id)->groupBy('po_id')->get();
+        $data['sig']            = Invoicing::where('ppb_id', $id)->get()->first();
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
 
