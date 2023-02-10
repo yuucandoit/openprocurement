@@ -137,7 +137,13 @@
                                                                     </div>
                                                                 </div>
                                                         </div>
-                                                        @if(empty($itempurchase->item))
+                                                        @php
+                                                        foreach($po->itempo as $i)
+                                                        {
+                                                            $e = $i->po_id;
+                                                        }
+                                                        @endphp
+                                                        @if(empty($e))
                                                         <table class="table table-bordered mt-4 mb-4 order-entry">
                                                             <thead>
                                                                 <tr class="text-center"
