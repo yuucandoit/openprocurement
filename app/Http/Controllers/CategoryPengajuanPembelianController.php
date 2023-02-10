@@ -347,6 +347,7 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_office     = Office::all();
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
+        $purpose_rnd        = RND::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
         //dd($item);
         return view('pengajuanPembelian.menu.edit')
@@ -356,6 +357,7 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('purpose_office', $purpose_office)
             ->with('purpose_inventory', $purpose_inventory)
             ->with('purpose_workshop', $purpose_workshop)
+            ->with('purpose_rnd', $purpose_rnd)
             ->with('item', $item)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
@@ -374,24 +376,20 @@ class CategoryPengajuanPembelianController extends Controller
         $data = $request->all();
         //dd($data);
         $request->validate([
-            'category_purpose' => 'required',
             'date_ps' => 'required',
             'dateline' => 'required',
             'ws'      => 'required',
             'department' => 'required',
             'desc'  => 'required',
             'atasan' => 'required',
-            'matauang' => 'required',
             'send_to' => 'required',
         ], [
-            'category_purpose.required' => 'The Purpose field is required.',
             'date_ps.required' => 'The Date field is required.',
             'dateline.required' => 'The Date Line field is required.',
             'ws.required' => 'The Who Submitted field is required.',
             'department.required' => 'The Department field is required.',
             'desc.required' => 'The Description field is required.',
             'atasan.required' => 'The Approved By field is required.',
-            'mata_uang.required' => 'The Currency field is required.',
             'send_to.required' => 'The Send To field is required.',
         ]);
 

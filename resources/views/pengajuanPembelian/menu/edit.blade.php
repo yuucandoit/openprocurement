@@ -16,33 +16,7 @@
                             <li class="breadcrumb-item">Edit Purchase Submission</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
+
                 </div>
             </div>
         </div>
@@ -58,331 +32,280 @@
                             <form action="{{ url('/menu-pengajuan-pembelian/update/' . $dv->id) }}" id="formAdd"
                                 method="post" enctype="multipart/form-data">
                                 @csrf
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date :</label>
-                                        <div class="form-group">
-                                            <input type="date"
-                                                class="form-control page @error('date_ps') is-invalid @enderror"
-                                                id="floatingTanggal" placeholder="Tanggal" name="date_ps"
-                                                value="{{ old('date_ps', date('Y-m-d')) }}">
-                                            @error('date_ps')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date :</label>
+                                    <div class="form-group">
+                                        <input type="date" class="form-control @error('date_ps') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" name="date_ps" value="{{ old('date_ps', date('Y-m-d')) }}">
+                                        @error('date_ps')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
                                         </div>
-                                        <div class="valid-feedback">Looks good!</div>
+                                        @enderror
                                     </div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="floatingdeadline"><i class="fa fa-clock-o"></i> Deadline :</label>
-                                            <select class="form-select page @error('dateline') is-invalid @enderror"
-                                                id="floatingdeadline" placeholder="Dateline" value="{{ old('dateline') }}"
-                                                name="dateline">
-                                                <option selected value="{{ $dv->dateline }}"
-                                                    {{ $dv->dateline ? 'selected' : '' }}>{{ $dv->dateline }}</option>
-                                                    <option value="≤24Jam">1 hari</option>
-                                                    {{-- <option value="≤48Jam">2 hari</option> --}}
-                                                    <option value="≤72Jam">2 sd 3 hari</option>
-                                                    {{-- <option value="≤96Jam">4 hari</option> --}}
-                                                    <option value="≤168Jam">4 sd 7 hari</option>
-                                                    <option value="≤336Jam">8 sd 14 hari</option>
-                                            </select>
-                                            @error('dateline')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="floatingdateline"><i class="fa fa-clock-o"></i> Deadline :</label>
+                                        <select class="form-select @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" required="">
+                                            <option selected="" value="{{ $dv->dateline }}">{{ $dv->dateline }}
+                                            </option>
+                                            <option value="≤24Jam">1 hari</option>
+                                            {{-- <option value="≤48Jam">2 hari</option> --}}
+                                            <option value="≤72Jam">2 sd 3 hari</option>
+                                            {{-- <option value="≤96Jam">4 hari</option> --}}
+                                            <option value="≤168Jam">4 sd 7 hari</option>
+                                            <option value="≤336Jam">8 sd 14 hari</option>
+
+                                        </select>
+                                        @error('dateline')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
                                         </div>
+                                        @enderror
                                     </div>
+                                </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted
-                                                :</label>
-                                            <select class="form-select page @error('ws') is-invalid @enderror"
-                                                id="floatingwhosubmitted" placeholder="Who Submitted" name="ws">
-                                                <option selected value="{{ $dv->whosubmit->id }}"
-                                                    {{ $dv->whosubmit->id ? 'selected' : '' }}>{{ $dv->whosubmit->name }}
-                                                </option>
-                                                @foreach ($dataws as $w)
-                                                    <option value="{{ $w->id }}">{{ $w->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('ws')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="" for="pageSelector"><b><i class="fa fa-send"></i> Send To</b></label>
+                                        <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to">
+                                            <option value="{{ $dv->send_to }}" selected hidden>{{ $dv->send_to }}</option>
+                                            <option value="Tebet">Tebet</option>
+                                            <option value="Cikunir">Cikunir</option>
+                                            <option value="other">Other Option</option>
+                                        </select>
+                                        <input class="hide form-control mt-1" type="text" id="customOther" placeholder="Input Send To">
                                     </div>
-
-                                    {{-- css hide --}}
-                                    <style>
-                                        .hide {
-                                            width: 0;
-                                            height: 0;
-                                            opacity: 0;
-                                        }
-
-                                        .page {
-                                            height: 50px;
-                                        }
-                                    </style>
-                                    {{-- End Css Hide --}}
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i>
-                                                Purpose
-                                                : </label>
-                                            <select class="form-select page pageSelect" id="pageSelect"
-                                                placeholder="Purpose" name="category_purpose">
-                                                <option value="">Select Category Purpose</option>
-                                                <option value="project">Project</option>
-                                                <option value="office">Office</option>
-                                                <option value="workshop">Workshop</option>
-                                                <option value="inventory">Inventory</option>
-                                            </select>
-                                            <p style="color: red;">* Please re-input form purpose</p>
-                                            {{-- Project Dropdown --}}
-                                            <select class=" form-select hide mt-2" id="selectedInput" name="project">
-                                                @foreach ($purpose as $p)
-                                                    <option value="{{ $p->id }}">{{ $p->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            {{-- End Project Dropdown --}}
-
-                                            {{-- Office Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput2" name="office">
-                                                @foreach ($purpose_office as $o)
-                                                    <option value="{{ $o->id }}">{{ $o->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            {{-- End Office Dropdown --}}
-
-                                            {{-- Workshop Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput3" name="workshop">
-                                                @foreach ($purpose_workshop as $e)
-                                                    <option value="{{ $e->id }}">{{ $e->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            {{-- End Workshop Dropdown --}}
-
-                                            {{-- Inventory Dropdown --}}
-                                            <select class=" form-select hide" id="selectedInput4" name="inventory">
-                                                @foreach ($purpose_inventory as $pi)
-                                                    <option value="{{ $pi->id }}">{{ $pi->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            {{-- End Inventory Dropdown --}}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="floatingrequestby"><i class="fa fa-user"></i> Request By
+                                            :</label>
+                                        <select class="form-select @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" required="" data-live-search="true">
+                                            <option value="{{ $dv->ws }}" selected hidden>{{ $dv->whosubmit->name }}</option>
+                                            @foreach ($dataws as $ws)
+                                            <option value="{{ $ws->id }}">{{ $ws->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('ws')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
                                         </div>
+                                        @enderror
+                                    </div>
+                                </div>
 
-                                        @error('category_purpose')
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="floatingdepartment"><i class="fa fa-institution"></i> Department
+                                            :</label>
+                                        <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
+                                            <option value="{{ $dv->department }}" selected hidden>{{ $dv->dps->name }}</option>
+                                            @foreach ($datadepartment as $dp)
+                                            <option value="{{ $dp->id }}">{{ $dp->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('department')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Send Approval To:</label>
+                                        <select class="form-select" id="floatingproposedto" placeholder="Proposed To" name="atasan" required="">
+                                            <option selected=""  value="{{ $dv->atasan }}">{{ $dv->bod->name }}
+                                            </option>
+                                            @foreach ($atasan as $sui)
+                                            <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('atasan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
+                                        <div class="">
+                                            <textarea name="desc" id="floatingNoTelpon" class="form-control" rows="4">{{ $dv->desc }}</textarea>
+                                            @error('desc')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i>
+                                            Purpose
+                                            :</label>
+                                        <select class="form-select pageSelect" id="pageSelect" placeholder="Purpose" name="category_purpose" data-live-search="true">
+                                            <option value="">Select Category Purpose</option>
+                                            <option value="project">Project</option>
+                                            <option value="office">Office</option>
+                                            <option value="workshop">Workshop</option>
+                                            <option value="inventory">Inventory</option>
+                                            <option value="rnd">R&D</option>
+                                        </select>
+                                        @error('category_purpose')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
                                         @enderror
-                                    </div>
+                                        {{-- Project Dropdown --}}
+                                        <div class="hide mt-2" id="selectedInput">
+                                        <select class= "js-example-basic-single mt-2 "  name="project">
+                                            @foreach ($purpose as $p)
+                                            <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                            @endforeach
+                                        </select>
+                                         </div>
+                                        {{-- End Project Dropdown --}}
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="floatingdepartment"><i class="fa fa-institution"></i> Department
-                                                :</label>
-                                            <select class="form-select page @error('department') is-invalid @enderror"
-                                                id="floatingdepartment" placeholder="department" name="department">
-                                                <option selected hidden value="{{ $dv->dps->id }}"
-                                                    {{ $dv->dps->id ? 'selected' : '' }}>{{ $dv->dps->name }}</option>
-                                                @foreach ($datadepartment as $d)
-                                                    <option value="{{ $d->id }}">{{ $d->name }}</option>
-                                                @endforeach
+                                        {{-- Office Dropdown --}}
+                                        <div class="hide" id="selectedInput2">
+                                        <select class="js-example-basic-single" name="company">
+                                            @foreach ($purpose_office as $o)
+                                            <option value="{{ $o->id }}">{{ $o->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        </div>
+                                        {{-- End Office Dropdown --}}
+
+                                        {{-- Workshop Dropdown --}}
+                                        <div class="hide" id="selectedInput3">
+                                        <select class="js-example-basic-single" name="workshop">
+                                            @foreach ($purpose_workshop as $e)
+                                            <option value="{{ $e->id }}">{{ $e->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        </div>
+                                        {{-- End Workshop Dropdown --}}
+
+                                        {{-- Inventory Dropdown --}}
+                                        <div class="hide" id="selectedInput4">
+                                        <select class="js-example-basic-single" name="inventory">
+                                            @foreach ($purpose_inventory as $pi)
+                                            <option value="{{ $pi->id }}">{{ $pi->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        </div>
+                                        {{-- End Inventory Dropdown --}}
+
+                                        {{-- Inventory Dropdown --}}
+                                        <div class="hide" id="selectedInput5">
+                                        <select class="js-example-basic-single" name="rnd">
+                                            @foreach ($purpose_rnd as $rnd)
+                                            <option value="{{ $rnd->id }}">{{ $rnd->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        </div>
+                                        {{-- End Inventory Dropdown --}}
+                                    </div>
+                                </div>
+
+                                {{-- css hide --}}
+                                <style>
+                                    .hide {
+                                        width: 0;
+                                        height: 0;
+                                        opacity: 0;
+                                        display: none;
+                                    }
+
+                                    .page {
+                                        height: 58px;
+                                    }
+
+                                </style>
+
+
+
+                                <br>
+                                <hr>
+                                <table class="table table-bordered item order-entry">
+                                    <tr style="text-align: center;">
+                                        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Item</th>
+                                        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Qty</th>
+                                        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Unit</th>
+                                        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            File</th>
+                                        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Action</th>
+
+                                    </tr>
+                                    @foreach ($item as $i)
+                                    <tr>
+                                        <td class="text">
+                                            <input type="text" name="id[]" placeholder="Input Item" class="form-control" style="text-align: center;" value="{{ $i->id }}" hidden />
+                                            <textarea name="item[]" id="" class="form-control" rows="2" style="min-width: 300px">{{ $i->item }}</textarea>
+                                            {{-- <input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required /> --}}
+                                        </td>
+                                        <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" value="{{ $i->qty }}" required />
+                                        </td>
+                                        <td>
+                                            <select class="form-select " placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
+                                                <option value="{{ $i->kategori }}" selected hidden>{{ $i->kategori }}</option>
+                                                <option value="Pcs" selected>Pcs </option>
+                                                <option value="Lusin">Lusin </option>
+                                                <option value="Box">Box </option>
+                                                <option value="Unit">Unit </option>
+                                                <option value="Lot">Lot </option>
+                                                <option value="Rim">Rim </option>
+                                                <option value="Org">Org </option>
+                                                <option value="Line">Line </option>
+                                                <option value="Ruang">Ruang </option>
+                                                <option value="Pax">Pax </option>
+                                                <option value="Set">Set </option>
+                                                <option value="Piece">Piece </option>
+                                                <option value="Rol">Rol </option>
+                                                <option value="Pack">Pack </option>
+                                                <option value="Batang">Batang </option>
                                             </select>
-                                            @error('department')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
+                                        </td>
+                                        <td>
+                                            <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button type="button" name="add" class="btn btn-danger remove-input-field">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </table>
+                                <div class="mt-2">
+                                    <button type="button" name="add" class="addItem btn btn-outline-primary">
+                                        AddItem
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
+                                    <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-dark mt-3">Back</a>
+                                </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
-                                            <div class="form-floating">
-                                                <textarea name="desc" id="floatingNoTelpon" class="form-control page @error('desc') is-invalid @enderror"
-                                                    cols="50" rows="30">{{ $dv->desc }}</textarea>
-                                                @error('desc')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label" style="font-weight: bold;"><i
-                                                    class="icofont icofont-stamp"></i> Approved By :</label>
-                                            <select class="form-select page @error('atasan') is-invalid @enderror"
-                                                id="floatingproposedto" placeholder="Proposed To" name="atasan">
-                                                <option selected hidden value="{{ $dv->bod->id }}"
-                                                    {{ $dv->bod->id ? 'selected' : '' }}> {{ $dv->bod->name }}</option>
-                                                @foreach ($atasan as $sui)
-                                                    <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('atasan')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label" style="font-weight: bold;"><i
-                                                    class="fa fa-money"></i> Currency :</label>
-                                            <select class="form-select page @error('matauang') is-invalid @enderror"
-                                                id="floatingdateline" placeholder="Mata Uang" name="matauang">
-                                                <option selected value="{{ $dv->matauang }}">{{ $dv->matauang }}</option>
-                                                <option value="USD">USD</option>
-                                                <option value="RP">RP</option>
-                                            </select>
-                                            @error('matauang')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    {{-- css hide --}}
-                                    <style>
-                                        .hide {
-                                            opacity: 0;
-                                        }
-
-                                        .page {
-                                            height: 58px;
-                                        }
-                                    </style>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label" style="font-weight: bold;"><i
-                                                    class="fa fa-send"></i> Send To</label>
-                                            <select class="form-select page" id="pageSelector" placeholder="Send To"
-                                                name="send_to">
-                                                <option selected value="{{ $dv->send_to }}">{{ $dv->send_to }}
-                                                </option>
-                                                <option value="Tebet">Tebet</option>
-                                                <option value="Cikunir">Cikunir</option>
-                                                <option value="other">Other Option</option>
-                                            </select>
-                                            <input class="hide form-control mt-2" type="text" id="customOther"
-                                                placeholder="Input Send To">
-                                        </div>
-                                    </div>
-
-                                    {{-- <div class="col-md-6">
-                                        <div
-                                            class=" form-group m-checkbox-inline mb-0 @error('send_to') is-invalid @enderror">
-                                            <div class="col-6">
-                                                <label><i class="fa fa-send"></i> Send To :</label>
-                                            </div>
-                                            <div class="radio radio-primary col-md-6">
-                                                <input id="tebet" type="radio" name="send_to" value="Tebet"
-                                                    @if ($dv->send_to === 'Tebet') checked @endif required />
-                                                <label for="tebet">Tebet</label>
-                                            </div>
-                                            <div class="radio radio-primary col-md-6">
-                                                <input id="cikunir" type="radio" name="send_to" value="Cikunir"
-                                                    @if ($dv->send_to === 'Cikunir') checked @endif required />
-                                                <label for="cikunir">Cikunir</label>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                    <hr>
-                                    <table class="table table-bordered mt-2 mx-2 item order-entry">
-                                        <tr style="text-align: center;">
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Item</th>
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Qty</th>
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Category</th>
-                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                    File</th>
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Action</th>
-                                        </tr>
-                                        @php
-                                            $id = 0;
-                                            $id++;
-                                        @endphp
-                                        @foreach ($item as $i)
-                                            <tr>
-                                                <td class="text">
-                                                    <input type="text" name="id[]"
-                                                    placeholder="Input Item" class="form-control"
-                                                    style="text-align: center;" value="{{ $i->id }}" hidden />
-                                                    <input type="text" name="item[]"
-                                                        placeholder="Input Item" class="form-control"
-                                                        style="text-align: center;" value="{{ $i->item }}"
-                                                        required />
-                                                </td>
-                                                <td><input type="number" name="qty[]" placeholder="Input Quantity"
-                                                        class="form-control form-calc form-qty"
-                                                        style="text-align: center;" value="{{ $i->qty }}"
-                                                        required />
-                                                </td>
-                                                <td>
-                                                    <select class="form-select " placeholder="Kategori" name="kategori[]"
-                                                        value="{{ $i->kategori }}" required>
-                                                        <option selected value="{{ $i->kategori }}">{{ $i->kategori }}
-                                                        </option>
-                                                        <option value="Pcs">Pcs </option>
-                                                        <option value="Lusin">Lusin </option>
-                                                        <option value="Box">Box </option>
-                                                        <option value="Unit">Unit </option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data" value="{{ $i->path_file }}">
-                                                    <a href="./upload_pengajuan/{{ $i->path_file }}"></a>
-                                                    @error('path_file')
-                                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                                    @enderror
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <button type="button" name="add"
-                                                        class="btn btn-danger remove-input-field">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
-                                    <div class="mt-2">
-                                        <button type="button" name="add" class="addItem btn btn-outline-primary">
-                                            AddItem
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                    <br>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
-                                        <a href="{{ route('menu-pengajuan-pembelian.index') }}"
-                                            class="btn btn-dark mt-3">Back</a>
-                                    </div>
                             </form>
                         </div>
                     </div>
@@ -499,57 +422,74 @@
             })
         </script>
 
-        <script type="text/javascript">
-            var pageSelect = document.getElementById('pageSelect');
-            var selectedInput = document.getElementById('selectedInput');
-            var selectedInputCustom = document.getElementById('selectedInputCustom');
+<script type="text/javascript">
+    var pageSelect = document.getElementById('pageSelect');
 
-            var selectedInput2 = document.getElementById('selectedInput2');
-            var selectedInputCustom2 = document.getElementById('selectedInputCustom2');
+    var selectedInput = document.getElementById('selectedInput');
+    var selectedInputCustom = document.getElementById('selectedInputCustom');
 
-            var selectedInput3 = document.getElementById('selectedInput3');
-            var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
+    var selectedInput2 = document.getElementById('selectedInput2');
+    var selectedInputCustom2 = document.getElementById('selectedInputCustom2');
 
-            var selectedInput4 = document.getElementById('selectedInput4');
-            var selectedInputCustom4 = document.getElementById('selectedInputCustom4');
+    var selectedInput3 = document.getElementById('selectedInput3');
+    var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
+
+    var selectedInput4 = document.getElementById('selectedInput4');
+    var selectedInputCustom4 = document.getElementById('selectedInputCustom4');
+
+    var selectedInput5 = document.getElementById('selectedInput5');
+    var selectedInputCustom5 = document.getElementById('selectedInputCustom5');
+
+    var selectedInput6 = document.getElementById('selectedInput6');
+    var selectedInputCustom6 = document.getElementById('selectedInputCustom6');
 
 
-            // Company
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "project") {
-                    selectedInput.classList.remove('hide');
-                } else {
-                    selectedInput.classList.add('hide');
-                }
-            })
+    // Project
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "project") {
+            selectedInput.classList.remove('hide').select2();
+        } else {
+            selectedInput.classList.add('hide');
+        }
+    })
 
-            // Private Person
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "office") {
-                    selectedInput2.classList.remove('hide');
-                } else {
-                    selectedInput2.classList.add('hide');
-                }
-            })
+    // Office
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "office") {
+            selectedInput2.classList.remove('hide');
+        } else {
+            selectedInput2.classList.add('hide');
+        }
+    })
 
-            // Ecommerce
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "workshop") {
-                    selectedInput3.classList.remove('hide');
-                } else {
-                    selectedInput3.classList.add('hide');
-                }
-            })
+    // Workshop
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "workshop") {
+            selectedInput3.classList.remove('hide');
+        } else {
+            selectedInput3.classList.add('hide');
+        }
+    })
 
-            // Inventory
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "inventory") {
-                    selectedInput4.classList.remove('hide');
-                } else {
-                    selectedInput4.classList.add('hide');
-                }
-            })
-        </script>
+    // inventory
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "inventory") {
+            selectedInput4.classList.remove('hide');
+        } else {
+            selectedInput4.classList.add('hide');
+        }
+    })
+
+    // R&D
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "rnd") {
+            selectedInput5.classList.remove('hide');
+        } else {
+            selectedInput5.classList.add('hide');
+        }
+    })
+
+</script>
 
         <script type="text/javascript">
             var pageSelector = document.getElementById('pageSelector');

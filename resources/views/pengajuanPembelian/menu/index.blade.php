@@ -442,9 +442,9 @@
                     </a>
                 </button>
                 </div> --}}
-                    @if ($ppembelian->status == 'Awaiting Purchase Submission Approval' )
+                    @if ($ppembelian->status == 'Awaiting Purchase Request Approval' )
 
-                  <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
+                  <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;  font-size:10;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
                   </a>
                   @else
 
