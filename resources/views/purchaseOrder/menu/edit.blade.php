@@ -206,7 +206,7 @@
                                     @endphp
 
                                     @foreach ($po->itempo as $item)
-                                    <tr>
+                                    <tr class="form-row">
                                     <td class="text">
                                         <input type="text" name="id[]" placeholder="Input Item" class="form-control"
                                             style="text-align: center;" value="{{ $item->id }}" hidden />
@@ -215,7 +215,7 @@
                                     </td>
                                     <td><input type="number" name="qty[]" placeholder="Input Quantity"
                                             class="form-control form-calc form-qty" style="text-align: center;"
-                                            value="{{ $item->qty }}" min="1" max="{{ $item->qty }}" />
+                                            value="{{ $item->qty }}" min="1" />
                                     </td>
                                     <td>
                                         <select class="form-select " placeholder="Kategori" name="kategori[]"
@@ -355,6 +355,20 @@
         <script type="text/javascript">
             //Math
                                     $(document).ready(function() {
+                                        document.querySelectorAll('.form-row').forEach(row => {
+                                            row.addEventListener('change', (e) => updateFileds(e, row));
+                                        })
+
+                                        function updateFileds(event, row) {
+                                            const qty = row.querySelector('.form-qty').value;
+                                            const price = row.querySelector('.form-cost input').value;
+                                            const totalElmnt = row.querySelector('.form-line');
+
+                                            console.log(qty, price);
+                                            totalElmnt.value = qty * price;
+                                        };
+
+
                                         //Convert To Rupiah
                                         var rupiah = document.querySelector(".rupiah");
                                         rupiah.addEventListener('keyup', function(e) {
