@@ -260,7 +260,7 @@
                                   <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
                                     <div class="media-body" style="font-size: 8;">
                                       <p style="font-size: 10;">{{ $c->comment->users->name }}</p>
-                                      <p style="font-size: 10;">{{ $c->comment->ppb->purpose->name }}</p><span style="font-size: 10">3 hour ago </span>
+                                      <p style="font-size: 10;">{{ $c->comment->ppb->purpose->name }}</p><span style="font-size: 10">{{ $c->comment->comment }} </span>
                                       <form action="{{ url('/comment/is_read/'.$c->item_ppid) }}" id="formAdd" method="post"
                                         enctype="multipart/form-data">
                                         @csrf
