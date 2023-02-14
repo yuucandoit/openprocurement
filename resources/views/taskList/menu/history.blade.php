@@ -71,9 +71,9 @@
                                                     <td style="text-align: center;">{{ $no++ }}</td>
                                                     <td>
                                                         <a href="{{ url('/menu-task-list/detail/' . $ppb->id) }}">
-                                                        <ul style="width: 40%;">
+                                                        <ul>
                                                             <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
-                                                            <li>{{ $ppb->desc }}</li>
+                                                            <li>{!! nl2br($ppb->desc) !!}</li>
                                                         </ul>
                                                         </a>
                                                     </td>
