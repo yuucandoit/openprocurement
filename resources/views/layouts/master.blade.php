@@ -253,7 +253,7 @@
                               @if($c->is_read_bod == 1)
 
                               @else
-                            <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-bod" method="post" enctype="multipart/form-data">
+                            <form action="{{ url('/comment/is_read/'.$c->id) }}" id="form-bod" method="post" enctype="multipart/form-data">
                                 @csrf
                             <a onclick="document.getElementById('form-bod').submit();">
                                 <li class="noti-success" style="overflow:scroll;">
@@ -413,19 +413,19 @@
                                     $po =  App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count();
                                 @endphp
                                     <li class="dropdown">
-                                        <a class="nav-link menu-title {{ request()->is('menu-purchase-order') ? 'active' : '' }} {{ request()->is('menu-purchase-order/out') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title {{ request()->is('menu-purchase-order') ? 'active' : '' }} {{ request()->is('menu-purchase-order/out') ? 'active' : '' }} {{ request()->is('menu-purchase-order/detail/*') ? 'active' : '' }}">
                                             <i data-feather="file-text" style="margin-right: -2px;"></i><span class="badge rounded-pill badge-danger" style="font-size: 6">{{ $po }}</span>
                                             <span>Purchase Order</span></a>
-                                        @if (request()->is('menu-purchase-order') || request()->is('menu-purchase-order/out') ? 'active' : '')
+                                        @if (request()->is('menu-purchase-order') || request()->is('menu-purchase-order/out') || request()->is('menu-purchase-order/detail/*') ? 'active' : '')
                                             <ul class="nav-submenu menu-content " style="display: block">
                                                 <li>
-                                                    <a class=" {{ request()->is('menu-purchase-order') ? 'active' : '' }}"
+                                                    <a class=" {{ request()->is('menu-purchase-order') || request()->is('menu-purchase-order/detail/*') ? 'active' : '' }}"
                                                         href="{{ url('/menu-purchase-order') }}">
                                                         <span>Purchase Order In</span>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class=" {{ request()->is('menu-purchase-order/out') ? 'active' : '' }}"
+                                                    <a class=" {{ request()->is('menu-purchase-order/out') || request()->is('menu-purchase-order/detail/*') ? 'active' : '' }}"
                                                         href="{{ url('/menu-purchase-order/out') }}">
                                                         <span>Purchase Order Out</span>
                                                     </a>
