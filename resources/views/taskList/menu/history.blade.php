@@ -73,7 +73,7 @@
                                                         <a href="{{ url('/menu-task-list/detail/' . $ppb->id) }}">
                                                         <ul>
                                                             <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
-                                                            <li>{!! nl2br($ppb->desc) !!}</li>
+                                                            <li style="word-break: break-word;">{!! nl2br($ppb->desc) !!}</li>
                                                         </ul>
                                                         </a>
                                                     </td>
