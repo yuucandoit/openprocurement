@@ -44,7 +44,6 @@ class CommentController extends Controller
             'ppb_id' => $pengajuan->id,
             'user_id' =>  Auth::user()->id,
             'comment' => $request->comment,
-            'is_read' => 0,
         ]);
 
         if($request->role == 'super user'){
