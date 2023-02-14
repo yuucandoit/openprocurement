@@ -69,10 +69,11 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td> <a href="{{ url('/menu-task-list/detail/' . $ppb->id) }}">
+                                                    <td style="width: 40%;">
+                                                        <a href="{{ url('/menu-task-list/detail/' . $ppb->id) }}">
                                                         <ul>
                                                             <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
-                                                            <li style="width: 40%;">{{ $ppb->desc }}</li>
+                                                            <li>{{ $ppb->desc }}</li>
                                                         </ul>
                                                         </a>
                                                     </td>
