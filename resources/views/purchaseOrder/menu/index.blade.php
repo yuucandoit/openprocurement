@@ -169,14 +169,17 @@
                                                             <td style="text-align: center;">
                                                                 <ul>
                                                                     <li>
+                                                                        @if($ppb->status == 'Purchase Proses')
                                                                         <a class="badge"
                                                                             style="color: white; background-color:rgb(255, 0, 0); font-size:10">
-                                                                            @if($ppb->status == 'Purchase Proses')
                                                                             Waiting Process
-                                                                            @elseif($ppb->status == 'Cross Check PO')
-                                                                            On Check
-                                                                            @endif
                                                                         </a>
+                                                                        @elseif($ppb->status == 'Cross Check PO')
+                                                                        <a class="badge"
+                                                                            style="color: white; background-color:rgb(255, 200, 0); font-size:10">
+                                                                            On Check
+                                                                        </a>
+                                                                        @endif
                                                                     </li>
                                                                     <li>
                                                                         <a class="badge badge-lable" style="font-size: 10">

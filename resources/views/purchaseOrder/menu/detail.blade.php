@@ -507,6 +507,11 @@
                                         <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
                                             data-bs-target="#modalSelesai" disabled>PO On Check</button>
                                     </div>
+                                    @else
+                                    <div class="text-center">
+                                        <button class="btn btn-outline-success mt-2 " data-bs-toggle="modal"
+                                            data-bs-target="#modalSelesai">Check PO</button>
+                                    </div>
                                     @endif
                                     @endif
                                 @endif
