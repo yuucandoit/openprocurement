@@ -127,7 +127,7 @@
                                                     <td>
                                                         <ul>
                                                             <li><a href="{{ url('/check_po/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
-                                                            <li style="margin-top: 5px;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break:break-all">{{ $ppb->desc }}</a></li>
+                                                            <li style="margin-top: 5px;"><a href="{{ url('/check_po/detail/' . $ppb->id) }}" style="word-break:break-all">{{ $ppb->desc }}</a></li>
                                                         </ul>
                                                     </td>
                                                     <td>
