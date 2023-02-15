@@ -317,31 +317,6 @@ class CategoryPOController extends Controller
             }
 
 
-            // foreach ($data2['item'] as $key => $item) {
-            //     $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
-            //     $total = str_replace("." ,"", $data2['unit_price'][$key]);
-            //     $unit_price = str_replace(",", "" , $price_unit);
-
-            //     $diskon = str_replace(".", "", $data2['discount']);
-            //     $grand_total = str_replace(".","", $data2['grand_total']);
-            //     $ongkir     = str_replace(".", "", $data2['ongkir']);
-            //     //dd($diskon);
-            //     $update = array(
-            //         'po_id'             => $purchase->id,
-            //         'item'              => $data2['item'][$key],
-            //         'qty'               => $data2['qty'][$key],
-            //         'kategori'          => $data2['kategori'][$key],
-            //         'unit_price'        => $price_unit,
-            //         'matauang'          => $data2['matauang'],
-            //         'discount'          => $diskon,
-            //         "ongkir"            => $data2['ongkir'],
-            //         "dpp"               => $data2['dpp'],
-            //         'total'             => $data2['total'][$key],
-            //         "ppn"               => $data2['ppn']?? 0,
-            //         "grand_total"       => $grand_total,
-            //     );
-            //         $item_po_id = ItemPO::create($update);
-            // }
             foreach ($data2['item'] as $key => $item) {
                 $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
                 $sum = str_replace(",", "" , $data2['total'][$key]);
@@ -352,18 +327,6 @@ class CategoryPOController extends Controller
                 $ongkir     = str_replace(",", "", $data2['ongkir']);
                 // dd($purchase->id);
                 $update = array(
-                    // 'po_id'             => $purchase->id,
-                    // 'item'              => $data2['item'][$key],
-                    // 'qty'               => $data2['qty'][$key],
-                    // 'kategori'          => $data2['kategori'][$key],
-                    // 'unit_price'        => $unit_price,
-                    // 'discount'          => $diskon,
-                    // "ongkir"            => $ongkir,
-                    // 'matauang'          => $data2['matauang'],
-                    // "dpp"               => $data2['dpp'],
-                    // 'total'             => $data2['total'][$key],
-                    // "ppn"               => $data2['ppn']?? 0,
-                    // "grand_total"       => $grand_total,
                     'po_id'             => $purchase->id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
@@ -426,18 +389,6 @@ class CategoryPOController extends Controller
                 $ongkir     = str_replace(",", "", $data2['ongkir']);
                 // dd($purchase->id);
                 $update = array(
-                    // 'po_id'             => $purchase->id,
-                    // 'item'              => $data2['item'][$key],
-                    // 'qty'               => $data2['qty'][$key],
-                    // 'kategori'          => $data2['kategori'][$key],
-                    // 'unit_price'        => $unit_price,
-                    // 'discount'          => $diskon,
-                    // "ongkir"            => $ongkir,
-                    // 'matauang'          => $data2['matauang'],
-                    // "dpp"               => $data2['dpp'],
-                    // 'total'             => $data2['total'][$key],
-                    // "ppn"               => $data2['ppn']?? 0,
-                    // "grand_total"       => $grand_total,
                     'po_id'             => $purchase->id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
@@ -570,24 +521,32 @@ class CategoryPOController extends Controller
 
 
             foreach ($data2['id'] as $key => $item) {
-                $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
-                $unit_price = str_replace(",", "" , $price_unit);
-
-                $diskon = str_replace(".", "", $data2['discount']);
+                $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
+                $sum = str_replace(",", "" , $data2['total'][$key]);
+                $dpp = str_replace(",", "" , $data2['dpp']);
+                // dd($price_unit);
+                $diskon = str_replace(",", "", $data2['discount']);
                 $grand_total = str_replace(",","", $data2['grand_total']);
-                $ongkir     = str_replace(".", "", $data2['ongkir']);
+                $ongkir     = str_replace(",", "", $data2['ongkir']);
+
+                // $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
+                // $unit_price = str_replace(",", "" , $price_unit);
+
+                // $diskon = str_replace(".", "", $data2['discount']);
+                // $grand_total = str_replace(",","", $data2['grand_total']);
+                // $ongkir     = str_replace(".", "", $data2['ongkir']);
                 //dd($diskon);
                 $update = array(
                     'po_id'             => $purchase->id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
-                    'unit_price'        => $unit_price,
+                    'unit_price'        => $price_unit,
                     'discount'          => $diskon,
                     "ongkir"            => $ongkir,
                     'matauang'          => $data2['matauang'],
-                    "dpp"               => $data2['dpp'],
-                    'total'             => $data2['total'][$key],
+                    "dpp"               => $dpp,
+                    'total'             => $sum,
                     "ppn"               => $data2['ppn']?? 0,
                     "grand_total"       => $grand_total,
                 );
@@ -638,24 +597,31 @@ class CategoryPOController extends Controller
             }
 
             foreach ($data2['id'] as $key => $item) {
-                $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
-                $unit_price = str_replace(",", "" , $price_unit);
-
-                $diskon = str_replace(".", "", $data2['discount']);
+                $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
+                $sum = str_replace(",", "" , $data2['total'][$key]);
+                $dpp = str_replace(",", "" , $data2['dpp']);
+                // dd($price_unit);
+                $diskon = str_replace(",", "", $data2['discount']);
                 $grand_total = str_replace(",","", $data2['grand_total']);
-                $ongkir     = str_replace(".", "", $data2['ongkir']);
+                $ongkir     = str_replace(",", "", $data2['ongkir']);
+                // $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
+                // $unit_price = str_replace(",", "" , $price_unit);
+
+                // $diskon = str_replace(".", "", $data2['discount']);
+                // $grand_total = str_replace(",","", $data2['grand_total']);
+                // $ongkir     = str_replace(".", "", $data2['ongkir']);
                 // dd($purchase->id);
                 $update = array(
                     'po_id'             => $purchase->id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
-                    'unit_price'        => $unit_price,
+                    'unit_price'        => $price_unit,
                     'discount'          => $diskon,
                     "ongkir"            => $ongkir,
                     'matauang'          => $data2['matauang'],
-                    "dpp"               => $data2['dpp'],
-                    'total'             => $data2['total'][$key],
+                    "dpp"               => $dpp,
+                    'total'             => $sum,
                     "ppn"               => $data2['ppn']?? 0,
                     "grand_total"       => $grand_total,
                 );
@@ -663,222 +629,7 @@ class CategoryPOController extends Controller
             }
         }
 
-
-        // if ($request->term_conditions == "custom") {
-        //     $term = TermsAndConditions::create([
-        //         "term_condition" => $request->term_condition,
-        //     ]);
-
-        //     $ppn = CategoryPengajuanPembelian::find($id);
-        //     $ppn->atasan_po = $request->atasan_po;
-        //     // $ppn->matauang = $request->matauang;
-        //     // $ppn->ppn =  $request->ppn;
-        //     $ppn->save();
-
-        //     $file = null;
-        //     if ($file = $request->file('path_quotation') ?? null){
-        //     $path_file = $file->getClientOriginalName();
-        //     $file->move('upload_quotation',$path_file);
-        //     }
-
-        //     foreach($data2['id'] as $item_po  => $po){
-        //         $unit_price = str_replace(".", "", $data2['unit_price'][$item_po]);
-        //         $discount   = str_replace(".", "", $data2['discount']);
-        //         $grand_total = str_replace(",","", $data2['grand_total']);
-        //         $ongkir     = str_replace(".", "", $data2['ongkir']);
-        //         $purchase = array (
-        //             "ppb_id"            => $data->id,
-        //             "term_conditions"   => $term,
-        //             "quotation"         => $data2['quotation'],
-        //             "matauang"          => $data2['matauang'],
-        //             "item_ppid"         => $data2['item_ppid'],
-        //             "item"              => $data2['item'][$item_po],
-        //             "qty"               => $data2['qty'] [$item_po],
-        //             "kategori"          => $data2['kategori'][$item_po],
-        //             "dpp"               => $data2['dpp'],
-        //             "unit_price"        => $unit_price,
-        //             "discount"          => $discount,
-        //             "ongkir"            => $ongkir,
-        //             "total"             => $data2['total'][$item_po],
-        //             "grand_total"       => $grand_total,
-        //             "ppn"               => $data2['ppn']?? 0,
-        //             "path_quotation"    => $path_file ?? null,
-        //         );
-        //         // dd($data2);
-        //         if ($request->vendor == "company") {
-        //             $vendor1 = CategoryPT::find($data2['perusahaan']);
-        //             $vendor1->vendors()->whereIn($data2['id'])->delete($purchase);
-        //             $vendor1->vendors()->create($purchase);
-        //         } elseif ($request->vendor == "privateperson"){
-        //             $vendor2 = CategoryPP::find($data2['orangpribadi']);
-        //             $vendor2->vendors()->whereIn($data2['id'])->delete($purchase);
-        //             $vendor2->vendors()->create($purchase);
-        //         } elseif ($request->vendor == "ecommerce"){
-        //             $vendor3 = CategoryEcommerce::find($data2['ecommerce']);
-        //             $vendor3->vendors()->whereIn($data2['id'])->delete($purchase);
-        //             $vendor3->vendors()->create($purchase);
-        //         }
-        //     }
-
-        // }
-
-        // else {
-        //     $po = CategoryPO::where('ppb_id',$id)->first();
-
-        //     $ppn = CategoryPengajuanPembelian::find($id);
-        //     $ppn->atasan_po = $request->atasan_po;
-        //     // $ppn->matauang = $request->matauang;
-        //     // $ppn->ppn =  $request->ppn;
-        //     $ppn->save();
-
-        //     $file = null;
-        //     if ($file = $request->file('path_quotation') ?? null){
-        //     $path_file = $file->getClientOriginalName();
-        //     $file->move('upload_quotation',$path_file);
-        //     }
-        //     foreach($data2['id'] as $item_po  => $po){
-        //         // dd($po);
-        //         $unit_price = str_replace(".", "", $data2['unit_price'][$item_po]);
-        //         $discount   = str_replace(".", "", $data2['discount']);
-        //         $grand_total = str_replace(",","", $data2['grand_total']);
-        //         $ongkir     = str_replace(".", "", $data2['ongkir']);
-        //         $purchase = array (
-        //             "ppb_id"            => $data->id,
-        //             "term_conditions"   => $data2['term_conditions'],
-        //             "quotation"         => $data2['quotation'],
-        //             "matauang"          => $data2['matauang'],
-        //             "item_ppid"         => $data2['item_ppid'],
-        //             "item"              => $data2['item'][$item_po],
-        //             "qty"               => $data2['qty'] [$item_po],
-        //             "kategori"          => $data2['kategori'][$item_po],
-        //             "dpp"               => $data2['dpp'],
-        //             "unit_price"        => $unit_price,
-        //             "ongkir"            => $ongkir,
-        //             "discount"          => $discount,
-        //             "total"             => $data2['total'][$item_po],
-        //             "grand_total"       => $grand_total,
-        //             "ppn"               => $data2['ppn']?? 0,
-        //             "path_quotation"    => $path_file ?? null,
-        //         );
-        //         // dd($data2);
-        //         if ($request->vendor == "company") {
-        //             $vendor1 = CategoryPT::find($data2['perusahaan']);
-        //             $vendor1->vendors()->where('id',$id)->delete($purchase);
-        //             $vendor1->vendors()->update($purchase);
-        //         } elseif ($request->vendor == "privateperson"){
-        //             $vendor2 = CategoryPP::find($data2['orangpribadi']);
-        //             $vendor2->vendors()->where('id',$id)->delete($purchase);
-        //             $vendor2->vendors()->update($purchase);
-        //         } elseif ($request->vendor == "ecommerce"){
-        //             $vendor3 = CategoryEcommerce::find($data2['ecommerce']);
-        //             $vendor3->vendors()->where('id',$id)->delete($purchase);
-        //             $vendor3->vendors()->update($purchase);
-        //         }
-        //     }
-        // }
         return redirect("menu-purchase-order/detail/".$datapo->ppb_id);
-
-        // if ($request->term_conditions == "custom") {
-        //     $term = TermsAndConditions::create([
-        //         "term_condition" => $request->term_condition,
-        //     ]);
-
-        //     $ppn = CategoryPengajuanPembelian::find($id);
-        //     $ppn->ppn =  $request->ppn;
-        //     $ppn->atasan_po = $request->atasan_po;
-        //     $ppn->save();
-
-        //     $purchase =  CategoryPO::where('ppb_id', $id)->first();
-        //     $purchase->update([
-        //         "term_conditions" => $request->term_conditions,
-        //         "quotation" => $request->quotation,
-        //     ]);
-
-
-        //     if ($request->vendor == "company") {
-        //         $vendor1 = CategoryPT::find($request->perusahaan);
-        //         $vendor1->vendors()->where('id',$id)->delete();
-        //         $vendor1->vendors()->save($purchase);
-
-        //     } elseif ($request->vendor == "privateperson") {
-        //         $vendor2 = CategoryPP::find($request->orangpribadi);
-        //         $vendor2->vendors()->where('id',$id)->delete();
-        //         $vendor2->vendors()->save($purchase);
-
-        //     } elseif ($request->vendor == "ecommerce") {
-        //         $vendor3 = CategoryEcommerce::find($request->ecommerce);
-        //         $vendor3->vendors()->where('id',$id)->delete();
-        //         $vendor3->vendors()->save($purchase);
-        //     }
-
-        //     // dd($data2['item']);
-        //      // $data2 = $request->all();
-        //      // $data2 = $request->all();
-        //      foreach ($data2['id'] as $key => $item) {
-        //         $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
-        //         $update = array(
-        //             'item'              => $data2['item'][$key],
-        //             'qty'               => $data2['qty'][$key],
-        //             'kategori'          => $data2['kategori'][$key],
-        //             'unit_price'        => $unit_price,
-        //             'total'             => $data2['total'][$key],
-        //         );
-        //         PengajuanPembelian::where('id', $item)->update($update);
-        //         // dd($item);
-        //     //     PengajuanPembelian::updateOrCreate([
-        //     //         'id' => $item,
-        //     //         'item' => $data2['item'][$key]
-        //     // ], $update);
-        //     }
-        // } else {
-
-        //     $ppn = CategoryPengajuanPembelian::find($id);
-
-        //     $ppn->ppn =  $request->ppn;
-        //     $ppn->atasan_po = $request->atasan_po;
-        //     $ppn->save();
-
-        //     $purchase =  CategoryPO::where('ppb_id', $id)->first();
-        //     $purchase->update([
-        //         "term_conditions" => $request->term_conditions,
-        //         "quotation" => $request->quotation,
-        //     ]);
-
-
-        //     if ($request->vendor == "company") {
-        //         $vendor1 = CategoryPT::find($request->perusahaan);
-        //         $vendor1->vendors()->where('id',$id)->delete();
-        //         $vendor1->vendors()->save($purchase);
-
-        //     } elseif ($request->vendor == "privateperson") {
-        //         $vendor2 = CategoryPP::find($request->orangpribadi);
-        //         $vendor2->vendors()->where('id',$id)->delete();
-        //         $vendor2->vendors()->save($purchase);
-
-        //     } elseif ($request->vendor == "ecommerce") {
-        //         $vendor3 = CategoryEcommerce::find($request->ecommerce);
-        //         $vendor3->vendors()->where('id',$id)->delete();
-        //         $vendor3->vendors()->save($purchase);
-        //     }
-
-        //     // $data2 = $request->all();
-        //     foreach ($data2['id'] as $key => $item) {
-        //         $unit_price = str_replace(".", "", $data2['unit_price'][$key]);
-        //         $update = array(
-        //             'item'              => $data2['item'][$key],
-        //             'qty'               => $data2['qty'][$key],
-        //             'kategori'          => $data2['kategori'][$key],
-        //             'unit_price'        => $unit_price,
-        //             'total'             => $data2['total'][$key],
-        //         );
-
-        //         // dd($item);
-        //         PengajuanPembelian::where('id', $item)->update($update);
-        //     }
-        // }
-
-
-        // return redirect("menu-purchase-order/out");
     }
 
     /**
