@@ -119,7 +119,7 @@
                                         @endphp
                                         <tbody>
                                             @foreach ($datappb as $ppb)
-                                                @if ($ppb->status == 'Purchase Proses')
+                                                @if ($ppb->status == 'Purchase Proses' || 'Cross Check PO')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
@@ -127,9 +127,8 @@
                                                         <td>
                                                             <ul>
                                                                 <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
-                                                                <li style="margin-top: 5px;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></li>
+                                                                <li style="margin-top: 5px;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break:break-all">{{ $ppb->desc }}</a></li>
                                                             </ul>
-                                                            {{-- {{ $ppb->whosubmit->name }} --}}
                                                         </td>
                                                         <td>
                                                             <ul>
@@ -147,7 +146,7 @@
                                                         {{-- <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td> --}}
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
 
-                                                     @if ($ppb->status == 'Purchase Proses')
+                                                     @if ($ppb->status == 'Purchase Proses'||'Cross Check PO')
                                                             <td>
                                                                 <ul>
                                                                     <li>
@@ -174,6 +173,8 @@
                                                                             style="color: white; background-color:rgb(255, 0, 0); font-size:10">
                                                                             @if($ppb->status == 'Purchase Proses')
                                                                             Waiting Process
+                                                                            @elseif($ppb->status == 'Cross Check PO')
+                                                                            On Check
                                                                             @endif
                                                                         </a>
                                                                     </li>

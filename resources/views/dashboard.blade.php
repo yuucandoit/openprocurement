@@ -397,7 +397,7 @@
                 </div>
 
                 @endhasrole
-                @hasrole('purchasing')
+                @hasrole('purchasing|super purchase')
 
                 <div class="col-sm-6 col-xl-3 col-lg-6">
                     <a href="{{ url('/menu-task-list') }}">

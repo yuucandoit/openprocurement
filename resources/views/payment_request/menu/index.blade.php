@@ -64,6 +64,31 @@
                     </div>
                 </div>
             @endforeach
+            @foreach ($datappb as $ppb)
+            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h2 class="modal-title" style="color: white">List Item</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body ">
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($ppb->itemppn as $item)
+                                    <ul style="font-size: 18">
+                                        <li>- {{ $item->item }}</li>
+                                    </ul>
+                                    @endforeach
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
 
             <!-- Page Sidebar Ends-->
             <div class="container-fluid">
@@ -102,6 +127,7 @@
                                         <thead class="bg-primary">
                                             <tr>
                                                 <th>No</th>
+                                                <th>No.PO</th>
                                                 <th>Name</th>
                                                 <th>Item</th>
                                                 <th>Deadline</th>
@@ -120,6 +146,7 @@
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
+                                                        <td style="text-align: center;">{{ $ppb->id }}</td>
                                                         <td>
                                                             <ul>
                                                                 <li><a href="{{ url('/payment_request/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
@@ -127,11 +154,9 @@
                                                             </ul>
                                                         </td>
                                                         <td>
-                                                            @foreach ($ppb->itemppn as $item)
                                                             <ul>
-                                                                <li style="margin-top:4px;">-{{ $item->item }}</li>
+                                                                <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
                                                             </ul>
-                                                            @endforeach
                                                         </td>
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                         <td>

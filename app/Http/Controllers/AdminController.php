@@ -183,6 +183,13 @@ class AdminController extends Controller
         $data->password = Hash::make($request->password);
         $data->save();
         $data->assignRole('legal');
+        }elseif ($request->role == "Super Purchase"){
+        $data = new User();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->password = Hash::make($request->password);
+        $data->save();
+        $data->assignRole('super purchase');
         }else {
             return response('Something Went wrong');
         }

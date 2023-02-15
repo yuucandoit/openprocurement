@@ -65,7 +65,7 @@ class CommentController extends Controller
                 'is_read_bod'       => 0,
             ]);
 
-        }elseif ($request->role == 'purchasing' || 'super purchase') {
+        }elseif ($request->role == 'purchasing') {
             CommentRead::create([
                 'comment_id' => $comments->id,
                 'user_id' => Auth::user()->id,

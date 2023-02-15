@@ -33,8 +33,8 @@ class CategoryPOController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
 
-        if ($check->role_id == 4 || $check->role_id == 3) {
-            $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('dateline', 'asc')->orderBy('approved_at', 'desc')->paginate(10, ['*'],'in');
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
+            $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Cross Check PO')->orderBy('dateline', 'asc')->orderBy('approved_at', 'desc')->paginate(10, ['*'],'in');
             $datappb2           = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->get();
             foreach($datappb2 as $ppb){
                 $datapo             = CategoryPO::where('ppb_id', $ppb->id)->get();
@@ -75,7 +75,7 @@ class CategoryPOController extends Controller
    public function out()
    {
        $check = Role::where('model_id', Auth::user()->id)->first();
-       if ($check->role_id == 4 || $check->role_id == 3) {
+       if ($check->role_id == 4 || $check->role_id == 3 ||$check->role_id == 17) {
         $datappb          = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
         ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
         ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('updated_at','desc')->paginate(10, ['*'],'out');
@@ -164,7 +164,7 @@ class CategoryPOController extends Controller
         $items              = CategoryPO::where('ppb_id',$id)->get();
         $groupedItem        = ItemPO::groupBy('po_id')->get();
         $itempurchase       = ItemPO::groupBy('po_id')->first();
-        
+
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -275,6 +275,7 @@ class CategoryPOController extends Controller
         $item = PengajuanPembelian::all();
 
         $data2 = $request->all();
+        // dd($data2);
     // dd($data2['discount']);
 
         $pt = CategoryPT::find($id);
@@ -316,25 +317,63 @@ class CategoryPOController extends Controller
             }
 
 
-            foreach ($data2['item'] as $key => $item) {
-                $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
-                $unit_price = str_replace(",", "" , $price_unit);
+            // foreach ($data2['item'] as $key => $item) {
+            //     $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
+            //     $total = str_replace("." ,"", $data2['unit_price'][$key]);
+            //     $unit_price = str_replace(",", "" , $price_unit);
 
-                $diskon = str_replace(".", "", $data2['discount']);
+            //     $diskon = str_replace(".", "", $data2['discount']);
+            //     $grand_total = str_replace(".","", $data2['grand_total']);
+            //     $ongkir     = str_replace(".", "", $data2['ongkir']);
+            //     //dd($diskon);
+            //     $update = array(
+            //         'po_id'             => $purchase->id,
+            //         'item'              => $data2['item'][$key],
+            //         'qty'               => $data2['qty'][$key],
+            //         'kategori'          => $data2['kategori'][$key],
+            //         'unit_price'        => $price_unit,
+            //         'matauang'          => $data2['matauang'],
+            //         'discount'          => $diskon,
+            //         "ongkir"            => $data2['ongkir'],
+            //         "dpp"               => $data2['dpp'],
+            //         'total'             => $data2['total'][$key],
+            //         "ppn"               => $data2['ppn']?? 0,
+            //         "grand_total"       => $grand_total,
+            //     );
+            //         $item_po_id = ItemPO::create($update);
+            // }
+            foreach ($data2['item'] as $key => $item) {
+                $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
+                $sum = str_replace(",", "" , $data2['total'][$key]);
+                $dpp = str_replace(",", "" , $data2['dpp']);
+                // dd($price_unit);
+                $diskon = str_replace(",", "", $data2['discount']);
                 $grand_total = str_replace(",","", $data2['grand_total']);
-                $ongkir     = str_replace(".", "", $data2['ongkir']);
-                //dd($diskon);
+                $ongkir     = str_replace(",", "", $data2['ongkir']);
+                // dd($purchase->id);
                 $update = array(
+                    // 'po_id'             => $purchase->id,
+                    // 'item'              => $data2['item'][$key],
+                    // 'qty'               => $data2['qty'][$key],
+                    // 'kategori'          => $data2['kategori'][$key],
+                    // 'unit_price'        => $unit_price,
+                    // 'discount'          => $diskon,
+                    // "ongkir"            => $ongkir,
+                    // 'matauang'          => $data2['matauang'],
+                    // "dpp"               => $data2['dpp'],
+                    // 'total'             => $data2['total'][$key],
+                    // "ppn"               => $data2['ppn']?? 0,
+                    // "grand_total"       => $grand_total,
                     'po_id'             => $purchase->id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
-                    'unit_price'        => $unit_price,
+                    'unit_price'        => $price_unit,
                     'matauang'          => $data2['matauang'],
                     'discount'          => $diskon,
                     "ongkir"            => $ongkir,
-                    "dpp"               => $data2['dpp'],
-                    'total'             => $data2['total'][$key],
+                    "dpp"               => $dpp,
+                    'total'             => $sum,
                     "ppn"               => $data2['ppn']?? 0,
                     "grand_total"       => $grand_total,
                 );
@@ -378,24 +417,37 @@ class CategoryPOController extends Controller
 
 
             foreach ($data2['item'] as $key => $item) {
-                $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
-                $unit_price = str_replace(",", "" , $price_unit);
-
-                $diskon = str_replace(".", "", $data2['discount']);
+                $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
+                $sum = str_replace(",", "" , $data2['total'][$key]);
+                $dpp = str_replace(",", "" , $data2['dpp']);
+                // dd($price_unit);
+                $diskon = str_replace(",", "", $data2['discount']);
                 $grand_total = str_replace(",","", $data2['grand_total']);
-                $ongkir     = str_replace(".", "", $data2['ongkir']);
+                $ongkir     = str_replace(",", "", $data2['ongkir']);
                 // dd($purchase->id);
                 $update = array(
+                    // 'po_id'             => $purchase->id,
+                    // 'item'              => $data2['item'][$key],
+                    // 'qty'               => $data2['qty'][$key],
+                    // 'kategori'          => $data2['kategori'][$key],
+                    // 'unit_price'        => $unit_price,
+                    // 'discount'          => $diskon,
+                    // "ongkir"            => $ongkir,
+                    // 'matauang'          => $data2['matauang'],
+                    // "dpp"               => $data2['dpp'],
+                    // 'total'             => $data2['total'][$key],
+                    // "ppn"               => $data2['ppn']?? 0,
+                    // "grand_total"       => $grand_total,
                     'po_id'             => $purchase->id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
                     'kategori'          => $data2['kategori'][$key],
-                    'unit_price'        => $unit_price,
+                    'unit_price'        => $price_unit,
+                    'matauang'          => $data2['matauang'],
                     'discount'          => $diskon,
                     "ongkir"            => $ongkir,
-                    'matauang'          => $data2['matauang'],
-                    "dpp"               => $data2['dpp'],
-                    'total'             => $data2['total'][$key],
+                    "dpp"               => $dpp,
+                    'total'             => $sum,
                     "ppn"               => $data2['ppn']?? 0,
                     "grand_total"       => $grand_total,
                 );
@@ -472,6 +524,7 @@ class CategoryPOController extends Controller
         $datapo = CategoryPO::where('id',$id)->first();
         $data = CategoryPengajuanPembelian::find($id);
         $data2 = $request->all();
+        // dd($data2);
 
 
 
@@ -567,8 +620,8 @@ class CategoryPOController extends Controller
                 "term_conditions" => $request->term_conditions,
                 "quotation" => $request->quotation,
             ]);
-
-            // dd($purchase);
+            // dd($data2);
+            // dd($purchase->vendorable_type === $request->vendorable_type);
             if ($request->vendor == "company") {
                 $vendor1 = CategoryPT::find($request->perusahaan);
                 $vendor1->vendors()->where('id',$id)->delete();
@@ -579,6 +632,7 @@ class CategoryPOController extends Controller
                 $vendor2->vendors()->save($purchase);
             } elseif ($request->vendor == "ecommerce") {
                 $vendor3 = CategoryEcommerce::find($request->ecommerce);
+                dd($vendor3);
                 $vendor3->vendors()->where('id',$id)->delete();
                 $vendor3->vendors()->save($purchase);
             }
@@ -840,18 +894,20 @@ class CategoryPOController extends Controller
         return redirect('/menu-purchase-order')->with('success', 'Task Deleted Successfully!');
     }
 
-    public function ajukan_keatasan($id)
+    public function checkPO($id)
     {
 
         $data = CategoryPengajuanPembelian::find($id);
         if(empty($data->atasan_po)){
             return redirect()->back()->withErrors(["Approver Not Found"]);
         }else{
-        $data->status = 'Waiting For PO Approval';
+        $data->status = 'Cross Check PO';
         $data->save();
-        return redirect('send-purchase/'.$data->id);
+        return redirect('menu-purchase-order');
         }
     }
+
+
 
     public function Reject($id)
     {

@@ -242,7 +242,7 @@
 
                                     <td>
                                         <input type="text" name="unit_price[]" placeholder="Input Price"
-                                            class="form-control text-end form-calc form-cost rupiah"
+                                            class="form-control text-end form-calc form-cost dollar"
                                             style="text-align: right;" value="{{ $item->unit_price }}" required />
                                     </td>
                                     <td>
@@ -262,21 +262,11 @@
                                     <tr>
                                         <td>
                                             <label class="pull-right"
-                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                style="font-weight: bold; ">&nbsp;&nbsp;&nbsp;&nbsp;
                                                 DPP :</label>
                                         </td>
                                         <td>
-                                            <input  class="total_A form-control disabled text-end " type="text" name="dpp" value="{{ $count->dpp }}">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label class="pull-right"
-                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                Shipping & Protection Fee :</label>
-                                        </td>
-                                        <td>
-                                            <input  class="ongkir form-control text-end rupiah" type="text" name="ongkir" value="{{ $count->ongkir }}">
+                                            <input style="background-color:#ffff"  class="total_A form-control disabled text-end " type="text" name="dpp" value="{{ $count->dpp }}" readonly>
                                         </td>
                                     </tr>
                                     <tr>
@@ -286,7 +276,7 @@
                                                 Discount :</label>
                                         </td>
                                         <td class="text-end">
-                                            <input class="form-control discount form-calc rupiah text-end" type="text"
+                                            <input class="form-control discount form-calc dollar text-end" type="text"
                                                 id="discount" name="discount" value="{{ $count->discount }}">
                                         </td>
 
@@ -298,8 +288,8 @@
                                                 Discount :</label>
                                         </td>
                                         <td class="total_disc text-end">
-                                            <input style="display: none;" class=" total_disc " type="text"
-                                                name="total_disc">
+                                            <input style="background-color: #ffff;" class="form-control total_disc text-end" type="text"
+                                                name="total_disc" readonly>
                                         </td>
                                     </tr>
                                     <tr>
@@ -311,6 +301,16 @@
                                         </td>
                                         <td class="ppn text-end">
                                             <input style="display: none;" class="ppn" type="text" name="ppn">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="pull-right"
+                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                Shipping & Protection Fee :</label>
+                                        </td>
+                                        <td>
+                                            <input  class="ongkir form-control text-end dollar" type="text" name="ongkir" value="{{ $count->ongkir }}">
                                         </td>
                                     </tr>
                                     <tr>
@@ -347,12 +347,114 @@
         <script>
             const dollars = document.querySelectorAll('.dollar');
             dollars.forEach(dollar => {
-                new AutoNumeric(dollar,'commaDecimalCharDotSeparator');
+                new AutoNumeric(dollar,'dotDecimalCharCommaSeparator');
             })
 
         </script>
+         <script type="text/javascript">
+            //Math
 
-        <script type="text/javascript">
+            document.querySelectorAll('.form-row').forEach(row => {
+                row.addEventListener('input', (e) => updateFileds(e, row));
+            })
+
+            function updateFileds(event, row) {
+                const qty = row.querySelector('.form-qty').value;
+                const price = row.querySelector('.form-cost').value.replace(/\,/g, "");
+                const totalElmnt = row.querySelector('.form-line');
+                // const discount = row.querySelector('discount');
+                // const afterDisc = row.querySelector('total_disc')
+                // const dpp = row.querySelector('.total_A');
+
+                totalElmnt.value = new Intl.NumberFormat('en-IN').format(qty *  price);
+                var dpp = 0;
+                $('.form-line').each(function(key, item){
+                    // console.log(item);
+                    dpp += new Number(item.value.replace(/\,/g, ""));
+                });
+                $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
+
+            // var ongkoskir;
+            //         var ongkir = document.querySelector(".ongkir");
+            //         ongkir.addEventListener("input", function(){
+            //             var ongkos = ongkir.value;
+            //             var replace = ongkos.replace(/\,/g, "");
+            //             var ongkoskirim = parseInt(replace);
+            //             ongkoskir = dpp + ongkoskirim ;
+            //             console.log(ongkoskir);
+            // });
+            var discount = 0 ;
+                var diskon = document.querySelector(".discount");
+                diskon.addEventListener("input", function() {
+                    var disc = diskon.value;
+                    var rep = disc.replace(/\,/g, "");
+                    var discint = parseInt(rep);
+                    discount = dpp - discint;
+                    console.log(discount);
+                    $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
+            })
+            // $(".total_disc").text(discount.toLocaleString('en-US')new Intl.NumberFormat('en-IN').format(discount));
+
+            var checkbox = document.querySelector(".check-box");
+            // console.log(checkbox);
+            checkbox.addEventListener('change', (event) => {
+                // console.log(event.currentTarget.checked);
+
+                var totalppn = 0;
+                if (event.currentTarget.checked) {
+                    totalppn = discount * 11 / 100;
+                    ppntotal2 = discount + totalppn;
+                    console.log(discount);
+                    console.log(ppntotal2);
+                    $(".ppn").text(totalppn.toLocaleString('en-US'));
+
+                    var ongkir = document.querySelector(".ongkir");
+                    ongkir.addEventListener("input", function(){
+                        var ongkos = ongkir.value;
+                        var replace = ongkos.replace(/\,/g, "");
+                        var ongkoskirim = parseInt(replace);
+                        console.log(ppntotal2);
+                        grandtotal = ongkoskirim  + ppntotal2;
+                        $(".total").val(grandtotal);
+                    });
+                } else {
+                    totalppn = discount * 0;
+                    ppntotal2 = discount + totalppn;
+                    $(".ppn").text(totalppn);
+
+                    var ongkir = document.querySelector(".ongkir");
+                    ongkir.addEventListener("input", function(){
+                        var ongkos = ongkir.value;
+                        var replace = ongkos.replace(/\,/g, "");
+                        var ongkoskirim = parseInt(replace);
+                        console.log(ppntotal2);
+                        grandtotal = ongkoskirim  + ppntotal2 ;
+                        $(".total").val(grandtotal);
+                    });
+
+
+                }
+            });
+            // var ongkoskir;
+
+            };
+
+            $(document).on('click', '.remove-input-field', function() {
+                $(this).parents('tr').remove();
+            });
+            var rupiah = document.querySelectorAll(".rupiah");
+            rupiah.forEach((item) => {
+                item.addEventListener('keyup', function(e) {
+                    // tambahkan 'Rp.' pada saat form di ketik
+                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                    item.value = formatRupiah(this.value, "");
+                });
+            });
+
+
+        </script>
+
+        {{-- <script type="text/javascript">
             //Math
                                     $(document).ready(function() {
                                         document.querySelectorAll('.form-row').forEach(row => {
@@ -529,7 +631,7 @@
                                         rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
                                         return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
                                     }
-        </script>
+        </script> --}}
 
 <script type="text/javascript">
     var pageSelector = document.querySelector('.pageSelector');

@@ -428,7 +428,7 @@ class CategoryPengajuanPembelianController extends Controller
 
             foreach ($data['id'] as $item => $value) {
                 $file = null;
-                if($path = $request->file('path_file')[$item] ?? null) {
+                if($path = $request->file('pat  e')[$item] ?? null) {
                     $file = $path->getClientOriginalName();
                     $path->move(public_path('upload_pengajuan'), $file);
                 }

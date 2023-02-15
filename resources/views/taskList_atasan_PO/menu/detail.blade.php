@@ -34,7 +34,7 @@
                             <table class="table table-bordered mt-4">
                                 <tbody>
                                     <tr>
-                                        <td>Who Submitted</td>
+                                        <td>Request By</td>
                                         <td>{{ $data_pengajuan->whosubmit->name }}</td>
                                     </tr>
                                     <tr>
@@ -58,7 +58,7 @@
                                         <td>{{ $data_pengajuan->send_to }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Date Line</td>
+                                        <td>Deadline</td>
                                         <td>{{ $data_pengajuan->dateline }}</td>
                                     </tr>
                                     <tr>
@@ -112,7 +112,7 @@
                                                             <div class="form-group">
                                                                 <label class="form-label" style="font-weight: bold;"><i
                                                                         class="fa fa-database"></i>
-                                                                    Quotation &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :
+                                                                    Quotation :
                                                                     @if (empty($po->quotation))
                                                                     @else
                                                                         {{ $po->quotation }}
@@ -135,21 +135,20 @@
                                                             </div>
                                                         </div>
 
-
                                                         <div class="col-md-6 ">
                                                             <div class="form-group">
                                                                 <label class="form-label" style="font-weight: bold;"><i
                                                                         class="fa fa-database"></i>
-                                                                    File :
+                                                                    File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  :
                                                                     @if (empty($po->path_quotation))
                                                                         -
                                                                     @else
-                                                                        <br>
-                                                                        {!! nl2br($po->path_quotation) !!}
+                                                                        <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank">{!! nl2br($po->path_quotation) !!}</a>
                                                                     @endif
                                                                 </label>
                                                             </div>
                                                         </div>
+
                                                 </div>
                                                 @php
                                                 foreach($po->itempo as $i)

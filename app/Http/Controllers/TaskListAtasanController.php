@@ -15,6 +15,8 @@ use App\Models\Role;
 use App\Models\TaskListAtasan;
 use App\Models\User;
 use App\Models\WhoSubmitted;
+use App\Models\CategoryPO;
+use App\Models\ItemPO;
 use App\Models\Workshop;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -153,6 +155,10 @@ class TaskListAtasanController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $comments           = Comment::where('ppb_id',$id)->get();
+        $vendor             = CategoryPO::where('ppb_id',$id)->first();
+        $items              = CategoryPO::where('ppb_id',$id)->get();
+        $groupedItem        = ItemPO::groupBy('po_id')->get();
+        $itempurchase       = ItemPO::groupBy('po_id')->first();
         return view('taskList_atasan.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('dataws', $dataws)
@@ -160,9 +166,14 @@ class TaskListAtasanController extends Controller
             ->with('dpp', $dpp)
             ->with('ppn', $ppn)
             ->with('total', $total)
+
             ->with('comments', $comments)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('data_pengajuan', $data_pengajuan);
+            ->with('data_pengajuan', $data_pengajuan)
+            ->with('items', $items)
+            ->with('vendor', $vendor)
+            ->with('groupedItem', $groupedItem)
+            ->with('itempurchase', $itempurchase);
     }
     /**
      * Show the form for creating a new resource.

@@ -7,11 +7,13 @@ use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\PembelianBarangController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryEcommerceController;
 use App\Http\Controllers\CategoryPengajuanPembelianController;
 use App\Http\Controllers\CategoryPPController;
 use App\Http\Controllers\CategoryPTController;
 use App\Http\Controllers\CategoryTaskListController;
+use App\Http\Controllers\CheckPOController;
 use App\Http\Controllers\DataVendorController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\DepartmentController;
@@ -330,7 +332,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
         Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
         Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
-        Route::get('/ajukan_keatasan/{id}', [CategoryPOController::class, 'ajukan_keatasan'])->name('menu-purchase-order-ajukan_keatasan');
+        Route::get('/check_po/{id}', [CategoryPOController::class, 'checkPO'])->name('menu-purchase-order-checkPO');
         Route::get('/ajukan_dana/{id}', [CategoryPOController::class, 'ajukan_dana'])->name('menu-purchase-order-ajukan_dana');
         Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
         Route::get('/search/po_in',[CategoryPOController::class, 'SearchPOIn'])->name('menu-purchase-order.SearchPOIn');
@@ -390,6 +392,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history/search/delivery',[DeliveryController::class, 'SearchHistoryDelivery'])->name('delivery.SearchHistoryDelivery');
     });
 
+     // Menu Check Purchase Order
+     Route::group(['prefix' => 'check_po'], function () {
+        Route::get('/', [CheckPOController::class, 'index'])->name('check_po.index');
+        Route::get('/detail/{id}', [CheckPOController::class, 'detail'])->name('check_po.detail');
+        Route::get('/destroy/{id}', [CheckPOController::class, 'destroy'])->name('check_po.destroy');
+        Route::get('/ajukan_keatasan/{id}', [CheckPOController::class, 'ajukan_keatasan'])->name('check_po-ajukan_keatasan');
+        Route::get('/denied/{id}', [CheckPOController::class, 'denied'])->name('check_po-denied');
+        Route::get('/search/checkpo',[CheckPOController::class, 'SearchCheckPO'])->name('check_po.SearchCheckPO');
+    });
+
     //admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/create-admin', [AdminController::class, 'create']);
@@ -399,6 +411,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/admin-update/{id}', [AdminController::class, 'update']);
     Route::get('/admin-destroy/{id}', [AdminController::class, 'destroy']);
     Route::get('/search/users',[AdminController::class, 'SearchUsers'])->name('admin.SearchUser');
+
+    // add role
+    Route::get('/role', [RoleController::class, 'index'])->name('role.index');
+    Route::get('/create-role', [RoleController::class, 'create']);
+    Route::get('/show-role/{id}', [RoleController::class, 'show']);
+    Route::post('/store-role', [RoleController::class, 'store']);
+    Route::get('/role-edit/{id}', [RoleController::class, 'edit']);
+    Route::post('/role-update/{id}', [RoleController::class, 'update']);
+    Route::get('/role-destroy/{id}', [RoleController::class, 'destroy']);
+    Route::get('/search/roles',[RoleController::class, 'SearchRoles'])->name('role.SearchRoles');
 
 
     //comment

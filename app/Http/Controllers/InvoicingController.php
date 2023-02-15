@@ -31,7 +31,7 @@ class InvoicingController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 || $check->role_id == 3) {
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::where('status','PO Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             $datappb2 = CategoryPengajuanPembelian::where('status','Invoicing Process')
             ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
@@ -55,8 +55,8 @@ class InvoicingController extends Controller
    {
     $cariIn = $request->caripyIn;
     //dd($cari);
-    $datappb = CategoryPengajuanPembelian::where('status','PO Approved')
-    ->orWhere('id','like',"%".$cariIn."%")
+    $datappb = CategoryPengajuanPembelian::
+    orWhere('id','like',"%".$cariIn."%")
     ->orWhere('status','like',"%".$cariIn."%")
     ->orWhere('desc','like',"%".$cariIn."%")
     ->orWhereHas('itemppn', function($i) use($cariIn){
@@ -65,22 +65,19 @@ class InvoicingController extends Controller
     ->orWhereHas('whosubmit', function($q) use($cariIn){
          $q->where('name','like',"%".$cariIn."%");
     })
+    ->where('status','PO Approved')
     ->paginate(10,['*'],'in');
 
-    $datappb2 = CategoryPengajuanPembelian::where('status','Invoicing Process')
-            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->
-            orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
 
     return view('payment_request.menu.index')
-    ->with('datappb',$datappb)
-    ->with('datappb2',$datappb2);
+    ->with('datappb',$datappb);
+    // ->with('datappb2',$datappb2);
    }
 
    public function out()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 || $check->role_id == 3) {
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb =  CategoryPengajuanPembelian::where('status','Invoicing Process')
             ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
             ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->

@@ -13,7 +13,10 @@ class CommentRead extends Model
         'id',
         'comment_id',
         'user_id',
-        'is_read',
+        'is_read_bod',
+        'is_read_user',
+        'is_read_purchase',
+        'is_read_finance',
     ];
 
     public function comment()

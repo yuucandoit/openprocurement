@@ -132,6 +132,7 @@
                         @php
                            $coment_ppb = App\Models\Comment::groupBy('ppb_id')->get();
                            $comment_id = App\Models\CommentRead::groupBy('comment_id')->get();
+                           $comment_user_id = App\Models\CommentRead::where('id', '!=', auth()->id())->get();
 
                         @endphp
 
@@ -245,9 +246,11 @@
             @hasrole('super user|super admin')
                     <li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
+
                     <ul class="notification-dropdown onhover-show-div">
                         <li>
-                            <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
+                            <p class="f-w-700 mb-0">You have Notifications {{ $comment_user_id->count() }}<span class="pull-right badge badge-primary badge-pill"></span></p>
+
                           </li>
                               @foreach ($comment_id as $c)
                               @if($c->is_read_bod == 1)
@@ -391,7 +394,7 @@
                                     </li>
                                 @endhasrole
 
-                                @hasrole('purchasing')
+                                @hasrole('super purchase|purchasing')
                                     <li class="sidebar-main-title">
                                         <div>
                                             <h6>Menu</h6>
@@ -399,7 +402,7 @@
                                     </li>
                                 @endhasrole
 
-                                @hasrole('purchasing')
+                                @hasrole('super purchase|purchasing')
                                 <li class="dropdown">
                                     <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
                                         href="{{ url('/dashboard') }}">
@@ -408,7 +411,7 @@
                                     </a>
                                 </li>
                                 @endhasrole
-                                @hasrole('purchasing|super admin')
+                                @hasrole('super purchase|purchasing|super admin')
                                 @php
                                     $po =  App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count();
                                 @endphp
@@ -486,6 +489,22 @@
                                             </li>
                                         </ul>
                                     </li>
+                                @endhasrole
+                                @hasrole('super purchase')
+                                <li class="sidebar-main-title">
+                                    <div>
+                                        <h6>Cross Check PO</h6>
+                                    </div>
+                                </li>
+
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav {{ request()->is('*check_po*') ? 'active' : '' }}"
+                                        href="{{ url('/check_po') }}">
+                                        <i class="icofont icofont-tasks"></i>
+                                        <span>Check PO</span>
+                                    </a>
+                                </li>
+
                                 @endhasrole
                                 @hasrole('finance')
                                     <li class="sidebar-main-title">
@@ -603,7 +622,7 @@
                         @endhasrole
 
                                 <!--TaskList-->
-                                @hasrole('super user|super admin|purchasing|finance')
+                                @hasrole('super purchase|super user|super admin|purchasing|finance')
                                     <li class="sidebar-main-title">
                                         <div>
                                             <h6>Tasks</h6>
@@ -765,7 +784,7 @@
                                                         </ul>
                                                     </li>
                                                 @endhasrole
-                                                @hasrole('purchasing|super admin')
+                                                @hasrole('super purchase|purchasing|super admin')
                                                     <li class="dropdown">
                                                         <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }}"
                                                             href="javascript:void(0)">
@@ -926,7 +945,7 @@
                                                     </ul>
                                                 </li>
                                             @endhasrole
-                                            @hasrole('purchasing|super admin')
+                                            @hasrole('super purchase|purchasing|super admin')
                                                 <li class="dropdown">
                                                     <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }}"
                                                         href="javascript:void(0)">
@@ -998,6 +1017,13 @@
                                             href="{{ url('/admin') }}">
                                             <i class="bi bi-person-workspace"></i>
                                             <span>+Add Users</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item {{ request()->is('*role*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('role') ? 'active' : '' }}"
+                                            href="{{ url('/role') }}">
+                                            <i class="bi bi-person-workspace"></i>
+                                            <span>Add Roles</span>
                                         </a>
                                     </li>
                                 @endhasrole

@@ -30,6 +30,31 @@
             </div>
         </div>
     @endforeach
+    @foreach ($datappb as $ppb)
+            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h2 class="modal-title" style="color: white">List Item</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body ">
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($ppb->itemppn as $item)
+                                    <ul style="font-size: 18">
+                                        <li>- {{ $item->item }}</li>
+                                    </ul>
+                                    @endforeach
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
 
     <!-- Page Sidebar Ends-->
     <div class="container-fluid">
@@ -39,37 +64,9 @@
                     <h3>Purchase Order Out</h3>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item">Purchase Order</li>
+                        <li class="breadcrumb-item">Purchase Order Out</li>
                     </ol>
                 </div>
-                {{-- <div class="col-sm-6 mt-4">
-                    <!-- Bookmark Start-->
-                    <div class="bookmark">
-                        <ul>
-                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                    data-placement="top" title="" data-original-title="Tables"><i
-                                        data-feather="inbox"></i></a></li>
-                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                    data-placement="top" title="" data-original-title="Chat"><i
-                                        data-feather="message-square"></i></a></li>
-                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                    data-placement="top" title="" data-original-title="Icons"><i
-                                        data-feather="command"></i></a></li>
-                            <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                    data-placement="top" title="" data-original-title="Learning"><i
-                                        data-feather="layers"></i></a></li>
-                            <li><a href="javascript:void(0)"><i class="bookmark-search"
-                                        data-feather="star"></i></a>
-                                <form class="form-inline search-form">
-                                    <div class="form-group form-control-search">
-                                        <input type="text" placeholder="Search..">
-                                    </div>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- Bookmark Ends-->
-                </div> --}}
             </div>
         </div>
     </div>
@@ -130,11 +127,10 @@
                                                     </ul>
                                                 </td>
                                                 <td>
-                                                    @foreach ($ppb->itemppn as $item)
                                                     <ul>
-                                                        <li style=" margin-top:4px;">-{{ $item->item }}</li>
+                                                        <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
                                                     </ul>
-                                                    @endforeach
+
                                                 </td>
                                                 {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
                                                 <td style="text-align: center; font-size:10"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
