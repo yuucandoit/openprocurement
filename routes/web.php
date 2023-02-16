@@ -36,6 +36,7 @@ use App\Http\Controllers\TaskListFinanceController;
 use App\Http\Controllers\WhoSubmittedController;
 use App\Http\Controllers\WorkshopController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\TravelController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -199,6 +200,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update/{id}', [DepartmentController::class, 'update'])->name('department.update');
         Route::get('/destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
         Route::get('/search/department',[DepartmentController::class, 'SearchDepartment'])->name('department.SearchDepartment');
+    });
+
+    Route::group(['prefix' => 'travel'], function () {
+        Route::get('/', [TravelController::class, 'index'])->name('travel.index');
+        Route::get('/create', [TravelController::class, 'create'])->name('travel.create');
+        Route::post('/store', [TravelController::class, 'store'])->name('travel.store');
+        Route::get('/edit/{id}', [TravelController::class, 'edit'])->name('travel.edit');
+        Route::post('/update/{id}', [TravelController::class, 'update'])->name('travel.update');
+        Route::get('/destroy/{id}', [TravelController::class, 'destroy'])->name('travel.destroy');
+        Route::get('/search/travel',[TravelController::class, 'SearchTravel'])->name('travel.SearchTravel');
     });
 
     // End Data Master Submission
