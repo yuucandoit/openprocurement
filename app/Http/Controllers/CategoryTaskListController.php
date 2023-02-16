@@ -127,6 +127,7 @@ class CategoryTaskListController extends Controller
         $items              = CategoryPO::where('ppb_id',$id)->get();
         $groupedItem        = ItemPO::groupBy('po_id')->get();
         $itempurchase       = ItemPO::groupBy('po_id')->first();
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
         return view('taskList.menu.detail')
         ->with('purpose',$purpose)
         ->with('pengajuan', $pengajuan)
@@ -138,6 +139,7 @@ class CategoryTaskListController extends Controller
         ->with('items', $items)
         ->with('vendor', $vendor)
         ->with('groupedItem', $groupedItem)
+        ->with('disc', $disc)
         ->with('itempurchase', $itempurchase);
     }
     /**
