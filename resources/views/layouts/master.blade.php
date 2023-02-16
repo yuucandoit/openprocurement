@@ -490,22 +490,7 @@
                                         </ul>
                                     </li>
                                 @endhasrole
-                                @hasrole('super purchase')
-                                <li class="sidebar-main-title">
-                                    <div>
-                                        <h6>Cross Check PO</h6>
-                                    </div>
-                                </li>
 
-                                <li class="dropdown">
-                                    <a class="nav-link menu-title link-nav {{ request()->is('*check_po*') ? 'active' : '' }}"
-                                        href="{{ url('/check_po') }}">
-                                        <i class="icofont icofont-tasks"></i>
-                                        <span>Check PO</span>
-                                    </a>
-                                </li>
-
-                                @endhasrole
                                 @hasrole('finance')
                                     <li class="sidebar-main-title">
                                         <div>
@@ -603,6 +588,22 @@
                                             </li>
                                         </ul>
                                     </li>
+                                @endhasrole
+                                @hasrole('super purchase|super admin')
+                                <li class="sidebar-main-title">
+                                    <div>
+                                        <h6>Cross Check PO</h6>
+                                    </div>
+                                </li>
+
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav {{ request()->is('*check_po*') ? 'active' : '' }}"
+                                        href="{{ url('/check_po') }}">
+                                        <i class="icofont icofont-tasks"></i>
+                                        <span>Check PO</span>
+                                    </a>
+                                </li>
+
                                 @endhasrole
                                 <!--Menu-->
 
@@ -1102,7 +1103,7 @@
                                         </div>
                                     </li>
                                     <li class="dropdown">
-                                        <a class="nav-link menu-title {{ request()->is('who-submitted') ? 'active' : '' }} {{ request()->is('project-reference') ? 'active' : '' }} {{ request()->is('office') ? 'active' : '' }} {{ request()->is('workshop') ? 'active' : '' }} {{ request()->is('inventory') ? 'active' : '' }} {{ request()->is('RnD') ? 'active' : '' }} {{ request()->is('department') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title {{ request()->is('who-submitted') ? 'active' : '' }} {{ request()->is('project-reference') ? 'active' : '' }} {{ request()->is('office') ? 'active' : '' }} {{ request()->is('workshop') ? 'active' : '' }} {{ request()->is('inventory') ? 'active' : '' }} {{ request()->is('RnD') ? 'active' : '' }} {{ request()->is('department') ? 'active' : '' }} {{ request()->is('travel') ? 'active' : '' }}"
                                             href="javascript:void(0)">
                                             <i data-feather="file"></i>
                                             <span>Submissions</span></a>
@@ -1112,7 +1113,8 @@
                                         request()->is('workshop') ||
                                         request()->is('inventory') ||
                                         request()->is('RnD') ||
-                                        request()->is('department')
+                                        request()->is('department') ||
+                                        request()->is('travel')
                                             ? 'active'
                                             : '')
                                             <ul class="nav-submenu menu-content" style="display: block;">
@@ -1167,6 +1169,13 @@
                                                         <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
                                                     </a>
                                                 </li>
+                                                <li class="dropdown {{ request()->is('*travel*') ? 'active' : '' }}">
+                                                    <a class="{{ request()->is('travel') ? 'active' : '' }}"
+                                                        href="{{ url('/travel') }}">
+                                                        <i class="fa fa-plane"></i>
+                                                        <span>&nbsp;&nbsp;&nbsp;&nbsp; Travel</span>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         @endif
                                         <ul class="nav-submenu menu-content">
@@ -1217,7 +1226,14 @@
                                                 <a class="{{ request()->is('department') ? 'active' : '' }}"
                                                     href="{{ url('/department') }}">
                                                     <i class="fa fa-institution"></i>
-                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
+                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;Department</span>
+                                                </a>
+                                            </li>
+                                            <li class="dropdown {{ request()->is('*travel*') ? 'active' : '' }}">
+                                                <a class="{{ request()->is('travel') ? 'active' : '' }}"
+                                                    href="{{ url('/travel') }}">
+                                                    <i class="fa fa-plane"></i>
+                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Travel</span>
                                                 </a>
                                             </li>
                                         </ul>
