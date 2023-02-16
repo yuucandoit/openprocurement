@@ -178,6 +178,7 @@
                                             <option value="workshop">Workshop</option>
                                             <option value="inventory">Inventory</option>
                                             <option value="rnd">R&D</option>
+                                            <option value="travel">Travel</option>
                                         </select>
                                         @error('category_purpose')
                                         <div class="invalid-feedback">
@@ -224,7 +225,7 @@
                                         </div>
                                         {{-- End Inventory Dropdown --}}
 
-                                        {{-- Inventory Dropdown --}}
+                                        {{-- RND Dropdown --}}
                                         <div class="hide" id="selectedInput5">
                                         <select class="js-example-basic-single" name="rnd">
                                             @foreach ($purpose_rnd as $rnd)
@@ -232,27 +233,20 @@
                                             @endforeach
                                         </select>
                                         </div>
-                                        {{-- End Inventory Dropdown --}}
+                                        {{-- End RND Dropdown --}}
+
+                                          {{-- Travel Dropdown --}}
+                                          <div class="hide" id="selectedInput6">
+                                            <select class="js-example-basic-single" name="travel">
+                                                @foreach ($purpose_travel as $travel)
+                                                <option value="{{ $travel->id }}">{{ $travel->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            </div>
+                                            {{-- End Travel Dropdown --}}
                                     </div>
                                 </div>
 
-
-                                {{-- <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i> Currency :</label>
-                                        <select class="form-select page" id="floatingdateline" placeholder="Mata Uang" name="matauang" required="">
-                                            <option selected="" disabled="" value="">select currency
-                                            </option>
-                                            <option value="USD">USD</option>
-                                            <option value="RP">RP</option>
-                                        </select>
-                                        @error('matauang')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                </div> --}}
                                 {{-- css hide --}}
                                 <style>
                                     .hide {
@@ -499,6 +493,15 @@
                     selectedInput5.classList.remove('hide');
                 } else {
                     selectedInput5.classList.add('hide');
+                }
+            })
+
+             // Travel
+             pageSelect.addEventListener('change', function() {
+                if (this.value == "travel") {
+                    selectedInput6.classList.remove('hide');
+                } else {
+                    selectedInput6.classList.add('hide');
                 }
             })
 

@@ -17,6 +17,7 @@ use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\RND;
 use App\Models\Role;
+use App\Models\Travel;
 use App\Models\User;
 use App\Models\WhoSubmitted;
 use App\Models\Workshop;
@@ -29,6 +30,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class CategoryPengajuanPembelianController extends Controller
 {
@@ -42,7 +44,6 @@ class CategoryPengajuanPembelianController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
             $user   = User::where('id', Auth::user()->id)->get();
-            $datappb = CategoryPengajuanPembelian::all();
             $datapt = CategoryPT::all();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
@@ -51,6 +52,7 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->orderBy('id','DESC')->orderBy('date_ps','DESC')->orderBy('created_at','ASC')->paginate(10);
+            $datapo = CategoryPO::groupBy('ppb_id')->get();
             // $count  = \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->count();
             $comments = Comment::where('user_id',Auth::user()->id)->count();
             // dd($count);
@@ -65,11 +67,12 @@ class CategoryPengajuanPembelianController extends Controller
                 ->with('datadv', $datadv)
                 ->with('dataws', $dataws)
                 ->with('comments', $comments)
+                ->with('datapo', $datapo)
                 ->with('datadepartment', $datadepartment);
         } else if ($check->role_id == 1 || $check->role_id == 3) {
             $user = User::where('id', Auth::user()->id)->get();
             $datapt = CategoryPT::all();
-            $datappb = CategoryPengajuanPembelian::all();
+            $datapo = CategoryPO::groupBy('ppb_id')->get();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
             $dataws = WhoSubmitted::all();
@@ -85,6 +88,7 @@ class CategoryPengajuanPembelianController extends Controller
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
                 ->with('datapt', $datapt)
+                ->with('datapo', $datapo)
                 ->with('dataop', $dataop)
                 ->with('dataec', $dataec)
                 ->with('atasan', $atasan)
@@ -108,9 +112,11 @@ class CategoryPengajuanPembelianController extends Controller
          $q->where('name','like',"%".$cari."%");
     })
     ->paginate(5);
+    $datapo = CategoryPO::get();
 
     return view('pengajuanPembelian.menu.index')
     ->with('datadv',$datadv)
+    ->with('datapo', $datapo)
     ->with('dataws',$dataws);
    }
 
@@ -172,6 +178,7 @@ class CategoryPengajuanPembelianController extends Controller
 
      return view('pengajuanPembelian.menu.history')
      ->with('datappb',$datappb);
+
     }
 
 
@@ -216,8 +223,7 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
         $purpose_rnd        = RND::all();
-
-
+        $purpose_travel     = Travel::all();
 
         return view('pengajuanPembelian.menu.create')
             ->with('atasan', $atasan)
@@ -226,6 +232,7 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('purpose_inventory', $purpose_inventory)
             ->with('purpose_workshop', $purpose_workshop)
             ->with('purpose_rnd', $purpose_rnd)
+            ->with('purpose_travel', $purpose_travel)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment);
     }
@@ -293,6 +300,9 @@ class CategoryPengajuanPembelianController extends Controller
         } elseif ($request->category_purpose == "rnd") {
             $purpose5 = RND::find($request->rnd);
             $pengajuan = $purpose5->purposes()->save($pengajuan);
+        } elseif ($request->category_purpose == "travel") {
+            $purpose6 = Travel::find($request->travel);
+            $pengajuan = $purpose6->purposes()->save($pengajuan);
         }
 
 
@@ -348,6 +358,7 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
         $purpose_rnd        = RND::all();
+        $purpose_travel     = Travel::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
         //dd($item);
         return view('pengajuanPembelian.menu.edit')
@@ -358,6 +369,7 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('purpose_inventory', $purpose_inventory)
             ->with('purpose_workshop', $purpose_workshop)
             ->with('purpose_rnd', $purpose_rnd)
+            ->with('purpose_travel', $purpose_travel)
             ->with('item', $item)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
@@ -424,6 +436,14 @@ class CategoryPengajuanPembelianController extends Controller
                 $purpose4 = Inventory::find($request->inventory);
                 $purpose4->purposes()->where('id',$id)->delete();
                 $pengajuan = $purpose4->purposes()->save($pengajuan);
+            } elseif ($request->category_purpose == "rnd") {
+                $purpose5 = RND::find($request->rnd);
+                $purpose5->purposes()->where('id',$id)->delete();
+                $pengajuan = $purpose5->purposes()->save($pengajuan);
+            } elseif ($request->category_purpose == "travel") {
+                $purpose6 = Travel::find($request->travel);
+                $purpose6->purposes()->where('id',$id)->delete();
+                $pengajuan = $purpose6->purposes()->save($pengajuan);
             }
 
             foreach ($data['id'] as $item => $value) {

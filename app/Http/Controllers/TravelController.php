@@ -19,6 +19,18 @@ class TravelController extends Controller
         ->with('data',$data);
     }
 
+    public function SearchTravel(Request $request)
+   {
+    $cari = $request->cari;
+    //dd($cari);
+    $data = Travel::Where('id','like',"%".$cari."%")
+    ->orWhere('name','like',"%".$cari."%")
+    ->paginate(10);
+
+    return view('dataTravel.index')
+    ->with('data',$data);
+   }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -26,7 +38,7 @@ class TravelController extends Controller
      */
     public function create()
     {
-        //
+        return view('dataTravel.create');
     }
 
     /**
@@ -37,7 +49,15 @@ class TravelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required',
+        ]);
+
+       Travel::create([
+            "name" => $request->name,
+        ]);
+
+        return redirect("travel/")->with('success', 'Created Successfully!');
     }
 
     /**
@@ -57,9 +77,11 @@ class TravelController extends Controller
      * @param  \App\Models\Travel  $travel
      * @return \Illuminate\Http\Response
      */
-    public function edit(Travel $travel)
+    public function edit(Travel $travel,$id)
     {
-        //
+        $data = Travel::find($id);
+        return view('dataTravel.edit')
+        ->with('data',$data);
     }
 
     /**
@@ -69,9 +91,17 @@ class TravelController extends Controller
      * @param  \App\Models\Travel  $travel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Travel $travel)
+    public function update(Request $request, Travel $travel,$id)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required',
+        ]);
+
+       Travel::where('id',$id)->update([
+            "name" => $request->name,
+        ]);
+
+        return redirect("travel/")->with('success', 'Created Successfully!');
     }
 
     /**
@@ -80,8 +110,10 @@ class TravelController extends Controller
      * @param  \App\Models\Travel  $travel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Travel $travel)
+    public function destroy(Travel $travel,$id)
     {
-        //
+        $data = Travel::find($id);
+        $data->delete();
+        return redirect("travel/")->with('success', 'Deleted Successfully!');
     }
 }
