@@ -102,9 +102,11 @@
                                             <th>Name</th>
                                             {{-- <th>Description</th> --}}
                                             <th>Item</th>
+                                            <th>PO</th>
                                             <th>Deadline</th>
                                             {{-- <th>Countdown</th> --}}
                                             <th style="text-align: center;">Status</th>
+                                            <th style="white-space: nowrap;">Approved At</th>
                                             {{-- @hasrole('purchasing|super admin')
                                             <th style="text-align: center;">Status</th>
                                             @endhasrole --}}
