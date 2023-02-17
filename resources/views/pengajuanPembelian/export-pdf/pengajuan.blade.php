@@ -126,7 +126,7 @@
             <td style="padding-left:350px;">
 
 
-                <div style="text-align: center; font-size:10px;">
+                <div style="text-align: center; font-size:14px;">
                     {{-- @foreach ($cpp as $c) --}}
                         @if ($cpp->status == 'Awaiting Purchase Request Approval' ||
                             $cpp->status == 'Purchase Request Approved' ||
