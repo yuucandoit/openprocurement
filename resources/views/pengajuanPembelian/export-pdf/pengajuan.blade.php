@@ -81,7 +81,7 @@
             </td>
         </tr>
     </table>
-    <table width="100%" class="table table-bordered table-striped mt-5">
+    <table width="100%" class="table table-bordered table-striped mt-5" style="font-size: 10;">
         <tbody class="text-center">
             <tr>
                 <td>
