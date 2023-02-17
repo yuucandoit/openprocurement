@@ -339,7 +339,7 @@
                                     </tbody>
                                 </table>
                                 <div class="mt-4">
-                                    {{ $datapo->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                     </div>
                             </div>
                         </div>
