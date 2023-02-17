@@ -314,6 +314,16 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            <label class="pull-right"
+                                                style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                Admin & Service Fee :</label>
+                                        </td>
+                                        <td>
+                                            <input  class="adminfee form-control text-end dollar" type="text" name="admin_fee" value="{{ $count->admin_fee }}">
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="text-end" style="font-weight: bold;">Grand Total
                                             :</td>
                                         <td>
@@ -402,38 +412,50 @@
 
                 var totalppn = 0;
                 if (event.currentTarget.checked) {
-                    totalppn = discount * 11 / 100;
-                    ppntotal2 = discount + totalppn;
-                    console.log(discount);
+                totalppn = discount * 11 / 100;
+                ppntotal2 = discount + totalppn;
+                console.log(discount);
+                console.log(ppntotal2);
+                $(".ppn").text(totalppn.toLocaleString('en-US'));
+
+                var ongkir = document.querySelector(".ongkir");
+                ongkir.addEventListener("input", function(){
+                    var ongkos = ongkir.value;
+                    var replace = ongkos.replace(/\,/g, "");
+                    var ongkoskirim = parseInt(replace);
                     console.log(ppntotal2);
-                    $(".ppn").text(totalppn.toLocaleString('en-US'));
+                    grandtotal = ongkoskirim  + ppntotal2;
+                });
+                var adminfee = document.querySelector(".adminfee");
+                adminfee.addEventListener("input", function(){
+                    var admin = adminfee.value;
+                    var replace = admin.replace(/\,/g, "");
+                    var biayaAdmin = parseInt(replace);
+                    grandtotal2 = biayaAdmin  + grandtotal ;
+                    $(".total").val(grandtotal2);
+                });
+            } else {
+                totalppn = discount * 0;
+                ppntotal2 = discount + totalppn;
+                $(".ppn").text(totalppn);
 
-                    var ongkir = document.querySelector(".ongkir");
-                    ongkir.addEventListener("input", function(){
-                        var ongkos = ongkir.value;
-                        var replace = ongkos.replace(/\,/g, "");
-                        var ongkoskirim = parseInt(replace);
-                        console.log(ppntotal2);
-                        grandtotal = ongkoskirim  + ppntotal2;
-                        $(".total").val(grandtotal);
-                    });
-                } else {
-                    totalppn = discount * 0;
-                    ppntotal2 = discount + totalppn;
-                    $(".ppn").text(totalppn);
-
-                    var ongkir = document.querySelector(".ongkir");
-                    ongkir.addEventListener("input", function(){
-                        var ongkos = ongkir.value;
-                        var replace = ongkos.replace(/\,/g, "");
-                        var ongkoskirim = parseInt(replace);
-                        console.log(ppntotal2);
-                        grandtotal = ongkoskirim  + ppntotal2 ;
-                        $(".total").val(grandtotal);
-                    });
-
-
-                }
+                var ongkir = document.querySelector(".ongkir");
+                ongkir.addEventListener("input", function(){
+                    var ongkos = ongkir.value;
+                    var replace = ongkos.replace(/\,/g, "");
+                    var ongkoskirim = parseInt(replace);
+                    console.log(ppntotal2);
+                    grandtotal = ongkoskirim  + ppntotal2 ;
+                });
+                var adminfee = document.querySelector(".adminfee");
+                adminfee.addEventListener("input", function(){
+                    var admin = adminfee.value;
+                    var replace = admin.replace(/\,/g, "");
+                    var biayaAdmin = parseInt(replace);
+                    grandtotal2 = biayaAdmin  + grandtotal ;
+                    $(".total").val(grandtotal2);
+                });
+            }
             });
             // var ongkoskir;
 
