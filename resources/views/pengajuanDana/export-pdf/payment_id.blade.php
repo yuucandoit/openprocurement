@@ -137,7 +137,7 @@
                     @endif
                     @if($items->matauang == 'USD')
                     <td class="text-right">
-                        <p>$ {{ number_format($items->unit_price/100,2) }}</p>
+                        <p>$ {{ number_format($items->unit_price,2) }}</p>
                     </td>
                     @endif
 
@@ -148,7 +148,7 @@
                     @endif
                     @if($items->matauang == 'USD')
                     <td class="text-right">
-                        <p>$ {{ number_format($items->total/100,2) }}</p>
+                        <p>$ {{ number_format($items->total,2) }}</p>
                     </td>
                     @endif
                 </tr>
@@ -179,7 +179,7 @@
                     @endif
                     @if($value->matauang == 'USD')
                     <td>
-                        <p class="m-0 digits text-right">$ {{ number_format($value->dpp/100,2) }}</p>
+                        <p class="m-0 digits text-right">$ {{ number_format($value->dpp,2) }}</p>
                     </td>
                     @endif
             </tr>
@@ -207,7 +207,7 @@
                     @endif
                     @if($value->matauang == 'USD')
                     <td>
-                        <p class="m-0 digits text-right">$ {{ number_format($value->discount /100,2) }}</p>
+                        <p class="m-0 digits text-right">$ {{ number_format($value->discount ,2) }}</p>
                     </td>
                     @endif
             </tr>
@@ -217,7 +217,7 @@
                 $dpp = $value->dpp;
                 $disc = $value->discount;
                 $afterdisc = $dpp - $disc;
-                $ppn = $afterdisc *11 /100;
+                $ppn = $afterdisc *11 ;
                 @endphp
                 <td>
                     <p class="itemtext"></p>
@@ -253,7 +253,7 @@
                             @endif
                             @if($value->matauang == 'USD')
                             <td class="text-right">
-                                <p class="m-0 digits text-end">$ {{ number_format($ppn /100 ,2) }}</p>
+                                <p class="m-0 digits text-end">$ {{ number_format($ppn  ,2) }}</p>
                             </td>
                             @endif
                     @endif
@@ -329,7 +329,7 @@
                                 </td>
                             @elseif ($value->matauang == 'USD')
                                 <td class="text-right" style="white-space: nowrap;">
-                                    <p style="font-weight: 700;" class="text-right"> $ {{ number_format($value->grand_total /100 ,2) }}</p>
+                                    <p style="font-weight: 700;" class="text-right"> $ {{ number_format($value->grand_total  ,2) }}</p>
                                 </td>
                             @endif
                     @elseif($value->ppn == 1)
@@ -339,7 +339,7 @@
                                 </td>
                             @elseif ($value->matauang == 'USD')
                                 <td class="text-right" style="white-space: nowrap;">
-                                    <p style="font-weight: 700;" class="mb-0 text-right"> $.{{ number_format($value->grand_total /100 ,2) }}</p>
+                                    <p style="font-weight: 700;" class="mb-0 text-right"> $.{{ number_format($value->grand_total  ,2) }}</p>
                                 </td>
                             @endif
                     @endif
