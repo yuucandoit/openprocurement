@@ -119,7 +119,7 @@
                                         @endphp
                                         <tbody>
                                             @foreach ($datappb as $ppb)
-                                                @if ($ppb->status == 'Purchase Proses' || 'Cross Check PO')
+                                                @if ($ppb->status == 'Purchase Proses' && 'Cross Check PO')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
@@ -146,7 +146,7 @@
                                                         {{-- <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td> --}}
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
 
-                                                     @if ($ppb->status == 'Purchase Proses'||'Cross Check PO')
+                                                     @if ($ppb->status == 'Purchase Proses'&&'Cross Check PO')
                                                             <td>
                                                                 <ul>
                                                                     <li>
