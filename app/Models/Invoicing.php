@@ -23,6 +23,6 @@ class Invoicing extends Model
 
     public function atasans()
     {
-        return $this->belongsTo(User::class, 'atasan_po');
+        return $this->belongsTo(User::class, 'atasan_py');
     }
 }
