@@ -380,12 +380,12 @@
                                         alt=""></p>
                             @endif
                 </div>
-                @if (empty($p->ppb->atasans->name))
+                @if (empty($p->ppb->atasanpymnt->name))
                     <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 18px;">{{ $p->ppb->atasans->name }} <br>
+                    <div style="text-align: center; font-size: 18px;">{{ $p->ppb->atasanpymnt->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif
