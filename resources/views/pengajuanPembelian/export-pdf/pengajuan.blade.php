@@ -144,7 +144,7 @@
                 <div style="text-align: center;">
                     @if (empty($cpp->signature))
                     @else
-                        <p><img style=" max-height:120px;"
+                        <p><img style=" max-height:90px;"
                                 src="{{ public_path('assets/images/signature_super_user/' . $cpp->signature) }}"
                                 alt=""></p>
                     @endif
