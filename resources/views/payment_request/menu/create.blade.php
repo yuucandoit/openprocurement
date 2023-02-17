@@ -336,16 +336,6 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><label class="pull-right mx-2"> Shipping & Protection Fee :</label></td>
-                                                                    <td style="text-align: right;">
-                                                                        @if ($calculate->matauang == 'RP')
-                                                                            RP. {{ number_format($calculate->ongkir) }}
-                                                                        @elseif ($calculate->matauang == 'USD')
-                                                                            $ {{ number_format($calculate->ongkir /100 ,2) }}
-                                                                        @endif
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
                                                                     <td><label class="pull-right mx-2"> Discount :</label></td>
                                                                     <td style="text-align: right;">
                                                                         @if ($calculate->matauang == 'RP')
@@ -383,6 +373,26 @@
                                                                             @elseif ($calculate->matauang == 'USD')
                                                                                 $ 0
                                                                             @endif
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
+                                                                    <td style="text-align: right;">
+                                                                        @if ($calculate->matauang == 'RP')
+                                                                            RP. {{ number_format($calculate->ongkir,2) }}
+                                                                        @elseif ($calculate->matauang == 'USD')
+                                                                            $ {{ number_format($calculate->ongkir ,2) }}
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><label class="pull-right mx-2">Admin Or Service Fee :</label></td>
+                                                                    <td style="text-align: right;">
+                                                                        @if ($calculate->matauang == 'RP')
+                                                                            RP. {{ number_format($calculate->admin_fee,2) }}
+                                                                        @elseif ($calculate->matauang == 'USD')
+                                                                            $ {{ number_format($calculate->admin_fee ,2) }}
                                                                         @endif
                                                                     </td>
                                                                 </tr>

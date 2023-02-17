@@ -19,6 +19,7 @@ class CategoryPO extends Model
         'atasan_po',
         'quotation',
         'signature',
+        'status',
         'path_quotation',
         'path_invoice',
         'matauang',

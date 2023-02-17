@@ -18,7 +18,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Container-fluid starts-->
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12">
@@ -509,7 +508,6 @@
                                     @endif
                                 @endif
 
-
                                 <style>
                                     /* textarea {
                                                height: 20px;
@@ -522,7 +520,6 @@
                                                outline: none;
                                                transition: .5s
                                            } */
-
                                     .AllComment {
                                         box-sizing: border-box;
                                         border: 2px solid rgb(236, 236, 236);
@@ -604,6 +601,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <style>
                     .tutup {

@@ -325,6 +325,7 @@ class CategoryPOController extends Controller
                 $diskon = str_replace(",", "", $data2['discount']);
                 $grand_total = str_replace(",","", $data2['grand_total']);
                 $ongkir     = str_replace(",", "", $data2['ongkir']);
+                $admin     = str_replace(",", "", $data2['admin_fee']);
                 // dd($purchase->id);
                 $update = array(
                     'po_id'             => $purchase->id,
@@ -335,6 +336,7 @@ class CategoryPOController extends Controller
                     'matauang'          => $data2['matauang'],
                     'discount'          => $diskon,
                     "ongkir"            => $ongkir,
+                    "admin_fee"         => $admin,
                     "dpp"               => $dpp,
                     'total'             => $sum,
                     "ppn"               => $data2['ppn']?? 0,
@@ -387,6 +389,7 @@ class CategoryPOController extends Controller
                 $diskon = str_replace(",", "", $data2['discount']);
                 $grand_total = str_replace(",","", $data2['grand_total']);
                 $ongkir     = str_replace(",", "", $data2['ongkir']);
+                $admin     = str_replace(",", "", $data2['admin_fee']);
                 // dd($purchase->id);
                 $update = array(
                     'po_id'             => $purchase->id,
@@ -397,6 +400,7 @@ class CategoryPOController extends Controller
                     'matauang'          => $data2['matauang'],
                     'discount'          => $diskon,
                     "ongkir"            => $ongkir,
+                    "admin_fee"         => $admin,
                     "dpp"               => $dpp,
                     'total'             => $sum,
                     "ppn"               => $data2['ppn']?? 0,
@@ -528,6 +532,7 @@ class CategoryPOController extends Controller
                 $diskon = str_replace(",", "", $data2['discount']);
                 $grand_total = str_replace(",","", $data2['grand_total']);
                 $ongkir     = str_replace(",", "", $data2['ongkir']);
+                $admin     = str_replace(",", "", $data2['admin_fee']);
 
                 // $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
                 // $unit_price = str_replace(",", "" , $price_unit);
@@ -544,6 +549,7 @@ class CategoryPOController extends Controller
                     'unit_price'        => $price_unit,
                     'discount'          => $diskon,
                     "ongkir"            => $ongkir,
+                    "admin_fee"         => $admin,
                     'matauang'          => $data2['matauang'],
                     "dpp"               => $dpp,
                     'total'             => $sum,
@@ -604,13 +610,8 @@ class CategoryPOController extends Controller
                 $diskon = str_replace(",", "", $data2['discount']);
                 $grand_total = str_replace(",","", $data2['grand_total']);
                 $ongkir     = str_replace(",", "", $data2['ongkir']);
-                // $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
-                // $unit_price = str_replace(",", "" , $price_unit);
+                $admin     = str_replace(",", "", $data2['admin_fee']);
 
-                // $diskon = str_replace(".", "", $data2['discount']);
-                // $grand_total = str_replace(",","", $data2['grand_total']);
-                // $ongkir     = str_replace(".", "", $data2['ongkir']);
-                // dd($purchase->id);
                 $update = array(
                     'po_id'             => $purchase->id,
                     'item'              => $data2['item'][$key],
@@ -619,6 +620,7 @@ class CategoryPOController extends Controller
                     'unit_price'        => $price_unit,
                     'discount'          => $diskon,
                     "ongkir"            => $ongkir,
+                    "admin_fee"         => $admin,
                     'matauang'          => $data2['matauang'],
                     "dpp"               => $dpp,
                     'total'             => $sum,
@@ -657,6 +659,31 @@ class CategoryPOController extends Controller
         return redirect('menu-purchase-order');
         }
     }
+    // public function checkPO($id)
+    // {
+    //     $crs = CategoryPO::find($id);
+    //     $crs->status = 'Cross Check PO';
+    //     $crs->save();
+
+    //     $datapo = CategoryPO::where('status','Cross Check PO')->where('ppb_id',$crs->ppb_id)->get();
+    //     $datapo2 = CategoryPO::where('ppb_id',$crs->ppb_id)->get();
+    //     $count = $datapo->count();
+    //     $count2 = $datapo2->count();
+    //     // dd($count == $count2);
+    //     if($count == $count2) {
+    //         $data = CategoryPengajuanPembelian::find($id);
+    //         if(empty($data->atasan_po)){
+    //             return redirect()->back()->withErrors(["Approver Not Found"]);
+    //         }else{
+    //         $data->status = 'Cross Check PO';
+    //         $data->save();
+
+    //         }
+    //     }else{
+
+    //     }
+    //     return redirect('menu-purchase-order');
+    // }
 
 
 

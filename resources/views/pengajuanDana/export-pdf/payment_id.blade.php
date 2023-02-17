@@ -211,34 +211,7 @@
                     </td>
                     @endif
             </tr>
-            <tr>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="itemtext"></p>
-                </td>
-                <td>
-                    <p class="m-0">Shipping & Protection Fee </p>
-                </td>
-                {{-- {{ dd($value) }} --}}
-                    @if($value->matauang == 'RP')
-                    <td>
-                        <p class="m-0 digits text-right">Rp.{{ number_format($value->ongkir) }}</p>
-                    </td>
-                    @endif
-                    @if($value->matauang == 'USD')
-                    <td>
-                        <p class="m-0 digits text-right">$ {{ number_format($value->ongkir/100,2) }}</p>
-                    </td>
-                    @endif
-            </tr>
+
             <tr>
                 @php
                 $dpp = $value->dpp;
@@ -283,6 +256,62 @@
                                 <p class="m-0 digits text-end">$ {{ number_format($ppn /100 ,2) }}</p>
                             </td>
                             @endif
+                    @endif
+            </tr>
+            <tr>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="m-0">Shipping & Protection Fee </p>
+                </td>
+                {{-- {{ dd($value) }} --}}
+                    @if($value->matauang == 'RP')
+                    <td>
+                        <p class="m-0 digits text-right">Rp.{{ number_format($value->ongkir,2) }}</p>
+                    </td>
+                    @endif
+                    @if($value->matauang == 'USD')
+                    <td>
+                        <p class="m-0 digits text-right">$ {{ number_format($value->ongkir,2) }}</p>
+                    </td>
+                    @endif
+            </tr>
+            <tr>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="itemtext"></p>
+                </td>
+                <td>
+                    <p class="m-0">Admin Or Service Fee </p>
+                </td>
+                {{-- {{ dd($value) }} --}}
+                    @if($value->matauang == 'RP')
+                    <td>
+                        <p class="m-0 digits text-right">Rp.{{ number_format($value->admin_fee,2) }}</p>
+                    </td>
+                    @endif
+                    @if($value->matauang == 'USD')
+                    <td>
+                        <p class="m-0 digits text-right">$ {{ number_format($value->admin_fee,2) }}</p>
+                    </td>
                     @endif
             </tr>
             <tr>

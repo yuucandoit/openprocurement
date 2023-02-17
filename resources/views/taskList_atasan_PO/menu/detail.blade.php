@@ -313,9 +313,9 @@
                                                                     </td>
                                                                 @elseif($item->matauang == 'USD')
                                                                     <td class="text-end">$
-                                                                        {{ number_format($item->unit_price /100 ,2) }}</td>
+                                                                        {{ number_format($item->unit_price ,2) }}</td>
                                                                     <td class="text-end">$
-                                                                        {{ number_format($item->total /100 ,2) }}</td>
+                                                                        {{ number_format($item->total ,2) }}</td>
                                                                 @endif
                                                             </tr>
                                                     @endforeach
@@ -330,27 +330,18 @@
                                                                 @if ($value->matauang == 'RP')
                                                                     RP. {{ number_format($value->dpp) }}
                                                                 @elseif ($value->matauang == 'USD')
-                                                                    $ {{ number_format($value->dpp /100 ,2) }}
+                                                                    $ {{ number_format($value->dpp ,2) }}
                                                                 @endif
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td><label class="pull-right mx-2"> Shipping & Protection Fee :</label></td>
-                                                            <td style="text-align: right;">
-                                                                @if ($value->matauang == 'RP')
-                                                                    RP. {{ number_format($value->ongkir) }}
-                                                                @elseif ($value->matauang == 'USD')
-                                                                    $ {{ number_format($value->ongkir /100 ,2) }}
-                                                                @endif
-                                                            </td>
-                                                        </tr>
+
                                                         <tr>
                                                             <td><label class="pull-right mx-2"> Discount :</label></td>
                                                             <td style="text-align: right;">
                                                                 @if ($value->matauang == 'RP')
                                                                     RP. {{ number_format($value->discount) }}
                                                                 @elseif ($value->matauang == 'USD')
-                                                                    $ {{ number_format($value->discount /100 ,2) }}
+                                                                    $ {{ number_format($value->discount ,2) }}
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -375,7 +366,7 @@
                                                                     @if ($value->matauang == 'RP')
                                                                         RP. {{ number_format($ppn) }}
                                                                     @elseif ($value->matauang == 'USD')
-                                                                        $ {{ number_format($ppn /100 ,2) }}
+                                                                        $ {{ number_format($ppn ,2) }}
                                                                     @endif
                                                                 @else
                                                                     @if ($value->matauang == 'RP')
@@ -387,6 +378,26 @@
 
                                                             </td>
                                                         </tr>
+                                                        <tr>
+                                                            <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
+                                                            <td style="text-align: right;">
+                                                                @if ($value->matauang == 'RP')
+                                                                    RP. {{ number_format($value->ongkir,2) }}
+                                                                @elseif ($value->matauang == 'USD')
+                                                                    $ {{ number_format($value->ongkir ,2) }}
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="pull-right mx-2">Admin Or Service Fee :</label></td>
+                                                            <td style="text-align: right;">
+                                                                @if ($value->matauang == 'RP')
+                                                                    RP. {{ number_format($value->admin_fee,2) }}
+                                                                @elseif ($value->matauang == 'USD')
+                                                                    $ {{ number_format($value->admin_fee ,2) }}
+                                                                @endif
+                                                            </td>
+                                                        </tr>
 
                                                         <tr>
                                                             <td class="text-end" style="font-weight: bold;">Grand Total
@@ -396,13 +407,13 @@
                                                                 @if ($value->matauang == 'RP')
                                                                     RP.{{ number_format($value->grand_total) }}
                                                                 @elseif ($value->matauang == 'USD')
-                                                                    ${{ number_format($value->grand_total /100 ,2) }}
+                                                                    ${{ number_format($value->grand_total ,2) }}
                                                                 @endif
                                                             @elseif ($value->ppn == 0)
                                                                 @if ($value->matauang == 'RP')
                                                                 RP.{{ number_format($value->grand_total) }}</td>
                                                                 @elseif ($value->matauang == 'USD')
-                                                                ${{ number_format($value->grand_total /100 ,2) }}
+                                                                ${{ number_format($value->grand_total ,2) }}
                                                                 @endif
 
                                                             @endif

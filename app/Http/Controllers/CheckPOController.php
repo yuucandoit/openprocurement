@@ -27,21 +27,10 @@ class CheckPOController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 || $check->role_id == 17) {
-            $datappb = CategoryPengajuanPembelian::where('status','Cross Check PO')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::where('status','Invoicing Process')
-            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->
-            orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-            $pt = CategoryPT::all();
-            $op = CategoryPP::all();
-            $ec = CategoryEcommerce::all();
-            $datapo = CategoryPO::get();
+            $datappb = CategoryPengajuanPembelian::orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            $datapo = CategoryPO::where('status','Cross Check PO')->paginate(10);
             return view('purchaseOrder.menu.check-po.index')
-                ->with('pt',$pt)
-                ->with('op',$op)
-                ->with('ec',$ec)
                 ->with('datappb',$datappb)
-                ->with('datappb2',$datappb2)
                 ->with('datapo', $datapo);
         }
     }
@@ -62,18 +51,13 @@ class CheckPOController extends Controller
      })
      ->paginate(10, ['*'],'in');
 
-     $datahstry = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
-     ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-     ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10);
 
-     return view('purchaseOrder.menu.index')
-     ->with('datappb',$datappb)
-     ->with('datahstry',$datahstry);
+     return view('purchaseOrder.menu.check-po.index')
+     ->with('datappb',$datappb);
     }
 
     public function ajukan_keatasan($id)
     {
-
         $data = CategoryPengajuanPembelian::find($id);
         if(empty($data->atasan_po)){
             return redirect()->back()->withErrors(["Approver Not Found"]);
@@ -83,6 +67,33 @@ class CheckPOController extends Controller
         return redirect('send-purchase/'.$data->id);
         }
     }
+
+    // public function ajukan_keatasan($id)
+    // {
+
+    //     $crs = CategoryPO::find($id);
+    //     $crs->status = 'Waiting For PO Approval';
+    //     $crs->save();
+
+    //     $data2 = CategoryPengajuanPembelian::where('id',$crs->ppb_id)->first();
+    //     // dd($data2);
+    //     $datapo = CategoryPO::where('status','Cross Check PO')->where('ppb_id',$crs->ppb_id)->get();
+    //     $datapo2 = CategoryPO::where('ppb_id',$crs->ppb_id)->get();
+    //     $count = $datapo->count();
+    //     $count2 = $datapo2->count();
+    //     if($count == $count2) {
+    //     $data = CategoryPengajuanPembelian::find($id);
+    //     if(empty($data->atasan_po)){
+    //         return redirect()->back()->withErrors(["Approver Not Found"]);
+    //     }else{
+    //     $data->status = 'Waiting For PO Approval';
+    //     $data->save();
+    //     }
+    //         }else{
+
+    //     }
+    //     return redirect('send-purchase/'.$data2->id );
+    // }
 
     public function detail($id)
     {

@@ -102,17 +102,96 @@
                                             <th>Name</th>
                                             {{-- <th>Description</th> --}}
                                             <th>Item</th>
-                                            <th>PO</th>
                                             <th>Deadline</th>
                                             {{-- <th>Countdown</th> --}}
                                             <th style="text-align: center;">Status</th>
                                             {{-- @hasrole('purchasing|super admin')
                                             <th style="text-align: center;">Status</th>
                                             @endhasrole --}}
-                                            <th style="white-space: nowrap;">Approved At</th>
                                             <th >Action</th>
                                         </tr>
                                     </thead>
+                                    {{-- @php
+                                        $i = 1 + $datapo->currentPage() * $datapo->perPage() - $datapo->perPage();
+                                        $approvedPPB = [];
+                                    @endphp --}}
+                                    {{-- <tbody>
+                                        @foreach ($datapo as $ppb)
+                                            @if ($ppb->status == 'Cross Check PO')
+                                                @php $approvedPPB[] =$ppb->ppb; @endphp
+                                                <tr id="ppb-{{ $ppb->ppb->id }}">
+                                                    <td style="text-align: center;">{{ $i++ }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->id }}</td>
+                                                    <td>
+                                                        <ul>
+                                                            <li><a href="{{ url('/check_po/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->ppb->whosubmit->name }}</a></li>
+                                                            <li style="margin-top: 5px;"><a href="{{ url('/check_po/detail/' . $ppb->id) }}" style="word-break:break-all">{{ $ppb->ppb->desc }}</a></li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        <ul>
+                                                            <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->ppb->id }}">{{ $ppb->ppb->itemppn->count() }} Item </label></li>
+                                                        </ul>
+                                                    </td>
+
+
+                                                        <td>
+                                                            <ul>
+                                                                <li>
+                                                                    <p class="ppb-countdown" style="color:rgb(81, 171, 71)"></p>
+                                                                </li>
+                                                                <li style="white-space: nowrap;">
+                                                                    @if($ppb->ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <ul>
+                                                                <li>
+                                                                    <a class="badge"
+                                                                        style="color: white; background-color:rgb(255, 0, 0); font-size:10">
+                                                                        @if($ppb->status == 'Cross Check PO')
+                                                                       Waiting For Check
+                                                                        @endif
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="badge badge-lable" style="font-size: 10">
+                                                                        Complete This Task!
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+
+                                                    @hasrole('purchasing|super admin|super purchase')
+                                                        <td style="text-align: center;">
+
+
+                                                            <a class="btn btn-iconsolid mt-1"
+                                                            style="background-color: #B1D0E0; font-size:10;"
+                                                            href="{{ url('/exportpdf/po/' . $ppb->ppb->id) }}" target="_blank"><i
+                                                                class="icon-eye" title="Preview Purchase Order"></i>
+                                                            </a>
+
+
+                                                                <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
+                                                                data-bs-target="#modalDelete{{ $ppb->id }}"><i
+                                                                    class="icon-trash" title="Delete"></i>
+                                                            </button>
+                                                        </td>
+                                                    @endhasrole
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody> --}}
                                     @php
                                         $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         $approvedPPB = [];
@@ -260,7 +339,7 @@
                                     </tbody>
                                 </table>
                                 <div class="mt-4">
-                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    {{ $datapo->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                     </div>
                             </div>
                         </div>
@@ -269,24 +348,13 @@
             </div>
       </div>
 
-
-                <script>
-                    $(document).ready(function() {
-
-                        $('.servideletebtn').click(function(e) {
-                            e.preventDefault();
-                            alert('hello');
-                        });
-
-                    });
-                </script>
     </section>
 @endsection
 @section('scripts')
 {{-- <script src="{{  }}"></script> --}}
 <script>
     const data = @json($approvedPPB);
-    // console.log(data);
+    console.log(data);
     const item = data[0];
 
     // FOR CALCULATE REMAINING DEADLINE TIME 😃

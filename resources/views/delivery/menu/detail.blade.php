@@ -328,16 +328,7 @@
                                                                     @endif
                                                                 </td>
                                                             </tr>
-                                                            <tr>
-                                                                <td><label class="pull-right mx-2"> Shipping & Protection Fee :</label></td>
-                                                                <td style="text-align: right;">
-                                                                    @if ($value->matauang == 'RP')
-                                                                        RP. {{ number_format($value->ongkir) }}
-                                                                    @elseif ($value->matauang == 'USD')
-                                                                        $ {{ number_format($value->ongkir /100 ,2) }}
-                                                                    @endif
-                                                                </td>
-                                                            </tr>
+
                                                             <tr>
                                                                 <td><label class="pull-right mx-2"> Discount :</label></td>
                                                                 <td style="text-align: right;">
@@ -379,6 +370,26 @@
                                                                         @endif
                                                                     @endif
 
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
+                                                                <td style="text-align: right;">
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->ongkir,2) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->ongkir ,2) }}
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="pull-right mx-2">Admin Or Service Fee :</label></td>
+                                                                <td style="text-align: right;">
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->admin_fee,2) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->admin_fee ,2) }}
+                                                                    @endif
                                                                 </td>
                                                             </tr>
 

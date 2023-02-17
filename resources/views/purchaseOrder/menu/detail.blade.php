@@ -388,16 +388,6 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
-                                                                <td style="text-align: right;">
-                                                                    @if ($value->matauang == 'RP')
-                                                                        RP. {{ number_format($value->ongkir,2) }}
-                                                                    @elseif ($value->matauang == 'USD')
-                                                                        $ {{ number_format($value->ongkir ,2) }}
-                                                                    @endif
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
                                                                 <td><label class="pull-right mx-2"> Discount :</label></td>
                                                                 <td style="text-align: right;">
                                                                     @if ($value->matauang == 'RP')
@@ -444,6 +434,26 @@
 
                                                                 </td>
                                                             </tr>
+                                                            <tr>
+                                                                <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
+                                                                <td style="text-align: right;">
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->ongkir,2) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->ongkir ,2) }}
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="pull-right mx-2">Admin Or Service Fee :</label></td>
+                                                                <td style="text-align: right;">
+                                                                    @if ($value->matauang == 'RP')
+                                                                        RP. {{ number_format($value->admin_fee,2) }}
+                                                                    @elseif ($value->matauang == 'USD')
+                                                                        $ {{ number_format($value->admin_fee ,2) }}
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
 
                                                             <tr>
                                                                 <td class="text-end" style="font-weight: bold;">Grand Total
@@ -451,13 +461,13 @@
                                                                 <td style="text-align:right;">
                                                                 @if ($value->ppn == 1)
                                                                     @if ($value->matauang == 'RP')
-                                                                        RP.{{ number_format($value->grand_total) }}
+                                                                        RP.{{ number_format($value->grand_total,2) }}
                                                                     @elseif ($value->matauang == 'USD')
                                                                         ${{ number_format($value->grand_total ,2) }}
                                                                     @endif
                                                                 @elseif ($value->ppn == 0)
                                                                     @if ($value->matauang == 'RP')
-                                                                    RP.{{ number_format($value->grand_total) }}</td>
+                                                                    RP.{{ number_format($value->grand_total,2) }}</td>
                                                                     @elseif ($value->matauang == 'USD')
                                                                     ${{ number_format($value->grand_total ,2) }}
                                                                     @endif
@@ -473,8 +483,32 @@
                                                         target="_blank" style="font-size:12;">Export PDF PO</i>
                                                     </a>
                                                     <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
-
                                                     @endif
+
+                                                    {{-- @if ($data_pengajuan->status == 'Waiting For PO Approval')
+                                                    <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
+                                                        data-bs-target="#modalSelesai" disabled>Check PO Done
+                                                    </button>
+                                                @elseif ($data_pengajuan->status == 'Purchase Proses' || 'Cross Check PO')
+                                                    @if (empty($data_pengajuan->atasans->name))
+                                                        <div class="text-end">
+                                                            <button class="btn btn-outline-success mt-2 disabled" data-bs-toggle="modal"
+                                                                data-bs-target="#modalSelesai">Check PO</button>
+                                                        </div>
+                                                    @else
+                                                    @if($data_pengajuan->status == 'Cross Check PO')
+                                                    <div class="text-end">
+                                                        <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
+                                                            data-bs-target="#modalSelesai" disabled>PO On Check</button>
+                                                    </div>
+                                                    @else
+                                                    <div class="text-end">
+                                                        <button class="btn btn-outline-success mt-2 " data-bs-toggle="modal"
+                                                            data-bs-target="#modalSelesai">Check PO</button>
+                                                    </div>
+                                                    @endif
+                                                    @endif
+                                                @endif --}}
                                                   </div>
                                                 </div>
                                               </div>
@@ -488,33 +522,31 @@
                                   </div>
                                 <hr>
 
-
-
-                                {{-- Start Modal Approval --}}
+                                  {{-- Start Modal Approval --}}
                                 @if ($data_pengajuan->status == 'Waiting For PO Approval')
-                                    <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                        data-bs-target="#modalSelesai" disabled>Check PO Done
-                                    </button>
-                                @elseif ($data_pengajuan->status == 'Purchase Proses' || 'Cross Check PO')
-                                    @if (empty($data_pengajuan->atasans->name))
-                                        <div class="text-center">
-                                            <button class="btn btn-outline-success mt-2 disabled" data-bs-toggle="modal"
-                                                data-bs-target="#modalSelesai">Check PO</button>
-                                        </div>
-                                    @else
-                                    @if($data_pengajuan->status == 'Cross Check PO')
+                                <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
+                                    data-bs-target="#modalSelesai" disabled>Check PO Done
+                                </button>
+                            @elseif ($data_pengajuan->status == 'Purchase Proses' || 'Cross Check PO')
+                                @if (empty($data_pengajuan->atasans->name))
                                     <div class="text-center">
-                                        <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                            data-bs-target="#modalSelesai" disabled>PO On Check</button>
-                                    </div>
-                                    @else
-                                    <div class="text-center">
-                                        <button class="btn btn-outline-success mt-2 " data-bs-toggle="modal"
+                                        <button class="btn btn-outline-success mt-2 disabled" data-bs-toggle="modal"
                                             data-bs-target="#modalSelesai">Check PO</button>
                                     </div>
-                                    @endif
-                                    @endif
+                                @else
+                                @if($data_pengajuan->status == 'Cross Check PO')
+                                <div class="text-center">
+                                    <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
+                                        data-bs-target="#modalSelesai" disabled>PO On Check</button>
+                                </div>
+                                @else
+                                <div class="text-center">
+                                    <button class="btn btn-outline-success mt-2 " data-bs-toggle="modal"
+                                        data-bs-target="#modalSelesai">Check PO</button>
+                                </div>
                                 @endif
+                                @endif
+                            @endif
 
 
                                 <style>
@@ -592,17 +624,18 @@
                                                 </span>
                                                 <h2 style="text-align: center">Make sure the data is correct!</h2>
                                             </div>
-                                            {{-- End Modal Approval --}}
-
                                             <div class="modal-footer">
                                                 @if ($data_pengajuan->status == 'Purchase Proses')
+                                                @if(empty($vendor->id))
+                                                @else
                                                     <form class="text-center" style="text-align: center;"
-                                                        action="{{ url('menu-purchase-order/check_po/' . $data_pengajuan->id) }}">
+                                                        action="{{ url('menu-purchase-order/check_po/'.$data_pengajuan->id) }}">
                                                         <button type="submit" class="btn btn-outline-danger "><i
                                                                 class="bx bx-trash"></i>
                                                            Check PO
                                                         </button>
                                                     </form>
+                                                @endif
                                                 @endif
                                             </div>
                                         </div>
@@ -647,7 +680,7 @@
                                                                 @endforeach
                                                             </select>
 
-                                                            <select class=" form-select privateperson_0 hide" id="selectedInput2"
+                                                            <select class=" form-select privateperson_0 hide mt-2" id="selectedInput2"
                                                                 name="orangpribadi">
                                                                 @foreach ($op as $o)
                                                                 <option value="{{ $o->id }}">{{ $o->nama }}
@@ -655,7 +688,7 @@
                                                                 @endforeach
                                                             </select>
 
-                                                            <select class=" form-select ecommerce_0 hide" id="selectedInput3"
+                                                            <select class=" form-select ecommerce_0 hide mt-2" id="selectedInput3"
                                                                 name="ecommerce">
                                                                 @foreach ($ec as $e)
                                                                 <option value="{{ $e->id }}">{{ $e->nama }}
@@ -743,6 +776,7 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="load">
                                                     <table class="table table-bordered item order-entry mx-2">
                                                         <tr style="text-align: center;">
                                                             <th
@@ -817,6 +851,7 @@
 
                                                         </tr>
                                                         @endforeach
+
                                                     </table>
 
                                                     <table class="table table-bordered mx-2" style="margin-top: 0px;">
@@ -875,6 +910,16 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
+                                                            <td>
+                                                                <label class="pull-right"
+                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    Admin & Service Fee :</label>
+                                                            </td>
+                                                            <td>
+                                                                <input  class="adminfee form-control text-end dollar" type="text" name="admin_fee" value="0">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
                                                             <td class="text-end" style="font-weight: bold;">Grand Total
                                                                 :</td>
                                                             <td>
@@ -883,7 +928,7 @@
                                                             </td>
                                                         </tr>
                                                     </table>
-
+                                                </div>
                                                     <div class="form-group" style="text-align:right;">
                                                         <button type="submit" class="btn btn-primary">Submit</button>
                                                         <a type="reset" class="btn btn-dark"
@@ -919,9 +964,10 @@
                     }
 
                     .hide {
-                        width: 0;
-                        height: 0;
-                        opacity: 0;
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                    display: none;
                     }
 
                     .page {
@@ -972,7 +1018,6 @@
 
     <script type="text/javascript">
         //Math
-
         document.querySelectorAll('.form-row').forEach(row => {
             row.addEventListener('input', (e) => updateFileds(e, row));
         })
@@ -993,15 +1038,7 @@
             });
             $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
 
-        // var ongkoskir;
-        //         var ongkir = document.querySelector(".ongkir");
-        //         ongkir.addEventListener("input", function(){
-        //             var ongkos = ongkir.value;
-        //             var replace = ongkos.replace(/\,/g, "");
-        //             var ongkoskirim = parseInt(replace);
-        //             ongkoskir = dpp + ongkoskirim ;
-        //             console.log(ongkoskir);
-        // });
+
         var discount = 0 ;
             var diskon = document.querySelector(".discount");
             diskon.addEventListener("input", function() {
@@ -1012,12 +1049,11 @@
                 console.log(discount);
                 $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
         })
-        // $(".total_disc").text(discount.toLocaleString('en-US')new Intl.NumberFormat('en-IN').format(discount));
 
         var checkbox = document.querySelector(".check-box-create");
-        // console.log(checkbox);
+
         checkbox.addEventListener('change', (event) => {
-            // console.log(event.currentTarget.checked);
+
 
             var totalppn = 0;
             if (event.currentTarget.checked) {
@@ -1034,7 +1070,14 @@
                     var ongkoskirim = parseInt(replace);
                     console.log(ppntotal2);
                     grandtotal = ongkoskirim  + ppntotal2;
-                    $(".total").val(grandtotal);
+                });
+                var adminfee = document.querySelector(".adminfee");
+                adminfee.addEventListener("input", function(){
+                    var admin = adminfee.value;
+                    var replace = admin.replace(/\,/g, "");
+                    var biayaAdmin = parseInt(replace);
+                    grandtotal2 = biayaAdmin  + grandtotal ;
+                    $(".total").val(grandtotal2);
                 });
             } else {
                 totalppn = discount * 0;
@@ -1048,15 +1091,19 @@
                     var ongkoskirim = parseInt(replace);
                     console.log(ppntotal2);
                     grandtotal = ongkoskirim  + ppntotal2 ;
-                    $(".total").val(grandtotal);
                 });
-
-
+                var adminfee = document.querySelector(".adminfee");
+                adminfee.addEventListener("input", function(){
+                    var admin = adminfee.value;
+                    var replace = admin.replace(/\,/g, "");
+                    var biayaAdmin = parseInt(replace);
+                    grandtotal2 = biayaAdmin  + grandtotal ;
+                    $(".total").val(grandtotal2);
+                });
             }
         });
-        // var ongkoskir;
-
         };
+
 
         $(document).on('click', '.remove-input-field', function() {
             $(this).parents('tr').remove();
@@ -1069,7 +1116,6 @@
                 item.value = formatRupiah(this.value, "");
             });
         });
-
 
     </script>
 
