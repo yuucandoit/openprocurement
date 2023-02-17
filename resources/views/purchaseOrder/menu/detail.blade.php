@@ -626,8 +626,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 @if ($data_pengajuan->status == 'Purchase Proses')
-                                                @if(empty($vendor->id))
-                                                @else
+
                                                     <form class="text-center" style="text-align: center;"
                                                         action="{{ url('menu-purchase-order/check_po/'.$data_pengajuan->id) }}">
                                                         <button type="submit" class="btn btn-outline-danger "><i
@@ -635,7 +634,6 @@
                                                            Check PO
                                                         </button>
                                                     </form>
-                                                @endif
                                                 @endif
                                             </div>
                                         </div>
