@@ -126,7 +126,7 @@
             <td style="padding-left:350px;">
 
 
-                <div style="text-align: center;">
+                <div style="text-align: center; font-size:10px;">
                     {{-- @foreach ($cpp as $c) --}}
                         @if ($cpp->status == 'Awaiting Purchase Request Approval' ||
                             $cpp->status == 'Purchase Request Approved' ||
@@ -144,17 +144,17 @@
                 <div style="text-align: center;">
                     @if (empty($cpp->signature))
                     @else
-                        <p><img style=" max-height:90px;"
+                        <p><img style=" max-height:80px;"
                                 src="{{ public_path('assets/images/signature_super_user/' . $cpp->signature) }}"
                                 alt=""></p>
                     @endif
                 </div>
                 @if (empty($cpp->bod->name))
-                    <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
+                    <div style="text-align: center; font-size: 15px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 18px;">{{ $cpp->bod->name }} <br>
+                    <div style="text-align: center; font-size: 15px;">{{ $cpp->bod->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif
