@@ -110,6 +110,7 @@
                                 <tbody>
                                     @foreach ($datappb as $ppb)
                                         @if (
+                                        $ppb->status == 'Cross Check PO' ||
                                         $ppb->status == 'Waiting For PO Approval' ||
                                         $ppb->status == 'PO Approved' ||
                                         $ppb->status == 'Invoicing Process' ||
