@@ -351,7 +351,7 @@
     <table width="100%">
         <tr>
             <td>
-                <p class="legal"><strong>Terms & Conditions</strong> <br>
+                <p class="legal" style="margin-top:-80px;"><strong>Terms & Conditions</strong> <br>
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
                     @else
@@ -364,7 +364,7 @@
                     $sig =  App\Models\Invoicing::where('ppb_id', $cpo->ppb_id)->first();
                 @endphp
 
-                <div style="text-align: center;">
+                <div style="text-align: center; font-size:14px; margin-top:-40px;">
                         @if (
                             $cpo->ppb->status == 'PO Approved' ||
                             $cpo->ppb->status == 'Invoicing Process' ||
@@ -375,17 +375,17 @@
                             <p>Jakarta, {{ $approvedAt }}</p>
                             @if (empty($sig->signature))
                             @else
-                                <p><img style=" width:100px;"
+                                <p><img style="max-height:80px; margin-top:-15px;"
                                         src="{{ public_path('assets/images/signature_super_user/'.$sig->signature) }}"
                                         alt=""></p>
                             @endif
                 </div>
                 @if (empty($p->ppb->atasanpymnt->name))
-                    <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
+                    <div style="text-align: center; font-size: 15px; margin-top:-10px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 18px;">{{ $p->ppb->atasanpymnt->name }} <br>
+                    <div style="text-align: center; font-size: 15px; margin-top:-10px;">{{ $p->ppb->atasanpymnt->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif

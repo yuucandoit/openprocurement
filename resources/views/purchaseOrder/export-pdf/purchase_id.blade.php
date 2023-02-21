@@ -351,7 +351,7 @@
     <table width="100%">
         <tr>
             <td>
-                <p class="legal"><strong>Terms & Conditions</strong> <br>
+                <p class="legal" style="margin-top:-80px;"><strong>Terms & Conditions</strong> <br>
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
                     @else
@@ -362,7 +362,7 @@
             <td align="right">
 
 
-                <div style="text-align: center;">
+                <div style="text-align: center; font-size:14px; margin-top:-40px;">
                         @if ($cpo->ppb->status == 'Waiting For PO Approval' ||
                             $cpo->ppb->status == 'Purchase Proses' ||
                             $cpo->ppb->status == 'PO Approved' ||
@@ -374,17 +374,17 @@
                             <p>Jakarta, {{ $approvedAt }}</p>
                             @if (empty($cpo->signature))
                             @else
-                                <p><img style=" width:100px;"
+                                <p><img style=" max-height:80px;"
                                         src="{{ public_path('assets/images/signature_super_user/' . $cpo->signature) }}"
                                         alt=""></p>
                             @endif
                 </div>
                 @if (empty($cpo->ppb->atasans->name))
-                    <div style="text-align: center; font-size: 18px;">Unfilled Data <br>
+                    <div style="text-align: center; font-size: 15px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 18px;">{{ $cpo->ppb->atasans->name }} <br>
+                    <div style="text-align: center; font-size: 15px;">{{ $cpo->ppb->atasans->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif
