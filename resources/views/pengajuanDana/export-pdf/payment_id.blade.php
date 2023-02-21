@@ -132,7 +132,7 @@
                     </td>
                     @if($items->matauang == 'RP')
                     <td class="text-right">
-                        <p>Rp.{{ number_format($items->unit_price) }}</p>
+                        <p>Rp.{{ number_format($items->unit_price,2) }}</p>
                     </td>
                     @endif
                     @if($items->matauang == 'USD')
@@ -143,7 +143,7 @@
 
                     @if($items->matauang == 'RP')
                     <td class="text-right">
-                        <p>Rp.{{ number_format($items->total) }}</p>
+                        <p>Rp.{{ number_format($items->total,2) }}</p>
                     </td>
                     @endif
                     @if($items->matauang == 'USD')
@@ -174,7 +174,7 @@
                 {{-- {{ dd($value) }} --}}
                     @if($value->matauang == 'RP')
                     <td>
-                        <p class="m-0 digits text-right">Rp.{{ number_format($value->dpp) }}</p>
+                        <p class="m-0 digits text-right">Rp.{{ number_format($value->dpp,2) }}</p>
                     </td>
                     @endif
                     @if($value->matauang == 'USD')
@@ -202,7 +202,7 @@
                 {{-- {{ dd($value) }} --}}
                     @if($value->matauang == 'RP')
                     <td>
-                        <p class="m-0 digits text-right">Rp.{{ number_format($value->discount) }}</p>
+                        <p class="m-0 digits text-right">Rp.{{ number_format($value->discount,2) }}</p>
                     </td>
                     @endif
                     @if($value->matauang == 'USD')
@@ -217,7 +217,7 @@
                 $dpp = $value->dpp;
                 $disc = $value->discount;
                 $afterdisc = $dpp - $disc;
-                $ppn = $afterdisc *11 ;
+                $ppn = $afterdisc *11 /100 ;
                 @endphp
                 <td>
                     <p class="itemtext"></p>
@@ -248,12 +248,12 @@
                     @else
                             @if($value->matauang == 'RP')
                             <td class="text-right">
-                                <p class="m-0 digits text-end">Rp.{{ number_format($ppn) }}</p>
+                                <p class="m-0 digits text-end">Rp.{{ number_format($ppn,2) }}</p>
                             </td>
                             @endif
                             @if($value->matauang == 'USD')
                             <td class="text-right">
-                                <p class="m-0 digits text-end">$ {{ number_format($ppn  ,2) }}</p>
+                                <p class="m-0 digits text-end">$ {{ number_format($ppn,2) }}</p>
                             </td>
                             @endif
                     @endif
@@ -325,7 +325,7 @@
                     @if ($value->ppn == 0)
                             @if ($value->matauang == 'RP')
                                 <td class="text-right" style="white-space: nowrap;">
-                                    <p style="font-weight: 700;" class="text-right"> Rp.{{ number_format($value->grand_total) }}</p>
+                                    <p style="font-weight: 700;" class="text-right"> Rp.{{ number_format($value->grand_total,2) }}</p>
                                 </td>
                             @elseif ($value->matauang == 'USD')
                                 <td class="text-right" style="white-space: nowrap;">
@@ -335,7 +335,7 @@
                     @elseif($value->ppn == 1)
                             @if ($value->matauang == 'RP')
                                 <td class="text-right" style="white-space: nowrap;">
-                                    <p style="font-weight: 700;" class="mb-0 text-right"> Rp. {{ number_format($value->grand_total) }}</p>
+                                    <p style="font-weight: 700;" class="mb-0 text-right"> Rp. {{ number_format($value->grand_total,2) }}</p>
                                 </td>
                             @elseif ($value->matauang == 'USD')
                                 <td class="text-right" style="white-space: nowrap;">
