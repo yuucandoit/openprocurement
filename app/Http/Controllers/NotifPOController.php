@@ -22,28 +22,30 @@ class NotifPOController extends Controller
             if ( $p->atasan_po ==  3){
 
             dispatch(new SendEmailPOJob($p->atasans->email , $id));
-            return redirect('check_po/')->with('status','Mail Sent Success');
+            return redirect()->back()->with('status','Mail Sent Success');
 
             }elseif($p->atasan_po ==  6){
 
             dispatch(new SendEmailPOJob($p->atasans->email , $id));
-            return redirect('check_po/')->with('status','Mail Sent Success');
+            return redirect()->back()->with('status','Mail Sent Success');
 
             }elseif($p->atasan_po ==  7){
 
             dispatch(new SendEmailPOJob($p->atasans->email , $id));
-            return redirect('check_po/')->with('status','Mail Sent Success');
+            return redirect()->back()->with('status','Mail Sent Success');
 
             }elseif($p->atasan_po ==  8){
 
-            dispatch(new SendEmailPOJob($p->atasans->email , $id));
-            return redirect('check_po/')->with('status','Mail Sent Success');
+            dispatch(new SendEmailPOJob('victor01@intek.co.id' , $id));
+            return redirect()->back()->with('status','Mail Sent Success');
 
             }elseif($p->atasan_po ==  9){
 
             dispatch(new SendEmailPOJob($p->atasans->email , $id));
-            return redirect('check_po/')->with('status','Mail Sent Success');
+            return redirect()->back()->with('status','Mail Sent Success');
 
+            } else {
+                return  redirect()->with('error','Failed To Send Email');
             }
 
     }
