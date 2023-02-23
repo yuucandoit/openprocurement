@@ -25,11 +25,17 @@
                                             name="nama">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="floatingAlamat"><i class="icon-location-pin"></i> Address</label>
                                         <input required type="text" class="form-control" id="floatingAlamat"
                                             placeholder="Address" name="alamat">
+                                    </div>
+                                </div> --}}
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="floatingName"><i class="icon-location-pin"></i> Address</label>
+                                        <textarea class="form-control" name="alamat" id="" rows="1"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

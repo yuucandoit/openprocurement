@@ -159,6 +159,7 @@ class CategoryPTController extends Controller
             "bidang_usaha" => $request->bidang_usaha,
             "no_rekening" => $request->no_rekening,
             "bank" => $request->bank,
+            "cabang_bank" => $request->cabang_bank,
             "nama_penerima" => $request->nama_penerima,
         ]);
         return redirect("menu-perusahaan/");

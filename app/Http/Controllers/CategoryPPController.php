@@ -132,6 +132,9 @@ class CategoryPPController extends Controller
             "nik" => $request->nik,
             "npwp_pp" => $request->npwp_pp,
             "pkp" => $request->pkp,
+            "no_rekening" => $request->no_rekening,
+            "bank" => $request->bank,
+            "cabang_bank" => $request->cabang_bank,
         ]);
         return redirect("menu-private-person/");
     }

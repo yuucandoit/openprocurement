@@ -112,7 +112,7 @@
                                         </tr>
                                         <tr>
                                             <td>Bank Branch</td>
-                                            <td>{{ $data_cabang_bank }}</td>
+                                            <td>{{ $data_perusahaan->cabang_bank }}</td>
                                         </tr>
                                         <tr>
                                             <td>Recipient's Name</td>

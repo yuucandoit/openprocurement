@@ -31,7 +31,7 @@
                                 <form class="row g-2" action={{ url('/menu-perusahaan/update/' . $dv->id) }} method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="floatingName"><i class="fa fa-building-o"></i> Company
                                                 Name</label>
@@ -39,14 +39,14 @@
                                                 placeholder="Your Name" name="nama" value="{{ $dv->nama }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="floatingName"><i class="icon-location-pin"></i> Address</label>
                                             <input type="text" class="form-control" id="floatingName"
                                                 placeholder="Your Name" name="alamat" value="{{ $dv->alamat }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="floatingName"><i class="icofont icofont-telephone"></i> Office
                                                 Contact</label>
@@ -55,7 +55,7 @@
                                                 value="{{ $dv->no_telp_kantor }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="floatingAddress"><i class="fa fa-link"></i> Website</label>
                                             <input type="text" class="form-control" id="floatingAddress"
@@ -246,7 +246,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="floatingKeterangan"><i class="fa fa-code-fork"></i> Bank
                                                 Branch</label>
@@ -254,7 +254,7 @@
                                                 placeholder="Email" name="cabang_bank" value="{{ $dv->cabang_bank }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="floatingKeterangan"><i class="fa fa-user"></i> Recipient's
                                                 Name</label>
