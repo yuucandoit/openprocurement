@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('discount',16,2)->nullable();
             $table->decimal('dpp',16,2)->nullable();
             $table->decimal('ongkir',16,2)->default(0)->nullable();
-            $table->decimal('admin_fee',16, 2)->after('ongkir')->default(0)->nullable();
+            $table->decimal('admin_fee',16, 2)->default(0)->nullable();
             $table->enum('matauang',['USD','RP']);
             $table->boolean('ppn')->nullable()->default(false);
             $table->decimal('grand_total',16,2)->nullable();
