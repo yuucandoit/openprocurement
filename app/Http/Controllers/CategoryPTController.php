@@ -34,7 +34,7 @@ class CategoryPTController extends Controller
         }
     }
 
-public function SearchPT(Request $request)
+    public function SearchPT(Request $request)
     {
      $cari = $request->cari;
      //dd($cari);
@@ -47,6 +47,13 @@ public function SearchPT(Request $request)
 
      return view('dataperusahaan.menu.index')
      ->with('datadv',$datadv);
+    }
+
+    public function detail($id)
+    {
+        $data_perusahaan = CategoryPT::find($id);
+        return view('dataPerusahaan.menu.detail')
+        ->with('data_perusahaan',$data_perusahaan);
     }
 
     /**

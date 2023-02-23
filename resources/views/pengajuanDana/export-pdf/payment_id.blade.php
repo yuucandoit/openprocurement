@@ -43,10 +43,12 @@
                 @if (empty($cpo->vendorable_type))
                     <p>Not Filled Yet</p>
                 @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
-                    <p>Name Vendor&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
-                        Address&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: <span>{{ $cpo->vendorable->alamat }}</span><br>
-                        Contact&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span> {{ $cpo->vendorable->no_telp_kantor }}</span><br>
-                        NPWP&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span>{{ $cpo->vendorable->npwp_perusahaan }}</span><br>
+                    <p> Name Vendor&nbsp;&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
+                        Address&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <span>{{ $cpo->vendorable->alamat }}</span><br>
+                        Contact&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <span> {{ $cpo->vendorable->no_telp_kantor }}</span><br>
+                        NPWP&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <span>{{ $cpo->vendorable->npwp_perusahaan }}</span><br>
+                        Bank&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: <span>{{ $cpo->vendorable->bank }}</span><br>
+                        No.Rekening&nbsp; &nbsp;   : <span>{{ $cpo->vendorable->no_rekening }}</span><br>
                         Quotation&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
                         <span class="digits">
                             @if (empty($cpo->quotation))

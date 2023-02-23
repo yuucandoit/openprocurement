@@ -535,15 +535,15 @@
                                             $data_pengajuan->status == 'Delivery Process' ||
                                             $data_pengajuan->status == 'Delivery Success')
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                            class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
+                                            class="btn btn-success text-center" onclick="return"><b>On Process</b></a>
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                             class="btn btn-danger text-center" onclick="return">Reject</a>
                                             @elseif($data_pengajuan->status == 'Purchase Request Approved')
-                                            <button type="submit" class="btn btn-success text-center"> Approve</button>
+                                            <button type="submit" class="btn btn-success text-center"> Process</button>
                                             <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
                                             @else
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                            class="btn btn-success text-center" onclick="return">Aprove</a>
+                                            class="btn btn-success text-center" onclick="return">Process</a>
                                             <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                             class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
                                             @endif

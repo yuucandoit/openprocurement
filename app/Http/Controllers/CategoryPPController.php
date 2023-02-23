@@ -50,6 +50,12 @@ class CategoryPPController extends Controller
      ->with('datadv',$datadv);
     }
 
+    public function detail($id)
+    {
+        $data_person = CategoryPP::find($id);
+        return view('dataPrivatePerson.menu.detail')
+        ->with('data_person',$data_person);
+    }
 
     /**
      * Show the form for creating a new resource.

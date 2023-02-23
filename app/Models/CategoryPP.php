@@ -14,7 +14,10 @@ class CategoryPP extends Model
         'alamat',
         'nik',
         'npwp_pp',
-        'pkp'
+        'pkp',
+        'no_rekening',
+        'bank',
+        'cabang_bank'
     ];
     protected $hidden;
 
