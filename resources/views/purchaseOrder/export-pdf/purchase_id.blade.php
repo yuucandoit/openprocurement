@@ -21,8 +21,15 @@
             @php
                 use Carbon\Carbon;
                 $date = Carbon::parse($cpo->created_at)->format('d/m/Y');
+                $posig =  App\Models\POSignature::where('ppb_id',$cpo->ppb_id)->first();
+                // dd($posig);
                 if (empty($cpo->approved_at)) {
-                    $approvedAt = 'Not Record yet';
+                    if (empty($posig->approved_at)) {
+                        $approvedAt = 'Not Record yet';
+                    }else {
+                       $approvedAt =  Carbon::parse($posig->approved_at)->format('d F Y');
+                       $signaturebod = $posig->signature;
+                    }
                 } else {
                     $approvedAt = Carbon::parse($cpo->approved_at)->format('d F Y');
                 }
@@ -351,7 +358,7 @@
     <table width="100%">
         <tr>
             <td>
-                <p class="legal" style="margin-top:-80px;"><strong>Terms & Conditions</strong> <br>
+                <p class="legal" style="margin-top:-30px;"><strong>Terms & Conditions</strong> <br>
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
                     @else
@@ -373,6 +380,13 @@
                             $cpo->ppb->status == 'Delivery Success')
                             <p>Jakarta, {{ $approvedAt }}</p>
                             @if (empty($cpo->signature))
+                                @if (empty($posig))
+                                    $approvedAt = 'Not Record yet';
+                                @else
+                                    <p><img style=" max-height:80px;"
+                                        src="{{ public_path('assets/images/signature_super_user/' . $posig->signature) }}"
+                                        alt=""></p>
+                                @endif
                             @else
                                 <p><img style=" max-height:80px;"
                                         src="{{ public_path('assets/images/signature_super_user/' . $cpo->signature) }}"

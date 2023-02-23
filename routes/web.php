@@ -36,6 +36,7 @@ use App\Http\Controllers\TaskListFinanceController;
 use App\Http\Controllers\WhoSubmittedController;
 use App\Http\Controllers\WorkshopController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ItemHistoryController;
 use App\Http\Controllers\TravelController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -433,6 +434,25 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/role-destroy/{id}', [RoleController::class, 'destroy']);
     Route::get('/search/roles',[RoleController::class, 'SearchRoles'])->name('role.SearchRoles');
 
+    //Item DB Pengajuan Pembelian & PO
+    Route::get('/pengajuan_pembelian', [PengajuanPembelianController::class, 'index'])->name('pengajuan_pembelian.index');
+    Route::get('/export_excel/pengajuan_pembelian', [PengajuanPembelianController::class, 'export'])->name('export-item');
+    Route::get('/export_excel/purchase_order', [PengajuanPembelianController::class, 'exportnew'])->name('export-item-new');
+    Route::get('/search/itemppb',[PengajuanPembelianController::class, 'SearchItemPPB'])->name('SearchItemPPB');
+    Route::get('/search/itempo',[PengajuanPembelianController::class, 'SearchItemPO'])->name('SearchItemPO');
+
+    // add Item History
+    Route::get('/item-history', [ItemHistoryController::class, 'index'])->name('item-history.index');
+    Route::get('/create-item-history', [ItemHistoryController::class, 'create']);
+    Route::get('/show-item-history/{id}', [ItemHistoryController::class, 'show']);
+    Route::post('/store-item-history', [ItemHistoryController::class, 'store']);
+    Route::get('/item-history-edit/{id}', [ItemHistoryController::class, 'edit']);
+    Route::post('/item-history-update/{id}', [ItemHistoryController::class, 'update']);
+    Route::get('/item-history-destroy/{id}', [ItemHistoryController::class, 'destroy']);
+    Route::get('/search/item-historys',[ItemHistoryController::class, 'SearchRoles'])->name('item-history.SearchRoles');
+    Route::post('/item-history/importExcel', [ItemHistoryController::class, 'importExcel'])->name('importExcel');
+
+
 
     //comment
     Route::post('/comment/store/{id}',[CommentController::class,'store'])->name('comment.store');
@@ -491,6 +511,7 @@ Route::group(['middleware' => ['auth']], function () {
     //Route Import Project
     Route::get('file-import-rf', [ReferensiNamaProjectController::class, 'fileImportRF']);
     Route::post('file-import-project', [ReferensiNamaProjectController::class, 'fileImport'])->name('file-import');
+
 });
 
 Auth::routes();

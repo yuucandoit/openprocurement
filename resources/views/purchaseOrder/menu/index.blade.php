@@ -119,7 +119,7 @@
                                         @endphp
                                         <tbody>
                                             @foreach ($datappb as $ppb)
-                                                @if ($ppb->status == 'Purchase Proses' && 'Cross Check PO')
+                                                @if ($ppb->status == 'Purchase Proses' ||'Cross Check PO')
                                                     @php $approvedPPB[] =$ppb; @endphp
                                                     <tr id="ppb-{{ $ppb->id }}">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
@@ -146,7 +146,7 @@
                                                         {{-- <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td> --}}
                                                         {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
 
-                                                     @if ($ppb->status == 'Purchase Proses'&&'Cross Check PO')
+                                                     @if ($ppb->status == 'Purchase Proses'||'Cross Check PO')
                                                             <td>
                                                                 <ul>
                                                                     <li>
@@ -201,62 +201,15 @@
                                                         @hasrole('purchasing|super admin')
                                                             <td style="text-align: center;">
 
-
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #B1D0E0; font-size:10;"
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                                 </a>
-
-                                                                {{-- <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #B1D0E0; font-size:10;"
-                                                                href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
-                                                                    class="icon-eye" title="Preview Purchase Order"></i>
-                                                                </a> --}}
-                                                                {{-- <a class="btn btn-iconsolid mt-1"
-                                                                style=  "background-color: #008000;font-size:10;"
-                                                                href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
-                                                                    class="icon-file" title="Record Data"></i>
-                                                                </a> --}}
-                                                                        {{-- <a class="btn btn-iconsolid mt-1"
-                                                                        style="background-color: #FF8C00;font-size:10;"
-                                                                        href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
-                                                                            class="icon-pencil-alt" title="Edit"></i>
-                                                                    </a> --}}
-
-                                                                    <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
+                                                                <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
                                                                     data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                         class="icon-trash" title="Delete"></i>
                                                                 </button>
-                                                                {{-- <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #B1D0E0; font-size:10;"
-                                                                href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
-                                                                    class="icon-eye" title="Preview Purchase Order"></i>
-                                                                </a> --}}
-
-
-                                                                {{-- <a class="btn btn-iconsolid mt-1"
-                                                                style=  "background-color: #008000;font-size:10;"
-                                                                href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
-                                                                    class="icon-file" title="Record Data"></i>
-                                                                </a> --}}
-
-                                                                    {{-- <a class="btn btn-iconsolid mt-1"
-                                                                        style="background-color: #FF8C00;font-size:10;"
-                                                                        href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
-                                                                            class="icon-pencil-alt" title="Edit"></i>
-                                                                    </a> --}}
-                                                                {{-- <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #00008B;"
-                                                                    href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i
-                                                                        class="icon-zoom-in" title="Details"></i>
-                                                                </a> --}}
-
-                                                                {{-- <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
-                                                                    data-bs-target="#modalDelete{{ $ppb->id }}"><i
-                                                                        class="icon-trash" title="Delete"></i>
-                                                                </button> --}}
-
                                                             </td>
                                                         @endhasrole
                                                     </tr>
@@ -291,7 +244,7 @@
     {{-- <script src="{{  }}"></script> --}}
     <script>
         const data = @json($approvedPPB);
-        // console.log(data);
+        console.log(data);
         const item = data[0];
 
         // FOR CALCULATE REMAINING DEADLINE TIME 😃
@@ -318,7 +271,7 @@
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
             const lable = elmnt.querySelector('.badge-lable');
 
-            console.log(dateline_time, remainingTime.getTime());
+            // console.log(dateline_time, remainingTime.getTime());
 
             if (remainingTime.getTime() < 1) {
                 lable.classList.remove('bg-dark');

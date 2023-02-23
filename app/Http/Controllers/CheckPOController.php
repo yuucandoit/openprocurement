@@ -29,6 +29,7 @@ class CheckPOController extends Controller
         if ($check->role_id == 3 || $check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::where('status','Cross Check PO')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             $datapo = CategoryPO::get();
+            // dd($datapo);
             return view('purchaseOrder.menu.check-po.index')
                 ->with('datappb',$datappb)
                 ->with('datapo', $datapo);

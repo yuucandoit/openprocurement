@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\Department;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
+use App\Models\POSignature;
 use App\Models\PurchaseOrder;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
@@ -328,28 +329,54 @@ class TasklistAtasanPoController extends Controller
         $data->save();
 
         $cpo = CategoryPO::where('ppb_id',$id)->first();
+        // dd($cpo);
+        $sig = new POSignature();
        //dd($cpo);
         if($data->atasan_po == 3){
-
             $cpo->signature = 'superadmin.png';
             $cpo->approved_at = Carbon::now();
             $cpo->save();
+
+            $sig->ppb_id = $id;
+            $sig->signature = 'superadmin.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
         }elseif($data->atasan_po == 6){
             $cpo->signature = 'sinduirawan.png';
             $cpo->approved_at = Carbon::now();
             $cpo->save();
+
+            $sig->ppb_id = $id;
+            $sig->signature = 'sinduirawan.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
         }elseif($data->atasan_po == 7){
             $cpo->signature = 'bayu.png';
             $cpo->approved_at = Carbon::now();
             $cpo->save();
+
+            $sig->ppb_id = $id;
+            $sig->signature = 'bayu.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
         }elseif($data->atasan_po == 8){
             $cpo->signature = 'victor.png';
             $cpo->approved_at = Carbon::now();
             $cpo->save();
+
+            $sig->ppb_id = $id;
+            $sig->signature = 'victor.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
         }elseif($data->atasan_po == 9){
             $cpo->signature = 'erwin.png';
             $cpo->approved_at = Carbon::now();
             $cpo->save();
+
+            $sig->ppb_id = $id;
+            $sig->signature = 'erwin.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
         }
 
         return redirect('menu-taskList-atasan-po/in');
@@ -357,8 +384,11 @@ class TasklistAtasanPoController extends Controller
 
     public function accept_atasan_selected_po(Request $request)
     {
+
         $ids = explode(',', $request->ids);
         $data = CategoryPengajuanPembelian::find($ids);
+        // dd(implode(',',$ids));
+        // $id = implode(',',$ids);
     //    dd($data);
        foreach($data as $d){
         if($d->atasan_po == 3){
@@ -368,6 +398,12 @@ class TasklistAtasanPoController extends Controller
             ]);
             $d->status = 'PO Approved';
             $d->save();
+
+            $sig = new POSignature();
+            $sig->ppb_id = $d->id;
+            $sig->signature = 'superadmin.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
         }elseif($d->atasan_po == 6){
             CategoryPO::whereIn('ppb_id',$ids)->update([
                 'signature' => 'sinduirawan.png',
@@ -375,6 +411,12 @@ class TasklistAtasanPoController extends Controller
                 ]);
             $d->status = 'PO Approved';
             $d->save();
+
+            $sig = new POSignature();
+            $sig->ppb_id = $d->id;
+            $sig->signature = 'sinduirawan.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
         }elseif($d->atasan_po == 7){
             CategoryPO::whereIn('ppb_id',$ids)->update([
                 'signature' => 'bayu.png',
@@ -382,6 +424,12 @@ class TasklistAtasanPoController extends Controller
             ]);
             $d->status = 'PO Approved';
             $d->save();
+
+            $sig = new POSignature();
+            $sig->ppb_id = $d->id;
+            $sig->signature = 'bayu.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
         }elseif($d->atasan_po == 8){
             CategoryPO::whereIn('ppb_id',$ids)->update([
                 'signature' => 'victor.png',
@@ -389,6 +437,12 @@ class TasklistAtasanPoController extends Controller
             ]);
             $d->status = 'PO Approved';
             $d->save();
+
+            $sig = new POSignature();
+            $sig->ppb_id = $d->id;
+            $sig->signature = 'victor.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
         }elseif($d->atasan_po == 9){
             CategoryPO::whereIn('ppb_id',$ids)->update([
                 'signature' => 'erwin.png',
@@ -396,6 +450,12 @@ class TasklistAtasanPoController extends Controller
             ]);
             $d->status = 'PO Approved';
             $d->save();
+
+            $sig = new POSignature();
+            $sig->ppb_id = $d->id;
+            $sig->signature = 'erwin.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
             }
         }
 

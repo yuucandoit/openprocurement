@@ -775,7 +775,7 @@
                                                     </div>
 
                                                     <div class="load">
-                                                    <table class="table table-bordered item order-entry mx-2">
+                                                    <table class="table table-bordered item order-entry mx-2" >
                                                         <tr style="text-align: center;">
                                                             <th
                                                                 style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
@@ -849,10 +849,81 @@
 
                                                         </tr>
                                                         @endforeach
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <label class="pull-right"
+                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    DPP :</label>
+                                                            </td>
+                                                            <td colspan="2">
+                                                                <input style="background-color: #ffff;" class="total_A form-control text-end" type="text" name="dpp" value="0" readonly >
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <label class="pull-right"
+                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    Discount :</label>
+                                                            </td>
+                                                            <td class="text-end" colspan="2">
+                                                                <input class="form-control discount form-calc dollar text-end" type="text"
+                                                                    id="discount" name="discount" value="0">
+                                                            </td>
 
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <label class="pull-right"
+                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;After
+                                                                    Discount :</label>
+                                                            </td>
+                                                            <td class="text-end total_disc" colspan="2">
+                                                                <input style="background-color: #ffff;" value="0"  class="form-control total_disc text-end" type="text"
+                                                                    name="total_disc" readonly>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <input class="mt-1 pull-right check-box-create" type="checkbox" name="ppn"
+                                                                    value="1" {{ old('ppn', 0)===1 ? 'checked' : '' }}>
+                                                                <label class="pull-right" style="font-weight: bold;"> PPN 11%
+                                                                </label>
+                                                            </td>
+                                                            <td class="ppn text-end" colspan="2">
+                                                                <input style="display: none;" class="ppn" type="text" name="ppn" value="0">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <label class="pull-right"
+                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    Shipping & Protection Fee :</label>
+                                                            </td>
+                                                            <td colspan="2">
+                                                                <input  class="ongkir form-control text-end dollar" type="text" name="ongkir" value="0">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <label class="pull-right"
+                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    Admin & Service Fee :</label>
+                                                            </td>
+                                                            <td colspan="2">
+                                                                <input  class="adminfee form-control text-end dollar" type="text" name="admin_fee" value="0">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4" class="text-end" style="font-weight: bold;">Grand Total
+                                                                :</td>
+                                                            <td colspan="2">
+                                                                <input class="form-control text-end total"
+                                                                    type="text" name="grand_total" value="0">
+                                                            </td>
+                                                        </tr>
                                                     </table>
 
-                                                    <table class="table table-bordered mx-2" style="margin-top: 0px;">
+                                                    {{-- <table class="table table-bordered mx-2" style="margin-top: 0px;">
                                                         <tr>
                                                             <td>
                                                                 <label class="pull-right"
@@ -925,7 +996,7 @@
                                                                     type="text" name="grand_total" value="0">
                                                             </td>
                                                         </tr>
-                                                    </table>
+                                                    </table> --}}
                                                 </div>
                                                     <div class="form-group" style="text-align:right;">
                                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -1051,8 +1122,6 @@
         var checkbox = document.querySelector(".check-box-create");
 
         checkbox.addEventListener('change', (event) => {
-
-
             var totalppn = 0;
             if (event.currentTarget.checked) {
                 totalppn = discount * 11 / 100;

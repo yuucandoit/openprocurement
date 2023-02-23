@@ -17,6 +17,7 @@ class ItemPO extends Model
         'unit_price',
         'matauang',
         'ongkir',
+        'admin_fee',
         'discount',
         'total',
         'dpp',

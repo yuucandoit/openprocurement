@@ -36,10 +36,11 @@ class CategoryPOController extends Controller
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Cross Check PO')->orderBy('dateline', 'asc')->orderBy('approved_at', 'desc')->paginate(10, ['*'],'in');
             $datappb2           = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->get();
-            foreach($datappb2 as $ppb){
-                $datapo             = CategoryPO::where('ppb_id', $ppb->id)->get();
-            }
+            // foreach($datappb2 as $ppb){
+                $datapo          = CategoryPO::groupBy('ppb_id')->paginate(10, ['*'],'in');
+            // }
             //dd($datappb);
+            // dd($datapo);
             return view('purchaseOrder.menu.index')
                 ->with('datappb2', $datappb2)
                 ->with('datappb', $datappb)
@@ -160,6 +161,7 @@ class CategoryPOController extends Controller
         $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+        $pengajuanfirst     = PengajuanPembelian::where('pp_id', $id)->first();
         $vendor             = CategoryPO::where('ppb_id',$id)->first();
         $items              = CategoryPO::where('ppb_id',$id)->get();
         $groupedItem        = ItemPO::groupBy('po_id')->get();
@@ -182,6 +184,7 @@ class CategoryPOController extends Controller
             ->with('itempurchase', $itempurchase)
             ->with('atasan', $atasan)
             ->with('pengajuan', $pengajuan)
+            ->with('pengajuanfirst', $pengajuanfirst)
             ->with('dpp', $dpp)
             // ->with('datapo', $datapo)
             // ->with('datacpo', $datacpo)

@@ -98,11 +98,10 @@
                                     <thead class="bg-primary">
                                         <tr>
                                             <th>No</th>
-                                            <th>No.PO</th>
                                             <th>Name</th>
                                             {{-- <th>Description</th> --}}
                                             <th>Item</th>
-                                            <th>PO</th>
+                                            {{-- <th>PO</th> --}}
                                             <th>Deadline</th>
                                             {{-- <th>Countdown</th> --}}
                                             <th style="text-align: center;">Status</th>
@@ -196,36 +195,30 @@
                                     </tbody> --}}
                                     @php
                                         $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+                                        $no = 1;
                                         $approvedPPB = [];
                                     @endphp
                                     <tbody>
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Cross Check PO')
                                                 @php $approvedPPB[] =$ppb; @endphp
-                                                <tr id="ppb-{{ $ppb->id }}">
-                                                    <td style="text-align: center;">{{ $i++ }}</td>
-                                                    <td style="text-align: center;">{{ $ppb->id }}</td>
+                                                <tr id="ppb-{{ $ppb->id }}" style="background-color:#F1F6F5;">
+                                                    <td style="text-align: center;">{{ $i++ }}
+
+                                                    </td>
                                                     <td>
                                                         <ul>
                                                             <li><a href="{{ url('/check_po/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
-                                                            <li style="margin-top: 5px;"><a href="{{ url('/check_po/detail/' . $ppb->id) }}" style="word-break:break-all">{{ $ppb->desc }}</a></li>
+                                                            <li style="margin-top: 5px; margin-bottom:40px;"><a href="{{ url('/check_po/detail/' . $ppb->id) }}" style="word-break:break-all">{{ $ppb->desc }}</a></li>
+
                                                         </ul>
                                                     </td>
                                                     <td>
                                                         <ul>
                                                             <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
                                                         </ul>
+
                                                     </td>
-                                                    <td>
-                                                        {{-- AMBIL DATA pengajuan hasMany ke category po --}}
-                                                        @foreach ($ppb->quot as  $quot)
-                                                        <ul>
-                                                            <li style="margin-top: 5px;"><a href="{{ url('menu-purchase-order/po_detail/'.$quot->id) }}" target="_blank"> PO {{$quot->id}}</a></li>
-                                                        </ul>
-                                                        @endforeach
-                                                    </td>
-                                                    {{-- <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td> --}}
-                                                    {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
 
                                                  @if ($ppb->status == 'Cross Check PO')
                                                         <td>
@@ -276,66 +269,49 @@
                                                     <td style="font-size: 10;"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
                                                     @hasrole('purchasing|super admin|super purchase')
                                                         <td style="text-align: center;">
-
-
                                                             <a class="btn btn-iconsolid mt-1"
                                                             style="background-color: #B1D0E0; font-size:10;"
                                                             href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
                                                                 class="icon-eye" title="Preview Purchase Order"></i>
                                                             </a>
-
-                                                            {{-- <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #B1D0E0; font-size:10;"
-                                                            href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
-                                                                class="icon-eye" title="Preview Purchase Order"></i>
-                                                            </a> --}}
-                                                            {{-- <a class="btn btn-iconsolid mt-1"
-                                                            style=  "background-color: #008000;font-size:10;"
-                                                            href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
-                                                                class="icon-file" title="Record Data"></i>
-                                                            </a> --}}
-                                                                    {{-- <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #FF8C00;font-size:10;"
-                                                                    href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
-                                                                        class="icon-pencil-alt" title="Edit"></i>
-                                                                </a> --}}
-
                                                                 <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
                                                                 data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                     class="icon-trash" title="Delete"></i>
                                                             </button>
-                                                            {{-- <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #B1D0E0; font-size:10;"
-                                                            href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
-                                                                class="icon-eye" title="Preview Purchase Order"></i>
-                                                            </a> --}}
-
-
-                                                            {{-- <a class="btn btn-iconsolid mt-1"
-                                                            style=  "background-color: #008000;font-size:10;"
-                                                            href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
-                                                                class="icon-file" title="Record Data"></i>
-                                                            </a> --}}
-
-                                                                {{-- <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #FF8C00;font-size:10;"
-                                                                    href="{{ url('/menu-purchase-order/edit/' . $ppb->id) }}"><i
-                                                                        class="icon-pencil-alt" title="Edit"></i>
-                                                                </a> --}}
-                                                            {{-- <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #00008B;"
-                                                                href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Details"></i>
-                                                            </a> --}}
-
-                                                            {{-- <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
-                                                                data-bs-target="#modalDelete{{ $ppb->id }}"><i
-                                                                    class="icon-trash" title="Delete"></i>
-                                                            </button> --}}
 
                                                         </td>
                                                     @endhasrole
                                                 </tr>
+                                                @foreach ($ppb->quot as $po)
+                                                <tr>
+                                                    <td class="text-center">-</td>
+                                                    <td>PO {{ $po->id }}</td>
+                                                    @foreach ($po->itempo as $item)
+                                                    <td>-{{ $item->item }}</td>
+                                                    @endforeach
+                                                    <td>{{ $po->vendorable->nama }}</td>
+                                                </tr>
+                                                @endforeach
+                                                {{-- <table class="table table-sm table-bordered table-hover">
+                                                    <thead class="bg-primary">
+                                                        <th>No</th>
+                                                        <th>PO</th>
+                                                        <th>Item</th>
+                                                        <th>Vendor</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($ppb->quot as $po)
+                                                        <tr>
+                                                            <td>{{ $no++ }}</td>
+                                                            <td>{{ $po->id }}</td>
+                                                            @foreach ($po->itempo as $item)
+                                                            <td>-{{ $item->item }}</td>
+                                                            @endforeach
+                                                            <td>{{ $po->vendorable->nama }}</td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table> --}}
                                             @endif
                                         @endforeach
                                     </tbody>
@@ -354,7 +330,7 @@
 @endsection
 @section('scripts')
 {{-- <script src="{{  }}"></script> --}}
-<script>
+{{-- <script>
     const data = @json($approvedPPB);
     console.log(data);
     const item = data[0];
@@ -437,5 +413,5 @@
     }
 
     initCountdown(data);
-</script>
+</script> --}}
 @endsection

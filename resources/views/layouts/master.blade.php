@@ -1027,6 +1027,20 @@
                                             <span>Add Roles</span>
                                         </a>
                                     </li>
+                                    <li class="sidebar-item {{ request()->is('*pengajuan_pembelian*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('pengajuan_pembelian') ? 'active' : '' }}"
+                                            href="{{ url('/pengajuan_pembelian') }}">
+                                            <i class="bi bi-person-workspace"></i>
+                                            <span>List History Item</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item {{ request()->is('*item-history*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('item-history') ? 'active' : '' }}"
+                                            href="{{ url('/item-history') }}">
+                                            <i class="bi bi-person-workspace"></i>
+                                            <span>List Stock Item</span>
+                                        </a>
+                                    </li>
                                 @endhasrole
                                 <!--End Admin-->
 

@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PengajuanItemExport;
+use App\Exports\POItemExport;
 use App\Models\CategoryEcommerce;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PengajuanPembelianController extends Controller
 {
@@ -19,20 +24,58 @@ class PengajuanPembelianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        $data_pd = CategoryPengajuanPembelian::find($id);
-        $pd = PengajuanPembelian::where('pp_id', $id)->get();
+        // $data_pd = CategoryPengajuanPembelian::find($id);
+        $pd = PengajuanPembelian::paginate(10, ['*'],'old');
+        $new = ItemPO::paginate(10, ['*'],'new');
         return view('pengajuanPembelian.index')
             ->with('pd', $pd)
-            ->with('data_pd', $data_pd);
+            ->with('new', $new);
+            // ->with('data_pd', $data_pd);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function SearchItemPPB(Request $request)
+   {
+    $cari = $request->carippb;
+    $pd = PengajuanPembelian::Where('id','like',"%".$cari."%")
+    ->orWhere('item','like',"%".$cari."%")
+    ->orWhere('kategori','like',"%".$cari."%")
+    ->orWhere('qty','like',"%".$cari."%")
+    ->orWhere('unit_price','like',"%".$cari."%")
+    ->orWhere('total','like',"%".$cari."%")
+    ->paginate(10, ['*'],'old');
+    $new = ItemPO::paginate(10,['*'],'new');
+
+    return view('pengajuanPembelian.index')
+    ->with('pd',$pd)
+    ->with('new',$new);
+   }
+
+   public function SearchItemPO(Request $request)
+   {
+    $cari = $request->caripo;
+    $new = ItemPO::Where('id','like',"%".$cari."%")
+    ->orWhere('item','like',"%".$cari."%")
+    ->orWhere('qty','like',"%".$cari."%")
+    ->orWhere('kategori','like',"%".$cari."%")
+    ->orWhere('unit_price','like',"%".$cari."%")
+    ->orWhere('total','like',"%".$cari."%")
+    ->orWhere('discount','like',"%".$cari."%")
+    ->orWhere('dpp','like',"%".$cari."%")
+    ->orWhere('ongkir','like',"%".$cari."%")
+    ->orWhere('admin_fee','like',"%".$cari."%")
+    ->orWhere('matauang','like',"%".$cari."%")
+    ->orWhere('ppn','like',"%".$cari."%")
+    ->orWhere('grand_total','like',"%".$cari."%")
+    ->paginate(10, ['*'],'new');
+    $pd = PengajuanPembelian::paginate(10, ['*'],'old');
+
+    return view('pengajuanPembelian.index')
+    ->with('pd',$pd)
+    ->with('new',$new);
+   }
+
     public function create()
     {
         //
@@ -56,6 +99,18 @@ class PengajuanPembelianController extends Controller
             "total" => $request->qty * $request->unit_price
         ]);
         return redirect("pengajuan-pembelian/" . $id)->with('success', 'Task Created Successfully!');
+    }
+
+    public function export()
+    {
+        return (new PengajuanItemExport())->download('pengajuan_item.xlsx');
+        // return Excel::download(new PengajuanItemExport, 'pengajuan_pembelian.xlsx');
+    }
+
+    public function exportnew()
+    {
+        return (new POItemExport())->download('po_item.xlsx');
+        // return Excel::download(new PengajuanItemExport, 'pengajuan_pembelian.xlsx');
     }
 
     /**
