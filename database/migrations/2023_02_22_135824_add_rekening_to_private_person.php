@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('private_person', function (Blueprint $table) {
+        Schema::table('category_pp', function (Blueprint $table) {
             $table->string('no_rekening');
             $table->enum('bank',['BCA(014)','Mandiri(008)','BNI(009)','BRI(002)', 'BTN(200)','Danamon(011)', 'Permata(013)', 'Maybank(016)','PaninBank(019)','Cimb Niaga(022)','UOB(023)'
             ,'OCBC NISP(028)','Artha Graha(037)','Bumi Arta(076)','HSBC Indonesia(087)','J Trust(095)','Mayapada (097)','India Indonesia(146)','Muamalat(147)'
