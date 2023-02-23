@@ -34,7 +34,7 @@ class NotifPengajuanController extends Controller
                 return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 8){
-                dispatch(new SendEmailPengajuanJob($p->bod->email, $id));
+                dispatch(new SendEmailPengajuanJob('victor01@intek.co.id', $id));
                 return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
             }
             elseif($p->atasan == 9){
