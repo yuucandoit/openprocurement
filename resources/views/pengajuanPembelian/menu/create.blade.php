@@ -87,8 +87,8 @@
                                     <div class="form-group">
                                         <label class="" for="pageSelector"><b><i class="fa fa-send"></i> Send To</b></label>
                                         <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to">
-                                            <option value="" disabled selected hidden>Send To
-                                            </option>
+
+                                            <option value="{{ Auth::user()->location }}" selected>{{ Auth::user()->location }}</option>
                                             <option value="Tebet">Tebet</option>
                                             <option value="Cikunir">Cikunir</option>
                                             <option value="other">Other Option</option>
@@ -103,9 +103,14 @@
                                         <label for="floatingrequestby"><i class="fa fa-user"></i> Request By
                                             :</label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" required="" data-live-search="true">
-                                            <option value="" disabled selected hidden>Request By</option>
+
                                             @foreach ($dataws as $ws)
+
+                                            @if(Auth::user()->name == $ws->name)
+                                                <option value="{{ $ws->id }}"  selected>{{ $ws->name }}</option>
+                                            @else
                                             <option value="{{ $ws->id }}">{{ $ws->name }}</option>
+                                            @endif
                                             @endforeach
                                         </select>
                                         @error('ws')
@@ -121,9 +126,12 @@
                                         <label for="floatingdepartment"><i class="fa fa-institution"></i> Department
                                             :</label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
-                                            <option value="" disabled selected hidden>Department</option>
                                             @foreach ($datadepartment as $dp)
+                                            @if(Auth::user()->department == $dp->name)
+                                            <option value="{{ $dp->id }}" selected>{{ $dp->name }}</option>
+                                            @else
                                             <option value="{{ $dp->id }}">{{ $dp->name }}</option>
+                                            @endif
                                             @endforeach
                                         </select>
                                         @error('department')
@@ -301,6 +309,7 @@
                                                 <option value="Rol">Rol </option>
                                                 <option value="Pack">Pack </option>
                                                 <option value="Batang">Batang </option>
+                                                <option value="Dus">Dus </option>
                                             </select>
                                         </td>
                                         <td>
@@ -396,7 +405,7 @@
                      <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/></td>
                      <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option><option value="Lot">Lot </option> <option value="Rim">Rim </option>
                     <option value="Org">Org </option><option value="Line">Line </option><option value="Ruang">Ruang </option><option value="Pax">Pax </option> <option value="Set">Set </option>
-                    <option value="Piece">Piece </option><option value="Rol">Rol </option><option value="Pack">Pack </option><option value="Batang">Batang </option>
+                    <option value="Piece">Piece </option><option value="Rol">Rol </option><option value="Pack">Pack </option><option value="Batang">Batang </option> <option value="Dus">Dus </option>
                     </select></td>
                      <td><input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
                     @error('path_file')

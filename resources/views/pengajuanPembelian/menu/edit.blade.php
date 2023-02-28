@@ -181,7 +181,7 @@
 
                                         {{-- Office Dropdown --}}
                                         <div class="hide" id="selectedInput2">
-                                        <select class="js-example-basic-single" name="company">
+                                        <select class="js-example-basic-single" name="office">
                                             @foreach ($purpose_office as $o)
                                             <option value="{{ $o->id }}">{{ $o->name }}</option>
                                             @endforeach
@@ -281,6 +281,7 @@
                                                 <option value="Rol">Rol </option>
                                                 <option value="Pack">Pack </option>
                                                 <option value="Batang">Batang </option>
+                                                <option value="Dus">Dus </option>
                                             </select>
                                         </td>
                                         <td>
@@ -384,7 +385,17 @@
 
                 function addItem() {
                     var item =
-                        '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td><td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
+                        `<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td>
+                            <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td>
+                            <td>
+                            <select class="form-select" placeholder="Kategori" name="kategori[]" >
+                                <option value="Pcs"  >Pcs   </option>
+                                <option value="Lusin">Lusin </option>
+                                <option value="Box"  >Box   </option>
+                                <option value="Unit" >Unit</option>
+                            </select>
+                                </td>
+                            <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
                     $(".item").append(item)
                 }
                 $(document).on('click', '.remove-input-field', function() {
