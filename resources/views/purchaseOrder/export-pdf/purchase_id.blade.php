@@ -279,7 +279,7 @@
                     <p class="itemtext"></p>
                 </td>
                 <td>
-                    <p class="m-0">Shipping & Protection Fee </p>
+                    <p class="m-0" style="white-space: nowrap;">Shipping & Protection Fee </p>
                 </td>
                 {{-- {{ dd($value) }} --}}
                     @if($value->matauang == 'RP')
@@ -307,7 +307,7 @@
                     <p class="itemtext"></p>
                 </td>
                 <td>
-                    <p class="m-0">Admin Or Service Fee </p>
+                    <p class="m-0" style="white-space: nowrap;">Admin Or Service Fee </p>
                 </td>
                 {{-- {{ dd($value) }} --}}
                     @if($value->matauang == 'RP')
@@ -383,12 +383,12 @@
                                 @if (empty($posig))
                                     $approvedAt = 'Not Record yet';
                                 @else
-                                    <p><img style=" max-height:80px;"
+                                    <p><img style=" max-height:50px;"
                                         src="{{ public_path('assets/images/signature_super_user/' . $posig->signature) }}"
                                         alt=""></p>
                                 @endif
                             @else
-                                <p><img style=" max-height:80px;"
+                                <p><img style=" max-height:50px;"
                                         src="{{ public_path('assets/images/signature_super_user/' . $cpo->signature) }}"
                                         alt=""></p>
                             @endif
