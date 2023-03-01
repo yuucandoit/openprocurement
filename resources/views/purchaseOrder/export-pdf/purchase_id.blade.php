@@ -422,7 +422,8 @@
                    bottom: 0cm;
                    left: 0cm;
                    right: 0cm;
-                   height: 2cm;" class="text-center">
+                   height: 2cm;
+                   font-size:10;" class="text-center">
         <p>Head Office &nbsp;: Jl Cikunir Raya No.689 Jakamulya, Bekasi Selatan,
             Telp. 021-89454790 <br>
             Marketing Office : Jl Tebet Barat dalam raya No.31 Tebet Barat, Jakarta Selatan,<br>
