@@ -26,7 +26,7 @@ class CategoryEcommerceController extends Controller
             return view('dataEcommerce.menu.index')
                 ->with('datadv', $datadv);
         } else if ($check->role_id == 1 || $check->role_id == 3 ||$check->role_id == 4) {
-            $datadv = CategoryEcommerce::paginate(10);
+            $datadv = CategoryEcommerce::orderBy('nama')->paginate(10);
             return view('dataEcommerce.menu.index')
                 ->with('datadv', $datadv);
         }

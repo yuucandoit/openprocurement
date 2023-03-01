@@ -155,9 +155,9 @@ class CategoryPOController extends Controller
 
     public function detail($id)
     {
-        $pt                 = CategoryPT::all();
-        $op                 = CategoryPP::all();
-        $ec                 = CategoryEcommerce::all();
+        $pt                 = CategoryPT::orderBy('nama')->get();
+        $op                 = CategoryPP::orderBy('nama')->get();
+        $ec                 = CategoryEcommerce::orderBy('nama')->get();
         $terms              = TermsAndConditions::all();
         $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
@@ -238,9 +238,9 @@ class CategoryPOController extends Controller
      */
     public function create($id)
     {
-        $pt                 = CategoryPT::all();
-        $op                 = CategoryPP::all();
-        $ec                 = CategoryEcommerce::all();
+        $pt                 = CategoryPT::orderBy('nama')->get();
+        $op                 = CategoryPP::orderBy('nama')->get();
+        $ec                 = CategoryEcommerce::orderBy('nama')->get();
         $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
         $terms              = TermsAndConditions::all();
         $dv                 = CategoryPengajuanPembelian::find($id);

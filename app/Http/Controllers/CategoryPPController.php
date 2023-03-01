@@ -28,7 +28,7 @@ class CategoryPPController extends Controller
             return view('dataPrivatePerson.menu.index')
                 ->with('datadv', $datadv);
         } else if ($check->role_id == 1 || $check->role_id == 3 ||$check->role_id == 4) {
-            $datadv = CategoryPP::paginate(10);
+            $datadv = CategoryPP::orderBy('nama')->paginate(10);
             return view('dataPrivatePerson.menu.index')
                 ->with('datadv', $datadv);
         }
