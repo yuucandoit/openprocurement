@@ -14,9 +14,9 @@
     <table width="100%">
         <tr>
             <td valign="top" style="padding-right: 2px; width:20px; margin-top:100px"><img
-                    src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="90"> </td>
+                    src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="80"> </td>
             <td valign="top">
-                <h5>PT.SOLUSI INTEK INDONESIA</h5>
+                <h5 style="font-size: 10;">PT.SOLUSI INTEK INDONESIA</h5>
             </td>
             @php
                 use Carbon\Carbon;
@@ -40,8 +40,8 @@
         $id_po = $cpo->id;
         $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
     @endphp
-    <h3 class="text-center" style="font-size: 6">Purchase Order</h3>
-    <h6 class="text-center" style="font-size: 6"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
+    <h3 class="text-center" >Purchase Order</h3>
+    <h6 class="text-center" ><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
      </h6>
 
     <table width="100%" class="mt-2" style="font-size: 6;">
