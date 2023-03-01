@@ -19,6 +19,7 @@ use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
 use App\Models\WhoSubmitted;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -34,10 +35,10 @@ class CategoryPOController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
-            $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Cross Check PO')->orderBy('dateline', 'asc')->orderBy('approved_at', 'desc')->paginate(10, ['*'],'in');
+            $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Cross Check PO')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'in');
             $datappb2           = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->get();
             // foreach($datappb2 as $ppb){
-                $datapo          = CategoryPO::groupBy('ppb_id')->paginate(10, ['*'],'in');
+            $datapo          = CategoryPO::get();
             // }
             //dd($datappb);
             // dd($datapo);
@@ -80,14 +81,14 @@ class CategoryPOController extends Controller
         $datappb          = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
         ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
         ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('updated_at','desc')->paginate(10, ['*'],'out');
-           $pt = CategoryPT::all();
-           $op = CategoryPP::all();
-           $ec = CategoryEcommerce::all();
-           $datapo = CategoryPO::all();
+        //    $pt = CategoryPT::all();
+        //    $op = CategoryPP::all();
+        //    $ec = CategoryEcommerce::all();
+           $datapo = CategoryPO::get();
            return view('purchaseOrder.menu.out')
-               ->with('pt', $pt)
-               ->with('op', $op)
-               ->with('ec', $ec)
+            //    ->with('pt', $pt)
+            //    ->with('op', $op)
+            //    ->with('ec', $ec)
                ->with('datappb', $datappb)
                ->with('datapo', $datapo);
        }
@@ -307,6 +308,7 @@ class CategoryPOController extends Controller
                 "term_conditions" => $term->id ,
                 "quotation" => $request->quotation,
                 "path_quotation" => $path_file ?? null,
+                "status" => "Purchase Proses",
             ]);
             if ($request->vendor == "company") {
                 $vendor1 = CategoryPT::find($request->perusahaan);
@@ -319,6 +321,13 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
 
+            $year = Carbon::parse($purchase->created_at)->format('y');
+            $month = Carbon::parse($purchase->created_at)->format('m');
+            $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
+            $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
+            CategoryPO::where('id',$purchase->id)->update([
+                'code_po' => $generatepo
+            ]);
 
             foreach ($data2['item'] as $key => $item) {
                 $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
@@ -370,6 +379,7 @@ class CategoryPOController extends Controller
                 "term_conditions" => $request->term_conditions,
                 "quotation" => $request->quotation,
                 "path_quotation" => $path_file ?? null,
+                "status" => "Purchase Proses",
             ]);
             // dd($purchase->id);
             if ($request->vendor == "company") {
@@ -382,6 +392,14 @@ class CategoryPOController extends Controller
                 $vendor3 = CategoryEcommerce::find($request->ecommerce);
                 $purchase = $vendor3->vendors()->save($purchase);
             }
+
+            $year = Carbon::parse($purchase->created_at)->format('y');
+            $month = Carbon::parse($purchase->created_at)->format('m');
+            $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
+            $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
+            CategoryPO::where('id',$purchase->id)->update([
+                'code_po' => $generatepo
+            ]);
 
 
             foreach ($data2['item'] as $key => $item) {
@@ -654,11 +672,17 @@ class CategoryPOController extends Controller
     {
 
         $data = CategoryPengajuanPembelian::find($id);
+        $po = CategoryPO::where('ppb_id', $id)->get();
+
         if(empty($data->atasan_po)){
             return redirect()->back()->withErrors(["Approver Not Found"]);
         }else{
         $data->status = 'Cross Check PO';
         $data->save();
+
+        $po->status = 'Cross Check PO';
+        $po->save();
+
         return redirect('menu-purchase-order');
         }
     }
