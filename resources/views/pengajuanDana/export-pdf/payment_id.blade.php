@@ -24,7 +24,7 @@
     <table width="100%">
         <tr>
             <td valign="top" style="padding-right: 2px; width:20px; margin-top:100px"><img
-                    src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="90"> </td>
+                    src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="60"> </td>
             <td valign="top">
                 <h5 style="font-size: 16;">PT.SOLUSI INTEK INDONESIA</h5>
             </td>
