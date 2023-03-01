@@ -26,7 +26,7 @@
             <td valign="top" style="padding-right: 2px; width:20px; margin-top:100px"><img
                     src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="90"> </td>
             <td valign="top">
-                <h5>PT.SOLUSI INTEK INDONESIA</h5>
+                <h5 style="font-size: 16;">PT.SOLUSI INTEK INDONESIA</h5>
             </td>
         </tr>
     </table>
@@ -35,9 +35,9 @@
         $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
     @endphp
     <h3 class="text-center">Pengajuan Dana</h3>
-    <h6 class="text-center"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
+    <h6 class="text-center"><span class="digits counter">NO {{ $po_number }}/PD/SII/{{ $month }}/{{ $year }}</span>
      </h6>
-     <table width="100%" class="mt-2">
+     <table width="100%" class="mt-2" style="font-size: 10;">
         <tr>
             <td>
                 @if (empty($cpo->vendorable_type))
@@ -352,8 +352,8 @@
 
     <table width="100%">
         <tr>
-            <td>
-                <p class="legal" style="margin-top:-80px;"><strong>Terms & Conditions</strong> <br>
+            <td style="font-size:10;">
+                <p class="legal" style="margin-top:-30px;"><strong>Terms & Conditions</strong> <br>
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
                     @else
@@ -377,7 +377,7 @@
                             <p>Jakarta, {{ $approvedAt }}</p>
                             @if (empty($sig->signature))
                             @else
-                                <p><img style="max-height:80px; margin-top:-15px;"
+                                <p><img style="max-height:50px; margin-top:-15px;"
                                         src="{{ public_path('assets/images/signature_super_user/'.$sig->signature) }}"
                                         alt=""></p>
                             @endif
@@ -402,7 +402,8 @@
                    bottom: 0cm;
                    left: 0cm;
                    right: 0cm;
-                   height: 2cm;" class="text-center">
+                   height: 2cm;
+                   font-size:10;" class="text-center">
         <p>Head Office &nbsp;: Jl Cikunir Raya No.689 Jakamulya, Bekasi Selatan,
             Telp. 021-89454790 <br>
             Marketing Office : Jl Tebet Barat dalam raya No.31 Tebet Barat, Jakarta Selatan,<br>
