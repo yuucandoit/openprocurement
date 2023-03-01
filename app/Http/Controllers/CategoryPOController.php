@@ -321,13 +321,13 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
 
-            // $year = Carbon::parse($purchase->created_at)->format('y');
-            // $month = Carbon::parse($purchase->created_at)->format('m');
-            // $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
-            // $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
-            // CategoryPO::where('id',$purchase->id)->update([
-            //     'code_po' => $generatepo
-            // ]);
+            $year = Carbon::parse($purchase->created_at)->format('y');
+            $month = Carbon::parse($purchase->created_at)->format('m');
+            $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
+            $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
+            CategoryPO::where('id',$purchase->id)->update([
+                'code_po' => $generatepo
+            ]);
 
             foreach ($data2['item'] as $key => $item) {
                 $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
@@ -393,13 +393,13 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
 
-            // $year = Carbon::parse($purchase->created_at)->format('y');
-            // $month = Carbon::parse($purchase->created_at)->format('m');
-            // $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
-            // $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
-            // CategoryPO::where('id',$purchase->id)->update([
-            //     'code_po' => $generatepo
-            // ]);
+            $year = Carbon::parse($purchase->created_at)->format('y');
+            $month = Carbon::parse($purchase->created_at)->format('m');
+            $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
+            $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
+            CategoryPO::where('id',$purchase->id)->update([
+                'code_po' => $generatepo
+            ]);
 
 
             foreach ($data2['item'] as $key => $item) {
@@ -680,8 +680,9 @@ class CategoryPOController extends Controller
         $data->status = 'Cross Check PO';
         $data->save();
 
-        $po->status = 'Cross Check PO';
-        $po->save();
+        $po->update([
+            'status' => 'Cross Check PO'
+        ]);
 
         return redirect('menu-purchase-order');
         }
