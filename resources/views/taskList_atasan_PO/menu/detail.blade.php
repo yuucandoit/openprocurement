@@ -551,7 +551,6 @@
                                 <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                     target="_blank" style="font-size:12;">Export PDF PO</i>
                                 </a>
-                                <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
                                 @endif
                                 </div>
                             </div>
