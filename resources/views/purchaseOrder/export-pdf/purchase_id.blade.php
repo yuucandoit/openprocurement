@@ -96,7 +96,7 @@
         </tr>
     </table>
 
-    <table class="table table-bordered table-striped" style="margin-bottom: 50px; font-size:10;">
+    <table class="table table-bordered table-striped" style="margin-bottom: 50px; font-size:8;">
         <tbody>
             <tr>
                 <td>
