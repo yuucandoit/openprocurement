@@ -672,7 +672,6 @@ class CategoryPOController extends Controller
     {
 
         $data = CategoryPengajuanPembelian::find($id);
-        $po = CategoryPO::where('ppb_id', $id)->get();
 
         if(empty($data->atasan_po)){
             return redirect()->back()->withErrors(["Approver Not Found"]);
@@ -680,7 +679,7 @@ class CategoryPOController extends Controller
         $data->status = 'Cross Check PO';
         $data->save();
 
-        $po->update([
+        CategoryPO::where('ppb_id', $id)->update([
             'status' => 'Cross Check PO'
         ]);
 
