@@ -40,11 +40,11 @@
         $id_po = $cpo->id;
         $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
     @endphp
-    <h3 class="text-center">Purchase Order</h3>
-    <h6 class="text-center"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
+    <h3 class="text-center" style="font-size: 6">Purchase Order</h3>
+    <h6 class="text-center" style="font-size: 6"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
      </h6>
 
-    <table width="100%" class="mt-2">
+    <table width="100%" class="mt-2" style="font-size: 6;">
         <tr>
             <td>
                 @if (empty($cpo->vendorable_type))
