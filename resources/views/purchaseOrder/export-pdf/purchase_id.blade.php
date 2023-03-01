@@ -44,7 +44,7 @@
     <h6 class="text-center" style="font-size: 12;"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
      </h6>
 
-    <table width="100%" class="mt-2" style="font-size: 8;">
+    <table width="100%" class="mt-2" style="font-size: 10;">
         <tr>
             <td>
                 @if (empty($cpo->vendorable_type))
@@ -96,7 +96,7 @@
         </tr>
     </table>
 
-    <table class="table table-bordered table-striped" style="margin-bottom: 50px; font-size:8;">
+    <table class="table table-bordered table-striped" style="margin-bottom: 50px; font-size:10;">
         <tbody>
             <tr>
                 <td>
