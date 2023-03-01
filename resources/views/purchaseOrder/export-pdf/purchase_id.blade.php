@@ -40,8 +40,8 @@
         $id_po = $cpo->id;
         $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
     @endphp
-    <h3 class="text-center" style="font-size: 10;">Purchase Order</h3>
-    <h6 class="text-center" style="font-size: 10;"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
+    <h3 class="text-center" style="font-size: 14;">Purchase Order</h3>
+    <h6 class="text-center" style="font-size: 12;"><span class="digits counter">NO {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}</span>
      </h6>
 
     <table width="100%" class="mt-2" style="font-size: 8;">
@@ -357,7 +357,7 @@
 
     <table width="100%">
         <tr>
-            <td>
+            <td style="font-size:10;">
                 <p class="legal" style="margin-top:-30px;"><strong>Terms & Conditions</strong> <br>
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
