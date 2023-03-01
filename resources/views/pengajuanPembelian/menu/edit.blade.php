@@ -282,6 +282,7 @@
                                                 <option value="Pack">Pack </option>
                                                 <option value="Batang">Batang </option>
                                                 <option value="Dus">Dus </option>
+                                                <option value="Strip">Strip </option>
                                             </select>
                                         </td>
                                         <td>
