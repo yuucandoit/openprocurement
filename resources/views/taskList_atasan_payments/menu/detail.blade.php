@@ -178,7 +178,13 @@
                             <button class="btn btn-link" style="width: 100%;" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1">
                                 <span style="font-weight: bold; color:green; float: left;">{{ $po->id }}/PO/SII/{{ $month }}/{{ $year }}</span>
                                 <span style="float: left;">&nbsp; Vendor #{{ $po->vendorable->nama }}</span>
-                                <span  style="float: right;">Rp.{{ number_format($item_po->grand_total,2) }}</span>
+                                <span  style="float: right;">
+                                    @if(empty($item_po))
+
+                                    @else
+                                    Rp.{{ number_format($item_po->grand_total,2) }}
+                                    @endif
+                                </span>
                             </button>
                         </div>
                         <div class="collapse" id="collapse{{ $po->id }}" aria-labelledby="heading{{ $po->id }}" data-bs-parent="#accordionclose{{ $po->id }}">
