@@ -156,7 +156,7 @@
                                         <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i>
                                             Purpose
                                             :</label>
-                                        <select class="form-select pageSelect" id="pageSelect" placeholder="Purpose" name="category_purpose" data-live-search="true">
+                                        <select class="form-select pageSelect" id="pageSelect" placeholder="Purpose" name="category_purpose" data-live-search="true" disabled>
                                             <option value="">Select Category Purpose</option>
                                             <option value="project">Project</option>
                                             <option value="office">Office</option>

@@ -30,6 +30,45 @@
   </div>
   @endforeach
 
+  @foreach ($datapo as $po)
+  <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header bg-danger">
+
+                  <h4 class="modal-title" style="color: white">List Item</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                      aria-label="Close"></button>
+              </div>
+              <div class="modal-body mx-5 mb-3">
+                  @php
+                      $i = 1;
+                  @endphp
+                  <table class="table table-bordered table-hover">
+                      <thead class="bg-primary">
+                          <tr>
+                              <th>Item</th>
+                              <th>Qty</th>
+                              <th>Uom</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+
+                          @foreach ($po->itempo as $item)
+                          <tr>
+                              <td> {{ $item->item }}</td>
+                              <td> {{ $item->qty }}</td>
+                              <td> {{ $item->kategori }}</td>
+                          </tr>
+                          @endforeach
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  @endforeach
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-6 col-xl-3 col-lg-6 mt-4" style="margin-bottom: -40px;">
@@ -164,7 +203,7 @@
                 <thead class="bg-primary">
                  <tr>
                   <th>No</th>
-                  <th>PR.ID</th>
+                  <th>Code</th>
                   <th style="white-space: nowrap;">Request By</th>
                   <th>Description</th>
                   <th>Progress</th>
@@ -179,9 +218,9 @@
                @endphp
                @foreach($datadv as $ppembelian)
 
-               <tr>
+               <tr style="background-color:#F1F6F5;">
                 <td>{{ $i++ }}</td>
-                <td>{{ $ppembelian->id }}</td>
+                <td>{{ $ppembelian->code_pengajuan }}</td>
                 <td style="white-space: nowrap;"><ul><li><strong>{{ Carbon\Carbon::parse($ppembelian->date_ps)->format('d-m-Y') }}</strong></li><li>{{ $ppembelian->whosubmit->name }}</li></ul></td>
                 <td style=" word-break: break-word;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{{ $ppembelian->desc}}</a></td>
                 @hasrole('user|super admin')
@@ -433,12 +472,50 @@
 
                   @endif
                   <div>
-                  <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal" style="background-color: #ff0000; font-size:10;" data-bs-target="#modalDelete{{ $ppembelian->id }}"  data-toggle="tooltip" data-placement="right" title="Delete"><i class="icon-trash" title="Delete"></i>
+                  <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal" style="background-color: #ff0000; font-size:10;" data-bs-target="#modalDelete{{ $ppembelian->id }}" title="Delete"><i class="icon-trash" title="Delete"></i>
                   </button>
                   </div>
                 </td>
 
               </tr>
+
+              @if(empty($ppembelian->quot))
+
+              @else
+
+              @foreach ($ppembelian->quot as $po)
+              <tr>
+
+                  @php
+                      $po2 = \App\Models\CategoryPO::find($po->id);
+                      $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                      // $item = $po3->count();
+                  @endphp
+
+                  @if(empty($po2))
+
+                  @else
+                  <td style="text-align: center">-</td>
+                  <td>{{ $po->code_po }}</td>
+                  <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                  <td style="font-weight: 700; white-space:nowrap;">
+                      @foreach ($po3 as $ipo)
+                      <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po2->id }}">{{ $ipo->qty }} Item</label>
+                      @endforeach
+                  </td>
+                  <td>{{ $po2->quotation }}</td>
+                  {{-- <td>Vendor : Tokopedia</td> --}}
+                  {{-- <td>20 Item</td> --}}
+                  {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                  <td colspan="2"  class="text-center"><a
+                      class="badge {{ $ppembelian->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppembelian->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                      style="color: white; font-size:12">Approve</a></td>
+
+                  @endif
+              </tr>
+              @endforeach
+
+              @endif
               @endforeach
             </tbody>
           </table>
@@ -449,58 +526,5 @@
       </div>
     </div>
   </div>
-  <!-- Zero Configuration  Ends-->
-  <script>
-    $(document).ready(function() {
-
-      $('.servidelet  ebtn').click(function(e) {
-        e.preventDefault();
-        alert('hello');
-      });
-
-    });
-  </script>
-  <!-- fungsi javascript untuk menampilkan form dinamis  -->
-                    <!-- penjelasan :
-                      saat tombol add-more ditekan, maka akan memunculkan div dengan class copy -->
-                      <script type="text/javascript">
-                        $(document).ready(function() {
-                          $(".add-more").click(function(){
-                            var html = $(".copy").html();
-                            $(".after-add-more").after(html);
-                          });
-
-                        // saat tombol remove di klik control group akan dihapus
-                        $("body").on("click",".remove",function(){
-                          $(this).parents(".control-group").remove();
-                        });
-                      });
-                    </script>
-
-                    <!-- JavaScript Item -->
-                    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-                    <script src="jquery.maskMoney.js" type="text/javascript"></script>
-                    <script type="text/javascript">
-                    $(document).ready(function() {
-                    $('[data-toggle="tooltip"]').tooltip();
-                    });
-                    </script>
-
-
-                  <script type="text/javascript">
-                    var pageSelector = document.getElementById('pageSelector');
-                    var customInput = document.getElementById('customInput');
-
-                    pageSelector.addEventListener('change', function(){
-                      if(this.value == "custom") {
-                        customInput.classList.remove('hide');
-                      } else {
-                        customInput.classList.add('hide');
-                      }
-                    })
-                  </script>
-
-
-                </section>
-                @endsection
+</section>
+@endsection
