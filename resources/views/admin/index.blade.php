@@ -6,10 +6,10 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h2 class="modal-title" style="color: white">Add Admin</h2>
+                    <h2 class="modal-title" style="color: white">Add User</h2>
                     <button style="color: white" type="button" class="" data-bs-dismiss="modal"
                         aria-label="Close"></button>
-                </div>
+                </div>  
                 <form action={{ url('/store-admin') }} id="formAdd" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body container">
@@ -64,6 +64,26 @@
                                     <option value="Super Purchase">Super Purchase</option>
                                 </select>
                                 <label for="floatingRole">Role</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <select class="form-select mt-3" id="floatingDepartmnt" placeholder="Select Department" name="department">
+                                    @foreach ($department as $d)
+                                    <option value="{{ $d->name }}">{{ $d->name }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="floatingDepartmnt">Department</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <select class="form-select mt-3" id="floatingLocation" placeholder="Select Location" name="location">
+                                    <option value="Tebet">Tebet</option>
+                                    <option value="Cikunir">Cikunir</option>
+                                </select>
+                                <label for="floatingLocation">Location</label>
                             </div>
                         </div>
                         <div class="modal-footer">

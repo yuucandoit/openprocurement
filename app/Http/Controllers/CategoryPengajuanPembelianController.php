@@ -52,7 +52,7 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->orderBy('id','DESC')->orderBy('date_ps','DESC')->orderBy('created_at','ASC')->paginate(10);
-            $datapo = CategoryPO::groupBy('ppb_id')->get();
+            $datapo = CategoryPO::get();
             // $count  = \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->count();
             $comments = Comment::where('user_id',Auth::user()->id)->count();
             // dd($count);
@@ -72,7 +72,7 @@ class CategoryPengajuanPembelianController extends Controller
         } else if ($check->role_id == 1 || $check->role_id == 3) {
             $user = User::where('id', Auth::user()->id)->get();
             $datapt = CategoryPT::all();
-            $datapo = CategoryPO::groupBy('ppb_id')->get();
+            $datapo = CategoryPO::get();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
             $dataws = WhoSubmitted::all();
@@ -246,7 +246,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        //dd($data);
+        // dd($data);
         $request->validate([
             'category_purpose' => 'required',
             'date_ps' => 'required',
@@ -281,6 +281,8 @@ class CategoryPengajuanPembelianController extends Controller
             'atasan' => $request->atasan,
             'send_to' => $request->send_to,
             'ppn' => $request->ppn,
+            // 'code_pengajuan' =>
+
         ]);
 
 
@@ -304,6 +306,15 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose6 = Travel::find($request->travel);
             $pengajuan = $purpose6->purposes()->save($pengajuan);
         }
+
+        $year = Carbon::parse($pengajuan->created_at)->format('y');
+        $month = Carbon::parse($pengajuan->created_at)->format('m');
+
+        $ppb_id = str_pad($pengajuan->id,5,'0', STR_PAD_LEFT);
+        $generateppb = strtoupper($ppb_id."/PPB/SII/".$month."/".$year);
+        CategoryPengajuanPembelian::where('id',$pengajuan->id)->update([
+            'code_pengajuan' => $generateppb
+        ]);
 
 
         foreach ($data['item'] as $item => $value) {
@@ -386,7 +397,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        //dd($data);
+        // dd($data);
         $request->validate([
             'date_ps' => 'required',
             'dateline' => 'required',

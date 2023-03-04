@@ -43,7 +43,8 @@
                                     <thead class="bg-primary">
                                         <tr>
                                             <th style="color: white">No</th>
-                                            <th style="color: white">Request By</th>
+                                            <th style="color: white">Code PR/PO</th>
+                                            <th style="color: white; white-space:nowrap;">Request By</th>
                                             <th style="color: white">Description</th>
                                             <th style="color: white">Deadline</th>
                                             <th style="color: white; text-align:center;">Status</th>
@@ -60,6 +61,7 @@
                                             $ppb->status == 'Delivery Success')
                                             <tr>
                                                 <td style="text-align: center;">{{ $no++ }}</td>
+                                                <td>{{ $ppb->code_pengajuan }}</td>
                                                 <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                 <td><a href="{{ $ppb->desc }}"
                                                         target="_blank">{{ $ppb->desc }}</a>
@@ -83,6 +85,43 @@
                                                             class="icon-zoom-in" title="Details"></i>
                                                 </td>
                                             </tr>
+                                            @foreach ($ppb->quot as $po)
+                                                <tr>
+
+                                                    @php
+                                                        $po2 = \App\Models\CategoryPO::with('vendorable')->find($po->id);
+                                                        $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                        // $item = $po3->count();
+                                                    @endphp
+
+                                                    @if(empty($po))
+
+                                                    @else
+                                                    <td style="text-align: center">-</td>
+                                                    <td>{{ $po->code_po }}</td>
+                                                    <td>
+                                                        @if($po->vendorable_id == 0)
+
+                                                        @else
+                                                        Vendor : {{ $po->vendorable->nama }}
+                                                        @endif
+                                                    </td>
+                                                    <td style="font-weight: 700; white-space:nowrap;">
+                                                        @foreach ($po3 as $ipo)
+                                                        <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                        @endforeach
+                                                    </td>
+                                                    <td>{{ $po->quotation }}</td>
+                                                    {{-- <td>Vendor : Tokopedia</td> --}}
+                                                    {{-- <td>20 Item</td> --}}
+                                                    {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                                                    <td colspan="2"  class="text-center"><a
+                                                        class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                        style="color: white; font-size:12">Approve</a></td>
+
+                                                    @endif
+                                                </tr>
+                                            @endforeach
                                         @endif
                                     @endforeach
                                     </tbody>

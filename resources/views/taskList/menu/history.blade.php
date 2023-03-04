@@ -4,6 +4,153 @@
 
 @section('main')
     <section>
+        @foreach ($datappb as $ppb)
+        <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+
+                        <h4 class="modal-title" style="color: white">List Item</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mx-5 mb-3">
+                        @php
+                            $i = 1;
+                        @endphp
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Uom</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ppb->itemppn as $item)
+                                <tr>
+                                    <td> {{ $item->item }}</td>
+                                    <td> {{ $item->qty }}</td>
+                                    <td> {{ $item->kategori }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+
+        <div class="modal fade" id="modalSort" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+
+                        <h4 class="modal-title">Sort </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('menu-task-list.SearchtaskPOHistory') }}" method="get" class="input-group" >
+                    <div class="modal-body ">
+                        @php
+                            $i = 1;
+                        @endphp
+                        <h4>Sort by status </h4>
+                        <div class="row" >
+                            <div class="col-sm-6" >
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Purchase Proses' ? 'checked': '' }}  style="margin-left:auto;" name="cari" type="checkbox" value="Purchase Proses">&nbsp;Purchase Process
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Cross Check PO' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Cross Check PO">&nbsp;Cross Check PO
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Waiting For PO Approval' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Waiting For PO Approval">&nbsp;Waiting For PO Approval
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'PO Approved' ? 'checked': '' }}  style="margin-left:auto;" name="cari" type="checkbox" value="PO Approved">&nbsp;PO Approved
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Invoicing Process' ? 'checked': '' }}  style="margin-left:auto;" name="cari" type="checkbox" value="Invoicing Process">&nbsp;Invoicing Process
+                                        </label>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="col-sm-6" >
+                                <ul>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Payment Approved' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Payment Approved">&nbsp;Payment Approved
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Unpaid' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Unpaid">&nbsp;Unpaid
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Paid' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Paid">&nbsp;Paid
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Sort</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+        @foreach ($datapo as $po)
+        <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+
+                        <h4 class="modal-title" style="color: white">List Item</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mx-5 mb-3">
+                        @php
+                            $i = 1;
+                        @endphp
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Uom</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach ($po->itempo as $item)
+                                <tr>
+                                    <td> {{ $item->item }}</td>
+                                    <td> {{ $item->qty }}</td>
+                                    <td> {{ $item->kategori }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -18,6 +165,12 @@
                 </div>
             </div>
         </div>
+        <style>
+            li {
+                list-style-type: none;
+            }
+
+        </style>
 
         <div class="container-fluid">
             <div class="row">
@@ -25,9 +178,13 @@
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="row">
-                            <div class="col-sm-8"></div>
-                            <div class="col-sm-4">
-                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                            <div class="col-sm-9">
+                                <div style="margin-top: 40px; margin-left:30px;">
+                                    <label data-bs-toggle="modal" data-bs-target="#modalSort"><i class="fa fa-filter" style="font-size:20px"></i> Sort</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px; ">
                                 <form action="{{ route('menu-task-list.SearchtaskPOHistory') }}" method="get" class="input-group" >
                                     <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
@@ -40,7 +197,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered table-hover" id="le-Table-1">
                                     <thead class="bg-primary">
                                         <tr>
                                         <tr style="text-align: center;">
@@ -48,16 +205,17 @@
                                             <th>Request By</th>
                                             <th>Item</th>
                                             <th>Deadline</th>
-                                            <th>Approved At</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     @php
                                     $no = 1;
+                                    $status = [];
                                     @endphp
                                     @foreach ($datappb as $ppb)
                                         @if ($ppb->status == 'Purchase Proses' ||
+                                        $ppb->status == 'Cross Check PO' ||
                                         $ppb->status == 'Waiting For PO Approval' ||
                                         $ppb->status == 'PO Approved' ||
                                         $ppb->status == 'Invoicing Process' ||
@@ -66,6 +224,9 @@
                                         $ppb->status == 'Paid' ||
                                         $ppb->status == 'Delivery Process' ||
                                         $ppb->status == 'Delivery Success')
+                                        @php
+                                            $status[] = $ppb;
+                                        @endphp
                                             <tbody>
                                                 <tr>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
@@ -78,11 +239,9 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        @foreach ($ppb->itemppn as $item)
                                                         <ul>
-                                                            <li style="margin-top:4px; word-break:break-all;">-{{ $item->item }}</li>
+                                                            <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
                                                         </ul>
-                                                        @endforeach
                                                     </td>
                                                     <td style="text-align: center;">
                                                        <ul>
@@ -98,7 +257,6 @@
                                                         </li>
                                                        </ul>
                                                     </td>
-                                                    <td style="text-align: center;">{{ $ppb->approved_at }}</td>
                                                     <td style="text-align: center;">
                                                         <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1 "
                                                             style="color: white; font-size:12">{{ $ppb->status }}</a>
@@ -136,15 +294,110 @@
                 <!-- Zero Configuration  Ends-->
             </div>
         </div>
-                    <script>
-                        $(document).ready(function() {
+            <script>
+                const data = @json($status);
+                console.log(data);
+                /* Sort function */
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("le-Table-1");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc";
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
 
-                            $('.servidelet  ebtn').click(function(e) {
-                                e.preventDefault();
-                                alert('hello');
-                            });
+document.querySelector('#le-Input-1').addEventListener('keyup', filterTable, false);
 
-                        });
-                    </script>
-                </section>
-            @endsection
+function content(elem) {
+	}
+
+
+	 /* checkbox filter */
+function filter_type(box) {
+			 var cbs = document.getElementsByTagName('input');
+			 var all_checked_types = [];
+			 for(var i=0; i < cbs.length; i++) {
+				 if(cbs[i].type == "checkbox") {
+						 if(cbs[i].name.match(/^filter/)) {
+								 if(cbs[i].checked) {
+									 all_checked_types.push(cbs[i].value);
+								  }
+							  }
+					   }
+			  }
+			 if (all_checked_types.length > 0) {
+				 $('#le-Table-1 tr').each(function (i, row) {
+					 var $tds = $(this).find('td')
+					 if ($tds.length) {
+						var type = $tds[2].innerText;
+						console.log(type)
+						if(!(type && all_checked_types.indexOf(type) >= 0)) {
+							$(this).hide();
+						 }
+						 else {
+							$(this).show();
+						 }
+					  }
+				  });
+
+			  }
+				else {
+					$('#le-Table-1 tr').each(function (i, row) {
+						var $tds = $(this).find('td'),
+						type = $tds.eq(2).text();
+						$(this).show();
+					 });
+				}
+				return true;
+			}
+
+            </script>
+        </section>
+    @endsection

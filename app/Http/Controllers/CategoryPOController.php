@@ -37,11 +37,7 @@ class CategoryPOController extends Controller
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb            = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Cross Check PO')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'in');
             $datappb2           = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->get();
-            // foreach($datappb2 as $ppb){
             $datapo          = CategoryPO::get();
-            // }
-            //dd($datappb);
-            // dd($datapo);
             return view('purchaseOrder.menu.index')
                 ->with('datappb2', $datappb2)
                 ->with('datappb', $datappb)
@@ -308,7 +304,7 @@ class CategoryPOController extends Controller
                 "term_conditions" => $term->id ,
                 "quotation" => $request->quotation,
                 "path_quotation" => $path_file ?? null,
-                "status" => "Purchase Proses",
+                "status" => $ppn->status,
             ]);
             if ($request->vendor == "company") {
                 $vendor1 = CategoryPT::find($request->perusahaan);
@@ -321,13 +317,13 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
 
-            // $year = Carbon::parse($purchase->created_at)->format('y');
-            // $month = Carbon::parse($purchase->created_at)->format('m');
-            // $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
-            // $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
-            // CategoryPO::where('id',$purchase->id)->update([
-            //     'code_po' => $generatepo
-            // ]);
+            $year = Carbon::parse($purchase->created_at)->format('y');
+            $month = Carbon::parse($purchase->created_at)->format('m');
+            $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
+            $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
+            CategoryPO::where('id',$purchase->id)->update([
+                'code_po' => $generatepo
+            ]);
 
             foreach ($data2['item'] as $key => $item) {
                 $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
@@ -379,7 +375,7 @@ class CategoryPOController extends Controller
                 "term_conditions" => $request->term_conditions,
                 "quotation" => $request->quotation,
                 "path_quotation" => $path_file ?? null,
-                "status" => "Purchase Proses",
+                "status" => $ppn->status,
             ]);
             // dd($purchase->id);
             if ($request->vendor == "company") {
@@ -393,13 +389,13 @@ class CategoryPOController extends Controller
                 $purchase = $vendor3->vendors()->save($purchase);
             }
 
-            // $year = Carbon::parse($purchase->created_at)->format('y');
-            // $month = Carbon::parse($purchase->created_at)->format('m');
-            // $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
-            // $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
-            // CategoryPO::where('id',$purchase->id)->update([
-            //     'code_po' => $generatepo
-            // ]);
+            $year = Carbon::parse($purchase->created_at)->format('y');
+            $month = Carbon::parse($purchase->created_at)->format('m');
+            $po_id = str_pad($purchase->id,5,'0', STR_PAD_LEFT);
+            $generatepo = strtoupper($po_id."/PO/SII/".$month."/".$year);
+            CategoryPO::where('id',$purchase->id)->update([
+                'code_po' => $generatepo
+            ]);
 
 
             foreach ($data2['item'] as $key => $item) {
@@ -667,6 +663,18 @@ class CategoryPOController extends Controller
         $data->delete();
         return redirect('/menu-purchase-order')->with('success', 'Task Deleted Successfully!');
     }
+
+    public function deletePOAll($id)
+    {
+        $item = ItemPO::where('po_id', $id)->get();
+        foreach($item as $i) {
+            $i->delete();
+        }
+        $data = CategoryPO::find($id);
+        $data->delete();
+        return redirect()->back();
+    }
+
 
     public function checkPO($id)
     {

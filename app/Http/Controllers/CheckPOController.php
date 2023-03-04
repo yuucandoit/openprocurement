@@ -65,6 +65,9 @@ class CheckPOController extends Controller
         }else{
         $data->status = 'Waiting For PO Approval';
         $data->save();
+        CategoryPO::where('ppb_id', $id)->update([
+            'status' => 'Waiting For PO Approval'
+        ]);
         return redirect('send-purchase/'.$data->id);
         }
     }

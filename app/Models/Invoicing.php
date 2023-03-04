@@ -14,6 +14,7 @@ class Invoicing extends Model
         'id',
         'signature',
         'ppb_id',
+        'code_pd'
     ];
 
     public function ppb()

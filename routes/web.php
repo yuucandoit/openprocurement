@@ -7,6 +7,7 @@ use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\PembelianBarangController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryEcommerceController;
 use App\Http\Controllers\CategoryPengajuanPembelianController;
@@ -213,6 +214,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/travel',[TravelController::class, 'SearchTravel'])->name('travel.SearchTravel');
     });
 
+    Route::group(['prefix' => 'bank'], function () {
+        Route::get('/', [BankController::class, 'index'])->name('bank.index');
+        Route::post('/store', [BankController::class, 'store'])->name('bank.store');
+        Route::get('/edit/{id}', [BankController::class, 'edit'])->name('bank.edit');
+        Route::post('/update/{id}', [BankController::class, 'update'])->name('bank.update');
+        Route::get('/destroy/{id}', [BankController::class, 'destroy'])->name('bank.destroy');
+        Route::get('/search/bank',[BankController::class, 'SearchBank'])->name('bank.SearchBank');
+        Route::post('/import/bank',[BankController::class, 'import'])->name('bank.import');
+    });
+
     // End Data Master Submission
 
 
@@ -350,6 +361,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/po_in',[CategoryPOController::class, 'SearchPOIn'])->name('menu-purchase-order.SearchPOIn');
         Route::get('/out/search/po_out',[CategoryPOController::class, 'SearchPOOut'])->name('menu-purchase-order.SearchPOOut');
         Route::get('/history/search/HistoryPO',[CategoryPOController::class, 'SearchHistoryPO'])->name('menu-purchase-order.SearchHistoryPO');
+        Route::get('/deletePOAll/{id}', [CategoryPOController::class, 'deletePOAll'])->name('menu-purchase-order.deletePOAll');
     });
 
     // Menu Pengajuan dana Purchase Order

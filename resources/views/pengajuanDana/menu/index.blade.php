@@ -4,6 +4,81 @@
 
 @section('main')
     <section>
+        @foreach ($datappb as $ppb)
+            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+
+                            <h4 class="modal-title" style="color: white">List Item</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($ppb->itemppn as $item)
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        @foreach ($datapo as $po)
+            <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+
+                            <h4 class="modal-title" style="color: white">List Item</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach ($po->itempo as $item)
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -15,33 +90,6 @@
                             <li class="breadcrumb-item active">Payment Process In</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -66,10 +114,11 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead class="bg-primary">
-                                        <tr >
+                                        <tr>
                                             <th>No</th>
+                                            <th>No PR/PO</th>
                                             <th>Name</th>
-                                            <th>Description</th>
+                                            <th>Item</th>
                                             {{-- <th>Send To</th> --}}
                                             <th>Deadline</th>
                                             <th style="text-align: center;">Status</th>
@@ -86,14 +135,29 @@
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Unpaid')
                                                 @php $approvedPPB[] =$ppb; @endphp
-                                                <tr id="ppb-{{ $ppb->id }}">
+                                                <tr id="ppb-{{ $ppb->id }}" style="background-color:#F1F6F5;">
 
                                                     <td>{{ $i++ }}</td>
-                                                    <td>{{ $ppb->whosubmit->name }}</td>
-                                                    <td><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    <td>{{ $ppb->code_pengajuan }}</td>
+                                                    <td>
+                                                        <a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">
+                                                            <ul>
+                                                                <li style="font-weight:600; white-space:nowrap;">{{ $ppb->whosubmit->name }}</li>
+                                                                <li>{{ $ppb->desc }}</li>
+                                                            </ul>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <ul>
+                                                            <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
+                                                        </ul>
+                                                    </td>
                                                     {{-- <td>{{ $ppb->send_to }}</td> --}}
                                                     <td>
                                                         <ul>
+                                                            <li>
+                                                                <p class="ppb-countdown" style="color:rgb(81, 171, 71)"></p>
+                                                            </li>
                                                             <li>
                                                                 @if($ppb->dateline == '≤24Jam')
                                                                 <strong><p>1 Hari</p></strong>
@@ -105,16 +169,13 @@
                                                                 <strong><p>7 sd 14 Hari</p></strong>
                                                                 @endif
                                                             </li>
-                                                            <li>
-                                                                <p class="ppb-countdown"></p>
-                                                            </li>
                                                         </ul>
                                                     </td>
                                                     <td style="text-align: center">
                                                         <ul>
                                                             <li>
-                                                                <a class="badge mt-1"
-                                                                    style="color: white; background-color:rgb(255, 0, 0); font-size:10">{{ $ppb->status }}</a>
+                                                                <a class="badge mt-1 bg-warning"
+                                                                    style="color: white; font-size:10">{{ $ppb->status }}</a>
                                                             </li>
                                                             <li>
                                                                 <a class="badge badge-lable" style="font-size: 10">
@@ -145,6 +206,40 @@
                                                         </td>
                                                     @endhasrole
                                                 </tr>
+                                                @foreach ($ppb->quot as $po)
+                                                    <tr>
+
+                                                        @php
+                                                            $po2 = \App\Models\CategoryPO::with('vendorable')->find($po->id);
+                                                            $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                            // $item = $po3->count();
+                                                        @endphp
+
+                                                        @if(empty($po))
+
+                                                        @else
+                                                        <td style="text-align: center">-</td>
+                                                        <td>{{ $po->code_po }}</td>
+                                                        <td>
+                                                            @if($po->vendorable_id == 0)
+
+                                                            @else
+                                                            Vendor : {{ $po->vendorable->nama }}
+                                                            @endif
+                                                        </td>
+                                                        <td style="font-weight: 700; white-space:nowrap;">
+                                                            @foreach ($po3 as $ipo)
+                                                            <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                            @endforeach
+                                                        </td>
+                                                        <td>{{ $po->quotation }}</td>
+                                                        <td colspan="2"  class="text-center"><a
+                                                            class="badge {{ $ppb->status == 'Unpaid' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:12">{{ $po->status }}</a></td>
+
+                                                        @endif
+                                                    </tr>
+                                                @endforeach
                                             @endif
                                         @endforeach
 

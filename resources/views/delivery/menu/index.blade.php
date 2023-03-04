@@ -4,66 +4,108 @@
 
     @section('main')
         <section>
-            <div class="modal fade" id="modalAdd" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+        @foreach ($datappb as $ppb)
+            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header bg-primary">
-                            <h2 class="modal-title" style="color: white">Add Form</h2>
-                            <button style="color: white" type="button" class="" data-bs-dismiss="modal"
+                        <div class="modal-header bg-danger">
+
+                            <h4 class="modal-title" style="color: white">List Item</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <form action={{ url('/menu-purchase-order/store') }} id="formAdd" method="post"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="modal-body container">
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control mt-2" id="floatingName"
-                                            placeholder="Your Name" name="name">
-                                        <label for="floatingName">Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input required type="text" class="form-control mt-4 mb-4" id="floatingAddress"
-                                            placeholder="Address" name="address">
-                                        <label for="floatingAddress">Address</label>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
-                                </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            </div>
-
-            @foreach ($datappb as $purchase)
-                <div class="modal fade" id="modalDelete{{ $purchase->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-danger">
-                                <h2 class="modal-title" style="color: white">Delete</h2>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body mx-5 mb-3">
-                                <span class="warning">
-                                    <img src="assets/images/warning.png">
-                                </span>
-                                <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
-                            </div>
-                            <div class="modal-footer">
-                                <form action="{{ url('/menu-purchase-order/destroy/' . $purchase->id) }}">
-                                    <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
-                                        Delete</button>
-                                </form>
-                            </div>
+                        <div class="modal-body mx-5 mb-3">
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($ppb->itemppn as $item)
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            </div>
+        @endforeach
+
+        @foreach ($datapo as $po)
+            <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+
+                            <h4 class="modal-title" style="color: white">List Item</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach ($po->itempo as $item)
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+        @foreach ($datappb as $purchase)
+            <div class="modal fade" id="modalDelete{{ $purchase->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h2 class="modal-title" style="color: white">Delete</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                            <span class="warning">
+                                <img src="assets/images/warning.png">
+                            </span>
+                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="{{ url('/menu-purchase-order/destroy/' . $purchase->id) }}">
+                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
+                                    Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
             <div class="container-fluid">
                 <div class="page-header">
@@ -75,33 +117,6 @@
                                 <li class="breadcrumb-item active">Delivery Process</li>
                             </ol>
                         </div>
-                        {{-- <div class="col-sm-6 mt-4">
-                            <!-- Bookmark Start-->
-                            <div class="bookmark">
-                                <ul>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Tables"><i
-                                                data-feather="inbox"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Chat"><i
-                                                data-feather="message-square"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Icons"><i
-                                                data-feather="command"></i></a></li>
-                                    <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                            data-placement="top" title="" data-original-title="Learning"><i
-                                                data-feather="layers"></i></a></li>
-                                    <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                        <form class="form-inline search-form">
-                                            <div class="form-group form-control-search">
-                                                <input type="text" placeholder="Search..">
-                                            </div>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- Bookmark Ends-->
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -127,7 +142,9 @@
                                         <thead class="bg-primary">
                                             <tr>
                                                 <th>No</th>
+                                                <th>Code PR/PO</th>
                                                 <th>Applicant Name</th>
+                                                <th>Item</th>
                                                 <th style="text-align: center;">Status</th>
                                                 <th style="text-align: center;">Action</th>
                                             </tr>
@@ -141,14 +158,20 @@
                                             @foreach ($datappb as $ppb)
                                                 @if ($ppb->status == 'Paid')
                                                     @php $approvedPPB[] =$ppb; @endphp
-                                                    <tr>
+                                                    <tr style="background-color:#F1F6F5;">
                                                         <td>{{ $i++ }}</td>
+                                                        <td>{{ $ppb->code_pengajuan }}</td>
                                                         <td>
                                                             <ul>
                                                                 <a href="{{ url('/delivery/detail/' . $ppb->id) }}">
                                                                 <li><strong>{{ Carbon\Carbon::parse($ppb->date_ps)->format('d-m-Y') }}</strong></li>
                                                                 <li>{{ $ppb->whosubmit->name }}</li>
                                                                 </a>
+                                                            </ul>
+                                                        </td>
+                                                        <td>
+                                                            <ul>
+                                                                <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
                                                             </ul>
                                                         </td>
                                                         <td style="text-align: center;">
@@ -178,6 +201,40 @@
                                                             </td>
                                                         @endhasrole
                                                     </tr>
+                                                    @foreach ($ppb->quot as $po)
+                                                        <tr>
+
+                                                            @php
+                                                                $po2 = \App\Models\CategoryPO::with('vendorable')->find($po->id);
+                                                                $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                                // $item = $po3->count();
+                                                            @endphp
+
+                                                            @if(empty($po))
+
+                                                            @else
+                                                            <td style="text-align: center">-</td>
+                                                            <td>{{ $po->code_po }}</td>
+                                                            <td>
+                                                                @if($po->vendorable_id == 0)
+
+                                                                @else
+                                                                Vendor : {{ $po->vendorable->nama }}
+                                                                @endif
+                                                            </td>
+                                                            <td style="font-weight: 700; white-space:nowrap;">
+                                                                @foreach ($po3 as $ipo)
+                                                                <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                                @endforeach
+                                                            </td>
+                                                            <td  class="text-center"><a
+                                                                class="badge {{ $ppb->status == '' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:12">{{ $po->status }}</a></td>
+                                                            <td>{{ $po->quotation }}</td>
+
+                                                            @endif
+                                                        </tr>
+                                                    @endforeach
                                                 @endif
                                             @endforeach
                                         </tbody>

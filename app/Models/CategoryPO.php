@@ -23,6 +23,7 @@ class CategoryPO extends Model
         'path_quotation',
         'path_invoice',
         'matauang',
+        'code_po',
         'approved_at',
         'created_at',
         'updated_at'

@@ -270,6 +270,9 @@ class CategoryPDController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Paid';
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Paid'
+        ]);
         return redirect('/menu-pengajuan-dana');
     }
 
@@ -278,6 +281,9 @@ class CategoryPDController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Rejected by Finance';
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Rejected by Finance'
+        ]);
         return redirect('/menu-pengajuan-dana');
     }
 

@@ -38,11 +38,11 @@ class TasklistAtasanPoController extends Controller
             orWhere('status','Paid')->
             orWhere('status','Delivery Process')->
             orWhere('status','Delivery Success')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-            $data_atasan = CategoryPO::all();
+            $datapo = CategoryPO::get();
 
             //dd($data_atasan);
             return view('taskList_atasan_PO.menu.index')
-            ->with('data_atasan', $data_atasan)
+            ->with('datapo', $datapo)
             ->with('datappb', $datappb)
             ->with('datappb2', $datappb2);
         }
@@ -74,7 +74,7 @@ class TasklistAtasanPoController extends Controller
             orWhere('status','Unpaid')->
             orWhere('status','Paid')->
             orWhere('status','Delivery Process')->
-            orWhere('status','Delivery Success')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            orWhere('status','Delivery Success')->orderBy('updated_at','desc')->paginate(10, ['*'],'out');
             return view('taskList_atasan_PO.menu.out')
             ->with('datappb', $datappb);
         }
@@ -341,6 +341,9 @@ class TasklistAtasanPoController extends Controller
             $sig->signature = 'superadmin.png';
             $sig->approved_at = Carbon::now();
             $sig->save();
+            CategoryPO::where('ppb_id', $id)->update([
+                'status' => 'Waiting For PO Approval'
+            ]);
         }elseif($data->atasan_po == 6){
             $cpo->signature = 'sinduirawan.png';
             $cpo->approved_at = Carbon::now();
@@ -350,6 +353,9 @@ class TasklistAtasanPoController extends Controller
             $sig->signature = 'sinduirawan.png';
             $sig->approved_at = Carbon::now();
             $sig->save();
+            CategoryPO::where('ppb_id', $id)->update([
+                'status' => 'Waiting For PO Approval'
+            ]);
         }elseif($data->atasan_po == 7){
             $cpo->signature = 'bayu.png';
             $cpo->approved_at = Carbon::now();
@@ -359,6 +365,9 @@ class TasklistAtasanPoController extends Controller
             $sig->signature = 'bayu.png';
             $sig->approved_at = Carbon::now();
             $sig->save();
+            CategoryPO::where('ppb_id', $id)->update([
+                'status' => 'Waiting For PO Approval'
+            ]);
         }elseif($data->atasan_po == 8){
             $cpo->signature = 'victor.png';
             $cpo->approved_at = Carbon::now();
@@ -368,6 +377,9 @@ class TasklistAtasanPoController extends Controller
             $sig->signature = 'victor.png';
             $sig->approved_at = Carbon::now();
             $sig->save();
+            CategoryPO::where('ppb_id', $id)->update([
+                'status' => 'Waiting For PO Approval'
+            ]);
         }elseif($data->atasan_po == 9){
             $cpo->signature = 'erwin.png';
             $cpo->approved_at = Carbon::now();
@@ -377,6 +389,9 @@ class TasklistAtasanPoController extends Controller
             $sig->signature = 'erwin.png';
             $sig->approved_at = Carbon::now();
             $sig->save();
+            CategoryPO::where('ppb_id', $id)->update([
+                'status' => 'Waiting For PO Approval'
+            ]);
         }
 
         return redirect('menu-taskList-atasan-po/in');
@@ -408,6 +423,7 @@ class TasklistAtasanPoController extends Controller
             CategoryPO::whereIn('ppb_id',$ids)->update([
                 'signature' => 'sinduirawan.png',
                 'approved_at' => Carbon::now(),
+                'status' => 'Waiting For PO Approval'
                 ]);
             $d->status = 'PO Approved';
             $d->save();
@@ -421,6 +437,7 @@ class TasklistAtasanPoController extends Controller
             CategoryPO::whereIn('ppb_id',$ids)->update([
                 'signature' => 'bayu.png',
                 'approved_at' => Carbon::now(),
+                'status' => 'Waiting For PO Approval'
             ]);
             $d->status = 'PO Approved';
             $d->save();
@@ -434,6 +451,7 @@ class TasklistAtasanPoController extends Controller
             CategoryPO::whereIn('ppb_id',$ids)->update([
                 'signature' => 'victor.png',
                 'approved_at' => Carbon::now(),
+                'status' => 'Waiting For PO Approval'
             ]);
             $d->status = 'PO Approved';
             $d->save();
@@ -447,6 +465,7 @@ class TasklistAtasanPoController extends Controller
             CategoryPO::whereIn('ppb_id',$ids)->update([
                 'signature' => 'erwin.png',
                 'approved_at' => Carbon::now(),
+                'status' => 'Waiting For PO Approval'
             ]);
             $d->status = 'PO Approved';
             $d->save();

@@ -77,8 +77,10 @@ class CategoryTaskListController extends Controller
      })
 
      ->paginate(10);
+     $datapo = CategoryPO::get();
      return view('taskList.menu.out')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo);
     }
 
     public function history()
@@ -91,8 +93,10 @@ class CategoryTaskListController extends Controller
             ->orWhere('status', 'Invoicing Process')->orWhere('status', 'Payment Approved')
             ->orWhere('status', 'Unpaid')->orWhere('status', 'Paid')->orWhere('status', 'Delivery Process')
             ->orWhere('status','Delivery Success')->orderBy('approved_at','desc')->paginate(10);
+            $datapo = CategoryPO::get();
             return view('taskList.menu.history')
-            ->with('datappb', $datappb);
+            ->with('datappb', $datappb)
+            ->with('datapo', $datapo);
         }
     }
 
@@ -110,8 +114,10 @@ class CategoryTaskListController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
+     $datapo = CategoryPO::get();
      return view('taskList.menu.history')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo);
     }
 
     public function detail($id)

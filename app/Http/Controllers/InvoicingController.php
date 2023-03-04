@@ -19,6 +19,7 @@ use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
 use App\Models\WhoSubmitted;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class InvoicingController extends Controller
@@ -82,15 +83,15 @@ class InvoicingController extends Controller
             ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
             ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->
             orderBy('updated_at', 'desc')->paginate(10, ['*'],'out');
-            $pt = CategoryPT::all();
-            $op = CategoryPP::all();
-            $ec = CategoryEcommerce::all();
-            $datapo = CategoryPO::all();
+            $datappb2 = CategoryPengajuanPembelian::where('status','Invoicing Process')
+            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
+            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->
+            orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            $datapo = CategoryPO::get();
             return view('payment_request.menu.out')
-                ->with('pt',$pt)
-                ->with('op',$op)
-                ->with('ec',$ec)
+
                 ->with('datappb',$datappb)
+                ->with('datappb2',$datappb2)
                 ->with('datapo', $datapo);
         }
     }
@@ -252,7 +253,15 @@ class InvoicingController extends Controller
 
         $pyment = new Invoicing;
         $pyment->ppb_id = $data->id;
+        $year = Carbon::parse($pyment->created_at)->format('y');
+        $month = Carbon::parse($pyment->created_at)->format('m');
         $pyment->save();
+
+        $py_id = str_pad($pyment->id,5,'0', STR_PAD_LEFT);
+        $generatepd = strtoupper($py_id."/PD/SII/".$month."/".$year);
+        Invoicing::where('id',$pyment->id)->update([
+            'code_pd' => $generatepd,
+        ]);
 
         return redirect("/payment_request");
 
@@ -337,6 +346,10 @@ class InvoicingController extends Controller
         }else{
         $data->status = 'Invoicing Process';
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Waiting For PO Approval'
+        ]);
+
         return redirect('send-payment/'.$data->id);
         }
     }
@@ -346,6 +359,9 @@ class InvoicingController extends Controller
         $data = CategoryPO::find($id);
         $data->status = 'Rejected By Purchasing';
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Rejected By Purchasing'
+        ]);
         return redirect('/payment_request');
     }
 }

@@ -4,40 +4,7 @@
 
     @section('main')
         <section>
-            <div class="modal fade" id="modalAdd" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary">
-                            <h2 class="modal-title" style="color: white">Add Form</h2>
-                            <button style="color: white" type="button" class="" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <form action={{ url('/menu-purchase-order/store') }} id="formAdd" method="post"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="modal-body container">
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control mt-2" id="floatingName"
-                                            placeholder="Your Name" name="name">
-                                        <label for="floatingName">Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input required type="text" class="form-control mt-4 mb-4" id="floatingAddress"
-                                            placeholder="Address" name="address">
-                                        <label for="floatingAddress">Address</label>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
-                                </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            </div>
+
 
             @foreach ($datappb as $purchase)
                 <div class="modal fade" id="modalDelete{{ $purchase->id }}" tabindex="-1" aria-hidden="true">
@@ -64,30 +31,83 @@
                     </div>
                 </div>
             @endforeach
+
             @foreach ($datappb as $ppb)
-            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h2 class="modal-title" style="color: white">List Item</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body ">
-                                    @php
-                                        $i = 1;
-                                    @endphp
-                                    @foreach ($ppb->itemppn as $item)
-                                    <ul style="font-size: 18">
-                                        <li>- {{ $item->item }}</li>
-                                    </ul>
-                                    @endforeach
-                        </div>
-                        <div class="modal-footer">
+                <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+                                <h2 class="modal-title" style="color: white">List Item</h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body ">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Uom</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($ppb->itemppn as $item)
+                                        <tr>
+                                            <td> {{ $item->item }}</td>
+                                            <td> {{ $item->qty }}</td>
+                                            <td> {{ $item->kategori }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
+
+            @foreach ($datapo as $po)
+                <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+
+                                <h4 class="modal-title" style="color: white">List Item</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body mx-5 mb-3">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Uom</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach ($po->itempo as $item)
+                                        <tr>
+                                            <td> {{ $item->item }}</td>
+                                            <td> {{ $item->qty }}</td>
+                                            <td> {{ $item->kategori }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endforeach
 
             <!-- Page Sidebar Ends-->
@@ -127,7 +147,7 @@
                                         <thead class="bg-primary">
                                             <tr>
                                                 <th>No</th>
-                                                <th>No.PO</th>
+                                                <th>Code PR/PO</th>
                                                 <th>Name</th>
                                                 <th>Item</th>
                                                 <th>Deadline</th>
@@ -144,13 +164,13 @@
                                             @foreach ($datappb as $ppb)
                                                 @if ($ppb->status == 'PO Approved')
                                                     @php $approvedPPB[] =$ppb; @endphp
-                                                    <tr id="ppb-{{ $ppb->id }}">
+                                                    <tr id="ppb-{{ $ppb->id }}" style="background-color:#F1F6F5;">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->id }}</td>
+                                                        <td>{{ $ppb->code_pengajuan }}</td>
                                                         <td>
                                                             <ul>
                                                                 <li><a href="{{ url('/payment_request/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
-                                                                <li><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></li>
+                                                                <li><a href="{{ url('/payment_request/detail/' . $ppb->id) }}">{!! nl2br($ppb->desc) !!}</a></li>
                                                             </ul>
                                                         </td>
                                                         <td>
@@ -179,7 +199,7 @@
                                                         <td style="text-align: center;">
                                                             <ul>
                                                                 <li>
-                                                                    <a class="badge  mt-1" style="color: white; background-color:rgb(255, 0, 0); font-size:12">
+                                                                    <a class="badge  mt-1" style="color: white; background-color:rgb(229, 220, 63); font-size:12">
                                                                             {{ $ppb->status }}
                                                                     </a>
                                                                     </li>
@@ -215,6 +235,38 @@
                                                             </td>
                                                         @endhasrole
                                                     </tr>
+                                                    @foreach ($ppb->quot as $po)
+                                                            <tr>
+
+                                                                @php
+                                                                    $po2 = \App\Models\CategoryPO::find($po->id);
+                                                                    $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                                    // $item = $po3->count();
+                                                                @endphp
+
+                                                                @if(empty($po2))
+
+                                                                @else
+                                                                <td style="text-align: center">-</td>
+                                                                <td>{{ $po->code_po }}</td>
+                                                                <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                                                                <td style="font-weight: 700; white-space:nowrap;">
+                                                                    @foreach ($po3 as $ipo)
+                                                                    <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                                    @endforeach
+                                                                </td>
+                                                                <td>{{ $po2->quotation }}</td>
+                                                                {{-- <td>Vendor : Tokopedia</td> --}}
+                                                                {{-- <td>20 Item</td> --}}
+                                                                {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                                                                <td class="text-center"><a
+                                                                    class="badge bg-warning mt-1"
+                                                                    style="color: white; font-size:12">{{ $po2->status }}</a></td>
+                                                                    <td style="text-align: center;"> - </td>
+
+                                                                @endif
+                                                            </tr>
+                                                    @endforeach
                                                 @endif
                                             @endforeach
                                         </tbody>
@@ -228,18 +280,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Zero Configuration  Ends-->
-
-                    <script>
-                        $(document).ready(function() {
-
-                            $('.servideletebtn').click(function(e) {
-                                e.preventDefault();
-                                alert('hello');
-                            });
-
-                        });
-                    </script>
         </section>
     @endsection
     @section('scripts')
@@ -270,6 +310,7 @@
             const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
             const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+            const expiredTime = new Date(dueDateAt.getTime() + Date.now());
             const lable = elmnt.querySelector('.badge-lable');
 
             console.log(dateline_time, remainingTime.getTime());
@@ -277,7 +318,17 @@
             if (remainingTime.getTime() < 1) {
                 lable.classList.remove('bg-dark');
                 lable.classList.add('bg-dark');
-                return "Your time is up";
+                // return "Your time is up";
+                const days  = dateline.split()[0] == 24 ? (expiredTime.getDate()-2).toString() : (expiredTime.getDate()-1).toString();
+                const hours = expiredTime.getUTCHours().toString();
+                const minutes = expiredTime.getUTCMinutes().toString();
+                const seconds = expiredTime.getUTCSeconds().toString();
+                return (
+                (days.length == 1 ? `-0${days}:` : `-${days}:`)+
+                (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
+                (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
+                (seconds.length == 1 ? `0${seconds}` : `${seconds}`)
+            );
             }
 
             let colors = [];

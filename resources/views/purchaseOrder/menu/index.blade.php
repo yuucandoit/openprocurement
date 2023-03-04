@@ -36,21 +36,72 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-danger">
-                            <h2 class="modal-title" style="color: white">List Item</h2>
+
+                            <h4 class="modal-title" style="color: white">List Item</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body mx-5 mb-3">
-                                    @php
-                                        $i = 1;
-                                    @endphp
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     @foreach ($ppb->itemppn as $item)
-                                    <ul style="font-size: 18">
-                                        <li>- {{ $item->item }}</li>
-                                    </ul>
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
                                     @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            @endforeach
+
+            @foreach ($datapo as $po)
+            <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+
+                            <h4 class="modal-title" style="color: white">List Item</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach ($po->itempo as $item)
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -98,36 +149,43 @@
                                         <thead class="bg-primary">
                                             <tr>
                                                 <th>No</th>
-                                                <th>No.PO</th>
+                                                <th>No.Pengajuan</th>
                                                 <th>Name</th>
-                                                {{-- <th>Description</th> --}}
                                                 <th>Item</th>
-                                                <th>PO</th>
                                                 <th>Deadline</th>
-                                                {{-- <th>Countdown</th> --}}
                                                 <th style="text-align: center;">Status</th>
-                                                {{-- @hasrole('purchasing|super admin')
-                                                <th style="text-align: center;">Status</th>
-                                                @endhasrole --}}
-                                                <th style="white-space: nowrap;">Approved At</th>
                                                 <th style="text-align: center;">Action</th>
                                             </tr>
                                         </thead>
                                         @php
+                                        //  use Carbon\Carbon;
                                             $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                             $approvedPPB = [];
                                         @endphp
+
                                         <tbody>
                                             @foreach ($datappb as $ppb)
                                                 @if ($ppb->status == 'Purchase Proses' ||'Cross Check PO')
-                                                    @php $approvedPPB[] =$ppb; @endphp
-                                                    <tr id="ppb-{{ $ppb->id }}">
+                                                    @php
+                                                    $approvedPPB[] =$ppb;
+                                                    $id_po = $ppb->id;
+                                                    $id_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
+                                                    $year = Carbon\Carbon::now()->format('y');
+                                                    $month = Carbon\Carbon::now()->format('m');
+
+                                                    @endphp
+                                                    <tr id="ppb-{{ $ppb->id }}" style="background-color:#F1F6F5;">
                                                         <td style="text-align: center;">{{ $i++ }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->id }}</td>
+                                                        <td style="text-align: center;">
+                                                            <ul>
+                                                                {{-- <li>{{ $id_number }}/PB/SII/{{ $month }}/{{ $year }}</li> --}}
+                                                                <li>{{ $ppb->code_pengajuan }}</li>
+                                                            </ul>
+                                                        </td>
                                                         <td>
                                                             <ul>
                                                                 <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
-                                                                <li style="margin-top: 5px;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break:break-all">{{ $ppb->desc }}</a></li>
+                                                                <li style="margin-top: 5px;"><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" >{!! nl2br($ppb->desc) !!}</a></li>
                                                             </ul>
                                                         </td>
                                                         <td>
@@ -135,16 +193,6 @@
                                                                 <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
                                                             </ul>
                                                         </td>
-                                                        <td>
-                                                            {{-- AMBIL DATA pengajuan hasMany ke category po --}}
-                                                            @foreach ($ppb->quot as  $quot)
-                                                            <ul>
-                                                                <li style="margin-top: 5px;"><a href="{{ url('menu-purchase-order/po_detail/'.$quot->id) }}" target="_blank"> PO {{$quot->id}}</a></li>
-                                                            </ul>
-                                                            @endforeach
-                                                        </td>
-                                                        {{-- <td style=""><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td> --}}
-                                                        {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
 
                                                      @if ($ppb->status == 'Purchase Proses'||'Cross Check PO')
                                                             <td>
@@ -196,8 +244,6 @@
                                                             <td> -/- </td>
                                                             <td> -/- </td>
                                                         @endif
-
-                                                        <td style="font-size: 10;"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
                                                         @hasrole('purchasing|super admin')
                                                             <td style="text-align: center;">
 
@@ -213,6 +259,39 @@
                                                             </td>
                                                         @endhasrole
                                                     </tr>
+                                                    <tbody>
+                                                    @foreach ($ppb->quot as $po)
+                                                    <tr>
+
+                                                        @php
+                                                            $po2 = \App\Models\CategoryPO::find($po->id);
+                                                            $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                            // $item = $po3->count();
+                                                        @endphp
+
+                                                        @if(empty($po2))
+
+                                                        @else
+                                                        <td style="text-align: center">-</td>
+                                                        <td>{{ $po->id }}/PO/SII/{{ $month }}/{{ $year }}</td>
+                                                        <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                                                        <td style="font-weight: 700;">
+                                                            @foreach ($po3 as $ipo)
+                                                            <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                            @endforeach
+                                                        </td>
+                                                        <td>{{ $po2->quotation }}</td>
+                                                        {{-- <td>Vendor : Tokopedia</td> --}}
+                                                        {{-- <td>20 Item</td> --}}
+                                                        {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                                                        <td colspan="2"  class="text-center"><a
+                                                            class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
+
+                                                        @endif
+                                                    </tr>
+                                                    @endforeach
+                                                    </tbody>
                                                 @endif
                                             @endforeach
                                         </tbody>
@@ -226,22 +305,14 @@
                     </div>
                 </div>
           </div>
-
-
-                    <script>
-                        $(document).ready(function() {
-
-                            $('.servideletebtn').click(function(e) {
-                                e.preventDefault();
-                                alert('hello');
-                            });
-
-                        });
-                    </script>
         </section>
     @endsection
     @section('scripts')
     {{-- <script src="{{  }}"></script> --}}
+    {{-- {{ dd($approvedPPB) }} --}}
+    {{-- @php
+        $approvedPPB = collect($approvedPPB);
+    @endphp --}}
     <script>
         const data = @json($approvedPPB);
         console.log(data);
@@ -269,15 +340,25 @@
             const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
             const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+            const expiredTime = new Date(dueDateAt.getTime() + Date.now());
             const lable = elmnt.querySelector('.badge-lable');
 
-            // console.log(dateline_time, remainingTime.getTime());
+            console.log(dateline_time, remainingTime.getTime());
 
             if (remainingTime.getTime() < 1) {
                 lable.classList.remove('bg-dark');
                 lable.classList.add('bg-dark');
-                return "Your time is up";
-            }
+                const days  = dateline.split()[0] == 24 ? (expiredTime.getDate()-2).toString() : (expiredTime.getDate()-1).toString();
+                const hours = expiredTime.getUTCHours().toString();
+                const minutes = expiredTime.getUTCMinutes().toString();
+                const seconds = expiredTime.getUTCSeconds().toString();
+                return (
+                (days.length == 1 ? `-0${days}:` : `-${days}:`)+
+                (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
+                (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
+                (seconds.length == 1 ? `0${seconds}` : `${seconds}`)
+            );
+                }
 
             let colors = [];
             const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
@@ -326,4 +407,4 @@
 
         initCountdown(data);
     </script>
-@endsection
+    @endsection

@@ -534,81 +534,6 @@
                                                             </td>
                                                         </tr>
                                                     </table>
-
-                                                    {{-- <table class="table table-bordered mx-2" style="margin-top: 0px;">
-                                                        <tr>
-                                                            <td>
-                                                                <label class="pull-right"
-                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    DPP :</label>
-                                                            </td>
-                                                            <td>
-                                                                <input style="background-color: #ffff;" class="total_A form-control text-end" type="text" name="dpp" value="0" readonly >
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <label class="pull-right"
-                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    Discount :</label>
-                                                            </td>
-                                                            <td class="text-end">
-                                                                <input class="form-control discount form-calc dollar text-end" type="text"
-                                                                    id="discount" name="discount" value="0">
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <label class="pull-right"
-                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;After
-                                                                    Discount :</label>
-                                                            </td>
-                                                            <td class="text-end total_disc">
-                                                                <input style="background-color: #ffff;" value="0"  class="form-control total_disc text-end" type="text"
-                                                                    name="total_disc" readonly>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input class="mt-1 pull-right check-box-create" type="checkbox" name="ppn"
-                                                                    value="1" {{ old('ppn', 0)===1 ? 'checked' : '' }}>
-                                                                <label class="pull-right" style="font-weight: bold;"> PPN 11%
-                                                                </label>
-                                                            </td>
-                                                            <td class="ppn text-end">
-                                                                <input style="display: none;" class="ppn" type="text" name="ppn" value="0">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <label class="pull-right"
-                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    Shipping & Protection Fee :</label>
-                                                            </td>
-                                                            <td>
-                                                                <input  class="ongkir form-control text-end dollar" type="text" name="ongkir" value="0">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <label class="pull-right"
-                                                                    style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    Admin & Service Fee :</label>
-                                                            </td>
-                                                            <td>
-                                                                <input  class="adminfee form-control text-end dollar" type="text" name="admin_fee" value="0">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="text-end" style="font-weight: bold;">Grand Total
-                                                                :</td>
-                                                            <td>
-                                                                <input class="form-control text-end total"
-                                                                    type="text" name="grand_total" value="0">
-                                                            </td>
-                                                        </tr>
-                                                    </table> --}}
                                                 </div>
                                                     <div class="form-group" style="text-align:right;">
                                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -1014,6 +939,9 @@
                                             target="_blank" style="font-size:12;">Export PDF PO</i>
                                         </a>
                                         <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
+                                        <a href="{{ route('menu-purchase-order.deletePOAll',$po->id) }}" class="btn btn-danger mt-3">
+                                            Delete
+                                         </a>
                                         @endif
                                         </div>
                                     </div>

@@ -37,12 +37,12 @@ class TasklistAtasanPaymentController extends Controller
             orWhere('status','Paid')->
             orWhere('status','Delivery Process')->
             orWhere('status','Delivery Success')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-            $data_atasan = CategoryPO::all()->first();
+            $datapo = CategoryPO::get();
             // $py   = Invoicing::orderBy('ppb_id', 'asc')->first();
 
             return view('taskList_atasan_payments.menu.index')
             // ->with('py',$py)
-            ->with('data_atasan', $data_atasan)
+            ->with('datapo', $datapo)
             ->with('datappb', $datappb)
             ->with('datappb2', $datappb2);
         }
@@ -346,6 +346,9 @@ class TasklistAtasanPaymentController extends Controller
         $data->status = 'Payment Approved';
         $data->note_bod_py = $request->note_py;
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Payment Approved'
+        ]);
 
         $po = Invoicing::where('ppb_id', $id)->first();
         if($data->atasan_py == 3){
@@ -387,6 +390,9 @@ class TasklistAtasanPaymentController extends Controller
             ]);
             $d->status = 'Payment Approved';
             $d->save();
+            CategoryPO::where('ppb_id',$ids)->update([
+                'status' => 'Payment Approved'
+            ]);
         }elseif($d->atasan_py == 6){
             Invoicing::whereIn('ppb_id',$ids)->update([
                 'signature' => 'sinduirawan.png',
@@ -394,6 +400,9 @@ class TasklistAtasanPaymentController extends Controller
                 ]);
             $d->status = 'Payment Approved';
             $d->save();
+            CategoryPO::where('ppb_id',$ids)->update([
+                'status' => 'Payment Approved'
+            ]);
         }elseif($d->atasan_py == 7){
             Invoicing::whereIn('ppb_id',$ids)->update([
                 'signature' => 'bayu.png',
@@ -401,6 +410,9 @@ class TasklistAtasanPaymentController extends Controller
             ]);
             $d->status = 'Payment Approved';
             $d->save();
+            CategoryPO::where('ppb_id',$ids)->update([
+                'status' => 'Payment Approved'
+            ]);
         }elseif($d->atasan_py == 8){
             Invoicing::whereIn('ppb_id',$ids)->update([
                 'signature' => 'victor.png',
@@ -408,6 +420,9 @@ class TasklistAtasanPaymentController extends Controller
             ]);
             $d->status = 'Payment Approved';
             $d->save();
+            CategoryPO::where('ppb_id',$ids)->update([
+                'status' => 'Payment Approved'
+            ]);
         }elseif($d->atasan_py == 9){
             Invoicing::whereIn('ppb_id',$ids)->update([
                 'signature' => 'erwin.png',
@@ -415,6 +430,9 @@ class TasklistAtasanPaymentController extends Controller
             ]);
             $d->status = 'Payment Approved';
             $d->save();
+            CategoryPO::where('ppb_id',$ids)->update([
+                'status' => 'Payment Approved'
+            ]);
             }
         }
 
@@ -428,6 +446,9 @@ class TasklistAtasanPaymentController extends Controller
         $data->status = 'Payment Rejected by BOD';
         $data->note_bod_py = $request->note_py;
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Payment Rejected by BOD'
+        ]);
         return redirect('menu-taskList-atasan-payment/in');
     }
 }

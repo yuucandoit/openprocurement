@@ -23,15 +23,14 @@ class TaskListFinanceController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::where('status','Payment Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::where('status','Unpaid')->
-            orWhere('status','Paid')->
-            orWhere('status','Delivery Process')->
-            orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            $datappb2 = CategoryPengajuanPembelian::where('status','Payment Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
             $datadv = TaskListFinance::all();
+            $datapo = CategoryPO::get();
             return view('taskList_finance.menu.index')
             ->with('datappb2', $datappb2)
             ->with('datappb', $datappb)
-            ->with('datadv', $datadv);
+            ->with('datadv', $datadv)
+            ->with('datapo', $datapo);
         }
     }
     public function SearchTaskFinance(Request $request)
@@ -45,9 +44,11 @@ class TaskListFinanceController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
+     $datapo = CategoryPO::get();
 
      return view('taskList_finance.menu.index')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo', $datapo);
     }
 
     public function out()
@@ -59,9 +60,11 @@ class TaskListFinanceController extends Controller
             orWhere('status','Delivery Process')->
             orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
             $datadv = TaskListFinance::all();
+            $datapo = CategoryPO::get();
             return view('taskList_finance.menu.out')
             ->with('datappb', $datappb)
-            ->with('datadv', $datadv);
+            ->with('datadv', $datadv)
+            ->with('datapo', $datapo);
         }
     }
 
@@ -76,9 +79,11 @@ class TaskListFinanceController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
+     $datapo = CategoryPO::get();
 
      return view('taskList_finance.menu.out')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo', $datapo);
     }
 
     public function history()
@@ -90,9 +95,11 @@ class TaskListFinanceController extends Controller
             orWhere('status','Delivery Process')->
             orWhere('status','Delivery Success')->paginate(10);
             $datadv = TaskListFinance::all();
+            $datapo = CategoryPO::get();
             return view('taskList_finance.menu.history')
             ->with('datappb', $datappb)
-            ->with('datadv', $datadv);
+            ->with('datadv', $datadv)
+            ->with('datapo', $datapo);
         }
     }
 
@@ -108,9 +115,10 @@ class TaskListFinanceController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
-
+     $datapo = CategoryPO::get();
      return view('taskList_finance.menu.history')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo', $datapo);
     }
 
     public function detail($id)
@@ -213,6 +221,9 @@ class TaskListFinanceController extends Controller
         $data->status = 'Unpaid';
         $data->note_finance = $request->note_finance;
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Unpaid'
+        ]);
         return redirect('menu-tasklist-finance');
     }
 
@@ -222,6 +233,9 @@ class TaskListFinanceController extends Controller
         $data->status = 'Rejected by Finance';
         $data->note_finance = $request->note_finance;
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Rejected by Finance'
+        ]);
         return redirect('menu-tasklist-finance');
     }
 }

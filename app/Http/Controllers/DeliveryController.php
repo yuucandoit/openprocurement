@@ -281,6 +281,9 @@ class DeliveryController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Delivery Success';
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Delivery Success'
+        ]);
         return redirect('delivery');
     }
 
@@ -289,6 +292,9 @@ class DeliveryController extends Controller
         $data = CategoryPO::find($id);
         $data->status = 'Rejected By Purchasing';
         $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Rejected By Purchasing'
+        ]);
         return redirect('menu-purchase-order');
     }
 }
