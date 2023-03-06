@@ -237,7 +237,7 @@
                                                         {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                         <td colspan="2"  class="text-center"><a
                                                             class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                            style="color: white; font-size:12">Approve</a></td>
+                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                         @endif
                                                     </tr>
@@ -367,7 +367,7 @@
                                                         {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                         <td colspan="2"  class="text-center"><a
                                                             class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                            style="color: white; font-size:12">Approve</a></td>
+                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                         @endif
                                                     </tr>
@@ -495,7 +495,7 @@
                                                         {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                         <td colspan="2"  class="text-center"><a
                                                             class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                            style="color: white; font-size:12">Approve</a></td>
+                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                         @endif
                                                     </tr>
@@ -623,7 +623,7 @@
                                                         {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                         <td colspan="2"  class="text-center"><a
                                                             class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                            style="color: white; font-size:12">Approve</a></td>
+                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                         @endif
                                                     </tr>
@@ -751,7 +751,7 @@
                                                                 {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                                 <td colspan="2"  class="text-center"><a
                                                                     class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                    style="color: white; font-size:12">Approve</a></td>
+                                                                    style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                                 @endif
                                                             </tr>
@@ -825,9 +825,9 @@
             })
             let ids = semua_id.join(',')
 
-            // $("#button-approve-selected").prop('disabled', true)
-            // $("#form-export-terpilih [name='ids']").val(ids)
-            // $("#form-export-terpilih").submit()
+            $("#button-approve-selected").prop('disabled', true)
+            $("#form-export-terpilih [name='ids']").val(ids)
+            $("#form-export-terpilih").submit()
 
             // let checkbox_po =  $(".tasklistpo .child-po-cb:checked")
             // let semua_id_po = []
