@@ -64,9 +64,11 @@ class CategoryPOController extends Controller
     $datahstry = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
     ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
     ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10);
+    $datapo          = CategoryPO::get();
 
     return view('purchaseOrder.menu.index')
     ->with('datappb',$datappb)
+    ->with('datapo', $datapo)
     ->with('datahstry',$datahstry);
    }
 
@@ -105,9 +107,11 @@ class CategoryPOController extends Controller
          $q->where('name','like',"%".$cariOut."%");
     })
     ->paginate(10, ['*'],'out');
+    $datapo          = CategoryPO::get();
 
     return view('purchaseOrder.menu.out')
-    ->with('datappb',$datappb);
+    ->with('datappb',$datappb)
+    ->with('datapo', $datapo);
    }
 
 
@@ -144,9 +148,11 @@ class CategoryPOController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
+     $datapo          = CategoryPO::get();
 
      return view('purchaseOrder.menu.history')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo', $datapo);
     }
 
     public function detail($id)
