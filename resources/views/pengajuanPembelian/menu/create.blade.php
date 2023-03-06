@@ -311,6 +311,8 @@
                                                 <option value="Batang">Batang </option>
                                                 <option value="Dus">Dus </option>
                                                 <option value="Strip">Strip </option>
+                                                <option value="Pasang">Pasang </option>
+                                                <option value="Lembar">Lembar </option>
                                             </select>
                                         </td>
                                         <td>
