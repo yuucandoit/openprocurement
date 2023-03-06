@@ -60,8 +60,11 @@ class TasklistAtasanPoController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
+     $datapo = CategoryPO::get();
      return view('taskList_atasan_PO.menu.index')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo);
+
     }
 
     public function out()
@@ -75,8 +78,10 @@ class TasklistAtasanPoController extends Controller
             orWhere('status','Paid')->
             orWhere('status','Delivery Process')->
             orWhere('status','Delivery Success')->orderBy('updated_at','desc')->paginate(10, ['*'],'out');
+            $datapo = CategoryPO::get();
             return view('taskList_atasan_PO.menu.out')
-            ->with('datappb', $datappb);
+            ->with('datappb', $datappb)
+            ->with('datapo', $datapo);
         }
     }
 

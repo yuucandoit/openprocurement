@@ -29,6 +29,83 @@
             </div>
         @endforeach
 
+        @foreach ($datappb as $ppb)
+            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+
+                            <h4 class="modal-title" style="color: white">List Item</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($ppb->itemppn as $item)
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+        @foreach ($datapo as $po)
+            <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+
+                            <h4 class="modal-title" style="color: white">List Item</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach ($po->itempo as $item)
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -67,12 +144,13 @@
                                 {{-- Data Keluar --}}
                                 <table class="table table-bordered table-hover" >
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
+                                        <tr>
+                                            <th style="text-align: center;">No</th>
+                                            <th>Code PR/PO</th>
                                             <th>Request By</th>
-                                            <th>Status</th>
+                                            <th>Description</th>
+                                            <th style="text-align: center;">Date Line</th>
+                                            <th style="text-align: center;">Status</th>
                                             {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
@@ -87,26 +165,64 @@
                                          $ppb->status == 'Delivery Success')
                                         @if ($ppb->atasan_py == 3)
                                              <tbody>
-                                                    <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
-                                                                >{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;"> <a
-                                                                class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                                        </td>
+                                                <tr style="background-color:#F1F6F5;">
+                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td>{{ $ppb->code_pengajuan }}</td>
+                                                    <td style=" font-weight:600;">{{ $ppb->whosubmit->name }}</td>
+                                                    <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    <td style="white-space:nowrap;">
+                                                        @if($ppb->dateline == '≤24Jam')
+                                                        <strong><p>1 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                        @endif
+                                                    </td>
+                                                    <td style="text-align: center;"> <a
+                                                            class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                    </td>
+                                                </tr>
+                                                @foreach ($ppb->quot as $po)
+                                                   <tr>
 
-                                                  {{-- <td style="text-align: center;">
+                                                       @php
+                                                           $po2 = \App\Models\CategoryPO::find($po->id);
+                                                           $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                           // dd($po2->ppb_id);
+                                                       @endphp
 
-                                                        <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a>
-                                                    </td> --}}
-                                                 </tr>
+                                                       @if(empty($po2))
+
+                                                       @else
+                                                       <td style="text-align: center">-</td>
+                                                       <td>{{ $po->code_po }}</td>
+                                                       <td>
+                                                         @if($po2->vendorable_id == 0)
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                        @else
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                        @endif
+                                                       </td>
+                                                       <td style="font-weight: 700; white-space:nowrap;">
+                                                           @foreach ($po3 as $ipo)
+                                                           <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                           @endforeach
+                                                       </td>
+                                                       <td style="text-align: center">{{ $po2->quotation }}</td>
+                                                       {{-- <td>Vendor : Tokopedia</td> --}}
+                                                       {{-- <td>20 Item</td> --}}
+                                                       {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                                                       <td colspan="2"  class="text-center"><a
+                                                           class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                           style="color: white; font-size:12">{{ $po2->status }}</a></td>
+
+                                                       @endif
+                                                   </tr>
+                                                   @endforeach
                                             </tbody>
                                             @endif
                                     @endif
@@ -145,12 +261,13 @@
                                 {{-- Data Keluar --}}
                                 <table class="table table-bordered table-hover" >
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
+                                        <tr>
+                                            <th style="text-align: center;">No</th>
+                                            <th>Code PR/PO</th>
                                             <th>Request By</th>
-                                            <th>Status</th>
+                                            <th>Description</th>
+                                            <th style="text-align: center;">Date Line</th>
+                                            <th style="text-align: center;">Status</th>
                                             {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
@@ -165,26 +282,64 @@
                                          $ppb->status == 'Delivery Success')
                                         @if ($ppb->atasan_py == 6)
                                              <tbody>
-                                                    <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
-                                                                >{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;"> <a
-                                                                class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                                        </td>
+                                                <tr style="background-color:#F1F6F5;">
+                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td>{{ $ppb->code_pengajuan }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                                    <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    <td style="white-space:nowrap;">
+                                                        @if($ppb->dateline == '≤24Jam')
+                                                        <strong><p>1 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                        @endif
+                                                    </td>
+                                                    <td style="text-align: center;"> <a
+                                                            class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                    </td>
+                                                </tr>
+                                                @foreach ($ppb->quot as $po)
+                                                   <tr>
 
-                                                    {{-- <td style="text-align: center;">
+                                                       @php
+                                                           $po2 = \App\Models\CategoryPO::find($po->id);
+                                                           $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                           // dd($po2->ppb_id);
+                                                       @endphp
 
-                                                        <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a> --}}
-                                                    {{-- </td> --}}
-                                                 </tr>
+                                                       @if(empty($po2))
+
+                                                       @else
+                                                       <td style="text-align: center">-</td>
+                                                       <td>{{ $po->code_po }}</td>
+                                                       <td>
+                                                         @if($po2->vendorable_id == 0)
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                        @else
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                        @endif
+                                                       </td>
+                                                       <td style="font-weight: 700; white-space:nowrap;">
+                                                           @foreach ($po3 as $ipo)
+                                                           <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                           @endforeach
+                                                       </td>
+                                                       <td style="text-align: center">{{ $po2->quotation }}</td>
+                                                       {{-- <td>Vendor : Tokopedia</td> --}}
+                                                       {{-- <td>20 Item</td> --}}
+                                                       {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                                                       <td colspan="2"  class="text-center"><a
+                                                           class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                           style="color: white; font-size:12">{{ $po2->status }}</a></td>
+
+                                                       @endif
+                                                   </tr>
+                                                   @endforeach
                                             </tbody>
                                             @endif
                                         @endif
@@ -225,13 +380,13 @@
                         <div class="table-responsive">
                                 <table class="table table-bordered table-hover" >
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
+                                        <tr>
+                                            <th style="text-align: center;">No</th>
+                                            <th>Code PR/PO</th>
                                             <th>Request By</th>
-                                            <th>Status</th>
-                                            {{-- <th>Action</th> --}}
+                                            <th>Description</th>
+                                            <th style="text-align: center;">Date Line</th>
+                                            <th style="text-align: center;">Status</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -245,26 +400,27 @@
                                              $ppb->status == 'Delivery Success')
                                         @if ($ppb->atasan_py == 7)
                                             <tbody>
-                                                <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
-                                                                >{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                        </td>
-                                                        <td style="text-align: center;"> <a
-                                                                class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                                        </td>
-                                                    {{-- <td style="text-align: center;">
-
-                                                        <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a>
-
-                                                    </td> --}}
+                                                <tr style="background-color:#F1F6F5;">
+                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                    </td>
+                                                    <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    <td style="white-space:nowrap;">
+                                                        @if($ppb->dateline == '≤24Jam')
+                                                        <strong><p>1 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                        @endif
+                                                    </td>
+                                                    <td style="text-align: center;"> <a
+                                                            class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                    </td>
                                                 </tr>
                                              </tbody>
                                           @endif
@@ -306,12 +462,12 @@
                                 <table class="table table-bordered table-hover" >
                                     <thead class="bg-primary">
                                         <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
+                                            <th style="text-align: center;">No</th>
+                                            <th>Code PR/PO</th>
                                             <th>Request By</th>
-                                            <th>Status</th>
-                                            {{-- <th>Action</th> --}}
+                                            <th>Description</th>
+                                            <th style="text-align: center;">Date Line</th>
+                                            <th style="text-align: center;">Status</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -325,33 +481,64 @@
                                              $ppb->status == 'Delivery Success')
                                         @if ($ppb->atasan_py == 8)
                                             <tbody>
-                                                <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
-                                                                >{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                        </td>
-                                                        <td style="text-align: center;"> <a
-                                                                class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                                        </td>
-                                                    {{-- <td style="text-align: center;">
-
-                                                        <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #00008B;"
-                                                            href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"><i
-                                                                class="icon-zoom-in" title="Details"></i>
-                                                        </a> --}}
-
-                                                        {{-- <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #FF8C00;"
-                                                            href="{{ url('/menu-taskList-atasan-payment/edit/' . $ppb->id) }}"><i
-                                                                class="icon-pencil-alt" title="Edit"></i>
-                                                        </a> --}}
-
-                                                    {{-- </td> --}}
+                                                <tr style="background-color:#F1F6F5;">
+                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                    </td>
+                                                    <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    <td style="white-space:nowrap;">
+                                                        @if($ppb->dateline == '≤24Jam')
+                                                        <strong><p>1 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                        @endif
+                                                    </td>
+                                                    <td class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                    style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                    </td>
                                                 </tr>
+                                                @foreach ($ppb->quot as $po)
+                                                   <tr>
+
+                                                       @php
+                                                           $po2 = \App\Models\CategoryPO::find($po->id);
+                                                           $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                           // dd($po2->ppb_id);
+                                                       @endphp
+
+                                                       @if(empty($po2))
+
+                                                       @else
+                                                       <td style="text-align: center">-</td>
+                                                       <td>{{ $po->code_po }}</td>
+                                                       <td>
+                                                         @if($po2->vendorable_id == 0)
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                        @else
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                        @endif
+                                                       </td>
+                                                       <td style="font-weight: 700; white-space:nowrap;">
+                                                           @foreach ($po3 as $ipo)
+                                                           <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                           @endforeach
+                                                       </td>
+                                                       <td style="text-align: center">{{ $po2->quotation }}</td>
+                                                       {{-- <td>Vendor : Tokopedia</td> --}}
+                                                       {{-- <td>20 Item</td> --}}
+                                                       {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                                                       <td colspan="2"  class="text-center"><a
+                                                           class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                           style="color: white; font-size:12">{{ $po2->status }}</a></td>
+
+                                                       @endif
+                                                   </tr>
+                                                   @endforeach
                                             </tbody>
                                          @endif
                                      @endif
@@ -390,12 +577,12 @@
                                 <table class="table table-bordered table-hover" >
                                     <thead class="bg-primary">
                                         <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th>Description</th>
-                                            <th>Date Line</th>
+                                            <th style="text-align: center;">No</th>
+                                            <th>Code PR/PO</th>
                                             <th>Request By</th>
-                                            <th>Status</th>
-                                            {{-- <th>Action</th> --}}
+                                            <th>Description</th>
+                                            <th style="text-align: center;">Date Line</th>
+                                            <th style="text-align: center;">Status</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -409,25 +596,65 @@
                                              $ppb->status == 'Delivery Success')
                                             @if ($ppb->atasan_py == 9)
                                             <tbody>
-                                                <tr>
-                                                        <td style="text-align: center;">{{ $no++ }}</td>
-                                                        <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}"
-                                                                >{{ $ppb->desc }}</a></td>
-                                                        <td style="text-align: center;">{{ $ppb->dateline }}</td>
-                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                        </td>
-                                                        <td>
-                                                            <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:18">{{ $ppb->status }}</a>
-                                                        </td>
-
-                                                        {{-- <td style="text-align: center;">
-                                                     <a class="btn btn-iconsolid mt-1"
-                                                        style="background-color: #00008B;"
-                                                        href="{{ url('menu-taskList-atasan-payment/detail/'.$ppb->id) }}"><i
-                                                        class="icon-zoom-in" title="Details"></i>
-                                                     </a> --}}
+                                                <tr style="background-color:#F1F6F5;">
+                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
+                                                    <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                    </td>
+                                                    <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                    <td style="white-space:nowrap;">
+                                                        @if($ppb->dateline == '≤24Jam')
+                                                        <strong><p>1 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a class="badge {{ $ppb->status == 'Awaiting Purchase Submission Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:18">{{ $ppb->status }}</a>
+                                                    </td>
                                                 </tr>
+                                                @foreach ($ppb->quot as $po)
+                                                   <tr>
+
+                                                       @php
+                                                           $po2 = \App\Models\CategoryPO::find($po->id);
+                                                           $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                           // dd($po2->ppb_id);
+                                                       @endphp
+
+                                                       @if(empty($po2))
+
+                                                       @else
+                                                       <td style="text-align: center">-</td>
+                                                       <td>{{ $po->code_po }}</td>
+                                                       <td>
+                                                         @if($po2->vendorable_id == 0)
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                        @else
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                        @endif
+                                                       </td>
+                                                       <td style="font-weight: 700; white-space:nowrap;">
+                                                           @foreach ($po3 as $ipo)
+                                                           <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                           @endforeach
+                                                       </td>
+                                                       <td style="text-align: center">{{ $po2->quotation }}</td>
+                                                       {{-- <td>Vendor : Tokopedia</td> --}}
+                                                       {{-- <td>20 Item</td> --}}
+                                                       {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                                                       <td colspan="2"  class="text-center"><a
+                                                           class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                           style="color: white; font-size:12">{{ $po2->status }}</a></td>
+
+                                                       @endif
+                                                   </tr>
+                                                   @endforeach
                                         </tbody>
                                         @endif
                                     @endif

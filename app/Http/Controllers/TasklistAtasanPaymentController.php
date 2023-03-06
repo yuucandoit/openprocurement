@@ -60,9 +60,10 @@ class TasklistAtasanPaymentController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(5);
-
+     $datapo = CategoryPO::get();
      return view('taskList_atasan_payments.menu.index')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo', $datapo);
     }
 
     public function SearchTaskPYOut(Request $request)
@@ -77,9 +78,11 @@ class TasklistAtasanPaymentController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
+     $datapo = CategoryPO::get();
 
      return view('taskList_atasan_payments.out')
-     ->with('datahstry',$datahstry);
+     ->with('datahstry',$datahstry)
+     ->with('datapo', $datapo);
     }
 
     public function out()
@@ -91,8 +94,10 @@ class TasklistAtasanPaymentController extends Controller
             orWhere('status','Paid')->
             orWhere('status','Delivery Process')->
             orWhere('status','Delivery Success')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            $datapo = CategoryPO::get();
             return view('taskList_atasan_payments.out')
-            ->with('datappb', $datappb);
+            ->with('datappb', $datappb)
+            ->with('datapo', $datapo);
         }
     }
 
@@ -106,8 +111,10 @@ class TasklistAtasanPaymentController extends Controller
             orWhere('status','Delivery Process')->
             orWhere('status','Delivery Success')->
             paginate(10);
+            $datapo = CategoryPO::get();
             return view('taskList_atasan_payments.menu.history')
-            ->with('datappb', $datappb);
+            ->with('datappb', $datappb)
+            ->with('datapo', $datapo);
         }
     }
 
@@ -123,33 +130,14 @@ class TasklistAtasanPaymentController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
+     $datapo = CategoryPO::get();
 
      return view('taskList_atasan_payments.menu.history')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo', $datapo);
     }
 
     public function detail($id)
-    // {
-    //     $data_pengajuan = CategoryPengajuanPembelian::find($id);
-    //     $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
-    //     $datacpo            = CategoryPO::where('ppb_id',$id)->first();
-    //     $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-    //     $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-    //     $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-    //     $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-    //     $disc               = PengajuanPembelian::where('pp_id',$id)->first();
-    //     $comments           = Comment::where('ppb_id',$id)->get();
-    //     return view('taskList_atasan_payments.menu.detail')
-    //         ->with('pengajuan', $pengajuan)
-    //         ->with('dpp', $dpp)
-    //         ->with('ppn', $ppn)
-    //         ->with('datacpo',$datacpo)
-    //         ->with('total', $total)
-    //         ->with('disc', $disc)
-    //         ->with('comments', $comments)
-    //         ->with('total_tnpa_ppn', $total_tnpa_ppn)
-    //         ->with('data_pengajuan', $data_pengajuan);
-    // }
     {
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();

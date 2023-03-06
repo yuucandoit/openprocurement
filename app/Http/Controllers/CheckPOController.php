@@ -51,7 +51,7 @@ class CheckPOController extends Controller
           $q->where('name','like',"%".$cariIn."%");
      })
      ->paginate(10, ['*'],'in');
-
+     $datapo = CategoryPO::get();
 
      return view('purchaseOrder.menu.check-po.index')
      ->with('datappb',$datappb);

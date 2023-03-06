@@ -213,19 +213,22 @@
                                                     @else
                                                     <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                     <td>{{ $po->code_po }}</td>
-                                                    <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                                                    <td>
+                                                        @if($po2->vendorable_id == 0)
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                        @else
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                        @endif
+                                                    </td>
                                                     <td style="font-weight: 700; white-space:nowrap;">
                                                         @foreach ($po3 as $ipo)
                                                         <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
                                                         @endforeach
                                                     </td>
                                                     <td style="text-align: center">{{ $po2->quotation }}</td>
-                                                    {{-- <td>Vendor : Tokopedia</td> --}}
-                                                    {{-- <td>20 Item</td> --}}
-                                                    {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                     <td colspan="2"  class="text-center"><a
                                                         class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                        style="color: white; font-size:12">Approve</a></td>
+                                                        style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                     @endif
                                                 </tr>
@@ -341,7 +344,13 @@
                                                     @else
                                                     <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                     <td>{{ $po->code_po }}</td>
-                                                    <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                                                    <td>
+                                                        @if($po2->vendorable_id == 0)
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                        @else
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                        @endif
+                                                    </td>
                                                     <td style="font-weight: 700; white-space:nowrap;">
                                                         @foreach ($po3 as $ipo)
                                                         <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
@@ -353,7 +362,7 @@
                                                     {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                     <td colspan="2"  class="text-center"><a
                                                         class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                        style="color: white; font-size:12">Approve</a></td>
+                                                        style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                     @endif
                                                 </tr>
@@ -468,7 +477,13 @@
                                                     @else
                                                     <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                     <td>{{ $po->code_po }}</td>
-                                                    <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                                                    <td>
+                                                        @if($po2->vendorable_id == 0)
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                        @else
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                        @endif
+                                                    </td>
                                                     <td style="font-weight: 700; white-space:nowrap;">
                                                         @foreach ($po3 as $ipo)
                                                         <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
@@ -480,7 +495,7 @@
                                                     {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                     <td colspan="2"  class="text-center"><a
                                                         class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                        style="color: white; font-size:12">Approve</a></td>
+                                                        style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                     @endif
                                                 </tr>
@@ -595,7 +610,13 @@
                                                     @else
                                                     <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                     <td>{{ $po->code_po }}</td>
-                                                    <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                                                    <td>
+                                                        @if($po2->vendorable_id == 0)
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                        @else
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                        @endif
+                                                    </td>
                                                     <td style="font-weight: 700; white-space:nowrap;">
                                                         @foreach ($po3 as $ipo)
                                                         <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
@@ -607,7 +628,7 @@
                                                     {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                     <td colspan="2"  class="text-center"><a
                                                         class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                        style="color: white; font-size:12">Approve</a></td>
+                                                        style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                     @endif
                                                 </tr>
@@ -718,7 +739,13 @@
                                                        @else
                                                        <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                        <td>{{ $po->code_po }}</td>
-                                                       <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                                                       <td>
+                                                        @if($po2->vendorable_id == 0)
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                        @else
+                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                        @endif
+                                                       </td>
                                                        <td style="font-weight: 700; white-space:nowrap;">
                                                            @foreach ($po3 as $ipo)
                                                            <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
@@ -730,7 +757,7 @@
                                                        {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                                                        <td colspan="2"  class="text-center"><a
                                                            class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                           style="color: white; font-size:12">Approve</a></td>
+                                                           style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                        @endif
                                                    </tr>
