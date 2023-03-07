@@ -155,7 +155,7 @@ class InvoicingController extends Controller
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $datapo             = CategoryPO::where('ppb_id', $id)->get();
         $vendor             = CategoryPO::where('ppb_id',$id)->first();
-        $items              = CategoryPO::where('ppb_id',$id)->groupBy('vendorable_type')->groupBy('vendorable_id')->get();
+        $items              = CategoryPO::where('ppb_id',$id)->get();
         $groupedItem        = ItemPO::groupBy('po_id')->get();
         $itempurchase       = ItemPO::groupBy('po_id')->first();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
