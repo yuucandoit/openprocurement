@@ -89,7 +89,7 @@
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $i++ }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                 >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">
@@ -193,7 +193,7 @@
                                                 <tbody>
                                                     <tr>
                                                             <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $i++ }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">
@@ -289,7 +289,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $i++ }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">
@@ -388,7 +388,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $i++ }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">
@@ -488,7 +488,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $i++ }}</td>
+                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
                                                             <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
                                                                     >{{ $ppb->desc }}</a></td>
                                                             <td style="text-align: center;">
