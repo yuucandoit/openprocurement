@@ -220,8 +220,14 @@
 
                <tr style="background-color:#F1F6F5;">
                 <td>{{ $i++ }}</td>
-                <td>{{ $ppembelian->code_pengajuan }}</td>
-                <td style="white-space: nowrap;"><ul><li><strong>{{ Carbon\Carbon::parse($ppembelian->date_ps)->format('d-m-Y') }}</strong></li><li>{{ $ppembelian->whosubmit->name }}</li></ul></td>
+                <td><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{{ $ppembelian->code_pengajuan }}</a></td>
+                <td style="white-space: nowrap;">
+                    <ul>
+                        <li><strong>{{ Carbon\Carbon::parse($ppembelian->date_ps)->format('d-m-Y') }}</strong></li>
+                        <li>{{ $ppembelian->whosubmit->name }}</li>
+                        <li>{{ $ppembelian->userid->department }}</li>
+                    </ul>
+                </td>
                 <td style=" word-break: break-word;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{{ $ppembelian->desc}}</a></td>
                 @hasrole('user|super admin')
 

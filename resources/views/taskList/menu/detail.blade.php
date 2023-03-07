@@ -485,7 +485,7 @@
                                             class="btn btn-success" style="align-self: flex-end"> Export Excel Payment</a>
                                 </div>
                                   <!-- Modal -->
-                              <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
+                            <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -517,7 +517,7 @@
 
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                             </div>
                                 <div class="mt-3">
                                     @hasrole('purchasing|super admin')

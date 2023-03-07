@@ -34,6 +34,8 @@
             </div>
         </div>
     </div>
+
+
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
@@ -46,7 +48,6 @@
                     <div class="card-body">
                         <form action="{{ url('/menu-pengajuan-pembelian/store') }}" id="formAdd" method="post" enctype="multipart/form-data">
                             @csrf
-
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date :</label>
@@ -335,6 +336,7 @@
                                     <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
                                     <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-dark mt-3">Back</a>
                                 </div>
+
                         </form>
                     </div>
                 </div>

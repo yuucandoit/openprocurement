@@ -69,6 +69,10 @@ class CategoryPengajuanPembelian extends Model
     {
         return $this->belongsTo(CategoryPO::class, 'id');
     }
+    public function userid()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function ws()
     {

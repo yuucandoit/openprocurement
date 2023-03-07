@@ -38,6 +38,7 @@ use App\Http\Controllers\WhoSubmittedController;
 use App\Http\Controllers\WorkshopController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemHistoryController;
+use App\Http\Controllers\SendWaController;
 use App\Http\Controllers\TravelController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -524,6 +525,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('file-import-rf', [ReferensiNamaProjectController::class, 'fileImportRF']);
     Route::post('file-import-project', [ReferensiNamaProjectController::class, 'fileImport'])->name('file-import');
 
+
+    Route::get('send-wa', [SendWaController::class,'send'])->name('send-wa');
 });
 
 Auth::routes();

@@ -179,7 +179,7 @@
                                                         <td style="text-align: center;">
                                                             <ul>
                                                                 {{-- <li>{{ $id_number }}/PB/SII/{{ $month }}/{{ $year }}</li> --}}
-                                                                <li>{{ $ppb->code_pengajuan }}</li>
+                                                                <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" >{{ $ppb->code_pengajuan }}</a></li>
                                                             </ul>
                                                         </td>
                                                         <td>
@@ -252,10 +252,10 @@
                                                                 href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
                                                                     class="icon-eye" title="Preview Purchase Order"></i>
                                                                 </a>
-                                                                <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
+                                                                {{-- <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal"
                                                                     data-bs-target="#modalDelete{{ $ppb->id }}"><i
                                                                         class="icon-trash" title="Delete"></i>
-                                                                </button>
+                                                                </button> --}}
                                                             </td>
                                                         @endhasrole
                                                     </tr>

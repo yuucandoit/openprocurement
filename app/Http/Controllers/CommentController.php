@@ -46,7 +46,7 @@ class CommentController extends Controller
             'comment' => $request->comment,
         ]);
 
-        if($request->role == 'super user'){
+        if($request->role == 'super user' || 'super admin'){
             CommentRead::create([
                 'comment_id' => $comments->id,
                 'user_id' => Auth::user()->id,
@@ -138,7 +138,7 @@ class CommentController extends Controller
     public function is_read(Request $request,$id)
     {
         // dd($request->all());
-        if($request->role == 'super user'){
+        if($request->role == 'super user' || 'super admin'){
             $data = CommentRead::find($id);
             $data->is_read_bod = 1;
             $data->save();

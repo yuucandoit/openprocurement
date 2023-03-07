@@ -671,7 +671,7 @@
                                         <a class="nav-link menu-title {{ request()->is('menu-taskList-atasan/in') ? 'active' : '' }}  {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}  {{ request()->is('menu-taskList-atasan/detail/*') ? 'active' : '' }}
                                             {{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-po/detail/*') ? 'active' : '' }}
                                             {{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-payment/out') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-payment/detail/*') ? 'active' : '' }}
-                                            {{ request()->is('menu-task-list') ? 'active' : '' }}
+                                            {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}
                                             {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}"
                                             href="javascript:void(0)">
                                             <i data-feather="check-circle"></i>
@@ -839,7 +839,7 @@
                                                 @endhasrole
                                                 @hasrole('super purchase|purchasing|super admin')
                                                     <li class="dropdown">
-                                                        <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }}"
+                                                        <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }}{{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }}"
                                                             href="javascript:void(0)">
                                                             Task List Purchasing
                                                             {{-- @dd($taskpurchase) --}}

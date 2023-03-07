@@ -123,12 +123,15 @@
                                 </div>
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-6 mt-3">
+                                            <div class="col-md-4 mt-3">
                                                 <button name="add" class=" btn btn-outline-primary w-100"  data-bs-toggle="modal"
                                                 data-bs-target="#modalCreatePO" data-backdrop="static" data-keyboard="false"> Create PO <i class="fa fa-plus"></i>
                                                 </button>
                                             </div>
-                                            <div class="col-md-6 mt-3">
+                                            <div class="col-md-4 mt-3">
+                                                <button type="button" class="btn btn-outline-danger text-center w-100" data-bs-toggle="modal" data-bs-target="#reject">Reject PO</button>
+                                            </div>
+                                            <div class="col-md-4 mt-3">
                                                 @if ($data_pengajuan->status == 'Waiting For PO Approval')
                                                 <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
                                                     data-bs-target="#modalSelesai" disabled>Check PO Done
@@ -547,6 +550,39 @@
                                             </div>
                                         </div>
                                             </div>
+                                </div>
+                                <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="rejectLabel">Reject Message</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ url('menu-task-list/reject', $data_pengajuan->id) }}" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="note" class="form-label">Comment</label>
+                                                <textarea name="note_purchase" id="note" class="form-control" cols="30" rows="0" required></textarea>
+                                            </div>
+                                            <div class="col-md-12 mt-4">
+                                                <div class="form-group">
+                                                    <input type="file" name="path_img" placeholder="Choose file" onchange="loadFile(event)" enctype="multipart/form-data"  class="form-control" >
+                                                    {{-- <input type="file" name="path_file[]" placeholder="Choose File"> --}}
+                                                    @error('path_img')
+                                                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                           <img id="output" style="width: 200px;" />
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                        </form>
+
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
