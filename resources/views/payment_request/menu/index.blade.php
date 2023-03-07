@@ -241,7 +241,7 @@
                                                                 @php
                                                                     $po2 = \App\Models\CategoryPO::find($po->id);
                                                                     $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
-                                                                    // $item = $po3->count();
+                                                                    $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
                                                                 @endphp
 
                                                                 @if(empty($po2))
@@ -249,16 +249,34 @@
                                                                 @else
                                                                 <td style="text-align: center">-</td>
                                                                 <td>{{ $po->code_po }}</td>
-                                                                <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                                                                <td>
+                                                                    <ul>
+                                                                        <li style="white-space: nowrap;">
+                                                                            @if($po2->vendorable_id == 0)
+                                                                            Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                            @else
+                                                                            Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                            @endif
+                                                                        </li>
+                                                                        <li> Quotation : {{ $po2->quotation }}</li>
+                                                                    </ul>
+                                                                </td>
                                                                 <td style="font-weight: 700; white-space:nowrap;">
                                                                     @foreach ($po3 as $ipo)
                                                                     <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
                                                                     @endforeach
                                                                 </td>
-                                                                <td>{{ $po2->quotation }}</td>
-                                                                {{-- <td>Vendor : Tokopedia</td> --}}
-                                                                {{-- <td>20 Item</td> --}}
-                                                                {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                                                                <td style="text-align: center">
+                                                                    @foreach ($po4 as $ipo)
+                                                                    <label>
+                                                                        @if($ipo->matauang == "RP")
+                                                                        Rp.{{ number_format($ipo->grand_total ,2) }}
+                                                                        @elseif ($ipo->matauang == "USD")
+                                                                        $ {{ number_format($ipo->grand_total ,2) }}
+                                                                        @endif
+                                                                    </label>
+                                                                    @endforeach
+                                                                </td>
                                                                 <td class="text-center"><a
                                                                     class="badge bg-warning mt-1"
                                                                     style="color: white; font-size:12">{{ $po2->status }}</a></td>

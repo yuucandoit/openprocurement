@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
+use App\Models\Comment;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
@@ -135,6 +136,7 @@ class TaskListFinanceController extends Controller
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+        $comments           = Comment::where('ppb_id',$id)->get();
         return view('taskList_finance.menu.detail')
             ->with('pengajuan', $pengajuan)
             ->with('vendor', $vendor)
@@ -147,7 +149,8 @@ class TaskListFinanceController extends Controller
             ->with('datacpo', $datacpo)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('disc', $disc)
-            ->with('data_pengajuan', $data_pengajuan);
+            ->with('data_pengajuan', $data_pengajuan)
+            ->with('comments', $comments);
     }
     /**
      * Show the form for creating a new resource.

@@ -421,7 +421,12 @@
                                 @endphp
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('menu-purchase-order') ? 'active' : '' }} {{ request()->is('menu-purchase-order/out') ? 'active' : '' }} {{ request()->is('menu-purchase-order/detail/*') ? 'active' : '' }}">
-                                            <i data-feather="file-text" style="margin-right: -2px;"></i><span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $po }}</span>
+                                            <i data-feather="file-text" style="margin-right: -2px;"></i>
+                                            @if($po == 0)
+
+                                            @else
+                                            <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $po }}</span>
+                                            @endif
                                             <span>&nbsp;Purchase Order</span></a>
                                         @if (request()->is('menu-purchase-order') || request()->is('menu-purchase-order/out') || request()->is('menu-purchase-order/detail/*') ? 'active' : '')
                                             <ul class="nav-submenu menu-content " style="display: block">
@@ -458,7 +463,12 @@
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('payment_request') ? 'active' : '' }} {{ request()->is('payment_request/out') ? 'active' : '' }}"
                                             href="javascript:void(0)">
-                                            <i class="fa fa-money" style="margin-right: -2px;"></i><span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $pyreq }}</span>
+                                            <i class="fa fa-money" style="margin-right: -2px;"></i>
+                                            @if($pyreq == 0)
+
+                                            @else
+                                            <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $pyreq }}</span>
+                                            @endif
                                             <span>&nbsp;Payment Request</span></a>
                                         @if (request()->is('payment_request') || request()->is('payment_request/out') ? 'active' : '')
                                             <ul class="nav-submenu menu-content" style="display: block;">
@@ -517,7 +527,12 @@
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('menu-pengajuan-dana') ? 'active' : '' }} {{ request()->is('menu-pengajuan-dana/out') ? 'active' : '' }}"
                                             href="javascript:void(0)">
-                                            <i class="fa fa-usd"></i><span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $pyprocess }}</span>
+                                            <i class="fa fa-usd"></i>
+                                            @if($pyprocess == 0)
+
+                                            @else
+                                            <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $pyprocess }}</span>
+                                            @endif
                                             <span>&nbsp;&nbsp;&nbsp;Payment Process</span></a>
                                         @if (request()->is('menu-pengajuan-dana') || request()->is('menu-pengajuan-dana/out') ? 'active' : '')
                                             <ul class="nav-submenu menu-content" style="display: block;">
@@ -557,7 +572,12 @@
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('delivery') ? 'active' : '' }} {{ request()->is('delivery/out') ? 'active' : '' }}"
                                             href="javascript:void(0)">
-                                            <i class="fa fa-truck"></i></i><span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $delivery }}</span>
+                                            <i class="fa fa-truck"></i></i>
+                                            @if($delivery == 0)
+
+                                            @else
+                                            <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $delivery }}</span>
+                                            @endif
                                             <span>&nbsp;&nbsp;Delivery</span></a>
                                         @if (request()->is('delivery') || request()->is('delivery/out') ? 'active' : '')
                                             <ul class="nav-submenu menu-content" style="display: block">
@@ -603,7 +623,12 @@
                                 <li class="dropdown">
                                     <a class="nav-link menu-title link-nav {{ request()->is('*check_po*') ? 'active' : '' }}"
                                         href="{{ url('/check_po') }}">
-                                        <i class="icofont icofont-tasks-alt"        ></i><span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $checkpo }}</span>
+                                        <i class="icofont icofont-tasks-alt"></i>
+                                        @if($checkpo == 0)
+
+                                        @else
+                                        <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $checkpo }}</span>
+                                        @endif
                                         <span>Check PO</span>
                                     </a>
                                 </li>
@@ -919,7 +944,7 @@
                                                     <a class="submenu-title {{ request()->is('menu-taskList-atasan/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}"
                                                         href="javascript:void(0)">
                                                         Task List Super User
-                                                        @if(empty($taskpr))
+                                                        @if($taskpr->count() == 0)
 
                                                         @else
                                                         <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpr->count() }}</span>
@@ -946,7 +971,7 @@
                                                     <a class="submenu-title {{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }}"
                                                         href="javascript:void(0)">
                                                         Task List Super User Purchase Order
-                                                        @if(empty($taskpo))
+                                                        @if($taskpo->count() == 0)
 
                                                         @else
                                                         <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpo->count() }}</span>
@@ -975,7 +1000,7 @@
                                                     <a class="submenu-title {{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-payment/out') ? 'active' : '' }}"
                                                         href="javascript:void(0)">
                                                         Task List Super User Payment Request
-                                                        @if(empty($taskpd))
+                                                        @if($taskpd->count() == 0)
 
                                                         @else
                                                         <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpd->count() }}</span>
@@ -1004,7 +1029,7 @@
                                                     <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }}"
                                                         href="javascript:void(0)">
                                                         Task List Purchasing
-                                                        @if(empty($taskpurchase))
+                                                        @if($taskpurchase->count() == 0)
 
                                                         @else
                                                         <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpurchase->count() }}</span>
@@ -1032,7 +1057,7 @@
                                                     <a class="submenu-title {{ request()->is('menu-tasklist-finance') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}"
                                                         href="javascript:void(0)">
                                                         Task List Finance
-                                                        @if(empty($taskfinance))
+                                                        @if($taskfinance->count() == 0)
 
                                                         @else
                                                         <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskfinance->count() }}</span>
