@@ -194,7 +194,7 @@ class InvoicingController extends Controller
         $atasan3            = User::whereIn('id', [3, 8])->get();
         $datapo             = CategoryPO::where('ppb_id',$id)->get();
         $vendor             = CategoryPO::where('ppb_id',$id)->first();
-        $items              = CategoryPO::where('ppb_id',$id)->groupBy('vendorable_type')->groupBy('vendorable_id')->get();
+        $items              = CategoryPO::where('ppb_id',$id)->get();
         $groupedItem        = ItemPO::groupBy('po_id')->get();
         $itempurchase       = ItemPO::groupBy('po_id')->first();
         $dv                 = CategoryPengajuanPembelian::find($id);
