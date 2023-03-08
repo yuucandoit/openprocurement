@@ -620,7 +620,7 @@ class CategoryPOController extends Controller
                 $vendor2->vendors()->save($purchase);
             } elseif ($request->vendor == "ecommerce") {
                 $vendor3 = CategoryEcommerce::find($request->ecommerce);
-                dd($vendor3);
+                // dd($vendor3);
                 $vendor3->vendors()->where('id',$id)->delete();
                 $vendor3->vendors()->save($purchase);
             }
