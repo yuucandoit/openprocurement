@@ -79,6 +79,16 @@
                                                             @endif
                                                         </td>
                                                     </tr>
+                                                    <tr>
+                                                        <td>Approve At</td>
+                                                        <td>
+                                                            @if (empty($data_pengajuan->approved_at))
+                                                                -
+                                                            @else
+                                                                {{ $data_pengajuan->approved_at }}
+                                                            @endif
+                                                        </td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                     </div>
@@ -182,46 +192,6 @@
                                         padding: 15px 10px;
                                     }
                                 </style>
-
-                                {{-- <div class="mt-4">
-                                    <form action="{{ route('comment.store', $data_pengajuan->id) }}" method="POST">
-                                        @csrf
-                                        <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
-                                        <div style="text-align: right; margin-top:20px;">
-                                            <input type="submit" class="btn btn-primary" value="Comment">
-                                            <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="AllComment" id="comment">
-                                    <div class="container">
-                                        @foreach ($comments as $c)
-                                            <ul>
-                                                <li>
-                                                    <p>
-                                                        <strong>
-                                                            @if (empty($c->users->name))
-                                                            @else
-                                                                - {{ $c->users->name }}
-                                                            @endif
-                                                        </strong>
-                                                        @if (empty($c->created_at))
-                                                        @else
-                                                            &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
-                                                        @endif
-                                                    </p>
-                                                </li>
-                                                <li>
-                                                    @if (empty($c->comment))
-                                                    @else
-                                                        <p>{{ $c->comment }}</p>
-                                                    @endif
-                                                </li>
-                                                <hr>
-                                            </ul>
-                                        @endforeach
-                                    </div>
-                                </div> --}}
 
                                 <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
@@ -448,6 +418,7 @@
                                                                 <option value="Strip">Strip </option>
                                                                 <option value="Pasang">Pasang </option>
                                                                 <option value="Lembar">Lembar </option>
+                                                                <option value="Jerigen">Jerigen </option>
                                                             </select>
                                                         </td>
 

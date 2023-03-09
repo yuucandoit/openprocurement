@@ -241,8 +241,9 @@
                                             <option value="Strip">Strip </option>
                                             <option value="Pasang">Pasang </option>
                                             <option value="Lembar">Lembar </option>
+                                            <option value="Jerigen">Jerigen </option>
                                         </select>
-                                    </td>   
+                                    </td>
 
                                     <td>
                                         <input type="text" name="unit_price[]" placeholder="Input Price"
