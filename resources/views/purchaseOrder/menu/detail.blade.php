@@ -9,7 +9,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-6 mt-4">
-                        <h3>Details</h3>
+                        <h3>Details {{ $data_pengajuan->code_pengajuan }}</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ url('/menu-purchase-order/') }}">Purchase Order</a></li>
@@ -598,7 +598,11 @@
                                             @if(empty($item_po))
 
                                             @else
+                                            @if($item_po->matauang == 'RP')
                                             Rp.{{ number_format($item_po->grand_total,2) }}
+                                            @elseif ($item_po->matauang == 'USD')
+                                            $ {{ number_format($item_po->grand_total,2) }}
+                                            @endif
                                             @endif
                                         </span>
                                     </button>
