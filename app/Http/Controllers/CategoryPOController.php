@@ -205,17 +205,16 @@ class CategoryPOController extends Controller
 
     public function po_detail($id)
     {
-        // $data_pengajuan     = CategoryPengajuanPembelian::find($id);
-        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $datapo             = CategoryPO::where('id', $id)->get();
         $datacpo            = CategoryPO::where('id', $id)->first();
-        // dd($datacpo);
+        $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$datacpo->ppb_id)->first();
         $comments           = Comment::where('ppb_id',$id)->get();
 
         //dd($datacpo);
@@ -229,7 +228,7 @@ class CategoryPOController extends Controller
             ->with('ppn', $ppn)
             ->with('total', $total)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            // ->with('data_pengajuan', $data_pengajuan)
+            ->with('disc', $disc)
             ->with('comments', $comments);
     }
 
@@ -691,6 +690,7 @@ class CategoryPOController extends Controller
             return redirect()->back()->withErrors(["Approver Not Found"]);
         }else{
         $data->status = 'Cross Check PO';
+        $data->check_po_timestamp = now();
         $data->save();
 
         CategoryPO::where('ppb_id', $id)->update([

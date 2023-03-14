@@ -4,29 +4,42 @@
 
 @section('main')
     <section>
-        @foreach ($datappb as $a)
-            <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h2 class="modal-title" style="color: white">Delete</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mx-5 mb-3">
-                            <span class="warning">
-                                <img src="assets/images/warning.png">
-                            </span>
-                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
-                        </div>
-                        <div class="modal-footer">
-                            <form action="{{ url('/menu-pengajuan-pembelian/destroy/' . $a->id) }}">
-                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
-                                    Delete</button>
-                            </form>
-                        </div>
+        @foreach ($datappb as $ppb)
+        <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+
+                        <h4 class="modal-title" style="color: white">List Item</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mx-5 mb-3">
+                        @php
+                            $i = 1;
+                        @endphp
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Uom</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ppb->itemppn as $item)
+                                <tr>
+                                    <td> {{ $item->item }}</td>
+                                    <td> {{ $item->qty }}</td>
+                                    <td> {{ $item->kategori }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+        </div>
         @endforeach
 
         <!-- Page Sidebar Ends-->
@@ -71,8 +84,6 @@
                                             <th>Item</th>
                                             <th style="text-align: center;">Deadline</th>
                                             <th style="text-align: center;">Status</th>
-                                            <th style="text-align: center;">Approved At</th>
-                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     @php
@@ -93,11 +104,15 @@
 
                                                     </a></td>
                                                     <td>
-                                                        @foreach ($ppb->itemppn as $item)
-                                                        <ul>
-                                                            <li style="margin-top:4px;">-{{ $item->item }}</li>
-                                                        </ul>
+                                                        @foreach ($ppb->itemppn as $ice)
+                                                            @php
+                                                            $ipb = \App\Models\PengajuanPembelian::select(DB::raw('pp_id,SUM(qty) as qty'))->where('pp_id',$ice->pp_id)->groupBy('pp_id')->first();
+                                                            @endphp
                                                         @endforeach
+                                                        <ul>
+                                                            <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ipb->qty }} Item </label></li>
+                                                        </ul>
+
                                                     </td>
                                                     <td style="text-align: center;">
                                                         <ul>
@@ -134,14 +149,6 @@
                                                             </li>
                                                         </ul>
                                                     </td>
-                                                    <td style="text-align: center; font-size:12;"><strong>{{ Carbon\Carbon::parse($ppb->approved_at)->format('d-m-Y H:i:s') }}</strong></td>
-                                                    {{-- <td>{{ $ppb->whosubmit->name }}</td>
-                                                        <td style="text-align: center;">
-                                                            <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
-                                                                href="{{ url('menu-task-list/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Details"></i>
-                                                            </a>
-                                                        </td> --}}
                                                 </tr>
                                         @endif
                                     @endforeach

@@ -11,14 +11,11 @@ class SendWaController extends Controller
 {
     public function send(){
         $pbb = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->count();
-        $user = User::find(3);
+        $user = User::find(9);
         $url = "http://127.0.0.1:3000/send/message";
         $response = Http::post($url, [
                     'phone' => '6283805396427',
-                    'message' => 'Yth.Bpk '.$user->name.' Anda Memiliki Antrian Approval Sebanyak
-                                Menunggu Approval Pengajuan = '.$pbb.'
-                                Mohon Segera Di Approve
-                                Silahkan Approve Dengan Klik Link ini',
+                    'message' => 'Dear Mr '.$user->name.' Anda Memiliki Antrian Approval Untuk                       Pengajuan = '.$pbb.' Mohon Segera Di Approve',
         ]);
             if ($response->ok()) {
                 // Request was successful

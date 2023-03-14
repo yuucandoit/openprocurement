@@ -7,10 +7,10 @@
 
          <!-- Page Sidebar Ends-->
          <div class="container-fluid">
-             <div class="page-header">
+             <div class="page-header" style="margin-bottom: -20px;">
                  <div class="row">
                      <div class="col-sm-6 mt-4">
-                         <h3>Details</h3>
+                         <h3>Details {{ $data_pengajuan->code_pengajuan }}</h3>
                          <ol class="breadcrumb">
                              <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                              <li class="breadcrumb-item"><a href="{{ url('/menu-pengajuan-pembelian') }}">Purchase
@@ -25,12 +25,9 @@
                  <div class="row">
                      <div class="col-sm-12">
                          <div class="card card-absolute">
-                             <div class="card-header bg-primary">
-                                 <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
-                             </div>
                              <div class="card-body ">
                                  {{-- <p>{{ $data_pengajuan->status }}</p> --}}
-                                 <table class="table table-bordered mt-4" style="">
+                                 <table class="table table-bordered" style="">
                                      <tbody>
                                          <tr>
                                              <td>Who Submitted</td>
@@ -102,10 +99,13 @@
 
                                      <hr>
                                      <div class="button" style="float: right;">
-                                         {{-- @if ($data_pengajuan->status == '') --}}
+                                        <a href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}" class="btn btn-danger" >
+                                            Export To PDF
+                                        </a>
+
                                          <a href="{{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}"
                                              class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
-                                         {{-- @endif --}}
+
                                          <a type="reset" class="btn btn-dark"
                                              href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
 

@@ -219,14 +219,6 @@
                                                                     class="icon-file" title="Record Data"></i>
                                                             </a>
                                                         @endif
-
-                                                        <button class="btn btn-iconsolid mt-1"
-                                                        style="background-color: #ff0000; font-size:10;"
-                                                         data-bs-toggle="modal"
-                                                            data-bs-target="#modalDelete{{ $ppb->id }}"><i
-                                                                class="icon-trash" title="Delete"></i>
-                                                        </button>
-
                                                     </td>
                                                 @endhasrole
                                             </tr>
@@ -235,33 +227,53 @@
                                                 <tr>
 
                                                     @php
-                                                        // $po2 = \App\Models\CategoryPO::find('')->groupBy('ppb_id')->get();
+                                                        $po2 = \App\Models\CategoryPO::find($var_po->id);
                                                         $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$var_po->id)->groupBy('po_id')->get();
-                                                        // $item = $po3->count();
-                                                        // dd($var_po);
+                                                        $po4 = \App\Models\ItemPO::where('po_id',$var_po->id)->groupBy('po_id')->get();
                                                     @endphp
 
                                                     @if(empty($var_po))
 
                                                     @else
                                                     <td style="text-align: center">-</td>
-                                                    <td>{{ $var_po->code_po }}</td>
                                                     <td>
-                                                        @if($var_po->vendorable_id == 0)
-                                                        Vendor : -
-                                                        @else
-                                                        Vendor : {{ $var_po->vendorable->nama }}
-                                                        @endif
+                                                        <a href="{{ route('menu-purchase-order.po_detail',$var_po->id) }}">
+                                                            {{ $var_po->code_po }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <ul>
+                                                            <a href="{{ route('menu-purchase-order.po_detail',$var_po->id) }}">
+                                                                <li style="white-space: nowrap;">
+                                                                    @if($po2->vendorable_id == 0)
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                    @else
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                    @endif
+                                                                </li>
+                                                                <li> Quotation : {{ $po2->quotation }}</li>
+                                                            </a>
+                                                        </ul>
                                                     </td>
                                                     <td style="font-weight: 700; white-space:nowrap;">
                                                         @foreach ($po3 as $ipo)
                                                         <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $var_po->id }}">{{ $ipo->qty }} Item</label>
                                                         @endforeach
                                                     </td>
-                                                    <td>{{ $var_po->quotation }}</td>
-                                                    <td colspan="2"  class="text-center"><a
+                                                    <td class="text-center"><a
                                                         class="badge  mt-1"
                                                         style=" color: white; background-color: #008000; font-size:10;">{{ $var_po->status }}</a></td>
+                                                    <td>
+                                                        @foreach ($po4 as $ipo)
+                                                            <label>
+                                                                @if($ipo->matauang == "RP")
+                                                                Rp.{{ number_format($ipo->grand_total ,2) }}
+                                                                @elseif ($ipo->matauang == "USD")
+                                                                $ {{ number_format($ipo->grand_total ,2) }}
+                                                                @endif
+                                                            </label>
+                                                        @endforeach
+                                                    </td>
                                                     @endif
                                                 </tr>
                                                 @endforeach

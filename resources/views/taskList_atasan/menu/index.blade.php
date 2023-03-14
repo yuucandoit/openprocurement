@@ -15,33 +15,6 @@
                             <li class="breadcrumb-item">Task List</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -76,7 +49,6 @@
                                                 <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -88,47 +60,38 @@
                                                 @if ($ppb->atasan == 3)
                                                 <tbody>
                                                     <tr>
-                                                            <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
-                                                            <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">
-                                                            <ul>
-                                                            <li style="white-space: nowrap;">
-                                                                        @if($ppb->dateline == '≤24Jam')
-                                                                        <strong><p>1 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤72Jam')
-                                                                        <strong><p>2 sd 3 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤168Jam')
-                                                                        <strong><p>4 sd 7 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤336Jam')
-                                                                        <strong><p>7 sd 14 Hari</p></strong>
-                                                                        @endif
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
-                                                            <td style="text-align: center;">
-                                                                <ul>
-                                                                    <li>
-                                                                        <a class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                            style="color: white; font-size:12">{{ $ppb->status }}</a>
-                                                                    </li>
-                                                                    <li>
-                                                                    <a style="font-style: italic; font-size:10; " href="{{ route('menu-taskList-atasan.detail',$ppb->id) }}/#comment">
-                                                                        - {{ $ppb->comment->count() }} Comments
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-
+                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                        <td style="text-align: center;"><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">{{ $ppb->code_pengajuan }}</a></td>
+                                                        <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
+                                                            >{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">
-
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #ffa600;"
-                                                                href="{{ url('menu-taskList-atasan/edit/' . $ppb->id) }}"><i
-                                                                    class="icon-pencil-alt" title="Edit"></i>
-                                                            </a>
+                                                            <ul>
+                                                                <li style="white-space: nowrap;">
+                                                                    @if($ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                                        <td style="text-align: center;">
+                                                            <ul>
+                                                                <li>
+                                                                    <a class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                        style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                                </li>
+                                                                <li>
+                                                                <a style="font-style: italic; font-size:10; " href="{{ route('menu-taskList-atasan.detail',$ppb->id) }}/#comment">
+                                                                    - {{ $ppb->comment->count() }} Comments
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
                                                         </td>
                                                     </tr>
                                                 @endif
@@ -161,13 +124,16 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="mt-4">
-                            <div style="max-width: 50%;" class="pull-right">
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                 <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBodIn') }}" method="get" class="input-group" >
                                     <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -180,7 +146,6 @@
                                                 <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -192,37 +157,30 @@
                                             @if ($ppb->atasan == 6)
                                                 <tbody>
                                                     <tr>
-                                                            <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
-                                                            <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">
-                                                            <ul>
-                                                            <li style="white-space: nowrap;">
-                                                                        @if($ppb->dateline == '≤24Jam')
-                                                                        <strong><p>1 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤72Jam')
-                                                                        <strong><p>2 sd 3 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤168Jam')
-                                                                        <strong><p>4 sd 7 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤336Jam')
-                                                                        <strong><p>7 sd 14 Hari</p></strong>
-                                                                        @endif
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                            </td>
-                                                            <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                    style="color: white; font-size:12">{{ $ppb->status }}</a>
-                                                            </td>
+                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                        <td style="text-align: center;"><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">{{ $ppb->code_pengajuan }}</a></td>
+                                                        <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
+                                                                >{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #ffa600;"
-                                                                href="{{ url('/menu-taskList-atasan/edit/' . $ppb->id) }}"><i
-                                                                    class="icon-pencil-alt" title="Edit"></i>
-                                                            </a>
+                                                            <ul>
+                                                                <li style="white-space: nowrap;">
+                                                                    @if($ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                        </td>
+                                                        <td style="text-align: center;"> <a
+                                                                class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
                                                     </tr>
                                                     @endif
@@ -254,16 +212,16 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List Super User In</h5>
-                        </div>
-                        <div class="mt-4">
-                            <div style="max-width: 50%;" class="pull-right">
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                 <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBodIn') }}" method="get" class="input-group" >
                                     <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -276,7 +234,6 @@
                                                 <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -289,37 +246,29 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
-                                                            <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">
-                                                            <ul>
-                                                            <li style="white-space: nowrap;">
-                                                                        @if($ppb->dateline == '≤24Jam')
-                                                                        <strong><p>1 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤72Jam')
-                                                                        <strong><p>2 sd 3 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤168Jam')
-                                                                        <strong><p>4 sd 7 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤336Jam')
-                                                                        <strong><p>7 sd 14 Hari</p></strong>
-                                                                        @endif
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                            </td>
-                                                            <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                    style="color: white; font-size:12">{{ $ppb->status }}</a>
-                                                            </td>
+                                                        <td style="text-align: center;"><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">{{ $ppb->code_pengajuan }}</a></td>
+                                                        <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
+                                                                >{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">
-
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #ffa600;"
-                                                                href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-pencil-alt" title="Edit"></i>
-                                                            </a>
+                                                            <ul>
+                                                                <li style="white-space: nowrap;">
+                                                                    @if($ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                        </td>
+                                                        <td style="text-align: center;"> <a
+                                                                class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
                                                     </tr>
                                                 @endif
@@ -353,16 +302,16 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List Super User In</h5>
-                        </div>
-                        <div class="mt-4">
-                            <div style="max-width: 50%;" class="pull-right">
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                 <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBodIn') }}" method="get" class="input-group" >
                                     <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -375,7 +324,6 @@
                                                 <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -388,38 +336,29 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
-                                                            <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">
-                                                            <ul>
-                                                            <li style="white-space: nowrap;">
-                                                                        @if($ppb->dateline == '≤24Jam')
-                                                                        <strong><p>1 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤72Jam')
-                                                                        <strong><p>2 sd 3 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤168Jam')
-                                                                        <strong><p>4 sd 7 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤336Jam')
-                                                                        <strong><p>7 sd 14 Hari</p></strong>
-                                                                        @endif
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                            </td>
-                                                            <td style="text-align: center;"> <a
-                                                                    class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                    style="color: white; font-size:12">{{ $ppb->status }}</a>
-                                                            </td>
-
+                                                        <td style="text-align: center;"><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">{{ $ppb->code_pengajuan }}</a></td>
+                                                        <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
+                                                                >{{ $ppb->desc }}</a></td>
                                                         <td style="text-align: center;">
-
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #ffa600;"
-                                                                href="{{ url('menu-taskList-atasan/edit/' . $ppb->id) }}"><i
-                                                                    class="icon-pencil-alt" title="Edit"></i>
-                                                            </a>
+                                                        <ul>
+                                                        <li style="white-space: nowrap;">
+                                                                    @if($ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                        </td>
+                                                        <td style="text-align: center;"> <a
+                                                                class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                         </td>
                                                     </tr>
                                               </tbody>
@@ -453,16 +392,16 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="card-header bg-primary">
-                            <h5>Task List Super User In</h5>
-                        </div>
-                        <div class="mt-4">
-                            <div style="max-width: 50%;" class="pull-right">
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                 <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBodIn') }}" method="get" class="input-group" >
                                     <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -475,7 +414,6 @@
                                                 <th>Deadline</th>
                                                 <th>Request By</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -488,38 +426,33 @@
                                                 <tbody>
                                                     <tr>
                                                         <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
-                                                            <td style="text-align: center;">{{ $ppb->code_pengajuan }}</td>
-                                                            <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                                    >{{ $ppb->desc }}</a></td>
-                                                            <td style="text-align: center;">
-                                                            <ul>
-                                                            <li style="white-space: nowrap;">
-                                                                        @if($ppb->dateline == '≤24Jam')
-                                                                        <strong><p>1 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤72Jam')
-                                                                        <strong><p>2 sd 3 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤168Jam')
-                                                                        <strong><p>4 sd 7 Hari</p></strong>
-                                                                        @elseif ($ppb->dateline == '≤336Jam')
-                                                                        <strong><p>7 sd 14 Hari</p></strong>
-                                                                        @endif
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                            <td style="text-align: center;">{{ $ppb->whosubmit->name }}
-                                                            </td>
-                                                            <td>
-                                                                <a class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                    style="color: white; font-size:12">{{ $ppb->status }}</a>
-                                                            </td>
-                                                            <td style="text-align: center;">
-
-                                                                <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #ffa600;"
-                                                                    href="{{ url('menu-taskList-atasan/edit/' . $ppb->id) }}"><i
-                                                                        class="icon-pencil-alt" title="Edit"></i>
-                                                                </a>
-                                                       </tr>
+                                                        <td style="text-align: center;"><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">{{ $ppb->code_pengajuan }}</a></td>
+                                                        <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                        <td style="text-align: center;">
+                                                        <ul>
+                                                        <li style="white-space: nowrap;">
+                                                                    @if($ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif
+                                                                </li>
+                                                                <li>
+                                                                    <p>Created &nbsp;At : {{ \Carbon\Carbon::parse($ppb->created_at)->format('d-F-y') }}</p>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <a class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:12;">{{ $ppb->status }}</a>
+                                                        </td>
+                                                    </tr>
                                                  </tbody>
                                              @endif
                                             @endif

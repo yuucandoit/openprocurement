@@ -42,9 +42,6 @@ class TaskListAtasanController extends Controller
            orWhere('status','Unpaid')->
            orWhere('status','Paid')->
            orWhere('status','Delivery Success')->orderBy('date_ps', 'desc')->orderBy('dateline', 'desc')->paginate(10, ['*'],'out');
-        //    dd($datappb2);
-        //    dd($datappb2);
-        //    dd(Auth::user()->id);
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
@@ -85,46 +82,42 @@ class TaskListAtasanController extends Controller
      ->with('datappb2',$datappb2);
     }
 
-    public function out()
-    {
-        $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Purchase Submission Approved')->
-            orWhere('status','Purchase Proses')->
-            orWhere('status','Waiting For PO Approval')->
-            orWhere('status','PO Approved')->
-            orWhere('status','Invoicing Process')->
-            orWhere('status','Unpaid')->
-            orWhere('status','Paid')->
-            orWhere('status','Delivery Process')->
-            orWhere('status','Delivery Success')->paginate(10);
-            // dd($datappb);
-            $datadv = TaskListAtasan::all();
-            return view('taskList_atasan.menu.out')
-            ->with('datappb', $datappb)
-            ->with('datadv', $datadv);
-        }
-    }
-
     public function history()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Purchase Submission Approved')->
-            orWhere('status','Purchase Proses')->
-            orWhere('status','Waiting For PO Approval')->
-            orWhere('status','PO Approved')->
-            orWhere('status','Invoicing Process')->
-            orWhere('status','Unpaid')->
-            orWhere('status','Paid')->
-            orWhere('status','Delivery Process')->
-            orWhere('status','Delivery Success')->paginate(10);
+            $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status', '!=' ,'Awaiting Purchase Request Approval')
+            ->paginate(10);
+            $datapo  = CategoryPO::get();
+
+            // dd($datappb);
             $datadv = TaskListAtasan::all();
             return view('taskList_atasan.menu.history')
             ->with('datappb', $datappb)
+            ->with('datapo', $datapo)
             ->with('datadv', $datadv);
         }
     }
+
+    // public function history()
+    // {
+    //     $check = Role::where('model_id', Auth::user()->id)->first();
+    //     if ($check->role_id == 6 ||$check->role_id == 3) {
+    //         $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Purchase Submission Approved')->
+    //         orWhere('status','Purchase Proses')->
+    //         orWhere('status','Waiting For PO Approval')->
+    //         orWhere('status','PO Approved')->
+    //         orWhere('status','Invoicing Process')->
+    //         orWhere('status','Unpaid')->
+    //         orWhere('status','Paid')->
+    //         orWhere('status','Delivery Process')->
+    //         orWhere('status','Delivery Success')->paginate(10);
+    //         $datadv = TaskListAtasan::all();
+    //         return view('taskList_atasan.menu.history')
+    //         ->with('datappb', $datappb)
+    //         ->with('datadv', $datadv);
+    //     }
+    // }
 
     public function SearchHistoryRequestTask(Request $request)
     {
@@ -174,6 +167,34 @@ class TaskListAtasanController extends Controller
             ->with('vendor', $vendor)
             ->with('groupedItem', $groupedItem)
             ->with('itempurchase', $itempurchase);
+    }
+    public function po_detail($id)
+    {
+        $datapo             = CategoryPO::where('id', $id)->get();
+        $datacpo            = CategoryPO::where('id', $id)->first();
+        $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $comments           = Comment::where('ppb_id',$id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+
+        //dd($datacpo);
+        return view('taskList_atasan.menu.po')
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('datapo', $datapo)
+            ->with('dataws', $dataws)
+            ->with('datacpo', $datacpo)
+            ->with('datadepartment', $datadepartment)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('disc', $disc)
+            ->with('comments', $comments);
     }
     /**
      * Show the form for creating a new resource.
@@ -467,7 +488,7 @@ class TaskListAtasanController extends Controller
         }
         //dd($data);
         $data->save();
-        return redirect("menu-taskList-atasan/in");
+        return redirect("menu-taskList-atasan");
     }
 
     public function accept_atasan_selected(Request $request)
@@ -594,7 +615,7 @@ class TaskListAtasanController extends Controller
         }
         $d->save();
     }
-        return redirect("menu-taskList-atasan/in");
+        return redirect("menu-taskList-atasan");
     }
 
     public function reject(Request $request,$id)
@@ -603,6 +624,6 @@ class TaskListAtasanController extends Controller
         $data->status = 'Purchase Request Rejected By BOD';
         $data->note_bod_pr = $request->note_pr;
         $data->save();
-        return redirect("menu-taskList-atasan/in");
+        return redirect("menu-taskList-atasan");
     }
 }

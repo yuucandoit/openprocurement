@@ -53,9 +53,9 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/responsive.css') }}">
 
-    <!-- Plugins css start-->
+    {{-- <!-- Plugins css start-->
     <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/datatables.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/datatable-extension.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('../assets/css/datatable-extension.css') }}"> --}}
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
     <!-- App css-->
@@ -323,20 +323,9 @@
                             opacity: 0;
                         }
                     </style>
-                    {{-- <ul class="sembunyi">
-                        <li><span><span class="counter">19.8</span>k</span>
-                            <p>Follow</p>
-                        </li>
-                        <li><span>2 year</span>
-                            <p>Experince</p>
-                        </li>
-                        <li><span><span class="counter">95.2</span>k</span>
-                            <p>Follower </p>
-                        </li>
-                    </ul> --}}
+
                 </div>
 
-                <!--Nav-->
                 <nav>
                     <div class="main-navbar">
                         <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
@@ -386,7 +375,7 @@
                                         </a>
                                     </li>
                                     <li class="dropdown">
-                                        <a class="nav-link {{ request()->is('menu-pengajuan-pembelian') ? 'active' : '' }}"
+                                        <a class="nav-link {{ request()->is('menu-pengajuan-pembelian') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/create') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/detail/*') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/po_detail/*') ? 'active' : '' }}"
                                             href="{{ url('menu-pengajuan-pembelian') }}">
                                             <i data-feather="file-text"></i>
                                             <span>Purchase Request </span>
@@ -667,385 +656,106 @@
                                         $taskpurchase   = App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->get();
                                         $taskfinance    = App\Models\CategoryPengajuanPembelian::where('status', 'Payment Approved')->get();
                                     @endphp
-                                    <li class="dropdown">
-                                        <a class="nav-link menu-title {{ request()->is('menu-taskList-atasan/in') ? 'active' : '' }}  {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}  {{ request()->is('menu-taskList-atasan/detail/*') ? 'active' : '' }}
-                                            {{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-po/detail/*') ? 'active' : '' }}
-                                            {{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-payment/out') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-payment/detail/*') ? 'active' : '' }}
-                                            {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}
-                                            {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}"
-                                            href="javascript:void(0)">
-                                            <i data-feather="check-circle"></i>
-                                            <span>Task List</span></a>
-                                        @if (request()->is('menu-taskList-atasan/in') ||
-                                        request()->is('menu-taskList-atasan/out') ||
-                                        request()->is('menu-taskList-atasan/detail/*') ||
-                                        request()->is('menu-taskList-atasan-po/in') ||
-                                        request()->is('menu-taskList-atasan-po/out') ||
-                                        request()->is('menu-taskList-atasan-po/detail/*') ||
-                                        request()->is('menu-taskList-atasan-payment/in') ||
-                                        request()->is('menu-taskList-atasan-payment/out') ||
-                                        request()->is('menu-tasklist-finance/out') ||
-                                        request()->is('menu-tasklist-finance') ||
-                                        request()->is('menu-task-list') ||
-                                        request()->is('menu-task-list/out')
-                                            ? 'active'
-                                            : '')
-                                            <ul class="nav-submenu menu-content" style="display: block">
-                                                @hasrole('super user|super admin')
 
-                                                    <li class="dropdown">
-                                                        <a class="submenu-title {{ request()->is('menu-taskList-atasan/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/detail/*') ? 'active' : '' }}"
-                                                            href="javascript:void(0)">
-                                                            Task List Super User
-                                                            @if($taskpr->count() == 0)
+                    @hasrole('super user|super admin')
+                            <li class="dropdown">
+                                <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}"
+                                    href="{{ url('/menu-taskList-atasan') }}">
+                                    <i data-feather="check-circle"></i>
+                                    Task List Super User Purchase Request
+                                    @if($taskpr->count() == 0)
 
-                                                            @else
-                                                            <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpr->count() }}</span>
-                                                            @endif
-                                                            <span class="sub-arrow"><i
-                                                                    class="fa fa-chevron-right"></i></span></a>
-                                                        @if (request()->is('menu-taskList-atasan/in') || request()->is('menu-taskList-atasan/out') || request()->is('menu-taskList-atasan/detail/*')  ? 'active' : '')
-                                                            <ul class="nav-sub-childmenu submenu-content"
-                                                                style="display: block;">
-                                                                <li>
-                                                                    <a class="{{ request()->is('menu-taskList-atasan/in') || request()->is('menu-taskList-atasan/detail/*')  ? 'active' : '' }}"
-                                                                        href="{{ url('/menu-taskList-atasan/in') }}">
-                                                                        <span>Task List In</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="{{ request()->is(' menu-taskList-atasan/out') ||  request()->is('menu-taskList-atasan/detail/*') ? 'active' : '' }}"
-                                                                        href="{{ url('/menu-taskList-atasan/out') }}">
-                                                                        <span>Task List Out</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        @endif
-                                                        <ul class="nav-sub-childmenu submenu-content">
-                                                            <li>
-                                                                <a class="{{ request()->is('menu-taskList-atasan/in') ? 'active' : '' }}"
-                                                                    href="{{ url('/menu-taskList-atasan/in') }}">
-                                                                    <span>Task List In</span>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="{{ request()->is(' menu-taskList-atasan/out') ? 'active' : '' }}"
-                                                                    href="{{ url('/menu-taskList-atasan/out') }}">
-                                                                    <span>Task List Out</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                @endhasrole
-                                                @hasrole('super user|super admin')
-                                                    <li class="dropdown">
-                                                        <a class="submenu-title {{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-po/detail/*') ? 'active' : '' }}"
-                                                            href="javascript:void(0)">
-                                                            Task List Super User Purchase Order
-                                                            @if($taskpo->count() == 0)
+                                    @else
+                                    <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpr->count() }}</span>
+                                    @endif
+                                </a>
+                            </li>
 
-                                                            @else
-                                                            <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpo->count() }}</span>
-                                                            @endif
-                                                            <span class="sub-arrow"><i
-                                                                    class="fa fa-chevron-right"></i></span></a>
-                                                        @if (request()->is('menu-taskList-atasan-po/in') || request()->is('menu-taskList-atasan-po/out') || request()->is('menu-taskList-atasan/detail/*') ? 'active' : '')
-                                                            <ul class="nav-sub-childmenu submenu-content"
-                                                                style="display: block;">
-                                                                <li
-                                                                    class=" {{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }}">
-                                                                    <a href="{{ url('/menu-taskList-atasan-po/in') }}"
-                                                                        class="{{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }}">
-                                                                        <span>Task List In</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li
-                                                                    class=" {{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }}">
-                                                                    <a href="{{ url('/menu-taskList-atasan-po/out') }}"
-                                                                        class="{{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }}">
-                                                                        <span>Task List Out</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        @endif
-                                                        <ul class="nav-sub-childmenu submenu-content">
-                                                            <li
-                                                                class=" {{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }}">
-                                                                <a href="{{ url('/menu-taskList-atasan-po/in') }}"
-                                                                    class="{{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }}">
-                                                                    <span>Task List In</span>
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                class=" {{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }}">
-                                                                <a href="{{ url('/menu-taskList-atasan-po/out') }}"
-                                                                    class="{{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }}">
-                                                                    <span>Task List Out</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                @endhasrole
-                                                @hasrole('super user|super admin')
-                                                    <li class="dropdown">
-                                                        <a class="submenu-title {{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-payment/out') ? 'active' : '' }}"
-                                                            href="javascript:void(0)">
-                                                            Task List Super User Payment Request
-                                                            @if($taskpd->count() == 0)
+                            <li class="dropdown">
+                                <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po') ? 'active' : '' }} "
+                                    href="{{ url('/menu-taskList-atasan-po') }}">
+                                    <i data-feather="check-circle"></i>
+                                    Task List Super User Purchase Order
+                                    @if($taskpo->count() == 0)
 
-                                                            @else
-                                                            <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpd->count() }}</span>
-                                                            @endif
-                                                            <span class="sub-arrow"><i
-                                                                    class="fa fa-chevron-right"></i></span></a>
-                                                        @if (request()->is('menu-taskList-atasan-payment/in') || request()->is('menu-taskList-atasan-payment/out')
-                                                            ? 'active'
-                                                            : '')
-                                                            <ul class="nav-sub-childmenu submenu-content"
-                                                                style="display: block;">
-                                                                <li
-                                                                    class=" {{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }}">
-                                                                    <a href="{{ url('/menu-taskList-atasan-payment/in') }}"
-                                                                        class="{{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }}">
-                                                                        <span>Task List In</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li
-                                                                    class=" {{ request()->is('/menu-taskList-atasan-payment/out') ? 'active' : '' }}">
-                                                                    <a href="{{ url('/menu-taskList-atasan-payment/out') }}"
-                                                                        class="{{ request()->is('menu-taskList-atasan-payment/out') ? 'active' : '' }}">
-                                                                        <span>Task List Out</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        @endif
-                                                        <ul class="nav-sub-childmenu submenu-content">
-                                                            <li
-                                                                class=" {{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }}">
-                                                                <a href="{{ url('/menu-taskList-atasan-payment/in') }}"
-                                                                    class="{{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }}">
-                                                                    <span>Task List In</span>
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                class=" {{ request()->is('/menu-taskList-atasan-payment/out') ? 'active' : '' }}">
-                                                                <a href="{{ url('/menu-taskList-atasan-payment/out') }}"
-                                                                    class="{{ request()->is('menu-taskList-atasan-payment/out') ? 'active' : '' }}">
-                                                                    <span>Task List Out</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                @endhasrole
-                                                @hasrole('super purchase|purchasing|super admin')
-                                                    <li class="dropdown">
-                                                        <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }}{{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }}"
-                                                            href="javascript:void(0)">
-                                                            Task List Purchasing
-                                                            {{-- @dd($taskpurchase) --}}
-                                                            @if($taskpurchase->count() == 0 )
+                                    @else
+                                    <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpo->count() }}</span>
+                                    @endif
+                                </a>
+                            </li>
 
-                                                            @else
-                                                            <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpurchase->count() }}</span>
-                                                            @endif
-                                                            <span class="sub-arrow"><i
-                                                                    class="fa fa-chevron-right"></i></span></a>
-                                                        @if (request()->is('menu-task-list') || request()->is('menu-task-list/out') ? 'active' : '')
-                                                            <ul class="nav-sub-childmenu submenu-content"
-                                                                style="display: block;">
-                                                                <li
-                                                                    class=" {{ request()->is('menu-task-list') ? 'active' : '' }}">
-                                                                    <a href="{{ url('/menu-task-list') }}"
-                                                                        class="{{ request()->is('menu-task-list') ? 'active' : '' }}">
-                                                                        <span>Task List In</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li
-                                                                    class=" {{ request()->is('/menu-task-list/out') ? 'active' : '' }}">
-                                                                    <a href="{{ url('/menu-task-list/out') }}"
-                                                                        class="{{ request()->is('menu-task-list/out') ? 'active' : '' }}">
-                                                                        <span>Task List Out</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        @endif
-                                                        <ul class="nav-sub-childmenu submenu-content">
-                                                            <li
-                                                                class=" {{ request()->is('menu-task-list') ? 'active' : '' }}">
-                                                                <a href="{{ url('/menu-task-list') }}"
-                                                                    class="{{ request()->is('menu-task-list') ? 'active' : '' }}">
-                                                                    <span>Task List In</span>
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                class=" {{ request()->is('/menu-task-list/out') ? 'active' : '' }}">
-                                                                <a href="{{ url('/menu-task-list/out') }}"
-                                                                    class="{{ request()->is('menu-task-list/out') ? 'active' : '' }}">
-                                                                    <span>Task List Out</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                @endhasrole
-                                                @hasrole('finance|super admin')
-                                                    <li class="dropdown">
-                                                        <a class="submenu-title {{ request()->is('menu-tasklist-finance') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}"
-                                                            href="javascript:void(0)">
-                                                            Task List Finance
-                                                            @if($taskfinance->count() == 0)
+                            <li class="dropdown">
+                                <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-payment') ? 'active' : '' }}"
+                                    href="{{ url('menu-taskList-atasan-payment') }}">
+                                    <i data-feather="check-circle"></i>
+                                    Task List Super User Payment Request
+                                    @if($taskpd->count() == 0)
 
-                                                            @else
-                                                            <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskfinance->count() }}</span>
-                                                            @endif
-                                                            <span class="sub-arrow"><i
-                                                                    class="fa fa-chevron-right"></i></span></a>
-                                                        @if (request()->is('menu-tasklist-finance') || request()->is('menu-tasklist-finance/out') ? 'active' : '')
-                                                            <ul class="nav-sub-childmenu submenu-content"
-                                                                style="display: block;">
-                                                                <li
-                                                                    class=" {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
-                                                                    <a href="{{ url('/menu-tasklist-finance') }}"
-                                                                        class="{{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
-                                                                        <span>Task List In</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li
-                                                                    class=" {{ request()->is('/menu-tasklist-finance/out') ? 'active' : '' }}">
-                                                                    <a href="{{ url('/menu-tasklist-finance/out') }}"
-                                                                        class="{{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}">
-                                                                        <span>Task List Out</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        @endif
-                                                        <ul class="nav-sub-childmenu submenu-content">
-                                                            <li
-                                                                class=" {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
-                                                                <a href="{{ url('/menu-tasklist-finance') }}"
-                                                                    class="{{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
-                                                                    <span>Task List In</span>
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                class=" {{ request()->is('/menu-tasklist-finance/out') ? 'active' : '' }}">
-                                                                <a href="{{ url('/menu-tasklist-finance/out') }}"
-                                                                    class="{{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}">
-                                                                    <span>Task List Out</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                @endhasrole
-                                            </ul>
-                                        @endif
-                                        <ul class="nav-submenu menu-content">
-                                            @hasrole('super user|super admin')
-                                                <li class="dropdown">
-                                                    <a class="submenu-title {{ request()->is('menu-taskList-atasan/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}"
-                                                        href="javascript:void(0)">
-                                                        Task List Super User
-                                                        @if($taskpr->count() == 0)
+                                    @else
+                                    <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpd->count() }}</span>
+                                    @endif
+                                </a>
+                            </li>
+                    @endhasrole
+                    <li class="dropdown">
+                        @hasrole('super purchase|purchasing|super admin|finance')
+                                <a class="nav-link menu-title
+                                        {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}
+                                        {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}"
+                                        href="javascript:void(0)">
+                                        <i data-feather="check-circle"></i>
+                                        <span>Task List</span></a>
+                                    @if (request()->is('menu-tasklist-finance/out') || request()->is('menu-tasklist-finance') ||request()->is('menu-task-list') ||
+                                    request()->is('menu-task-list/out') || request()->is('menu-task-list/detail/*')
+                                        ? 'active'
+                                        : '')
+                                        <ul class="nav-submenu menu-content" style="display: block">
 
-                                                        @else
-                                                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpr->count() }}</span>
-                                                        @endif
-                                                        <span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
-                                                    <ul class="nav-sub-childmenu submenu-content">
-                                                        <li>
-                                                            <a class="{{ request()->is('menu-taskList-atasan/in') ? 'active' : '' }}"
-                                                                href="{{ url('/menu-taskList-atasan/in') }}">
-                                                                <span>Task List In</span>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="{{ request()->is(' menu-taskList-atasan/out') ? 'active' : '' }}"
-                                                                href="{{ url('/menu-taskList-atasan/out') }}">
-                                                                <span>Task List Out</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            @endhasrole
-                                            @hasrole('super user|super admin')
-                                                <li class="dropdown">
-                                                    <a class="submenu-title {{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }}"
-                                                        href="javascript:void(0)">
-                                                        Task List Super User Purchase Order
-                                                        @if($taskpo->count() == 0)
 
-                                                        @else
-                                                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpo->count() }}</span>
-                                                        @endif
-                                                        <span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
-                                                    <ul class="nav-sub-childmenu submenu-content">
-                                                        <li
-                                                            class=" {{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }}">
-                                                            <a href="{{ url('/menu-taskList-atasan-po/in') }}"
-                                                                class="{{ request()->is('menu-taskList-atasan-po/in') ? 'active' : '' }}">
-                                                                <span>Task List In</span>
-                                                            </a>
-                                                        </li>
-                                                        <li
-                                                            class=" {{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }}">
-                                                            <a href="{{ url('/menu-taskList-atasan-po/out') }}"
-                                                                class="{{ request()->is('menu-taskList-atasan-po/out') ? 'active' : '' }}">
-                                                                <span>Task List Out</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            @endhasrole
-                                            @hasrole('super user|super admin')
-                                                <li class="dropdown">
-                                                    <a class="submenu-title {{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan-payment/out') ? 'active' : '' }}"
-                                                        href="javascript:void(0)">
-                                                        Task List Super User Payment Request
-                                                        @if($taskpd->count() == 0)
-
-                                                        @else
-                                                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpd->count() }}</span>
-                                                        @endif
-                                                        <span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
-                                                    <ul class="nav-sub-childmenu submenu-content">
-                                                        <li
-                                                            class=" {{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }}">
-                                                            <a href="{{ url('/menu-taskList-atasan-payment/in') }}"
-                                                                class="{{ request()->is('menu-taskList-atasan-payment/in') ? 'active' : '' }}">
-                                                                <span>Task List In</span>
-                                                            </a>
-                                                        </li>
-                                                        <li
-                                                            class=" {{ request()->is('/menu-taskList-atasan-payment/out') ? 'active' : '' }}">
-                                                            <a href="{{ url('/menu-taskList-atasan-payment/out') }}"
-                                                                class="{{ request()->is('menu-taskList-atasan-payment/out') ? 'active' : '' }}">
-                                                                <span>Task List Out</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            @endhasrole
                                             @hasrole('super purchase|purchasing|super admin')
                                                 <li class="dropdown">
-                                                    <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }}"
+                                                    <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }}{{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }}"
                                                         href="javascript:void(0)">
                                                         Task List Purchasing
-                                                        @if($taskpurchase->count() == 0)
+                                                        {{-- @dd($taskpurchase) --}}
+                                                        @if($taskpurchase->count() == 0 )
 
                                                         @else
                                                         <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpurchase->count() }}</span>
                                                         @endif
-                                                        <span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
+                                                        <span class="sub-arrow"><i
+                                                                class="fa fa-chevron-right"></i></span></a>
+                                                    @if (request()->is('menu-task-list') || request()->is('menu-task-list/out') ? 'active' : '')
+                                                        <ul class="nav-sub-childmenu submenu-content"
+                                                            style="display: block;">
+                                                            <li
+                                                                class=" {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
+                                                                <a href="{{ url('/menu-task-list') }}"
+                                                                    class="{{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
+                                                                    <span>Task List In</span>
+                                                                </a>
+                                                            </li>
+                                                            <li
+                                                                class=" {{ request()->is('/menu-task-list/out') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
+                                                                <a href="{{ url('/menu-task-list/out') }}"
+                                                                    class="{{ request()->is('menu-task-list/out') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
+                                                                    <span>Task List Out</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    @endif
                                                     <ul class="nav-sub-childmenu submenu-content">
-                                                        <li class=" {{ request()->is('menu-task-list') ? 'active' : '' }}">
+                                                        <li
+                                                            class=" {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
                                                             <a href="{{ url('/menu-task-list') }}"
-                                                                class="{{ request()->is('menu-task-list') ? 'active' : '' }}">
+                                                                class="{{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
                                                                 <span>Task List In</span>
                                                             </a>
                                                         </li>
                                                         <li
-                                                            class=" {{ request()->is('/menu-task-list/out') ? 'active' : '' }}">
+                                                            class=" {{ request()->is('/menu-task-list/out') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
                                                             <a href="{{ url('/menu-task-list/out') }}"
-                                                                class="{{ request()->is('menu-task-list/out') ? 'active' : '' }}">
+                                                                class="{{ request()->is('menu-task-list/out') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
                                                                 <span>Task List Out</span>
                                                             </a>
                                                         </li>
@@ -1062,7 +772,27 @@
                                                         @else
                                                         <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskfinance->count() }}</span>
                                                         @endif
-                                                        <span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
+                                                        <span class="sub-arrow"><i
+                                                                class="fa fa-chevron-right"></i></span></a>
+                                                    @if (request()->is('menu-tasklist-finance') || request()->is('menu-tasklist-finance/out') ? 'active' : '')
+                                                        <ul class="nav-sub-childmenu submenu-content"
+                                                            style="display: block;">
+                                                            <li
+                                                                class=" {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
+                                                                <a href="{{ url('/menu-tasklist-finance') }}"
+                                                                    class="{{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
+                                                                    <span>Task List In</span>
+                                                                </a>
+                                                            </li>
+                                                            <li
+                                                                class=" {{ request()->is('/menu-tasklist-finance/out') ? 'active' : '' }}">
+                                                                <a href="{{ url('/menu-tasklist-finance/out') }}"
+                                                                    class="{{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}">
+                                                                    <span>Task List Out</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    @endif
                                                     <ul class="nav-sub-childmenu submenu-content">
                                                         <li
                                                             class=" {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
@@ -1080,16 +810,72 @@
                                                         </li>
                                                     </ul>
                                                 </li>
-                                                {{-- <li class=" {{ request()->is('*task-list-finance*') ? 'active' : '' }}">
-                                                <a href="{{ url('/menu-tasklist-finance') }}" class="{{  request()->is('menu-tasklist-finance') ?  'active' : '' }}">
-                                                    <i class="bi bi-calendar-x"></i>
-                                                    <span>Task List Finance</span>
-                                                    <div class="notification-box"></span></div>
-                                                </a>
-                                            </li> --}}
                                             @endhasrole
                                         </ul>
-                                    </li>
+                                    @endif
+                                </a>
+                        @endhasrole
+                        <ul class="nav-submenu menu-content">
+
+                            @hasrole('super purchase|purchasing|super admin')
+                                <li class="dropdown">
+                                    <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }}"
+                                        href="javascript:void(0)">
+                                        Task List Purchasing
+                                        @if($taskpurchase->count() == 0)
+
+                                        @else
+                                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpurchase->count() }}</span>
+                                        @endif
+                                        <span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
+                                    <ul class="nav-sub-childmenu submenu-content">
+                                        <li class=" {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
+                                            <a href="{{ url('/menu-task-list') }}"
+                                                class="{{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
+                                                <span>Task List In</span>
+                                            </a>
+                                        </li>
+                                        <li
+                                            class=" {{ request()->is('/menu-task-list/out') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
+                                            <a href="{{ url('/menu-task-list/out') }}"
+                                                class="{{ request()->is('menu-task-list/out') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}">
+                                                <span>Task List Out</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endhasrole
+                            @hasrole('finance|super admin')
+                                <li class="dropdown">
+                                    <a class="submenu-title {{ request()->is('menu-tasklist-finance') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}"
+                                        href="javascript:void(0)">
+                                        Task List Finance
+                                        @if($taskfinance->count() == 0)
+
+                                        @else
+                                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskfinance->count() }}</span>
+                                        @endif
+                                        <span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
+                                    <ul class="nav-sub-childmenu submenu-content">
+                                        <li
+                                            class=" {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
+                                            <a href="{{ url('/menu-tasklist-finance') }}"
+                                                class="{{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
+                                                <span>Task List In</span>
+                                            </a>
+                                        </li>
+                                        <li
+                                            class=" {{ request()->is('/menu-tasklist-finance/out') ? 'active' : '' }}">
+                                            <a href="{{ url('/menu-tasklist-finance/out') }}"
+                                                class="{{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}">
+                                                <span>Task List Out</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endhasrole
+                        </ul>
+                    </li>
                                 @endhasrole
                                 <!--End TaskList-->
 
@@ -1377,9 +1163,6 @@
                                             <span>History Task List Purchase Request </span>
                                         </a>
                                     </li>
-                                @endhasrole
-
-                                @hasrole('super user|super admin')
                                     <li
                                         class="dropdown {{ request()->is('menu-taskList-atasan-po/history') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po/history') ? 'active' : '' }}"
@@ -1388,12 +1171,9 @@
                                             <span>History Task List Purchase Order</span>
                                         </a>
                                     </li>
-                                @endhasrole
-
-                                @hasrole('super user|super admin')
                                     <li
                                         class="dropdown {{ request()->is('menu-taskList-atasan-payment/history') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-payment/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-taskList-atasan-payment/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Task List Payment Request</span>
@@ -1521,7 +1301,7 @@
     <script src="{{ asset('../assets/js/counter/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('../assets/js/counter/counter-custom.js') }}"></script>
     <script src="{{ asset('../assets/js/custom-card/custom-card.js') }}"></script>
-    <script src="{{ asset('../assets/js/notify/bootstrap-notify.min.js') }}"></script>
+    {{-- <script src="{{ asset('../assets/js/notify/bootstrap-notify.min.js') }}"></script> --}}
     <script src="{{ asset('../assets/js/vector-map/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-world-mill-en.js') }}"></script>
     <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-us-aea-en.js') }}"></script>
@@ -1531,7 +1311,7 @@
     <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-in-mill.js') }}"></script>
     <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-asia-mill.js') }}"></script>
     <script src="{{ asset('../assets/js/dashboard/default.js') }}"></script>
-    <script src="{{ asset('../assets/js/notify/index.js') }}"></script>
+    {{-- <script src="{{ asset('../assets/js/notify/index.js') }}"></script> --}}
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.js') }}"></script>
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
@@ -1549,7 +1329,7 @@
     <!-- login js-->
     <!-- Plugin used-->
     <!-- Plugins JS start-->
-    <script src="{{ asset('../assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('../assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('../assets/js/datatable/datatable-extension/jszip.min.js') }}"></script>
     <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.colVis.min.js') }}"></script>
@@ -1568,7 +1348,7 @@
     <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') }}"></script>
     <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js') }}"></script>
     <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.scroller.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/custom.js') }}"></script>
+    <script src="{{ asset('../assets/js/datatable/datatable-extension/custom.js') }}"></script> --}}
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
     <script src="{{ asset('assets/js/jam.js') }}"></script>
     <script src="{{ asset('../assets/js/chart/chartjs/chart.min.js') }}"></script>
@@ -1578,8 +1358,8 @@
     <script src="{{ asset('../assets/js/height-equal.js') }}"></script>
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
 
-    <script src="{{ asset('../assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+    {{-- <script src="{{ asset('../assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('../assets/js/datatable/datatables/datatable.custom.js') }}"></script> --}}
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
 
     <script src="{{ asset('../assets/js/prism/prism.min.js') }}"></script>

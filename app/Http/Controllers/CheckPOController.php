@@ -8,11 +8,13 @@ use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\Comment;
+use App\Models\Department;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
+use App\Models\WhoSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,6 +36,35 @@ class CheckPOController extends Controller
                 ->with('datappb',$datappb)
                 ->with('datapo', $datapo);
         }
+    }
+
+    public function po_detail($id)
+    {
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+        $datapo             = CategoryPO::where('id', $id)->get();
+        $datacpo            = CategoryPO::where('id', $id)->first();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+        $comments           = Comment::where('ppb_id',$id)->get();
+
+        //dd($datacpo);
+        return view('purchaseOrder.menu.check-po.po')
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('datapo', $datapo)
+            ->with('dataws', $dataws)
+            ->with('datacpo', $datacpo)
+            ->with('datadepartment', $datadepartment)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('disc', $disc)
+            ->with('comments', $comments);
     }
 
     public function SearchCheckPO(Request $request)
@@ -64,6 +95,7 @@ class CheckPOController extends Controller
             return redirect()->back()->withErrors(["Approver Not Found"]);
         }else{
         $data->status = 'Waiting For PO Approval';
+        $data->w_approval_po_timestamp = now();
         $data->save();
         CategoryPO::where('ppb_id', $id)->update([
             'status' => 'Waiting For PO Approval'
@@ -72,32 +104,6 @@ class CheckPOController extends Controller
         }
     }
 
-    // public function ajukan_keatasan($id)
-    // {
-
-    //     $crs = CategoryPO::find($id);
-    //     $crs->status = 'Waiting For PO Approval';
-    //     $crs->save();
-
-    //     $data2 = CategoryPengajuanPembelian::where('id',$crs->ppb_id)->first();
-    //     // dd($data2);
-    //     $datapo = CategoryPO::where('status','Cross Check PO')->where('ppb_id',$crs->ppb_id)->get();
-    //     $datapo2 = CategoryPO::where('ppb_id',$crs->ppb_id)->get();
-    //     $count = $datapo->count();
-    //     $count2 = $datapo2->count();
-    //     if($count == $count2) {
-    //     $data = CategoryPengajuanPembelian::find($id);
-    //     if(empty($data->atasan_po)){
-    //         return redirect()->back()->withErrors(["Approver Not Found"]);
-    //     }else{
-    //     $data->status = 'Waiting For PO Approval';
-    //     $data->save();
-    //     }
-    //         }else{
-
-    //     }
-    //     return redirect('send-purchase/'.$data2->id );
-    // }
 
     public function detail($id)
     {

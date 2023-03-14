@@ -10,6 +10,7 @@ use App\Models\CategoryPT;
 use App\Models\Delivery;
 use Illuminate\Http\Request;
 use App\File;
+use App\Models\Comment;
 use App\Models\Department;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
@@ -177,6 +178,34 @@ class DeliveryController extends Controller
         ->with('total_tnpa_ppn', $total_tnpa_ppn)
         ->with('data_pengajuan', $data_pengajuan)
         ->with('disc', $disc);
+    }
+    public function po_detail($id)
+    {
+        $datapo             = CategoryPO::where('id', $id)->get();
+        $datacpo            = CategoryPO::where('id', $id)->first();
+        $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$datacpo->ppb_id)->first();
+        $comments           = Comment::where('ppb_id',$id)->get();
+
+        //dd($datacpo);
+        return view('delivery.menu.po')
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('datapo', $datapo)
+            ->with('dataws', $dataws)
+            ->with('datacpo', $datacpo)
+            ->with('datadepartment', $datadepartment)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('disc', $disc)
+            ->with('comments', $comments);
     }
 
     /**

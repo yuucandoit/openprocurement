@@ -217,10 +217,12 @@
                                                         <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                         <td>{{ $po->code_po }}</td>
                                                         <td>
+                                                            <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                             <ul>
                                                                 <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}</li>
                                                                 <li> Quotation : {{ $po2->quotation }}</li>
                                                             </ul>
+                                                            </a>
                                                         </td>
                                                         <td style="font-weight: 700; white-space:nowrap;">
                                                             @foreach ($po3 as $ipo)
@@ -357,10 +359,12 @@
                                                             <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                             <td>{{ $po->code_po }}</td>
                                                             <td>
+                                                                <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                                 <ul>
                                                                     <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}</li>
                                                                     <li> Quotation : {{ $po2->quotation }}</li>
                                                                 </ul>
+                                                                </a>
                                                             </td>
                                                             <td style="font-weight: 700; white-space:nowrap;">
                                                                 @foreach ($po3 as $ipo)
@@ -496,10 +500,12 @@
                                                             <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                             <td>{{ $po->code_po }}</td>
                                                             <td>
+                                                                <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                                 <ul>
                                                                     <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}</li>
                                                                     <li> Quotation : {{ $po2->quotation }}</li>
                                                                 </ul>
+                                                                </a>
                                                             </td>
                                                             <td style="font-weight: 700; white-space:nowrap;">
                                                                 @foreach ($po3 as $ipo)
@@ -635,10 +641,12 @@
                                                             <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                             <td>{{ $po->code_po }}</td>
                                                             <td>
+                                                                <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                                 <ul>
                                                                     <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}</li>
                                                                     <li> Quotation : {{ $po2->quotation }}</li>
                                                                 </ul>
+                                                                </a>
                                                             </td>
                                                             <td style="font-weight: 700; white-space:nowrap;">
                                                                 @foreach ($po3 as $ipo)
@@ -776,10 +784,12 @@
                                                             <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                             <td>{{ $po->code_po }}</td>
                                                             <td>
+                                                                <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                                 <ul>
                                                                     <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}</li>
                                                                     <li> Quotation : {{ $po2->quotation }}</li>
                                                                 </ul>
+                                                                </a>
                                                             </td>
                                                             <td style="font-weight: 700; white-space:nowrap;">
                                                                 @foreach ($po3 as $ipo)

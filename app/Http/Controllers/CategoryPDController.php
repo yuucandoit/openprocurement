@@ -61,6 +61,34 @@ class CategoryPDController extends Controller
         }
     }
 
+    public function po_detail($id)
+    {
+        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+        $datapo             = CategoryPO::where('id', $id)->get();
+        $datacpo            = CategoryPO::where('id', $id)->first();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        $comments           = Comment::where('ppb_id',$id)->get();
+
+        //dd($datacpo);
+        return view('pengajuanDana.menu.po')
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('datapo', $datapo)
+            ->with('dataws', $dataws)
+            ->with('datacpo', $datacpo)
+            ->with('datadepartment', $datadepartment)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            // ->with('data_pengajuan', $data_pengajuan)
+            ->with('comments', $comments);
+    }
+
     public function SearchPDIn(Request $request)
     {
      $cari = $request->cariIn;
@@ -269,6 +297,7 @@ class CategoryPDController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Paid';
+        $data->p_finance_timestamp = now();
         $data->save();
         CategoryPO::where('ppb_id',$id)->update([
             'status' => 'Paid'
@@ -280,6 +309,7 @@ class CategoryPDController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Rejected by Finance';
+        $data->p_finance_timestamp = now();
         $data->save();
         CategoryPO::where('ppb_id',$id)->update([
             'status' => 'Rejected by Finance'

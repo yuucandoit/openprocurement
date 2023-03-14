@@ -219,17 +219,23 @@
 
                                                         @else
                                                         <td style="text-align: center">-</td>
-                                                        <td>{{ $po2->code_po }}</td>
+                                                        <td>
+                                                            <a href="{{ route('menu-pengajuan-dana.po_detail',$po->id) }}">
+                                                                {{ $po2->code_po }}
+                                                            </a>
+                                                        </td>
                                                         <td>
                                                             <ul>
-                                                                <li style="white-space: nowrap;">
-                                                                    @if($po2->vendorable_id == 0)
-                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
-                                                                    @else
-                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
-                                                                    @endif
-                                                                </li>
-                                                                <li> Quotation : {{ $po2->quotation }}</li>
+                                                                <a href="{{ route('menu-pengajuan-dana.po_detail',$po->id) }}">
+                                                                    <li style="white-space: nowrap;">
+                                                                        @if($po2->vendorable_id == 0)
+                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                        @else
+                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                        @endif
+                                                                    </li>
+                                                                    <li> Quotation : {{ $po2->quotation }}</li>
+                                                                </a>
                                                             </ul>
                                                         </td>
                                                         <td style="font-weight: 700; white-space:nowrap;">
@@ -238,15 +244,15 @@
                                                             @endforeach
                                                         </td>
                                                         <td>
-                                                            @foreach ($po4 as $ipo)
-                                                            <label>
-                                                                @if($ipo->matauang == "RP")
-                                                                Rp.{{ number_format($ipo->grand_total ,2) }}
-                                                                @elseif ($ipo->matauang == "USD")
-                                                                $ {{ number_format($ipo->grand_total ,2) }}
-                                                                @endif
-                                                            </label>
-                                                            @endforeach
+                                                                @foreach ($po4 as $ipo)
+                                                                <label>
+                                                                    @if($ipo->matauang == "RP")
+                                                                    Rp.{{ number_format($ipo->grand_total ,2) }}
+                                                                    @elseif ($ipo->matauang == "USD")
+                                                                    $ {{ number_format($ipo->grand_total ,2) }}
+                                                                    @endif
+                                                                </label>
+                                                                @endforeach
                                                         </td>
                                                         <td colspan="2"  class="text-center"><a
                                                             class="badge {{ $ppb->status == 'Unpaid' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"

@@ -462,14 +462,7 @@
                 @endhasrole
 
                 <td style="text-align: center;">
-                <div data-toggle="tooltip" data-placement="bottom" title="Preview PDF">
-                <button class="btn btn-iconsolid mt-1" style="background-color: #0693c2; font-size:10;"   >
-                    <a href="{{ url('/exportpdf/ppb/' . $ppembelian->id) }}" ><i
-                        class="icon-eye"></i>
-                    </a>
-                </button>
-            </div>
-
+                
                     @if ($ppembelian->status == 'Awaiting Purchase Request Approval' )
 
                   <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;  font-size:10;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
@@ -489,7 +482,7 @@
 
               @else
 
-              @foreach ($ppembelian->quot as $po)
+              {{-- @foreach ($ppembelian->quot as $po)
               <tr>
 
                   @php
@@ -510,12 +503,64 @@
                       @endforeach
                   </td>
                   <td>{{ $po2->quotation }}</td>
-                  {{-- <td>Vendor : Tokopedia</td> --}}
-                  {{-- <td>20 Item</td> --}}
-                  {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
                   <td colspan="2"  class="text-center"><a
                       class="badge {{ $ppembelian->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppembelian->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                       style="color: white; font-size:12">Approve</a></td>
+
+                  @endif
+              </tr>
+              @endforeach --}}
+              @foreach ($ppembelian->quot as $po)
+              <tr>
+
+                  @php
+                      $po2 = \App\Models\CategoryPO::find($po->id);
+                      $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                      $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
+                  @endphp
+
+                  @if(empty($po2))
+
+                  @else
+                  <td style="text-align: center">-</td>
+                  <td>
+                      <a href="{{ route('menu-pengajuan-pembelian.po_detail',$po->id) }}">
+                      {{ $po2->code_po }}
+                      </a>
+                  </td>
+                  <td>
+                      <ul>
+                          <a href="{{ route('menu-pengajuan-pembelian.po_detail',$po->id) }}">
+                              <li style="white-space: nowrap;">
+                                  @if($po2->vendorable_id == 0)
+                                  Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                  @else
+                                  Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                  @endif
+                              </li>
+                              <li> Quotation : {{ $po2->quotation }}</li>
+                          </a>
+                      </ul>
+                  </td>
+                  <td style="font-weight: 700;">
+                      @foreach ($po3 as $ipo)
+                      <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                      @endforeach
+                  </td>
+                  <td>
+                      @foreach ($po4 as $ipo)
+                          <label>
+                              @if($ipo->matauang == "RP")
+                              Rp.{{ number_format($ipo->grand_total ,2) }}
+                              @elseif ($ipo->matauang == "USD")
+                              $ {{ number_format($ipo->grand_total ,2) }}
+                              @endif
+                          </label>
+                      @endforeach
+                  </td>
+                  <td colspan="2"  class="text-center"><a
+                      class="badge {{ $ppembelian->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppembelian->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                      style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                   @endif
               </tr>

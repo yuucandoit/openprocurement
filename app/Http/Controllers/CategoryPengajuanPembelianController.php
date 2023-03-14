@@ -154,6 +154,37 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('comments', $comments);
     }
 
+    public function po_detail($id)
+    {
+        $code               = CategoryPO::find($id);
+        $datapo             = CategoryPO::where('id', $id)->get();
+        $datacpo            = CategoryPO::where('id', $id)->first();
+        $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $comments           = Comment::where('ppb_id',$id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+
+        //dd($datacpo);
+        return view('pengajuanPembelian.menu.po')
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('code', $code)
+            ->with('datapo', $datapo)
+            ->with('dataws', $dataws)
+            ->with('datacpo', $datacpo)
+            ->with('datadepartment', $datadepartment)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('disc', $disc)
+            ->with('comments', $comments);
+    }
+
     public function history()
     {
         $datappb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status','Delivery Success')->paginate(10);
@@ -256,7 +287,7 @@ class CategoryPengajuanPembelianController extends Controller
             'desc'  => 'required',
             'atasan' => 'required',
             'send_to' => 'required',
-            // 'path_file.*' => 'mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf'
+            'path_file' => 'max:2047',
         ], [
             'category_purpose.required' => 'The Purpose field is required.',
             'date_ps.required' => 'The Date field is required.',
@@ -267,6 +298,7 @@ class CategoryPengajuanPembelianController extends Controller
             'atasan.required' => 'The Super User field is required.',
             'send_to.required' => 'The Send To field is required.',
             'ppn.required' => 'The PPN To field is required.',
+            'path_file.max' => 'Maximum File Size Is 2MB ',
         ]);
 
         try {

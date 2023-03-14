@@ -1,4 +1,4 @@
-<title>Detail Purchase Order</title>
+<title>Detail Pages</title>
 
 @extends('layouts.master')
 
@@ -23,6 +23,9 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                <h5 class="text-white">Details {{ $datacpo->ppb->whosubmit->name }}</h5>
+                            </div>
                             <div class="card-body">
                                 <table class="table table-bordered mt-4">
                                     <tbody>
@@ -105,9 +108,10 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                            @php
-                                $item_po = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->first();
-                             @endphp
+                                @php
+                                   $item_po = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->first();
+                                @endphp
+
                                 @if(empty($item_po))
                                 <table class="table table-bordered mt-4 mb-4 order-entry">
                                     <thead>
@@ -139,6 +143,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+
                                 <table class="table table-bordered ">
                                     <tr>
                                         <td><label class="pull-right mx-2"> DPP :</label></td>
@@ -218,7 +223,6 @@
                                         </tr>
                                     @endif
                                 </table>
-
                                 @else
                                 <table class="table table-bordered mt-4 mb-4">
                                     <thead>
@@ -264,7 +268,7 @@
                                     <tr>
                                         <td><label class="pull-right mx-2"> DPP :</label></td>
                                         <td style="text-align: right;">
-
+                                            {{-- Ketika mata uang yang dipilih RP --}}
                                             @if ($item_po->matauang == 'RP')
                                                 RP. {{ number_format($item_po->dpp) }}
                                                 {{-- Ketika mata uang yang dipilih USD --}}
@@ -293,14 +297,20 @@
                                                 disabled="true">
                                             <label class="pull-right mx-2"> PPN 11% :</label>
                                         </td>
+                                        @php
+                                            $dpp = $item_po->dpp;
+                                            $disc = $item_po->discount;
+                                            $afterdisc = $dpp - $disc;
+                                            $ppn = $afterdisc *11 /100;
+                                        @endphp
                                         <td style="text-align:right;">
                                             @if ($item_po->ppn == 1)
                                                 {{-- Ketika mata uang yang dipilih RP --}}
                                                 @if ($item_po->matauang == 'RP')
-                                                    RP. {{ number_format($item_po->ppn) }}
+                                                    RP. {{ number_format($ppn) }}
                                                     {{-- Ketika mata uang yang dipilih USD --}}
                                                 @elseif ($item_po->matauang == 'USD')
-                                                    $ {{ number_format($item_po->ppn) }}
+                                                    $ {{ number_format($ppn) }}
                                                 @endif
                                             @else
                                                 {{-- Ketika mata uang yang dipilih RP --}}
@@ -313,7 +323,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                       <tr>
+                                    <tr>
                                         <td><label class="pull-right mx-2"> Shipping & Protection Fee :</label></td>
                                         <td style="text-align: right;">
                                             {{-- Ketika mata uang yang dipilih RP --}}
@@ -350,6 +360,7 @@
                                     </tr>
 
                                 </table>
+
                                 @endif
                                 <div class="mt-4">
                                     <a href="{{ url()->previous() }}" class="btn "

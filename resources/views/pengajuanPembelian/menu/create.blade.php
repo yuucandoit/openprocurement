@@ -77,8 +77,10 @@
 
                                         </select>
                                         @error('dateline')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
+                                        <div class='mt-1'>
+                                            <span class=" text-danger" asp-validation-for="dateline">
+                                                {{ $message }}
+                                            </span>
                                         </div>
                                         @enderror
                                     </div>
@@ -114,11 +116,19 @@
                                             @endif
                                             @endforeach
                                         </select>
+
                                         @error('ws')
+                                        <div class='mt-1'>
+                                            <span class=" text-danger" asp-validation-for="ws">
+                                                {{ $message }}
+                                            </span>
+                                        </div>
+                                        @enderror
+                                        {{-- @error('ws')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
-                                        @enderror
+                                        @enderror --}}
                                     </div>
                                 </div>
 
@@ -135,11 +145,18 @@
                                             @endif
                                             @endforeach
                                         </select>
-                                        @error('department')
+                                        @error('departemnt')
+                                        <div class='mt-1'>
+                                            <span class=" text-danger">
+                                                {{ $message }}
+                                            </span>
+                                        </div>
+                                        @enderror
+                                        {{-- @error('department')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
-                                        @enderror
+                                        @enderror --}}
                                     </div>
                                 </div>
 
@@ -154,10 +171,17 @@
                                             @endforeach
                                         </select>
                                         @error('atasan')
+                                        <div class='mt-1'>
+                                            <span class=" text-danger">
+                                                {{ $message }}
+                                            </span>
+                                        </div>
+                                        @enderror
+                                        {{-- @error('atasan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
-                                        @enderror
+                                        @enderror --}}
                                     </div>
                                 </div>
                             </div>
@@ -166,12 +190,19 @@
                                     <div class="form-group">
                                         <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
                                         <div class="">
-                                            <textarea name="desc" id="floatingNoTelpon" class="form-control" rows="4"></textarea>
+                                            <textarea name="desc" id="floatingNoTelpon" class="form-control" rows="4" required></textarea>
                                             @error('desc')
+                                            <div class='mt-1'>
+                                                <span class=" text-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            </div>
+                                            @enderror
+                                            {{-- @error('desc')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
                                     </div>
                                 </div>
@@ -190,10 +221,17 @@
                                             <option value="travel">Travel</option>
                                         </select>
                                         @error('category_purpose')
+                                        <div class='mt-1'>
+                                            <span class=" text-danger" asp-validation-for="email">
+                                                {{ $message }}
+                                            </span>
+                                        </div>
+                                        @enderror
+                                        {{-- @error('category_purpose')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
-                                        @enderror
+                                        @enderror --}}
                                         {{-- Project Dropdown --}}
                                         <div class="hide mt-2" id="selectedInput">
                                         <select class= "js-example-basic-single mt-2 "  name="project">
@@ -319,6 +357,13 @@
                                         </td>
                                         <td>
                                             <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                                            @error('path_file')
+                                            <div class='mt-1'>
+                                                <span class=" text-danger" >
+                                                    {{ $message }}
+                                                </span>
+                                            </div>
+                                            @enderror
                                         </td>
                                         <td style="text-align: center;">
                                             <button type="button" name="add" class="btn btn-danger remove-input-field">

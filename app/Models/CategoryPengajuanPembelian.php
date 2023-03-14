@@ -34,7 +34,11 @@ class CategoryPengajuanPembelian extends Model
         'ppn',
         'dateline',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'check_po_timestamp',
+        'w_approval_po_timestamp',
+        'w_finance_pay_timestamp',
+        'p_finance_timestamp',
     ];
 
     public function pt()

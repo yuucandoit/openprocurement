@@ -189,8 +189,13 @@
                                                             </ul>
                                                         </td>
                                                         <td>
+                                                            @foreach ($ppb->itemppn as $ice)
+                                                                @php
+                                                                $ipb = \App\Models\PengajuanPembelian::select(DB::raw('pp_id,SUM(qty) as qty'))->where('pp_id',$ice->pp_id)->groupBy('pp_id')->first();
+                                                                @endphp
+                                                            @endforeach
                                                             <ul>
-                                                                <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
+                                                                <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{  $ipb->qty }} Item </label></li>
                                                             </ul>
                                                         </td>
 
@@ -266,24 +271,48 @@
                                                         @php
                                                             $po2 = \App\Models\CategoryPO::find($po->id);
                                                             $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
-                                                            // $item = $po3->count();
+                                                            $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
                                                         @endphp
 
                                                         @if(empty($po2))
 
                                                         @else
                                                         <td style="text-align: center">-</td>
-                                                        <td>{{ $po->id }}/PO/SII/{{ $month }}/{{ $year }}</td>
-                                                        <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                                                        <td>
+                                                            <a href="{{ route('menu-purchase-order.po_detail',$po->id) }}">
+                                                            {{ $po->id }}/PO/SII/{{ $month }}/{{ $year }}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <ul>
+                                                                <a href="{{ route('menu-purchase-order.po_detail',$po->id) }}">
+                                                                    <li style="white-space: nowrap;">
+                                                                        @if($po2->vendorable_id == 0)
+                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                        @else
+                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                        @endif
+                                                                    </li>
+                                                                    <li> Quotation : {{ $po2->quotation }}</li>
+                                                                </a>
+                                                            </ul>
+                                                        </td>
                                                         <td style="font-weight: 700;">
                                                             @foreach ($po3 as $ipo)
                                                             <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
                                                             @endforeach
                                                         </td>
-                                                        <td>{{ $po2->quotation }}</td>
-                                                        {{-- <td>Vendor : Tokopedia</td> --}}
-                                                        {{-- <td>20 Item</td> --}}
-                                                        {{-- <td>Quotation : 25/TAM/I/2023</td> --}}
+                                                        <td>
+                                                            @foreach ($po4 as $ipo)
+                                                                <label>
+                                                                    @if($ipo->matauang == "RP")
+                                                                    Rp.{{ number_format($ipo->grand_total ,2) }}
+                                                                    @elseif ($ipo->matauang == "USD")
+                                                                    $ {{ number_format($ipo->grand_total ,2) }}
+                                                                    @endif
+                                                                </label>
+                                                            @endforeach
+                                                        </td>
                                                         <td colspan="2"  class="text-center"><a
                                                             class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                             style="color: white; font-size:12">{{ $po2->status }}</a></td>
@@ -340,18 +369,19 @@
             const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
             const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
-            const expiredTime = new Date(dueDateAt.getTime() + Date.now());
+            const remainingExp = new Date(remainingTime.getTime() + Date.now());
             const lable = elmnt.querySelector('.badge-lable');
 
-            console.log(dateline_time, remainingTime.getTime());
+            console.log(dateline_time, remainingTime.getTime(),remainingTime.getTime(),);
 
             if (remainingTime.getTime() < 1) {
                 lable.classList.remove('bg-dark');
                 lable.classList.add('bg-dark');
-                const days  = dateline.split()[0] == 24 ? (expiredTime.getDate()-2).toString() : (expiredTime.getDate()-1).toString();
-                const hours = expiredTime.getUTCHours().toString();
-                const minutes = expiredTime.getUTCMinutes().toString();
-                const seconds = expiredTime.getUTCSeconds().toString();
+
+                const days  = dateline.split()[0] == 24 ? (remainingExp.getDate()-2).toString() : (remainingExp.getDate()-1).toString();
+                const hours = remainingExp.getUTCHours().toString();
+                const minutes = remainingExp.getUTCMinutes().toString();
+                const seconds = remainingExp.getUTCSeconds().toString();
                 return (
                 (days.length == 1 ? `-0${days}:` : `-${days}:`)+
                 (hours.length == 1 ? `0${hours}:` : `${hours}:`) +

@@ -192,8 +192,8 @@
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Delivery Success')
                                                 @php $approvedPPB[] =$ppb; @endphp
-                                                <tr>
-                                                    <td>{{ $i++ }}</td>
+                                                <tr style="background-color:#F1F6F5;">
+                                                    <td style="text-align: center;">{{ $i++ }}</td>
                                                     <td>{{ $ppb->code_pengajuan }}</td>
                                                     <td>
                                                         <ul>
@@ -227,17 +227,23 @@
 
                                                             @else
                                                             <td style="text-align: center">-</td>
-                                                            <td>{{ $po->code_po }}</td>
+                                                            <td>
+                                                                <a href="{{ route('delivery.po_detail',$po->id) }}">
+                                                                {{ $po->code_po }}
+                                                                </a>
+                                                            </td>
                                                             <td>
                                                                 <ul>
-                                                                    <li style="white-space: nowrap;">
-                                                                        @if($po2->vendorable_id == 0)
-                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
-                                                                        @else
-                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
-                                                                        @endif
-                                                                    </li>
-                                                                    <li> Quotation : {{ $po2->quotation }}</li>
+                                                                    <a href="{{ route('delivery.po_detail',$po->id) }}">
+                                                                        <li style="white-space: nowrap;">
+                                                                            @if($po2->vendorable_id == 0)
+                                                                            Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                            @else
+                                                                            Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                            @endif
+                                                                        </li>
+                                                                        <li> Quotation : {{ $po2->quotation }}</li>
+                                                                    </a>
                                                                 </ul>
                                                             </td>
                                                             <td style="font-weight: 700; white-space:nowrap;">

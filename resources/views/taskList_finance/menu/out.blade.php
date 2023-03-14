@@ -99,8 +99,13 @@
 
                                                     @else
                                                     <td style="text-align: center">-</td>
-                                                    <td>{{ $po->code_po }}</td>
                                                     <td>
+                                                        <a href="{{ route('menu-tasklist-finance.po_detail',$po2->id) }}">
+                                                        {{ $po->code_po }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ route('menu-tasklist-finance.po_detail',$po2->id) }}">
                                                         <ul>
                                                             <li>
                                                                 @if($po2->vendorable_id == 0)
@@ -111,6 +116,7 @@
                                                             </li>
                                                             <li> Quotation : {{ $po2->quotation }}</li>
                                                         </ul>
+                                                        </a>
                                                     </td>
                                                     <td style="font-weight: 700; white-space:nowrap;">
                                                         @foreach ($po3 as $ipo)

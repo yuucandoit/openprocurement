@@ -152,6 +152,31 @@ class TaskListFinanceController extends Controller
             ->with('data_pengajuan', $data_pengajuan)
             ->with('comments', $comments);
     }
+
+    public function po_detail($id)
+    {
+        $datapo             = CategoryPO::where('id', $id)->get();
+        $datacpo            = CategoryPO::where('id', $id)->first();
+        $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
+        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+        $comments           = Comment::where('ppb_id',$id)->get();
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+
+        //dd($datacpo);
+        return view('taskList_atasan_po.menu.po')
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('datapo', $datapo)
+            ->with('datacpo', $datacpo)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('disc', $disc)
+            ->with('comments', $comments);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -223,6 +248,7 @@ class TaskListFinanceController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Unpaid';
         $data->note_finance = $request->note_finance;
+        $data->w_finance_pay_timestamp = now();
         $data->save();
         CategoryPO::where('ppb_id',$id)->update([
             'status' => 'Unpaid'
@@ -235,6 +261,7 @@ class TaskListFinanceController extends Controller
         $data = CategoryPengajuanPembelian::find($id);
         $data->status = 'Rejected by Finance';
         $data->note_finance = $request->note_finance;
+        $data->w_finance_pay_timestamp = now();
         $data->save();
         CategoryPO::where('ppb_id',$id)->update([
             'status' => 'Rejected by Finance'
