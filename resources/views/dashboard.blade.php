@@ -10,33 +10,6 @@
                     <div class="col-sm-6 mt-4">
                         <h3>Dashboard</h3>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -249,7 +222,7 @@
                 @endhasrole
                 @hasrole('super user|super admin')
                 <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <a href="{{ url('menu-taskList-atasan/in') }}">
+                    <a href="{{ url('menu-taskList-atasan') }}">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-4"
                             style="border-left: 10px solid rgba(87, 188, 255, 0.9);">
@@ -302,7 +275,7 @@
                 </div>
 
                 <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <a href="{{ url('/menu-taskList-atasan-po/in') }}">
+                    <a href="{{ url('/menu-taskList-atasan-po') }}">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-4"
                             style="border-left: 10px solid rgba(35, 96, 117, 0.9);">
@@ -349,7 +322,7 @@
                 </div>
 
                 <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <a href="{{ url('/menu-taskList-atasan-payment/in') }}">
+                    <a href="{{ url('/menu-taskList-atasan-payment') }}">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-4"
                             style="border-left: 10px solid rgba(117, 0, 184, 0.9);">
