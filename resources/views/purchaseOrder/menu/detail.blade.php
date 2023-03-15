@@ -1107,7 +1107,7 @@
             diskon.addEventListener("input", function() {
                 var disc = diskon.value;
                 var rep = disc.replace(/\,/g, "");
-                var discint = parseInt(rep);
+                var discint = parseFloat(rep);
                 discount = dpp - discint;
                 console.log(discount);
                 $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
@@ -1128,15 +1128,16 @@
                 ongkir.addEventListener("input", function(){
                     var ongkos = ongkir.value;
                     var replace = ongkos.replace(/\,/g, "");
-                    var ongkoskirim = parseInt(replace);
-                    console.log(ppntotal2);
+                    var ongkoskirim = parseFloat(replace);
+                    console.log(ongkoskirim);
                     grandtotal = ongkoskirim  + ppntotal2;
+                    console.log(grandtotal);
                 });
                 var adminfee = document.querySelector(".adminfee");
                 adminfee.addEventListener("input", function(){
                     var admin = adminfee.value;
                     var replace = admin.replace(/\,/g, "");
-                    var biayaAdmin = parseInt(replace);
+                    var biayaAdmin = parseFloat(replace);
                     grandtotal2 = biayaAdmin  + grandtotal ;
                     $(".total").val(grandtotal2);
                 });
@@ -1144,20 +1145,22 @@
                 totalppn = discount * 0;
                 ppntotal2 = discount + totalppn;
                 $(".ppn").text(totalppn);
+                console.log(ppntotal2);
 
                 var ongkir = document.querySelector(".ongkir");
                 ongkir.addEventListener("input", function(){
                     var ongkos = ongkir.value;
                     var replace = ongkos.replace(/\,/g, "");
-                    var ongkoskirim = parseInt(replace);
-                    console.log(ppntotal2);
+                    var ongkoskirim = parseFloat(replace);
+                    console.log(ongkoskirim);
                     grandtotal = ongkoskirim  + ppntotal2 ;
+                    console.log(grandtotal);
                 });
                 var adminfee = document.querySelector(".adminfee");
                 adminfee.addEventListener("input", function(){
                     var admin = adminfee.value;
                     var replace = admin.replace(/\,/g, "");
-                    var biayaAdmin = parseInt(replace);
+                    var biayaAdmin = parseFloat(replace);
                     grandtotal2 = biayaAdmin  + grandtotal ;
                     $(".total").val(grandtotal2);
                 });

@@ -367,7 +367,6 @@
 
         </script>
          <script type="text/javascript">
-            //Math
 
             document.querySelectorAll('.form-row').forEach(row => {
                 row.addEventListener('input', (e) => updateFileds(e, row));
@@ -377,43 +376,26 @@
                 const qty = row.querySelector('.form-qty').value;
                 const price = row.querySelector('.form-cost').value.replace(/\,/g, "");
                 const totalElmnt = row.querySelector('.form-line');
-                // const discount = row.querySelector('discount');
-                // const afterDisc = row.querySelector('total_disc')
-                // const dpp = row.querySelector('.total_A');
 
                 totalElmnt.value = new Intl.NumberFormat('en-IN').format(qty *  price);
                 var dpp = 0;
                 $('.form-line').each(function(key, item){
-                    // console.log(item);
                     dpp += new Number(item.value.replace(/\,/g, ""));
                 });
                 $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
 
-            // var ongkoskir;
-            //         var ongkir = document.querySelector(".ongkir");
-            //         ongkir.addEventListener("input", function(){
-            //             var ongkos = ongkir.value;
-            //             var replace = ongkos.replace(/\,/g, "");
-            //             var ongkoskirim = parseInt(replace);
-            //             ongkoskir = dpp + ongkoskirim ;
-            //             console.log(ongkoskir);
-            // });
             var discount = 0 ;
                 var diskon = document.querySelector(".discount");
                 diskon.addEventListener("input", function() {
                     var disc = diskon.value;
                     var rep = disc.replace(/\,/g, "");
-                    var discint = parseInt(rep);
+                    var discint = parseFloat(rep);
                     discount = dpp - discint;
                     console.log(discount);
                     $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
             })
-            // $(".total_disc").text(discount.toLocaleString('en-US')new Intl.NumberFormat('en-IN').format(discount));
-
             var checkbox = document.querySelector(".check-box");
-            // console.log(checkbox);
             checkbox.addEventListener('change', (event) => {
-                // console.log(event.currentTarget.checked);
 
                 var totalppn = 0;
                 if (event.currentTarget.checked) {
@@ -427,7 +409,7 @@
                 ongkir.addEventListener("input", function(){
                     var ongkos = ongkir.value;
                     var replace = ongkos.replace(/\,/g, "");
-                    var ongkoskirim = parseInt(replace);
+                    var ongkoskirim = parseFloat(replace);
                     console.log(ppntotal2);
                     grandtotal = ongkoskirim  + ppntotal2;
                 });
@@ -435,7 +417,7 @@
                 adminfee.addEventListener("input", function(){
                     var admin = adminfee.value;
                     var replace = admin.replace(/\,/g, "");
-                    var biayaAdmin = parseInt(replace);
+                    var biayaAdmin = parseFloat(replace);
                     grandtotal2 = biayaAdmin  + grandtotal ;
                     $(".total").val(grandtotal2);
                 });
@@ -448,7 +430,7 @@
                 ongkir.addEventListener("input", function(){
                     var ongkos = ongkir.value;
                     var replace = ongkos.replace(/\,/g, "");
-                    var ongkoskirim = parseInt(replace);
+                    var ongkoskirim = parseFloat(replace);
                     console.log(ppntotal2);
                     grandtotal = ongkoskirim  + ppntotal2 ;
                 });
@@ -456,13 +438,12 @@
                 adminfee.addEventListener("input", function(){
                     var admin = adminfee.value;
                     var replace = admin.replace(/\,/g, "");
-                    var biayaAdmin = parseInt(replace);
+                    var biayaAdmin = parseFloat(replace);
                     grandtotal2 = biayaAdmin  + grandtotal ;
                     $(".total").val(grandtotal2);
                 });
             }
             });
-            // var ongkoskir;
 
             };
 
@@ -472,8 +453,6 @@
             var rupiah = document.querySelectorAll(".rupiah");
             rupiah.forEach((item) => {
                 item.addEventListener('keyup', function(e) {
-                    // tambahkan 'Rp.' pada saat form di ketik
-                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
                     item.value = formatRupiah(this.value, "");
                 });
             });
@@ -481,184 +460,6 @@
 
         </script>
 
-        {{-- <script type="text/javascript">
-            //Math
-                                    $(document).ready(function() {
-                                        document.querySelectorAll('.form-row').forEach(row => {
-                                            row.addEventListener('change', (e) => updateFileds(e, row));
-                                        })
-
-                                        function updateFileds(event, row) {
-                                            const qty = row.querySelector('.form-qty').value;
-                                            const price = row.querySelector('.form-cost input').value;
-                                            const totalElmnt = row.querySelector('.form-line');
-
-                                            console.log(qty, price);
-                                            totalElmnt.value = qty * price;
-                                        };
-
-
-                                        //Convert To Rupiah
-                                        var rupiah = document.querySelector(".rupiah");
-                                        rupiah.addEventListener('keyup', function(e) {
-                                            // tambahkan 'Rp.' pada saat form di ketik
-                                            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                                            rupiah.value = formatRupiah(this.value, "");
-                                        });
-                                        /* Fungsi formatRupiah */
-                                        function formatRupiah(angka, prefix) {
-                                            var number_string = angka.replace(/[^,\d]/g, ""),
-                                                split = number_string.split(","),
-                                                sisa = split[0].length % 3,
-                                                rupiah = split[0].substr(0, sisa),
-                                                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                                            // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                            if (ribuan) {
-                                                separator = sisa ? "." : "";
-                                                rupiah += separator + ribuan.join(".");
-                                            }
-                                            rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                                            return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-                                        }
-
-                                        $(".order-entry").on("keyup", ".form-calc", function() {
-                                            var parent = $(this).closest("tr");
-                                            console.log($(this).closest("tr"));
-                                            var str = parent.find(".form-cost").val();
-                                            var res = str.replace(/\D/g, "");
-                                            // var repl = res.replace
-                                            console.log(str);
-                                            parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
-                                            var total = 0;
-                                            $(".form-line").each(function() {
-                                                total += parseInt($(this).val() || 0);
-                                            });
-                                            $(".total_A").val(total);
-
-                                            var ongkir = document.querySelector(".ongkir")
-                                            ongkir.addEventListener("input", function(){
-                                                var ongkos = ongkir.value;
-                                                var replace = ongkos.replace(/\D/g, "");
-                                                var ongkoskirim = parseInt(replace);
-                                                ongkoskir = total + ongkoskirim ;
-                                                console.log(ongkoskir);
-
-                                            var diskon = document.querySelector(".discount");
-                                            diskon.addEventListener("input", function() {
-                                                var disc = diskon.value;
-                                                var rep = disc.replace(/\D/g, "");
-                                                var discint = parseInt(rep);
-                                               discount = ongkoskir - discint;
-                                               console.log(discount);
-                                               $(".total_disc").text(discount.toLocaleString('en-US'));
-
-                                            var checkbox = document.querySelector(".check-box");
-                                            checkbox.addEventListener('change', (event) => {
-                                                // console.log(event.currentTarget.checked);
-                                                if (event.currentTarget.checked) {
-                                                    totalppn = discount * 11 / 100;
-                                                    grandtotal = discount + totalppn;
-                                                    console.log(grandtotal);
-                                                    $(".ppn").text(totalppn.toLocaleString('en-US'));
-                                                    // $(".total").val(grandtotal.toLocaleString('en-US'));
-                                                    $(".total").val(grandtotal);
-                                                } else {
-                                                    totalppn = discount * 0;
-                                                    $(".ppn").text(totalppn);
-                                                    // $(".total").val(discount.toLocaleString('en-US'));
-                                                    $(".total").val(discount);
-                                                }
-                                                });
-                                            });
-                                        });
-                                    });
-                                });
-                                    //Add Form
-                                    $(".addItem").on('click', function() {
-                                        addItem();
-                                    });
-                                    function addItem() {
-
-                                        $(".item").append(item)
-                                        var rupiah = document.querySelectorAll(".rupiah");
-                                        rupiah.forEach((item) => {
-                                            item.addEventListener('keyup', function(e) {
-                                                // tambahkan 'Rp.' pada saat form di ketik
-                                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                                                item.value = formatRupiah(this.value, "");
-                                            });
-                                        });
-                                        /* Fungsi formatRupiah */
-                                        function formatRupiah(angka, prefix) {
-                                            var number_string = angka.replace(/[^,\d]/g, ""),
-                                                split = number_string.split(","),
-                                                sisa = split[0].length % 3,
-                                                rupiah = split[0].substr(0, sisa),
-                                                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                                            // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                            if (ribuan) {
-                                                separator = sisa ? "." : "";
-                                                rupiah += separator + ribuan.join(".");
-                                            }
-                                            rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                                            return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-                                        }
-                                        new AutoNumeric(document.querySelector('.dollar'), 'dollar');
-
-
-                                        $(".order-entry").on("keyup", ".form-calc", function() {
-                                            var parent = $(this).closest("tr");
-                                            var str = parent.find(".form-cost").val();
-                                            var res = str.replace(/\D/g, "");
-                                            parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(0));
-                                            var total = 0;
-                                            $(".form-line").each(function() {
-                                                total += parseInt($(this).val() || 0);
-                                            });
-                                            $(".total_A").val(total.toLocaleString('en-US'));
-                                            var checkbox = document.querySelector(".check-box");
-                                            checkbox.addEventListener('change', (event) => {
-
-                                                if (event.currentTarget.checked) {
-                                                    totalppn = total * 11 / 100;
-                                                    grandtotal = total + totalppn;
-                                                    $(".ppn").text(totalppn.toLocaleString('en-US'));
-                                                    $(".total").text(grandtotal.toLocaleString('en-US'));
-                                                } else {
-                                                    totalppn = total * 0;
-                                                    $(".ppn").text(totalppn);
-                                                    $(".total").text(total.toLocaleString('en-US'));
-                                                }
-                                            });
-                                        });
-                                    }
-                                    $(document).on('click', '.remove-input-field', function() {
-                                        $(this).parents('tr').remove();
-                                    });
-                                    var rupiah = document.querySelectorAll(".rupiah");
-                                    rupiah.forEach((item) => {
-                                        item.addEventListener('keyup', function(e) {
-                                            // tambahkan 'Rp.' pada saat form di ketik
-                                            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                                            item.value = formatRupiah(this.value, "");
-                                        });
-                                    });
-                                    /* Fungsi formatRupiah */
-                                    function formatRupiah(angka, prefix) {
-                                        var number_string = angka.replace(/[^,\d]/g, ""),
-                                            split = number_string.split(","),
-                                            sisa = split[0].length % 3,
-                                            rupiah = split[0].substr(0, sisa),
-                                            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-                                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                                        if (ribuan) {
-                                            separator = sisa ? "." : "";
-                                            rupiah += separator + ribuan.join(".");
-                                        }
-                                        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                                        return prefix == undefined ? rupiah : rupiah ? " " + rupiah : "";
-                                    }
-        </script> --}}
 
 <script type="text/javascript">
     var pageSelector = document.querySelector('.pageSelector');
