@@ -165,7 +165,8 @@
 
                                         <tbody>
                                             @foreach ($datappb as $ppb)
-                                                @if ($ppb->status == 'Purchase Proses' ||'Cross Check PO')
+                                                @if ($ppb->status == 'Purchase Proses' ||
+                                                    $ppb->status == 'Cross Check PO')
                                                     @php
                                                     $approvedPPB[] =$ppb;
                                                     $id_po = $ppb->id;
