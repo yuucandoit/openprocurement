@@ -4,6 +4,43 @@
 
 @section('main')
     <section>
+        <div class="modal fade" id="modalSort" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+
+                        <h4 class="modal-title">Sort </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('menu-pengajuan-dana.SortHistoryPD') }}" method="get" class="input-group" >
+                    <div class="modal-body ">
+                        @php
+                            $i = 1;
+                        @endphp
+                        <h4>Sort by status </h4>
+                        <div class="row">
+                            <div class="col-sm-12" >
+                                <ul>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Paid' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Paid">&nbsp;Paid
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Sort</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
          <!-- Page Sidebar Ends-->
          <div class="container-fluid">
             <div class="page-header">
@@ -15,33 +52,6 @@
                             <li class="breadcrumb-item active">History Payment Process</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -52,7 +62,22 @@
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="row">
-                            <div class="col-sm-8"></div>
+                            <div class="col-sm-8">
+                                <div style="margin-bottom:-30px; margin-top:20px; margin-left:30px;">
+                                    <label data-bs-toggle="modal" data-bs-target="#modalSort"><i class="fa fa-filter" style="font-size:20px"></i> Sort</label>
+                                    @if(empty($sort))
+
+                                    @else
+                                        @foreach ($sort as $s)
+                                            @if(empty($s))
+
+                                            @else
+                                            <a class="badge badge-success" style="font-size: 10; color:white;">{{ $s }}</a>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
                             <div class="col-sm-4">
                             <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                 <form action="{{ route('menu-pengajuan-dana.SearchHistoryPD') }}" method="get" class="input-group" >

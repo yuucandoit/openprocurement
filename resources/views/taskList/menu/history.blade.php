@@ -51,7 +51,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('menu-task-list.SearchtaskPOHistory') }}" method="get" class="input-group" >
+                    <form action="{{ route('menu-task-list.SortTaskPOHistory') }}" method="get" class="input-group" >
                     <div class="modal-body ">
                         @php
                             $i = 1;
@@ -60,23 +60,23 @@
                         <div class="row" >
                             <div class="col-sm-6" >
                                     <li>
-                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Purchase Proses' ? 'checked': '' }}  style="margin-left:auto;" name="cari" type="checkbox" value="Purchase Proses">&nbsp;Purchase Process
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Purchase Proses' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="Purchase Proses">&nbsp;Purchase Process
                                         </label>
                                     </li>
                                     <li>
-                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Cross Check PO' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Cross Check PO">&nbsp;Cross Check PO
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Cross Check PO' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Cross Check PO">&nbsp;Cross Check PO
                                         </label>
                                     </li>
                                     <li>
-                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Waiting For PO Approval' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Waiting For PO Approval">&nbsp;Waiting For PO Approval
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Waiting For PO Approval' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Waiting For PO Approval">&nbsp;Waiting For PO Approval
                                         </label>
                                     </li>
                                     <li>
-                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'PO Approved' ? 'checked': '' }}  style="margin-left:auto;" name="cari" type="checkbox" value="PO Approved">&nbsp;PO Approved
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'PO Approved' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="PO Approved">&nbsp;PO Approved
                                         </label>
                                     </li>
                                     <li>
-                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Invoicing Process' ? 'checked': '' }}  style="margin-left:auto;" name="cari" type="checkbox" value="Invoicing Process">&nbsp;Invoicing Process
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Invoicing Process' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="Invoicing Process">&nbsp;Invoicing Process
                                         </label>
                                     </li>
 
@@ -85,19 +85,19 @@
                             <div class="col-sm-6" >
                                 <ul>
                                     <li>
-                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Payment Approved' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Payment Approved">&nbsp;Payment Approved
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Payment Approved' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Payment Approved">&nbsp;Payment Approved
                                         </label>
                                     </li>
                                     <li>
-                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Unpaid' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Unpaid">&nbsp;Unpaid
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Unpaid' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Unpaid">&nbsp;Unpaid
                                         </label>
                                     </li>
                                     <li>
-                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Paid' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Paid">&nbsp;Paid
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Paid' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Paid">&nbsp;Paid
                                         </label>
                                     </li>
                                     <li>
-                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('cari') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="cari" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
                                         </label>
                                     </li>
                                 </ul>
@@ -181,6 +181,17 @@
                             <div class="col-sm-9">
                                 <div style="margin-top: 40px; margin-left:30px;">
                                     <label data-bs-toggle="modal" data-bs-target="#modalSort"><i class="fa fa-filter" style="font-size:20px"></i> Sort</label>
+                                    @if(empty($sort))
+
+                                    @else
+                                        @foreach ($sort as $s)
+                                            @if(empty($s))
+
+                                            @else
+                                            <a class="badge badge-success" style="font-size: 10; color:white;">{{ $s }}</a>
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-sm-3">

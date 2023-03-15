@@ -134,11 +134,19 @@ class DeliveryController extends Controller
      return view('delivery.menu.history')
      ->with('datappb',$datappb);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function SortHistoryDelivery(Request $request)
+    {
+     $sort = $request->sort;
+    //  dd($cari);
+     $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
+     $datapo = CategoryPO::get();
+     return view('delivery.menu.history')
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo)
+     ->with('sort',$sort);
+    }
+
     public function create($id)
     {
         $dv                 = CategoryPengajuanPembelian::find($id);

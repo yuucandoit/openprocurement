@@ -60,7 +60,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', [QuotationController::class, 'dashboard']);
 
 Route::group(['middleware' => ['auth']], function () {
-    
+
     //Vendor
     // Route untuk Data Vendor Perusahaan
     Route::group(['prefix' => 'perusahaan'], function () {
@@ -274,6 +274,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/in/search/tasksrequestbodIn',[TaskListAtasanController::class, 'SearchTaskRequestBodIn'])->name('menu-taskList-atasan.SearchTaskRequestBodIn');
         Route::get('/search/history/pr',[TaskListAtasanController::class, 'SearchTaskRequestBodOut'])->name('menu-taskList-atasan.SearchTaskRequestBodOut');
         Route::get('/history/search/historyRequestTask',[TaskListAtasanController::class, 'SearchHistoryRequestTask'])->name('menu-taskList-atasan.SearchHistoryRequestTask');
+        Route::get('/history/sortPrBod',[TaskListAtasanController::class, 'SortHistoryPrBod'])->name('menu-taskList-atasan.SortHistoryPrBod');
     });
 
      // Menu Task list atasan Purchase Order
@@ -293,6 +294,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history/search/historyatasanpo',[TasklistAtasanPoController::class, 'SearchHistoryAtasanPO'])->name('menu-taskList-atasan-po.SearchHistoryAtasanPO');
         Route::get('/accept_atasan_selected_po', [TasklistAtasanPoController::class, 'accept_atasan_selected_po'])->name('menu-taskList-atasan-po.accept_atasan_selected_po');
         Route::get('/reject_atasan_selected', [TasklistAtasanPoController::class, 'reject_atasan_selected_po'])->name('menu-taskList-atasan-po.reject_atasan_selected_po');
+        Route::get('/history/sortPoBod',[TasklistAtasanPoController::class, 'SortHistoryPoBod'])->name('menu-taskList-atasan-po.SortHistoryPoBod');
     });
 
     // Menu Task list atasan Payment/Pendanaan
@@ -309,6 +311,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history/search/SearchHistoryTaskPYOut',[TasklistAtasanPaymentController::class, 'SearchHistoryTaskPY'])->name('menu-taskList-atasan-payment.SearchHistoryTaskPY');
         Route::get('/accept_atasan_selected_py', [TasklistAtasanPaymentController::class, 'accept_atasan_selected_py'])->name('menu-taskList-atasan-payment.accept_atasan_selected_py');
         Route::get('/reject_atasan_selected', [TasklistAtasanPaymentController::class, 'reject_atasan_selected'])->name('menu-taskList-atasan-payment.reject_atasan_selected_py');
+        Route::get('/history/sortPyBod',[TasklistAtasanPaymentController::class, 'SortHistoryPyBod'])->name('menu-taskList-atasan-payment.SortHistoryPyBod');
     });
     //End Tasklist's Super User
 
@@ -324,6 +327,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/taskPOIn',[CategoryTaskListController::class, 'SearchtaskPOIn'])->name('menu-task-list.SearchtaskPOIn');
         Route::get('/out/search/taskPOOut',[CategoryTaskListController::class, 'SearchtaskPOOut'])->name('menu-task-list.SearchtaskPOOut');
         Route::get('/history/search/taskPOHistory',[CategoryTaskListController::class, 'SearchtaskPOHistory'])->name('menu-task-list.SearchtaskPOHistory');
+        Route::get('/history/sort',[CategoryTaskListController::class, 'SortTaskPOHistory'])->name('menu-task-list.SortTaskPOHistory');
     });
     //End Task List po
 
@@ -341,6 +345,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/task-finance',[TaskListFinanceController::class, 'SearchTaskFinance'])->name('menu-tasklist-finance.SearchTaskFinance');
         Route::get('/out/search/task-finance-Out',[TaskListFinanceController::class, 'SearchTaskFinanceOut'])->name('menu-tasklist-finance.SearchTaskFinanceOut');
         Route::get('/search/history-task-finance',[TaskListFinanceController::class, 'SearchHistoryTaskFinance'])->name('menu-tasklist-finance.SearchHistoryTaskFinance');
+        Route::get('/history/sortFinance',[TaskListFinanceController::class, 'SortHistoryFinance'])->name('menu-tasklist-finance.SortHistoryTaskFinance');
 
     });
     //End Task List Finance
@@ -365,6 +370,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/out/search/po_out',[CategoryPOController::class, 'SearchPOOut'])->name('menu-purchase-order.SearchPOOut');
         Route::get('/history/search/HistoryPO',[CategoryPOController::class, 'SearchHistoryPO'])->name('menu-purchase-order.SearchHistoryPO');
         Route::get('/deletePOAll/{id}', [CategoryPOController::class, 'deletePOAll'])->name('menu-purchase-order.deletePOAll');
+        Route::get('/history/sortPO',[CategoryPOController::class, 'SortHistoryPO'])->name('menu-purchase-order.SortHistoryPO');
     });
 
     // Menu Pengajuan dana Purchase Order
@@ -384,6 +390,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/paymentreq_in',[InvoicingController::class, 'SearchPaymentreq_in'])->name('payment_request.SearchPaymentreq_in');
         Route::get('/out/search/paymentreq_out',[InvoicingController::class, 'SearchPaymentreq_out'])->name('payment_request.SearchPaymentreq_out');
         Route::get('/history/search/paymentreq_history',[InvoicingController::class, 'SearchHistoryPaymentReq'])->name('payment_request.SearchHistoryPaymentReq');
+        Route::get('/history/sortpyreq',[InvoicingController::class, 'SortHistoryPaymentReq'])->name('payment_request.SortHistoryPaymentReq');
         // SearchHistoryPaymentReq
     });
     // Menu Pengajuan dana
@@ -401,6 +408,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/pd_in',[CategoryPDController::class, 'SearchPDIn'])->name('menu-pengajuan-dana.SearchPDIn');
         Route::get('/search/pd_out',[CategoryPDController::class, 'SearchPDOut'])->name('menu-pengajuan-dana.SearchPDOut');
         Route::get('/history/search',[CategoryPDController::class, 'SearchHistoryPD'])->name('menu-pengajuan-dana.SearchHistoryPD');
+        Route::get('/history/sortPD',[CategoryPDController::class, 'SortHistoryPD'])->name('menu-pengajuan-dana.SortHistoryPD');
     });
 
     // Menu Pengiriman
@@ -420,6 +428,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/delivery_in',[DeliveryController::class, 'SearchDeliveryIn'])->name('delivery.SearchDeliveryIn');
         Route::get('/search/delivery_out',[DeliveryController::class, 'SearchDeliveryOut'])->name('delivery.SearchDeliveryOut');
         Route::get('/history/search/delivery',[DeliveryController::class, 'SearchHistoryDelivery'])->name('delivery.SearchHistoryDelivery');
+        Route::get('/history/sortDelivery',[DeliveryController::class, 'SortHistoryDelivery'])->name('delivery.SortHistoryDelivery');
     });
 
      // Menu Check Purchase Order

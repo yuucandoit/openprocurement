@@ -97,22 +97,6 @@ class TasklistAtasanPaymentController extends Controller
         }
     }
 
-    // public function history()
-    // {
-    //     $check = Role::where('model_id', Auth::user()->id)->first();
-    //     if ($check->role_id == 6 ||$check->role_id == 3) {
-    //         $datappb = CategoryPengajuanPembelian::where('atasan_py', Auth::user()->id)->where('status','Payment Approved')->
-    //         orWhere('status','Unpaid')->
-    //         orWhere('status','Paid')->
-    //         orWhere('status','Delivery Process')->
-    //         orWhere('status','Delivery Success')->
-    //         paginate(10);
-    //         $datapo = CategoryPO::get();
-    //         return view('taskList_atasan_payments.menu.history')
-    //         ->with('datappb', $datappb)
-    //         ->with('datapo', $datapo);
-    //     }
-    // }
 
     public function SearchHistoryTaskPY(Request $request)
     {
@@ -131,6 +115,18 @@ class TasklistAtasanPaymentController extends Controller
      return view('taskList_atasan_payments.menu.history')
      ->with('datappb',$datappb)
      ->with('datapo', $datapo);
+    }
+
+    public function SortHistoryPyBod(Request $request)
+    {
+     $sort = $request->sort;
+    //  dd($cari);
+     $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
+     $datapo = CategoryPO::get();
+     return view('taskList_atasan_payments.menu.history')
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo)
+     ->with('sort',$sort);
     }
 
     public function detail($id)

@@ -99,26 +99,6 @@ class TaskListAtasanController extends Controller
         }
     }
 
-    // public function history()
-    // {
-    //     $check = Role::where('model_id', Auth::user()->id)->first();
-    //     if ($check->role_id == 6 ||$check->role_id == 3) {
-    //         $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Purchase Submission Approved')->
-    //         orWhere('status','Purchase Proses')->
-    //         orWhere('status','Waiting For PO Approval')->
-    //         orWhere('status','PO Approved')->
-    //         orWhere('status','Invoicing Process')->
-    //         orWhere('status','Unpaid')->
-    //         orWhere('status','Paid')->
-    //         orWhere('status','Delivery Process')->
-    //         orWhere('status','Delivery Success')->paginate(10);
-    //         $datadv = TaskListAtasan::all();
-    //         return view('taskList_atasan.menu.history')
-    //         ->with('datappb', $datappb)
-    //         ->with('datadv', $datadv);
-    //     }
-    // }
-
     public function SearchHistoryRequestTask(Request $request)
     {
      $cari = $request->cari;
@@ -135,6 +115,18 @@ class TaskListAtasanController extends Controller
 
      return view('taskList_atasan.menu.history')
      ->with('datappb',$datappb);
+    }
+
+    public function SortHistoryPrBod(Request $request)
+    {
+     $sort = $request->sort;
+    //  dd($cari);
+     $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
+     $datapo = CategoryPO::get();
+     return view('taskList_atasan.menu.history')
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo)
+     ->with('sort',$sort);
     }
 
     public function detail($id)

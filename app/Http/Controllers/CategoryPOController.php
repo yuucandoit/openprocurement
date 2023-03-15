@@ -154,6 +154,17 @@ class CategoryPOController extends Controller
      ->with('datappb',$datappb)
      ->with('datapo', $datapo);
     }
+    public function SortHistoryPO(Request $request)
+    {
+     $sort = $request->sort;
+    //  dd($cari);
+     $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
+     $datapo = CategoryPO::get();
+     return view('purchaseOrder.menu.history')
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo)
+     ->with('sort',$sort);
+    }
 
     public function detail($id)
     {

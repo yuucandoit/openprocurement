@@ -122,6 +122,18 @@ class TaskListFinanceController extends Controller
      ->with('datapo', $datapo);
     }
 
+    public function SortHistoryFinance(Request $request)
+    {
+     $sort = $request->sort;
+    //  dd($cari);
+     $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
+     $datapo = CategoryPO::get();
+     return view('taskList_finance.menu.history')
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo)
+     ->with('sort',$sort);
+    }
+
     public function detail($id)
     {
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);

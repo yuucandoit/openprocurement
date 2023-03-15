@@ -158,6 +158,18 @@ class InvoicingController extends Controller
         }
     }
 
+    public function SortHistoryPaymentReq(Request $request)
+    {
+     $sort = $request->sort;
+    //  dd($cari);
+     $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
+     $datapo = CategoryPO::get();
+     return view('payment_request.menu.history')
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo)
+     ->with('sort',$sort);
+    }
+
     public function SearchHistoryPaymentReq(Request $request)
    {
     $cari = $request->cari;

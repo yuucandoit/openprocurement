@@ -63,6 +63,79 @@
                 </div>
             </div>
         @endforeach
+
+        <div class="modal fade" id="modalSort" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+
+                        <h4 class="modal-title">Sort </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('menu-purchase-order.SortHistoryPO') }}" method="get" class="input-group" >
+                    <div class="modal-body ">
+                        @php
+                            $i = 1;
+                        @endphp
+                        <h4>Sort by status </h4>
+                        <div class="row" >
+                            <div class="col-sm-6" >
+                                <ul>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Purchase Proses' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="Purchase Proses">&nbsp;Purchase Process
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Cross Check PO' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Cross Check PO">&nbsp;Cross Check PO
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Waiting For PO Approval' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Waiting For PO Approval">&nbsp;Waiting For PO Approval
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'PO Approved' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="PO Approved">&nbsp;PO Approved
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Invoicing Process' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="Invoicing Process">&nbsp;Invoicing Process
+                                        </label>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="col-sm-6" >
+                                <ul>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Payment Approved' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Payment Approved">&nbsp;Payment Approved
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Unpaid' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Unpaid">&nbsp;Unpaid
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Paid' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Paid">&nbsp;Paid
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Sort</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -83,17 +156,34 @@
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
-                        <div class="box-header mt-4">
-                            <div style="width: 30%; margin-bottom:-20px; " class="pull-right">
-                                <form action="{{ route('menu-purchase-order.SearchHistoryPO') }}" method="get"
-                                    class="input-group">
-                                    <input type="text" name="cari" class="form-control " placeholder="Search ..."
-                                        value="{{ request('cari') }}">
-                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary"
-                                            value="Go"></span>
-                                </form>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div style="margin-top: 40px; margin-left:30px;">
+                                    <label data-bs-toggle="modal" data-bs-target="#modalSort"><i class="fa fa-filter" style="font-size:20px"></i> Sort</label>
+                                    @if(empty($sort))
+
+                                    @else
+                                        @foreach ($sort as $s)
+                                            @if(empty($s))
+
+                                            @else
+                                            <a class="badge badge-success" style="font-size: 10; color:white;">{{ $s }}</a>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+                        <div class="col-sm-3">
+                    <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px; ">
+                        <form action="{{ route('menu-purchase-order.SearchHistoryPO') }}" method="get"
+                            class="input-group">
+                            <input type="text" name="cari" class="form-control " placeholder="Search ..."
+                                value="{{ request('cari') }}">
+                            <span class="input-group-btn "><input type="submit" class="btn btn-primary"
+                                    value="Go"></span>
+                        </form>
+                    </div>
+                </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
@@ -112,16 +202,6 @@
                                     @endphp
                                     <tbody>
                                         @foreach ($datappb as $ppb)
-                                            @if (
-                                                $ppb->status == 'Waiting For PO Approval' ||
-                                                $ppb->status == 'Waiting For PO Approval' ||
-                                                $ppb->status == 'PO Approved' ||
-                                                $ppb->status == 'Invoicing Process' ||
-                                                $ppb->status == 'Payment Approved' ||
-                                                $ppb->status == 'Unpaid' ||
-                                                $ppb->status == 'Paid' ||
-                                                $ppb->status == 'Delivery Process' ||
-                                                $ppb->status == 'Delivery Success')
                                                 <tr>
                                                     <td style="text-align: center;">{{ $no++ }}</td>
                                                     <td>
@@ -167,7 +247,6 @@
                                                         </td>
                                                     @endhasrole
                                                 </tr>
-                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>

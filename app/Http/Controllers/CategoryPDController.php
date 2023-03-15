@@ -173,11 +173,18 @@ class CategoryPDController extends Controller
      return view('pengajuanDana.menu.history')
      ->with('datappb',$datappb);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function SortHistoryPD(Request $request)
+    {
+     $sort = $request->sort;
+    //  dd($cari);
+     $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
+     $datapo = CategoryPO::get();
+     return view('pengajuanDana.menu.history')
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo)
+     ->with('sort',$sort);
+    }
 
     public function detail($id)
     {
