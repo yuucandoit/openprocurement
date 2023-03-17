@@ -20,23 +20,25 @@
         } else {
             $approvedAt = Carbon::parse($p->approved_at)->format('d F Y');
         }
-    @endphp
-    <table width="100%">
-        <tr>
-            <td valign="top" style="padding-right: 2px; width:20px; margin-top:100px"><img
-                    src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="60"> </td>
-            <td valign="top">
-                <h5 style="font-size: 16;">PT.SOLUSI INTEK INDONESIA</h5>
-            </td>
-        </tr>
-    </table>
-    @php
         $id_po = $cpo->id;
         $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
+
     @endphp
-    <h3 class="text-center">Pengajuan Dana</h3>
-    <h6 class="text-center"><span class="digits counter">NO {{ $po_number }}/PD/SII/{{ $month }}/{{ $year }}</span>
-     </h6>
+
+        
+        <table width="100%">
+            <tr>
+                <td valign="top" style="padding-right: 2px; width:20px; margin-top:100px"><img
+                        src="{{ public_path('assets/images/LogoSII.png') }}" alt="" width="60"> </td>
+                <td valign="top">
+                    <h5 style="font-size: 16;">PT.SOLUSI INTEK INDONESIA</h5>
+                </td>
+            </tr>
+        </table>
+
+        <h3 class="text-center" style="page-break-after:auto;">Pengajuan Dana</h3>
+        <h6 class="text-center" style="page-break-after:auto;"><span class="digits counter">NO {{ $po_number }}/PD/SII/{{ $month }}/{{ $year }}</span></h6>
+
      <table width="100%" class="mt-2" style="font-size: 10;">
         <tr>
             <td>
@@ -56,7 +58,8 @@
                             @else
                                 {{ $cpo->quotation }}
                             @endif
-                        </span>
+                        </span> <br>
+                        No.PO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  : <span>{{ $cpo->code_po }}</span>
                 @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
                     <p>Name Vendor&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
                         Address &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
@@ -70,7 +73,8 @@
                             @else
                                 {{ $cpo->quotation }}
                             @endif
-                        </span>
+                        </span> <br>
+                        No.PO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  : <span>{{ $cpo->code_po }}</span>
                     </p>
                 @elseif($cpo->vendorable_type == 'App\Models\CategoryEcommerce')
                     <p>Name Vendor&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
@@ -83,9 +87,31 @@
                         @else
                             {{ $cpo->quotation }}
                         @endif
-                    </span>
-                </p>
+                    </span> <br>
+                    No.PO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  : <span>{{ $cpo->code_po }}</span>
+                    </p>
                 @endif
+
+            </td>
+            <td>
+                <div style="float: right;">
+                <h6>Project :</h6>
+                <p>
+                @if (empty($cpo->ppb->purpose_type))
+                    Not Filled Yet
+                @elseif($cpo->ppb->purpose_type == 'App\Models\ReferensiNamaProject')
+                   {{ $cpo->ppb->purpose->name }}
+                @elseif ($cpo->ppb->purpose_type == 'App\Models\Office')
+                   {{ $cpo->ppb->purpose->name }}
+                @elseif($cpo->ppb->purpose_type == 'App\Models\Workshop')
+                   {{ $cpo->ppb->purpose->name }}
+                @elseif($cpo->ppb->purpose_type == 'App\Models\Inventory')
+                   {{ $cpo->ppb->purpose->name }}
+                @elseif($cpo->ppb->purpose_type == 'App\Models\RND')
+                   {{ $cpo->ppb->purpose->name }}
+                @endif
+                </p>
+                </div>
             </td>
 
         </tr>

@@ -291,8 +291,12 @@ class CategoryPOController extends Controller
         $item = PengajuanPembelian::all();
 
         $data2 = $request->all();
+        $request->validate([
+            'term_conditions' => 'required',
+        ], [
+            'term_conditions.required' => 'The Term Conditions field is required.',
+        ]);
         // dd($data2);
-    // dd($data2['discount']);
 
         $pt = CategoryPT::find($id);
         $pp = CategoryPP::find($id);

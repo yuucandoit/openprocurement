@@ -219,6 +219,21 @@
                 </a>
                 </div>
 
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 box-col-12">
+                            <div class="card card-absolute">
+                                <div class="card-header bg-dark">
+                                    <h5 class="text-white" style="font-weight: bold; ">Monthly
+                                        Chart</h5>
+                                </div>
+                                <div class="card-body chart-block">
+                                    <canvas id="chrtUser"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @endhasrole
                 @hasrole('super user|super admin')
                 <div class="col-sm-6 col-xl-3 col-lg-6">
@@ -369,6 +384,21 @@
                     </a>
                 </div>
 
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 box-col-12">
+                            <div class="card card-absolute">
+                                <div class="card-header bg-dark">
+                                    <h5 class="text-white" style="font-weight: bold; ">Monthly
+                                        Chart</h5>
+                                </div>
+                                <div class="card-body chart-block">
+                                    <canvas id="chrtBod"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @endhasrole
                 @hasrole('purchasing|super purchase')
 
@@ -460,6 +490,21 @@
                   </a>
                 </div>
 
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 box-col-12">
+                            <div class="card card-absolute">
+                                <div class="card-header bg-dark">
+                                    <h5 class="text-white" style="font-weight: bold; ">Monthly
+                                        Chart</h5>
+                                </div>
+                                <div class="card-body chart-block">
+                                    <canvas id="chrtPrchs"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @endhasrole
                 @hasrole('finance')
 
@@ -507,111 +552,6 @@
                   </a>
                 </div>
 
-                @endhasrole
-
-
-                {{-- <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <div class="card o-hidden border-0">
-                        <div class="b-r-4 card-body shadow h-100 py-3"
-                            style="border-left: 10px solid rgba(150, 148, 255, 0.9);">
-                            <div class="media static-top-widget">
-                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
-                                        style="color: rgba(150, 148, 255, 0.9);"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h6
-                                        style="color: rgba(150, 148, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
-                                        PURCHASE <br>
-                                        REQUEST</h6>
-                                    <h2 class="mb-0 counter" style="color: rgba(150, 148, 255, 0.9);">
-                                        {{ \App\Models\CategoryPengajuanPembelian::count() }}</h2>
-                                    <i class="icon-bg" data-feather="file-text"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <div class="card o-hidden border-0">
-                        <div class="b-r-4 card-body shadow h-100 py-4"
-                            style="border-left: 10px solid rgba(87, 212, 255, 0.9);">
-                            <div class="media static-top-widget">
-                                <div class="align-self-center text-center mb-3"><i data-feather="check-circle"
-                                        style="color: rgba(87, 212, 255, 0.9);"></i>
-                                </div>
-                                <div class="media-body">
-                                    @if (\App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval'))
-                                        <h6
-                                            style="color: rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
-                                            TASK LIST <br> </h6>
-                                        <h2 class="mb-0 counter" style="color: rgba(87, 212, 255, 0.9);">
-                                            {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
-                                        </h2>
-                                        <i class="icon-bg" data-feather="check-circle"></i>
-                                    @elseif (\App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Submission Approved'))
-                                        <h6
-                                            style="color: rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
-                                            TASK LIST <br> </h6>
-                                        <h2 class="mb-0 counter" style="color: rgba(87, 212, 255, 0.9);">
-                                            {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
-                                        </h2>
-                                        <i class="icon-bg" data-feather="check-circle"></i>
-                                    @elseif (\App\Models\CategoryPengajuanPembelian::where('status', 'Waiting For PO Approval'))
-                                        <h6
-                                            style="color: rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
-                                            TASK LIST <br> </h6>
-                                        <h2 class="mb-0 counter" style="color: rgba(87, 212, 255, 0.9);">
-                                            {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Submission Approval')->count() }}
-                                        </h2>
-                                        <i class="icon-bg" data-feather="check-circle"></i>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <div class="card o-hidden border-0">
-                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid red;">
-                            <div class="media static-top-widget">
-                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
-                                        style="color: red;"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h6 style="color: red; font-family: 'Times New Roman', Times, serif;">
-                                        PURCHASE <br>
-                                        ORDER</h6>
-                                    <h2 class="mb-0 counter" style="color: red;">
-                                        {{ \App\Models\CategoryPO::count() }}</h2>
-                                    <i class="icon-bg" data-feather="file-text"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <div class="card o-hidden border-0">
-                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(251, 140, 1);">
-                            <div class="media static-top-widget">
-                                <div class="align-self-center text-center mb-3"><i data-feather="dollar-sign"
-                                        style="color: rgb(251, 140, 1);"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h6 style="color: rgb(251, 140, 1); font-family: 'Times New Roman', Times, serif;">
-                                        FUND <br>
-                                        SUBMISSION</h6>
-                                    <h2 class="mb-0 counter" style="color: rgb(251, 140, 1);">
-                                        {{ \App\Models\CategoryPD::count() }}</h2>
-                                    <i class="icon-bg" data-feather="dollar-sign"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 box-col-12">
@@ -621,12 +561,15 @@
                                         Chart</h5>
                                 </div>
                                 <div class="card-body chart-block">
-                                    <canvas id="Po"></canvas>
+                                    <canvas id="chrtFinance"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                @endhasrole
+
     </section>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -695,6 +638,184 @@
                     data: [
                         @foreach ($data_pd as $pd)
                             {{ $pd }},
+                        @endforeach
+                    ],
+                },
+            ]
+        };
+
+        const dataUser = {
+            labels: labels,
+            datasets: [{
+
+                    label: 'Purchase Request',
+                    backgroundColor: 'rgba(150, 148, 255, 0.9)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_ps as $pd)
+                            {{ $pd }},
+                        @endforeach
+                    ],
+                },
+                {
+                    label: 'Pending Request',
+                    backgroundColor: 'rgba(255, 225, 0, 0.9)',
+                    borderColor: 'rgb(93, 218, 180)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_pndng as $pndng)
+                            {{ $pndng }},
+                        @endforeach
+                    ],
+                },
+
+
+                {
+                    label: 'Purchase Completed',
+                    backgroundColor: 'rgb(12, 174, 0)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_success as $success)
+                            {{ $success }},
+                        @endforeach
+                    ],
+                },
+
+
+                {
+                    label: 'Purchase Failed',
+                    backgroundColor: 'rgb(255, 0, 0)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_fail as $fail)
+                            {{ $fail }},
+                        @endforeach
+                    ],
+                },
+            ]
+        };
+
+        const dataBod = {
+            labels: labels,
+            datasets: [{
+
+                    label: 'Task List PR',
+                    backgroundColor: 'rgba(150, 148, 255, 0.9)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($taskBodPR as $pd)
+                            {{ $pd }},
+                        @endforeach
+                    ],
+                },
+                {
+                    label: 'Task List PO',
+                    backgroundColor: 'rgba(255, 225, 0, 0.9)',
+                    borderColor: 'rgb(93, 218, 180)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($taskBodPO as $pndng)
+                            {{ $pndng }},
+                        @endforeach
+                    ],
+                },
+
+
+                {
+                    label: 'Task List PY',
+                    backgroundColor: 'rgb(12, 174, 0)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($taskBodPY as $success)
+                            {{ $success }},
+                        @endforeach
+                    ],
+                },
+            ]
+        };
+
+        const dataPurchase = {
+            labels: labels,
+            datasets: [{
+
+                    label: 'Task List PO',
+                    backgroundColor: 'rgba(150, 148, 255, 0.9)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_task_po as $tpo)
+                            {{ $tpo }},
+                        @endforeach
+                    ],
+                },
+
+                {
+                    label: 'Purchase Order',
+                    backgroundColor: 'rgb(255, 0, 0)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_po as $po)
+                            {{ $po }},
+                        @endforeach
+                    ],
+                },
+
+                {
+                    label: 'Payment Request',
+                    backgroundColor: 'rgba(87, 212, 255, 0.9)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_pymntreq as $pyreq)
+                            {{ $pyreq }},
+                        @endforeach
+                    ],
+                },
+
+
+                {
+                    label: 'Delivery Process',
+                    backgroundColor: 'rgb(255, 255, 0)',
+                    borderColor: 'rgb(93, 218, 180)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_delivery as $ddeliver)
+                            {{ $ddeliver }},
+                        @endforeach
+                    ],
+                },
+            ]
+        };
+
+        const dataFinance = {
+            labels: labels,
+            datasets: [{
+
+                    label: 'Task List Finance',
+                    backgroundColor: 'rgba(150, 148, 255, 0.9)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($taskFinance as $tf)
+                            {{ $tf }},
+                        @endforeach
+                    ],
+                },
+
+                {
+                    label: 'Payment Process',
+                    backgroundColor: 'rgb(255, 0, 0)',
+                    borderColor: 'rgb(150, 148, 255)',
+                    borderRadius: 5,
+                    data: [
+                        @foreach ($data_pp as $pp)
+                            {{ $pp }},
                         @endforeach
                     ],
                 },
@@ -769,6 +890,275 @@
             },
         };
     </script>
+    <script>
+         const user = {
+            type: 'bar',
+            data: dataUser,
+            options: {
+                // fill: true,
+                tension: 0.4,
+                responsive: true,
+                animations: {
+                    radius: {
+                        duration: 400,
+                        easing: 'linear',
+                        loop: (context) => context.active
+                    }
+                },
+                hoverRadius: 5,
+                hoverBackgroundColor: 'rgb(67, 94, 190)',
+                interaction: {
+                    mode: 'nearest',
+                    intersect: false,
+                    axis: 'x'
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Month',
+                            color: 'rgb(255, 121, 118)',
+                            font: {
+                                family: 'Nunito',
+                                size: 15,
+                                weight: 'bold',
+                                lineHeight: 1.2,
+                            },
+                            padding: {
+                                top: 20,
+                                left: 0,
+                                right: 0,
+                                bottom: 0
+                            }
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Value',
+                            color: 'rgb(255, 121, 118)',
+                            font: {
+                                family: 'Nunito',
+                                size: 15,
+                                style: 'normal',
+                                lineHeight: 1.2
+                            },
+                            padding: {
+                                top: 30,
+                                left: 0,
+                                right: 0,
+                                bottom: 0
+                            }
+                        }
+                    }
+                }
+            },
+        };
+    </script>
+    <script>
+        const bod = {
+            type: 'bar',
+            data: dataBod,
+            options: {
+                // fill: true,
+                tension: 0.4,
+                responsive: true,
+                animations: {
+                    radius: {
+                        duration: 400,
+                        easing: 'linear',
+                        loop: (context) => context.active
+                    }
+                },
+                hoverRadius: 5,
+                hoverBackgroundColor: 'rgb(67, 94, 190)',
+                interaction: {
+                    mode: 'nearest',
+                    intersect: false,
+                    axis: 'x'
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Month',
+                            color: 'rgb(255, 121, 118)',
+                            font: {
+                                family: 'Nunito',
+                                size: 15,
+                                weight: 'bold',
+                                lineHeight: 1.2,
+                            },
+                            padding: {
+                                top: 20,
+                                left: 0,
+                                right: 0,
+                                bottom: 0
+                            }
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Value',
+                            color: 'rgb(255, 121, 118)',
+                            font: {
+                                family: 'Nunito',
+                                size: 15,
+                                style: 'normal',
+                                lineHeight: 1.2
+                            },
+                            padding: {
+                                top: 30,
+                                left: 0,
+                                right: 0,
+                                bottom: 0
+                            }
+                        }
+                    }
+                }
+            },
+        };
+    </script>
+     <script>
+        const purchase = {
+            type: 'bar',
+            data: dataPurchase,
+            options: {
+                // fill: true,
+                tension: 0.4,
+                responsive: true,
+                animations: {
+                    radius: {
+                        duration: 400,
+                        easing: 'linear',
+                        loop: (context) => context.active
+                    }
+                },
+                hoverRadius: 5,
+                hoverBackgroundColor: 'rgb(67, 94, 190)',
+                interaction: {
+                    mode: 'nearest',
+                    intersect: false,
+                    axis: 'x'
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Month',
+                            color: 'rgb(255, 121, 118)',
+                            font: {
+                                family: 'Nunito',
+                                size: 15,
+                                weight: 'bold',
+                                lineHeight: 1.2,
+                            },
+                            padding: {
+                                top: 20,
+                                left: 0,
+                                right: 0,
+                                bottom: 0
+                            }
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Value',
+                            color: 'rgb(255, 121, 118)',
+                            font: {
+                                family: 'Nunito',
+                                size: 15,
+                                style: 'normal',
+                                lineHeight: 1.2
+                            },
+                            padding: {
+                                top: 30,
+                                left: 0,
+                                right: 0,
+                                bottom: 0
+                            }
+                        }
+                    }
+                }
+            },
+        };
+    </script>
+
+<script>
+    const finance = {
+        type: 'bar',
+        data: dataFinance,
+        options: {
+            // fill: true,
+            tension: 0.4,
+            responsive: true,
+            animations: {
+                radius: {
+                    duration: 400,
+                    easing: 'linear',
+                    loop: (context) => context.active
+                }
+            },
+            hoverRadius: 5,
+            hoverBackgroundColor: 'rgb(67, 94, 190)',
+            interaction: {
+                mode: 'nearest',
+                intersect: false,
+                axis: 'x'
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Month',
+                        color: 'rgb(255, 121, 118)',
+                        font: {
+                            family: 'Nunito',
+                            size: 15,
+                            weight: 'bold',
+                            lineHeight: 1.2,
+                        },
+                        padding: {
+                            top: 20,
+                            left: 0,
+                            right: 0,
+                            bottom: 0
+                        }
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Value',
+                        color: 'rgb(255, 121, 118)',
+                        font: {
+                            family: 'Nunito',
+                            size: 15,
+                            style: 'normal',
+                            lineHeight: 1.2
+                        },
+                        padding: {
+                            top: 30,
+                            left: 0,
+                            right: 0,
+                            bottom: 0
+                        }
+                    }
+                }
+            }
+        },
+    };
+</script>
 
     <script>
         const datawarga = {
@@ -807,4 +1197,29 @@
             warga
         );
     </script>
+    <script>
+        const chartUser = new Chart(
+            document.getElementById('chrtUser'),
+            user
+        );
+    </script>
+    <script>
+        const chartBod = new Chart(
+            document.getElementById('chrtBod'),
+            bod
+        );
+    </script>
+     <script>
+        const chartPurchase = new Chart(
+            document.getElementById('chrtPrchs'),
+            purchase
+        );
+    </script>
+      <script>
+        const chartFinance = new Chart(
+            document.getElementById('chrtFinance'),
+            finance
+        );
+    </script>
+
 @endsection

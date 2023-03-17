@@ -311,6 +311,13 @@
                                                             <textarea class="hide form-control customInput" name="term_condition"
                                                                 id="customInput" cols="30" rows="10"
                                                                 placeholder="Input Terms And Conditions"></textarea>
+                                                            @error('term_conditions')
+                                                                <div class='mt-1'>
+                                                                    <span class="text-danger" style="font-size: 10;">
+                                                                        {{ $message }}
+                                                                    </span>
+                                                                </div>
+                                                            @enderror
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">

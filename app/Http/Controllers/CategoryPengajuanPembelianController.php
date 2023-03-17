@@ -245,8 +245,8 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function create()
     {
-        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
-        //dd($atasan);
+        $atasan             = User::find(7);
+        // dd($atasan);
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose            = ReferensiNamaProject::get();
@@ -303,6 +303,8 @@ class CategoryPengajuanPembelianController extends Controller
 
         try {
 
+        // foreach($data['category_purpose'] as $purpose => $pp ){
+            // dd($purpose);
         $pengajuan = new CategoryPengajuanPembelian([
             'user_id' =>  Auth::user()->id,
             'date_ps' => $request->date_ps,
@@ -338,12 +340,13 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose6 = Travel::find($request->travel);
             $pengajuan = $purpose6->purposes()->save($pengajuan);
         }
+        dd($pengajuan);
 
         $year = Carbon::parse($pengajuan->created_at)->format('y');
         $month = Carbon::parse($pengajuan->created_at)->format('m');
-
         $ppb_id = str_pad($pengajuan->id,5,'0', STR_PAD_LEFT);
         $generateppb = strtoupper($ppb_id."/PPB/SII/".$month."/".$year);
+        // dd($generateppb);
         CategoryPengajuanPembelian::where('id',$pengajuan->id)->update([
             'code_pengajuan' => $generateppb
         ]);
@@ -365,6 +368,8 @@ class CategoryPengajuanPembelianController extends Controller
             );
             PengajuanPembelian::create($data2);
         }
+    // }
+
 } catch (Exception $err) {
        dd($err);
     }
@@ -491,7 +496,7 @@ class CategoryPengajuanPembelianController extends Controller
 
             foreach ($data['id'] as $item => $value) {
                 $file = null;
-                if($path = $request->file('pat  e')[$item] ?? null) {
+                if($path = $request->file('path_file')[$item] ?? null) {
                     $file = $path->getClientOriginalName();
                     $path->move(public_path('upload_pengajuan'), $file);
                 }
@@ -546,41 +551,8 @@ class CategoryPengajuanPembelianController extends Controller
         $data['year'] = Carbon::now()->format('y');
         $data['month'] = Carbon::now()->format('m');
 
-        //dd($data['id']);
-
-
         $pdf = FacadePdf::loadView('pengajuanPembelian.export-pdf.pengajuan', $data)->setpaper('A4', 'potrait');
         return $pdf->stream('Pengajuan.pdf');
-        //return $pdf->download('PurchaseOrder.pdf');
-
-        // $pdf = Dompdf::loadView('export-pdf.purchase', ['data' => $data]);
-        // return Excel::download(new PoPDFExport($id),'PurchaseOrder.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
     }
-
-    // public function accept_atasan($id)
-    // {
-    //     $data = CategoryPengajuanPembelian::find($id);
-    //     // dd($data);
-    //     $data->status = 'Accepted';
-    //     $data->save();
-    //     return redirect()->back();
-    // }
-
-    // public function accept($id)
-    // {
-    //     $data = CategoryPengajuanPembelian::find($id);
-    //     // dd($data);
-    //     $data->status = 'Accepted';
-    //     $data->save();
-    //     return redirect()->back();
-    // }
-
-    // public function reject($id)
-    // {
-    //     $data = CategoryPengajuanPembelian::find($id);
-    //     $data->status = 'Rejected';
-    //     $data->save();
-    //     return redirect()->back();
-    // }
 }
