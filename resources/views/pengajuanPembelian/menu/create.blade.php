@@ -164,11 +164,7 @@
                                     <div class="form-group">
                                         <label class="" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Send Approval To:</label>
                                         <select class="form-select" id="floatingproposedto" placeholder="Proposed To" name="atasan" required="">
-                                            <option selected="" disabled="" value="">Please Choose One
-                                            </option>
-                                            @foreach ($atasan as $sui)
-                                            <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                            @endforeach
+                                            <option selected value="{{ $atasan->id }}">{{ $atasan->name }}</option>
                                         </select>
                                         @error('atasan')
                                         <div class='mt-1'>
@@ -177,11 +173,6 @@
                                             </span>
                                         </div>
                                         @enderror
-                                        {{-- @error('atasan')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror --}}
                                     </div>
                                 </div>
                             </div>
@@ -198,11 +189,6 @@
                                                 </span>
                                             </div>
                                             @enderror
-                                            {{-- @error('desc')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror --}}
                                         </div>
                                     </div>
                                 </div>
@@ -568,24 +554,6 @@
 
         </script>
 
-
-
-    {{-- <script type="text/javascript">
-    function otherOptionCheck() {
-    if (document.getElementById('otherOption').checked) {
-        document.getElementById('other').style.display = 'block';
-    }
-    else set.style.display = 'none';
-    }
-
-    if (document.getElementById('tebet').checked) {
-        document.getElementById('tebet').value;
-    }
-    if (document.getElementById('cikunir').checked) {
-        document.getElementById('cikunir').value;
-    }
-
-</script> --}}
 
     <script type="text/javascript">
         var pageSelector = document.getElementById('pageSelector');
