@@ -418,14 +418,15 @@
                                     </a>
                                 </li>
                                 @endhasrole
-                                @hasrole('super purchase|purchasing|super admin')
                                 @php
-                                    $po          =  App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count();
-                                    $checkpo     =  App\Models\CategoryPengajuanPembelian::where('status', 'Cross Check PO')->count();
-                                    $pyreq       =  App\Models\CategoryPengajuanPembelian::where('status', 'PO Approved')->count();
-                                    $pyprocess   =  App\Models\CategoryPengajuanPembelian::where('status', 'Unpaid')->count();
-                                    $delivery    =  App\Models\CategoryPengajuanPembelian::where('status', 'Paid')->count();
+                                $po          =  App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count();
+                                $checkpo     =  App\Models\CategoryPengajuanPembelian::where('status', 'Cross Check PO')->count();
+                                $pyreq       =  App\Models\CategoryPengajuanPembelian::where('status', 'PO Approved')->count();
+                                $pyprocess   =  App\Models\CategoryPengajuanPembelian::where('status', 'Unpaid')->count();
+                                $delivery    =  App\Models\CategoryPengajuanPembelian::where('status', 'Paid')->count();
                                 @endphp
+                                @hasrole('super purchase|purchasing|super admin')
+
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('menu-purchase-order') ? 'active' : '' }} {{ request()->is('menu-purchase-order/out') ? 'active' : '' }} {{ request()->is('menu-purchase-order/detail/*') ? 'active' : '' }}">
                                             <i data-feather="file-text" style="margin-right: -2px;"></i>
