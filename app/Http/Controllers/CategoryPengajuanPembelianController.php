@@ -255,7 +255,13 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_workshop   = Workshop::all();
         $purpose_rnd        = RND::all();
         $purpose_travel     = Travel::all();
-
+        $ppb                = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
+        if (request()->pengajuan_id == null) {
+        $ppb_old            = CategoryPengajuanPembelian::where('id',0)->get();
+        } else {
+        $ppb_old            = CategoryPengajuanPembelian::find(request()->pengajuan_id)->itemppn()->get();
+        }
+        // dd($ppb_old);
         return view('pengajuanPembelian.menu.create')
             ->with('atasan', $atasan)
             ->with('purpose', $purpose)
@@ -265,7 +271,10 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('purpose_rnd', $purpose_rnd)
             ->with('purpose_travel', $purpose_travel)
             ->with('dataws', $dataws)
-            ->with('datadepartment', $datadepartment);
+            ->with('datadepartment', $datadepartment)
+            ->with('ppb', $ppb)
+            ->with('ppb_old', $ppb_old)
+            ;
     }
 
     /**

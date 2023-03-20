@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Purchase Order</title>
+    {{-- <style>
+          @page {
+                margin: 0cm 0cm;
+            }
+    </style> --}}
 </head>
 
 <body>
@@ -417,7 +422,6 @@
     </table>
     <footer
         style="
-
                    position: fixed;
                    bottom: 0cm;
                    left: 0cm;

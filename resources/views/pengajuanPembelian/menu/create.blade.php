@@ -279,6 +279,16 @@
                                             {{-- End Travel Dropdown --}}
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select class="form-select " placeholder="Purpose" name="-" data-live-search="true" id="pengajuan-select">
+                                            <option value="">Select Pengajuan</option>
+                                            @foreach ($ppb as $p)
+                                            <option value="{{ $p->id }}">{{ $p->id }} - {{ $p->desc }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
 
                                 {{-- css hide --}}
                                 <style>
@@ -310,6 +320,7 @@
                                             Action</th>
 
                                     </tr>
+                                    @if($ppb_old->isEmpty())
                                     <tr>
                                         <td class="text">
                                             <textarea name="item[]" id="" class="form-control" rows="2" style="min-width: 300px"></textarea>
@@ -356,6 +367,59 @@
                                                 <i class="fa fa-times"></i>
                                             </button>
                                         </td>
+                                    </tr>
+                                    @else
+                                    @foreach ($ppb_old as $item)
+                                        <tr>
+                                            <td class="text">
+                                                <textarea name="item[]" id="" class="form-control" rows="2" style="min-width: 300px">{{ $item->item }}</textarea>
+                                                {{-- <input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required /> --}}
+                                            </td>
+                                            <td><input type="number" name="qty[]" placeholder="Input Quantity" value="{{ $item->qty }}" class="form-control form-calc form-qty" style="text-align: center;" required />
+                                            </td>
+                                            <td>
+                                                <select class="form-select " placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
+                                                    <option value="{{ $item->kategori }}" selected>{{ $item->kategori }} </option>
+                                                    <option value="Pcs" >Pcs </option>
+                                                    <option value="Lusin">Lusin </option>
+                                                    <option value="Box">Box </option>
+                                                    <option value="Unit">Unit </option>
+                                                    <option value="Lot">Lot </option>
+                                                    <option value="Rim">Rim </option>
+                                                    <option value="Org">Org </option>
+                                                    <option value="Line">Line </option>
+                                                    <option value="Ruang">Ruang </option>
+                                                    <option value="Pax">Pax </option>
+                                                    <option value="Set">Set </option>
+                                                    <option value="Piece">Piece </option>
+                                                    <option value="Rol">Rol </option>
+                                                    <option value="Pack">Pack </option>
+                                                    <option value="Batang">Batang </option>
+                                                    <option value="Dus">Dus </option>
+                                                    <option value="Strip">Strip </option>
+                                                    <option value="Pasang">Pasang </option>
+                                                    <option value="Lembar">Lembar </option>
+                                                    <option value="Jerigen">Jerigen </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                                                @error('path_file')
+                                                <div class='mt-1'>
+                                                    <span class=" text-danger" >
+                                                        {{ $message }}
+                                                    </span>
+                                                </div>
+                                                @enderror
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <button type="button" name="add" class="btn btn-danger remove-input-field">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @endif
                                 </table>
                                 <div class="mt-2">
                                     <button type="button" name="add" class="addItem btn btn-outline-primary">
@@ -434,6 +498,14 @@
         //Add Form
         $(".addItem").on('click', function() {
             addItem();
+        });
+
+        document.querySelector('#pengajuan-select').addEventListener('change', (e) => {
+            const { value } = e.target;
+
+            const url = new URL(window.location.href);
+            url.searchParams.set('pengajuan_id', value);
+            window.location.href = url;
         });
 
         function addItem() {
