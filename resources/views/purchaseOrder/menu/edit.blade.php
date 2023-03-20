@@ -63,7 +63,7 @@
                                                 class="fa fa-database"></i> Select
                                             Vendor</label>
                                         <select class="form-select page pageSelect" id="pageSelect"
-                                            placeholder="Proposed To" name="vendor">
+                                            placeholder="Proposed To" name="vendor" disabled>
                                             <option value="" disabled selected hidden>Select
                                                 Vendor
                                             </option>
