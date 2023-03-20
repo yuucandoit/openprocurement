@@ -349,7 +349,7 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose6 = Travel::find($request->travel);
             $pengajuan = $purpose6->purposes()->save($pengajuan);
         }
-        dd($pengajuan);
+        // dd($pengajuan);
 
         $year = Carbon::parse($pengajuan->created_at)->format('y');
         $month = Carbon::parse($pengajuan->created_at)->format('m');
