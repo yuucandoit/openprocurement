@@ -172,7 +172,7 @@ class TasklistAtasanPoController extends Controller
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
 
         //dd($datacpo);
-        return view('taskList_atasan_po.menu.po')
+        return view('taskList_atasan_PO.menu.po')
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
             ->with('datapo', $datapo)
