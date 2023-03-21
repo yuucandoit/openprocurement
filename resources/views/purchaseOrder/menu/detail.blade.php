@@ -426,6 +426,7 @@
                                                                 <option value="Pasang">Pasang </option>
                                                                 <option value="Lembar">Lembar </option>
                                                                 <option value="Jerigen">Jerigen </option>
+                                                                <option value="Meter">Meter </option>
                                                             </select>
                                                         </td>
 
