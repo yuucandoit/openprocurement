@@ -111,6 +111,14 @@
                                         <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Payment Approved' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Payment Approved">&nbsp;Payment Approved
                                         </label>
                                     </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'PO Rejected by BOD' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="PO Rejected by BOD">&nbsp;PO Rejected by BOD
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Payment Rejected By BOD' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Payment Rejected By BOD">&nbsp;Payment Rejected By BOD
+                                        </label>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="col-sm-6" >
@@ -125,6 +133,10 @@
                                     </li>
                                     <li>
                                         <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Rejected by Finance' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Rejected by Finance">&nbsp;Rejected by Finance
                                         </label>
                                     </li>
                                 </ul>
@@ -249,39 +261,34 @@
                                                 @endphp
                                                 <td style="text-align: center;">
                                                     <ul>
-                                                        @if($ppb->status == 'Rejected by Purchasing' || $ppb->status == 'Purchase Request Rejected By BOD' || $ppb->status == 'PO Rejected By BOD' || $ppb->status == 'Payment Rejected By BOD' || $ppb->status == 'Rejected By Finance')
+                                                        @if($ppb->status == 'Rejected by Purchasing' || $ppb->status == 'Purchase Request Rejected By BOD' || $ppb->status == 'PO Rejected by BOD' || $ppb->status == 'Payment Rejected By BOD' || $ppb->status == 'Rejected by Finance')
                                                             <li>
                                                                 <a class="badge badge-danger mt-1" style="color: white; font-size:10">
                                                                     {{ $ppb->status }}
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a class="mt-1" style=" font-size:10 font-weight:600;">
-                                                                    {{ \Carbon\Carbon::parse($sigpo->approved_at)->format('d-m-y  H:i:s') }}
+                                                                <a class="mt-1" style=" font-size:10; font-weight:600;">
+                                                                    {{ \Carbon\Carbon::parse($ppb->approved_at)->format('d-m-y  H:i:s') }}
                                                                  </a>
                                                             </li>
                                                             <li>
-                                                                <a class="mt-1" style=" font-size:10 font-weight:600;">
+
                                                                     @if($ppb->status == 'Rejected by Purchasing')
-                                                                    {{ $ppb->note_purchase }}
-                                                                    @endif
+                                                                    <a class="mt-1" style=" font-size:10; font-weight:600;"> {{ $ppb->note_purchase }}  </a>
 
-                                                                    @if($ppb->status == 'Purchase Request Rejected By BOD')
-                                                                    {{ $ppb->note_bod_pr }}
-                                                                    @endif
+                                                                    @elseif($ppb->status == 'Purchase Request Rejected By BOD')
+                                                                    <a class="mt-1" style=" font-size:10; font-weight:600;"> {{ $ppb->note_bod_pr }} </a>
 
-                                                                    @if($ppb->status == 'PO Rejected By BOD')
-                                                                    {{ $ppb->note_bod_po }}
-                                                                    @endif
+                                                                    @elseif($ppb->status == 'PO Rejected by BOD')
+                                                                    <a class="mt-1" style=" font-size:10; font-weight:600;"> {{ $ppb->note_bod_po }} </a>
 
-                                                                    @if($ppb->status == 'Payment Rejected By BOD')
-                                                                    {{ $ppb->note_bod_py }}
-                                                                    @endif
+                                                                    @elseif($ppb->status == 'Payment Rejected By BOD')
+                                                                    <a class="mt-1" style=" font-size:10; font-weight:600;"> {{ $ppb->note_bod_py }} </a>
 
-                                                                    @if($ppb->status == 'Rejected By Finance')
-                                                                    {{ $ppb->note_finance }}
+                                                                    @elseif($ppb->status == 'Rejected by Finance')
+                                                                    <a class="mt-1" style=" font-size:10; font-weight:600;"> {{ $ppb->note_finance }}</a>
                                                                     @endif
-                                                                </a>
                                                             </li>
                                                         @else
                                                         <li>
@@ -344,6 +351,20 @@
                                                             @endforeach
                                                         </td>
                                                         <td colspan="2"  class="text-center">
+                                                            @if($ppb->status == 'Rejected by Purchasing' || $ppb->status == 'Purchase Request Rejected By BOD' || $ppb->status == 'PO Rejected by BOD' || $ppb->status == 'Payment Rejected By BOD' || $ppb->status == 'Rejected by Finance')
+                                                            <ul>
+                                                                <li><a class="badge badge-danger mt-1" style="color: white; font-size:10">Rejected</a></li>
+                                                                <li>
+                                                                    <a class=" mt-1" style="font-size:10; font-weight:600;">
+                                                                        @if(empty($sigpo->approved_at))
+                                                                        {{ \Carbon\Carbon::parse($oldpo->approved_at)->format('d-m-y H:i:s') }}
+                                                                        @else
+                                                                        {{ \Carbon\Carbon::parse($sigpo->approved_at)->format('d-m-y H:i:s') }}
+                                                                        @endif
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                            @else
                                                             <ul>
                                                                 <li><a class="badge badge-success mt-1" style="color: white; font-size:10">Approved</a></li>
                                                                 <li>
@@ -356,6 +377,8 @@
                                                                     </a>
                                                                 </li>
                                                             </ul>
+                                                            @endif
+
                                                         </td>
                                                         @endif
                                                     </tr>

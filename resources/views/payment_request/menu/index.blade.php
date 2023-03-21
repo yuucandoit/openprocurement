@@ -216,11 +216,15 @@
                                                         @hasrole('purchasing|super admin')
 
                                                             <td class="text-center">
+                                                                @if(empty($ppb->atasan_py))
                                                                 <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #008000; font-size:10;"
                                                                 href="{{ url('/payment_request/create/' . $ppb->id) }}"><i
                                                                     class="icon-file" title="Record Data Payment"></i>
                                                                 </a>
+                                                                @else
+                                                                
+                                                                @endif
 
                                                                 {{-- <a class="btn btn-iconsolid mt-1"
                                                                     style="background-color: #00008B;"

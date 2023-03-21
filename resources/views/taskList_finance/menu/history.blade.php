@@ -35,6 +35,10 @@
                                             <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
                                             </label>
                                         </li>
+                                        <li>
+                                            <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Rejected by Finance' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Rejected by Finance">&nbsp;Rejected by Finance
+                                            </label>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -115,7 +119,8 @@
                                  $ppb->status == 'Unpaid'||
                                  $ppb->status == 'Paid'||
                                  $ppb->status == 'Delivery Process' ||
-                                 $ppb->status == 'Delivery Success')
+                                 $ppb->status == 'Delivery Success'||
+                                 $ppb->status == 'Rejected by Finance')
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td><a href="{{ route('menu-tasklist-finance.detail',$ppb->id) }}">
@@ -138,8 +143,44 @@
                                     <td style="font-weight: 700; text-align:center;">
                                         {{ $created_at }}
                                     </td>
-                                    <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                        style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                    <td style="text-align: center;">
+                                        <ul>
+                                            @if($ppb->status == 'PO Rejected by BOD')
+                                            <li>
+                                                <a class="badge badge-danger mt-1 "
+                                                    style="color: white; font-size:10">{{ $ppb->status }}
+                                                </a>
+                                            </li>
+                                            <li class="badge badge-danger mt-2">{{ $ppb->note_bod_po }}</li>
+                                            @elseif($ppb->status == 'Rejected by Purchasing')
+                                            <li>
+                                                <a class="badge badge-danger mt-1 "
+                                                    style="color: white; font-size:10">{{ $ppb->status }}
+                                                </a>
+                                            </li>
+                                            <li class="badge badge-danger mt-2">{{ $ppb->note_purchase }}</li>
+                                            @elseif($ppb->status == 'Payment Rejected By BOD')
+                                            <li>
+                                                <a class="badge badge-danger mt-1 "
+                                                    style="color: white; font-size:10">{{ $ppb->status }}
+                                                </a>
+                                            </li>
+                                            <li class="badge badge-danger mt-2">{{ $ppb->note_bod_py }}</li>
+                                            @elseif($ppb->status == 'Rejected by Finance')
+                                            <li>
+                                                <a class="badge badge-danger mt-1 "
+                                                    style="color: white; font-size:10">{{ $ppb->status }}
+                                                </a>
+                                            </li>
+                                            <li class="badge badge-danger mt-2">{{ $ppb->note_finance }}</li>
+                                            @else
+                                            <li><a class="badge badge-success mt-1 "
+                                                style="color: white; font-size:10">{{ $ppb->status }}
+                                            </a>
+                                        </li>
+                                            @endif
+                                            <li></li>
+                                        </ul>
                                     </td>
 
                                 </tr>

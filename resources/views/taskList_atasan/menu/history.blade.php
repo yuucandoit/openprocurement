@@ -118,6 +118,18 @@
                                         <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'PO Approved' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="PO Approved">&nbsp;PO Approved
                                         </label>
                                     </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Purchase Request Rejected By BOD' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="Purchase Request Rejected By BOD">&nbsp;PR Rejected By BOD
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Rejected by Purchasing' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="Rejected by Purchasing">&nbsp;Rejected by Purchasing
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'PO Rejected by BOD' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="PO Rejected by BOD">&nbsp;PO Rejected by BOD
+                                        </label>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="col-sm-6" >
@@ -140,6 +152,14 @@
                                     </li>
                                     <li>
                                         <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Payment Rejected By BOD' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Payment Rejected By BOD">&nbsp;Payment Rejected By BOD
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Rejected by Finance' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Rejected by Finance">&nbsp;Rejected by Finance
                                         </label>
                                     </li>
                                 </ul>
@@ -215,12 +235,13 @@
                                     </tr>
                                 </thead>
                                 @php
+                                    $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                     $no = 1;
                                 @endphp
                                 @foreach ($datappb as $ppb)
                                             <tbody>
                                             <tr style="background-color:#F1F6F5;">
-                                                <td style="text-align: center;">{{ $no++ }}</td>
+                                                <td style="text-align: center;">{{ $i++ }}</td>
                                                 <td>
                                                     <a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">
                                                     {{ $ppb->code_pengajuan }}
@@ -256,7 +277,7 @@
                                                 <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
                                                 <td style="text-align: center;">
                                                     <ul>
-                                                    @if($ppb->status == 'Rejected by Purchasing' || $ppb->status == 'Purchase Request Rejected By BOD' || $ppb->status == 'PO Rejected By BOD' || $ppb->status == 'Payment Rejected By BOD' || $ppb->status == 'Rejected By Finance')
+                                                    @if($ppb->status == 'Rejected by Purchasing' || $ppb->status == 'Purchase Request Rejected By BOD' || $ppb->status == 'PO Rejected by BOD' || $ppb->status == 'Payment Rejected By BOD' || $ppb->status == 'Rejected by Finance')
                                                         <li>
                                                             <a class="badge badge-danger mt-1" style="color: white; font-size:10">
                                                                 {{ $ppb->status }}
@@ -273,7 +294,7 @@
                                                                     @if(empty($ppb->note_purchase))
                                                                     -
                                                                     @else
-                                                                    {{ $ppb->note_purchase }}
+                                                                    <a class="badge badge-danger" style="font-size: 10;">{{ $ppb->note_purchase }}</a>
                                                                     @endif
                                                                 @endif
 
@@ -281,15 +302,15 @@
                                                                     @if(empty($ppb->note_bod_pr))
                                                                     -
                                                                     @else
-                                                                    {{ $ppb->note_bod_pr }}
+                                                                    <a class="badge badge-danger" style="font-size: 10;">{{ $ppb->note_bod_pr }}</a>
                                                                     @endif
                                                                 @endif
 
-                                                                @if($ppb->status == 'PO Rejected By BOD')
+                                                                @if($ppb->status == 'PO Rejected by BOD')
                                                                     @if(empty($ppb->note_bod_po))
                                                                     -
                                                                     @else
-                                                                    {{ $ppb->note_bod_po }}
+                                                                    <a class="badge badge-danger" style="font-size: 10;">{{ $ppb->note_bod_po }}</a>
                                                                     @endif
                                                                 @endif
 
@@ -297,15 +318,15 @@
                                                                     @if(empty($ppb->note_bod_py))
                                                                     -
                                                                     @else
-                                                                    {{ $ppb->note_bod_py }}
+                                                                    <a class="badge badge-danger" style="font-size: 10;">{{ $ppb->note_bod_py }}</a>
                                                                     @endif
                                                                 @endif
 
-                                                                @if($ppb->status == 'Rejected By Finance')
+                                                                @if($ppb->status == 'Rejected by Finance')
                                                                     @if(empty($ppb->note_finance))
                                                                     -
                                                                     @else
-                                                                    {{ $ppb->note_finance }}
+                                                                    <a class="badge badge-danger" style="font-size: 10;">{{ $ppb->note_finance }}</a>
                                                                     @endif
                                                                 @endif
                                                             </a>
@@ -371,6 +392,11 @@
                                                         @endforeach
                                                     </td>
                                                     <td class="text-center">
+                                                        @if($ppb->status == 'Rejected by Purchasing' || $ppb->status == 'Purchase Request Rejected By BOD' || $ppb->status == 'PO Rejected by BOD' || $ppb->status == 'Payment Rejected By BOD' || $ppb->status == 'Rejected by Finance')
+                                                        <ul>
+                                                            <li><a class="badge badge-danger mt-1"style="color: white; font-size:10">Rejected</a></li>
+                                                        </ul>
+                                                        @else
                                                         <ul>
                                                             <li><a class="badge badge-success mt-1"style="color: white; font-size:10">Approved</a></li>
                                                             <li><a class=" mt-1" style=" font-size:10; font-weight:600;">
@@ -378,6 +404,7 @@
                                                                 </a>
                                                             </li>
                                                         </ul>
+                                                        @endif
                                                     </td>
                                                     @endif
                                                 </tr>

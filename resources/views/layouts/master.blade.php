@@ -353,19 +353,7 @@
                                     <div class="mobile-back text-end"><span>Back</span><i
                                             class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                                 </li>
-                                {{-- <li class="sidebar-main-title">
-                                    <div>
-                                        <h6>Home</h6>
-                                    </div>
-                                </li> --}}
 
-                                {{-- <li class="dropdown">
-                                    <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
-                                        href="{{ url('/dashboard') }}">
-                                        <i data-feather="home"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li> --}}
 
                                 <!--Menu-->
                                 @hasrole('super admin')
@@ -1320,7 +1308,6 @@
     <script src="{{ asset('../assets/js/counter/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('../assets/js/counter/counter-custom.js') }}"></script>
     <script src="{{ asset('../assets/js/custom-card/custom-card.js') }}"></script>
-    {{-- <script src="{{ asset('../assets/js/notify/bootstrap-notify.min.js') }}"></script> --}}
     <script src="{{ asset('../assets/js/vector-map/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-world-mill-en.js') }}"></script>
     <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-us-aea-en.js') }}"></script>
@@ -1330,44 +1317,15 @@
     <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-in-mill.js') }}"></script>
     <script src="{{ asset('../assets/js/vector-map/map/jquery-jvectormap-asia-mill.js') }}"></script>
     <script src="{{ asset('../assets/js/dashboard/default.js') }}"></script>
-    {{-- <script src="{{ asset('../assets/js/notify/index.js') }}"></script> --}}
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.js') }}"></script>
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
-    <!-- Plugins JS Ends-->
-    {{--
-                    <!-- JS Zuramai-->
-                    <script src="{{ asset('assets/js_zuramai/extensions/jquery.js') }}"></script>
-                    <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-                    <script src="{{ asset('assets/js_zuramai/extensions/datatables.js') }}"></script>
-                    <!-- JS Zuramai Ends--> --}}
+
 
     <!-- Theme js-->
     <script src="{{ asset('../assets/js/script.js') }}"></script>
     {{-- <script src="{{ asset('../assets/js/theme-customizer/customizer.js') }}"></script> --}}
-    <!-- login js-->
-    <!-- Plugin used-->
-    <!-- Plugins JS start-->
-    {{-- <script src="{{ asset('../assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/jszip.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.select.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/dataTables.scroller.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatable-extension/custom.js') }}"></script> --}}
+
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
     <script src="{{ asset('assets/js/jam.js') }}"></script>
     <script src="{{ asset('../assets/js/chart/chartjs/chart.min.js') }}"></script>
@@ -1377,8 +1335,6 @@
     <script src="{{ asset('../assets/js/height-equal.js') }}"></script>
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
 
-    {{-- <script src="{{ asset('../assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/datatable/datatables/datatable.custom.js') }}"></script> --}}
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
 
     <script src="{{ asset('../assets/js/prism/prism.min.js') }}"></script>

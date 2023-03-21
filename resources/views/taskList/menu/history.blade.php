@@ -79,6 +79,10 @@
                                         <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Invoicing Process' ? 'checked': '' }}  style="margin-left:auto;" name="sort[]" type="checkbox" value="Invoicing Process">&nbsp;Invoicing Process
                                         </label>
                                     </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Payment Rejected By BOD' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Payment Rejected By BOD">&nbsp;Payment Rejected By BOD
+                                        </label>
+                                    </li>
 
                                 </ul>
                             </div>
@@ -98,6 +102,18 @@
                                     </li>
                                     <li>
                                         <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'PO Rejected by BOD' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="PO Rejected by BOD">&nbsp;PO Rejected by BOD
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Rejected by Purchasing' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Rejected by Purchasing">&nbsp;Rejected by Purchasing
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Rejected by Finance' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Rejected by Finance">&nbsp;Rejected by Finance
                                         </label>
                                     </li>
                                 </ul>
@@ -221,6 +237,7 @@
                                         </tr>
                                     </thead>
                                     @php
+                                    $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                     $no = 1;
                                     $status = [];
                                     @endphp
@@ -234,13 +251,16 @@
                                         $ppb->status == 'Unpaid' ||
                                         $ppb->status == 'Paid' ||
                                         $ppb->status == 'Delivery Process' ||
-                                        $ppb->status == 'Delivery Success')
+                                        $ppb->status == 'Delivery Success' ||
+                                        $ppb->status == 'PO Rejected by BOD' ||
+                                        $ppb->status == 'Rejected by Purchasing'
+                                        )
                                         @php
                                             $status[] = $ppb;
                                         @endphp
                                             <tbody>
                                                 <tr>
-                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td style="text-align: center;">{{ $i++ }}</td>
                                                     <td>
                                                         <a href="{{ url('/menu-task-list/detail/' . $ppb->id) }}">
                                                         <ul>
@@ -269,8 +289,43 @@
                                                        </ul>
                                                     </td>
                                                     <td style="text-align: center;">
-                                                        <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1 "
-                                                            style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                        <ul>
+                                                            @if($ppb->status == 'PO Rejected by BOD')
+                                                            <li>
+                                                                <a class="badge badge-danger mt-1 "
+                                                                    style="color: white; font-size:12">{{ $ppb->status }}
+                                                                </a>
+                                                            </li>
+                                                            <li class="badge badge-danger mt-2">{{ $ppb->note_bod_po }}</li>
+                                                            @elseif($ppb->status == 'Rejected by Purchasing')
+                                                            <li>
+                                                                <a class="badge badge-danger mt-1 "
+                                                                    style="color: white; font-size:12">{{ $ppb->status }}
+                                                                </a>
+                                                            </li>
+                                                            <li class="badge badge-danger mt-2">{{ $ppb->note_purchase }}</li>
+                                                            @elseif($ppb->status == 'Payment Rejected By BOD')
+                                                            <li>
+                                                                <a class="badge badge-danger mt-1 "
+                                                                    style="color: white; font-size:12">{{ $ppb->status }}
+                                                                </a>
+                                                            </li>
+                                                            <li class="badge badge-danger mt-2">{{ $ppb->note_bod_py }}</li>
+                                                            @elseif($ppb->status == 'Rejected by Finance')
+                                                            <li>
+                                                                <a class="badge badge-danger mt-1 "
+                                                                    style="color: white; font-size:12">{{ $ppb->status }}
+                                                                </a>
+                                                            </li>
+                                                            <li class="badge badge-danger mt-2">{{ $ppb->note_finance }}</li>
+                                                            @else
+                                                            <li><a class="badge badge-success mt-1 "
+                                                                style="color: white; font-size:12">{{ $ppb->status }}
+                                                            </a>
+                                                        </li>
+                                                            @endif
+                                                            <li></li>
+                                                        </ul>
                                                     </td>
                                                     <td style="text-align: center; white-space:nowrap;">
                                                         <a class="btn btn-iconsolid mt-1"

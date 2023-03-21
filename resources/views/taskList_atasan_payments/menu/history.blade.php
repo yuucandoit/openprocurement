@@ -131,6 +131,10 @@
                                         <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Unpaid' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Unpaid">&nbsp;Unpaid
                                         </label>
                                     </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Payment Rejected By BOD' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Payment Rejected By BOD">&nbsp;Payment Rejected By BOD
+                                        </label>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="col-sm-6" >
@@ -141,6 +145,10 @@
                                     </li>
                                     <li>
                                         <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Rejected by Finance' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Rejected by Finance">&nbsp;Rejected by Finance
                                         </label>
                                     </li>
                                 </ul>
@@ -263,7 +271,7 @@
                                                       @endphp
                                                         <td style="text-align: center;">
                                                             <ul>
-                                                                @if($ppb->status == 'Rejected by Purchasing' || $ppb->status == 'Purchase Request Rejected By BOD' || $ppb->status == 'PO Rejected By BOD' || $ppb->status == 'Payment Rejected By BOD' || $ppb->status == 'Rejected By Finance')
+                                                                @if($ppb->status == 'Rejected by Purchasing' || $ppb->status == 'Purchase Request Rejected By BOD' || $ppb->status == 'PO Rejected by BOD' || $ppb->status == 'Payment Rejected By BOD' || $ppb->status == 'Rejected by Finance')
                                                                     <li>
                                                                         <a class="badge badge-danger mt-1" style="color: white; font-size:10">
                                                                             {{ $ppb->status }}
@@ -271,7 +279,7 @@
                                                                     </li>
                                                                     <li>
                                                                         <a class="badge badge-danger mt-1" style="color: white; font-size:10">
-                                                                            {{ \Carbon\Carbon::parse($sigpo->approved_at)->format('d-m-y  h:i:s') }}
+                                                                            {{ \Carbon\Carbon::parse($ppb->approved_at)->format('d-m-y  h:i:s') }}
                                                                          </a>
                                                                     </li>
                                                                     <li>
@@ -284,7 +292,7 @@
                                                                             {{ $ppb->note_bod_pr }}
                                                                             @endif
 
-                                                                            @if($ppb->status == 'PO Rejected By BOD')
+                                                                            @if($ppb->status == 'PO Rejected by BOD')
                                                                             {{ $ppb->note_bod_po }}
                                                                             @endif
 
@@ -292,7 +300,7 @@
                                                                             {{ $ppb->note_bod_py }}
                                                                             @endif
 
-                                                                            @if($ppb->status == 'Rejected By Finance')
+                                                                            @if($ppb->status == 'Rejected by Finance')
                                                                             {{ $ppb->note_finance }}
                                                                             @endif
                                                                         </a>
@@ -358,6 +366,22 @@
                                                                 @endforeach
                                                             </td>
                                                             <td colspan="2" class="text-center">
+                                                                @if($ppb->status == 'Rejected by Purchasing' || $ppb->status == 'Purchase Request Rejected By BOD' || $ppb->status == 'PO Rejected by BOD' || $ppb->status == 'Payment Rejected By BOD' || $ppb->status == 'Rejected by Finance')
+                                                                <ul>
+                                                                    <li>
+                                                                        <a class="badge badge-danger mt-1"style="color: white; font-size:10">Rejected</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class=" mt-1" style="font-size:10; font-weight:600;">
+                                                                            @if(empty($sigpo->approved_at))
+                                                                            {{ \Carbon\Carbon::parse($oldpo->approved_at)->format('d-m-y H:i:s') }}
+                                                                            @else
+                                                                            {{ \Carbon\Carbon::parse($sigpo->approved_at)->format('d-m-y H:i:s') }}
+                                                                            @endif
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                                @else
                                                                 <ul>
                                                                     <li>
                                                                         <a class="badge badge-success mt-1"style="color: white; font-size:10">Approved</a>
@@ -372,6 +396,7 @@
                                                                         </a>
                                                                     </li>
                                                                 </ul>
+                                                                @endif
                                                             </td>
 
                                                             @endif

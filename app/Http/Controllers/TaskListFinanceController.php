@@ -94,7 +94,8 @@ class TaskListFinanceController extends Controller
             $datappb = CategoryPengajuanPembelian::where('status','Unpaid')->
             orWhere('status','Paid')->
             orWhere('status','Delivery Process')->
-            orWhere('status','Delivery Success')->paginate(10);
+            orWhere('status','Delivery Success')->
+            orWhere('status','Rejected by Finance')->paginate(10);
             $datadv = TaskListFinance::all();
             $datapo = CategoryPO::get();
             return view('taskList_finance.menu.history')

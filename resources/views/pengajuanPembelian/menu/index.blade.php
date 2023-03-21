@@ -450,7 +450,7 @@
                         <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">-</a></li>
                         @else
                         <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod {{ $ppembelian->atasans->name }}</a></li>
-                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected By Bod {{ $ppembelian->note_bod_po }}</a></li>
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">{{ $ppembelian->note_bod_po }}</a></li>
 
                         @endif
                     {{-- <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasans->name }} )</a> --}}

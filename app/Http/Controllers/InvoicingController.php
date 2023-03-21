@@ -151,7 +151,8 @@ class InvoicingController extends Controller
         if ($check->role_id == 4 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where('status','Invoicing Process')
             ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')
+            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orWhere('status','Payment Rejected By BOD')
+            ->orWhere('status','Rejected by Finance')
             ->paginate(10);
             return view('payment_request.menu.history')
                 ->with('datappb',$datappb);
