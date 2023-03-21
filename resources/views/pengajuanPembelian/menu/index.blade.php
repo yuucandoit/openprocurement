@@ -263,7 +263,7 @@
                         @if ($ppembelian->status == 'Purchase Request Rejected By BOD')
                         <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
                         @endif
-                        @if ($ppembelian->status == 'PO Rejected By BOD')
+                        @if ($ppembelian->status == 'PO Rejected by BOD')
                         <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected PO</a>
                         @endif
                         </p>
@@ -312,7 +312,7 @@
                             -
                             @elseif ($ppembelian->status == 'Payment Rejected By BOD')
                             -
-                            @elseif ($ppembelian->status == 'PO Rejected By BOD')
+                            @elseif ($ppembelian->status == 'PO Rejected by BOD')
                             -
                             @elseif ($ppembelian->status == 'Rejected by Finance')
                             -
@@ -462,7 +462,7 @@
                 @endhasrole
 
                 <td style="text-align: center;">
-                
+
                     @if ($ppembelian->status == 'Awaiting Purchase Request Approval' )
 
                   <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;  font-size:10;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
