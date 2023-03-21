@@ -289,6 +289,17 @@
                         <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
                         @elseif ($ppembelian->status == 'Rejected by Finance')
                         <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                        -
+                        @elseif ($ppembelian->status == 'Rejected by Purchasing')
+                        -
+                        @elseif ($ppembelian->status == 'Purchase Request Rejected By BOD')
+                        -
+                        @elseif ($ppembelian->status == 'Payment Rejected By BOD')
+                        -
+                        @elseif ($ppembelian->status == 'PO Rejected by BOD')
+                        -
+                        @elseif ($ppembelian->status == 'Rejected by Finance')
+                        -
                         @endif
                         </p>
                         </li>
@@ -433,7 +444,7 @@
                         @endif
                     {{-- <a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod ( {{ $ppembelian->atasanpymnt->name }} )</a> --}}
                     @endif
-                    @if ($ppembelian->status == 'PO Rejected By BOD')
+                    @if ($ppembelian->status == 'PO Rejected by BOD')
                         @if(empty( $ppembelian->atasans->name))
                         <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Bod</a></li>
                         <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">-</a></li>
