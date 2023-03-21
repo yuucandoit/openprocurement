@@ -104,7 +104,6 @@ class CheckPOController extends Controller
         }
     }
 
-
     public function detail($id)
     {
         $pt                 = CategoryPT::all();
@@ -149,69 +148,58 @@ class CheckPOController extends Controller
             ->with('data_pengajuan', $data_pengajuan)
             ->with('comments', $comments);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+
+    public function history()
     {
-        //
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 17 || $check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
+            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
+            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orWhere('status','Rejected by Purchasing')->orWhere('status','PO Rejected by BOD')
+            ->orWhere('status','Payment Rejected By BOD')->orWhere('status','Rejected by Finance')->orderBy('updated_at','desc')->paginate(10);
+            $pt = CategoryPT::all();
+            $op = CategoryPP::all();
+            $ec = CategoryEcommerce::all();
+            $datapo = CategoryPO::all();
+            return view('purchaseOrder.menu.check-po.history')
+                ->with('pt', $pt)
+                ->with('op', $op)
+                ->with('ec', $ec)
+                ->with('datappb', $datappb)
+                ->with('datapo', $datapo);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function SearchHistoryCheckPO(Request $request)
     {
-        //
-    }
+     $cari = $request->cari;
+     //dd($cari);
+     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     ->orWhere('id','like',"%".$cari."%")
+     ->orWhere('status','like',"%".$cari."%")
+     ->orWhere('desc','like',"%".$cari."%")
+     ->orWhereHas('itemppn', function($i) use($cari){
+         $i->where('item','like',"%".$cari."%");
+     })
+     ->orWhereHas('whosubmit', function($q) use($cari){
+          $q->where('name','like',"%".$cari."%");
+     })
+     ->paginate(10);
+     $datapo          = CategoryPO::get();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+     return view('purchaseOrder.menu.check-po.history')
+     ->with('datappb',$datappb)
+     ->with('datapo', $datapo);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function SortHistoryCheckPO(Request $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+     $sort = $request->sort;
+     $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
+     $datapo = CategoryPO::get();
+     return view('purchaseOrder.menu.check-po.history')
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo)
+     ->with('sort',$sort);
     }
 }

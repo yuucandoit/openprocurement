@@ -440,6 +440,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/ajukan_keatasan/{id}', [CheckPOController::class, 'ajukan_keatasan'])->name('check_po-ajukan_keatasan');
         Route::get('/denied/{id}', [CheckPOController::class, 'denied'])->name('check_po-denied');
         Route::get('/search/checkpo',[CheckPOController::class, 'SearchCheckPO'])->name('check_po.SearchCheckPO');
+        Route::get('/history', [CheckPOController::class, 'history'])->name('check_po.history');
+        Route::get('/search/history/checkpo',[CheckPOController::class, 'SearchHistoryCheckPO'])->name('check_po.SearchHistoryCheckPO');
+        Route::get('/history/sortCP',[CheckPOController::class, 'SortHistoryCheckPO'])->name('check_po.SortHistoryCheckPO');
     });
 
     //admin
