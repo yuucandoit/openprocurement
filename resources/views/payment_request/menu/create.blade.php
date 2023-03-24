@@ -175,7 +175,13 @@
                                     @if(empty($item_po))
 
                                     @else
-                                    Rp.{{ number_format($item_po->grand_total,2) }}
+
+                                        @if($item_po->matauang == 'RP')
+                                        Rp.{{ number_format($item_po->grand_total,2) }}
+                                        @elseif ($item_po->matauang == 'USD')
+                                        $ {{ number_format($item_po->grand_total,2) }}
+                                        @endif
+
                                     @endif
                                 </span>
                             </button>
