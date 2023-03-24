@@ -168,7 +168,7 @@
                     <div class="card">
                         <div class="card-header" id="heading{{ $po->id }}">
                         <h5 class="mb-0">
-                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1">
+                            <button class="btn btn-link" style="width: 100%;" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1">
                                 <span style="font-weight: bold; color:green; float: left;">{{ $po->code_po }}</span>
                                 <span style="float: left;">&nbsp; Vendor #{{ $po->vendorable->nama }}</span>
                                 <span  style="float: right;">

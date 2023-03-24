@@ -208,11 +208,17 @@
                                     <span style="font-weight: bold; color:green; float: left;">{{ $po->id }}/PO/SII/{{ $month }}/{{ $year }}</span>
                                     <span style="float: left;">&nbsp; Vendor #{{ $po->vendorable->nama }}</span>
                                     <span  style="float: right;">
-                                        @if(empty($item_po))
+                                    @if(empty($item_po))
 
-                                        @else
+                                    @else
+
+                                        @if($item_po->matauang == 'RP')
                                         Rp.{{ number_format($item_po->grand_total,2) }}
+                                        @elseif ($item_po->matauang == 'USD')
+                                        $ {{ number_format($item_po->grand_total,2) }}
                                         @endif
+
+                                    @endif
                                     </span>
                                 </button>
                             </div>
