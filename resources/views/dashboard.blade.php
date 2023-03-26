@@ -232,6 +232,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-4 col-md-12 box-col-12">
+                            <div class="card card-absolute">
+                                <div class="card-header bg-dark">
+                                    <h5 class="text-white" style="font-weight: bold; ">Pie
+                                        Chart</h5>
+                                </div>
+                                <div class="card-body chart-block">
+                                    <canvas id="pieUser"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 @endhasrole
@@ -692,7 +703,7 @@
                     data: [
                         @foreach ($data_fail as $fail)
                             {{ $fail }},
-                        @endforeach
+                        @endforeach,
                     ],
                 },
             ]
@@ -819,6 +830,32 @@
                         @endforeach
                     ],
                 },
+            ]
+        };
+    </script>
+    <script>
+        const pieUser = {
+            labels: [
+                "Success",
+                "Pending",
+                "Failed",
+            ],
+            datasets :[{
+                    backgroundColor: [
+
+                        "rgb(12, 174, 0)",
+                        // "rgb(255,255,255)",
+                        "rgba(255, 225, 0, 0.9)",
+                        "rgba(255, 0, 0)",
+                        // "rgb(0, 0, 0)",
+                    ],
+
+                    data: [
+                        {{ $pr_success_count }},
+                        {{ $pr_pending_count }},
+                        {{ $pr_fail_count }},
+                        ],
+                }
             ]
         };
     </script>
@@ -1159,6 +1196,12 @@
         },
     };
 </script>
+<script>
+    const UserPie = {
+        type: 'pie',
+        data:pieUser,
+    }
+</script>
 
     <script>
         const datawarga = {
@@ -1221,5 +1264,12 @@
             finance
         );
     </script>
+    <script>
+        const usersPie = new Chart(
+            document.getElementById("pieUser"),
+            UserPie
+        );
+    </script>
+
 
 @endsection

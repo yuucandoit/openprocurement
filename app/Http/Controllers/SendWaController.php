@@ -14,6 +14,7 @@ class SendWaController extends Controller
         $po  = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->get();
         $pd  = CategoryPengajuanPembelian::where('status','Invoicing Process')->get();
         // $user = User::whereIn([3,6,7,8,9]);
+        dd($pr);
         $url = "http://127.0.0.1:3000/send/message";
 
         $purchaserequest = '';
@@ -24,36 +25,42 @@ class SendWaController extends Controller
 
 
         foreach ($pr as $preq) {
+            // dd($preq->atasan);
             if ($preq->atasan == 3) {
                 if(empty($preq)){
                     $purchaserequest ='-';
                 }else {
                     $purchaserequest .='-'.  $preq->code_pengajuan.' '. $preq->whosubmit->name ."\n";
                 }
+                $phone_number = '1(206)4869113';
             } elseif($preq->atasan == 6) {
                 if(empty($preq)){
                     $purchaserequest ='-';
                 }else {
                     $purchaserequest .='-'.  $preq->code_pengajuan.' '. $preq->whosubmit->name ."\n";
                 }
+                $phone_number = '6289618786152';
             } elseif($preq->atasan == 7) {
                 if(empty($preq)){
                     $purchaserequest ='-';
                 }else {
                     $purchaserequest .='-'.  $preq->code_pengajuan.' '. $preq->whosubmit->name ."\n";
                 }
+                $phone_number = '6285941390437';
             } elseif($preq->atasan == 8) {
                 if(empty($preq)){
                     $purchaserequest ='-';
                 }else {
                     $purchaserequest .='-'.  $preq->code_pengajuan.' '. $preq->whosubmit->name ."\n";
                 }
+                $phone_number = '6283853423490';
             } elseif($preq->atasan == 9) {
                 if(empty($preq)){
                     $purchaserequest ='-';
                 }else {
                     $purchaserequest .='-'.  $preq->code_pengajuan.' '. $preq->whosubmit->name ."\n";
                 }
+                $phone_number = '6283805396427';
             }
 
         }
@@ -64,30 +71,35 @@ class SendWaController extends Controller
                 }else {
                $purchaseorder .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
                }
+               $phone_number = '1(206)4869113';
             } elseif ($p->atasan_po == 6) {
                 if (empty($p)) {
                     $purchaseorder .='';
                     }else {
                    $purchaseorder .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
                    }
+                $phone_number = '6289618786152';
             } elseif ($p->atasan_po == 7) {
                 if (empty($p)) {
                     $purchaseorder .='';
                     }else {
                    $purchaseorder .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
                    }
+                   $phone_number = '6285941390437';
             } elseif ($p->atasan_po == 8) {
                 if (empty($p)) {
                     $purchaseorder .='';
                     }else {
                    $purchaseorder .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
                    }
+                   $phone_number = '6283853423490';
             } elseif ($p->atasan_po == 9) {
                 if (empty($p)) {
                     $purchaseorder .='';
                     }else {
                    $purchaseorder .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
                    }
+                   $phone_number = '6283805396427';
             }
             // $purchaseorder .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
         }
@@ -98,38 +110,43 @@ class SendWaController extends Controller
                  }else {
                 $paymentrequest .='-'.  $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\n";
                 }
+                $phone_number = '1(206)4869113';
              } elseif ($pdana->atasan_py == 6) {
                  if (empty($p)) {
                      $paymentrequest .='';
                      }else {
                     $paymentrequest .='-'.  $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\n";
                     }
+                    $phone_number = '6289618786152';
              } elseif ($pdana->atasan_py == 7) {
                  if (empty($p)) {
                      $paymentrequest .='';
                      }else {
                     $paymentrequest .='-'.  $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\n";
                     }
+                    $phone_number = '6285941390437';
              } elseif ($pdana->atasan_py == 8) {
                  if (empty($p)) {
                      $paymentrequest .='';
                      }else {
                     $paymentrequest .='-'.  $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\n";
                     }
+                    $phone_number = '6283853423490';
              } elseif ($pdana->atasan_py == 9) {
                  if (empty($p)) {
                      $paymentrequest .='';
                      }else {
                     $paymentrequest .='-'.  $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\n";
                     }
+                    $phone_number = '6283805396427';
              }
             // $paymentrequest .='-'. $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\n";
         }
-        // dd($purchaserequest);
+        // dd($phone_number);
 
 if(empty($pr)){
     $response = Http::post($url, [
-'phone' => '6283805396427',
+'phone' => ''.$phone_number.'',
 'message' => 'Here are some requests, which need your approval
 
 ----- Purchase Order ('.$pd->count().') -------
@@ -145,7 +162,7 @@ Please Approve It ASAP
 ',]);
 }elseif(empty($po)){
     $response = Http::post($url, [
-'phone' => '6283805396427',
+'phone' => ''.$phone_number.'',
 'message' => 'Here are some requests, which need your approval
 ----- Purchase Request ('.$pr->count().') ------
 '.$purchaserequest.'
@@ -160,7 +177,7 @@ Please Approve It ASAP
 ',]);
 }elseif(empty($pd)){
     $response = Http::post($url, [
-'phone' => '6283805396427',
+'phone' => ''.$phone_number.'',
 'message' => 'Here are some requests, which need your approval
 ----- Purchase Request ('.$pr->count().') ------
 '.$purchaserequest.'
@@ -175,7 +192,7 @@ Please Approve It ASAP
 ',]);
 }else {
     $response = Http::post($url, [
-'phone' => '6283805396427',
+'phone' => '12064869113',
 'message' => 'Here are some requests, which need your approval
 ----- Purchase Request ('.$pr->count().') ------
 '.$purchaserequest.'

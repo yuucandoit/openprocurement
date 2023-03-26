@@ -42,6 +42,9 @@ class HomeController extends Controller
         $pr_pending          = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('user_id',Auth::user()->id)->where('status', 'Awaiting Purchase Request Approval')->get();
         $pr_success          = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('user_id',Auth::user()->id)->where('status', 'Delivery Success')->get();
         $pr_fail             = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('user_id',Auth::user()->id)->where('status','like',"%Rejected%")->get();
+        $pr_pending_count    = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('user_id',Auth::user()->id)->where('status', 'Awaiting Purchase Request Approval')->count();
+        $pr_success_count    = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('user_id',Auth::user()->id)->where('status', 'Delivery Success')->count();
+        $pr_fail_count       = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('user_id',Auth::user()->id)->where('status','like',"%Rejected%")->count();
         $task_bod_pr         = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('atasan',Auth::user()->id)->where('status', '!=' ,'Awaiting Purchase Request Approval')->get();
         $task_bod_po         = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('atasan_po',Auth::user()->id)->get();
         $task_bod_py         = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('atasan_py',Auth::user()->id)->get();
@@ -153,7 +156,10 @@ class HomeController extends Controller
             ->with('data_pymntreq', $data_pymntreq)
             ->with('data_delivery', $data_delivery)
             ->with('taskFinance', $taskFinance)
-            ->with('data_pp', $data_pp);
+            ->with('data_pp', $data_pp)
+            ->with('pr_pending_count', $pr_pending_count)
+            ->with('pr_success_count', $pr_success_count)
+            ->with('pr_fail_count', $pr_fail_count);
 
         }
     }

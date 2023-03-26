@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\SendNotifikasiBOD;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,7 +16,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        //Send Notif WA
+        // $schedule->command('send:notif')->twiceDaily(11,16);
+        $schedule->command(SendNotifikasiBOD::class)->twiceDaily(11,15);
     }
 
     /**
