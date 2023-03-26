@@ -545,6 +545,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::get('send-wa', [SendWaController::class,'send'])->name('send-wa');
+
 });
 
 Auth::routes();
