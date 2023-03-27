@@ -71,6 +71,7 @@ $response = Http::post($url, [
 '.$purchaserequest.'
 Link : https://e-pro.intek.co.id/menu-taskList-atasan
 
+This message was sent automatically, please do not reply.
 ',]);
 //End Purchase Request
 
@@ -95,6 +96,8 @@ $response = Http::post($url, [
 '.$purchaseorder1.'
 Link : https://e-pro.intek.co.id/menu-taskList-atasan-po
 
+This message was sent automatically, please do not reply.
+
 ',]);
 //End Notif PO Bu yani
 
@@ -115,6 +118,8 @@ $response = Http::post($url, [
 ----- Purchase Order ('.$po2->count().') -------
 '.$purchaseorder2.'
 Link : https://e-pro.intek.co.id/menu-taskList-atasan-po
+
+This message was sent automatically, please do not reply.
 
 ',]);
 
@@ -139,6 +144,8 @@ $response = Http::post($url, [
 '.$purchaseorder3.'
 Link : https://e-pro.intek.co.id/menu-taskList-atasan-po
 
+This message was sent automatically, please do not reply.
+
 ',]);
 //End Notif WA Pak Victor
 
@@ -159,6 +166,8 @@ $response = Http::post($url, [
 ----- Purchase Order ('.$po4->count().') -------
 '.$purchaseorder4.'
 Link : https://e-pro.intek.co.id/menu-taskList-atasan-po
+
+This message was sent automatically, please do not reply.
 
 ',]);
 //End Notif WA Pak Erwin
@@ -186,6 +195,8 @@ $response = Http::post($url, [
 Link : https://e-pro.intek.co.id/menu-taskList-atasan-payment
 Please Approve It ASAP
 
+This message was sent automatically, please do not reply.
+
 ',]);
 
 //End Notif Wa Bu yani
@@ -208,6 +219,8 @@ $response = Http::post($url, [
 '.$paymentrequest2.'
 Link : https://e-pro.intek.co.id/menu-taskList-atasan-payment
 Please Approve It ASAP
+
+This message was sent automatically, please do not reply.
 
 ',]);
 
@@ -232,6 +245,8 @@ $response = Http::post($url, [
 Link : https://e-pro.intek.co.id/menu-taskList-atasan-payment
 Please Approve It ASAP
 
+This message was sent automatically, please do not reply.
+
 ',]);
 
 //End Notif Pak Victor
@@ -254,6 +269,8 @@ foreach($pd4 as $pdana) {
 '.$paymentrequest4.'
 Link : https://e-pro.intek.co.id/menu-taskList-atasan-payment
 Please Approve It ASAP
+
+This message was sent automatically, please do not reply.
 
 ',]);
 
