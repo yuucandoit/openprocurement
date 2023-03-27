@@ -69,8 +69,17 @@
 
                                 <?php
                                     $duit = 100000002;
-                                ?>
 
+                                foreach ($data_pengajuan->quot as $po_atasan) {
+                                      $po_bod = $po_atasan;
+                                  }
+                                  foreach ($po_bod->itempo as $supply) {
+                                      $itemprchs = $supply;
+                                      $convert = (int)$itemprchs->grand_total;
+                                    // $grand = $convert + 60000000;
+                                  }
+
+                                ?>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label" style="font-weight: bold;"><i
@@ -80,24 +89,47 @@
                                             <option selected="" disabled="" value="">-- Send Approval To
                                                 --
                                             </option>
+
+
                                         @if($data_pengajuan->ppn == 0)
                                             @foreach ($total_tnpa_ppn as $tpn)
-                                                @if($tpn->total < 10000001 )
-                                                    @foreach ($atasan as $sui)
-                                                        <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                                    @endforeach
-                                                @elseif($tpn->total < 50000001)
-                                                    @foreach ($atasan1 as $sui1)
-                                                        <option value="{{ $sui1->id }}">{{ $sui1->name }}</option>
-                                                    @endforeach
-                                                @elseif($tpn->total < 100000001)
-                                                    @foreach ($atasan2 as $sui2)
-                                                        <option value="{{ $sui2->id }}">{{ $sui2->name }}</option>
-                                                    @endforeach
+
+                                                @if($tpn->total == null)
+                                                        @if($convert < 10000001 )
+                                                            @foreach ($atasan as $sui)
+                                                                <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                            @endforeach
+                                                        @elseif($convert < 50000001)
+                                                            @foreach ($atasan1 as $sui1)
+                                                                <option value="{{ $sui1->id }}">{{ $sui1->name }}</option>
+                                                            @endforeach
+                                                        @elseif($convert < 100000001)
+                                                            @foreach ($atasan2 as $sui2)
+                                                                <option value="{{ $sui2->id }}">{{ $sui2->name }}</option>
+                                                            @endforeach
+                                                        @else
+                                                            @foreach ($atasan3 as $sui3)
+                                                                <option value="{{ $sui3->id }}">{{ $sui3->name }}</option>
+                                                            @endforeach
+                                                        @endif
                                                 @else
-                                                    @foreach ($atasan3 as $sui3)
-                                                        <option value="{{ $sui3->id }}">{{ $sui3->name }}</option>
-                                                    @endforeach
+                                                        @if($tpn->total < 10000001 )
+                                                            @foreach ($atasan as $sui)
+                                                                <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                            @endforeach
+                                                        @elseif($tpn->total < 50000001)
+                                                            @foreach ($atasan1 as $sui1)
+                                                                <option value="{{ $sui1->id }}">{{ $sui1->name }}</option>
+                                                            @endforeach
+                                                        @elseif($tpn->total < 100000001)
+                                                            @foreach ($atasan2 as $sui2)
+                                                                <option value="{{ $sui2->id }}">{{ $sui2->name }}</option>
+                                                            @endforeach
+                                                        @else
+                                                            @foreach ($atasan3 as $sui3)
+                                                                <option value="{{ $sui3->id }}">{{ $sui3->name }}</option>
+                                                            @endforeach
+                                                        @endif
                                                 @endif
                                             @endforeach
                                         @elseif($data_pengajuan->ppn == 1)
