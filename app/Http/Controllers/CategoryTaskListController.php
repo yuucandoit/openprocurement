@@ -22,7 +22,7 @@ class CategoryTaskListController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 ||$check->role_id == 3) {
+        if ($check->role_id == 4 ||$check->role_id == 3||$check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             $datappb2 = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')->orWhere('status','Payment Approved')->orWhere('status','Unpaid')->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
             $purpose = ReferensiNamaProject::all();
@@ -86,7 +86,7 @@ class CategoryTaskListController extends Controller
     public function history()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 ||$check->role_id == 3) {
+        if ($check->role_id == 4 ||$check->role_id == 3 ||$check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')
             ->orWhere('status','Waiting For PO Approval')
             ->orWhere('status', 'PO Approved')
