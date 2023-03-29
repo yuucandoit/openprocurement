@@ -306,16 +306,9 @@
                                             <tr>
                                                 <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
                                                 <td style="text-align: center;">{{ $p->qty }}</td>
-                                                <td style="text-align: center;">{{ $p->kategori }}</td>
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    <td style="text-align:right;">RP. {{ number_format($p->unit_price) }}
-                                                    </td>
-                                                    <td style="text-align:right;">RP. {{ number_format($p->total) }}</td>
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    <td style="text-align:right;">$ {{ number_format($p->unit_price /100 ,2) }}
-                                                    </td>
-                                                    <td style="text-align:right;">$ {{ number_format($p->total /100 ,2) }}</td>
-                                                @endif
+                                                <td style="text-align: center;">{{ $p->kategori }}</td>+
+                                                <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->unit_price) }}</td>
+                                                <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->total) }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -325,26 +318,14 @@
                                         <td><label class="pull-right mx-2"> DPP :</label></td>
                                         <td style="text-align: right;">
                                             @foreach ($dpp as $d)
-                                                {{-- Ketika mata uang yang dipilih RP --}}
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    RP. {{ number_format($d->total) }}
-                                                    {{-- Ketika mata uang yang dipilih USD --}}
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    $ {{ number_format($d->total /100 ,2) }}
-                                                @endif
+                                                {{ $data_pengajuan->matauang }} {{ number_format($d->total) }}
                                             @endforeach
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><label class="pull-right mx-2"> Discount :</label></td>
                                         <td style="text-align: right;">
-                                                {{-- Ketika mata uang yang dipilih RP --}}
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    RP. {{ number_format($disc->discount) }}
-                                                    {{-- Ketika mata uang yang dipilih USD --}}
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    $ {{ number_format($disc->discount /100 ,2) }}
-                                                @endif
+                                            {{ $data_pengajuan->matauang }} {{ number_format($disc->discount) }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -357,23 +338,11 @@
                                         <td style="text-align:right;">
                                             @if ($data_pengajuan->ppn == 1)
                                                 @foreach ($ppn as $p)
-                                                    {{-- Ketika mata uang yang dipilih RP --}}
-                                                    @if ($data_pengajuan->matauang == 'RP')
-                                                        RP. {{ number_format($p->total) }}
-                                                        {{-- Ketika mata uang yang dipilih USD --}}
-                                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                                        $ {{ number_format($p->total /100 ,2) }}
-                                                    @endif
+                                                    {{ $data_pengajuan->matauang }} {{ number_format($p->total) }}
                                                 @endforeach
                                             @else
                                                 @foreach ($ppn as $p)
-                                                    {{-- Ketika mata uang yang dipilih RP --}}
-                                                    @if ($data_pengajuan->matauang == 'RP')
-                                                        RP. 0
-                                                        {{-- Ketika mata uang yang dipilih USD --}}
-                                                    @elseif ($data_pengajuan->matauang == 'USD')
-                                                        $ 0
-                                                    @endif
+                                                    {{ $data_pengajuan->matauang }} 0
                                                 @endforeach
                                             @endif
                                         </td>
@@ -381,25 +350,13 @@
                                     @if ($data_pengajuan->ppn == 1)
                                         <tr>
                                             <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-
                                             @foreach ($total as $t)
-                                                {{-- jika mata uang yang di pilih RP Maka Return RP.   --}}
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    <td style="text-align:right;">RP. {{ number_format($t->total) }}</td>
-
-                                                    {{-- jika mata uang yang di pilih USD Maka Return $    --}}
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    <td style="text-align:right;">$ {{ number_format($t->total /100 ,2) }}</td>
-                                                @endif
+                                            <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($t->total) }}</td>
                                             @endforeach
                                         @elseif ($data_pengajuan->ppn == 0)
                                             <td class="text-end" style="font-weight: bold;">Grand Total :</td>
                                             @foreach ($total_tnpa_ppn as $tpn)
-                                                @if ($data_pengajuan->matauang == 'RP')
-                                                    <td style="text-align:right;">RP. {{ number_format($tpn->total) }}</td>
-                                                @elseif ($data_pengajuan->matauang == 'USD')
-                                                    <td style="text-align:right;">$ {{ number_format($tpn->total /100 ,2) }}</td>
-                                                @endif
+                                            <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($tpn->total) }}</td>
                                             @endforeach
                                         </tr>
                                     @endif
@@ -439,18 +396,8 @@
                                                 <td class="text-center">{{ $item->item }}</td>
                                                 <td class="text-center">{{ $item->qty }}</td>
                                                 <td class="text-center">{{ $item->kategori }}</td>
-
-                                                @if ($item->matauang == 'RP')
-                                                    <td class="text-end">RP.
-                                                        {{ number_format($item->unit_price,2) }}</td>
-                                                    <td class="text-end">RP. {{ number_format($item->total,2)  }}
-                                                    </td>
-                                                @elseif($item->matauang == 'USD')
-                                                    <td class="text-end">$
-                                                        {{ number_format($item->unit_price  ,2) }}</td>
-                                                    <td class="text-end">$
-                                                        {{ number_format($item->total  ,2) }}</td>
-                                                @endif
+                                                <td class="text-end">{{ $item->matauang }} {{ number_format($item->unit_price,2) }}</td>
+                                                <td class="text-end">{{ $item->matauang }} {{ number_format($item->total,2)  }}</td>
                                             </tr>
                                     @endforeach
                                 </table>
@@ -461,21 +408,13 @@
                                         <tr>
                                             <td><label class="pull-right mx-2"> DPP :</label></td>
                                             <td style="text-align: right;">
-                                                @if ($value->matauang == 'RP')
-                                                    RP. {{ number_format($value->dpp ,2) }}
-                                                @elseif ($value->matauang == 'USD')
-                                                    $ {{ number_format($value->dpp ,2) }}
-                                                @endif
+                                                {{ $value->matauang }} {{ number_format($value->dpp ,2) }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><label class="pull-right mx-2"> Discount :</label></td>
                                             <td style="text-align: right;">
-                                                @if ($value->matauang == 'RP')
-                                                    RP. {{ number_format($value->discount) }}
-                                                @elseif ($value->matauang == 'USD')
-                                                    $ {{ number_format($value->discount ,2) }}
-                                                @endif
+                                                {{ $value->matauang }} {{ number_format($value->discount) }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -500,17 +439,9 @@
                                                     // dd($dpp);
                                                     $ppn = $afterdisc *11 /100;
                                                 @endphp
-                                                    @if ($value->matauang == 'RP')
-                                                        RP. {{ number_format($ppn,2) }}
-                                                    @elseif ($value->matauang == 'USD')
-                                                        $ {{ number_format($ppn ,2) }}
-                                                    @endif
+                                                    {{ $value->matauang }} {{ number_format($ppn,2) }}
                                                 @else
-                                                    @if ($value->matauang == 'RP')
-                                                        RP. 0
-                                                    @elseif ($value->matauang == 'USD')
-                                                        $ 0
-                                                    @endif
+                                                    {{ $value->matauang }} 0
                                                 @endif
 
                                             </td>
@@ -518,21 +449,13 @@
                                         <tr>
                                             <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
                                             <td style="text-align: right;">
-                                                @if ($value->matauang == 'RP')
-                                                    RP. {{ number_format($value->ongkir,2) }}
-                                                @elseif ($value->matauang == 'USD')
-                                                    $ {{ number_format($value->ongkir ,2) }}
-                                                @endif
+                                                {{ $value->matauang }} {{ number_format($value->ongkir,2) }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><label class="pull-right mx-2">Admin Or Service Fee :</label></td>
                                             <td style="text-align: right;">
-                                                @if ($value->matauang == 'RP')
-                                                    RP. {{ number_format($value->admin_fee,2) }}
-                                                @elseif ($value->matauang == 'USD')
-                                                    $ {{ number_format($value->admin_fee ,2) }}
-                                                @endif
+                                                {{ $value->matauang }} {{ number_format($value->admin_fee,2) }}
                                             </td>
                                         </tr>
 
@@ -541,18 +464,9 @@
                                                     :</td>
                                             <td style="text-align:right;">
                                             @if ($value->ppn == 1)
-                                                @if ($value->matauang == 'RP')
-                                                    RP.{{ number_format($value->grand_total,2) }}
-                                                @elseif ($value->matauang == 'USD')
-                                                    ${{ number_format($value->grand_total ,2) }}
-                                                @endif
+                                                {{ $value->matauang }} {{ number_format($value->grand_total,2) }}
                                             @elseif ($value->ppn == 0)
-                                                @if ($value->matauang == 'RP')
-                                                RP.{{ number_format($value->grand_total,2) }}</td>
-                                                @elseif ($value->matauang == 'USD')
-                                                ${{ number_format($value->grand_total ,2) }}
-                                                @endif
-
+                                                {{ $value->matauang }} {{ number_format($value->grand_total,2) }}
                                             @endif
                                         </td>
                                         </tr>

@@ -142,27 +142,12 @@
                     <td>
                         <p>{{ $items->kategori }}</p>
                     </td>
-                    @if($items->matauang == 'RP')
                     <td class="text-right">
-                        <p>Rp.{{ number_format($items->unit_price,2) }}</p>
+                        <p>{{ $items->matauang }} {{ number_format($items->unit_price,2) }}</p>
                     </td>
-                    @endif
-                    @if($items->matauang == 'USD')
                     <td class="text-right">
-                        <p>$ {{ number_format($items->unit_price,2) }}</p>
+                        <p>{{ $items->matauang }} {{ number_format($items->total,2) }}</p>
                     </td>
-                    @endif
-
-                    @if($items->matauang == 'RP')
-                    <td class="text-right">
-                        <p>Rp.{{ number_format($items->total,2) }}</p>
-                    </td>
-                    @endif
-                    @if($items->matauang == 'USD')
-                    <td class="text-right">
-                        <p>$ {{ number_format($items->total,2) }}</p>
-                    </td>
-                    @endif
                 </tr>
                 @endforeach
 
@@ -183,17 +168,9 @@
                 <td>
                     <p class="m-0">DPP </p>
                 </td>
-                {{-- {{ dd($value) }} --}}
-                    @if($value->matauang == 'RP')
-                    <td>
-                        <p class="m-0 digits text-right">Rp.{{ number_format($value->dpp ,2) }}</p>
-                    </td>
-                    @endif
-                    @if($value->matauang == 'USD')
-                    <td>
-                        <p class="m-0 digits text-right">$ {{ number_format($value->dpp,2) }}</p>
-                    </td>
-                    @endif
+                <td>
+                    <p class="m-0 digits text-right">{{ $value->matauang }} {{ number_format($value->dpp ,2) }}</p>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -211,17 +188,9 @@
                 <td>
                     <p class="m-0">Discount </p>
                 </td>
-                {{-- {{ dd($value) }} --}}
-                    @if($value->matauang == 'RP')
-                    <td>
-                        <p class="m-0 digits text-right">Rp.{{ number_format($value->discount ,2) }}</p>
-                    </td>
-                    @endif
-                    @if($value->matauang == 'USD')
-                    <td>
-                        <p class="m-0 digits text-right">$ {{ number_format($value->discount,2) }}</p>
-                    </td>
-                    @endif
+                <td>
+                    <p class="m-0 digits text-right">{{ $value->matauang }} {{ number_format($value->discount ,2) }}</p>
+                </td>
             </tr>
 
             <tr>
@@ -246,29 +215,15 @@
                 <td>
                     <p class="m-0">PPN 11% </p>
                 </td>
-                    @if ($value->ppn == 0)
-                        @if ($value->matauang == 'RP')
-                        <td class="text-right">
-                            <p class="m-0 digits text-end">Rp.0</p>
-                        </td>
-                        @endif
-                        @if ($value->matauang == 'USD')
-                        <td class="text-right">
-                            <p class="m-0 digits text-end">$ 0</p>
-                        </td>
-                        @endif
-                    @else
-                            @if($value->matauang == 'RP')
-                            <td class="text-right">
-                                <p class="m-0 digits text-end">Rp.{{ number_format($ppn,2) }}</p>
-                            </td>
-                            @endif
-                            @if($value->matauang == 'USD')
-                            <td class="text-right">
-                                <p class="m-0 digits text-end">$ {{ number_format($ppn ,2) }}</p>
-                            </td>
-                            @endif
-                    @endif
+                @if ($value->ppn == 0)
+                    <td class="text-right">
+                        <p class="m-0 digits text-end">{{ $value->matauang }} 0</p>
+                    </td>
+                @else
+                    <td class="text-right">
+                        <p class="m-0 digits text-end">{{ $value->matauang }} {{ number_format($ppn,2) }}</p>
+                    </td>
+                @endif
             </tr>
             <tr>
                 <td>
@@ -286,17 +241,9 @@
                 <td>
                     <p class="m-0" style="white-space: nowrap;">Shipping & Protection Fee </p>
                 </td>
-                {{-- {{ dd($value) }} --}}
-                    @if($value->matauang == 'RP')
-                    <td>
-                        <p class="m-0 digits text-right">Rp.{{ number_format($value->ongkir,2) }}</p>
-                    </td>
-                    @endif
-                    @if($value->matauang == 'USD')
-                    <td>
-                        <p class="m-0 digits text-right">$ {{ number_format($value->ongkir,2) }}</p>
-                    </td>
-                    @endif
+                <td>
+                    <p class="m-0 digits text-right">{{ $value->matauang }} {{ number_format($value->ongkir,2) }}</p>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -314,17 +261,9 @@
                 <td>
                     <p class="m-0" style="white-space: nowrap;">Admin Or Service Fee </p>
                 </td>
-                {{-- {{ dd($value) }} --}}
-                    @if($value->matauang == 'RP')
-                    <td>
-                        <p class="m-0 digits text-right">Rp.{{ number_format($value->admin_fee,2) }}</p>
-                    </td>
-                    @endif
-                    @if($value->matauang == 'USD')
-                    <td>
-                        <p class="m-0 digits text-right">$ {{ number_format($value->admin_fee,2) }}</p>
-                    </td>
-                    @endif
+                <td>
+                    <p class="m-0 digits text-right">{{ $value->matauang }} {{ number_format($value->admin_fee,2) }}</p>
+                </td>
             </tr>
             <tr>
                 <td></td>
@@ -335,25 +274,13 @@
                     <p class="mb-0" style="font-weight: 700;">Total </p>
                 </td>
                     @if ($value->ppn == 0)
-                            @if ($value->matauang == 'RP')
-                                <td class="text-right">
-                                    <p style="font-weight: 700;" class="text-right"> Rp.{{ number_format($value->grand_total,2) }}</p>
-                                </td>
-                            @elseif ($value->matauang == 'USD')
-                                <td class="text-right">
-                                    <p style="font-weight: 700;" class="text-right"> $ {{ number_format($value->grand_total ,2) }}</p>
-                                </td>
-                            @endif
+                        <td class="text-right">
+                            <p style="font-weight: 700;" class="text-right"> {{ $value->matauang }} {{ number_format($value->grand_total,2) }}</p>
+                        </td>
                     @elseif($value->ppn == 1)
-                            @if ($value->matauang == 'RP')
-                                <td class="text-right">
-                                    <p style="font-weight: 700;" class="mb-0 text-right"> Rp. {{ number_format($value->grand_total,2) }}</p>
-                                </td>
-                            @elseif ($value->matauang == 'USD')
-                                <td class="text-right">
-                                    <p style="font-weight: 700;" class="mb-0 text-right"> $.{{ number_format($value->grand_total ,2) }}</p>
-                                </td>
-                            @endif
+                        <td class="text-right">
+                            <p style="font-weight: 700;" class="mb-0 text-right"> {{ $value->matauang }} {{ number_format($value->grand_total,2) }}</p>
+                        </td>
                     @endif
             </tr>
             @endforeach

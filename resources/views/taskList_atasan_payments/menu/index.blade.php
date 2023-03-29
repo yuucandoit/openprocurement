@@ -236,11 +236,7 @@
                                                         <td style="text-align: center">
                                                             @foreach ($po4 as $ipo)
                                                                 <label>
-                                                                    @if($ipo->matauang == "RP")
-                                                                    Rp.{{ number_format($ipo->grand_total ,2) }}
-                                                                    @elseif ($ipo->matauang == "USD")
-                                                                    $ {{ number_format($ipo->grand_total ,2) }}
-                                                                    @endif
+                                                                    {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
                                                                 </label>
                                                             @endforeach
                                                         </td>
@@ -389,11 +385,7 @@
                                                         <td style="text-align: center">
                                                             @foreach ($po4 as $ipo)
                                                                 <label>
-                                                                    @if($ipo->matauang == "RP")
-                                                                    Rp.{{ number_format($ipo->grand_total ,2) }}
-                                                                    @elseif ($ipo->matauang == "USD")
-                                                                    $ {{ number_format($ipo->grand_total ,2) }}
-                                                                    @endif
+                                                                    {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
                                                                 </label>
                                                             @endforeach
                                                         </td>
@@ -541,11 +533,7 @@
                                                         <td style="text-align: center">
                                                             @foreach ($po4 as $ipo)
                                                                 <label>
-                                                                    @if($ipo->matauang == "RP")
-                                                                    Rp.{{ number_format($ipo->grand_total ,2) }}
-                                                                    @elseif ($ipo->matauang == "USD")
-                                                                    $ {{ number_format($ipo->grand_total ,2) }}
-                                                                    @endif
+                                                                    {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
                                                                 </label>
                                                             @endforeach
                                                         </td>
@@ -693,11 +681,7 @@
                                                         <td style="text-align: center">
                                                             @foreach ($po4 as $ipo)
                                                                 <label>
-                                                                    @if($ipo->matauang == "RP")
-                                                                    Rp.{{ number_format($ipo->grand_total ,2) }}
-                                                                    @elseif ($ipo->matauang == "USD")
-                                                                    $ {{ number_format($ipo->grand_total ,2) }}
-                                                                    @endif
+                                                                    {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
                                                                 </label>
                                                             @endforeach
                                                         </td>
@@ -844,11 +828,7 @@
                                                         <td style="text-align: center">
                                                             @foreach ($po4 as $ipo)
                                                                 <label>
-                                                                    @if($ipo->matauang == "RP")
-                                                                    Rp.{{ number_format($ipo->grand_total ,2) }}
-                                                                    @elseif ($ipo->matauang == "USD")
-                                                                    $ {{ number_format($ipo->grand_total ,2) }}
-                                                                    @endif
+                                                                    {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
                                                                 </label>
                                                             @endforeach
                                                         </td>

@@ -303,16 +303,10 @@
                                                             <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
                                                             @endforeach
                                                         </td>
-                                                        <td>
-                                                            @foreach ($po4 as $ipo)
-                                                                <label>
-                                                                    @if($ipo->matauang == "RP")
-                                                                    Rp.{{ number_format($ipo->grand_total ,2) }}
-                                                                    @elseif ($ipo->matauang == "USD")
-                                                                    $ {{ number_format($ipo->grand_total ,2) }}
-                                                                    @endif
-                                                                </label>
-                                                            @endforeach
+                                                        <td style="white-space: nowrap;">
+                                                        @foreach ($po4 as $ipo)
+                                                            <label>{{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}</label>
+                                                        @endforeach
                                                         </td>
                                                         <td colspan="2"  class="text-center"><a
                                                             class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"

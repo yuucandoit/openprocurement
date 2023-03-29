@@ -263,14 +263,10 @@
                                                     <td class="text-center"><a
                                                         class="badge  mt-1"
                                                         style=" color: white; background-color: #008000; font-size:10;">{{ $var_po->status }}</a></td>
-                                                    <td>
+                                                    <td style="white-space: nowrap;">
                                                         @foreach ($po4 as $ipo)
                                                             <label>
-                                                                @if($ipo->matauang == "RP")
-                                                                Rp.{{ number_format($ipo->grand_total ,2) }}
-                                                                @elseif ($ipo->matauang == "USD")
-                                                                $ {{ number_format($ipo->grand_total ,2) }}
-                                                                @endif
+                                                                {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
                                                             </label>
                                                         @endforeach
                                                     </td>
