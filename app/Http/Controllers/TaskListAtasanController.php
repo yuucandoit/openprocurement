@@ -381,7 +381,7 @@ class TaskListAtasanController extends Controller
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
             }elseif($data->atasan == 24){
-                $data->signature = 'triyani.png';
+                $data->signature = 'Triyani.png';
             }
 
 
@@ -403,7 +403,7 @@ class TaskListAtasanController extends Controller
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
             }elseif($data->atasan == 24){
-                $data->signature = 'triyani.png';
+                $data->signature = 'Triyani.png';
             }
 
         }elseif($data->dateline == '≤72Jam'){
@@ -424,7 +424,7 @@ class TaskListAtasanController extends Controller
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
             }elseif($data->atasan == 24){
-                $data->signature = 'triyani.png';
+                $data->signature = 'Triyani.png';
             }
 
         }elseif($data->dateline == '≤96Jam'){
@@ -445,7 +445,7 @@ class TaskListAtasanController extends Controller
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
             }elseif($data->atasan == 24){
-                $data->signature = 'triyani.png';
+                $data->signature = 'Triyani.png';
             }
 
         }elseif($data->dateline == '≤168Jam'){
@@ -466,7 +466,7 @@ class TaskListAtasanController extends Controller
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
             }elseif($data->atasan == 24){
-                $data->signature = 'triyani.png';
+                $data->signature = 'Triyani.png';
             }
 
         }elseif($data->dateline == '≤336Jam'){
@@ -487,7 +487,7 @@ class TaskListAtasanController extends Controller
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
             }elseif($data->atasan == 24){
-                $data->signature = 'triyani.png';
+                $data->signature = 'Triyani.png';
             }
 
         }
@@ -526,7 +526,7 @@ class TaskListAtasanController extends Controller
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
             }elseif($d->atasan == 24){
-                $d->signature = 'triyani.png';
+                $d->signature = 'Triyani.png';
             }
 
         }elseif($d->dateline == '≤48Jam'){
@@ -546,7 +546,7 @@ class TaskListAtasanController extends Controller
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
             }elseif($d->atasan == 24){
-                $d->signature = 'triyani.png';
+                $d->signature = 'Triyani.png';
             }
 
         }elseif($d->dateline == '≤72Jam'){
@@ -566,7 +566,7 @@ class TaskListAtasanController extends Controller
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
             }elseif($d->atasan == 24){
-                $d->signature = 'triyani.png';
+                $d->signature = 'Triyani.png';
             }
 
         }elseif($d->dateline == '≤96Jam'){
@@ -586,7 +586,7 @@ class TaskListAtasanController extends Controller
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
             }elseif($d->atasan == 24){
-                $d->signature = 'triyani.png';
+                $d->signature = 'Triyani.png';
             }
 
         }elseif($d->dateline == '≤168Jam'){
@@ -606,7 +606,7 @@ class TaskListAtasanController extends Controller
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
             }elseif($d->atasan == 24){
-                $d->signature = 'triyani.png';
+                $d->signature = 'Triyani.png';
             }
 
         }elseif($d->dateline == '≤336Jam'){
@@ -626,7 +626,7 @@ class TaskListAtasanController extends Controller
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
             }elseif($d->atasan == 24){
-                $d->signature = 'triyani.png';
+                $d->signature = 'Triyani.png';
             }
 
         }

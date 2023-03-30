@@ -422,7 +422,7 @@ class TasklistAtasanPoController extends Controller
             $cpo->save();
 
             $sig->ppb_id = $id;
-            $sig->signature = 'triyani.png';
+            $sig->signature = 'Triyani.png';
             $sig->approved_at = Carbon::now();
             $sig->save();
             CategoryPO::where('ppb_id', $id)->update([
@@ -522,7 +522,7 @@ class TasklistAtasanPoController extends Controller
 
                 $sig = new POSignature();
                 $sig->ppb_id = $d->id;
-                $sig->signature = 'triyani.png';
+                $sig->signature = 'Triyani.png';
                 $sig->approved_at = Carbon::now();
                 $sig->save();
             }
