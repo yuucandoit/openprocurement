@@ -416,6 +416,18 @@ class TasklistAtasanPoController extends Controller
             CategoryPO::where('ppb_id', $id)->update([
                 'status' => 'Waiting For PO Approval'
             ]);
+        }elseif($data->atasan_po == 24){
+            $cpo->signature = 'triyani.png';
+            $cpo->approved_at = Carbon::now();
+            $cpo->save();
+
+            $sig->ppb_id = $id;
+            $sig->signature = 'triyani.png';
+            $sig->approved_at = Carbon::now();
+            $sig->save();
+            CategoryPO::where('ppb_id', $id)->update([
+                'status' => 'Waiting For PO Approval'
+            ]);
         }
 
         return redirect('menu-taskList-atasan-po');
@@ -499,6 +511,20 @@ class TasklistAtasanPoController extends Controller
             $sig->signature = 'erwin.png';
             $sig->approved_at = Carbon::now();
             $sig->save();
+        }elseif($d->atasan_po == 24){
+                CategoryPO::whereIn('ppb_id',$ids)->update([
+                    'signature' => 'triyani.png',
+                    'approved_at' => Carbon::now(),
+                    'status' => 'Waiting For PO Approval'
+                ]);
+                $d->status = 'PO Approved';
+                $d->save();
+
+                $sig = new POSignature();
+                $sig->ppb_id = $d->id;
+                $sig->signature = 'triyani.png';
+                $sig->approved_at = Carbon::now();
+                $sig->save();
             }
         }
 

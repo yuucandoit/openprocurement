@@ -97,10 +97,11 @@ class InvoicingController extends Controller
     })
     ->where('status','PO Approved')
     ->paginate(10,['*'],'in');
-
+    $datapo =  CategoryPO::get();
 
     return view('payment_request.menu.index')
-    ->with('datappb',$datappb);
+    ->with('datappb',$datappb)
+    ->with('datapo', $datapo);
     // ->with('datappb2',$datappb2);
    }
 
@@ -230,10 +231,10 @@ class InvoicingController extends Controller
     public function create($id)
     {
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
-        $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
-        $atasan1            = User::whereIn('id', [3,6, 8, 9])->get();
-        $atasan2            = User::whereIn('id', [3, 8, 9])->get();
-        $atasan3            = User::whereIn('id', [3, 8])->get();
+        $atasan             = User::whereIn('id', [3,6, 7, 8, 9, 24])->get();
+        $atasan1            = User::whereIn('id', [3,6, 8, 9, 24])->get();
+        $atasan2            = User::whereIn('id', [3, 8, 9, 24])->get();
+        $atasan3            = User::whereIn('id', [3, 8, 24])->get();
         $datapo             = CategoryPO::where('ppb_id',$id)->get();
         $vendor             = CategoryPO::where('ppb_id',$id)->first();
         $items              = CategoryPO::where('ppb_id',$id)->get();

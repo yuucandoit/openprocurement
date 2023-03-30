@@ -174,7 +174,7 @@ class CategoryPOController extends Controller
         $op                 = CategoryPP::orderBy('nama')->get();
         $ec                 = CategoryEcommerce::orderBy('nama')->get();
         $terms              = TermsAndConditions::all();
-        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
+        $atasan             = User::whereIn('id', [24, 6, 7, 8, 9,3])->get();
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $pengajuanfirst     = PengajuanPembelian::where('pp_id', $id)->first();
@@ -255,7 +255,7 @@ class CategoryPOController extends Controller
         $pt                 = CategoryPT::orderBy('nama')->get();
         $op                 = CategoryPP::orderBy('nama')->get();
         $ec                 = CategoryEcommerce::orderBy('nama')->get();
-        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
+        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9, 24])->get();
         $terms              = TermsAndConditions::all();
         $dv                 = CategoryPengajuanPembelian::find($id);
         $vendor             = CategoryPO::where('ppb_id',$id)->first();
@@ -471,7 +471,7 @@ class CategoryPOController extends Controller
     public function edit($id)
     {
 
-        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
+        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9, 24])->get();
         $pt                 = CategoryPT::all();
         $op                 = CategoryPP::all();
         $ec                 = CategoryEcommerce::all();

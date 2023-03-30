@@ -44,7 +44,10 @@ class NotifPOController extends Controller
             dispatch(new SendEmailPOJob($p->atasans->email , $id));
             return redirect()->back()->with('status','Mail Sent Success');
 
-            } else {
+            }elseif($p->atasan_po ==  24){
+            dispatch(new SendEmailPOJob($p->atasans->email , $id));
+            return redirect()->back()->with('status','Mail Sent Success');
+            }else {
                 return  redirect()->with('error','Failed To Send Email');
             }
 

@@ -378,6 +378,10 @@ class TasklistAtasanPaymentController extends Controller
             $po->signature = 'erwin.png';
             $po->approved_at = Carbon::now();
             $po->save();
+        }elseif($data->atasan_py == 24){
+            $po->signature = 'triyani.png';
+            $po->approved_at = Carbon::now();
+            $po->save();
         }
         return redirect('menu-taskList-atasan-payment');
     }
@@ -440,7 +444,18 @@ class TasklistAtasanPaymentController extends Controller
             CategoryPO::where('ppb_id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
+        }elseif($d->atasan_py == 24){
+            Invoicing::whereIn('ppb_id',$ids)->update([
+                'signature' => 'triyani.png',
+                'approved_at' => Carbon::now(),
+            ]);
+            $d->status = 'Payment Approved';
+            $d->save();
+            CategoryPO::where('ppb_id',$ids)->update([
+                'status' => 'Payment Approved'
+            ]);
             }
+
         }
 
         return redirect('menu-taskList-atasan-payment');

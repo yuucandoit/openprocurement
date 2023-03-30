@@ -271,7 +271,7 @@
 @endif
 
 @if (Auth::user()->id === 6)
-<!-- Container-fluid starts-->
+    <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
             <!-- Zero Configuration  Starts-->
@@ -566,9 +566,8 @@
         </form>
 @endif
 
-
 @if (Auth::user()->id === 8)
-<!-- Container-fluid starts -->
+    <!-- Container-fluid starts -->
     <div class="container-fluid">
         <div class="row">
             <!-- Zero Configuration  Starts-->
@@ -715,7 +714,7 @@
 @endif
 
 @if (Auth::user()->id === 9)
-<!-- Container-fluid starts-->
+    <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
             <!-- Zero Configuration  Starts-->
@@ -858,7 +857,156 @@
                     <button class="hidden" style="display: none;" type="submit">S</button>
                 </form>
 
-        @endif
+@endif
+
+@if (Auth::user()->id === 24)
+<!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Zero Configuration  Starts-->
+            <div class="col-sm-12">
+                <div class="card card-absolute">
+                    <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-taskList-atasan-payment.SearchTaskPYIn') }}" method="get" class="input-group" >
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                    {{-- Data Masuk --}}
+                         <table class="display table table-bordered table-hover tasklistpy">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th style="text-align: center"><input type="checkbox" id="head-cb"></th>
+                                    <th>No</th>
+                                    <th style="text-align: center;">Request By</th>
+                                    <th>Item</th>
+                                    <th style="text-align: center;">Deadline</th>
+                                    <th style="text-align: center;">Status</th>
+                                    {{-- <th>Action</th> --}}
+                                </tr>
+                            </thead>
+                                    @php
+                                        $no = 1;
+                                        $approvedPPB = [];
+                                    @endphp
+                                    @foreach ($datappb as $ppb)
+                                        @if ($ppb->status == 'Invoicing Process')
+                                            @if ($ppb->atasan_py == 24)
+                                            @php
+                                             $approvedPPB[] =$ppb;
+                                            @endphp
+                                            <tbody>
+                                                <tr id="ppb-{{ $ppb->id }}" style="background-color:#F1F6F5;">
+                                                    <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                    <td>{{ $ppb->code_pengajuan }}</td>
+                                                    <td><a href="{{ url('menu-taskList-atasan-payment/detail/' . $ppb->id) }}">
+                                                            <ul>
+                                                                <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
+                                                                <li style="margin-top:10px;">{{ $ppb->desc }}</li>
+                                                            </ul>
+                                                        </a>
+                                                    </td>
+                                                    <td><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item</label></td>
+                                                    <td style="text-align: center;">
+                                                    <ul>
+                                                        <li>
+                                                            <p class="ppb-countdown" style="color:rgb(81, 171, 71)"></p>
+                                                        </li>
+                                                        <li style="white-space: nowrap;">
+                                                                    @if($ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td style="text-align: center;"> <a
+                                                            class="badge badge-lable {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                    </td>
+                                                </tr>
+                                                @foreach ($ppb->quot as $po)
+                                                    <tr>
+
+                                                        @php
+                                                            $po2 = \App\Models\CategoryPO::find($po->id);
+                                                            $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                            $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
+                                                            // dd($po2->ppb_id);
+                                                        @endphp
+
+                                                        @if(empty($po2))
+
+                                                        @else
+                                                        <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
+                                                        <td>{{ $po->code_po }}</td>
+                                                        <td>
+                                                            <a href="{{ route('menu-taskList-atasan-payment.po_detail',$po->id) }}">
+                                                            <ul>
+                                                                <li>
+                                                                    @if($po2->vendorable_id == 0)
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                    @else
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                    @endif
+                                                                </li>
+                                                                <li> Quotation : {{ $po2->quotation }}</li>
+                                                            </ul>
+                                                            </a>
+                                                        </td>
+                                                        <td style="font-weight: 700; white-space:nowrap;">
+                                                            @foreach ($po3 as $ipo)
+                                                            <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                            @endforeach
+                                                        </td>
+                                                        <td style="text-align: center">
+                                                            @foreach ($po4 as $ipo)
+                                                                <label>
+                                                                    {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
+                                                                </label>
+                                                            @endforeach
+                                                        </td>
+                                                        <td colspan="2"  class="text-center"><a
+                                                            class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
+
+                                                        @endif
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                <div class="box-header">
+                                    <button type="button" id="button-approve-selected" disabled class="btn btn-danger btn-sm"
+                                    style="margin-top: 20px; font-size:12px" onclick="approveDataTerpilihPY()">Approve Selected Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form action="{{ route('menu-taskList-atasan-payment.accept_atasan_selected_py') }}" method="get" id="form-export-terpilih" class="hidden">
+            <input type="hidden" name="ids">
+            <button class="hidden" style="display: none;" type="submit">S</button>
+        </form>
+<!-- Container-fluid Ends-->
+@endif
 
     </section>
 

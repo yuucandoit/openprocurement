@@ -31,12 +31,12 @@ class SendNotifikasiBOD extends Command
     {
         $pr  = CategoryPengajuanPembelian::where('status','Awaiting Purchase Request Approval')->where('atasan', 7)->get();
 
-        $po1  = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->where('atasan_po',3)->get();
+        $po1  = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->where('atasan_po',24)->get();
         $po2  = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->where('atasan_po',6)->get();
         $po3  = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->where('atasan_po',8)->get();
         $po4  = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->where('atasan_po',9)->get();
 
-        $pd1  = CategoryPengajuanPembelian::where('status','Invoicing Process')->where('atasan_py',3)->get();
+        $pd1  = CategoryPengajuanPembelian::where('status','Invoicing Process')->where('atasan_py',24)->get();
         $pd2  = CategoryPengajuanPembelian::where('status','Invoicing Process')->where('atasan_py',6)->get();
         $pd3  = CategoryPengajuanPembelian::where('status','Invoicing Process')->where('atasan_py',8)->get();
         $pd4  = CategoryPengajuanPembelian::where('status','Invoicing Process')->where('atasan_py',9)->get();
@@ -81,7 +81,7 @@ TEST
 
 //Bu yani
 // foreach($po1 as $p) {
-// if ($p->atasan_po == 3) {
+// if ($p->atasan_po == 24) {
 // if (empty($p)) {
 // $purchaseorder1 .='';
 // }
@@ -180,7 +180,7 @@ TEST
 
 //Start Notif WA Bu yani
 // foreach($pd1 as $pdana) {
-// if ($pdana->atasan_py == 3) {
+// if ($pdana->atasan_py == 24) {
 // if (empty($p)) {
 // $paymentrequest1 .='';
 // }else {

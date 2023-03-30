@@ -380,7 +380,10 @@ class TaskListAtasanController extends Controller
                 $data->signature = 'victor.png';
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
+            }elseif($data->atasan == 24){
+                $data->signature = 'triyani.png';
             }
+
 
         }elseif($data->dateline == '≤48Jam'){
             $data->dateline_time = ('49:00:00');
@@ -399,6 +402,8 @@ class TaskListAtasanController extends Controller
                 $data->signature = 'victor.png';
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
+            }elseif($data->atasan == 24){
+                $data->signature = 'triyani.png';
             }
 
         }elseif($data->dateline == '≤72Jam'){
@@ -418,6 +423,8 @@ class TaskListAtasanController extends Controller
                 $data->signature = 'victor.png';
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
+            }elseif($data->atasan == 24){
+                $data->signature = 'triyani.png';
             }
 
         }elseif($data->dateline == '≤96Jam'){
@@ -437,6 +444,8 @@ class TaskListAtasanController extends Controller
                 $data->signature = 'victor.png';
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
+            }elseif($data->atasan == 24){
+                $data->signature = 'triyani.png';
             }
 
         }elseif($data->dateline == '≤168Jam'){
@@ -456,6 +465,8 @@ class TaskListAtasanController extends Controller
                 $data->signature = 'victor.png';
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
+            }elseif($data->atasan == 24){
+                $data->signature = 'triyani.png';
             }
 
         }elseif($data->dateline == '≤336Jam'){
@@ -475,6 +486,8 @@ class TaskListAtasanController extends Controller
                 $data->signature = 'victor.png';
             }elseif($data->atasan == 9){
                 $data->signature = 'erwin.png';
+            }elseif($data->atasan == 24){
+                $data->signature = 'triyani.png';
             }
 
         }
@@ -512,6 +525,8 @@ class TaskListAtasanController extends Controller
                 $d->signature = 'victor.png';
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
+            }elseif($d->atasan == 24){
+                $d->signature = 'triyani.png';
             }
 
         }elseif($d->dateline == '≤48Jam'){
@@ -530,6 +545,8 @@ class TaskListAtasanController extends Controller
                 $d->signature = 'victor.png';
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
+            }elseif($d->atasan == 24){
+                $d->signature = 'triyani.png';
             }
 
         }elseif($d->dateline == '≤72Jam'){
@@ -548,6 +565,8 @@ class TaskListAtasanController extends Controller
                 $d->signature = 'victor.png';
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
+            }elseif($d->atasan == 24){
+                $d->signature = 'triyani.png';
             }
 
         }elseif($d->dateline == '≤96Jam'){
@@ -566,6 +585,8 @@ class TaskListAtasanController extends Controller
                 $d->signature = 'victor.png';
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
+            }elseif($d->atasan == 24){
+                $d->signature = 'triyani.png';
             }
 
         }elseif($d->dateline == '≤168Jam'){
@@ -584,6 +605,8 @@ class TaskListAtasanController extends Controller
                 $d->signature = 'victor.png';
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
+            }elseif($d->atasan == 24){
+                $d->signature = 'triyani.png';
             }
 
         }elseif($d->dateline == '≤336Jam'){
@@ -602,6 +625,8 @@ class TaskListAtasanController extends Controller
                 $d->signature = 'victor.png';
             }elseif($d->atasan == 9){
                 $d->signature = 'erwin.png';
+            }elseif($d->atasan == 24){
+                $d->signature = 'triyani.png';
             }
 
         }

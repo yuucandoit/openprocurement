@@ -47,6 +47,12 @@ class NotifPaymentController extends Controller
             return redirect('payment_request/')->with('status','Mail Sent Success');
 
             }
+            elseif($p->atasan_py == 24){
+
+                dispatch(new SendEmailPaymentJob($p->atasanpymnt->email , $id));
+            return redirect('payment_request/')->with('status','Mail Sent Success');
+
+            }
 
     }
 }

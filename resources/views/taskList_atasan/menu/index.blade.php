@@ -117,7 +117,7 @@
     <!-- Container-fluid Ends-->
 @endif
 
-    @if (Auth::user()->id === 6)
+@if (Auth::user()->id === 6)
     <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
@@ -203,9 +203,9 @@
                 <input type="hidden" name="ids">
                 <button class="hidden" style="display: none;" type="submit">S</button>
             </form>
-    @endif
+@endif
 
-    @if (Auth::user()->id === 7)
+@if (Auth::user()->id === 7)
     <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
@@ -292,10 +292,10 @@
                 <button class="hidden" style="display: none;" type="submit">S</button>
             </form>
 
-   @endif
+@endif
 
 
-    @if (Auth::user()->id === 8)
+@if (Auth::user()->id === 8)
     <!-- Container-fluid starts -->
         <div class="container-fluid">
             <div class="row">
@@ -381,11 +381,9 @@
                 <input type="hidden" name="ids">
                 <button class="hidden" style="display: none;" type="submit">S</button>
             </form>
+@endif
 
-
-            @endif
-
-    @if (Auth::user()->id === 9)
+@if (Auth::user()->id === 9)
     <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
@@ -472,8 +470,105 @@
                         <button class="hidden" style="display: none;" type="submit">S</button>
                     </form>
 
-    @endif
-<!-- Zero Configuration  Ends-->
+@endif
+
+@if (Auth::user()->id === 24)
+    <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Zero Configuration  Starts-->
+                <div class="col-sm-12">
+                    <div class="card card-absolute">
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                            <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
+                                <form action="{{ route('menu-taskList-atasan.SearchTaskRequestBodIn') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
+                                    <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                        {{-- Data Masuk --}}
+                             <table class="table table-bordered table-hover tasklist" >
+                                        <thead class="bg-primary">
+                                            <tr style="text-align: center;">
+                                                <th><input type="checkbox" id="head-cb"></th>
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Deadline</th>
+                                                <th>Request By</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        @php
+                                            $no = 1;
+                                            $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+                                        @endphp
+                                        @foreach ($datappb as $ppb)
+                                            @if ($ppb->status == 'Awaiting Purchase Request Approval')
+                                                @if ($ppb->atasan == 24)
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
+                                                        <td style="text-align: center;"><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">{{ $ppb->code_pengajuan }}</a></td>
+                                                        <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
+                                                            >{{ $ppb->desc }}</a></td>
+                                                        <td style="text-align: center;">
+                                                            <ul>
+                                                                <li style="white-space: nowrap;">
+                                                                    @if($ppb->dateline == '≤24Jam')
+                                                                    <strong><p>1 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤72Jam')
+                                                                    <strong><p>2 sd 3 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤168Jam')
+                                                                    <strong><p>4 sd 7 Hari</p></strong>
+                                                                    @elseif ($ppb->dateline == '≤336Jam')
+                                                                    <strong><p>7 sd 14 Hari</p></strong>
+                                                                    @endif
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td style="text-align: center;">{{ $ppb->whosubmit->name }}</td>
+                                                        <td style="text-align: center;">
+                                                            <ul>
+                                                                <li>
+                                                                    <a class="badge {{ $ppb->status == 'Awaiting Purchase Request Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                        style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                                </li>
+                                                                <li>
+                                                                <a style="font-style: italic; font-size:10; " href="{{ route('menu-taskList-atasan.detail',$ppb->id) }}/#comment">
+                                                                    - {{ $ppb->comment->count() }} Comments
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                    {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
+                                    <div class="box-header">
+                                        <button type="button" id="button-approve-selected" disabled class="btn btn-danger"
+                                        style="margin-top: 10px;" onclick="approveDataTerpilih()">Approve Selected Data</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form action="{{ route('menu-taskList-atasan.accept_atasan_selected') }}" method="get" id="form-export-terpilih" class="hidden">
+                <input type="hidden" name="ids">
+                <button class="hidden" style="display: none;" type="submit">S</button>
+            </form>
+    <!-- Container-fluid Ends-->
+@endif
 
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
