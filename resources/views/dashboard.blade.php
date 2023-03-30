@@ -291,6 +291,12 @@
                                             {{ \App\Models\CategoryPengajuanPembelian::where('atasan',9)->where('status','Awaiting Purchase Request Approval')->count() }}
                                         </h2>
 
+                                        @elseif(Auth::user()->id === 24)
+
+                                        <h2 class="mb-0 counter" style="color: rgba(87, 188, 255, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan',24)->where('status','Awaiting Purchase Request Approval')->count() }}
+                                        </h2>
+
                                         @endif
                                         <i class="icon-bg" data-feather="check-circle"></i>
                                 </div>
@@ -337,6 +343,11 @@
                                     @elseif (Auth::user()->id === 9)
                                     <h2 class="mb-0 counter" style="color: rgba(35, 96, 117, 0.9);">
                                         {{ \App\Models\CategoryPengajuanPembelian::where('atasan_po',9)->where('status','Waiting For PO Approval')->count() }}
+                                    </h2>
+
+                                    @elseif (Auth::user()->id === 24)
+                                    <h2 class="mb-0 counter" style="color: rgba(35, 96, 117, 0.9);">
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('atasan_po',24)->where('status','Waiting For PO Approval')->count() }}
                                     </h2>
                                     @endif
                                         <i class="icon-bg" data-feather="check-circle"></i>
@@ -385,6 +396,11 @@
                                         @elseif (Auth::user()->id === 9)
                                         <h2 class="mb-0 counter" style="color: rgba(117, 0, 184, 0.9);">
                                             {{ \App\Models\CategoryPengajuanPembelian::where('atasan_py',9)->where('status','Invoicing Process')->count() }}
+                                        </h2>
+
+                                        @elseif (Auth::user()->id === 24)
+                                        <h2 class="mb-0 counter" style="color: rgba(117, 0, 184, 0.9);">
+                                            {{ \App\Models\CategoryPengajuanPembelian::where('atasan_py',24)->where('status','Invoicing Process')->count() }}
                                         </h2>
                                         @endif
                                         <i class="icon-bg" data-feather="check-circle"></i>
