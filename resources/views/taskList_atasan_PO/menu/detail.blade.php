@@ -289,7 +289,7 @@
                             @endphp
 
                                 @if(empty($e))
-
+                            <div class="table-responsive">
                                 <table class="table table-bordered mt-4 mb-4 order-entry">
                                     <thead>
                                         <tr class="text-center"
@@ -361,10 +361,10 @@
                                         </tr>
                                     @endif
                                 </table>
-
+                            </div>
                                 @else
 
-
+                            <div class="table-responsive">
                                 <table class="table table-bordered item order-entry mx-2">
                                     <tr style="text-align: center;">
                                         <th
@@ -474,6 +474,7 @@
                                         @endforeach
                                         </tbody>
                                 </table>
+                            </div>
                                 <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                     target="_blank" style="font-size:12;">Export PDF PO</i>
                                 </a>
