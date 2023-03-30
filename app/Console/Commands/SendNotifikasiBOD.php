@@ -63,6 +63,9 @@ if(empty($preq)){
     $purchaserequest .='-'.  $preq->code_pengajuan.' '. $preq->whosubmit->name ."\n";
     }
 }
+if ($pr->count() == 0){
+
+}else {
 $response = Http::post($url, [
 'phone' => '447509758689',
 'message' => 'Here are some requests, which need your approval
@@ -73,6 +76,7 @@ Link : https://e-pro.intek.co.id/menu-taskList-atasan
 
 This message was sent automatically, please do not reply.
 ',]);
+}
 //End Purchase Request
 
 
@@ -89,6 +93,9 @@ $purchaseorder1 .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
         }
     }
 }
+if ($po1->count() == 0){
+
+}else {
 $response = Http::post($url, [
     'phone' => '12203453438',
 'message' => '
@@ -99,6 +106,7 @@ Link : https://e-pro.intek.co.id/menu-taskList-atasan-po
 This message was sent automatically, please do not reply.
 
 ',]);
+}
 //End Notif PO Bu yani
 
 //Pak Sindu
@@ -112,6 +120,9 @@ $purchaseorder2 .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
         }
     }
 }
+if ($po2->count() == 0){
+
+}else {
 $response = Http::post($url, [
     'phone' => '447509758634',
 'message' => '
@@ -122,7 +133,7 @@ Link : https://e-pro.intek.co.id/menu-taskList-atasan-po
 This message was sent automatically, please do not reply.
 TEST
 ',]);
-
+}
 //End Notif WA Pak sindu
 
 
@@ -137,6 +148,9 @@ $purchaseorder3 .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
         }
     }
 }
+if ($po3->count() == 0){
+
+}else {
 $response = Http::post($url, [
     'phone' => '447937598025',
 'message' => '
@@ -147,6 +161,7 @@ Link : https://e-pro.intek.co.id/menu-taskList-atasan-po
 This message was sent automatically, please do not reply.
 
 ',]);
+}
 //End Notif WA Pak Victor
 
 //Start Notif WA Pak Erwin
@@ -160,6 +175,9 @@ $purchaseorder4 .='-'.  $p->code_pengajuan.' '. $p->whosubmit->name ."\n";
         }
     }
 }
+if ($po4->count() == 0){
+
+}else {
 $response = Http::post($url, [
     'phone' => '62818753744',
 'message' => '
@@ -170,6 +188,7 @@ Link : https://e-pro.intek.co.id/menu-taskList-atasan-po
 This message was sent automatically, please do not reply.
 
 ',]);
+}
 //End Notif WA Pak Erwin
 
 //End Purchase Order
@@ -187,6 +206,9 @@ $paymentrequest1 .='-'.  $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\
         }
     }
 }
+if ($pd1->count() == 0){
+
+}else {
 $response = Http::post($url, [
     'phone' => '12203453438',
 'message' => '
@@ -198,7 +220,7 @@ Please Approve It ASAP
 This message was sent automatically, please do not reply.
 
 ',]);
-
+}
 //End Notif Wa Bu yani
 
 //Start Notif Wa pak Sindu
@@ -212,6 +234,9 @@ $paymentrequest2 .='-'.  $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\
         }
     }
 }
+if ($pd2->count() == 0){
+
+}else {
 $response = Http::post($url, [
     'phone' => '447509758634',
 'message' => '
@@ -223,7 +248,7 @@ Please Approve It ASAP
 This message was sent automatically, please do not reply.
 
 ',]);
-
+}
 //End Notif WA Pak Sindu
 
 //Start Notif Pak Victor
@@ -237,6 +262,9 @@ $paymentrequest3 .='-'.  $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\
         }
     }
 }
+if ($pd3->count() == 0){
+
+}else {
 $response = Http::post($url, [
     'phone' => '447937598025',
 'message' => '
@@ -247,7 +275,7 @@ Please Approve It ASAP
 
 This message was sent automatically, please do not reply.
 ',]);
-
+}
 //End Notif Pak Victor
 
 //Start Notif Pak Erwin
@@ -261,10 +289,13 @@ foreach($pd4 as $pdana) {
             }
         }
     }
-    $response = Http::post($url, [
+if ($pd4->count() == 0){
+
+}else {
+$response = Http::post($url, [
         'phone' => '62818753744',
 'message' => '
------ Payment Request ('.$pd3->count().') -------
+----- Payment Request ('.$pd4->count().') -------
 '.$paymentrequest4.'
 Link : https://e-pro.intek.co.id/menu-taskList-atasan-payment
 Please Approve It ASAP
@@ -272,7 +303,7 @@ Please Approve It ASAP
 This message was sent automatically, please do not reply.
 
 ',]);
-
+}
 //End Notif Pak Erwin
 
 //End Pengajuan Dana
