@@ -417,7 +417,7 @@ class TasklistAtasanPoController extends Controller
                 'status' => 'Waiting For PO Approval'
             ]);
         }elseif($data->atasan_po == 24){
-            $cpo->signature = 'triyani.png';
+            $cpo->signature = 'Triyani.png';
             $cpo->approved_at = Carbon::now();
             $cpo->save();
 
@@ -513,7 +513,7 @@ class TasklistAtasanPoController extends Controller
             $sig->save();
         }elseif($d->atasan_po == 24){
                 CategoryPO::whereIn('ppb_id',$ids)->update([
-                    'signature' => 'triyani.png',
+                    'signature' => 'Triyani.png',
                     'approved_at' => Carbon::now(),
                     'status' => 'Waiting For PO Approval'
                 ]);
