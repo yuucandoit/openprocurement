@@ -226,6 +226,7 @@
                         <li><strong>{{ Carbon\Carbon::parse($ppembelian->date_ps)->format('d-m-Y') }}</strong></li>
                         <li>{{ $ppembelian->whosubmit->name }}</li>
                         <li>{{ $ppembelian->userid->department }}</li>
+                        <li class="mt-4" style="font-weight: 500;">{{ $ppembelian->purpose->name }}</li>
                     </ul>
                 </td>
                 <td style=" word-break: break-word;"><a href="{{ url('menu-pengajuan-pembelian/detail/' .  $ppembelian->id) }}">{{ $ppembelian->desc}}</a></td>
