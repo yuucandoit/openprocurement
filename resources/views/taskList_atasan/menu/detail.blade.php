@@ -9,7 +9,13 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-6 mt-4">
-                        <h3>Details {{ $data_pengajuan->code_pengajuan }}</h3>
+                        <h3>Details
+                            @if(empty($data_pengajuan->code_pengajuan))
+                            {{ $data_pengajuan->whosubmit->name }}
+                            @else
+                            {{ $data_pengajuan->code_pengajuan }}
+                            @endif
+                        </h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('menu-taskList-atasan.index') }}">Task List Super
@@ -40,7 +46,11 @@
                                         <tr>
                                             <td>Code</td>
                                             <td>
-                                               {{ $data_pengajuan->code_pengajuan }}
+                                                @if(empty($data_pengajuan->code_pengajuan))
+                                                -
+                                                @else
+                                                {{ $data_pengajuan->code_pengajuan }}
+                                                @endif
                                             </td>
                                         </tr>
                                         <tr>
