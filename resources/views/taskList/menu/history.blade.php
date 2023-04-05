@@ -353,6 +353,9 @@
                                 <div class="mt-4">
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
+                                <div class="mt-2">
+                                    <a href="{{ route('export-historyPO') }}" class="btn btn-success">Export Data</a>
+                                </div>
                             </div>
                         </div>
                     </div>

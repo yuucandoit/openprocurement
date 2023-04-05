@@ -32,7 +32,7 @@ class InvoicingController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
+        if ( $check->role_id == 3 || $check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::where('status','PO Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             $datappb2 = CategoryPengajuanPembelian::where('status','Invoicing Process')
             ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')

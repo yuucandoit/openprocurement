@@ -117,5 +117,9 @@ class CategoryPengajuanPembelian extends Model
     {
         return $this->hasMany(Invoicing::class,'ppb_id');
     }
+    public function signaturepo()
+    {
+        return $this->hasMany(POSignature::class,'ppb_id');
+    }
 
 }

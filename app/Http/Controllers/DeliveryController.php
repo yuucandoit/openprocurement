@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PembelianExport;
 use App\Models\CategoryEcommerce;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
@@ -11,12 +12,14 @@ use App\Models\Delivery;
 use Illuminate\Http\Request;
 use App\File;
 use App\Models\Comment;
+use App\Models\DeliveryTrack;
 use App\Models\Department;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\WhoSubmitted;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DeliveryController extends Controller
 {
@@ -157,7 +160,6 @@ class DeliveryController extends Controller
     {
         $data_pengajuan = CategoryPengajuanPembelian::find($id);
         $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
-
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $vendor             = CategoryPO::where('ppb_id',$id)->first();
         $items              = CategoryPO::where('ppb_id',$id)->get();
@@ -171,6 +173,7 @@ class DeliveryController extends Controller
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+        $status             = DeliveryTrack::where('ppb_id', $id)->get();
         return view('delivery.menu.detail')
         ->with('pengajuan', $pengajuan)
         ->with('dpp', $dpp)
@@ -185,7 +188,13 @@ class DeliveryController extends Controller
         ->with('total', $total)
         ->with('total_tnpa_ppn', $total_tnpa_ppn)
         ->with('data_pengajuan', $data_pengajuan)
-        ->with('disc', $disc);
+        ->with('disc', $disc)
+        ->with('status', $status);
+    }
+
+    public function track($id)
+    {
+        return view('delivery.menu.tracking.index');
     }
     public function po_detail($id)
     {
@@ -216,12 +225,17 @@ class DeliveryController extends Controller
             ->with('comments', $comments);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+    public function deliverystatus(Request $request, $id)
+    {
+        DeliveryTrack::create([
+            'ppb_id' => $id,
+            'status' => $request->status,
+        ]);
+        return redirect()->back();
+    }
+
+
     public function store(Request $request, $id )
     {
         $data = CategoryPengajuanPembelian::find($id);
@@ -333,5 +347,10 @@ class DeliveryController extends Controller
             'status' => 'Rejected By Purchasing'
         ]);
         return redirect('menu-purchase-order');
+    }
+
+    public function export()
+    {
+        return Excel::download(new PembelianExport(), 'Pembelian Import.xlsx');
     }
 }

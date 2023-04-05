@@ -24,43 +24,60 @@
 
                     <div class="col-sm-12">
                         <div class="card card-absolute">
-                            <div class="card-header bg-primary">
-                                <h5 class="text-white">Details {{ $data_pengajuan->whosubmit->name }}</h5>
-                            </div>
                             <div class="card-body">
-                                <table class="table table-bordered mt-4">
-                                    <tbody>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered">
+                                            <tbody>
 
-                                        <tr>
-                                            <td>Who Submitted</td>
-                                            <td>{{ $data_pengajuan->whosubmit->name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Date</td>
-                                            <td>{{ $data_pengajuan->date_ps }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Department</td>
-                                            <td>{{ $data_pengajuan->dps->name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Description</td>
-                                            <td>{{ $data_pengajuan->desc }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Purpose</td>
-                                            <td>{{ $data_pengajuan->purpose->name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Send To</td>
-                                            <td>{{ $data_pengajuan->send_to }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Date Send</td>
-                                            <td>{{ $data_pengajuan->dateline }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                <tr>
+                                                    <td>Who Submitted</td>
+                                                    <td>{{ $data_pengajuan->whosubmit->name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date</td>
+                                                    <td>{{ $data_pengajuan->date_ps }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Department</td>
+                                                    <td>{{ $data_pengajuan->dps->name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Description</td>
+                                                    <td>{{ $data_pengajuan->desc }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Purpose</td>
+                                                    <td>{{ $data_pengajuan->purpose->name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Send To</td>
+                                                    <td>{{ $data_pengajuan->send_to }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date Send</td>
+                                                    <td>{{ $data_pengajuan->dateline }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered">
+                                            <thead class="bg-primary">
+                                                <tr>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($status as $s)
+                                                <tr>
+                                                    <td>{{ $s->status }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                                 <hr>
 
                                 @foreach ($delivery as $d)
@@ -131,6 +148,30 @@
                         </div>
 
                     </div>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+            <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Form Delivery Status</h5>
+                        </div>
+                      <div class="card-body">
+                        <form action="{{ url('delivery/statusDeliveryStore/' . $data_pengajuan->id) }}" method="POST">
+                            @csrf
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="floatingStatus">Status</label>
+                                    <input name="status" type="text" class="form-control" id="floatingStatus" placeholder="Out Delivery Jakarta ....">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
             <!-- Container-fluid Ends-->

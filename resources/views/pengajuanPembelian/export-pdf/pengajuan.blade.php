@@ -155,7 +155,13 @@
                     </div>
                 @else
                     <div style="text-align: center; font-size: 15px;">{{ $cpp->bod->name }} <br>
-                        <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
+                        <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">
+                            @if($cpp->bod->name == 'Bayu Nugraha' || $cpp->bod->name == 'Triyani')
+                                General Manager
+                            @else
+                                Director
+                            @endif
+                        </label>
                     </div>
                 @endif
                 @endif

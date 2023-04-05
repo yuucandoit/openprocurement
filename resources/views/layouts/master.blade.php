@@ -456,6 +456,28 @@
                                         </ul>
                                     </li>
 
+
+                                @endhasrole
+
+                                @hasrole('finance')
+                                    <li class="sidebar-main-title">
+                                        <div>
+                                            <h6>Menu</h6>
+                                        </div>
+                                    </li>
+                                @endhasrole
+                                @hasrole('finance')
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
+                                        href="{{ url('/dashboard') }}">
+                                        <i data-feather="home"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                @endhasrole
+
+                                @hasrole('finance|super admin')
+
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('payment_request') ? 'active' : '' }} {{ request()->is('payment_request/out') ? 'active' : '' }}"
                                             href="javascript:void(0)">
@@ -499,26 +521,6 @@
                                             </li>
                                         </ul>
                                     </li>
-                                @endhasrole
-
-                                @hasrole('finance')
-                                    <li class="sidebar-main-title">
-                                        <div>
-                                            <h6>Menu</h6>
-                                        </div>
-                                    </li>
-                                @endhasrole
-                                @hasrole('finance')
-                                <li class="dropdown">
-                                    <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
-                                        href="{{ url('/dashboard') }}">
-                                        <i data-feather="home"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                @endhasrole
-
-                                @hasrole('finance|super admin')
 
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('menu-pengajuan-dana') ? 'active' : '' }} {{ request()->is('menu-pengajuan-dana/out') ? 'active' : '' }}"
@@ -1218,7 +1220,7 @@
                                 </li>
                                 @endhasrole
 
-                                @hasrole('purchasing|super admin')
+                                @hasrole('finance|super admin')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav {{ request()->is('payment_request/history') ? 'active' : '' }}"
                                             href="{{ url('/payment_request/history') }}">
@@ -1345,6 +1347,9 @@
     <script src="{{ asset('../assets/js/form-wizard/jquery.backstretch.min.js') }}"></script>
     <script src="{{ asset('../assets/js/height-equal.js') }}"></script>
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
+    <script src="{{ asset('/assets/js/chart/apex-chart/apex-chart.js') }}"></script>
+    <script src="{{ asset('/assets/js/chart/apex-chart/stock-prices.js') }}"></script>
+    <script src="{{ asset('/assets/js/chart/apex-chart/chart-custom.js') }}"></script>
 
     <script src="{{ asset('../assets/js/tooltip-init.js') }}"></script>
 

@@ -126,7 +126,11 @@
                     <div class="col-sm-12">
                         <div class="card card-absolute">
                             <div class="row">
-                            <div class="col-sm-8"></div>
+                            <div class="col-sm-8">
+                                <div style="margin-top:20px; margin-bottom:-30px; margin-left: 30px;">
+                                    <a href="{{ route('export-pembelian') }}" class="btn" style="background-color: #06491b; color:white;">Export Excel</a>
+                                </div>
+                            </div>
                             <div class="col-sm-4">
                                 <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                     <form action="{{ route('delivery.SearchDeliveryIn') }}" method="get" class="input-group" >

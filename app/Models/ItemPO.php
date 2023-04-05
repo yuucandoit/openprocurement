@@ -10,6 +10,7 @@ class ItemPO extends Model
     use HasFactory;
     protected $table = 'item_po';
     protected $fillable = [
+        'ppb_id',
         'po_id',
         'item',
         'qty',

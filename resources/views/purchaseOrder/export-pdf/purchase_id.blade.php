@@ -331,7 +331,13 @@
                     </div>
                 @else
                     <div style="text-align: center; font-size: 15px;">{{ $cpo->ppb->atasans->name }} <br>
-                        <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
+                        <label style="font-size: 15px; font-weight: bold; text-decoration: overline;">
+                        @if($cpo->ppb->atasans->name == 'Bayu Nugraha' || $cpo->ppb->atasans->name == 'Triyani')
+                            General Manager
+                        @else
+                            Director
+                        @endif
+                        </label>
                     </div>
                 @endif
                 @endif

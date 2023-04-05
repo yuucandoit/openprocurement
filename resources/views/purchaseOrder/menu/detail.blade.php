@@ -617,6 +617,7 @@
                                 </div>
                                 <div class="collapse" id="collapse{{ $po->id }}" aria-labelledby="heading{{ $po->id }}" data-bs-parent="#accordionclose{{ $po->id }}">
                                     <div class="card-body">
+
                                     <div class="row">
                                             <div class="col-md-6 ">
                                                 <div class="form-group">
@@ -868,6 +869,19 @@
                                             @endforeach
                                             </tbody>
                                         </table>
+                                            @if ($po->status == 'Waiting For PO Approval')
+                                            <button class="btn btn-success mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#modalCheckPo" disabled>Check PO Done
+                                            </button>
+                                            @elseif ($po->status == 'Purchase Proses')
+                                                @if (empty($data_pengajuan->atasans->name))
+                                                        <button class="btn btn-success mt-3 disabled " data-bs-toggle="modal"
+                                                            data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
+                                                @else
+                                                    <button class="btn btn-success mt-3 " data-bs-toggle="modal"
+                                                        data-bs-target="#modalCheckPo{{ $po->id }}" disabled>Check PO</button>
+                                                @endif
+                                            @endif
                                         <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                             target="_blank" style="font-size:12;">Export PDF PO</i>
                                         </a>
@@ -880,6 +894,34 @@
                                     </div>
                                     </div>
 
+                                    <div class="modal fade" id="modalCheckPO{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-danger">
+                                                    <h2 class="modal-title" style="color: white">Warning</h2>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body mx-5 mb-3" style="text-align: center;">
+                                                    <span class="warning">
+                                                        <img src="{{ asset('assets/images/warning.png') }}" >
+                                                    </span>
+                                                    <h2 style="text-align: center">Make sure the data is correct!</h2>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form class="text-center" style="text-align: center;"
+                                                        action="{{ url('menu-purchase-order/check_po2/' .$po->id) }}">
+                                                        <input type="hidden" name="ppb_id" value="{{ $po->id }}">
+                                                        <button type="submit" class="btn btn-outline-danger "><i
+                                                                class="bx bx-trash"></i>
+                                                            Check PO
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 {{-- </div> --}}
                                 @endforeach
                             </div>
@@ -889,6 +931,7 @@
                       </div>
                     </div>
                 </div>
+
 
                 <div class="container-fluid">
                     <div class="row">

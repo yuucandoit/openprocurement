@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DBPurchaseHistoryExport;
 use App\Models\CategoryEcommerce;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
@@ -22,6 +23,7 @@ use App\Models\WhoSubmitted;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryPOController extends Controller
 {
@@ -326,7 +328,7 @@ class CategoryPOController extends Controller
                 "term_conditions" => $term->id ,
                 "quotation" => $request->quotation,
                 "path_quotation" => $path_file ?? null,
-                "status" => $ppn->status,
+                "status" => 'Purchase Proses',
             ]);
             if ($request->vendor == "company") {
                 $vendor1 = CategoryPT::find($request->perusahaan);
@@ -356,8 +358,9 @@ class CategoryPOController extends Controller
                 $grand_total = str_replace(",","", $data2['grand_total']);
                 $ongkir     = str_replace(",", "", $data2['ongkir']);
                 $admin     = str_replace(",", "", $data2['admin_fee']);
-                // dd($purchase->id);
+                //  dd($ppn->id);
                 $update = array(
+                    'ppb_id'            => $ppn->id,
                     'po_id'             => $purchase->id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
@@ -397,7 +400,7 @@ class CategoryPOController extends Controller
                 "term_conditions" => $request->term_conditions,
                 "quotation" => $request->quotation,
                 "path_quotation" => $path_file ?? null,
-                "status" => $ppn->status,
+                "status" => 'Purchase Proses',
             ]);
             // dd($purchase->id);
             if ($request->vendor == "company") {
@@ -429,8 +432,9 @@ class CategoryPOController extends Controller
                 $grand_total = str_replace(",","", $data2['grand_total']);
                 $ongkir     = str_replace(",", "", $data2['ongkir']);
                 $admin     = str_replace(",", "", $data2['admin_fee']);
-                // dd($purchase->id);
+                // dd($ppn->id);
                 $update = array(
+                    'ppb_id'            => $ppn->id,
                     'po_id'             => $purchase->id,
                     'item'              => $data2['item'][$key],
                     'qty'               => $data2['qty'][$key],
@@ -717,6 +721,29 @@ class CategoryPOController extends Controller
         return redirect('menu-purchase-order');
         }
     }
+    public function checkPO2(Request $request,$id)
+    {
+        dd($id);
+        $data = CategoryPO::where('id',$id)->update([
+            'status' => 'Cross Check PO',
+        ]);
+        $data2 = CategoryPO::where('id',$id)->first();
+
+        // $data->status = 'Cross Check PO';
+        // $data->save();
+
+        $itemPengajuan = PengajuanPembelian::select(DB::raw('pp_id,SUM(qty) as qtytotal'))->where('pp_id',$data2->ppb_id)->first();
+        $itemPo        = ItemPO::select(DB::raw('ppb_id,SUM(qty) as qtypo'))->where('ppb_id',$data2->ppb_id)->first();
+        // dd($itemPengajuan);
+        if($itemPengajuan->qtytotal == $itemPo->qtypo){
+            CategoryPengajuanPembelian::where('id', $data2->ppb_id)->update([
+                'status' => 'Cross Check PO',
+            ]);
+        }
+
+        return redirect('menu-purchase-order');
+
+    }
     // public function checkPO($id)
     // {
     //     $crs = CategoryPO::find($id);
@@ -751,5 +778,9 @@ class CategoryPOController extends Controller
         $data->status = 'Rejected By Purchasing';
         $data->save();
         return redirect('menu-purchase-order');
+    }
+    public function export()
+    {
+        return Excel::download(new DBPurchaseHistoryExport, 'Database Purchase History.xlsx');
     }
 }

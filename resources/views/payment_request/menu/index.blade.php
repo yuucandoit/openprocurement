@@ -213,7 +213,7 @@
 
 
                                                         {{-- <td>{{ $ppb->created_at }}</td> --}}
-                                                        @hasrole('purchasing|super admin')
+                                                        @hasrole('finance|super admin')
 
                                                             <td class="text-center">
                                                                 @if(empty($ppb->atasan_py))

@@ -364,6 +364,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
         Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
         Route::get('/check_po/{id}', [CategoryPOController::class, 'checkPO'])->name('menu-purchase-order-checkPO');
+        Route::get('/check_po2/{id}', [CategoryPOController::class, 'checkPO2'])->name('menu-purchase-order-checkPO2');
         Route::get('/ajukan_dana/{id}', [CategoryPOController::class, 'ajukan_dana'])->name('menu-purchase-order-ajukan_dana');
         Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
         Route::get('/search/po_in',[CategoryPOController::class, 'SearchPOIn'])->name('menu-purchase-order.SearchPOIn');
@@ -429,6 +430,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/delivery_out',[DeliveryController::class, 'SearchDeliveryOut'])->name('delivery.SearchDeliveryOut');
         Route::get('/history/search/delivery',[DeliveryController::class, 'SearchHistoryDelivery'])->name('delivery.SearchHistoryDelivery');
         Route::get('/history/sortDelivery',[DeliveryController::class, 'SortHistoryDelivery'])->name('delivery.SortHistoryDelivery');
+        Route::post('/statusDeliveryStore/{id}', [DeliveryController::class, 'deliverystatus'])->name('delivery.deliverystatus');
     });
 
      // Menu Check Purchase Order
@@ -502,10 +504,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/private_person', [CategoryPPController::class, 'export'])->name('export-pp');
     Route::get('/export_excel/ecommerce', [CategoryEcommerceController::class, 'export'])->name('export-ec');
     Route::get('/export_excel/pengajuan_pembelian/{id}', [CategoryPengajuanPembelianController::class, 'export'])->name('export-ppb');
+    Route::get('/export_excel/barang', [DeliveryController::class, 'export'])->name('export-pembelian');
+    Route::get('/export_excel/history_purchase', [CategoryPOController::class, 'export'])->name('export-historyPO');
 
 
 
-    Route::get('/timeline/{id}',[]);
+    Route::get('/timeline/{id}',[DeliveryController::class, 'track'])->name('delivery.track');
 
     //Route Send Email Pengajuan
     Route::get('/send/{id}',[NotifPengajuanController::class, 'index']);
