@@ -45,7 +45,7 @@ class CategoryPTController extends Controller
      ->orWhere('website','like',"%".$cari."%")
      ->paginate(10);
 
-     return view('dataperusahaan.menu.index')
+     return view('dataPerusahaan.menu.index')
      ->with('datadv',$datadv);
     }
 
