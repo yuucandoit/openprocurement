@@ -124,6 +124,7 @@
                                     <thead>
                                         <tr class="text-center"
                                             style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
+                                            <th>No</th>
                                             <th>Item</th>
                                             <th>Qty</th>
                                             <th>Category</th>
@@ -134,6 +135,7 @@
                                     <tbody>
                                         @foreach ($pengajuan as $p)
                                             <tr>
+                                                <td>{{ $loop->iteration }}</td>
                                                 <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
                                                 <td style="text-align: center;">{{ $p->qty }}</td>
                                                 <td style="text-align: center;">{{ $p->kategori }}</td>

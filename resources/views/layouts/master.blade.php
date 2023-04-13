@@ -713,14 +713,16 @@
                                 <a class="nav-link menu-title
                                         {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}
                                         {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}
-                                        {{ request()->is('menu-tasklist-finance/search/task-finance') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance/out/search/task-finance-Out') ? 'active' : '' }}"
+                                        {{ request()->is('menu-tasklist-finance/search/task-finance') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance/out/search/task-finance-Out') ? 'active' : '' }}
+                                        {{ request()->is('menu-tasklist-finance/po_detail/*') ? 'active' : '' }} "
                                         href="javascript:void(0)">
                                         <i data-feather="check-circle"></i>
                                         <span>Task List</span></a>
                                     @if (request()->is('menu-tasklist-finance/out') || request()->is('menu-tasklist-finance') ||request()->is('menu-task-list') ||
                                     request()->is('menu-task-list/out') || request()->is('menu-task-list/detail/*') ||
                                     request()->is('menu-tasklist-finance/out/search/task-finance-Out')||
-                                    request()->is('menu-tasklist-finance/search/task-finance')? 'active': '')
+                                    request()->is('menu-tasklist-finance/search/task-finance')||
+                                    request()->is('menu-tasklist-finance/po_detail/*')? 'active': '')
                                         <ul class="nav-submenu menu-content" style="display: block">
 
                                             @hasrole('super purchase|purchasing|super admin')
@@ -786,7 +788,7 @@
                                                         <span class="sub-arrow"><i
                                                                 class="fa fa-chevron-right"></i></span></a>
                                                     @if (request()->is('menu-tasklist-finance') || request()->is('menu-tasklist-finance/out') || request()->is('menu-tasklist-finance/out/search/task-finance-Out')
-                                                        || request()->is('menu-tasklist-finance/search/task-finance') ? 'active' : '')
+                                                    ||request()->is('menu-tasklist-finance/po_detail/*')|| request()->is('menu-tasklist-finance/search/task-finance') ? 'active' : '')
                                                         <ul class="nav-sub-childmenu submenu-content"
                                                             style="display: block;">
                                                             <li
