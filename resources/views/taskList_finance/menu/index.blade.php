@@ -189,8 +189,9 @@
                                                             @else
                                                                 @if(empty($po->vendorable->nama))
                                                                 Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                @else
+                                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po->vendorable->nama }}
                                                                 @endif
-                                                            Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po->vendorable->nama }}
                                                             @endif
                                                         </li>
                                                         <li> Quotation : {{ $po2->quotation }}</li>
