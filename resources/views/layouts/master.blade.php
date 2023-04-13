@@ -523,7 +523,8 @@
                                     </li>
 
                                     <li class="dropdown">
-                                        <a class="nav-link menu-title {{ request()->is('menu-pengajuan-dana') ? 'active' : '' }} {{ request()->is('menu-pengajuan-dana/out') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title {{ request()->is('menu-pengajuan-dana') ? 'active' : '' }} {{ request()->is('menu-pengajuan-dana/out') ? 'active' : '' }}
+                                            {{ request()->is('menu-pengajuan-dana/search/pd_in') ? 'active' : '' }} {{ request()->is('menu-pengajuan-dana/search/pd_out') ? 'active' : '' }} "
                                             href="javascript:void(0)">
                                             <i class="fa fa-usd"></i>
                                             @if($pyprocess == 0)
@@ -532,18 +533,18 @@
                                             <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $pyprocess }}</span>
                                             @endif
                                             <span>&nbsp;&nbsp;&nbsp;Payment Process</span></a>
-                                        @if (request()->is('menu-pengajuan-dana') || request()->is('menu-pengajuan-dana/out') ? 'active' : '')
+                                        @if (request()->is('menu-pengajuan-dana') || request()->is('menu-pengajuan-dana/out') || request()->is('menu-pengajuan-dana/search/pd_in') || request()->is('menu-pengajuan-dana/search/pd_out') ? 'active' : '')
                                             <ul class="nav-submenu menu-content" style="display: block;">
                                                 <li
-                                                    class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('menu-pengajuan-dana') ? 'active' : '' }}"
+                                                    class="dropdown {{ request()->is('*pengajuan-dana*') || request()->is('*pengajuan-dana/search/*')  ? 'active' : '' }} ">
+                                                    <a class="{{ request()->is('menu-pengajuan-dana') || request()->is('*pengajuan-dana/search/pd_in') ? 'active' : '' }}"
                                                         href="{{ url('/menu-pengajuan-dana') }}">
                                                         <span> Payment Process In</span>
                                                     </a>
                                                 </li>
                                                 <li
                                                     class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('menu-pengajuan-dana/out') ? 'active' : '' }}"
+                                                    <a class="{{ request()->is('menu-pengajuan-dana/out') || request()->is('*pengajuan-dana/search/pd_out') ? 'active' : '' }}"
                                                         href="{{ url('/menu-pengajuan-dana/out') }}">
                                                         <span> Payment Process Out</span>
                                                     </a>

@@ -94,7 +94,9 @@ class InvoicingController extends Controller
     ->orWhereHas('whosubmit', function($q) use($cariIn){
          $q->where('name','like',"%".$cariIn."%");
     })
-    ->where('status','PO Approved')
+    ->orWhereHas('quot', function($q) use($cariIn){
+          $q->where('id','like',"%".$cariIn."%");
+    })
     ->paginate(10,['*'],'in');
     $datapo =  CategoryPO::get();
 
@@ -107,20 +109,14 @@ class InvoicingController extends Controller
    public function out()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
-            $datappb =  CategoryPengajuanPembelian::where('status','Invoicing Process')
-            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->
-            orderBy('updated_at', 'desc')->paginate(10, ['*'],'out');
-            $datappb2 = CategoryPengajuanPembelian::where('status','Invoicing Process')
-            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->
-            orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+        if ($check->role_id == 3 || $check->role_id == 5) {
+            $datappb =  CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('status','Payment Approved');
+            })->orderBy('updated_at', 'desc')->paginate(10, ['*'],'out');
             $datapo = CategoryPO::get();
             return view('payment_request.menu.out')
 
                 ->with('datappb',$datappb)
-                ->with('datappb2',$datappb2)
                 ->with('datapo', $datapo);
         }
     }
@@ -139,10 +135,15 @@ class InvoicingController extends Controller
     ->orWhereHas('whosubmit', function($q) use($cariOut){
          $q->where('name','like',"%".$cariOut."%");
     })
+    ->orWhereHas('quot', function($q) use($cariOut){
+        $q->where('id','like',"%".$cariOut."%");
+    })
     ->paginate(10, ['*'],'out');
+    $datapo =  CategoryPO::get();
 
     return view('payment_request.menu.out')
-    ->with('datappb',$datappb);
+    ->with('datappb',$datappb)
+    ->with('datapo', $datapo);
    }
 
     public function history()
@@ -181,9 +182,12 @@ class InvoicingController extends Controller
     ->orWhere('desc','like',"%".$cari."%")
     ->orWhereHas('itemppn', function($i) use($cari){
         $i->where('item','like',"%".$cari."%");
-   })
+    })
     ->orWhereHas('whosubmit', function($q) use($cari){
-         $q->where('name','like',"%".$cari."%");
+        $q->where('name','like',"%".$cari."%");
+    })
+    ->orWhereHas('quot', function($q) use($cari){
+        $q->where('id','like',"%".$cari."%");
     })
     ->paginate(10, ['*'],'out');
 

@@ -192,11 +192,11 @@
                                                                     class="icon-eye" title="Preview PDF"></i>
                                                             </a>
 
-                                                        <a class="btn btn-iconsolid mt-1"
+                                                        {{-- <a class="btn btn-iconsolid mt-1"
                                                                 style="background-color: #008b2c; font-size:10"
                                                                 href="{{ url('/menu-pengajuan-dana/create/' . $ppb->id) }}"><i
                                                                     class="icon-file" title="Create"></i>
-                                                        </a>
+                                                        </a> --}}
 
                                                         {{-- <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal"
                                                         style="background-color: #ff0000; font-size:10" data-bs-target="#modalDelete{{ $ppb->id }}"><i

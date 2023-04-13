@@ -43,9 +43,15 @@ class TaskListFinanceController extends Controller
      $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
-     ->orWhereHas('whosubmit', function($q) use($cari){
-          $q->where('name','like',"%".$cari."%");
-     })
+     ->orWhereHas('whosubmit', function($w) use($cari){
+          $w->where('name','like',"%".$cari."%");
+    })
+     ->orWhereHas('itemppn', function($i) use($cari){
+        $i->where('item','like',"%".$cari."%");
+    })
+        ->orWhereHas('quot', function($q) use($cari){
+            $q->where('id','like',"%".$cari."%");
+    })
      ->paginate(10);
      $datapo = CategoryPO::get();
 
@@ -58,10 +64,9 @@ class TaskListFinanceController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 ||$check->role_id == 5) {
-            $datappb = CategoryPengajuanPembelian::where('status','Unpaid')->
-            orWhere('status','Paid')->
-            orWhere('status','Delivery Process')->
-            orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('status','Unpaid');
+            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
             $datadv = TaskListFinance::all();
             $datapo = CategoryPO::get();
             return view('taskList_finance.menu.out')
@@ -78,9 +83,15 @@ class TaskListFinanceController extends Controller
      $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
-     ->orWhereHas('whosubmit', function($q) use($cari){
-          $q->where('name','like',"%".$cari."%");
+     ->orWhereHas('whosubmit', function($w) use($cari){
+          $w->where('name','like',"%".$cari."%");
      })
+     ->orWhereHas('itemppn', function($i) use($cari){
+        $i->where('item','like',"%".$cari."%");
+    })
+        ->orWhereHas('quot', function($q) use($cari){
+            $q->where('id','like',"%".$cari."%");
+    })
      ->paginate(10);
      $datapo = CategoryPO::get();
 

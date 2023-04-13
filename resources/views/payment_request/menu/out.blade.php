@@ -151,7 +151,7 @@
                                     <th>Name</th>
                                     <th>Item</th>
                                     <th>Deadline</th>
-                                    @hasrole('purchasing|super admin')
+                                    @hasrole('finance|super admin')
                                     <th style="text-align: center">Status</th>
                                     @endhasrole
                                     {{-- <th>Function</th> --}}
@@ -163,54 +163,54 @@
                             @endphp
                             <tbody>
                                 @foreach ($datappb as $ppb)
-                                    @if ($ppb->status == 'Invoicing Process' || $ppb->status == 'Payment Approved' || $ppb->status == 'Unpaid' ||  $ppb->status == 'Paid'  ||  $ppb->status == 'Delivery Process' ||  $ppb->status == 'Delivery Success'  )
-                                        @php $approvedPPB[] =$ppb; @endphp
-                                        <tr style="background-color:#F1F6F5;">
-                                            <td style="text-align: center;">{{ $i++ }}</td>
-                                            <td>{{ $ppb->code_pengajuan }}</td>
-                                            <td >
+                                    @php $approvedPPB[] =$ppb; @endphp
+                                    <tr style="background-color:#F1F6F5;">
+                                        <td style="text-align: center;">{{ $i++ }}</td>
+                                        <td>{{ $ppb->code_pengajuan }}</td>
+                                        <td >
+                                            <ul>
+                                                <a href="{{ url('/payment_request/detail/' . $ppb->id) }}">
+                                                    <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
+                                                    <li>{!! nl2br($ppb->desc) !!}</li>
+                                                </a>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
+                                            </ul>
+                                        </td>
+                                        {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
+                                        <td style="text-align: center; white-space:nowrap;">
+                                            @if($ppb->dateline == '≤24Jam')
+                                            <strong><p>1 Hari</p></strong>
+                                            @elseif ($ppb->dateline == '≤72Jam')
+                                            <strong><p>2 sd 3 Hari</p></strong>
+                                            @elseif ($ppb->dateline == '≤168Jam')
+                                            <strong><p>4 sd 7 Hari</p></strong>
+                                            @elseif ($ppb->dateline == '≤336Jam')
+                                            <strong><p>7 sd 14 Hari</p></strong>
+                                            @endif
+                                            {{-- {{ $ppb->dateline }} --}}
+                                        </td>
+                                        @hasrole('finance|super admin')
+                                            <td style="text-align: center;">
                                                 <ul>
-                                                    <a href="{{ url('/payment_request/detail/' . $ppb->id) }}">
-                                                        <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
-                                                        <li>{!! nl2br($ppb->desc) !!}</li>
-                                                    </a>
+                                                    <li>
+                                                        <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:10">{{ $ppb->status }}</a>
+                                                    </li>
+                                                    <li style="text-align: center;">
+                                                        <a style="font-style: italic; font-size:10; " href="{{ route('payment_request.detail',$ppb->id) }}/#comment">
+                                                        - {{ $ppb->comment->count() }} Comments
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </td>
-                                            <td>
-                                                <ul>
-                                                    <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
-                                                </ul>
-                                            </td>
-                                            {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                            <td style="text-align: center; white-space:nowrap;">
-                                                @if($ppb->dateline == '≤24Jam')
-                                                <strong><p>1 Hari</p></strong>
-                                                @elseif ($ppb->dateline == '≤72Jam')
-                                                <strong><p>2 sd 3 Hari</p></strong>
-                                                @elseif ($ppb->dateline == '≤168Jam')
-                                                <strong><p>4 sd 7 Hari</p></strong>
-                                                @elseif ($ppb->dateline == '≤336Jam')
-                                                <strong><p>7 sd 14 Hari</p></strong>
-                                                @endif
-                                                {{-- {{ $ppb->dateline }} --}}
-                                            </td>
-                                            @hasrole('purchasing|super admin')
-                                                <td style="text-align: center;">
-                                                    <ul>
-                                                        <li>
-                                                         <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:10">{{ $ppb->status }}</a>
-                                                        </li>
-                                                        <li style="text-align: center;">
-                                                            <a style="font-style: italic; font-size:10; " href="{{ route('payment_request.detail',$ppb->id) }}/#comment">
-                                                            - {{ $ppb->comment->count() }} Comments
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            @endhasrole
-                                        </tr>
-                                        @foreach ($ppb->quot as $po)
+                                        @endhasrole
+                                    </tr>
+                                    @foreach ($ppb->quot as $po)
+                                        @if($po->status == 'Payment Approved')
                                         <tr>
 
                                             @php
@@ -260,8 +260,8 @@
 
                                             @endif
                                         </tr>
-                                @endforeach
-                                    @endif
+                                        @endif
+                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>
