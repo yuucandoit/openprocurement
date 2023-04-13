@@ -287,6 +287,7 @@
                                                 <option value="Lembar">Lembar </option>
                                                 <option value="Jerigen">Jerigen </option>
                                                 <option value="Meter">Meter </option>
+                                                <option value="Botol">Botol </option>
                                             </select>
                                         </td>
                                         <td>
@@ -400,8 +401,9 @@
                                 <option value="Unit" >Unit</option>
                                 <option value="Lot">Lot </option> <option value="Rim">Rim </option>
                                 <option value="Org">Org </option><option value="Line">Line </option><option value="Ruang">Ruang </option><option value="Pax">Pax </option> <option value="Set">Set </option>
-                                <option value="Piece">Piece </option><option value="Rol">Rol </option><option value="Pack">Pack </option><option value="Batang">Batang </option> <option value="Dus">Dus </option>
-                                <option value="Strip">Strip </option><option value="Pasang">Pasang </option><option value="Lembar">Lembar </option><option value="Jerigen">Jerigen </option><option value="Meter">Meter </option>
+                                <option value="Piece">Piece </option><option value="Rol">Rol </option><option value="Pack">Pack </option><option value="Batang">Batang </option>
+                                <option value="Dus">Dus </option><option value="Strip">Strip </option><option value="Pasang">Pasang </option><option value="Lembar">Lembar </option>
+                                <option value="Jerigen">Jerigen </option><option value="Meter">Meter </option><option value="Botol">Botol </option>
                             </select>
                                 </td>
                             <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
