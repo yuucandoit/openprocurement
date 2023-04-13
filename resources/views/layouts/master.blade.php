@@ -479,7 +479,8 @@
                                 @hasrole('finance|super admin')
 
                                     <li class="dropdown">
-                                        <a class="nav-link menu-title {{ request()->is('payment_request') ? 'active' : '' }} {{ request()->is('payment_request/out') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title {{ request()->is('payment_request') ? 'active' : '' }} {{ request()->is('payment_request/out') ? 'active' : '' }}
+                                            {{ request()->is('payment_request/search/paymentreq_in') ? 'active' : '' }} {{ request()->is('payment_request/out/search/paymentreq_out') ? 'active' : '' }}"
                                             href="javascript:void(0)">
                                             <i class="fa fa-money" style="margin-right: -2px;"></i>
                                             @if($pyreq == 0)
@@ -488,18 +489,18 @@
                                             <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $pyreq }}</span>
                                             @endif
                                             <span>&nbsp;Payment Request</span></a>
-                                        @if (request()->is('payment_request') || request()->is('payment_request/out') ? 'active' : '')
+                                        @if (request()->is('payment_request') || request()->is('payment_request/out') || request()->is('payment_request/search/paymentreq_in') || request()->is('payment_request/out/search/paymentreq_out') ? 'active' : '')
                                             <ul class="nav-submenu menu-content" style="display: block;">
                                                 <li
                                                     class="dropdown {{ request()->is('*payment_request*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('payment_request') ? 'active' : '' }}"
+                                                    <a class="{{ request()->is('payment_request') || request()->is('payment_request/search/paymentreq_in') ? 'active' : '' }}"
                                                         href="{{ url('/payment_request') }}">
                                                         <span>Payment Request In</span>
                                                     </a>
                                                 </li>
                                                 <li
                                                     class="dropdown {{ request()->is('*payment_request*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('payment_request/out') ? 'active' : '' }}"
+                                                    <a class="{{ request()->is('payment_request/out') || request()->is('payment_request/out/search/paymentreq_out') ? 'active' : '' }}"
                                                         href="{{ url('/payment_request/out') }}">
                                                         <span>Payment Request Out</span>
                                                     </a>
@@ -711,16 +712,16 @@
                         @hasrole('super purchase|purchasing|super admin|finance')
                                 <a class="nav-link menu-title
                                         {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }}
-                                        {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}"
+                                        {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}
+                                        {{ request()->is('menu-tasklist-finance/search/task-finance') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance/out/search/task-finance-Out') ? 'active' : '' }}"
                                         href="javascript:void(0)">
                                         <i data-feather="check-circle"></i>
                                         <span>Task List</span></a>
                                     @if (request()->is('menu-tasklist-finance/out') || request()->is('menu-tasklist-finance') ||request()->is('menu-task-list') ||
-                                    request()->is('menu-task-list/out') || request()->is('menu-task-list/detail/*')
-                                        ? 'active'
-                                        : '')
+                                    request()->is('menu-task-list/out') || request()->is('menu-task-list/detail/*') ||
+                                    request()->is('menu-tasklist-finance/out/search/task-finance-Out')||
+                                    request()->is('menu-tasklist-finance/search/task-finance')? 'active': '')
                                         <ul class="nav-submenu menu-content" style="display: block">
-
 
                                             @hasrole('super purchase|purchasing|super admin')
                                                 <li class="dropdown">
@@ -784,20 +785,21 @@
                                                         @endif
                                                         <span class="sub-arrow"><i
                                                                 class="fa fa-chevron-right"></i></span></a>
-                                                    @if (request()->is('menu-tasklist-finance') || request()->is('menu-tasklist-finance/out') ? 'active' : '')
+                                                    @if (request()->is('menu-tasklist-finance') || request()->is('menu-tasklist-finance/out') || request()->is('menu-tasklist-finance/out/search/task-finance-Out')
+                                                        || request()->is('menu-tasklist-finance/search/task-finance') ? 'active' : '')
                                                         <ul class="nav-sub-childmenu submenu-content"
                                                             style="display: block;">
                                                             <li
                                                                 class=" {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
                                                                 <a href="{{ url('/menu-tasklist-finance') }}"
-                                                                    class="{{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
+                                                                    class="{{ request()->is('menu-tasklist-finance') || request()->is('menu-tasklist-finance/search/task-finance') ? 'active' : '' }}">
                                                                     <span>Task List In</span>
                                                                 </a>
                                                             </li>
                                                             <li
                                                                 class=" {{ request()->is('/menu-tasklist-finance/out') ? 'active' : '' }}">
                                                                 <a href="{{ url('/menu-tasklist-finance/out') }}"
-                                                                    class="{{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}">
+                                                                    class="{{ request()->is('menu-tasklist-finance/out') || request()->is('menu-tasklist-finance/out/search/task-finance-Out') ? 'active' : '' }}">
                                                                     <span>Task List Out</span>
                                                                 </a>
                                                             </li>
