@@ -133,131 +133,131 @@
                                     @endphp
                                     <tbody>
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Unpaid')
-                                                @php $approvedPPB[] =$ppb; @endphp
-                                                <tr id="ppb-{{ $ppb->id }}" style="background-color:#F1F6F5;">
+                                            @php $approvedPPB[] =$ppb; @endphp
+                                            <tr id="ppb-{{ $ppb->id }}" style="background-color:#F1F6F5;">
 
-                                                    <td>{{ $i++ }}</td>
-                                                    <td>{{ $ppb->code_pengajuan }}</td>
+                                                <td>{{ $i++ }}</td>
+                                                <td>{{ $ppb->code_pengajuan }}</td>
+                                                <td>
+                                                    <a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">
+                                                        <ul>
+                                                            <li style="font-weight:600; white-space:nowrap;">{{ $ppb->whosubmit->name }}</li>
+                                                            <li>{{ $ppb->desc }}</li>
+                                                        </ul>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
+                                                    </ul>
+                                                </td>
+                                                {{-- <td>{{ $ppb->send_to }}</td> --}}
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                            <p class="ppb-countdown" style="color:rgb(81, 171, 71)"></p>
+                                                        </li>
+                                                        <li>
+                                                            @if($ppb->dateline == '≤24Jam')
+                                                            <strong><p>1 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤72Jam')
+                                                            <strong><p>2 sd 3 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤168Jam')
+                                                            <strong><p>4 sd 7 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤336Jam')
+                                                            <strong><p>7 sd 14 Hari</p></strong>
+                                                            @endif
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td style="text-align: center">
+                                                    <ul>
+                                                        <li>
+                                                            <a class="badge mt-1 bg-warning"
+                                                                style="color: white; font-size:10">{{ $ppb->status }}</a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="badge badge-lable" style="font-size: 10">
+                                                                Complete This Task!
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                @hasrole('finance|super admin')
+
+                                                    <td class="text-center" style="white-space: nowrap;">
+                                                        <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #ADD8E6; font-size:10"
+                                                                href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}" target="_blank"><i
+                                                                    class="icon-eye" title="Preview PDF"></i>
+                                                            </a>
+
+                                                        <a class="btn btn-iconsolid mt-1"
+                                                                style="background-color: #008b2c; font-size:10"
+                                                                href="{{ url('/menu-pengajuan-dana/create/' . $ppb->id) }}"><i
+                                                                    class="icon-file" title="Create"></i>
+                                                        </a>
+
+                                                        {{-- <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal"
+                                                        style="background-color: #ff0000; font-size:10" data-bs-target="#modalDelete{{ $ppb->id }}"><i
+                                                                class="icon-trash" title="Delete"></i>
+                                                        </button> --}}
+                                                    </td>
+                                                @endhasrole
+                                            </tr>
+                                            @foreach ($ppb->quot as $po)
+                                            @if($po->status == 'Unpaid')
+                                                <tr>
+
+                                                    @php
+                                                        $po2 = \App\Models\CategoryPO::with('vendorable')->find($po->id);
+                                                        $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                        $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
+                                                    @endphp
+
+                                                    @if(empty($po))
+
+                                                    @else
+                                                    <td style="text-align: center">-</td>
                                                     <td>
-                                                        <a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">
-                                                            <ul>
-                                                                <li style="font-weight:600; white-space:nowrap;">{{ $ppb->whosubmit->name }}</li>
-                                                                <li>{{ $ppb->desc }}</li>
-                                                            </ul>
+                                                        <a href="{{ route('menu-pengajuan-dana.po_detail',$po->id) }}">
+                                                            {{ $po2->code_po }}
                                                         </a>
                                                     </td>
                                                     <td>
                                                         <ul>
-                                                            <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
-                                                        </ul>
-                                                    </td>
-                                                    {{-- <td>{{ $ppb->send_to }}</td> --}}
-                                                    <td>
-                                                        <ul>
-                                                            <li>
-                                                                <p class="ppb-countdown" style="color:rgb(81, 171, 71)"></p>
-                                                            </li>
-                                                            <li>
-                                                                @if($ppb->dateline == '≤24Jam')
-                                                                <strong><p>1 Hari</p></strong>
-                                                                @elseif ($ppb->dateline == '≤72Jam')
-                                                                <strong><p>2 sd 3 Hari</p></strong>
-                                                                @elseif ($ppb->dateline == '≤168Jam')
-                                                                <strong><p>4 sd 7 Hari</p></strong>
-                                                                @elseif ($ppb->dateline == '≤336Jam')
-                                                                <strong><p>7 sd 14 Hari</p></strong>
-                                                                @endif
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                    <td style="text-align: center">
-                                                        <ul>
-                                                            <li>
-                                                                <a class="badge mt-1 bg-warning"
-                                                                    style="color: white; font-size:10">{{ $ppb->status }}</a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="badge badge-lable" style="font-size: 10">
-                                                                    Complete This Task!
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                    @hasrole('finance|super admin')
-
-                                                        <td class="text-center" style="white-space: nowrap;">
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #ADD8E6; font-size:10"
-                                                                    href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}" target="_blank"><i
-                                                                        class="icon-eye" title="Preview PDF"></i>
-                                                                </a>
-
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                    style="background-color: #008b2c; font-size:10"
-                                                                    href="{{ url('/menu-pengajuan-dana/create/' . $ppb->id) }}"><i
-                                                                        class="icon-file" title="Create"></i>
-                                                            </a>
-
-                                                            {{-- <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal"
-                                                            style="background-color: #ff0000; font-size:10" data-bs-target="#modalDelete{{ $ppb->id }}"><i
-                                                                    class="icon-trash" title="Delete"></i>
-                                                            </button> --}}
-                                                        </td>
-                                                    @endhasrole
-                                                </tr>
-                                                @foreach ($ppb->quot as $po)
-                                                    <tr>
-
-                                                        @php
-                                                            $po2 = \App\Models\CategoryPO::with('vendorable')->find($po->id);
-                                                            $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
-                                                            $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
-                                                        @endphp
-
-                                                        @if(empty($po))
-
-                                                        @else
-                                                        <td style="text-align: center">-</td>
-                                                        <td>
                                                             <a href="{{ route('menu-pengajuan-dana.po_detail',$po->id) }}">
-                                                                {{ $po2->code_po }}
+                                                                <li style="white-space: nowrap;">
+                                                                    @if($po2->vendorable_id == 0)
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                    @else
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                    @endif
+                                                                </li>
+                                                                <li> Quotation : {{ $po2->quotation }}</li>
                                                             </a>
-                                                        </td>
-                                                        <td>
-                                                            <ul>
-                                                                <a href="{{ route('menu-pengajuan-dana.po_detail',$po->id) }}">
-                                                                    <li style="white-space: nowrap;">
-                                                                        @if($po2->vendorable_id == 0)
-                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
-                                                                        @else
-                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
-                                                                        @endif
-                                                                    </li>
-                                                                    <li> Quotation : {{ $po2->quotation }}</li>
-                                                                </a>
-                                                            </ul>
-                                                        </td>
-                                                        <td style="font-weight: 700; white-space:nowrap;">
-                                                            @foreach ($po3 as $ipo)
-                                                            <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                        </ul>
+                                                    </td>
+                                                    <td style="font-weight: 700; white-space:nowrap;">
+                                                        @foreach ($po3 as $ipo)
+                                                        <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                        @endforeach
+                                                    </td>
+                                                    <td>
+                                                            @foreach ($po4 as $ipo)
+                                                            <label>
+                                                                {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
+                                                            </label>
                                                             @endforeach
-                                                        </td>
-                                                        <td>
-                                                                @foreach ($po4 as $ipo)
-                                                                <label>
-                                                                    {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
-                                                                </label>
-                                                                @endforeach
-                                                        </td>
-                                                        <td colspan="2"  class="text-center"><a
-                                                            class="badge {{ $ppb->status == 'Unpaid' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
+                                                    </td>
+                                                    <td colspan="2"  class="text-center"><a
+                                                        class="badge {{ $ppb->status == 'Unpaid' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                        style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
-                                                        @endif
-                                                    </tr>
-                                                @endforeach
-                                            @endif
+                                                    @endif
+                                                </tr>
+                                                @endif
+                                            @endforeach
                                         @endforeach
 
                                     </tbody>
@@ -275,16 +275,16 @@
 @section('scripts')
     {{-- <script src="{{  }}"></script> --}}
     <script>
-        const data = @json($approvedPPB);
-        const item = data[0];
+        const dataPD = @json($approvedPPB);
+        const item = dataPD[0];
 
         // FOR CALCULATE REMAINING DEADLINE TIME 😃
-        const remainingTime = (data, elmnt) => {
+        const remainingTime = (dataPD, elmnt) => {
             const {
                 approved_at,
                 dateline_time,
                 datetime
-            } = data;
+            } = dataPD;
 
             const dateline = {
                 day     : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])/24.1) || 1),
@@ -346,8 +346,8 @@
         }
 
         // FOR INITIALIZE COUNTDOWN 😃
-        const initCountdown = (data) => {
-            data.forEach(item => {
+        const initCountdown = (dataPD) => {
+            dataPD.forEach(item => {
                 if (!item.approved_at) return;
                 setInterval(() => countdownHandle(document.querySelector(
                     `#ppb-${item.id}`
@@ -355,6 +355,6 @@
             });
         }
 
-        initCountdown(data);
+        initCountdown(dataPD);
     </script>
 @endsection

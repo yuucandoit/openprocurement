@@ -408,10 +408,10 @@
                                 @endhasrole
                                 @php
                                 $po          =  App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count();
-                                $checkpo     =  App\Models\CategoryPengajuanPembelian::where('status', 'Cross Check PO')->count();
-                                $pyreq       =  App\Models\CategoryPengajuanPembelian::where('status', 'PO Approved')->count();
-                                $pyprocess   =  App\Models\CategoryPengajuanPembelian::where('status', 'Unpaid')->count();
-                                $delivery    =  App\Models\CategoryPengajuanPembelian::where('status', 'Paid')->count();
+                                $checkpo     =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Cross Check PO');})->count();
+                                $pyreq       =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','PO Approved');})->count();
+                                $pyprocess   =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Unpaid');})->count();
+                                $delivery    =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Paid');})->count();
                                 @endphp
                                 @hasrole('super purchase|purchasing|super admin')
 
@@ -659,11 +659,11 @@
 
                                     @php
                                         $taskpr         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',Auth::user()->id)->get();
-                                        $taskpo         = App\Models\CategoryPengajuanPembelian::where('status', 'Waiting For PO Approval')->where('atasan_po',Auth::user()->id)->get();
+                                        $taskpo         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Waiting For PO Approval');})->where('atasan_po',Auth::user()->id)->get();
 
-                                        $taskpd         = App\Models\CategoryPengajuanPembelian::where('status', 'Invoicing Process')->where('atasan_py',Auth::user()->id)->get();
+                                        $taskpd         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Invoicing Process');})->where('atasan_py',Auth::user()->id)->get();
                                         $taskpurchase   = App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->get();
-                                        $taskfinance    = App\Models\CategoryPengajuanPembelian::where('status', 'Payment Approved')->get();
+                                        $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Payment Approved');})->get();
                                     @endphp
 
                     @hasrole('super user|super admin')

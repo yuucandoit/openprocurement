@@ -714,16 +714,12 @@ class CategoryPOController extends Controller
         $data->check_po_timestamp = now();
         $data->save();
 
-        CategoryPO::where('ppb_id', $id)->update([
-            'status' => 'Cross Check PO'
-        ]);
-
         return redirect('menu-purchase-order');
         }
     }
     public function checkPO2(Request $request,$id)
     {
-        dd($id);
+        // dd($id);
         $data = CategoryPO::where('id',$id)->update([
             'status' => 'Cross Check PO',
         ]);
@@ -732,14 +728,14 @@ class CategoryPOController extends Controller
         // $data->status = 'Cross Check PO';
         // $data->save();
 
-        $itemPengajuan = PengajuanPembelian::select(DB::raw('pp_id,SUM(qty) as qtytotal'))->where('pp_id',$data2->ppb_id)->first();
-        $itemPo        = ItemPO::select(DB::raw('ppb_id,SUM(qty) as qtypo'))->where('ppb_id',$data2->ppb_id)->first();
+        // $itemPengajuan = PengajuanPembelian::select(DB::raw('pp_id,SUM(qty) as qtytotal'))->where('pp_id',$data2->ppb_id)->first();
+        // $itemPo        = ItemPO::select(DB::raw('ppb_id,SUM(qty) as qtypo'))->where('ppb_id',$data2->ppb_id)->first();
         // dd($itemPengajuan);
-        if($itemPengajuan->qtytotal == $itemPo->qtypo){
-            CategoryPengajuanPembelian::where('id', $data2->ppb_id)->update([
-                'status' => 'Cross Check PO',
-            ]);
-        }
+        // if($itemPengajuan->qtytotal == $itemPo->qtypo){
+            // CategoryPengajuanPembelian::where('id', $data2->ppb_id)->update([
+            //     'status' => 'Cross Check PO',
+            // ]);
+        // }
 
         return redirect('menu-purchase-order');
 

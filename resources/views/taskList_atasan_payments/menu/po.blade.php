@@ -274,14 +274,90 @@
                                 </table>
 
                                 @endif
-                                <div class="mt-4">
-                                    <a href="{{ url()->previous() }}" class="btn "
-                                        style=" color:white; background-color:black">Back</a>
-                                    <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                    @hasrole('super user|super admin')
+                                        @if ($datacpo->status == 'Payment Approved' ||
+                                        $datacpo->status == 'Unpaid' ||
+                                        $datacpo->status == 'Paid' ||
+                                        $datacpo->status == 'Delivery Process' ||
+                                        $datacpo->status == 'Delivery Success')
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-danger text-center" onclick="return">Reject</a>
+                                        @elseif($datacpo->status == 'Invoicing Process')
+                                        <button type="button" class="btn btn-success text-center" data-bs-toggle="modal" data-bs-target="#approve"> Approve</button>
+                                        <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
+                                        @else
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-success text-center" onclick="return">Aprove</a>
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                        @endif
+                                    @endhasrole
+                                    </div>
+                                    <div class="col-md-6 mt-3" style="text-align: right;">
+                                        <a href="{{ url()->previous() }}" class="btn "
+                                            style=" color:white; background-color:black">Back</a>
+                                        <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
+
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+             <!-- Modal -->
+             <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="rejectLabel">Message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ url('menu-taskList-atasan-payment/reject', $datacpo->id) }}" id="formAdd" method="get"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="note" class="form-label">Reject Message</label>
+                            <textarea name="note_py" id="note" class="form-control" cols="30" rows="0" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Reject</button>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="approve" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="approveLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="approveLabel">Message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ url('menu-taskList-atasan-payment/approve_payment_py', $datacpo->id) }}" method="get">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="note" class="form-label">Approve Message</label>
+                            <textarea name="note_py" id="note" class="form-control" cols="30" rows="0"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Approve</button>
+                    </form>
+                    </div>
+                </div>
                 </div>
             </div>
     </section>

@@ -121,27 +121,6 @@
                                         </table>
                                     </div>
                                 </div>
-                                    <div class="text-center mt-4">
-                                        @if ($data_pengajuan->status == 'Waiting For PO Approval')
-                                        <button class="btn btn-outline-success text-center" data-bs-toggle="modal"
-                                            data-bs-target="#modalSelesai" disabled>Approval Request Sent
-                                        </button>
-                                        @elseif ($data_pengajuan->status == 'Cross Check PO')
-                                        @if (empty($data_pengajuan->atasans->name))
-                                            <div class="text-center">
-                                                <button class="btn btn-outline-success text-center disabled" data-bs-toggle="modal"
-                                                    data-bs-target="#modalSelesai">Send Approval Request For Purchase
-                                                    Order</button>
-                                            </div>
-                                        @else
-                                            <div class="text-center">
-                                                <button class="btn btn-outline-success text-center" data-bs-toggle="modal"
-                                                    data-bs-target="#modalSelesai">Send Approval Request For Purchase
-                                                    Order</button>
-                                            </div>
-                                        @endif
-                                        @endif
-                                    </div>
 
                                 <hr>
 
@@ -154,65 +133,6 @@
                                         padding: 15px 10px;
                                     }
                                 </style>
-                                <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-danger">
-                                                <h2 class="modal-title" style="color: white">Warning</h2>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body mx-5 mb-3" style="text-align: center">
-                                                <span class="warning">
-                                                    <img src="{{ asset('assets/images/warning.png') }}" >
-                                                </span>
-                                                <h2 style="text-align: center">Make sure the data is correct!</h2>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                    <form class="text-center" style="text-align: center;"
-                                                        action="{{ url('check_po/ajukan_keatasan/' . $data_pengajuan->id) }}">
-                                                        <button type="submit" class="btn btn-outline-danger "><i
-                                                                class="bx bx-trash"></i>
-                                                            Send Approval Request For Purchase Order
-                                                        </button>
-                                                    </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-danger">
-                                                <h2 class="modal-title" style="color: white">Warning</h2>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body mx-5 mb-3">
-                                                <span class="warning">
-                                                    <img src="{{ asset('assets/images/warning.png') }}">
-                                                </span>
-                                                <h2 style="text-align: center">Make sure the data is correct!</h2>
-                                            </div>
-                                            <div class="modal-footer">
-                                                @if ($data_pengajuan->status == 'Purchase Proses')
-
-                                                    <form class="text-center" style="text-align: center;"
-                                                        action="{{ url('menu-purchase-order/check_po/'.$data_pengajuan->id) }}">
-                                                        <button type="submit" class="btn btn-outline-danger "><i
-                                                                class="bx bx-trash"></i>
-                                                           Check PO
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
-
                             </div>
                             <!-- Container-fluid Ends-->
                         </div>
@@ -241,8 +161,7 @@
                         @else
                         <div class="default-according" id="accordionclose">
                         @foreach ($items as $po)
-
-                            {{-- <div class="card-body"> --}}
+                            @if($po->status == 'Cross Check PO')
                                 <div class="card">
                                 <div class="card-header" id="heading{{ $po->id }}">
                                     <h5 class="mb-0">
@@ -502,12 +421,51 @@
                                         target="_blank" style="font-size:12;">Export PDF PO</i>
                                     </a>
                                     <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
+                                        @if ($po->status == 'Waiting For PO Approval')
+                                        <button class="btn btn-success mt-3" data-bs-toggle="modal"
+                                            data-bs-target="#modalSendToBOD" disabled> Approval Request Sent
+                                        </button>
+                                        @elseif ($po->status == 'Cross Check PO')
+                                            @if (empty($data_pengajuan->atasans->name))
+                                                    <button class="btn btn-success mt-3 " data-bs-toggle="modal"
+                                                        data-bs-target="#modalSendToBOD{{ $po->id }}">Send Approval Request For Purchase Order</button>
+                                            @else
+                                                <button class="btn btn-success mt-3 " data-bs-toggle="modal"
+                                                    data-bs-target="#modalSendToBOD{{ $po->id }}">Send Approval Request For Purchase Order</button>
+                                            @endif
+                                        @endif
+                                        <div class="modal fade" id="modalSendToBOD{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-danger">
+                                                        <h2 class="modal-title" style="color: white">Warning</h2>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body mx-5 mb-3" style="text-align: center;">
+                                                        <span class="warning">
+                                                            <img src="{{ asset('assets/images/warning.png') }}" >
+                                                        </span>
+                                                        <h2 style="text-align: center">Make sure the data is correct!</h2>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form class="text-center" style="text-align: center;"
+                                                            action="{{ url('check_po/ajukan_keatasan_po/' .$po->id) }}">
+                                                            <input type="hidden" name="ppb_id" value="{{ $po->id }}">
+                                                            <button type="submit" class="btn btn-outline-danger "><i
+                                                                    class="bx bx-trash"></i>
+                                                                    Send a purchase order approval request
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endif
                                     </div>
                                 </div>
                                 </div>
-
-                            {{-- </div> --}}
+                                @endif
                             @endforeach
                         </div>
                         @endif

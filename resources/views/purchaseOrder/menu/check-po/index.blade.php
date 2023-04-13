@@ -137,7 +137,7 @@
                             <div class="col-sm-8"></div>
                             <div class="col-sm-4">
                             <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
-                                <form action="{{ route('menu-purchase-order.SearchPOIn') }}" method="get" class="input-group">
+                                <form action="{{ route('check_po.SearchCheckPO') }}" method="get" class="input-group">
                                     <input type="text" name="cariIn" class="form-control " placeholder="Search ..." value="{{ request('cariIn') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
@@ -165,8 +165,14 @@
                                     @endphp
                                     <tbody>
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->status == 'Cross Check PO')
-                                                @php $approvedPPB[] =$ppb; @endphp
+                                        @php
+                                            $approvedPPB[] =$ppb;
+                                            foreach ($ppb->quot as $po1 ) {
+                                                $po2 = $po1;
+                                            }
+                                        @endphp
+                                            {{-- @if ($po2->status == 'Cross Check PO') --}}
+                                                {{-- @if($po->ppb->id === $po->ppb_id) --}}
                                                 <tr id="ppb-{{ $ppb->id }}" style="background-color:#F1F6F5;">
                                                     <td style="text-align: center;">{{ $i++ }}
 
@@ -186,7 +192,6 @@
 
                                                     </td>
 
-                                                 @if ($ppb->status == 'Cross Check PO')
                                                         <td>
                                                             <ul>
                                                                 <li>
@@ -211,9 +216,7 @@
                                                                 <li>
                                                                     <a class="badge"
                                                                         style="color: white; background-color:rgb(255, 0, 0); font-size:10">
-                                                                        @if($ppb->status == 'Cross Check PO')
                                                                        Waiting For Check
-                                                                        @endif
                                                                     </a>
                                                                 </li>
                                                                 <li>
@@ -223,14 +226,6 @@
                                                                 </li>
                                                             </ul>
                                                         </td>
-                                                        {{-- <td>
-                                                        </td> --}}
-                                                    @else
-                                                        <td> -/- </td>
-                                                        <td> -/- </td>
-                                                        <td> -/- </td>
-                                                        <td> -/- </td>
-                                                    @endif
                                                     @hasrole('purchasing|super admin|super purchase')
                                                         <td style="text-align: center;">
                                                             <a class="btn btn-iconsolid mt-1"
@@ -241,6 +236,8 @@
                                                         </td>
                                                     @endhasrole
                                                 </tr>
+                                                {{-- @endif --}}
+                                                {{-- @endforeach --}}
                                                 @foreach ($ppb->quot as $po)
                                                 <tr>
 
@@ -253,6 +250,7 @@
                                                     @if(empty($po2))
 
                                                     @else
+                                                    @if($po->status == 'Cross Check PO')
                                                     <td style="text-align: center">-</td>
                                                     <td>
                                                         <a href="{{ route('check_po.po_detail',$po->id) }}">
@@ -290,9 +288,10 @@
                                                         style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
                                                     @endif
+                                                    @endif
                                                 </tr>
                                                 @endforeach
-                                            @endif
+                                                {{-- @endif --}}
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -311,16 +310,16 @@
 @section('scripts')
 {{-- <script src="{{  }}"></script> --}}
 <script>
-    const data = @json($approvedPPB);
-    const item = data[0];
+    const dataCpo = @json($approvedPPB);
+    const item = dataCpo[0];
 
     // FOR CALCULATE REMAINING DEADLINE TIME 😃
-    const remainingTime = (data, elmnt) => {
+    const remainingTime = (dataCpo, elmnt) => {
         const {
             approved_at,
             dateline_time,
             datetime
-        } = data;
+        } = dataCpo;
 
         const dateline = {
             day     : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])/24.1) || 1),
@@ -394,8 +393,8 @@
     }
 
     // FOR INITIALIZE COUNTDOWN 😃
-    const initCountdown = (data) => {
-        data.forEach(item => {
+    const initCountdown = (dataCpo) => {
+        dataCpo.forEach(item => {
             if (!item.approved_at) return;
             setInterval(() => countdownHandle(document.querySelector(
                 `#ppb-${item.id}`
@@ -403,6 +402,6 @@
         });
     }
 
-    initCountdown(data);
+    initCountdown(dataCpo);
 </script>
 @endsection

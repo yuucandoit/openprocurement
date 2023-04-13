@@ -83,78 +83,8 @@
                                     </tr>
                                 </tbody>
                             </table>
-
                             <hr>
-                            {{-- Start Modal Approval --}}
-                            @if ($data_pengajuan->status == 'Invoicing Process')
-                                <div class="text-center">
-                                    <button class="btn btn-outline-success mt-2 text-center" data-bs-toggle="modal"
-                                        data-bs-target="#modalSelesai" disabled>Successfully send data</button>
-                                </div>
-                            @elseif ($data_pengajuan->status == 'PO Approved')
-                            @if(empty($data_pengajuan->atasanpymnt->name))
-                            <div class="text-center">
-                                <button class="btn btn-success mt-4 disabled" data-bs-toggle="modal"
-                                    data-bs-target="#modalSelesai">Apply For Payment
-                                    Process
-                                </button>
-                            </div>
-                            @else
-                            <div class="text-center">
-                                <button class="btn btn-success mt-4 " data-bs-toggle="modal"
-                                    data-bs-target="#modalSelesai">Apply For Payment
-                                    Process
-                                </button>
-                            </div>
-                            @endif
-
-                            @endif
-
-                            <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-danger">
-                                            <h2 class="modal-title" style="color: white">Warning</h2>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body mx-5 mb-3 text-center">
-                                            <span class="warning">
-                                                <img src="{{ asset('assets/images/warning.png') }}">
-                                            </span>
-                                            <h2 style="text-align: center">Make sure the data is correct!</h2>
-                                        </div>
-                                        {{-- End Modal Approval --}}
-
-                                        <div class="modal-footer" style="text-align: center;">
-                                            @if ($data_pengajuan->status == 'PO Approved')
-                                                <form class="text-center"
-                                                    action="{{ url('payment_request/ajukan_dana/' . $data_pengajuan->id) }}">
-                                                    <button type="submit" class="btn btn-outline-danger"><i
-                                                            class="bx bx-trash"></i>
-                                                        Send For Payment Approval
-                                                    </button>
-                                                </form>
-                                            @endif
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Zero Configuration  Ends-->
                             <style>
-                                /* textarea {
-                                       height: 20px;
-                                       width: 100%;
-                                       border: none;
-                                       border-bottom: 2px solid #aaa;
-                                       background-color: transparent;
-                                       margin-bottom: 10px;
-                                       resize: none;
-                                       outline: none;
-                                       transition: .5s
-                                   } */
-
                                 .AllComment {
                                     box-sizing: border-box;
                                     border: 2px solid rgb(236, 236, 236);
@@ -257,7 +187,7 @@
                                         @endphp
 
                                             @if(empty($e))
-
+                                        <div class="table-responsive">
                                             <table class="table table-bordered mt-4 mb-4 order-entry">
                                                 <thead>
                                                     <tr class="text-center"
@@ -281,6 +211,7 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                        </div>
                                             <table class="table table-bordered ">
                                                 <tr>
                                                     <td><label class="pull-right mx-2"> DPP :</label></td>
@@ -332,8 +263,7 @@
                                             </table>
 
                                             @else
-
-
+                                        <div class="table-responsive">
                                             <table class="table table-bordered item order-entry mx-2">
                                                 <tr style="text-align: center;">
                                                     <th
@@ -370,6 +300,7 @@
                                                         </tr>
                                                 @endforeach
                                             </table>
+                                        </div>
                                             <table class="table table-bordered ">
                                                 <tbody>
                                                     @foreach ($groupedItem as $value)

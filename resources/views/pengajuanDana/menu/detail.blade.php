@@ -71,38 +71,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="mt-3" style="text-align: right;">
-                                <a type="reset" class="btn btn-dark" href="{{ url('/menu-pengajuan-dana/') }}"
-                                    style="float: left;">Back</a>
-                                @hasrole('finance|super admin')
-                                    @if ($data_pengajuan->status == 'Paid')
-                                        <div class="text-center">
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return"><b>Paid Success</b></a>
-
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-danger text-center" onclick="return">Reject</a>
-                                        </div>
-                                    @elseif($data_pengajuan->status == 'Unpaid')
-                                        <div class="text-center">
-                                            <a href="{{ url('menu-pengajuan-dana/paid', $data_pengajuan->id) }}"
-                                                class="btn btn-success text-center" onclick="return">Paid</a>
-
-                                            <a href="{{ url('menu-pengajuan-dana/reject', $data_pengajuan->id) }}"
-                                                class="btn btn-danger text-center" onclick="return">Reject</a>
-                                        </div>
-                                    @else
-                                        <div class="text-center">
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return">Paid</a>
-
-                                            <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
-                                        </div>
-                                    @endif
-                                @endhasrole
-
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -469,3 +437,16 @@
     </div>
     </section>
 @endsection
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    var loadFile = function(event) {
+        var output = document.getElementById('output');
+
+        if (output === null) {
+            output.src = "Image Not Found";
+        } else {
+            output.src = URL.createObjectURL(event.target.files[0]);
+        }
+    };
+</script>

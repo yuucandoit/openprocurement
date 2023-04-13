@@ -31,21 +31,17 @@ class CategoryPDController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 5) {
-            $datappb = CategoryPengajuanPembelian::where('status','Unpaid')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::where('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-            $pt = CategoryPT::all();
-            $op = CategoryPP::all();
-            $ec = CategoryEcommerce::all();
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('status','Unpaid');
+            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             $datapo = CategoryPO::all();
             return view('pengajuanDana.menu.index')
-                ->with('pt',$pt)
-                ->with('op',$op)
-                ->with('ec',$ec)
                 ->with('datappb',$datappb)
-                ->with('datappb2',$datappb2)
                 ->with('datapo', $datapo);
         } else if ($check->role_id == 3 || $check->role_id == 5 || $check->role_id == 2) {
-            $datappb = CategoryPengajuanPembelian::where('status','Unpaid')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::where('status','Unpaid')->orWhereHas('quot',function($i){
+                $i->where('status','Unpaid');
+            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             $datappb2 = CategoryPengajuanPembelian::where('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
             $pt = CategoryPT::all();
             $op = CategoryPP::all();
@@ -73,7 +69,7 @@ class CategoryPDController extends Controller
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $comments           = Comment::where('ppb_id',$id)->get();
-
+        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
         //dd($datacpo);
         return view('pengajuanDana.menu.po')
             ->with('pengajuan', $pengajuan)
@@ -85,7 +81,7 @@ class CategoryPDController extends Controller
             ->with('ppn', $ppn)
             ->with('total', $total)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            // ->with('data_pengajuan', $data_pengajuan)
+            ->with('disc', $disc)
             ->with('comments', $comments);
     }
 
@@ -99,8 +95,10 @@ class CategoryPDController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10, ['*'],'in');
+     $datapo             = CategoryPO::get();
      return view('pengajuanDana.menu.index')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo', $datapo);
     }
 
     public function out()
@@ -236,18 +234,21 @@ class CategoryPDController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
+        $cpo = CategoryPO::find($id);
+        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id);
         $request->validate([
             'path_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
            ]);
 
            $pengajuan        = $data->id;
+           $po_id            = $id;
            $path_name        = $request->file('path_image');
            $name             = $path_name->getClientOriginalName();
            $path_name->move('images', $name);
 
            $save = new CategoryPD;
            $save->ppb_id     = $pengajuan;
+           $save->po_id      = $po_id;
            $save->path_image = $name;
            $save->save();
         return redirect('menu-pengajuan-dana/')->with('success', 'Task Created Successfully!');
@@ -319,6 +320,33 @@ class CategoryPDController extends Controller
         $data->p_finance_timestamp = now();
         $data->save();
         CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Rejected by Finance'
+        ]);
+        return redirect('/menu-pengajuan-dana');
+    }
+
+    public function paid_pd(Request $request, $id)
+    {
+        $cpo = CategoryPO::find($id);
+        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->update([
+            'p_finance_timestamp' => now(),
+        ]);
+        // $data->status = 'Paid';
+        CategoryPO::where('id',$id)->update([
+            'status' => 'Paid'
+        ]);
+        return redirect('/menu-pengajuan-dana');
+    }
+
+    public function reject_pd($id)
+    {
+        $cpo = CategoryPO::find($id);
+
+        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->update([
+            'status' => 'Rejected by Finance',
+            'p_finance_timestamp' => now(),
+        ]);
+        CategoryPO::where('id',$id)->update([
             'status' => 'Rejected by Finance'
         ]);
         return redirect('/menu-pengajuan-dana');

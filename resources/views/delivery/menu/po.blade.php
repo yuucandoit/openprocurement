@@ -214,9 +214,8 @@
                                                 <td style="text-align: center;">{{ $item->item }}</td>
                                                 <td style="text-align: center;">{{ $item->qty }}</td>
                                                 <td style="text-align: center;">{{ $item->kategori }}</td>
-                                                @if ($item->matauang == 'RP')
-                                                    <td style="text-align:right;">{{ $item->matauang }} {{ number_format($item->unit_price) }}</td>
-                                                    <td style="text-align:right;">{{ $item->matauang }} {{ number_format($item->total) }}</td>
+                                                <td style="text-align:right;">{{ $item->matauang }} {{ number_format($item->unit_price) }}</td>
+                                                <td style="text-align:right;">{{ $item->matauang }} {{ number_format($item->total) }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -259,7 +258,7 @@
                                     </tr>
                                     <tr>
                                         <td><label class="pull-right mx-2"> Shipping & Protection Fee :</label></td>
-                                        <td style="text-align: right;">=
+                                        <td style="text-align: right;">
                                             {{ $item_po->matauang }} {{ number_format($item_po->ongkir) }}
                                         </td>
                                     </tr>
@@ -277,12 +276,132 @@
                                 </table>
 
                                 @endif
-
-                                <div class="mt-4">
-                                    <a href="{{ url()->previous() }}" class="btn "
-                                        style=" color:white; background-color:black">Back</a>
-                                    <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
+                                <div class="row">
+                                    <div class="col-md-6" >
+                                         {{-- Start Modal Approval --}}
+                                        @if ($datacpo->status == 'Purchase Complete')
+                                            <button class="btn btn-outline-success mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#modalSelesai" disabled>Purchase Complete
+                                            </button>
+                                        @elseif ($datacpo->status == 'Paid')
+                                            <button class="btn btn-outline-success mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#modalSelesai">Set Purchase Complete </button>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6 mt-3" style="text-align: right;">
+                                        <a href="{{ url()->previous() }}" class="btn "
+                                            style=" color:white; background-color:black">Back</a>
+                                        <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
+                                    </div>
                                 </div>
+                                <div class="mt-4">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h2 class="modal-title" style="color: white">Warning</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                            <span class="warning">
+                                <img src="{{ asset('assets/images/warning.png') }}">
+                            </span>
+                            <h2 style="text-align: center">Make Sure! <br>All Items Arrived</h2>
+                        </div>
+                        {{-- End Modal Approval --}}
+
+                        <div class="modal-footer">
+                            @if ($datacpo->status == 'Paid')
+                                <form class="text-center"
+                                    action="{{ url('delivery/complete_2/' . $datacpo->id) }}">
+                                    <button type="submit" class="btn btn-outline-danger "><i
+                                            class="bx bx-trash"></i>
+                                        Set Purchase Complete
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                    <a href={{ url('/exportpdf/po/' . $datacpo->id) }}
+                        class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Export to
+                        PDF</a>
+
+                    <a type="reset" class="btn btn-dark mb-3 mr-1"
+                        href="{{ route('delivery.index') }}">Back</a>
+
+            </div>
+
+             <!-- Container-fluid Ends-->
+             <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Form Delivery Status</h5>
+                        </div>
+                      <div class="card-body">
+                        <form action="{{ url('delivery/statusDeliveryStore/' . $datacpo->id) }}" method="POST">
+                            @csrf
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="floatingStatus">Status</label>
+                                    <input name="status" type="text" class="form-control" id="floatingStatus" placeholder="Out Delivery Jakarta ....">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-absolute">
+                            <div class="card-body">
+                                <h5>Report Delivery</h5>
+                                <form action="{{ url('/delivery/store/' . $datacpo->id) }}" id="formAdd" method="post" class="mt-4"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input required type="text" class="form-control " id="floatingReceiver"
+                                                    placeholder="Receiver" name="receiver">
+                                                <label for="floatingReceiver">Receiver</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-4">
+                                            <div class="form-group">
+                                                <input class="form-control" type="file" name="path_image" placeholder="Choose image"
+                                                    id="path_image" onchange="loadFile(event)">
+                                                @error('path_image')
+                                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <img id="output" style="width: 200px;" />
+                                    </div>
+                                    <br>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
+                                        <a href="{{ route('delivery.index') }}" class="btn btn-dark mt-3">Back</a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -290,3 +409,16 @@
             </div>
     </section>
 @endsection
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    var loadFile = function(event) {
+        var output = document.getElementById('output');
+
+        if (output === null) {
+            output.src = "Image Not Found";
+        } else {
+            output.src = URL.createObjectURL(event.target.files[0]);
+        }
+    };
+</script>

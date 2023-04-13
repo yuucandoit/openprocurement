@@ -23,7 +23,9 @@ class TaskListFinanceController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 ||$check->role_id == 5) {
-            $datappb = CategoryPengajuanPembelian::where('status','Payment Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('status','Payment Approved');
+            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             $datappb2 = CategoryPengajuanPembelian::where('status','Payment Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
             $datadv = TaskListFinance::all();
             $datapo = CategoryPO::get();
@@ -179,7 +181,7 @@ class TaskListFinanceController extends Controller
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
 
         //dd($datacpo);
-        return view('taskList_atasan_po.menu.po')
+        return view('taskList_finance.menu.po')
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
             ->with('datapo', $datapo)
@@ -264,6 +266,21 @@ class TaskListFinanceController extends Controller
         $data->w_finance_pay_timestamp = now();
         $data->save();
         CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Unpaid'
+        ]);
+        return redirect('menu-tasklist-finance');
+    }
+
+    public function approve_po(Request $request,$id)
+    {
+        $cpo = CategoryPO::find($id);
+
+        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb_id)->update([
+            'note_finance'            => $request->note_finance,
+            'w_finance_pay_timestamp' => now(),
+        ]);
+
+        CategoryPO::where('id',$id)->update([
             'status' => 'Unpaid'
         ]);
         return redirect('menu-tasklist-finance');

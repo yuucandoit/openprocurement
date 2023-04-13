@@ -11,6 +11,7 @@ class DeliveryTrack extends Model
     protected $table = 'delivery_tracks';
     protected $fillable = [
         'id',
+        'po_id',
         'ppb_id',
         'status',
     ];

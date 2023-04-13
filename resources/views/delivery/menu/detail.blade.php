@@ -21,7 +21,6 @@
             <!-- Container-fluid starts-->
             <div class="container-fluid">
                 <div class="row">
-
                     <div class="col-sm-12">
                         <div class="card card-absolute">
                             <div class="card-body">
@@ -93,88 +92,12 @@
                                         </figure>
                                     </div>
                                 @endforeach
-
-                                {{-- Start Modal Approval --}}
-                                @if ($data_pengajuan->status == 'Purchase Complete')
-                                    <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                        data-bs-target="#modalSelesai" disabled>Purchase Complete
-                                    </button>
-                                @elseif ($data_pengajuan->status == 'Paid')
-                                    <button class="btn btn-outline-success mt-2" data-bs-toggle="modal"
-                                        data-bs-target="#modalSelesai">Set Purchase Complete </button>
-                                @endif
-
-                                <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-danger">
-                                                <h2 class="modal-title" style="color: white">Warning</h2>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body mx-5 mb-3">
-                                                <span class="warning">
-                                                    <img src="{{ asset('assets/images/warning.png') }}">
-                                                </span>
-                                                <h2 style="text-align: center">Make Sure! <br>All Items Arrived</h2>
-                                            </div>
-                                            {{-- End Modal Approval --}}
-
-                                            <div class="modal-footer">
-                                                @if ($data_pengajuan->status == 'Paid')
-                                                    <form class="text-center"
-                                                        action="{{ url('delivery/complete/' . $data_pengajuan->id) }}">
-                                                        <button type="submit" class="btn btn-outline-danger "><i
-                                                                class="bx bx-trash"></i>
-                                                            Set Purchase Complete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    @if ($data_pengajuan->status == 'PO Approved')
-                                        <a href={{ url('/exportpdf/po/' . $data_pengajuan->id) }}
-                                            class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Export to
-                                            PDF</a>
-
-                                        <a type="reset" class="btn btn-dark mb-3 mr-1"
-                                            href="{{ route('delivery.index') }}">Back</a>
-                                    @endif
-
-                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-            <!-- Container-fluid Ends-->
-            <div class="container-fluid">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Form Delivery Status</h5>
-                        </div>
-                      <div class="card-body">
-                        <form action="{{ url('delivery/statusDeliveryStore/' . $data_pengajuan->id) }}" method="POST">
-                            @csrf
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="floatingStatus">Status</label>
-                                    <input name="status" type="text" class="form-control" id="floatingStatus" placeholder="Out Delivery Jakarta ....">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <!-- Container-fluid Ends-->
+
             <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12">
@@ -482,5 +405,6 @@
                   </div>
                 </div>
             </div>
+            
     </section>
 @endsection

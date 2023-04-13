@@ -117,29 +117,7 @@
                             </div>
 
 
-                            <div class="mt-3">
-                            @hasrole('super user|super admin')
-
-                                    @if ($data_pengajuan->status == 'Payment Approved' ||
-                                    $data_pengajuan->status == 'Unpaid' ||
-                                    $data_pengajuan->status == 'Paid' ||
-                                    $data_pengajuan->status == 'Delivery Process' ||
-                                    $data_pengajuan->status == 'Delivery Success')
-                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                    class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
-                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                    class="btn btn-danger text-center" onclick="return">Reject</a>
-                                    @elseif($data_pengajuan->status == 'Invoicing Process')
-                                    <button type="button" class="btn btn-success text-center" data-bs-toggle="modal" data-bs-target="#approve"> Approve</button>
-                                    <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
-                                    @else
-                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                    class="btn btn-success text-center" onclick="return">Aprove</a>
-                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                    class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
-                                    @endif
-                                @endhasrole
-                            </div>
+                            
                             <style>
                                 .AllComment {
                                     box-sizing: border-box;

@@ -274,15 +274,139 @@
                                 </table>
 
                                 @endif
-                                <div class="mt-4">
-                                    <a href="{{ url()->previous() }}" class="btn "
-                                        style=" color:white; background-color:black">Back</a>
-                                    <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        @hasrole('super user|super admin')
+                                        @if ($po->status == 'PO Approved' ||
+                                        $po->status == 'Invoicing Process' ||
+                                        $po->status == 'Payment Approved' ||
+                                        $po->status == 'Unpaid' ||
+                                        $po->status == 'Paid' ||
+                                        $po->status == 'Delivery Process' ||
+                                        $po->status == 'Delivery Success')
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-danger text-center" onclick="return">Reject</a>
+                                        @elseif($po->status == 'Waiting For PO Approval')
+                                        <button type="button" class="btn btn-success text-center" data-bs-toggle="modal" data-bs-target="#approve"> Approve</button>
+                                        <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
+                                        @else
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-success text-center" onclick="return">Aprove</a>
+                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                        @endif
+                                    @endhasrole
+                                    </div>
+                                    <div class="col-md-6" style="text-align: right;">
+                                        <a href="{{ url()->previous() }}" class="btn "
+                                            style=" color:white; background-color:black">Back</a>
+                                    </div>
                                 </div>
+                                {{-- <div class="mt-4">
+
+                                </div> --}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="approve" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="approveLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="approveLabel">Message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ url('menu-taskList-atasan-po/accept_atasan_po', $po->id) }}" method="get">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="note" class="form-label">Approver Note</label>
+                            <textarea name="note_po" id="note" class="form-control" ></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Approve</button>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="rejectLabel">Reject Message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ url('menu-taskList-atasan-po/reject', $po->id) }}" id="formAdd" method="get"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="note" class="form-label">Comment</label>
+                            <textarea name="note_po" id="note" class="form-control" cols="30" rows="0" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Reject</button>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Comment</h4>
+                                        <form action="{{ route('comment.store', $datacpo->ppb->id) }}" method="POST">
+                                            @csrf
+                                            <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
+                                            <div style="text-align: right; margin-top:20px;">
+                                                <input type="submit" class="btn btn-primary" value="Comment">
+                                                <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
+                                            </div>
+                                        </form>
+                                    <div class="AllComment" id="comment">
+                                        <div class="container">
+                                            @foreach ($comments as $c)
+                                                <ul>
+                                                    <li>
+                                                        <p>
+                                                            <strong>
+                                                                @if (empty($c->users->name))
+                                                                @else
+                                                                    - {{ $c->users->name }}
+                                                                @endif
+                                                            </strong>
+                                                            @if (empty($c->created_at))
+                                                            @else
+                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                            @endif
+                                                        </p>
+                                                    </li>
+                                                    <li>
+                                                        @if (empty($c->comment))
+                                                        @else
+                                                            <p>{{ $c->comment }}</p>
+                                                        @endif
+                                                    </li>
+                                                    <hr>
+                                                </ul>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     </section>
 @endsection

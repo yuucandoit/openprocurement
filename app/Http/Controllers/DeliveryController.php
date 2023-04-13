@@ -30,7 +30,9 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        $datappb = CategoryPengajuanPembelian::where('status','Paid')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+        $datappb = CategoryPengajuanPembelian::where('status','Paid')->orWhereHas('quot',function($i){
+            $i->where('status','Paid');
+        })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
         $datappb2 = CategoryPengajuanPembelian::where('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
         $pt = CategoryPT::all();
         $op = CategoryPP::all();
@@ -199,7 +201,7 @@ class DeliveryController extends Controller
     public function po_detail($id)
     {
         $datapo             = CategoryPO::where('id', $id)->get();
-        $datacpo            = CategoryPO::where('id', $id)->first();
+        $datacpo            = CategoryPO::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
@@ -228,8 +230,11 @@ class DeliveryController extends Controller
 
     public function deliverystatus(Request $request, $id)
     {
+        $cpo = CategoryPO::find($id);
+        $ppb = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
         DeliveryTrack::create([
-            'ppb_id' => $id,
+            'po_id'  => $cpo->id,
+            'ppb_id' => $ppb->id,
             'status' => $request->status,
         ]);
         return redirect()->back();
@@ -238,7 +243,8 @@ class DeliveryController extends Controller
 
     public function store(Request $request, $id )
     {
-        $data = CategoryPengajuanPembelian::find($id);
+        $cpo = CategoryPO::find($id);
+        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
         $request->validate([
             'path_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
            ]);
@@ -254,6 +260,7 @@ class DeliveryController extends Controller
 
            $save = new Delivery;
            $save->ppb_id     = $pengajuan;
+           $save->po_id      = $cpo->id;
            $save->path_image = $name;
            $save->receiver   = $receiver;
            $save->save();
@@ -338,7 +345,35 @@ class DeliveryController extends Controller
         return redirect('delivery');
     }
 
-    public function Denied($id)
+    public function denied($id)
+    {
+        $data = CategoryPO::find($id);
+        $data->status = 'Rejected By Purchasing';
+        $data->save();
+        CategoryPO::where('ppb_id',$id)->update([
+            'status' => 'Rejected By Purchasing'
+        ]);
+        return redirect('menu-purchase-order');
+    }
+
+    public function complete_2($id)
+    {
+        $cpo = CategoryPO::find($id);
+
+        CategoryPO::where('id',$id)->update([
+            'status' => 'Delivery Success'
+        ]);
+
+        $ppb = CategoryPengajuanPembelian::where('id', $cpo->ppb->id)->first();
+        if($ppb->status == 'Paid'){
+            $data = CategoryPengajuanPembelian::where('id', $cpo->ppb->id)->update([
+                'status' => 'Delivery Success',
+            ]);
+        }
+        return redirect('delivery');
+    }
+
+    public function denied_2($id)
     {
         $data = CategoryPO::find($id);
         $data->status = 'Rejected By Purchasing';

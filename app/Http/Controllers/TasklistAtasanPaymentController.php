@@ -31,20 +31,17 @@ class TasklistAtasanPaymentController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan_py', Auth::user()->id)->where('status','Invoicing Process')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::where('atasan_py', Auth::user()->id)->where('status','Payment Approved')->
-            orWhere('status','Unpaid')->
-            orWhere('status','Paid')->
-            orWhere('status','Delivery Process')->
-            orWhere('status','Delivery Success')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            $datappb = CategoryPengajuanPembelian::where('atasan_py', Auth::user()->id)->whereHas('quot',function($i){
+                $i->where('status','Invoicing Process');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
             $datapo = CategoryPO::get();
             // $py   = Invoicing::orderBy('ppb_id', 'asc')->first();
 
             return view('taskList_atasan_payments.menu.index')
             // ->with('py',$py)
             ->with('datapo', $datapo)
-            ->with('datappb', $datappb)
-            ->with('datappb2', $datappb2);
+            ->with('datappb', $datappb);
         }
     }
 
@@ -163,7 +160,7 @@ class TasklistAtasanPaymentController extends Controller
     public function po_detail($id)
     {
         $datapo             = CategoryPO::where('id', $id)->get();
-        $datacpo            = CategoryPO::where('id', $id)->first();
+        $datacpo            = CategoryPO::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
@@ -347,17 +344,133 @@ class TasklistAtasanPaymentController extends Controller
         //
     }
 
-    public function approve_payment(Request $request,$id)
+    // public function approve_payment(Request $request,$id)
+    // {
+    //     $data = CategoryPengajuanPembelian::find($id);
+    //     $data->status = 'Payment Approved';
+    //     $data->note_bod_py = $request->note_py;
+    //     $data->save();
+    //     CategoryPO::where('ppb_id',$id)->update([
+    //         'status' => 'Payment Approved'
+    //     ]);
+
+    //     $po = Invoicing::where('ppb_id', $id)->first();
+    //     if($data->atasan_py == 3){
+    //         $po->signature = 'superadmin.png';
+    //         $po->approved_at = Carbon::now();
+    //         $po->save();
+    //     }elseif($data->atasan_py == 6){
+    //         $po->signature = 'sinduirawan.png';
+    //         $po->approved_at = Carbon::now();
+    //         $po->save();
+    //     }elseif($data->atasan_py == 7){
+    //         $po->signature = 'bayu.png';
+    //         $po->approved_at = Carbon::now();
+    //         $po->save();
+    //     }elseif($data->atasan_py == 8){
+    //         $po->signature = 'victor.png';
+    //         $po->approved_at = Carbon::now();
+    //         $po->save();
+    //     }elseif($data->atasan_py == 9){
+    //         $po->signature = 'erwin.png';
+    //         $po->approved_at = Carbon::now();
+    //         $po->save();
+    //     }elseif($data->atasan_py == 24){
+    //         $po->signature = 'Triyani.png';
+    //         $po->approved_at = Carbon::now();
+    //         $po->save();
+    //     }
+    //     return redirect('menu-taskList-atasan-payment');
+    // }
+
+    // public function accept_atasan_selected_py(Request $request)
+    // {
+    //     $ids = explode(',', $request->ids);
+    //     // dd($ids);
+    //     $data = CategoryPengajuanPembelian::find($ids);
+    //     // dd($po);
+
+    //     foreach($data as $d){
+    //     if($d->atasan_py == 3){
+    //         Invoicing::whereIn('ppb_id',$ids)->update([
+    //         'signature' => 'superadmin.png',
+    //         'approved_at' => Carbon::now(),
+    //         ]);
+    //         $d->status = 'Payment Approved';
+    //         $d->save();
+    //         CategoryPO::where('ppb_id',$ids)->update([
+    //             'status' => 'Payment Approved'
+    //         ]);
+    //     }elseif($d->atasan_py == 6){
+    //         Invoicing::whereIn('ppb_id',$ids)->update([
+    //             'signature' => 'sinduirawan.png',
+    //             'approved_at' => Carbon::now(),
+    //             ]);
+    //         $d->status = 'Payment Approved';
+    //         $d->save();
+    //         CategoryPO::where('ppb_id',$ids)->update([
+    //             'status' => 'Payment Approved'
+    //         ]);
+    //     }elseif($d->atasan_py == 7){
+    //         Invoicing::whereIn('ppb_id',$ids)->update([
+    //             'signature' => 'bayu.png',
+    //             'approved_at' => Carbon::now(),
+    //         ]);
+    //         $d->status = 'Payment Approved';
+    //         $d->save();
+    //         CategoryPO::where('ppb_id',$ids)->update([
+    //             'status' => 'Payment Approved'
+    //         ]);
+    //     }elseif($d->atasan_py == 8){
+    //         Invoicing::whereIn('ppb_id',$ids)->update([
+    //             'signature' => 'victor.png',
+    //             'approved_at' => Carbon::now(),
+    //         ]);
+    //         $d->status = 'Payment Approved';
+    //         $d->save();
+    //         CategoryPO::where('ppb_id',$ids)->update([
+    //             'status' => 'Payment Approved'
+    //         ]);
+    //     }elseif($d->atasan_py == 9){
+    //         Invoicing::whereIn('ppb_id',$ids)->update([
+    //             'signature' => 'erwin.png',
+    //             'approved_at' => Carbon::now(),
+    //         ]);
+    //         $d->status = 'Payment Approved';
+    //         $d->save();
+    //         CategoryPO::where('ppb_id',$ids)->update([
+    //             'status' => 'Payment Approved'
+    //         ]);
+    //     }elseif($d->atasan_py == 24){
+    //         Invoicing::whereIn('ppb_id',$ids)->update([
+    //             'signature' => 'Triyani.png',
+    //             'approved_at' => Carbon::now(),
+    //         ]);
+    //         $d->status = 'Payment Approved';
+    //         $d->save();
+    //         CategoryPO::where('ppb_id',$ids)->update([
+    //             'status' => 'Payment Approved'
+    //         ]);
+    //         }
+
+    //     }
+
+    //     return redirect('menu-taskList-atasan-payment');
+    // }
+
+    public function approve_payment_py(Request $request,$id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Payment Approved';
-        $data->note_bod_py = $request->note_py;
-        $data->save();
-        CategoryPO::where('ppb_id',$id)->update([
+        $cpo = CategoryPO::find($id);
+        CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->update([
+            'note_bod_py' => $request->note_py,
+        ]);
+        $data = CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->first();
+
+        CategoryPO::where('id',$id)->update([
             'status' => 'Payment Approved'
         ]);
 
-        $po = Invoicing::where('ppb_id', $id)->first();
+        $po = Invoicing::where('ppb_id', $cpo->ppb_id)->first();
         if($data->atasan_py == 3){
             $po->signature = 'superadmin.png';
             $po->approved_at = Carbon::now();
@@ -383,38 +496,52 @@ class TasklistAtasanPaymentController extends Controller
             $po->approved_at = Carbon::now();
             $po->save();
         }
+
+        if($cpo->ppb->status == 'Invoicing Process'){
+            CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->update([
+                'status' => 'Payment Approved',
+            ]);
+        }
         return redirect('menu-taskList-atasan-payment');
     }
 
-    public function accept_atasan_selected_py(Request $request)
+    public function accept_atasan_selected_pymnt(Request $request)
     {
         $ids = explode(',', $request->ids);
         // dd($ids);
-        $data = CategoryPengajuanPembelian::find($ids);
+        $data = CategoryPO::find($ids);
         // dd($po);
 
         foreach($data as $d){
-        if($d->atasan_py == 3){
+        if($d->ppb->atasan_py == 3){
             Invoicing::whereIn('ppb_id',$ids)->update([
             'signature' => 'superadmin.png',
             'approved_at' => Carbon::now(),
             ]);
-            $d->status = 'Payment Approved';
-            $d->save();
-            CategoryPO::where('ppb_id',$ids)->update([
+            CategoryPO::whereIn('id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
-        }elseif($d->atasan_py == 6){
+
+            if($d->ppb->status == 'Invoicing Process'){
+                CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                    'status' => 'Payment Approved',
+                ]);
+            }
+        }elseif($d->ppb->atasan_py == 6){
             Invoicing::whereIn('ppb_id',$ids)->update([
                 'signature' => 'sinduirawan.png',
                 'approved_at' => Carbon::now(),
                 ]);
-            $d->status = 'Payment Approved';
-            $d->save();
-            CategoryPO::where('ppb_id',$ids)->update([
+            CategoryPO::whereInd('ppb_id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
-        }elseif($d->atasan_py == 7){
+
+            if($d->ppb->status == 'Invoicing Process'){
+                CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                    'status' => 'Payment Approved',
+                ]);
+            }
+        }elseif($d->ppb->atasan_py == 7){
             Invoicing::whereIn('ppb_id',$ids)->update([
                 'signature' => 'bayu.png',
                 'approved_at' => Carbon::now(),
@@ -424,7 +551,13 @@ class TasklistAtasanPaymentController extends Controller
             CategoryPO::where('ppb_id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
-        }elseif($d->atasan_py == 8){
+
+            if($d->ppb->status == 'Invoicing Process'){
+                CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                    'status' => 'Payment Approved',
+                ]);
+            }
+        }elseif($d->ppb->atasan_py == 8){
             Invoicing::whereIn('ppb_id',$ids)->update([
                 'signature' => 'victor.png',
                 'approved_at' => Carbon::now(),
@@ -434,7 +567,13 @@ class TasklistAtasanPaymentController extends Controller
             CategoryPO::where('ppb_id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
-        }elseif($d->atasan_py == 9){
+
+            if($d->ppb->status == 'Invoicing Process'){
+                CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                    'status' => 'Payment Approved',
+                ]);
+            }
+        }elseif($d->ppb->atasan_py == 9){
             Invoicing::whereIn('ppb_id',$ids)->update([
                 'signature' => 'erwin.png',
                 'approved_at' => Carbon::now(),
@@ -444,7 +583,13 @@ class TasklistAtasanPaymentController extends Controller
             CategoryPO::where('ppb_id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
-        }elseif($d->atasan_py == 24){
+
+            if($d->ppb->status == 'Invoicing Process'){
+                CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                    'status' => 'Payment Approved',
+                ]);
+            }
+        }elseif($d->ppb->atasan_py == 24){
             Invoicing::whereIn('ppb_id',$ids)->update([
                 'signature' => 'Triyani.png',
                 'approved_at' => Carbon::now(),
@@ -454,6 +599,12 @@ class TasklistAtasanPaymentController extends Controller
             CategoryPO::where('ppb_id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
+
+            if($d->ppb->status == 'Invoicing Process'){
+                CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                    'status' => 'Payment Approved',
+                ]);
+            }
             }
 
         }

@@ -364,8 +364,8 @@
             </div>
         </div>
             <script>
-                const data = @json($status);
-                console.log(data);
+                const status = @json($status);
+                console.log(status);
                 /* Sort function */
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;

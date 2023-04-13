@@ -129,95 +129,95 @@
                                         $no = 1;
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                        @if ($ppb->status == 'Payment Approved')
-                                            <tr style="background-color:#F1F6F5;">
-                                                <td style="text-align: center;">{{ $no++ }}</td>
-                                                <td>{{ $ppb->code_pengajuan }}</td>
+                                        <tr style="background-color:#F1F6F5;">
+                                            <td style="text-align: center;">{{ $no++ }}</td>
+                                            <td>{{ $ppb->code_pengajuan }}</td>
+                                            <td>
+                                                <a href="{{ url('menu-tasklist-finance/detail/' . $ppb->id)}}">
+                                                    <ul>
+                                                        <li style="font-weight:600; white-space:nowrap;">{{ $ppb->whosubmit->name }}</li>
+                                                        <li>{{ $ppb->desc }}</li>
+                                                    </ul>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
+                                                </ul>
+                                            </td>
+                                            <td style="text-align: center; white-space:nowrap;">
+                                                @if($ppb->dateline == '≤24Jam')
+                                                <strong><p>1 Hari</p></strong>
+                                                @elseif ($ppb->dateline == '≤72Jam')
+                                                <strong><p>2 sd 3 Hari</p></strong>
+                                                @elseif ($ppb->dateline == '≤168Jam')
+                                                <strong><p>4 sd 7 Hari</p></strong>
+                                                @elseif ($ppb->dateline == '≤336Jam')
+                                                <strong><p>7 sd 14 Hari</p></strong>
+                                                @endif
+                                            </td>
+                                            <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                    style="color: white; font-size:12">{{ $ppb->status }}</a></td>
+
+                                        </tr>
+                                        @foreach ($ppb->quot as $po)
+                                        @if($po->status == 'Payment Approved')
+                                            <tr>
+
+                                                @php
+                                                    $po2 = \App\Models\CategoryPO::find($po->id);
+                                                    $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                    $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
+                                                    // dd($po2->ppb_id);
+                                                @endphp
+
+                                                @if(empty($po2))
+
+                                                @else
+                                                <td style="text-align: center">-</td>
                                                 <td>
-                                                    <a href="{{ url('menu-tasklist-finance/detail/' . $ppb->id)}}">
-                                                        <ul>
-                                                            <li style="font-weight:600; white-space:nowrap;">{{ $ppb->whosubmit->name }}</li>
-                                                            <li>{{ $ppb->desc }}</li>
-                                                        </ul>
+                                                    <a href="{{ route('menu-tasklist-finance.po_detail',$po2->id) }}">
+                                                    {{ $po->code_po }}
                                                     </a>
                                                 </td>
                                                 <td>
+                                                    <a href="{{ route('menu-tasklist-finance.po_detail',$po2->id) }}">
                                                     <ul>
-                                                        <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
+                                                        <li>
+                                                            @if($po2->vendorable_id == 0)
+                                                            Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                            @else
+                                                            Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                            @endif
+                                                        </li>
+                                                        <li> Quotation : {{ $po2->quotation }}</li>
                                                     </ul>
+                                                    </a>
                                                 </td>
-                                                <td style="text-align: center; white-space:nowrap;">
-                                                    @if($ppb->dateline == '≤24Jam')
-                                                    <strong><p>1 Hari</p></strong>
-                                                    @elseif ($ppb->dateline == '≤72Jam')
-                                                    <strong><p>2 sd 3 Hari</p></strong>
-                                                    @elseif ($ppb->dateline == '≤168Jam')
-                                                    <strong><p>4 sd 7 Hari</p></strong>
-                                                    @elseif ($ppb->dateline == '≤336Jam')
-                                                    <strong><p>7 sd 14 Hari</p></strong>
-                                                    @endif
+                                                <td style="font-weight: 700; white-space:nowrap;">
+                                                    @foreach ($po3 as $ipo)
+                                                    <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                    @endforeach
                                                 </td>
-                                                <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                        style="color: white; font-size:12">{{ $ppb->status }}</a></td>
+                                                <td style="text-align: center">
+                                                    @foreach ($po4 as $ipo)
+                                                        <label>
+                                                            @if($ipo->matauang == "RP")
+                                                            Rp.{{ number_format($ipo->grand_total ,2) }}
+                                                            @elseif ($ipo->matauang == "USD")
+                                                            $ {{ number_format($ipo->grand_total ,2) }}
+                                                            @endif
+                                                        </label>
+                                                    @endforeach
+                                                </td>
+                                                <td class="text-center"><a
+                                                    class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                    style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
+                                                @endif
                                             </tr>
-                                            @foreach ($ppb->quot as $po)
-                                                <tr>
-
-                                                    @php
-                                                        $po2 = \App\Models\CategoryPO::find($po->id);
-                                                        $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
-                                                        $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
-                                                        // dd($po2->ppb_id);
-                                                    @endphp
-
-                                                    @if(empty($po2))
-
-                                                    @else
-                                                    <td style="text-align: center">-</td>
-                                                    <td>
-                                                        <a href="{{ route('menu-tasklist-finance.po_detail',$po2->id) }}">
-                                                        {{ $po->code_po }}
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="{{ route('menu-tasklist-finance.po_detail',$po2->id) }}">
-                                                        <ul>
-                                                            <li>
-                                                                @if($po2->vendorable_id == 0)
-                                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
-                                                                @else
-                                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
-                                                                @endif
-                                                            </li>
-                                                            <li> Quotation : {{ $po2->quotation }}</li>
-                                                        </ul>
-                                                        </a>
-                                                    </td>
-                                                    <td style="font-weight: 700; white-space:nowrap;">
-                                                        @foreach ($po3 as $ipo)
-                                                        <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
-                                                        @endforeach
-                                                    </td>
-                                                    <td style="text-align: center">
-                                                        @foreach ($po4 as $ipo)
-                                                            <label>
-                                                                @if($ipo->matauang == "RP")
-                                                                Rp.{{ number_format($ipo->grand_total ,2) }}
-                                                                @elseif ($ipo->matauang == "USD")
-                                                                $ {{ number_format($ipo->grand_total ,2) }}
-                                                                @endif
-                                                            </label>
-                                                        @endforeach
-                                                    </td>
-                                                    <td class="text-center"><a
-                                                        class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                        style="color: white; font-size:12">{{ $po2->status }}</a></td>
-
-                                                    @endif
-                                                </tr>
-                                            @endforeach
                                         @endif
+                                        @endforeach
                                     @endforeach
                                     </tbody>
                                 </table>

@@ -144,24 +144,24 @@
                                             <div class="col-md-4 mt-3">
                                                 @if ($data_pengajuan->status == 'Waiting For PO Approval')
                                                 <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
-                                                    data-bs-target="#modalSelesai" disabled>Check PO Done
+                                                    data-bs-target="#modalSelesai" disabled>Finished
                                                 </button>
                                                 @elseif ($data_pengajuan->status == 'Purchase Proses' || 'Cross Check PO')
                                                 @if (empty($data_pengajuan->atasans->name))
                                                     <div class="text-center">
                                                         <button class="btn btn-outline-success disabled  w-100" data-bs-toggle="modal"
-                                                            data-bs-target="#modalSelesai">Check PO</button>
+                                                            data-bs-target="#modalSelesai">Finish</button>
                                                     </div>
                                                 @else
                                                 @if($data_pengajuan->status == 'Cross Check PO')
                                                 <div class="text-center">
                                                     <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
-                                                        data-bs-target="#modalSelesai" disabled>PO On Check</button>
+                                                        data-bs-target="#modalSelesai" disabled>Finished</button>
                                                 </div>
                                                 @else
                                                 <div class="text-center">
                                                     <button class="btn btn-outline-success  w-100" data-bs-toggle="modal"
-                                                        data-bs-target="#modalSelesai">Check PO</button>
+                                                        data-bs-target="#modalSelesai">Finish</button>
                                                 </div>
                                                 @endif
                                                 @endif
@@ -214,7 +214,7 @@
                                                         action="{{ url('menu-purchase-order/check_po/'.$data_pengajuan->id) }}">
                                                         <button type="submit" class="btn btn-outline-danger "><i
                                                                 class="bx bx-trash"></i>
-                                                           Check PO
+                                                           Finish
                                                         </button>
                                                     </form>
                                                 @endif
@@ -875,11 +875,11 @@
                                             </button>
                                             @elseif ($po->status == 'Purchase Proses')
                                                 @if (empty($data_pengajuan->atasans->name))
-                                                        <button class="btn btn-success mt-3 disabled " data-bs-toggle="modal"
+                                                        <button class="btn btn-success mt-3 " data-bs-toggle="modal"
                                                             data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
                                                 @else
                                                     <button class="btn btn-success mt-3 " data-bs-toggle="modal"
-                                                        data-bs-target="#modalCheckPo{{ $po->id }}" disabled>Check PO</button>
+                                                        data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
                                                 @endif
                                             @endif
                                         <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
@@ -894,7 +894,7 @@
                                     </div>
                                     </div>
 
-                                    <div class="modal fade" id="modalCheckPO{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal fade" id="modalCheckPo{{ $po->id }}" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header bg-danger">

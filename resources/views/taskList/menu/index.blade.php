@@ -170,16 +170,16 @@
 @section('scripts')
     {{-- <script src="{{  }}"></script> --}}
     <script>
-        const data = @json($approvedPPB);
-        const item = data[0];
+        const dataTask = @json($approvedPPB);
+        const item = dataTask[0];
 
         // FOR CALCULATE REMAINING DEADLINE TIME 😃
-        const remainingTime = (data, elmnt) => {
+        const remainingTime = (dataTask, elmnt) => {
             const {
                 approved_at,
                 dateline_time,
                 datetime
-            } = data;
+            } = dataTask;
 
             const dateline = {
                 day     : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])/24.1) || 1),
@@ -241,8 +241,8 @@
         }
 
         // FOR INITIALIZE COUNTDOWN 😃
-        const initCountdown = (data) => {
-            data.forEach(item => {
+        const initCountdown = (dataTask) => {
+            dataTask.forEach(item => {
                 if (!item.approved_at) return;
                 setInterval(() => countdownHandle(document.querySelector(
                     `#ppb-${item.id}`
@@ -250,6 +250,6 @@
             });
         }
 
-        initCountdown(data);
+        initCountdown(dataTask);
     </script>
 @endsection

@@ -338,17 +338,17 @@
         $approvedPPB = collect($approvedPPB);
     @endphp --}}
     <script>
-        const data = @json($approvedPPB);
-        console.log(data);
-        const item = data[0];
+        const dataprchs = @json($approvedPPB);
+        console.log(dataprchs);
+        const item = dataprchs[0];
 
         // FOR CALCULATE REMAINING DEADLINE TIME 😃
-        const remainingTime = (data, elmnt) => {
+        const remainingTime = (dataprchs, elmnt) => {
             const {
                 approved_at,
                 dateline_time,
                 datetime
-            } = data;
+            } = dataprchs;
 
             const dateline = {
                 day     : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])/24.1) || 1),
@@ -421,8 +421,8 @@
         }
 
         // FOR INITIALIZE COUNTDOWN 😃
-        const initCountdown = (data) => {
-            data.forEach(item => {
+        const initCountdown = (dataprchs) => {
+            dataprchs.forEach(item => {
                 if (!item.approved_at) return;
                 setInterval(() => countdownHandle(document.querySelector(
                     `#ppb-${item.id}`
@@ -430,6 +430,6 @@
             });
         }
 
-        initCountdown(data);
+        initCountdown(dataprchs);
     </script>
     @endsection

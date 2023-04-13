@@ -274,10 +274,191 @@
                                 </table>
                                 @endif
                                 <div class="mt-4">
+                                    @if ($datacpo->status == 'Invoicing Process')
+                                    <div class="text-center">
+                                        <button class="btn btn-outline-success mt-2 text-center" data-bs-toggle="modal"
+                                            data-bs-target="#modalSelesai" disabled>Successfully send data</button>
+                                    </div>
+                                    @elseif ($datacpo->status == 'PO Approved')
+                                        @if(empty($datacpo->ppb->atasanpymnt->name))
+                                        <div class="text-center">
+                                            <button class="btn btn-success mt-4 disabled" data-bs-toggle="modal"
+                                                data-bs-target="#modalSelesai">Apply For Payment
+                                                Process
+                                            </button>
+                                        </div>
+                                        @else
+                                        <div class="text-center">
+                                            <button class="btn btn-success mt-4 " data-bs-toggle="modal"
+                                                data-bs-target="#modalSelesai">Apply For Payment
+                                                Process
+                                            </button>
+                                        </div>
+                                        @endif
+                                    @endif
                                     <a href="{{ url()->previous() }}" class="btn "
                                         style=" color:white; background-color:black">Back</a>
                                     <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
                                 </div>
+                                <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-danger">
+                                                <h2 class="modal-title" style="color: white">Warning</h2>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body mx-5 mb-3 text-center">
+                                                <span class="warning">
+                                                    <img src="{{ asset('assets/images/warning.png') }}">
+                                                </span>
+                                                <h2 style="text-align: center">Make sure the data is correct!</h2>
+                                            </div>
+                                            {{-- End Modal Approval --}}
+
+                                            <div class="modal-footer" style="text-align: center;">
+                                                @if ($po->status == 'PO Approved')
+                                                    <form class="text-center"
+                                                        action="{{ url('payment_request/ajukan_dana_ppo/'.$po->id) }}">
+                                                        <button type="submit" class="btn btn-outline-danger"><i
+                                                                class="bx bx-trash"></i>
+                                                            Send For Payment Approval
+                                                        </button>
+                                                    </form>
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- @if($datacpo->ppb->atasanpymnt == null) --}}
+            {{-- @else --}}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>Form Payment Request</h6>
+                                <form class="row g-2 mt-4" action="{{ url('/payment_request/store/' . $datacpo->id) }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
+
+                                    <?php
+                                        $duit = 100000002;
+
+                                      foreach ($datacpo->itempo as $supply) {
+                                          $itemprchs = $supply;
+                                          $convert = (int)$itemprchs->grand_total;
+                                        // $grand = $convert + 60000000;
+                                      }
+
+                                    ?>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" style="font-weight: bold;"><i
+                                                    class="icofont icofont-stamp"></i> Send Approval To</label>
+                                            <select class="form-select form-select-lg" id="floatingproposedto"
+                                                placeholder="Proposed To" name="atasan_py" required="">
+                                                <option selected="" disabled="" value="">-- Send Approval To
+                                                    --
+                                                </option>
+                                                @if(empty($convert))
+                                                    @foreach ($atasan as $sui)
+                                                        <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                    @endforeach
+                                                @else
+                                                    @if($convert < 10000001 )
+                                                        @foreach ($atasan as $sui)
+                                                            <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                        @endforeach
+                                                    @elseif($convert < 50000001)
+                                                        @foreach ($atasan1 as $sui1)
+                                                            <option value="{{ $sui1->id }}">{{ $sui1->name }}</option>
+                                                        @endforeach
+                                                    @elseif($convert < 100000001)
+                                                        @foreach ($atasan2 as $sui2)
+                                                            <option value="{{ $sui2->id }}">{{ $sui2->name }}</option>
+                                                        @endforeach
+                                                    @else
+                                                        @foreach ($atasan3 as $sui3)
+                                                            <option value="{{ $sui3->id }}">{{ $sui3->name }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                @endif
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" style="font-weight: bold;"><i
+                                                    class="icofont icofont-list"></i> Upload Invoice</label>
+                                                    <input type="file" name="path_invoice" class="form-control form-control-lg">
+                                            </div>
+                                        </div>
+
+
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <a type="reset" class="btn btn-dark"
+                                            href="{{ url('/payment_request/') }}">Back</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- @endif --}}
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Comment</h4>
+                                        <form action="{{ route('comment.store', $datacpo->ppb->id) }}" method="POST">
+                                            @csrf
+                                            <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
+                                            <div style="text-align: right; margin-top:20px;">
+                                                <input type="submit" class="btn btn-primary" value="Comment">
+                                                <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
+                                            </div>
+                                        </form>
+                                    <div class="AllComment" id="comment">
+                                        <div class="container">
+                                            @foreach ($comments as $c)
+                                                <ul>
+                                                    <li>
+                                                        <p>
+                                                            <strong>
+                                                                @if (empty($c->users->name))
+                                                                @else
+                                                                    - {{ $c->users->name }}
+                                                                @endif
+                                                            </strong>
+                                                            @if (empty($c->created_at))
+                                                            @else
+                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                            @endif
+                                                        </p>
+                                                    </li>
+                                                    <li>
+                                                        @if (empty($c->comment))
+                                                        @else
+                                                            <p>{{ $c->comment }}</p>
+                                                        @endif
+                                                    </li>
+                                                    <hr>
+                                                </ul>
+                                            @endforeach
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>

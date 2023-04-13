@@ -294,6 +294,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history/search/historyatasanpo',[TasklistAtasanPoController::class, 'SearchHistoryAtasanPO'])->name('menu-taskList-atasan-po.SearchHistoryAtasanPO');
         Route::get('/accept_atasan_selected_po', [TasklistAtasanPoController::class, 'accept_atasan_selected_po'])->name('menu-taskList-atasan-po.accept_atasan_selected_po');
         Route::get('/reject_atasan_selected', [TasklistAtasanPoController::class, 'reject_atasan_selected_po'])->name('menu-taskList-atasan-po.reject_atasan_selected_po');
+        Route::get('/accept_atasan_selected_prchs', [TasklistAtasanPoController::class, 'accept_atasan_selected_prchs'])->name('menu-taskList-atasan-po.accept_atasan_selected_prchs');
+        Route::get('/accept_atasan_po/{id}', [TasklistAtasanPoController::class, 'accept_atasan_po'])->name('menu-taskList-atasan-po-accept_atasan_po');
         Route::get('/history/sortPoBod',[TasklistAtasanPoController::class, 'SortHistoryPoBod'])->name('menu-taskList-atasan-po.SortHistoryPoBod');
     });
 
@@ -309,6 +311,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/in/search/SearchTaskPYIn',[TasklistAtasanPaymentController::class, 'SearchTaskPYIn'])->name('menu-taskList-atasan-payment.SearchTaskPYIn');
         Route::get('/search/history/py',[TasklistAtasanPaymentController::class, 'SearchTaskPYOut'])->name('menu-taskList-atasan-payment.SearchTaskPYOut');
         Route::get('/history/search/SearchHistoryTaskPYOut',[TasklistAtasanPaymentController::class, 'SearchHistoryTaskPY'])->name('menu-taskList-atasan-payment.SearchHistoryTaskPY');
+        Route::get('/approve_payment_py/{id}', [TasklistAtasanPaymentController::class, 'approve_payment_py'])->name('menu-taskList-atasan-payment-approve_payment_py');
+        Route::get('/accept_atasan_selected_pymnt', [TasklistAtasanPaymentController::class, 'accept_atasan_selected_pymnt'])->name('menu-taskList-atasan-payment.accept_atasan_selected_pymnt');
         Route::get('/accept_atasan_selected_py', [TasklistAtasanPaymentController::class, 'accept_atasan_selected_py'])->name('menu-taskList-atasan-payment.accept_atasan_selected_py');
         Route::get('/reject_atasan_selected', [TasklistAtasanPaymentController::class, 'reject_atasan_selected'])->name('menu-taskList-atasan-payment.reject_atasan_selected_py');
         Route::get('/history/sortPyBod',[TasklistAtasanPaymentController::class, 'SortHistoryPyBod'])->name('menu-taskList-atasan-payment.SortHistoryPyBod');
@@ -342,6 +346,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
         Route::get('/approve/{id}', [TaskListFinanceController::class, 'approve'])->name('menu-tasklist-finance-approve');
         Route::get('/reject/{id}', [TaskListFinanceController::class, 'reject'])->name('menu-tasklist-finance-reject');
+        Route::get('/approve_tpy/{id}', [TaskListFinanceController::class, 'approve_po'])->name('menu-tasklist-finance-approve_po');
+        Route::get('/reject_tpy/{id}', [TaskListFinanceController::class, 'reject_po'])->name('menu-tasklist-finance-reject_po');
         Route::get('/search/task-finance',[TaskListFinanceController::class, 'SearchTaskFinance'])->name('menu-tasklist-finance.SearchTaskFinance');
         Route::get('/out/search/task-finance-Out',[TaskListFinanceController::class, 'SearchTaskFinanceOut'])->name('menu-tasklist-finance.SearchTaskFinanceOut');
         Route::get('/search/history-task-finance',[TaskListFinanceController::class, 'SearchHistoryTaskFinance'])->name('menu-tasklist-finance.SearchHistoryTaskFinance');
@@ -387,6 +393,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [InvoicingController::class, 'edit'])->name('payment_request.edit');
         Route::get('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('payment_request.destroy');
         Route::get('/ajukan_dana/{id}', [InvoicingController::class, 'ajukan_dana'])->name('payment_request-ajukan_dana');
+        Route::get('/ajukan_dana_ppo/{id}', [InvoicingController::class, 'ajukan_dana_ppo'])->name('payment_request-ajukan_dana_ppo');
         Route::get('/denied/{id}', [InvoicingController::class, 'denied'])->name('payment_request-denied');
         Route::get('/search/paymentreq_in',[InvoicingController::class, 'SearchPaymentreq_in'])->name('payment_request.SearchPaymentreq_in');
         Route::get('/out/search/paymentreq_out',[InvoicingController::class, 'SearchPaymentreq_out'])->name('payment_request.SearchPaymentreq_out');
@@ -406,6 +413,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
         Route::get('/paid/{id}', [CategoryPDController::class, 'paid'])->name('menu-pengajuan-dana-paid');
         Route::get('/reject/{id}', [CategoryPDController::class, 'reject'])->name('menu-pengajuan-dana-reject');
+        Route::get('/paid_pd/{id}', [CategoryPDController::class, 'paid_pd'])->name('menu-pengajuan-dana-paid_pd');
+        Route::get('/reject_pd/{id}', [CategoryPDController::class, 'reject_pd'])->name('menu-pengajuan-dana-reject_pd');
         Route::get('/search/pd_in',[CategoryPDController::class, 'SearchPDIn'])->name('menu-pengajuan-dana.SearchPDIn');
         Route::get('/search/pd_out',[CategoryPDController::class, 'SearchPDOut'])->name('menu-pengajuan-dana.SearchPDOut');
         Route::get('/history/search',[CategoryPDController::class, 'SearchHistoryPD'])->name('menu-pengajuan-dana.SearchHistoryPD');
@@ -426,6 +435,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/destroy/{id}', [DeliveryController::class, 'destroy'])->name('delivery.destroy');
         Route::get('/complete/{id}', [DeliveryController::class, 'complete'])->name('delivery-complete');
         Route::get('/denied/{id}', [DeliveryController::class, 'denied'])->name('delivery-denied');
+        Route::get('/complete_2/{id}', [DeliveryController::class, 'complete_2'])->name('delivery-complete_2');
+        Route::get('/denied_2/{id}', [DeliveryController::class, 'denied_2'])->name('delivery-denied_2');
         Route::get('/search/delivery_in',[DeliveryController::class, 'SearchDeliveryIn'])->name('delivery.SearchDeliveryIn');
         Route::get('/search/delivery_out',[DeliveryController::class, 'SearchDeliveryOut'])->name('delivery.SearchDeliveryOut');
         Route::get('/history/search/delivery',[DeliveryController::class, 'SearchHistoryDelivery'])->name('delivery.SearchHistoryDelivery');
@@ -440,6 +451,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/po_detail/{id}', [CheckPOController::class, 'po_detail'])->name('check_po.po_detail');
         Route::get('/destroy/{id}', [CheckPOController::class, 'destroy'])->name('check_po.destroy');
         Route::get('/ajukan_keatasan/{id}', [CheckPOController::class, 'ajukan_keatasan'])->name('check_po-ajukan_keatasan');
+        Route::get('/ajukan_keatasan_po/{id}', [CheckPOController::class, 'ajukan_keatasan_po'])->name('check_po-ajukan_keatasan_po');
         Route::get('/denied/{id}', [CheckPOController::class, 'denied'])->name('check_po-denied');
         Route::get('/search/checkpo',[CheckPOController::class, 'SearchCheckPO'])->name('check_po.SearchCheckPO');
         Route::get('/history', [CheckPOController::class, 'history'])->name('check_po.history');

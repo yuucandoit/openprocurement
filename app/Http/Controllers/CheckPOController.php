@@ -29,11 +29,15 @@ class CheckPOController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 || $check->role_id == 17) {
-            $datappb = CategoryPengajuanPembelian::where('status','Cross Check PO')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('status','Cross Check PO');
+            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             $datapo = CategoryPO::get();
+
             // dd($datapo);
             return view('purchaseOrder.menu.check-po.index')
                 ->with('datappb',$datappb)
+                // ->with('datappb2',$datappb2)
                 ->with('datapo', $datapo);
         }
     }
@@ -82,10 +86,14 @@ class CheckPOController extends Controller
           $q->where('name','like',"%".$cariIn."%");
      })
      ->paginate(10, ['*'],'in');
-     $datapo = CategoryPO::get();
+     $datapo = CategoryPO::WhereHas('ppb', function($q) use($cariIn){
+        $q->where('status','like',"%".$cariIn."%");
+   })->
+     paginate(10, ['*'],'in');
 
      return view('purchaseOrder.menu.check-po.index')
-     ->with('datappb',$datappb);
+     ->with('datappb',$datappb)
+     ->with('datapo',$datapo);
     }
 
     public function ajukan_keatasan($id)
@@ -102,6 +110,24 @@ class CheckPOController extends Controller
         ]);
         return redirect('send-purchase/'.$data->id);
         }
+    }
+
+    public function ajukan_keatasan_po($id)
+    {
+
+        $data = CategoryPO::find($id);
+        $data->status = 'Waiting For PO Approval';
+        $data->save();
+        $ppb = CategoryPengajuanPembelian::where('id',$data->ppb->id)->first();
+        if($ppb->status == 'Cross Check PO'){
+            CategoryPengajuanPembelian::where('id', $data->ppb->id)->update([
+                'status' => 'Waiting For PO Approval',
+                'w_approval_po_timestamp' => now(),
+            ]);
+            return redirect('send-purchase/'.$ppb->id);
+        }
+
+        return redirect()->route('check_po.index');
     }
 
     public function detail($id)

@@ -33,21 +33,12 @@ class InvoicingController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ( $check->role_id == 3 || $check->role_id == 5) {
-            $datappb = CategoryPengajuanPembelian::where('status','PO Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::where('status','Invoicing Process')
-            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->
-            orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-            $pt = CategoryPT::all();
-            $op = CategoryPP::all();
-            $ec = CategoryEcommerce::all();
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('status','PO Approved');
+            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             $datapo = CategoryPO::get();
             return view('payment_request.menu.index')
-                ->with('pt',$pt)
-                ->with('op',$op)
-                ->with('ec',$ec)
                 ->with('datappb',$datappb)
-                ->with('datappb2',$datappb2)
                 ->with('datapo', $datapo);
         }
     }
@@ -55,7 +46,7 @@ class InvoicingController extends Controller
     public function po_detail($id)
     {
         $datapo             = CategoryPO::where('id', $id)->get();
-        $datacpo            = CategoryPO::where('id', $id)->first();
+        $datacpo            = CategoryPO::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
@@ -65,9 +56,17 @@ class InvoicingController extends Controller
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
         $comments           = Comment::where('ppb_id',$id)->get();
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+        $atasan             = User::whereIn('id', [3,6, 7, 8, 9, 24])->get();
+        $atasan1            = User::whereIn('id', [3,6, 8, 9, 24])->get();
+        $atasan2            = User::whereIn('id', [3, 8, 9, 24])->get();
+        $atasan3            = User::whereIn('id', [3, 8, 24])->get();
 
         //dd($datacpo);
         return view('payment_request.menu.po')
+            ->with('atasan', $atasan)
+            ->with('atasan1', $atasan1)
+            ->with('atasan2', $atasan2)
+            ->with('atasan3', $atasan3)
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
             ->with('datapo', $datapo)
@@ -278,10 +277,10 @@ class InvoicingController extends Controller
     {
         $all = $request->all();
         // dd($all);
-
-        $data = CategoryPengajuanPembelian::find($id);
-            $data->atasan_py = $request->atasan_py;
-        $data->save();
+        $cpo = CategoryPO::find($id);
+        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->update([
+            'atasan_py' => $request->atasan_py,
+        ]);
 
         if ($request->hasFile('path_invoice')){
 
@@ -290,13 +289,13 @@ class InvoicingController extends Controller
             // dd($path_file);
             $file->move('upload_invoice',$path_file);
 
-            CategoryPO::where('ppb_id',$id)->update([
+            CategoryPO::where('id',$id)->update([
                 "path_invoice" => $path_file,
             ]);
         }
 
         $pyment = new Invoicing;
-        $pyment->ppb_id = $data->id;
+        $pyment->ppb_id = $cpo->ppb->id;
         $year = Carbon::parse($pyment->created_at)->format('y');
         $month = Carbon::parse($pyment->created_at)->format('m');
         $pyment->save();
@@ -307,7 +306,7 @@ class InvoicingController extends Controller
             'code_pd' => $generatepd,
         ]);
 
-        return redirect("/payment_request");
+        return redirect()->back();
 
     }
 
@@ -390,11 +389,40 @@ class InvoicingController extends Controller
         }else{
         $data->status = 'Invoicing Process';
         $data->save();
-        CategoryPO::where('ppb_id',$id)->update([
-            'status' => 'Waiting For PO Approval'
+        CategoryPO::where('id',$id)->update([
+            'status' => 'Invoicing Process'
         ]);
 
         return redirect('send-payment/'.$data->id);
+        }
+    }
+    public function ajukan_dana_ppo($id)
+    {
+
+        $po = CategoryPO::find($id);
+        $data = CategoryPengajuanPembelian::where('id',$po->ppb_id)->first();
+        // dd($data);
+        if(empty($data->atasan_py)){
+            return redirect()->back()->withErrors(["Approver Not Found"]);
+        }else{
+
+        CategoryPO::where('id',$id)->update([
+            'status' => 'Invoicing Process'
+        ]);
+        if($data->status == 'PO Approved'){
+            CategoryPengajuanPembelian::where('id',$po->ppb_id)->update([
+                'status' => 'Invoicing Process',
+            ]);
+            CategoryPO::where('id',$id)->update([
+                'status' => 'Invoicing Process'
+            ]);
+        }else if($data->status == 'Invoicing Process') {
+            CategoryPO::where('id',$id)->update([
+                'status' => 'Invoicing Process'
+            ]);
+        }
+
+        return redirect('/payment_request');
         }
     }
 

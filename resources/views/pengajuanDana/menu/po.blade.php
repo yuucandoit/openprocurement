@@ -274,11 +274,84 @@
 
                                 </table>
                                 @endif
-                                <div class="mt-4">
-                                    <a href="{{ url()->previous() }}" class="btn "
-                                        style=" color:white; background-color:black">Back</a>
-                                    <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mt-3" >
+                                            @hasrole('finance|super admin')
+                                                @if ($datacpo->status == 'Paid')
+                                                    <div>
+                                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                            class="btn btn-success" onclick="return"><b>Paid Success</b></a>
+
+                                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                            class="btn btn-danger" onclick="return">Reject</a>
+                                                    </div>
+                                                @elseif($datacpo->status == 'Unpaid')
+                                                    <div>
+                                                        <a href="{{ url('menu-pengajuan-dana/paid_pd', $datacpo->id) }}"
+                                                            class="btn btn-success" onclick="return">Paid</a>
+
+                                                        <a href="{{ url('menu-pengajuan-dana/reject_pd', $datacpo->id) }}"
+                                                            class="btn btn-danger" onclick="return">Reject</a>
+                                                    </div>
+                                                @else
+                                                    <div>
+                                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                            class="btn btn-success" onclick="return">Paid</a>
+
+                                                        <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                            class="btn btn-danger" onclick="return"><b>Rejected</b></a>
+                                                    </div>
+                                                @endif
+                                            @endhasrole
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" >
+                                        <div class="mt-3" style="text-align: right;">
+                                            <a href="{{ url()->previous() }}" class="btn "
+                                                style=" color:white; background-color:black">Back</a>
+                                            <a href="{{ url('/exportpdf/pymnt_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
+                                        </div>
+                                    </div>
                                 </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-absolute">
+                            <div class="card-header bg-primary">
+                                <h5>Report Delivery</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Floating Labels Form -->
+                                <form class="row g-2 mt-4" action="{{ url('/menu-pengajuan-dana/store/'.$datacpo->id) }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="col-md-12 mt-4">
+                                        <label for="path_image">Enter payment proof</label>
+                                        <div class="form-group">
+                                            <input class="form-control" type="file" name="path_image" placeholder="Choose image"
+                                                id="path_image" onchange="loadFile(event)">
+                                            @error('path_image')
+                                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <img id="output" style="width: 200px;" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
+                                    <a href="{{ route('menu-pengajuan-dana.index') }}" class="btn btn-dark mt-3">Back</a>
+                                </div>
+                            </form>
                             </div>
                         </div>
                     </div>

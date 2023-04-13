@@ -12,6 +12,7 @@ class CategoryPD extends Model
     protected $fillable = [
         'id',
         'ppb_id',
+        'po_id',
         'path_image',
         'signature',
         'approved_at'
