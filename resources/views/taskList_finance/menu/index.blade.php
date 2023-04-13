@@ -187,7 +187,7 @@
                                                             @if($po2->vendorable_id == 0)
                                                             Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                             @else
-                                                                @if($po->vendorable->nama == null)
+                                                                @if(empty($po->vendorable->nama))
                                                                 Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                                 @endif
                                                             Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po->vendorable->nama }}
