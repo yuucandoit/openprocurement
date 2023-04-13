@@ -79,16 +79,18 @@
                                             </tr>
                                             <tr>
                                                 <td>Nama Vendor</td>
+                                                <td>
                                                 @if (empty($po->vendorable_type))
                                                     Belum Diisi Datanya
                                                 @else
+
                                                     @if(empty($po->vendorable->nama))
                                                     Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                     @else
                                                     Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po->vendorable->nama }}
                                                     @endif
-                                                    <td>{{ $po->vendorable->nama }}</td>
                                                 @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Approver Note</td>
