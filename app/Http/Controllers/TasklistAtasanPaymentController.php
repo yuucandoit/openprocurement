@@ -31,8 +31,8 @@ class TasklistAtasanPaymentController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan_py', Auth::user()->id)->whereHas('quot',function($i){
-                $i->where('status','Invoicing Process');
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_py', Auth::user()->id)->where('status','Invoicing Process');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
 
             $datapo = CategoryPO::get();

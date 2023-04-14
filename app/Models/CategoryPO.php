@@ -24,6 +24,8 @@ class CategoryPO extends Model
         'path_invoice',
         'matauang',
         'code_po',
+        'atasan_po',
+        'atasan_py',
         'approved_at',
         'created_at',
         'updated_at'
@@ -48,6 +50,10 @@ class CategoryPO extends Model
     public function atasans()
     {
         return $this->belongsTo(User::class, 'atasan_po');
+    }
+    public function atasan_py()
+    {
+        return $this->belongsTo(User::class, 'atasan_py');
     }
     public function vendorable()
     {

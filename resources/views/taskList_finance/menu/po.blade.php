@@ -389,11 +389,11 @@
                                                 <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
                                                 @elseif($datacpo->status == 'Payment Approved')
-                                                <button type="submit" class="btn btn-success text-center"> Approve</button>
+                                                <button type="submit" class="btn btn-success text-center"> Process</button>
                                                 <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
                                                 @else
                                                 <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return">Aprove</a>
+                                                class="btn btn-success text-center" onclick="return">Process</a>
                                                 <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
                                                 @endif

@@ -159,7 +159,6 @@
                                         $approvedPPB = [];
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                        @if ($ppb->atasan_py == 3)
                                         @php
                                             $approvedPPB[] =$ppb;
                                         @endphp
@@ -199,6 +198,7 @@
                                                 </td>
                                             </tr>
                                             @foreach ($ppb->quot as $po)
+                                            @if($po->atasan_py == Auth::user()->id)
                                                 @if($po->status == 'Invoicing Process')
                                                 <tr>
 
@@ -247,8 +247,8 @@
                                                     @endif
                                                 </tr>
                                                 @endif
+                                            @endif
                                             @endforeach
-                                        @endif
                                     @endforeach
                                     </tbody>
                                 </table>
@@ -307,7 +307,6 @@
                                         $approvedPPB = [];
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                        @if ($ppb->atasan_py == 6)
                                         @php
                                         $approvedPPB[] =$ppb;
                                         @endphp
@@ -348,6 +347,7 @@
                                                 </td>
                                             </tr>
                                             @foreach ($ppb->quot as $po)
+                                            @if($po->atasan_py == Auth::user()->id)
                                                 @if($po->status == 'Invoicing Process')
                                                     <tr>
 
@@ -396,8 +396,8 @@
                                                         @endif
                                                     </tr>
                                                 @endif
+                                            @endif
                                             @endforeach
-                                        @endif
                                     @endforeach
                                     </tbody>
                                 </table>
@@ -455,7 +455,6 @@
                                         $approvedPPB = [];
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                        @if ($ppb->atasan_py == 7)
                                          @php
                                          $approvedPPB[] =$ppb;
                                          @endphp
@@ -496,6 +495,7 @@
                                                     </td>
                                                 </tr>
                                                 @foreach ($ppb->quot as $po)
+                                                @if($po->atasan_py == Auth::user()->id)
                                                     @if($po->status == 'Invoicing Process')
                                                         <tr>
 
@@ -544,8 +544,8 @@
                                                             @endif
                                                         </tr>
                                                     @endif
+                                                @endif
                                                 @endforeach
-                                        @endif
                                     @endforeach
                                     </tbody>
                                 </table>
@@ -602,7 +602,6 @@
                                         $approvedPPB = [];
                                     @endphp
                                 @foreach ($datappb as $ppb)
-                                    @if ($ppb->atasan_py == 8)
                                         @php
                                         $approvedPPB[] =$ppb;
                                         @endphp
@@ -643,6 +642,7 @@
                                                 </td>
                                             </tr>
                                             @foreach ($ppb->quot as $po)
+                                            @if($po->atasan_py == Auth::user()->id)
                                                 @if($po->status == 'Invoicing Process')
                                                     <tr>
 
@@ -691,9 +691,9 @@
                                                         @endif
                                                     </tr>
                                                 @endif
+                                            @endif
                                             @endforeach
                                         </tbody>
-                                    @endif
                                 @endforeach
                                 </table>
                                 {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
@@ -749,7 +749,6 @@
                                         $approvedPPB = [];
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                        @if ($ppb->atasan_py == 9)
                                         @php
                                         $approvedPPB[] =$ppb;
                                         @endphp
@@ -790,6 +789,7 @@
                                                 </td>
                                             </tr>
                                             @foreach ($ppb->quot as $po)
+                                            @if($po->atasan_py == Auth::user()->id)
                                                 @if($po->status == 'Invoicing Process')
                                                     <tr>
 
@@ -838,9 +838,9 @@
                                                         @endif
                                                     </tr>
                                                 @endif
+                                            @endif
                                             @endforeach
                                         </tbody>
-                                        @endif
                                     @endforeach
                                 </table>
                                 {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
@@ -897,7 +897,6 @@
                                         $approvedPPB = [];
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                        @if ($ppb->atasan_py == 24)
                                         @php
                                             $approvedPPB[] =$ppb;
                                         @endphp
@@ -937,6 +936,7 @@
                                                 </td>
                                             </tr>
                                             @foreach ($ppb->quot as $po)
+                                            @if($po->atasan_py == Auth::user()->id)
                                                 @if($po->status == 'Invoicing Process')
                                                     <tr>
 
@@ -985,8 +985,8 @@
                                                         @endif
                                                     </tr>
                                                 @endif
+                                            @endif
                                             @endforeach
-                                        @endif
                                     @endforeach
                                     </tbody>
                                 </table>

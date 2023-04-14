@@ -280,7 +280,7 @@
                                             data-bs-target="#modalSelesai" disabled>Successfully send data</button>
                                     </div>
                                     @elseif ($datacpo->status == 'PO Approved')
-                                        @if(empty($datacpo->ppb->atasanpymnt->name))
+                                        @if(empty($datacpo->atasan_py))
                                         <div class="text-center">
                                             <button class="btn btn-success mt-4 disabled" data-bs-toggle="modal"
                                                 data-bs-target="#modalSelesai">Apply For Payment

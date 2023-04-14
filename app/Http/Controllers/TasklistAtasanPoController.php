@@ -30,8 +30,8 @@ class TasklistAtasanPoController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan_po', Auth::user()->id)->whereHas('quot',function($i){
-                $i->where('status','Waiting For PO Approval');
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_po', Auth::user()->id)->where('status','Waiting For PO Approval');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
 
             $datapo = CategoryPO::get();
@@ -600,14 +600,14 @@ class TasklistAtasanPoController extends Controller
     {
         // dd($request->ids);
         $ids = explode(',', $request->ids);
-        // dd($ids);
+        dd($ids);
         $data = CategoryPO::find($ids);
         // $ppb = CategoryPengajuanPembelian::whereIn('id', $data->ppb_id)->get();
         // dd($data->ppb);
 
         foreach($data as $d){
             // dd($d->ppb->atasan_po == 3);
-            if($d->ppb->atasan_po == 3){
+            if($d->atasan_po == 3){
                 CategoryPO::whereIn('id',$ids)->update([
                 'status' =>    'PO Approved',
                 'signature' => 'superadmin.png',
@@ -626,7 +626,7 @@ class TasklistAtasanPoController extends Controller
                     ]);
                 }
 
-            }elseif($d->ppb->atasan_po == 6){
+            }elseif($d->atasan_po == 6){
                 CategoryPO::whereIn('id',$ids)->update([
                     'signature' => 'sinduirawan.png',
                     'approved_at' => Carbon::now(),
@@ -645,7 +645,7 @@ class TasklistAtasanPoController extends Controller
                         'status' => 'PO Approved',
                     ]);
                 }
-            }elseif($d->ppb->atasan_po == 7){
+            }elseif($d->atasan_po == 7){
                 CategoryPO::whereIn('id',$ids)->update([
                     'signature' => 'bayu.png',
                     'approved_at' => Carbon::now(),
@@ -663,7 +663,7 @@ class TasklistAtasanPoController extends Controller
                         'status' => 'PO Approved',
                     ]);
                 }
-            }elseif($d->ppb->atasan_po == 8){
+            }elseif($d->atasan_po == 8){
                 CategoryPO::whereIn('id',$ids)->update([
                     'signature' => 'victor.png',
                     'approved_at' => Carbon::now(),
@@ -681,7 +681,7 @@ class TasklistAtasanPoController extends Controller
                         'status' => 'PO Approved',
                     ]);
                 }
-            }elseif($d->ppb->atasan_po == 9){
+            }elseif($d->atasan_po == 9){
                 CategoryPO::whereIn('id',$ids)->update([
                     'signature' => 'erwin.png',
                     'approved_at' => Carbon::now(),
@@ -699,7 +699,7 @@ class TasklistAtasanPoController extends Controller
                         'status' => 'PO Approved',
                     ]);
                 }
-            }elseif($d->ppb->atasan_po == 24){
+            }elseif($d->atasan_po == 24){
                     CategoryPO::whereIn('id',$ids)->update([
                         'signature' => 'Triyani.png',
                         'approved_at' => Carbon::now(),

@@ -161,7 +161,6 @@
                                             $month = Carbon\Carbon::now()->format('m');
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->atasan_po == 3)
                                             @php
                                                     $approvedPPB[] =$ppb;
                                             @endphp
@@ -200,52 +199,54 @@
                                                         </td>
                                                 </tr>
 
-                                            @foreach ($ppb->quot as $po)
-                                            @if($po->status == 'Waiting For PO Approval')
-                                                <tr>
-                                                    @php
-                                                        $po2 = \App\Models\CategoryPO::find($po->id);
-                                                        $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
-                                                        $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
-                                                        // dd($po2->ppb_id);
-                                                    @endphp
+                                                @foreach ($ppb->quot as $po)
+                                                @if($po->atasan_po == Auth::user()->id)
+                                                @if($po->status == 'Waiting For PO Approval')
+                                                    <tr>
+                                                        @php
+                                                            $po2 = \App\Models\CategoryPO::find($po->id);
+                                                            $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                            $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
+                                                            // dd($po2->ppb_id);
+                                                        @endphp
 
-                                                    @if(empty($po2))
+                                                        @if(empty($po2))
 
-                                                    @else
-                                                    <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
-                                                    <td>{{ $po->code_po }}</td>
-                                                    <td>
-                                                        <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
-                                                        <ul>
-                                                            <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}</li>
-                                                            <li> Quotation : {{ $po2->quotation }}</li>
-                                                        </ul>
-                                                        </a>
-                                                    </td>
-                                                    <td style="font-weight: 700; white-space:nowrap;">
-                                                        @foreach ($po3 as $ipo)
-                                                        <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
-                                                        @endforeach
-                                                    </td>
-                                                    <td style="text-align: center">
-                                                        @foreach ($po4 as $ipo)
-                                                        <label>
-                                                            {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
-                                                        </label>
-                                                        @endforeach
-                                                    </td>
-                                                    <td colspan="2"  class="text-center"><a
-                                                        class="badge bg-warning mt-1"
-                                                        style="color: white; font-size:12">{{ $po2->status }}</a></td>
+                                                        @else
+                                                        <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
+                                                        <td>{{ $po->code_po }}</td>
+                                                        <td>
+                                                            <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
+                                                            <ul>
+                                                                <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}</li>
+                                                                <li> Quotation : {{ $po2->quotation }}</li>
+                                                            </ul>
+                                                            </a>
+                                                        </td>
+                                                        <td style="font-weight: 700; white-space:nowrap;">
+                                                            @foreach ($po3 as $ipo)
+                                                            <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                            @endforeach
+                                                        </td>
+                                                        <td style="text-align: center">
+                                                            @foreach ($po4 as $ipo)
+                                                            <label>
+                                                                {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
+                                                            </label>
+                                                            @endforeach
+                                                        </td>
+                                                        <td colspan="2"  class="text-center"><a
+                                                            class="badge bg-warning mt-1"
+                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
 
-                                                    @endif
-                                                </tr>
+                                                        @endif
+                                                    </tr>
                                                 @endif
-                                            @endforeach
-                                            @endif
+                                                @endif
+                                                @endforeach
+                                            </tbody>
                                         @endforeach
-                                        </tbody>
+
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                     <div class="box-header">
@@ -303,7 +304,6 @@
                                             $approvedPPB = [];
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->atasan_po == 6)
                                             @php
                                                 $approvedPPB[] =$ppb;
                                             @endphp
@@ -338,6 +338,8 @@
                                                         </td>
                                                 </tr>
                                                 @foreach ($ppb->quot as $po)
+                                                @if($po->atasan_po == Auth::user()->id)
+                                                @if($po->status == 'Waiting For PO Approval')
                                                     <tr>
 
                                                         @php
@@ -378,10 +380,11 @@
 
                                                         @endif
                                                     </tr>
+                                                    @endif
+                                                    @endif
                                                 @endforeach
-                                            @endif
+                                            </tbody>
                                         @endforeach
-                                        </tbody>
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                     <div class="box-header">
@@ -440,7 +443,6 @@
                                             $approvedPPB = [];
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                             @if ($ppb->atasan_po == 7)
                                              @php
                                              $approvedPPB[] =$ppb;
                                             @endphp
@@ -515,9 +517,8 @@
                                                         @endif
                                                     </tr>
                                                 @endforeach
-                                            @endif
+                                            </tbody>
                                         @endforeach
-                                        </tbody>
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                                     <div class="box-header">
@@ -575,7 +576,6 @@
                                             $approvedPPB = [];
                                         @endphp
                                         @foreach ($datappb as $ppb)
-                                            @if ($ppb->atasan_po == 8)
                                             @php
                                              $approvedPPB[] =$ppb;
                                             @endphp
@@ -610,6 +610,8 @@
                                                         </td>
                                                 </tr>
                                                 @foreach ($ppb->quot as $po)
+                                                @if($po->atasan_po == Auth::user()->id)
+                                                @if($po->status == 'Waiting For PO Approval')
                                                     <tr>
 
                                                         @php
@@ -650,9 +652,10 @@
 
                                                         @endif
                                                     </tr>
+                                                @endif
+                                                @endif
                                                 @endforeach
                                             </tbody>
-                                            @endif
                                     @endforeach
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
@@ -712,8 +715,6 @@
                                             $approvedPPB = [];
                                         @endphp
                                         @foreach ($datappb as $ppb)
-
-                                            @if ($ppb->atasan_po == 9)
                                             @php
                                              $approvedPPB[] =$ppb;
                                             @endphp
@@ -749,8 +750,9 @@
                                                             </td>
                                                        </tr>
                                                     @foreach ($ppb->quot as $po)
+                                                    @if($po->atasan_po == Auth::user()->id)
+                                                    @if($po->status == 'Waiting For PO Approval')
                                                         <tr>
-
                                                             @php
                                                                 $po2 = \App\Models\CategoryPO::find($po->id);
                                                                 $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
@@ -789,9 +791,10 @@
 
                                                             @endif
                                                         </tr>
+                                                    @endif
+                                                    @endif
                                                     @endforeach
-                                                 </tbody>
-                                             @endif
+                                                </tbody>
                                         @endforeach
                                     </table>
                                     {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
@@ -850,7 +853,6 @@
                                            $month = Carbon\Carbon::now()->format('m');
                                        @endphp
                                        @foreach ($datappb as $ppb)
-                                            @if ($ppb->atasan_po == 24)
                                             @php
                                                 $approvedPPB[] =$ppb;
                                             @endphp
@@ -890,6 +892,8 @@
                                                 </tr>
 
                                             @foreach ($ppb->quot as $po)
+                                            @if($po->atasan_po == Auth::user()->id)
+                                            @if($po->status == 'Waiting For PO Approval')
                                                 <tr>
 
                                                     @php
@@ -930,8 +934,9 @@
 
                                                     @endif
                                                 </tr>
-                                            @endforeach
                                             @endif
+                                            @endif
+                                            @endforeach
                                        @endforeach
                                        </tbody>
                                    </table>

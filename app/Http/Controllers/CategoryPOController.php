@@ -300,7 +300,7 @@ class CategoryPOController extends Controller
         ], [
             'term_conditions.required' => 'The Term Conditions field is required.',
         ]);
-        // dd($data2);
+
 
         $pt = CategoryPT::find($id);
         $pp = CategoryPP::find($id);
@@ -328,8 +328,10 @@ class CategoryPOController extends Controller
                 "term_conditions" => $term->id ,
                 "quotation" => $request->quotation,
                 "path_quotation" => $path_file ?? null,
+                "atasan_po" => $request->atasan_po,
                 "status" => 'Purchase Proses',
             ]);
+            dd($purchase);
             if ($request->vendor == "company") {
                 $vendor1 = CategoryPT::find($request->perusahaan);
                 $purchase = $vendor1->vendors()->save($purchase);
@@ -399,6 +401,7 @@ class CategoryPOController extends Controller
                 "ppb_id" => $data->id,
                 "term_conditions" => $request->term_conditions,
                 "quotation" => $request->quotation,
+                "atasan_po" => $request->atasan_po,
                 "path_quotation" => $path_file ?? null,
                 "status" => 'Purchase Proses',
             ]);
@@ -740,31 +743,7 @@ class CategoryPOController extends Controller
         return redirect('menu-purchase-order');
 
     }
-    // public function checkPO($id)
-    // {
-    //     $crs = CategoryPO::find($id);
-    //     $crs->status = 'Cross Check PO';
-    //     $crs->save();
-
-    //     $datapo = CategoryPO::where('status','Cross Check PO')->where('ppb_id',$crs->ppb_id)->get();
-    //     $datapo2 = CategoryPO::where('ppb_id',$crs->ppb_id)->get();
-    //     $count = $datapo->count();
-    //     $count2 = $datapo2->count();
-    //     // dd($count == $count2);
-    //     if($count == $count2) {
-    //         $data = CategoryPengajuanPembelian::find($id);
-    //         if(empty($data->atasan_po)){
-    //             return redirect()->back()->withErrors(["Approver Not Found"]);
-    //         }else{
-    //         $data->status = 'Cross Check PO';
-    //         $data->save();
-
-    //         }
-    //     }else{
-
-    //     }
-    //     return redirect('menu-purchase-order');
-    // }
+    
 
 
 

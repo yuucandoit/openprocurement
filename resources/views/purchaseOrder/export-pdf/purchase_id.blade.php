@@ -329,14 +329,14 @@
                                         alt=""></p>
                             @endif
                 </div>
-                @if (empty($cpo->ppb->atasans->name))
+                @if (empty($cpo->atasans->name))
                     <div style="text-align: center; font-size: 15px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 15px;">{{ $cpo->ppb->atasans->name }} <br>
+                    <div style="text-align: center; font-size: 15px;">{{ $cpo->atasans->name }} <br>
                         <label style="font-size: 15px; font-weight: bold; text-decoration: overline;">
-                        @if($cpo->ppb->atasans->name == 'Bayu Nugraha' || $cpo->ppb->atasans->name == 'Triyani')
+                        @if($cpo->atasans->name == 'Bayu Nugraha' || $cpo->atasans->name == 'Triyani')
                             General Manager
                         @else
                             Director
@@ -345,15 +345,6 @@
                     </div>
                 @endif
                 @endif
-                {{-- @endforeach --}}
-                {{-- @foreach ($cpo->ppb as $c)
-                            @if ($cpo->ppb->status == 'PO Approved' || $cpo->ppb->status == 'Invoicing Process' || $cpo->ppb->status == 'Payment Approved' || $cpo->ppb->status == 'Unpaid' || $cpo->ppb->status == 'Paid' || $cpo->ppb->status == 'Delivery Success') --}}
-                {{-- <img src="{{ public_path('assets/images/'.$cpo->ppb->image) }}" alt="" style=" width:80px;"> --}}
-                {{-- <strong>{{ $atasan->atasans->name }}</strong>
-                            @else
-                            <strong>BOD Name</strong>
-                            @endif
-                            {{-- @endforeach --}}
             </td>
         </tr>
     </table>

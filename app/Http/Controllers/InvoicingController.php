@@ -286,17 +286,15 @@ class InvoicingController extends Controller
             'atasan_py' => $request->atasan_py,
         ]);
 
-        if ($request->hasFile('path_invoice')){
-
-            $file = $request->file('path_invoice');
-            $path_file = $file->getClientOriginalName();
-            // dd($path_file);
-            $file->move('upload_invoice',$path_file);
-
-            CategoryPO::where('id',$id)->update([
-                "path_invoice" => $path_file,
-            ]);
+        $file = null;
+        if ($path =  $request->file('path_invoice') ?? null){
+            $file = $path->getClientOriginalName();
+            $path->move('upload_invoice',$file);
         }
+        CategoryPO::where('id',$id)->update([
+            "atasan_py"    => $request->atasan_py,
+            "path_invoice" => $file,
+        ]);
 
         $pyment = new Invoicing;
         $pyment->ppb_id = $cpo->ppb->id;
@@ -406,7 +404,7 @@ class InvoicingController extends Controller
         $po = CategoryPO::find($id);
         $data = CategoryPengajuanPembelian::where('id',$po->ppb_id)->first();
         // dd($data);
-        if(empty($data->atasan_py)){
+        if(empty($po->atasan_py)){
             return redirect()->back()->withErrors(["Approver Not Found"]);
         }else{
 

@@ -661,9 +661,9 @@
 
                                     @php
                                         $taskpr         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',Auth::user()->id)->get();
-                                        $taskpo         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Waiting For PO Approval');})->where('atasan_po',Auth::user()->id)->get();
+                                        $taskpo         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', Auth::user()->id)->where('status','Waiting For PO Approval');})->get();
 
-                                        $taskpd         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Invoicing Process');})->where('atasan_py',Auth::user()->id)->get();
+                                        $taskpd         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', Auth::user()->id)->where('status','Invoicing Process');})->get();
                                         $taskpurchase   = App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->get();
                                         $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Payment Approved');})->get();
                                     @endphp
