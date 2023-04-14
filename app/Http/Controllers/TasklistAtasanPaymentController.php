@@ -532,7 +532,7 @@ class TasklistAtasanPaymentController extends Controller
                 'signature' => 'sinduirawan.png',
                 'approved_at' => Carbon::now(),
                 ]);
-            CategoryPO::whereIn('ppb_id',$ids)->update([
+            CategoryPO::whereIn('id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
 
@@ -548,7 +548,7 @@ class TasklistAtasanPaymentController extends Controller
             ]);
             $d->status = 'Payment Approved';
             $d->save();
-            CategoryPO::where('ppb_id',$ids)->update([
+            CategoryPO::whereIn('id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
 
@@ -564,7 +564,7 @@ class TasklistAtasanPaymentController extends Controller
             ]);
             $d->status = 'Payment Approved';
             $d->save();
-            CategoryPO::where('ppb_id',$ids)->update([
+            CategoryPO::whereIn('id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
 
@@ -580,7 +580,7 @@ class TasklistAtasanPaymentController extends Controller
             ]);
             $d->status = 'Payment Approved';
             $d->save();
-            CategoryPO::where('ppb_id',$ids)->update([
+            CategoryPO::whereIn('id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
 
@@ -596,7 +596,7 @@ class TasklistAtasanPaymentController extends Controller
             ]);
             $d->status = 'Payment Approved';
             $d->save();
-            CategoryPO::where('ppb_id',$ids)->update([
+            CategoryPO::whereIn('id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
 
