@@ -532,7 +532,7 @@ class TasklistAtasanPaymentController extends Controller
                 'signature' => 'sinduirawan.png',
                 'approved_at' => Carbon::now(),
                 ]);
-            CategoryPO::whereInd('ppb_id',$ids)->update([
+            CategoryPO::whereIn('ppb_id',$ids)->update([
                 'status' => 'Payment Approved'
             ]);
 
