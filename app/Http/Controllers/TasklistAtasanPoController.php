@@ -290,7 +290,7 @@ class TasklistAtasanPoController extends Controller
 
     public function accept_atasan(Request $request,$id)
     {
-        dd($id);
+        // dd($id);
         $data = CategoryPengajuanPembelian::find($id);
         $data->note_bod_po = $request->note_po;
         $data->status = 'PO Approved';
@@ -379,7 +379,7 @@ class TasklistAtasanPoController extends Controller
 
     public function accept_atasan_selected_po(Request $request)
     {
-        dd($request->ids);
+        // dd($request->ids);
         $ids = explode(',', $request->ids);
 
         $data = CategoryPengajuanPembelian::find($ids);
@@ -600,7 +600,7 @@ class TasklistAtasanPoController extends Controller
     {
         // dd($request->ids);
         $ids = explode(',', $request->ids);
-        dd($ids);
+        // dd($ids);
         $data = CategoryPO::find($ids);
         // $ppb = CategoryPengajuanPembelian::whereIn('id', $data->ppb_id)->get();
         // dd($data->ppb);
