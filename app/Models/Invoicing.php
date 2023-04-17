@@ -12,6 +12,7 @@ class Invoicing extends Model
     protected $table = 'invoicing';
     protected $fillable = [
         'id',
+        'po_id',
         'signature',
         'ppb_id',
         'code_pd'

@@ -298,6 +298,7 @@ class InvoicingController extends Controller
 
         $pyment = new Invoicing;
         $pyment->ppb_id = $cpo->ppb->id;
+        $pyment->po_id = $cpo->id;
         $year = Carbon::parse($pyment->created_at)->format('y');
         $month = Carbon::parse($pyment->created_at)->format('m');
         $pyment->save();

@@ -318,33 +318,30 @@
             </td>
             <td align="right">
                 @php
-                    $sig =  App\Models\Invoicing::where('ppb_id', $cpo->ppb_id)->first();
+                    $sig =  App\Models\Invoicing::where('po_id', $cpo->id)->first();
                 @endphp
 
                 <div style="text-align: center; font-size:14px; margin-top:-40px;">
-                        @if (
-                            $cpo->ppb->status == 'PO Approved' ||
-                            $cpo->ppb->status == 'Invoicing Process' ||
-                            $cpo->ppb->status == 'Payment Approved' ||
-                            $cpo->ppb->status == 'Unpaid' ||
-                            $cpo->ppb->status == 'Paid' ||
-                            $cpo->ppb->status == 'Delivery Success')
-                            <p>Jakarta, {{ $approvedAt }}</p>
-                            @if (empty($sig->signature))
-                            @else
-                                <p><img style="max-height:50px; margin-top:-15px;"
-                                        src="{{ public_path('assets/images/signature_super_user/'.$sig->signature) }}"
-                                        alt=""></p>
-                            @endif
+
+                <p>Jakarta, {{ $approvedAt }}</p>
+                @if (empty($sig->signature))
+
+                @else
+                <p>
+                    <img style="max-height:50px; margin-top:-15px;"
+                    src="{{ public_path('assets/images/signature_super_user/'.$sig->signature) }}"
+                    alt="">
+                </p>
+                @endif
                 </div>
-                @if (empty($p->ppb->atasanpymnt->name))
+                @if (empty($cpo->atasanpy->name))
                     <div style="text-align: center; font-size: 15px; margin-top:-10px;">Unfilled Data <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @else
-                    <div style="text-align: center; font-size: 15px; margin-top:-10px;">{{ $p->ppb->atasanpymnt->name }} <br>
+                    <div style="text-align: center; font-size: 15px; margin-top:-10px;">{{ $cpo->atasanpy->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">
-                        @if($p->ppb->atasanpymnt->name == 'Bayu Nugraha' || $p->ppb->atasanpymnt->name == 'Triyani')
+                        @if($cpo->atasanpy->name == 'Bayu Nugraha' || $cpo->atasanpy->name == 'Triyani')
                             General Manager
                         @else
                             Director
@@ -352,8 +349,6 @@
                         </label>
                     </div>
                 @endif
-                @endif
-
             </td>
         </tr>
     </table>
