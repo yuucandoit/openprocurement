@@ -51,7 +51,7 @@ class CategoryPO extends Model
     {
         return $this->belongsTo(User::class, 'atasan_po');
     }
-    public function atasan_py()
+    public function atasanpy()
     {
         return $this->belongsTo(User::class, 'atasan_py');
     }
