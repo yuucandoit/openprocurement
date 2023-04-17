@@ -331,7 +331,7 @@ class CategoryPOController extends Controller
                 "atasan_po" => $request->atasan_po,
                 "status" => 'Purchase Proses',
             ]);
-            dd($purchase);
+            // dd($purchase);
             if ($request->vendor == "company") {
                 $vendor1 = CategoryPT::find($request->perusahaan);
                 $purchase = $vendor1->vendors()->save($purchase);
@@ -743,7 +743,7 @@ class CategoryPOController extends Controller
         return redirect('menu-purchase-order');
 
     }
-    
+
 
 
 
