@@ -28,6 +28,8 @@ class CategoryPO extends Model
         'atasan_py',
         'approved_at',
         'approved_at_py',
+        'note_bod_po',
+        'note_bod_py',
         'created_at',
         'updated_at'
     ];
