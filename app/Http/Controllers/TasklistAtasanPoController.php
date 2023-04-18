@@ -724,13 +724,21 @@ class TasklistAtasanPoController extends Controller
 
         return redirect('menu-taskList-atasan-po');
     }
-
     public function reject(Request $request,$id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'PO Rejected by BOD';
-        $data->note_bod_po = $request->note_po;
-        $data->save();
+        $cpo = CategoryPO::find($id);
+        $cpo->status = 'PO Rejected by BOD';
+        $cpo->note_bod_po = $request->note_po;
+        $cpo->save();
         return redirect('menu-taskList-atasan-po');
     }
+
+    // public function reject(Request $request,$id)
+    // {
+    //     $data = CategoryPengajuanPembelian::find($id);
+    //     $data->status = 'PO Rejected by BOD';
+    //     $data->note_bod_po = $request->note_po;
+    //     $data->save();
+    //     return redirect('menu-taskList-atasan-po');
+    // }
 }

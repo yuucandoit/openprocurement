@@ -499,16 +499,25 @@ class TasklistAtasanPaymentController extends Controller
         return redirect('menu-taskList-atasan-payment');
     }
 
-
     public function reject(Request $request,$id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Payment Rejected by BOD';
-        $data->note_bod_py = $request->note_py;
-        $data->save();
-        CategoryPO::where('ppb_id',$id)->update([
-            'status' => 'Payment Rejected by BOD'
-        ]);
+        $cpo = CategoryPO::find($id);
+        $cpo->status = 'Payment Rejected by BOD';
+        $cpo->note_bod_py = $request->note_py;
+        $cpo->save();
+
         return redirect('menu-taskList-atasan-payment');
     }
+
+    // public function reject(Request $request,$id)
+    // {
+    //     $data = CategoryPengajuanPembelian::find($id);
+    //     $data->status = 'Payment Rejected by BOD';
+    //     $data->note_bod_py = $request->note_py;
+    //     $data->save();
+    //     CategoryPO::where('ppb_id',$id)->update([
+    //         'status' => 'Payment Rejected by BOD'
+    //     ]);
+    //     return redirect('menu-taskList-atasan-payment');
+    // }
 }
