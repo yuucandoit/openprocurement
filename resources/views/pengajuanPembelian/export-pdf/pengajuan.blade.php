@@ -132,7 +132,7 @@
                             $cpp->status == 'Purchase Request Approved' ||
                             $cpp->status == 'Purchase Proses' ||
                             $cpp->status == 'Waiting For PO Approval' ||
-                            $cpp->status == 'Purchase Proses' ||
+                            $cpp->status == 'Cross Check PO' ||
                             $cpp->status == 'PO Approved' ||
                             $cpp->status == 'Invoicing Process' ||
                             $cpp->status == 'Payment Approved' ||

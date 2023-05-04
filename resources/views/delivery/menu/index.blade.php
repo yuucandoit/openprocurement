@@ -4,6 +4,15 @@
 
     @section('main')
         <section>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
         @foreach ($datappb as $ppb)
             <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -129,6 +138,7 @@
                             <div class="col-sm-8">
                                 <div style="margin-top:20px; margin-bottom:-30px; margin-left: 30px;">
                                     <a href="{{ route('export-pembelian') }}" class="btn" style="background-color: #06491b; color:white;">Export Excel</a>
+                                    <a href="{{ url('/file-import-ppb') }}" class="btn" style="background-color: #06491b; color:white;">Import Excel</a>
                                 </div>
                             </div>
                             <div class="col-sm-4">

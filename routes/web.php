@@ -559,6 +559,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('file-import-rf', [ReferensiNamaProjectController::class, 'fileImportRF']);
     Route::post('file-import-project', [ReferensiNamaProjectController::class, 'fileImport'])->name('file-import');
 
+    //Route Import Pengajuan
+    Route::get('file-import-ppb', [DeliveryController::class, 'fileImportPPB']);
+    Route::post('file-import-pengajuan', [DeliveryController::class, 'fileImport'])->name('file-import');
 
     Route::get('send-wa', [SendWaController::class,'send'])->name('send-wa');
 

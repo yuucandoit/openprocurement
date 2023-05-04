@@ -332,11 +332,7 @@
         </section>
     @endsection
     @section('scripts')
-    {{-- <script src="{{  }}"></script> --}}
-    {{-- {{ dd($approvedPPB) }} --}}
-    {{-- @php
-        $approvedPPB = collect($approvedPPB);
-    @endphp --}}
+
     <script>
         const dataprchs = @json($approvedPPB);
         console.log(dataprchs);
@@ -362,12 +358,12 @@
 
             const approvedAt = new Date(approved_at);
             const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
-            const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
+            const dueDateAt = new Date(approvedAt.getTime() +   dueDateTime.getTime());
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
-            const remainingExp = new Date(remainingTime.getTime() + Date.now());
+            const remainingExp = new Date(dueDateAt.getTime() + Date.now());
             const lable = elmnt.querySelector('.badge-lable');
 
-            console.log(dateline_time, remainingTime.getTime(),remainingTime.getTime(),);
+            console.log(dateline_time, dueDateAt.getTime(),remainingTime.getTime(),);
 
             if (remainingTime.getTime() < 1) {
                 lable.classList.remove('bg-dark');

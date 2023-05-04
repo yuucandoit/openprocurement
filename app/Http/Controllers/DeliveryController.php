@@ -10,6 +10,7 @@ use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\Delivery;
 use Illuminate\Http\Request;
+use App\Imports\PengajuanImport;
 use App\File;
 use App\Models\Comment;
 use App\Models\DeliveryTrack;
@@ -387,5 +388,32 @@ class DeliveryController extends Controller
     public function export()
     {
         return Excel::download(new PembelianExport(), 'Pembelian Import.xlsx');
+    }
+    public function fileImportPPB(){
+        return view('delivery.menu.import');
+    }
+
+    public function fileImport(Request $request)
+    {
+
+        // try {
+
+		// menangkap file excel
+		$file = $request->file('file');
+
+		// membuat nama file unik
+		$nama_file = rand().$file->getClientOriginalName();
+
+		// upload ke folder file_siswa di dalam folder public
+		$file->move('upload_pengajuan',$nama_file);
+
+		// import data
+		Excel::import(new PengajuanImport , public_path('/upload_pengajuan/'.$nama_file));
+
+		// alihkan halaman kembali
+		return redirect('/delivery');
+        // } catch (\Exception $e) {
+            // return redirect()->back()->withErrors([$e->getMessage()]);
+        // }
     }
 }
