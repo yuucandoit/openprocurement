@@ -293,7 +293,7 @@
 
     <table width="100%">
         <tr>
-            <td style="font-size:10; width:30%;">
+            <td style="font-size:10; width:50%;">
                 <p class="legal" style="margin-top:-30px;"><strong>Terms & Conditions</strong> <br>
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
