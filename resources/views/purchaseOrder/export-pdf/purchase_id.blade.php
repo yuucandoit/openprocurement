@@ -293,12 +293,12 @@
 
     <table width="100%">
         <tr>
-            <td style="font-size:10;">
+            <td style="font-size:10; width:30%;">
                 <p class="legal" style="margin-top:-30px;"><strong>Terms & Conditions</strong> <br>
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
                     @else
-                    <p style="word-wrap: break-word;    
+                    <p style="word-wrap: break-word;
                     overflow-wrap: break-word; ">
                         {!! nl2br($cpo->term->term_condition) !!}
                     </p>
