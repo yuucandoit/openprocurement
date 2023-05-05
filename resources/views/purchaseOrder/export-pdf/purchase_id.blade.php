@@ -298,7 +298,10 @@
                     @if (empty($cpo->term->term_condition))
                         Not Filled in yet
                     @else
+                    <p style="word-wrap: break-word;    
+                    overflow-wrap: break-word; ">
                         {!! nl2br($cpo->term->term_condition) !!}
+                    </p>
                 </p>
                 @endif
             </td>
