@@ -717,30 +717,18 @@ class CategoryPOController extends Controller
         $data->check_po_timestamp = now();
         $data->save();
 
-        return redirect('menu-purchase-order');
+        return redirect()->back();
         }
     }
     public function checkPO2(Request $request,$id)
     {
-        // dd($id);
+
         $data = CategoryPO::where('id',$id)->update([
             'status' => 'Cross Check PO',
         ]);
         $data2 = CategoryPO::where('id',$id)->first();
 
-        // $data->status = 'Cross Check PO';
-        // $data->save();
-
-        // $itemPengajuan = PengajuanPembelian::select(DB::raw('pp_id,SUM(qty) as qtytotal'))->where('pp_id',$data2->ppb_id)->first();
-        // $itemPo        = ItemPO::select(DB::raw('ppb_id,SUM(qty) as qtypo'))->where('ppb_id',$data2->ppb_id)->first();
-        // dd($itemPengajuan);
-        // if($itemPengajuan->qtytotal == $itemPo->qtypo){
-            // CategoryPengajuanPembelian::where('id', $data2->ppb_id)->update([
-            //     'status' => 'Cross Check PO',
-            // ]);
-        // }
-
-        return redirect('menu-purchase-order');
+        return redirect()->back();
 
     }
 
