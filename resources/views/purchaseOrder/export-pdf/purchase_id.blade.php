@@ -318,15 +318,15 @@
                             $cpo->ppb->status == 'Unpaid' ||
                             $cpo->ppb->status == 'Paid' ||
                             $cpo->ppb->status == 'Delivery Success')
-                            <p>Jakarta, {{ $approvedAt }}</p>
+                            <p>Jakarta, {{ $cpo->approved_at }}</p>
                             @if (empty($cpo->signature))
-                                @if (empty($posig))
+                                {{-- @if (empty($posig))
                                     $approvedAt = 'Not Record yet';
                                 @else
                                     <p><img style=" max-height:50px;"
                                         src="{{ public_path('assets/images/signature_super_user/' . $posig->signature) }}"
                                         alt=""></p>
-                                @endif
+                                @endif --}}
                             @else
                                 <p><img style=" max-height:50px;"
                                         src="{{ public_path('assets/images/signature_super_user/' . $cpo->signature) }}"

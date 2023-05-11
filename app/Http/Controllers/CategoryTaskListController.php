@@ -125,7 +125,11 @@ class CategoryTaskListController extends Controller
     {
      $sort = $request->sort;
     //  dd($cari);
-     $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->orderBy('approved_at','desc')->paginate(10);
+    $datappb = CategoryPengajuanPembelian::
+    whereIn('status',$sort)
+    ->orderBy('approved_at', 'DESC')
+    ->paginate(10);
+
      $datapo = CategoryPO::get();
      return view('taskList.menu.history')
      ->with('datappb',$datappb)
