@@ -71,6 +71,7 @@
                                                  <th>Item</th>
                                                  <th>Qty</th>
                                                  <th>Category</th>
+                                                 <th>File</th>
                                              </tr>
                                          </thead>
                                          <tbody>
@@ -79,7 +80,11 @@
                                                      <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
                                                      <td style="text-align: center;">{{ $p->qty }}</td>
                                                      <td style="text-align: center;">{{ $p->kategori }}</td>
-
+                                                     @if(empty($p->path_file))
+                                                    <td></td>
+                                                    @else
+                                                    <td style="text-align: center;"><a href="/upload_pengajuan/{{ $p->path_file }}" target="_blank">{{ $p->path_file }}</a></td>
+                                                    @endif
                                                  </tr>
                                              @endforeach
                                          </tbody>
