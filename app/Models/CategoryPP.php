@@ -11,6 +11,8 @@ class CategoryPP extends Model
     protected $table = 'category_pp';
     protected $fillable = [
         'nama',
+        'email',
+        'contact',
         'alamat',
         'nik',
         'npwp_pp',

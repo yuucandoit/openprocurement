@@ -63,6 +63,14 @@
                                             <td>Bank Branch</td>
                                             <td>{{ $data_person->cabang_bank }}</td>
                                         </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>{{ $data_person->email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Contact</td>
+                                            <td>{{ $data_person->contact }}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
 

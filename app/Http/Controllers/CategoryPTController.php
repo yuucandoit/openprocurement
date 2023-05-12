@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\PTExport;
 use App\Imports\PerusahaanImport;
+use App\Models\Bank;
 use App\Models\CategoryDV;
 use App\Models\CategoryPT;
 use App\Models\DataVendor;
@@ -25,12 +26,16 @@ class CategoryPTController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
             $datadv = CategoryPT::where('user_id', Auth::user()->id)->paginate(10);
+            $bank = Bank::orderBy('name')->get();
             return view('dataPerusahaan.menu.index')
-                ->with('datadv', $datadv);
+                ->with('datadv', $datadv)
+                ->with('bank', $bank);
         } else if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
             $datadv = CategoryPT::orderBy('nama')->paginate(10);
+            $bank = Bank::orderBy('name')->get();
             return view('dataPerusahaan.menu.index')
-                ->with('datadv', $datadv);
+                ->with('datadv', $datadv)
+                ->with('bank', $bank);
         }
     }
 
@@ -113,25 +118,11 @@ class CategoryPTController extends Controller
      */
     public function edit(Request $request ,$id)
     {
-        // //validasi formnya
-        // $this->validate($request,[
-        //     'nama' => 'required',
-        //     'alamat' => 'required',
-        //     'no_telp_kantor' => 'required',
-        //     'nama_pic' => 'required',
-        //     'no_telp_pic' => 'required',
-        //     'email' => 'required',
-        //     'npwp_perusahaan' => 'required',
-        //     'Pkp' => 'required',
-        //     'bidang_usaha' => 'required',
-        //     'no_telp_kantor' => 'required'
-        // ]);
-
-        //$data = CategoryDV::find($dv_id);
-
+        $bank = Bank::orderBy('name')->get();
         $dv = CategoryPT::find($id);
         return view('dataPerusahaan.menu.edit')
-        ->with('dv' , $dv);
+        ->with('dv' , $dv)
+        ->with('bank' , $bank);
     }
 
     /**

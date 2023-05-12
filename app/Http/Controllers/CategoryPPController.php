@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\DvExport;
 use App\Exports\PPExport;
 use App\Imports\PrivatePersonImport;
+use App\Models\Bank;
 use App\Models\CategoryPP;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -24,12 +25,16 @@ class CategoryPPController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2) {
+            $bank = Bank::orderBy('name')->get();
             $datadv = CategoryPP::where('user_id', Auth::user()->id)->paginate(10);
             return view('dataPrivatePerson.menu.index')
-                ->with('datadv', $datadv);
+                ->with('datadv', $datadv)
+                ->with('bank', $bank);
         } else if ($check->role_id == 1 || $check->role_id == 3 ||$check->role_id == 4) {
+            $bank = Bank::orderBy('name')->get();
             $datadv = CategoryPP::orderBy('nama')->paginate(10);
             return view('dataPrivatePerson.menu.index')
+                ->with('bank', $bank)
                 ->with('datadv', $datadv);
         }
     }
@@ -82,6 +87,8 @@ class CategoryPPController extends Controller
         'nik' => 'required',
         'npwp_pp' => 'required',
         'pkp' => 'required',
+        'email' => 'required',
+        'contact' => 'required',
     ]);
 
     $dv = $request->except(['_token']);
@@ -109,9 +116,11 @@ class CategoryPPController extends Controller
      */
     public function edit($id)
     {
+        $bank = Bank::orderBy('name')->get();
         $dv = CategoryPP::find($id);
         return view('dataPrivatePerson.menu.edit')
-        ->with('dv' , $dv);
+        ->with('dv', $dv)
+        ->with('bank' , $bank);
     }
 
     /**
@@ -123,9 +132,18 @@ class CategoryPPController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'nama' => 'required',
+            'alamat' => 'required',
+            'nik' => 'required',
+            'npwp_pp' => 'required',
+            'pkp' => 'required',
+            'email' => 'required',
+            'contact' => 'required',
+        ]);
+
         $data = CategoryPP::find($id);
 
-        // dd($data);
         $tes = CategoryPP::where("id", $id)->update([
             "nama" => $request->nama,
             "alamat" => $request->alamat,
@@ -135,6 +153,8 @@ class CategoryPPController extends Controller
             "no_rekening" => $request->no_rekening,
             "bank" => $request->bank,
             "cabang_bank" => $request->cabang_bank,
+            "contact"   => $request->contact,
+            "email"     => $request->email,
         ]);
         return redirect("menu-private-person/");
     }

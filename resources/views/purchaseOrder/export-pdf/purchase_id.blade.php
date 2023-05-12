@@ -73,6 +73,7 @@
                 @elseif ($cpo->vendorable_type == 'App\Models\CategoryPP')
                     <p>Name Vendor&nbsp; : <span>{{ $cpo->vendorable->nama }}</span><br>
                         Address &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:&nbsp;<span>{{ $cpo->vendorable->alamat }}</span><br>
+                        Contact&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <span>{{ $cpo->vendorable->contact }}</span><br>
                         NIK &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:&nbsp;<span>{{ $cpo->vendorable->nik }}</span><br>
                         NPWP &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; :&nbsp;<span>{{ $cpo->vendorable->npwp_pp }}</span><br>
                         Bank &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: <span>{{ $cpo->vendorable->bank }}</span><br>
