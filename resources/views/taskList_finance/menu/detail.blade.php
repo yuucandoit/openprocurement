@@ -493,7 +493,7 @@
                                                             </strong>
                                                             @if (empty($c->created_at))
                                                             @else
-                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('H:i:s D-m-Y') }}
+                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
                                                             @endif
                                                         </p>
                                                     </li>
