@@ -884,6 +884,9 @@
                                                             data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
                                                     @endif
                                                 @endif
+                                            <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $po->ppb_id) }}"
+                                                target="_blank" style="font-size:12;">Export PDF PR</i>
+                                            </a>
                                             <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                                 target="_blank" style="font-size:12;">Export PDF PO</i>
                                             </a>
