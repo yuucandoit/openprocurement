@@ -890,7 +890,7 @@
                             @endhasrole
                         </ul>
                     </li>
-                                @endhasrole
+                @endhasrole
                                 <!--End TaskList-->
 
                                 <!--Admin-->
@@ -937,7 +937,7 @@
 
                                     <li class="sidebar-main-title">
                                         <div>
-                                            <h6>Data Master Supplier</h6>
+                                            <h6>Master Supplier</h6>
                                         </div>
                                     </li>
                                     <li class="dropdown">
@@ -995,6 +995,19 @@
                                                 </a>
                                             </li>
                                         </ul>
+                                    </li>
+
+                                    <li class="sidebar-main-title">
+                                        <div>
+                                            <h6>Master Bank </h6>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('*bank*') ? 'active' : '' }}"
+                                            href="{{ url('/bank') }}">
+                                            <i class="icofont icofont-bank"></i> &nbsp;&nbsp;&nbsp;
+                                            <span>Bank</span>
+                                        </a>
                                     </li>
                                 @endhasrole
 
