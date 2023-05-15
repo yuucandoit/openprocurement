@@ -5,6 +5,7 @@
         </tr>
         <tr>
             <th style="border: 1px solid black"><strong>No.</strong></th>
+            <th style="border: 1px solid black"><strong>Project</strong></th>
             <th style="border: 1px solid black"><strong>No. PR</strong></th>
             <th style="border: 1px solid black"><strong>Date Input PR</strong></th>
             <th style="border: 1px solid black"><strong>Date PR Approved</strong></th>
@@ -35,6 +36,7 @@
 
                 <tr>
                     <td style="border: 1px solid black">{{ $x++ }}</td>
+                    <td style="border: 1px solid black">{{ $pb->vendorable->name }}</td>
                     <td style="border: 1px solid black">{{ $pb->code_pengajuan }} </td>
                     <td style="border: 1px solid black">{{ $pb->created_at }}</td>
                     <td style="border: 1px solid black">{{ $pb->approved_at }}</td>
