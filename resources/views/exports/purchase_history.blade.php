@@ -36,7 +36,7 @@
 
                 <tr>
                     <td style="border: 1px solid black">{{ $x++ }}</td>
-                    <td style="border: 1px solid black">{{ $pb->vendorable->name }}</td>
+                    <td style="border: 1px solid black">{{ $pb->purpose->name }}</td>
                     <td style="border: 1px solid black">{{ $pb->code_pengajuan }} </td>
                     <td style="border: 1px solid black">{{ $pb->created_at }}</td>
                     <td style="border: 1px solid black">{{ $pb->approved_at }}</td>
