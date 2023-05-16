@@ -22,121 +22,100 @@
             <th style="border: 1px solid black"><strong>Status</strong></th>
         </tr>
     </thead>
-    <tbody>
-        @php
+    @php
         $x = 1;
         @endphp
-        @foreach ($category_ppb as $pb)
+        @foreach ($po as $p)
         @php
-            $date_sig = App\Models\POSignature::where('ppb_id', $pb->id)->first();
-            $invoicing = App\Models\Invoicing::where('ppb_id', $pb->id)->get();
-            foreach ($invoicing as $var_pd) {
-               $pd = $var_pd;
-            }
+         $date_sig = App\Models\POSignature::where('ppb_id', $p->ppb_id)->first();
+         $invoicing = App\Models\Invoicing::where('ppb_id', $p->ppb_id)->get();
+         foreach ($invoicing as $var_pd) {
+            $pd = $var_pd;
+         }
+         $po2 = App\Models\CategoryPO::find($p->id);
         @endphp
-
+         @foreach ($p->itempo as $i)
+          @foreach ($invoicing as $pd)
+            <tbody>
                 <tr>
                     <td style="border: 1px solid black">{{ $x++ }}</td>
-                    <td style="border: 1px solid black">{{ $pb->purpose->name }}</td>
-                    <td style="border: 1px solid black">{{ $pb->code_pengajuan }} </td>
-                    <td style="border: 1px solid black">{{ $pb->created_at }}</td>
-                    <td style="border: 1px solid black">{{ $pb->approved_at }}</td>
+                    <td style="border: 1px solid black">
+                        @if($p->ppb->id == $p->ppb_id)
+                        {{ $p->ppb->purpose->name }}
+                        @else
 
-                    <td style="border: 1px solid black">
-                        @foreach ($pb->quot as $po)
-                        <ul>
-                            <li>{{ $po->code_po }}</li>
-                        </ul>
-                        @endforeach
+                        @endif
                     </td>
                     <td style="border: 1px solid black">
-                        @foreach ($pb->quot as $po)
-                        <ul>
-                            <li>{{ $po->created_at }}</li>
-                        </ul>
-                        @endforeach
+                        @if($p->ppb->id == $p->ppb_id)
+                        {{ $p->ppb->code_pengajuan }}
+                        @else
+
+                        @endif
                     </td>
                     <td style="border: 1px solid black">
-                        @foreach ($pb->quot as $po)
-                            @foreach ($invoicing as $date_sig)
-                            <ul>
-                                <li>{{ $date_sig->approved_at }}</li>
-                            </ul>
-                            @endforeach
-                        @endforeach
+                        @if($p->ppb->id == $p->ppb_id)
+                        {{ $p->ppb->created_at }}
+                        @else
+
+                        @endif
                     </td>
                     <td style="border: 1px solid black">
-                        @foreach ($pb->quot as $po)
-                            @foreach ($invoicing as $pd)
-                            <ul>
-                                <li> {{ $pd->code_pd }}</li>
-                            </ul>
-                            @endforeach
-                        @endforeach
+                        @if($p->ppb->id == $p->ppb_id)
+                        {{ $p->ppb->approved_at }}
+                        @else
+
+                        @endif
                     </td>
                     <td style="border: 1px solid black">
-                        @foreach ($pb->quot as $po)
-                            @foreach ($invoicing as $pd)
-                            <ul>
-                                <li>{{ $pd->created_at }}</li>
-                            </ul>
-                            @endforeach
-                        @endforeach
+                        {{-- @foreach ($pb->quot as $po) --}}
+                        {{ $p->code_po }}
+                        {{-- @endforeach --}}
                     </td>
                     <td style="border: 1px solid black">
-                        @foreach ($pb->quot as $po)
-                            @foreach ($invoicing as $pd)
-                            <ul>
-                                <li>{{ $pd->approved_at }}</li>
-                            </ul>
-                            @endforeach
-                        @endforeach
+                       {{ $p->created_at }}
                     </td>
                     <td style="border: 1px solid black">
-                        @foreach ($pb->quot as $po)
-                            <ul>
-                                <li>
-                                    @if(empty($po->vendorable->nama))
-                                        -
-                                    @else
-                                    {{ $po->vendorable->nama }}
-                                    @endif
-                                </li>
-                            </ul>
-                        @endforeach
+                        {{ $pd->approved_at }}
                     </td>
                     <td style="border: 1px solid black">
-                    @foreach ($pb->quot as $po)
-                        @foreach ($po->itempo as $i)
-                        <ul>
-                            <li>{{ $i->item }}</li>
-                        </ul>
-                        @endforeach
-                    @endforeach
+                        {{ $pd->code_pd }}
                     </td>
                     <td style="border: 1px solid black">
-                    @foreach ($pb->quot as $po)
-                        @foreach ($po->itempo as $i)
-                        <ul>
-                            <li>{{ $i->qty }}</li>
-                        </ul>
-                        @endforeach
-                    @endforeach
+                        {{ $pd->created_at }}
                     </td>
                     <td style="border: 1px solid black">
-                    @foreach ($pb->quot as $po)
-                        @foreach ($po->itempo as $i)
-                        <ul>
-                            <li>{{ number_format($i->grand_total) }}</li>
-                        </ul>
-                        @endforeach
-                    @endforeach
+                        {{ $pd->approved_at }}
+                    </td>
+                    <td style="border: 1px solid black">
+                        {{-- @dd($p) --}}
+                        @if(empty($p->vendorable_type))
+                        -
+                        @else
+                            @if(empty($p->vendorable))
+                                -
+                            @else
+                            {{ $p->vendorable->nama }}
+                            @endif
+                        @endif
 
                     </td>
+
                     <td style="border: 1px solid black">
-                        {{ $pb->status }}
+                        {{ $i->item }}
+                    </td>
+                    <td style="border: 1px solid black">
+                        {{ $i->qty }}
+                    </td>
+                    <td style="border: 1px solid black">
+                        {{ number_format($i->grand_total) }}
+                    </td>
+                    <td style="border: 1px solid black">
+                        {{ $p->ppb->status }}
                     </td>
                 </tr>
+            </tbody>
+            @endforeach
         @endforeach
-    </tbody>
+    @endforeach
 </table>
