@@ -5,7 +5,7 @@
         </tr>
         <tr>
             <th style="border: 1px solid black"><strong>No.</strong></th>
-            <th style="border: 1px solid black"><strong>Project</strong></th>
+            <th style="border: 1px solid black"><strong>Project Code</strong></th>
             <th style="border: 1px solid black"><strong>No. PR</strong></th>
             <th style="border: 1px solid black"><strong>Date Input PR</strong></th>
             <th style="border: 1px solid black"><strong>Date PR Approved</strong></th>
@@ -99,7 +99,7 @@
                                     @if(empty($po->vendorable->nama))
                                         -
                                     @else
-                                    {{ $po->vendorable->nama }}
+                                    <strong>-</strong> {{ $po->vendorable->nama }}
                                     @endif
                                 </li>
                             </ul>
@@ -109,7 +109,7 @@
                     @foreach ($pb->quot as $po)
                         @foreach ($po->itempo as $i)
                         <ul>
-                            <li>{{ $i->item }}</li>
+                            <li><strong>-</strong> {{ $i->item }}</li>
                         </ul>
                         @endforeach
                     @endforeach
@@ -118,7 +118,7 @@
                     @foreach ($pb->quot as $po)
                         @foreach ($po->itempo as $i)
                         <ul>
-                            <li>{{ $i->qty }}</li>
+                            <li><strong>-</strong> {{ $i->qty }}</li>
                         </ul>
                         @endforeach
                     @endforeach
@@ -127,7 +127,7 @@
                     @foreach ($pb->quot as $po)
                         @foreach ($po->itempo as $i)
                         <ul>
-                            <li>{{ number_format($i->grand_total) }}</li>
+                            <li><strong>-</strong> {{ number_format($i->grand_total) }}</li>
                         </ul>
                         @endforeach
                     @endforeach
