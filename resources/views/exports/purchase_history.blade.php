@@ -35,7 +35,6 @@
          $po2 = App\Models\CategoryPO::find($p->id);
         @endphp
          @foreach ($p->itempo as $i)
-          @foreach ($invoicing as $pd)
             <tbody>
                 <tr>
                     <td style="border: 1px solid black">{{ $x++ }}</td>
@@ -76,7 +75,7 @@
                        {{ $p->created_at }}
                     </td>
                     <td style="border: 1px solid black">
-                        {{ $pd->approved_at }}
+                        {{ $p->approved_at }}
                     </td>
                     <td style="border: 1px solid black">
                         {{ $pd->code_pd }}
@@ -115,7 +114,6 @@
                     </td>
                 </tr>
             </tbody>
-            @endforeach
         @endforeach
     @endforeach
 </table>
