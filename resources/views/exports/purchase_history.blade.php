@@ -95,7 +95,13 @@
                     <td style="border: 1px solid black">
                         @foreach ($pb->quot as $po)
                             <ul>
-                                <li>{{ $po->vendorable->nama }}</li>
+                                <li>
+                                    @if(empty($po->vendorable->nama))
+                                        -
+                                    @else
+                                    {{ $po->vendorable->nama }}
+                                    @endif
+                                </li>
                             </ul>
                         @endforeach
                     </td>
