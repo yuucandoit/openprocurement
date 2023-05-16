@@ -15,6 +15,7 @@
             <th style="border: 1px solid black"><strong>No. PD</strong></th>
             <th style="border: 1px solid black"><strong>Date Input Pengajuan Dana</strong></th>
             <th style="border: 1px solid black"><strong>Date Pengajuan Dana Approved</strong></th>
+            <th style="border: 1px solid black"><strong>Vendor</strong></th>
             <th style="border: 1px solid black"><strong>Items</strong></th>
             <th style="border: 1px solid black"><strong>Qty</strong></th>
             <th style="border: 1px solid black"><strong>Grand Total</strong></th>
@@ -89,6 +90,13 @@
                                 <li>{{ $pd->approved_at }}</li>
                             </ul>
                             @endforeach
+                        @endforeach
+                    </td>
+                    <td style="border: 1px solid black">
+                        @foreach ($pb->quot as $po)
+                            <ul>
+                                <li>{{ $po->vendorable->nama }}</li>
+                            </ul>
                         @endforeach
                     </td>
                     <td style="border: 1px solid black">
