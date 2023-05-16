@@ -99,7 +99,7 @@
                                     @if(empty($po->vendorable->nama))
                                         -
                                     @else
-                                    <strong>-</strong> {{ $po->vendorable->nama }}
+                                    {{ $po->vendorable->nama }}
                                     @endif
                                 </li>
                             </ul>
@@ -109,7 +109,7 @@
                     @foreach ($pb->quot as $po)
                         @foreach ($po->itempo as $i)
                         <ul>
-                            <li><strong>-</strong> {{ $i->item }}</li>
+                            <li>{{ $i->item }}</li>
                         </ul>
                         @endforeach
                     @endforeach
@@ -118,7 +118,7 @@
                     @foreach ($pb->quot as $po)
                         @foreach ($po->itempo as $i)
                         <ul>
-                            <li><strong>-</strong> {{ $i->qty }}</li>
+                            <li>{{ $i->qty }}</li>
                         </ul>
                         @endforeach
                     @endforeach
@@ -127,7 +127,7 @@
                     @foreach ($pb->quot as $po)
                         @foreach ($po->itempo as $i)
                         <ul>
-                            <li><strong>-</strong> {{ number_format($i->grand_total) }}</li>
+                            <li>{{ number_format($i->grand_total) }}</li>
                         </ul>
                         @endforeach
                     @endforeach
