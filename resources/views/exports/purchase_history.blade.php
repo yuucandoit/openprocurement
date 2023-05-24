@@ -39,28 +39,28 @@
                 <tr>
                     <td style="border: 1px solid black">{{ $x++ }}</td>
                     <td style="border: 1px solid black">
-                        @if($p->ppb->id == $i->ppb_id)
+                        @if($p->ppb->id == $p->ppb_id)
                         {{ $p->ppb->purpose->name }}
                         @else
 
                         @endif
                     </td>
                     <td style="border: 1px solid black">
-                        @if($p->ppb->id == $i->ppb_id)
+                        @if($p->ppb->id == $p->ppb_id)
                         {{ $p->ppb->code_pengajuan }}
                         @else
 
                         @endif
                     </td>
                     <td style="border: 1px solid black">
-                        @if($p->ppb->id == $i->ppb_id)
+                        @if($p->ppb->id == $p->ppb_id)
                         {{ $p->ppb->created_at }}
                         @else
 
                         @endif
                     </td>
                     <td style="border: 1px solid black">
-                        @if($p->ppb->id == $i->ppb_id)
+                        @if($p->ppb->id == $p->ppb_id)
                         {{ $p->ppb->approved_at }}
                         @else
 
