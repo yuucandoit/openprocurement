@@ -57,7 +57,9 @@ use Illuminate\Support\Facades\Auth;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [QuotationController::class, 'dashboard']);
+Route::get('/',function () {
+    return redirect()->route('login');
+});
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -511,7 +513,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/quotation/{id}', [QuotationController::class, 'export'])->name('export-qt');
     Route::get('/export_excel/purchase_order/{id}', [PurchaseOrderController::class, 'export'])->name('export-po');
     Route::get('/export_excel/pembelian_barang/{id}', [PembelianBarangController::class, 'export'])->name('export-pb');
-    Route::get('/export_excel/vendor/{id}', [DataVendorController::class, 'export'])->name('export-dv');
     Route::get('/export_excel/perusahaan', [CategoryPTController::class, 'export'])->name('export-pt');
     Route::get('/export_excel/private_person', [CategoryPPController::class, 'export'])->name('export-pp');
     Route::get('/export_excel/ecommerce', [CategoryEcommerceController::class, 'export'])->name('export-ec');
