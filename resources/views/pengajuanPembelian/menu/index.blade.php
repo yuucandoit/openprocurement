@@ -546,7 +546,7 @@
                               <li style="white-space: nowrap;">
                                   @if($po2->vendorable_id == 0)
                                   Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
-                                  @elseif($po2->vendorable->nama == null)
+                                  @elseif($po2->vendorable == null)
                                   Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                   @else
                                   Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
