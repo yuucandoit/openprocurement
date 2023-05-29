@@ -455,7 +455,7 @@ class CategoryPOController extends Controller
                     $item_po_id = ItemPO::create($update);
             }
         }
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Success Create PO');
     }
 
     /**
