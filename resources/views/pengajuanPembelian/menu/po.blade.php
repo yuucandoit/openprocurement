@@ -78,6 +78,8 @@
                                                             <td>Nama Vendor</td>
                                                             @if (empty($po->vendorable_type))
                                                                 Belum Diisi Datanya
+                                                            @elseif($po2->vendorable == null)
+                                                                 -
                                                             @else
                                                                 <td>{{ $po->vendorable->nama }}</td>
                                                             @endif
