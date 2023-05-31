@@ -30,7 +30,7 @@ class BankController extends Controller
     ->orWhere('call_center','like',"%".$cari."%")
     ->paginate(10);
 
-    return view('dataTravel.index')
+    return view('dataBank.index')
     ->with('data',$data);
    }
 
