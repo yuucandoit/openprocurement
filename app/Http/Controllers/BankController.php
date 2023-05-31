@@ -28,7 +28,6 @@ class BankController extends Controller
     $data = Bank::Where('id','like',"%".$cari."%")
     ->orWhere('name','like',"%".$cari."%")
     ->orWhere('call_center','like',"%".$cari."%")
-    ->orWhere('bank','like',"%".$cari."%")
     ->paginate(10);
 
     return view('dataTravel.index')
