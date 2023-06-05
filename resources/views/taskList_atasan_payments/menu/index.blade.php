@@ -1097,19 +1097,35 @@
         // console.log(dateline_time, remainingTime.getTime());
 
         if (remainingTime.getTime() < 1) {
-            lable.classList.remove('bg-dark');
-            lable.classList.add('bg-dark');
-            const days  = dateline.split()[0] == 24 ? (expiredTime.getDate()-2).toString() : (expiredTime.getDate()-1).toString();
-            const hours = expiredTime.getUTCHours().toString();
-            const minutes = expiredTime.getUTCMinutes().toString();
-            const seconds = expiredTime.getUTCSeconds().toString();
-            return (
-            (days.length == 1 ? `-0${days}:` : `-${days}:`)+
-            (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
-            (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
-            (seconds.length == 1 ? `0${seconds}` : `${seconds}`)
-        );
-            }
+
+        lable.classList.remove('bg-dark');
+        lable.classList.add('bg-dark');
+        var currentTimeExp = new Date();
+        var remainingTimeExpired = Math.floor((currentTimeExp - dueDateAt.getTime()) / 1000);
+
+        var expWeeks = Math.floor(remainingTimeExpired / (7 * 24 * 3600));
+        remainingTimeExpired -= expWeeks * (7 * 24 * 3600);
+
+        var expDays = Math.floor(remainingTimeExpired / (24 * 3600));
+        remainingTimeExpired -= expDays * (24 * 3600);
+
+        var expHours = Math.floor(remainingTimeExpired / 3600);
+        remainingTimeExpired -= expHours * 3600;
+
+        var expMinutes = Math.floor(remainingTimeExpired / 60);
+        remainingTimeExpired -= expMinutes * 60;
+
+        var expSeconds = remainingTimeExpired;
+
+        var weeksDisplay = expWeeks > 0 ? `${expWeeks} week${expWeeks > 1 ? "s" : ""} ` : "";
+        var daysDisplay = expDays > 0 ? `${expDays} day${expDays > 1 ? "s" : ""} ` : "";
+        var hoursDisplay = expHours < 10 ? "0" + expHours : expHours;
+        var minutesDisplay = expMinutes < 10 ? "0" + expMinutes : expMinutes;
+        var secondsDisplay = expSeconds < 10 ? "0" + expSeconds : expSeconds;
+
+        let countdown = `-${weeksDisplay}${daysDisplay}${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`;
+        return countdown;
+        }
 
         let colors = [];
         const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
