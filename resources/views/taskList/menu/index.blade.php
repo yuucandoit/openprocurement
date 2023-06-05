@@ -80,6 +80,7 @@
                                         <tr>
                                         <tr>
                                             <th>No</th>
+                                            <th>No.Pengajuan</th>
                                             <th>Request By</th>
                                             <th>Item</th>
                                             <th style="text-align: center;">Deadline</th>
@@ -96,6 +97,12 @@
                                             <tbody>
                                                 <tr id="ppb-{{ $ppb->id }}">
                                                     <td style="text-align: center;">{{ $no++ }}</td>
+                                                    <td style="text-align: center;">
+                                                        <ul>
+                                                            {{-- <li>{{ $id_number }}/PB/SII/{{ $month }}/{{ $year }}</li> --}}
+                                                            <li><a href="{{ url('menu-task-list/detail/' . $ppb->id) }}" >{{ $ppb->code_pengajuan }}</a></li>
+                                                        </ul>
+                                                    </td>
                                                     <td><a href="{{ url('menu-task-list/detail/' . $ppb->id) }}">
                                                         <ul>
                                                             <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
@@ -114,10 +121,10 @@
                                                         </ul>
 
                                                     </td>
-                                                    <td style="text-align: center;">
+                                                    <td>
                                                         <ul>
                                                             <li style="white-space: nowrap;">
-                                                                <p class="ppb-countdown" style="width:150px;"></p>
+                                                                <p class="ppb-countdown" style=" width:150px;"></p>
                                                             </li>
                                                             <li style="white-space: nowrap;">
                                                                 @if($ppb->dateline == '≤24Jam')
