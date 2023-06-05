@@ -117,7 +117,7 @@
                                                     <td style="text-align: center;">
                                                         <ul>
                                                             <li style="white-space: nowrap;">
-                                                                <p class="ppb-countdown"></p>
+                                                                <p class="ppb-countdown" style="width:200px;"></p>
                                                             </li>
                                                             <li style="white-space: nowrap;">
                                                                 @if($ppb->dateline == '≤24Jam')

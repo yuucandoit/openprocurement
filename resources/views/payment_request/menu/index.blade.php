@@ -182,7 +182,7 @@
                                                     <td>
                                                         <ul>
                                                             <li>
-                                                                <p class="ppb-countdown"></p>
+                                                                <p class="ppb-countdown" style="width:200px;"></p>
                                                             </li>
                                                             <li> @if($ppb->dateline == '≤24Jam')
                                                                 <strong><p>1 Hari</p></strong>
