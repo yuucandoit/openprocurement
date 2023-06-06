@@ -1055,8 +1055,6 @@
 
         if (remainingTime.getTime() < 1) {
 
-        lable.classList.remove('bg-dark');
-        lable.classList.add('bg-dark');
         var currentTimeExp = new Date();
         var remainingTimeExpired = Math.floor((currentTimeExp - dueDateAt.getTime()) / 1000);
 
