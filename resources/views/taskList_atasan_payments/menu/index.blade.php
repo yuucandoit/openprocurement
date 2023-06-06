@@ -1131,20 +1131,20 @@
         const minutes = remainingTime.getUTCMinutes().toString();
         const seconds = remainingTime.getUTCSeconds().toString();
 
-        lable.classList.remove('bg-danger');
-        lable.classList.remove('bg-warning');
-        lable.classList.remove('bg-success');
+        // lable.classList.remove('bg-danger');
+        // lable.classList.remove('bg-warning');
+        // lable.classList.remove('bg-success');
 
-        // SUDAH OTOMATIS HITUNG DISINI YAAAAA 😁
-        lable.classList.add((() => {
-            const dueDate   = dueDateTime.getTime();
-            const remaining = remainingTime.getTime();
+        // // SUDAH OTOMATIS HITUNG DISINI YAAAAA 😁
+        // lable.classList.add((() => {
+        //     const dueDate   = dueDateTime.getTime();
+        //     const remaining = remainingTime.getTime();
 
-            if(remaining <= 60*60*1000) return 'bg-dark';
-            if(remaining <= dueDate*1/3) return'bg-danger';
-            if(remaining <= dueDate*2/3) return'bg-warning';
-            if(remaining <= dueDate*3/3) return'bg-success';
-        })());
+        //     if(remaining <= 60*60*1000) return 'bg-dark';
+        //     if(remaining <= dueDate*1/3) return'bg-danger';
+        //     if(remaining <= dueDate*2/3) return'bg-warning';
+        //     if(remaining <= dueDate*3/3) return'bg-success';
+        // })());
 
         return (
             (days.length == 1 ? `0${days}:` : `${days}:`)+
