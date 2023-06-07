@@ -985,7 +985,7 @@
                                 </li>
 
                             </ul>
-                            <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $po->ppb_id) }}"
+                            <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}"
                                 target="_blank" style="font-size:12;">Export PDF PR</i>
                             </a>
                         </div>
