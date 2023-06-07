@@ -126,17 +126,8 @@
                                             <tbody>
 
                                                 @foreach ($pengajuan as $p)
-                                                {{-- @php
-                                                    foreach ($items as $item) {
-                                                        foreach ($item->itempo as $i) {
-                                                            $qtypo = $i->qty;
-                                                            $qtypp = $p->qty;
-                                                            $sum = $qtypo - $qtypp;
-                                                        }
-                                                    }
-                                                @endphp --}}
                                                     <tr>
-                                                        <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
+                                                        <td style="text-align: center; word-break:break-all;">{!! nl2br($p->item) !!}</td>
                                                         <td style="text-align: center;">{{ $p->qty }}</td>
                                                         <td style="text-align: center;">{{ $p->kategori }}</td>
                                                         <td style="text-align: center;">
