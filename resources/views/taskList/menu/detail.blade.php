@@ -113,7 +113,7 @@
                                         class="btn btn-success" style="align-self: flex-end"> Export Excel Purchase Order</a>
                                     <a href="{{ url('/export_excel/pengajuan_dana/' . $data_pengajuan->id) }}"
                                         class="btn btn-success" style="align-self: flex-end"> Export Excel Payment</a>
-                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}"
+                                    <a class="btn btn-danger"  style="align-self: flex-end" href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}"
                                         target="_blank" style="font-size:12;">Export PDF PR</i>
                                     </a>
                                 </div>
