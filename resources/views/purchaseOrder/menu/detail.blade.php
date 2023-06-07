@@ -119,7 +119,7 @@
                                                     style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
                                                     <th>Item</th>
                                                     <th>Qty</th>
-                                                    <th>Category</th>
+                                                    <th>UOM</th>
                                                     <th>File</th>
                                                 </tr>
                                             </thead>
@@ -985,6 +985,9 @@
                                 </li>
 
                             </ul>
+                            <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $po->ppb_id) }}"
+                                target="_blank" style="font-size:12;">Export PDF PR</i>
+                            </a>
                         </div>
                           </div>
                         </div>
