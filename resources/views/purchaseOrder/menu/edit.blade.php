@@ -63,8 +63,8 @@
                                                 class="fa fa-database"></i> Select
                                             Vendor</label>
                                         <select class="form-select page pageSelect" id="pageSelect"
-                                            placeholder="Proposed To" name="vendor" disabled>
-                                            <option value="" disabled selected hidden>Select
+                                            placeholder="Proposed To" name="vendor" >
+                                            <option value=""  selected hidden>Select
                                                 Vendor
                                             </option>
                                             <option value="company">Company</option>
@@ -117,13 +117,17 @@
                                             Conditions</label>
                                         <select class="form-select page pageSelector" id="pageSelector"
                                             placeholder="Terms and Conditions" name="term_conditions">
-                                            <option value="{{ $po->term_conditions }}" selected >
-                                                {{ $po->term->term_condition }}
-                                            </option>
+
                                             @foreach ($terms as $t)
-                                            <option value="{{ $t->id }}">
-                                                {{ $t->term_condition }}
-                                            </option>
+                                                @if($t->term_condition == $po->term->term_condition)
+                                                <option value="{{ $po->term_conditions }}" selected >
+                                                    {{ $po->term->term_condition }}
+                                                </option>
+                                                @else
+                                                <option value="{{ $t->id }}">
+                                                    {{ $t->term_condition }}
+                                                </option>
+                                                @endif
                                             @endforeach
                                             <option value="custom">+ Add Terms & Conditions
                                             </option>
