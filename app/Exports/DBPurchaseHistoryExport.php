@@ -18,7 +18,8 @@ class DBPurchaseHistoryExport implements FromView
      {
 
          $data['po'] = CategoryPO::whereHas('ppb',function($q){
-            $q->orderBy('created_at','desc')->where('status','Waiting For PO Approval')
+            $q->orderBy('created_at','desc')->where('status','Purchase Proses')
+            ->orWhere('status','Waiting For PO Approval')
             ->orWhere('status', 'PO Approved')
             ->orWhere('status', 'Invoicing Process')->orWhere('status', 'Payment Approved')
             ->orWhere('status', 'Unpaid')->orWhere('status', 'Paid')->orWhere('status', 'Delivery Process')
