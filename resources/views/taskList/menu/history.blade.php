@@ -259,7 +259,7 @@
                                             $status[] = $ppb;
                                         @endphp
                                             <tbody>
-                                                <tr>
+                                                <tr style="background-color:#F1F6F5;">
                                                     <td style="text-align: center;">{{ $i++ }}</td>
                                                     <td>
                                                         <a href="{{ url('/menu-task-list/detail/' . $ppb->id) }}">
@@ -347,7 +347,7 @@
                                                     </td>
                                                 </tr>
                                                 @foreach ($ppb->quot as $po)
-                                                    <tr>
+                                                    <tr class="">
 
                                                         @php
                                                             $month = \Carbon\Carbon::parse($po->created_at)->format('m');
