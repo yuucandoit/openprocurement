@@ -346,6 +346,57 @@
                                                      </a>
                                                     </td>
                                                 </tr>
+                                                @foreach ($ppb->quot as $po)
+                                                    <tr>
+
+                                                        @php
+                                                            $month = \Carbon\Carbon::parse($po->created_at)->format('m');
+                                                            $year = \Carbon\Carbon::parse($po->created_at)->format('y');
+                                                            $po2 = \App\Models\CategoryPO::find($po->id);
+                                                            $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                            $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
+                                                        @endphp
+
+                                                        @if(empty($po2))
+
+                                                        @else
+                                                        <td style="text-align: center">-</td>
+                                                        <td>
+                                                            <a href="{{ route('menu-purchase-order.po_detail',$po->id) }}">
+                                                            {{ $po->id }}/PO/SII/{{ $month }}/{{ $year }}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <ul>
+                                                                <a href="{{ route('menu-purchase-order.po_detail',$po->id) }}">
+                                                                    <li style="white-space: nowrap;">
+                                                                        @if($po2->vendorable_id == 0)
+                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                        @else
+                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                        @endif
+                                                                    </li>
+                                                                    <li> Quotation : {{ $po2->quotation }}</li>
+                                                                </a>
+                                                            </ul>
+                                                        </td>
+                                                        <td style="font-weight: 700;">
+                                                            @foreach ($po3 as $ipo)
+                                                            <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                            @endforeach
+                                                        </td>
+                                                        <td style="white-space: nowrap;">
+                                                        @foreach ($po4 as $ipo)
+                                                            <label>{{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}</label>
+                                                        @endforeach
+                                                        </td>
+                                                        <td colspan="2"  class="text-center"><a
+                                                            class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
+
+                                                        @endif
+                                                    </tr>
+                                                    @endforeach
                                         @endif
                                     @endforeach
                                     </tbody>
