@@ -249,6 +249,9 @@
                         @elseif( $ppembelian->status == 'Purchase Proses')
                         <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Process PO</a>
 
+                        @elseif( $ppembelian->status == 'Cross Check PO')
+                        -
+
                         @elseif( $ppembelian->status == 'PO Approved')
                         <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
 
@@ -301,6 +304,8 @@
                         -
                         @elseif ($ppembelian->status == 'Rejected by Finance')
                         -
+                        @elseif( $ppembelian->status == 'Cross Check PO')
+                        -
                         @endif
                         </p>
                         </li>
@@ -327,6 +332,8 @@
                             @elseif ($ppembelian->status == 'PO Rejected by BOD')
                             -
                             @elseif ($ppembelian->status == 'Rejected by Finance')
+                            -
+                            @elseif ($ppembelian->status == 'Cross Check PO')
                             -
                             @endif
                         </p>
@@ -363,6 +370,9 @@
                     @endif
                     @if($ppembelian->status == 'Purchase Proses')
                     <a class="badge bg-primary mt-1" style="color: white; font-size:12">On Process Purchasing </a>
+                    @endif
+                    @if($ppembelian->status == 'Cross Check PO')
+                    <a class="badge bg-warning mt-1" style="color: white; font-size:12">On Check Manager Purchase </a>
                     @endif
                     @if($ppembelian->status == 'Waiting For PO Approval')
                         @if(empty( $ppembelian->atasans->name))
@@ -522,7 +532,7 @@
                   @endif
               </tr>
               @endforeach --}}
-              @foreach ($ppembelian->quot as $po)
+              {{-- @foreach ($ppembelian->quot as $po)
               <tr>
 
                   @php
@@ -578,7 +588,7 @@
 
                   @endif
               </tr>
-              @endforeach
+              @endforeach --}}
 
               @endif
               @endforeach
