@@ -26,6 +26,7 @@
         $x = 1;
         @endphp
         @foreach ($po as $p)
+        <tbody>
         @php
          $date_sig = App\Models\POSignature::where('ppb_id', $p->ppb_id)->first();
          $invoicing = App\Models\Invoicing::where('ppb_id', $p->ppb_id)->get();
@@ -34,8 +35,86 @@
          }
          $po2 = App\Models\CategoryPO::find($p->id);
         @endphp
+        @if(empty($p))
+        <tr>
+            <td style="border: 1px solid black">{{ $x++ }}</td>
+            <td style="border: 1px solid black">
+                @if($p->ppb->id == $p->ppb_id)
+                {{ $p->ppb->purpose->name }}
+                @else
+
+                @endif
+            </td>
+            <td style="border: 1px solid black">
+                @if($p->ppb->id == $p->ppb_id)
+                {{ $p->ppb->code_pengajuan }}
+                @else
+
+                @endif
+            </td>
+            <td style="border: 1px solid black">
+                @if($p->ppb->id == $p->ppb_id)
+                {{ $p->ppb->created_at }}
+                @else
+
+                @endif
+            </td>
+            <td style="border: 1px solid black">
+                @if($p->ppb->id == $p->ppb_id)
+                {{ $p->ppb->approved_at }}
+                @else
+
+                @endif
+            </td>
+            <td style="border: 1px solid black">
+                {{-- @foreach ($pb->quot as $po) --}}
+                {{ $p->code_po }}
+                {{-- @endforeach --}}
+            </td>
+            <td style="border: 1px solid black">
+               {{ $p->created_at }}
+            </td>
+            <td style="border: 1px solid black">
+                {{ $p->approved_at }}
+            </td>
+            <td style="border: 1px solid black">
+                -
+            </td>
+            <td style="border: 1px solid black">
+                -
+            </td>
+            <td style="border: 1px solid black">
+                -
+            </td>
+            <td style="border: 1px solid black">
+                {{-- @dd($p) --}}
+                @if(empty($p->vendorable_type))
+                -
+                @else
+                    @if(empty($p->vendorable))
+                        -
+                    @else
+                    {{ $p->vendorable->nama }}
+                    @endif
+                @endif
+
+            </td>
+
+            <td style="border: 1px solid black">
+                -
+            </td>
+            <td style="border: 1px solid black">
+                -
+            </td>
+            <td style="border: 1px solid black">
+                -
+            </td>
+            <td style="border: 1px solid black">
+                {{ $p->ppb->status }}
+            </td>
+        </tr>
+        @else
          @foreach ($p->itempo as $i)
-            <tbody>
                 <tr>
                     <td style="border: 1px solid black">{{ $x++ }}</td>
                     <td style="border: 1px solid black">
@@ -113,7 +192,8 @@
                         {{ $p->ppb->status }}
                     </td>
                 </tr>
-            </tbody>
-        @endforeach
+            @endforeach
+        @endif
+        </tbody>
     @endforeach
 </table>
