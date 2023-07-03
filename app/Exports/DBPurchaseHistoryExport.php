@@ -18,13 +18,10 @@ class DBPurchaseHistoryExport implements FromView
      {
 
          $data['po'] = CategoryPO::whereHas('ppb',function($q){
-            $q->orderBy('created_at','desc')->where('status','Purchase Proses')
-            ->orWhere('status','Waiting For PO Approval')
-            ->orWhere('status', 'PO Approved')
-            ->orWhere('status', 'Invoicing Process')->orWhere('status', 'Payment Approved')
-            ->orWhere('status', 'Unpaid')->orWhere('status', 'Paid')->orWhere('status', 'Delivery Process')
-            ->orWhere('status','Delivery Success')->orWhere('status','PO Rejected by BOD')->orWhere('status','Rejected by Purchasing')
-            ->orWhere('status','Payment Rejected By BOD')->orWhere('status','Rejected by Finance');
+            $q->orderBy('created_at','desc')->whereIn('status',['Purchase Proses','Cross Check PO',
+            'Waiting For PO Approval','PO Approved','Invoicing Process','Payment Approved','Unpaid','Paid',
+            'Delivery Process','Delivery Success','PO Rejected by BOD','Rejected by Purchasing',
+            'Payment Rejected By BOD','Rejected by Finance']);
             })->get();
          $data['itempo']  = ItemPO::groupBy('po_id')->get();
          $data['sig']   = POSignature::get();
