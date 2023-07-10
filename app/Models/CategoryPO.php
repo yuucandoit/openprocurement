@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class CategoryPO extends Model
 {
+    use LogsActivity;
     use HasFactory;
     protected $table = 'category_po';
     protected $fillable = [
@@ -61,6 +64,34 @@ class CategoryPO extends Model
     public function vendorable()
     {
         return $this->morphTo();
+    }
+
+    protected static $logFillable = true;
+    protected static $logName = 'PO';
+    public function getActivitylogOptions() : LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['ppb_id',
+        'item_ppid',
+        'term_conditions',
+        'vendorable_type',
+        'vendorable_id',
+        'atasan_po',
+        'quotation',
+        'signature',
+        'status',
+        'path_quotation',
+        'path_invoice',
+        'matauang',
+        'code_po',
+        'atasan_po',
+        'atasan_py',
+        'approved_at',
+        'approved_at_py',
+        'note_bod_po',
+        'note_bod_py',
+        'created_at',
+        'updated_at']);
     }
 
 }

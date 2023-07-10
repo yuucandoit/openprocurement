@@ -166,6 +166,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
         // Watson\Active\ActiveServiceProvider::class,
 
         /*
@@ -201,7 +202,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-
+        'Activity' => Spatie\Activitylog\Models\Activity::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF'=> Barryvdh\DomPDF\Facade::class,
         // 'Active' => Watson\Active\Facades\Active::class,

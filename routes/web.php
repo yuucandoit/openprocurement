@@ -7,6 +7,7 @@ use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\PembelianBarangController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ActivityLogsController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CategoryEcommerceController;
@@ -240,6 +241,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
     });
 
+    Route::group(['prefix' => 'activity'], function () {
+        Route::get('/', [ActivityLogsController::class, 'index'])->name('activity.index');
+    });
 
     // Menu Pengajuan pembelian
     Route::group(['prefix' => 'menu-pengajuan-pembelian'], function () {

@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class CategoryPengajuanPembelian extends Model
 {
+    use LogsActivity;
     use HasFactory;
     protected $table = 'category_pengajuan_pembelian';
     protected $fillable = [
@@ -119,6 +122,41 @@ class CategoryPengajuanPembelian extends Model
     public function signaturepo()
     {
         return $this->hasMany(POSignature::class,'ppb_id');
+    }
+
+    protected static $logFillable = true;
+    protected static $logName = 'PR';
+    public function getActivitylogOptions() : LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['id',
+        'user_id',
+        'date_ps',
+        'atasan',
+        'atasan_po',
+        'atasan_py',
+        'note_bod_pr',
+        'note_bod_po',
+        'note_bod_py',
+        'note_purchase',
+        'note_finance',
+        'matauang',
+        'ws',
+        'status',
+        'purpose_type',
+        'purpose_id',
+        'desc',
+        'purpose',
+        'department',
+        'send_to',
+        'ppn',
+        'dateline',
+        'created_at',
+        'updated_at',
+        'check_po_timestamp',
+        'w_approval_po_timestamp',
+        'w_finance_pay_timestamp',
+        'p_finance_timestamp']);
     }
 
 }
