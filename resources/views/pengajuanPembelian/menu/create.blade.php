@@ -405,6 +405,7 @@
                                                     <option value="Meter">Meter </option>
                                                     <option value="Botol">Botol </option>
                                                     <option value="Buku">Buku </option>
+                                                    <option value="Titik">Titik </option>
                                                 </select>
                                             </td>
                                             <td>
@@ -522,6 +523,7 @@
                     <option value="Piece">Piece </option><option value="Rol">Rol </option><option value="Pack">Pack </option><option value="Batang">Batang </option> <option value="Dus">Dus </option>
                     <option value="Strip">Strip </option><option value="Pasang">Pasang </option><option value="Lembar">Lembar </option><option value="Jerigen">Jerigen </option><option value="Meter">Meter </option><option value="Botol">Botol </option>
                     <option value="Buku">Buku </option>
+                    <option value="Titik">Titik </option>
                     </select></td>
                      <td><input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
                     @error('path_file')
