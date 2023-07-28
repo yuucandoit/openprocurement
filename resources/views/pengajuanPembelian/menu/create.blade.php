@@ -352,6 +352,8 @@
                                                 <option value="Jerigen">Jerigen </option>
                                                 <option value="Meter">Meter </option>
                                                 <option value="Botol">Botol </option>
+                                                <option value="Buku">Buku </option>
+                                                <option value="Titik">Titik </option>
                                             </select>
                                         </td>
                                         <td>
