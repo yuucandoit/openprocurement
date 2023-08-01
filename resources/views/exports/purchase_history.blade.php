@@ -101,13 +101,15 @@
                     @endforeach
                 @endforeach
             @else
+            @foreach ($ppb->quot as $po)
+            @foreach($ppb->itemppn as $itemp)
             @php
                 $id_po = $ppb->id;
                 $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
-                $month = \Carbon\Carbon::parse($ppb->po->created_at)->format('m');
-                $year = \Carbon\Carbon::parse($ppb->po->created_at)->format('y');
+                $month = \Carbon\Carbon::parse($po->created_at)->format('m');
+                $year = \Carbon\Carbon::parse($po->created_at)->format('y');
             @endphp
-            @foreach($ppb->itemppn as $itemp)
+
             <tr>
                 <td style="border: 1px solid black">{{ $x++ }}</td>
                 <td style="border: 1px solid black">
@@ -126,25 +128,25 @@
                     {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}
                 </td>
                 <td style="border: 1px solid black">
-                    {{ $ppb->po->created_at }}
+                    {{ $ppb->created_at }}
                 </td>
                 <td style="border: 1px solid black">
-                    {{ $ppb->po->approved_at }}
+                    {{ $ppb->approved_at }}
                 </td>
                 <td style="border: 1px solid black">
                     {{ $po_number }}/PD/SII/{{ $month }}/{{ $year }}
                 </td>
                 <td style="border: 1px solid black">
-                    {{ $ppb->pd->created_at }}
+                    {{ $ppb->created_at }}
                 </td>
                 <td style="border: 1px solid black">
-                    {{ $ppb->pd->approved_at }}
+                    {{ $ppb->approved_at }}
                 </td>
                 <td style="border: 1px solid black">
-                    @if (empty($ppb->po->vendorable_type) || empty($ppb->po->vendorable))
+                    @if (empty($po->vendorable_type) || empty($ppb->po->vendorable))
                     -
                     @else
-                        {{ $ppb->po->vendorable->nama }}
+                        {{ $po->vendorable->nama }}
                     @endif
                 </td>
                 <td style="border: 1px solid black">
