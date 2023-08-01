@@ -102,7 +102,7 @@
                 @endforeach
             @else
             @php
-                $id_po = $cpo->id;
+                $id_po = $ppb->id;
                 $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
                 $month = \Carbon\Carbon::parse($ppb->po->created_at)->format('m');
                 $year = \Carbon\Carbon::parse($ppb->po->created_at)->format('y');
