@@ -100,8 +100,14 @@
                         </tr>
                     @endforeach
                 @endforeach
-            @endif
-
+            @else
+            @php
+                $id_po = $cpo->id;
+                $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
+                $month = \Carbon\Carbon::parse($ppb->po->created_at)->format('m');
+                $year = \Carbon\Carbon::parse($ppb->po->created_at)->format('y');
+            @endphp
+            @foreach($ppb->itemppn as $itemp)
             <tr>
                 <td style="border: 1px solid black">{{ $x++ }}</td>
                 <td style="border: 1px solid black">
@@ -117,39 +123,45 @@
                     {{ $ppb->approved_at }}
                 </td>
                 <td style="border: 1px solid black">
-                    -
+                    {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}
                 </td>
                 <td style="border: 1px solid black">
-                    -
+                    {{ $ppb->po->created_at }}
                 </td>
                 <td style="border: 1px solid black">
-                    -
+                    {{ $ppb->po->approved_at }}
                 </td>
                 <td style="border: 1px solid black">
-                    -
+                    {{ $po_number }}/PD/SII/{{ $month }}/{{ $year }}
                 </td>
                 <td style="border: 1px solid black">
-                    -
+                    {{ $ppb->pd->created_at }}
                 </td>
                 <td style="border: 1px solid black">
-                    -
+                    {{ $ppb->pd->approved_at }}
                 </td>
                 <td style="border: 1px solid black">
+                    @if (empty($ppb->po->vendorable_type) || empty($ppb->po->vendorable))
                     -
+                    @else
+                        {{ $ppb->po->vendorable->nama }}
+                    @endif
                 </td>
                 <td style="border: 1px solid black">
-                    -
+                    {{ $itemp->item }}
                 </td>
                 <td style="border: 1px solid black">
-                    -
+                    {{ $itemp->qty }}
                 </td>
                 <td style="border: 1px solid black">
-                    -
+                    {{ number_format($itemp->grand_total) }}
                 </td>
                 <td style="border: 1px solid black">
                     {{ $ppb->status }}
                 </td>
             </tr>
+            @endforeach
+            @endif
         @endforeach
     </tbody>
 
