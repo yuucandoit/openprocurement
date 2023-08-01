@@ -163,6 +163,7 @@
                 </td>
             </tr>
             @endforeach
+            @endforeach
             @endif
         @endforeach
     </tbody>
