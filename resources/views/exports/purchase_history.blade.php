@@ -70,13 +70,13 @@
                                 {{ $p->approved_at }}
                             </td>
                             <td style="border: 1px solid black">
-                                {{ $pd->code_pd }}
+                                {{ $pd->code_pd ?? '-' }}
                             </td>
                             <td style="border: 1px solid black">
-                                {{ $pd->created_at }}
+                                {{ $pd->created_at ?? '-' }}
                             </td>
                             <td style="border: 1px solid black">
-                                {{ $pd->approved_at }}
+                                {{ $pd->approved_at ?? '-' }}
                             </td>
                             <td style="border: 1px solid black">
                                 @if (empty($p->vendorable_type) || empty($p->vendorable))
