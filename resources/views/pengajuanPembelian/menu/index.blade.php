@@ -470,6 +470,9 @@
                         <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Finance</a></li>
                         <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">{{ $ppembelian->note_finance }}</a></li>
                     @endif
+                    @if($ppembelian->status == 'Canceled')
+                        <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Canceled</a></li>
+                    @endif
                     </li>
                     <li style="text-align: center;">
                         {{-- @foreach ($comments as $c) --}}
