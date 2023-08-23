@@ -52,12 +52,12 @@
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead class="bg-primary">
-                                        <tr style="text-align: center">
-                                            <th>No</th>
+                                        <tr>
+                                            <th style="text-align: center">No</th>
                                             <th style="white-space: nowrap;">Bank Name</th>
                                             <th>Address</th>
                                             <th style="white-space: nowrap;">Call Center</th>
-                                            <th>Action</th>
+                                            <th style="text-align: center">Action</th>
                                         </tr>
                                     </thead>
                                     @php
@@ -71,7 +71,7 @@
                                                 <td>{{ $b->name }}</td>
                                                 <td>{{ $b->alamat }}</td>
                                                 <td>{{ $b->nik }}</td>
-                                                <td style="white-space: nowrap;">
+                                                <td style="text-align: center;white-space: nowrap;">
 
                                                     <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
                                                         href="{{ url('/bank/detail/' . $b->id) }}"><i
