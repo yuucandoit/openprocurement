@@ -49,9 +49,11 @@ class CategoryPTController extends Controller
      ->orWhere('no_telp_kantor','like',"%".$cari."%")
      ->orWhere('website','like',"%".$cari."%")
      ->paginate(10);
+     $bank = Bank::orderBy('name')->get();
 
      return view('dataPerusahaan.menu.index')
-     ->with('datadv',$datadv);
+     ->with('datadv',$datadv)   
+     ->with('bank', $bank);
     }
 
     public function detail($id)
