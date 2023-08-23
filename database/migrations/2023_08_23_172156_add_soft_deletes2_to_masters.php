@@ -13,24 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('category_pt', function (Blueprint $table) {
-            $table->softDeletes();
-        });
-        Schema::table('who_submitted', function (Blueprint $table) {
-            $table->softDeletes();
-        });
-        Schema::table('referensi_nama_project', function (Blueprint $table) {
-            $table->softDeletes();
-        });
-        Schema::table('category_pp', function (Blueprint $table) {
-            $table->softDeletes();
-        });
-        Schema::table('category_ecommerce', function (Blueprint $table) {
-            $table->softDeletes();
-        });
-        Schema::table('banks', function (Blueprint $table) {
-            $table->softDeletes();
-        });
         Schema::table('office', function (Blueprint $table) {
             $table->softDeletes();
         });
