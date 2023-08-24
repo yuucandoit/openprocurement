@@ -106,14 +106,18 @@ class CategoryTaskListController extends Controller
      $cari = $request->cari;
      //dd($cari);
      $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
-     ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
      ->orWhereHas('itemppn', function($i) use($cari){
         $i->where('item','like',"%".$cari."%");
     })
      ->orWhereHas('whosubmit', function($q) use($cari){
           $q->where('name','like',"%".$cari."%");
-     })
+    })
+     ->orWhereHas('quot' , function($po) use($cari){
+        $po->where('id','like',"%".$cari."%");
+    })
+     ->whereIn('status',['Purchase Proses','Waiting For PO Approval','PO Approved','Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process',
+     'Delivery Success','PO Rejected by BOD','Rejected by Purchasing','Payment Rejected By BOD','Rejected by Finance'])
      ->paginate(10);
      $datapo = CategoryPO::get();
      return view('taskList.menu.history')
