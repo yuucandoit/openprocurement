@@ -79,7 +79,7 @@
                                                 @if (empty($po->vendorable_type))
                                                     Belum Diisi Datanya
                                                 @else
-                                                    <td>{{ $po->vendorable->nama }}</td>
+                                                    <td>{{ $po->vendorable->nama ?? '-' }}</td>
                                                 @endif
                                             </tr>
                                             <tr>

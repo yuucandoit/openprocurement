@@ -87,7 +87,7 @@
                                                     @if(empty($po->vendorable->nama))
                                                     Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                     @else
-                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po->vendorable->nama }}
+                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po->vendorable->nama ?? '-' }}
                                                     @endif
                                                 @endif
                                                 </td>

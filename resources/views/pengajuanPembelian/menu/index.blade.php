@@ -521,7 +521,7 @@
                   @else
                   <td style="text-align: center">-</td>
                   <td>{{ $po->code_po }}</td>
-                  <td>Vendor : {{ $po2->vendorable->nama }}</td>
+                  <td>Vendor : {{ $po2->vendorable->nama ?? ' - ' }}</td>
                   <td style="font-weight: 700; white-space:nowrap;">
                       @foreach ($po3 as $ipo)
                       <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po2->id }}">{{ $ipo->qty }} Item</label>
@@ -562,7 +562,7 @@
                                   @elseif($po2->vendorable == null)
                                   Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                   @else
-                                  Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                  Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
                                   @endif
                               </li>
                               <li> Quotation : {{ $po2->quotation }}</li>

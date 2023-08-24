@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class CategoryPT extends Model
 {
-    use LogsActivity;
     use HasFactory;
+    use SoftDeletes;
+    use LogsActivity;
 
     protected $table = "category_pt";
     protected $fillable = [
@@ -28,7 +30,8 @@ class CategoryPT extends Model
         'no_rekening',
         'bank',
         'cabang_bank',
-        'nama_penerima'
+        'nama_penerima',
+        'deleted_at'
     ];
 
     public function pengajuanpembelian()

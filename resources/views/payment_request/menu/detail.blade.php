@@ -117,7 +117,7 @@
                                         <div class="card">
                                         <div class="card-header" id="heading{{ $po->id }}">
                                             <h5 class="mb-0">
-                                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1"><span style="font-weight: bold; color:green;">{{ $po->code_po }}</span> Vendor #<span>{{ $po->vendorable->nama }}</span></button>
+                                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1"><span style="font-weight: bold; color:green;">{{ $po->code_po }}</span> Vendor #<span>{{ $po->vendorable->nama ?? '-' }}</span></button>
                                             </h5>
                                         </div>
                                         <div class="collapse" id="collapse{{ $po->id }}" aria-labelledby="heading{{ $po->id }}" data-bs-parent="#accordionclose{{ $po->id }}">
@@ -131,7 +131,7 @@
                                                                 &nbsp; &nbsp;:
                                                                 @if (empty($po->vendorable->nama))
                                                                 @else
-                                                                    {{ $po->vendorable->nama }}
+                                                                    {{ $po->vendorable->nama ?? '-' }}
                                                                 @endif
                                                             </label>
                                                         </div>

@@ -146,7 +146,7 @@
                     @if (empty($po->vendorable_type) || empty($ppb->po->vendorable))
                     -
                     @else
-                        {{ $po->vendorable->nama }}
+                        {{ $po->vendorable->nama ?? '-' }}
                     @endif
                 </td>
                 <td style="border: 1px solid black">

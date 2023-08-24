@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Bank extends Model
 {
+    use SoftDeletes;
     use LogsActivity;
     use HasFactory;
     protected $table = 'banks';
@@ -16,7 +18,8 @@ class Bank extends Model
         'id',
         'name',
         'alamat',
-        'call_center'
+        'call_center',
+        'deleted_at'
     ];
     protected static $logFillable = true;
     protected static $logName = 'Bank';

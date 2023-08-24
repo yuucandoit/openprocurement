@@ -221,7 +221,7 @@
                                                                 @if($po2->vendorable_id == 0)
                                                                 Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                                 @else
-                                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
                                                                 @endif
                                                             </li>
                                                             <li> Quotation : {{ $po2->quotation }}</li>
@@ -370,7 +370,7 @@
                                                                     @if($po2->vendorable_id == 0)
                                                                     Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                                     @else
-                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
                                                                     @endif
                                                                 </li>
                                                                 <li> Quotation : {{ $po2->quotation }}</li>
@@ -518,7 +518,7 @@
                                                                         @if($po2->vendorable_id == 0)
                                                                         Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                                         @else
-                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
                                                                         @endif
                                                                     </li>
                                                                     <li> Quotation : {{ $po2->quotation }}</li>
@@ -665,7 +665,7 @@
                                                                     @if($po2->vendorable_id == 0)
                                                                     Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                                     @else
-                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
                                                                     @endif
                                                                 </li>
                                                                 <li> Quotation : {{ $po2->quotation }}</li>
@@ -812,7 +812,7 @@
                                                                     @if($po2->vendorable_id == 0)
                                                                     Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                                     @else
-                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
                                                                     @endif
                                                                 </li>
                                                                 <li> Quotation : {{ $po2->quotation }}</li>
@@ -959,7 +959,7 @@
                                                                     @if($po2->vendorable_id == 0)
                                                                     Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
                                                                     @else
-                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama }}
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
                                                                     @endif
                                                                 </li>
                                                                 <li> Quotation : {{ $po2->quotation }}</li>

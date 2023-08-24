@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class CategoryPP extends Model
 {
+    use SoftDeletes;
     use LogsActivity;
     use HasFactory;
     protected $table = 'category_pp';
@@ -22,7 +24,8 @@ class CategoryPP extends Model
         'pkp',
         'no_rekening',
         'bank',
-        'cabang_bank'
+        'cabang_bank',
+        'deleted_at'
     ];
     protected $hidden;
 

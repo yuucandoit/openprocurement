@@ -81,7 +81,7 @@
                                                             @elseif($po->vendorable == null)
                                                                  -
                                                             @else
-                                                                <td>{{ $po->vendorable->nama }}</td>
+                                                                <td>{{ $po->vendorable->nama ?? '-' }}</td>
                                                             @endif
                                                         </tr>
                                                         <tr>

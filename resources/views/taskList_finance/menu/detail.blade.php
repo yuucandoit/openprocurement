@@ -98,7 +98,7 @@
                               <h5 class="mb-0">
                                 <button class="btn btn-link" style="width: 100%" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1">
                                     <span style="font-weight: bold; color:green; float: left;">{{ $po->code_po }}</span>
-                                    <span style="float: left;">&nbsp; Vendor #{{ $po->vendorable->nama }}</span>
+                                    <span style="float: left;">&nbsp; Vendor #{{ $po->vendorable->nama ?? '-' }}</span>
                                     <span  style="float: right;">
                                         @if(empty($item_po))
 
@@ -120,7 +120,7 @@
                                                     &nbsp; &nbsp;:
                                                     @if (empty($po->vendorable->nama))
                                                     @else
-                                                        {{ $po->vendorable->nama }}
+                                                        {{ $po->vendorable->nama ?? '-' }}
                                                     @endif
                                                 </label>
                                             </div>
