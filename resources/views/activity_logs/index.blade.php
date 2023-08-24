@@ -32,6 +32,7 @@
                                         <th style="color: white">Event</th>
                                         <th style="color: white">User</th>
                                         <th style="color: white">Time</th>
+                                        <th style="color: white">Properties</th>
                                     </tr>
                                 </thead>
                                 @php
@@ -46,6 +47,7 @@
                                             <td>{{ $a->description }}</td>
                                             <td>{{ $a->causer->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($a->created_at)->format('d-M-Y') }}</td>
+                                            <td>{{ $a->properties }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
