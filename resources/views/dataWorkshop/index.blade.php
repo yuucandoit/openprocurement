@@ -113,9 +113,9 @@
                                                         href="{{ url('/workshop/edit/' . $ws->id) }}"><i
                                                             class="icon-pencil-alt" title="Edit"></i>
                                                     </a>
-                                                    <button class="btn btn-danger mt-1" data-bs-toggle="modal"
+                                                    {{-- <button class="btn btn-danger mt-1" data-bs-toggle="modal"
                                                         data-bs-target="#modalDelete{{ $ws->id }}"><i
-                                                            class="fa fa-trash-o" title="Delete."></i></button>
+                                                            class="fa fa-trash-o" title="Delete."></i></button> --}}
                                                 </td>
 
                                             </tr>

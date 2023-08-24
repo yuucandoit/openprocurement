@@ -87,10 +87,10 @@
                                                         href="{{ url('/travel/edit/' . $ws->id) }}"><i
                                                             class="icon-pencil-alt" title="Edit"></i>
                                                     </a>
-                                                    <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
+                                                    {{-- <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
                                                      data-bs-toggle="modal"data-bs-target="#modalDelete{{ $ws->id }}">
                                                      <i class="fa fa-trash-o" title="Delete."></i>
-                                                    </button>
+                                                    </button> --}}
                                                 </td>
 
                                             </tr>

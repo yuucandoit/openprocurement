@@ -84,9 +84,9 @@
                                                         href="{{ url('/bank/edit/' . $b->id) }}"><i
                                                             class="icon-pencil-alt" title="Edit"></i>
                                                     </a> --}}
-                                                    <a class="btn btn-iconsolid mt-1" style="background-color: #ff0000;" href="{{ url('/bank/destroy/'.$b->id) }}">
+                                                    {{-- <a class="btn btn-iconsolid mt-1" style="background-color: #ff0000;" href="{{ url('/bank/destroy/'.$b->id) }}">
                                                         <i class="icon-trash" title="Delete"></i>
-                                                    </a>
+                                                    </a> --}}
                                                 </td>
                                             </tr>
                                         @endforeach

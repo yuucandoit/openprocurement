@@ -241,10 +241,10 @@
                                                         href="{{ url('/menu-private-person/edit/' . $person->id) }}"><i
                                                             class="icon-pencil-alt" title="Edit"></i>
                                                     </a>
-                                                    <button class="btn btn-danger mt-1" data-bs-toggle="modal"
+                                                    {{-- <button class="btn btn-danger mt-1" data-bs-toggle="modal"
                                                         data-bs-target="#modalDelete{{ $person->id }}"><i
                                                             class="icon-trash" title="Delete"></i>
-                                                    </button>
+                                                    </button> --}}
                                                 </td>
                                             </tr>
                                         @endforeach

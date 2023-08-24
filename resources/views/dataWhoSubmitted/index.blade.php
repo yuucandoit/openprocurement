@@ -42,33 +42,6 @@
                             <li class="breadcrumb-item">Who Submitted</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -113,10 +86,10 @@
                                                         href="{{ url('/who-submitted/edit/' . $ws->id) }}"><i
                                                             class="icon-pencil-alt" title="Edit"></i>
                                                     </a>
-                                                    <button class="btn btn-danger mt-1" data-bs-toggle="modal"
+                                                    {{-- <button class="btn btn-danger mt-1" data-bs-toggle="modal"
                                                         data-bs-target="#modalDelete{{ $ws->id }}"><i
                                                             class="icon-trash" title="Delete"></i>
-                                                    </button>
+                                                    </button> --}}
                                                 </td>
 
                                             </tr>
@@ -131,47 +104,5 @@
                         </div>
                     </div>
                 </div>
-                <!-- Zero Configuration  Ends-->
-                {{--
-        <div class="container-fluid">
-            <div class="row">
-                <div class="py-3">
-                    <h1>Who Submitted</h1>
-                </div>
-                <div class="card shadow mb-5">
-                    <div class="card-body">
-                            <a href="{{ url('who-submitted/create/') }}"
-                                class="btn btn-primary mb-3"><i class="bx bx-list-plus"></i> Add+</a>
-                        {{-- @if ($ws->status == 'Accepted') --}}
-                {{-- <a href={{ url('/export_excel/vendor/' . $ws->id) }}
-                                class="btn btn-success mb-3 mr-1" style="align-self: flex-end"> Export to Excel</a> --}}
-                {{-- @endif --}}
-                {{-- <table class="table table-striped" id="table1">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                </tr>
-                            </thead>
-                            @php
-                                $serial = 1;
-                            @endphp
-                            @foreach ($data as $ws)
-                                <tr>
-                                    <td>{{ $serial++ }}</td>
-                                    <td>{{ $ws->name }}</td>
-                                    <td>
-                                        <a href="{{ url('/who-submitted/edit/' . $ws->id) }}"
-                                            class="btn btn-outline-info"><i class="bx bxs-edit"></i> Edit</a>
-                                        <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                            data-bs-target="#modalDelete{{ $ws->id }}">Delete</button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </section>
 @endsection

@@ -69,8 +69,8 @@
                                     <td>
                                         <a href="{{ url('/data-vendor/show/' . $data_vendor->id . '/' . $dataVendor->id) }}"
                                             class="btn btn-outline-info"><i class="bx bxs-edit"></i> Edit</a>
-                                        <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                            data-bs-target="#modalDelete{{ $dataVendor->id }}">Delete</button>
+                                        {{-- <button class="btn btn-outline-danger" data-bs-toggle="modal"
+                                            data-bs-target="#modalDelete{{ $dataVendor->id }}">Delete</button> --}}
                                     </td>
                                 </tr>
                             @endforeach
