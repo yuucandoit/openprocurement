@@ -16,6 +16,7 @@ class CategoryPT extends Model
 
     protected $table = "category_pt";
     protected $fillable = [
+        'id',
         'nama',
         'alamat',
         'no_telp_kantor',
@@ -58,6 +59,7 @@ class CategoryPT extends Model
     {
         return LogOptions::defaults()
         ->logOnly([
+        'id',
         'nama',
         'alamat',
         'no_telp_kantor',
