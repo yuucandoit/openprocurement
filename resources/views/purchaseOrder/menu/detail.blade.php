@@ -903,9 +903,9 @@
                                                 target="_blank" style="font-size:12;">Export PDF PO</i>
                                             </a>
                                             <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
-                                            <a href="{{ route('menu-purchase-order.deletePOAll',$po->id) }}" class="btn btn-danger mt-3">
+                                            {{-- <a href="{{ route('menu-purchase-order.deletePOAll',$po->id) }}" class="btn btn-danger mt-3">
                                                 Delete
-                                            </a>
+                                            </a> --}}
                                             <div class="mt-3">
                                             <h6>Info :</h6>
                                                 <ul>

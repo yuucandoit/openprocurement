@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class CategoryPengajuanPembelian extends Model
 {
+    use SoftDeletes;
     use LogsActivity;
     use HasFactory;
     protected $table = 'category_pengajuan_pembelian';
@@ -41,6 +43,7 @@ class CategoryPengajuanPembelian extends Model
         'w_approval_po_timestamp',
         'w_finance_pay_timestamp',
         'p_finance_timestamp',
+        'deleted_at'
     ];
 
     public function pt()
@@ -160,7 +163,8 @@ class CategoryPengajuanPembelian extends Model
         'check_po_timestamp',
         'w_approval_po_timestamp',
         'w_finance_pay_timestamp',
-        'p_finance_timestamp']);
+        'p_finance_timestamp',
+        'deleted_at',]);
     }
 
 }

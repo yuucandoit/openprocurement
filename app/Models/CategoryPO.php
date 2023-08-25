@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class CategoryPO extends Model
 {
+    use SoftDeletes;
     use LogsActivity;
     use HasFactory;
     protected $table = 'category_po';
@@ -34,7 +36,8 @@ class CategoryPO extends Model
         'note_bod_po',
         'note_bod_py',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_at'
     ];
 
     public function ppb()
@@ -91,7 +94,8 @@ class CategoryPO extends Model
         'note_bod_po',
         'note_bod_py',
         'created_at',
-        'updated_at']);
+        'updated_at',
+        'deleted_at']);
     }
 
 }
