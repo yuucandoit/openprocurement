@@ -24,5 +24,7 @@ class ActivityLogsController extends Controller
                 ->orWhere('event','like',"%".$cari."%")
                 ->orWhere('subject_type','like',"%".$cari."%")
                 ->orderBy('created_at','DESC')->paginate(10);
+        return view('activity_logs.index')
+        ->with('data',$data);
     }
 }
