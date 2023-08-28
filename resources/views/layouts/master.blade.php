@@ -156,6 +156,7 @@
                                         <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
                                     </li>
                                     @foreach ($comment_id as $cid)
+                                    @if(!empty($cid->comment->ppb->user_id))
                                     @if($cid->comment->ppb->user_id == Auth::user()->id)
                                     @if($cid->is_read_user == 1)
 
@@ -179,6 +180,8 @@
                                         </a>
                                     </form>
                                     @endif
+                                    @endif
+                                    @else
                                     @endif
                                     @endforeach
                                 </div>
