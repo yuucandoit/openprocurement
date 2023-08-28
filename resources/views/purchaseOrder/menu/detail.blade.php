@@ -903,7 +903,8 @@
                                                 target="_blank" style="font-size:12;">Export PDF PO</i>
                                             </a>
                                             <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
-                                            {{-- <a href="{{ route('menu-purchase-order.deletePOAll',$po->id) }}" class="btn btn-danger mt-3">
+                                            {{-- <a data-bs-toggle="modal"
+                                            data-bs-target="#modalDeletePO{{ $po->id }}" class="btn btn-danger mt-3">
                                                 Delete
                                             </a> --}}
                                             <div class="mt-3">
@@ -962,6 +963,36 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="modal fade" id="modalDeletePO{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-danger">
+                                                        <h2 class="modal-title" style="color: white">Warning</h2>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body mx-5 mb-3" style="text-align: center;">
+                                                        <span class="warning">
+                                                            <img src="{{ asset('assets/images/warning.png') }}" >
+                                                        </span>
+                                                        <h2 style="text-align: center">Are you sure Delete PO?</h2>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form class="text-center" style="text-align: center;"
+                                                        action="{{ route('menu-purchase-order.deletePOAll',$po->id) }}" method="POST">
+                                                        @csrf
+                                                            <input type="hidden" name="id" value="{{ $po->id }}">
+                                                            <button type="submit" class="btn btn-outline-danger "><i
+                                                                    class="bx bx-trash"></i>
+                                                                Delete PO
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
 
                                     {{-- </div> --}}
 

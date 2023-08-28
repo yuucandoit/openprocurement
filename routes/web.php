@@ -243,6 +243,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'activity'], function () {
         Route::get('/', [ActivityLogsController::class, 'index'])->name('activity.index');
+        Route::get('/search',[ActivityLogsController::class, 'search'])->name('activity.search');
     });
 
     // Menu Pengajuan pembelian
@@ -374,7 +375,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
         Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
         Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
-        Route::get('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
+        Route::post('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
         Route::get('/check_po/{id}', [CategoryPOController::class, 'checkPO'])->name('menu-purchase-order-checkPO');
         Route::get('/check_po2/{id}', [CategoryPOController::class, 'checkPO2'])->name('menu-purchase-order-checkPO2');
         Route::get('/ajukan_dana/{id}', [CategoryPOController::class, 'ajukan_dana'])->name('menu-purchase-order-ajukan_dana');
@@ -382,7 +383,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/po_in',[CategoryPOController::class, 'SearchPOIn'])->name('menu-purchase-order.SearchPOIn');
         Route::get('/out/search/po_out',[CategoryPOController::class, 'SearchPOOut'])->name('menu-purchase-order.SearchPOOut');
         Route::get('/history/search/HistoryPO',[CategoryPOController::class, 'SearchHistoryPO'])->name('menu-purchase-order.SearchHistoryPO');
-        Route::get('/deletePOAll/{id}', [CategoryPOController::class, 'deletePOAll'])->name('menu-purchase-order.deletePOAll');
+        Route::post('/deletePOAll/{id}', [CategoryPOController::class, 'deletePOAll'])->name('menu-purchase-order.deletePOAll');
         Route::get('/history/sortPO',[CategoryPOController::class, 'SortHistoryPO'])->name('menu-purchase-order.SortHistoryPO');
     });
 

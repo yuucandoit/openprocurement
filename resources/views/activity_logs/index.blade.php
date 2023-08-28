@@ -13,7 +13,7 @@
                     <div class="row">
                             <div class="col-md-8"></div>
                             <div class="col-md-4">
-                                <form action="" method="get"
+                                <form action="{{ route('activity.search') }}" method="get"
                                     class="input-group" style="margin-top: 20px; margin-bottom:-20px;">
                                     <input type="text" name="cari" class="form-control " placeholder="Search ..."
                                         value="{{ old('cari') }}">
