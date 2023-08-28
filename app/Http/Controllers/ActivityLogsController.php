@@ -22,6 +22,7 @@ class ActivityLogsController extends Controller
         $data = Activity::where('id','like',"%".$cari."%")
                 ->orWhere('description','like',"%".$cari."%")
                 ->orWhere('event','like',"%".$cari."%")
-                ->orWhere('subject_type','like',"%".$cari."%");
+                ->orWhere('subject_type','like',"%".$cari."%")
+                ->orderBy('created_at','DESC')->paginate(10);
     }
 }
