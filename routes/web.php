@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [PerusahaanController::class, 'store'])->name('perusahaan.store');
         Route::get('/show/{id_company}/{id}', [PerusahaanController::class, 'show'])->name('perusahaan.show');
         Route::post('/update/{id}', [PerusahaanController::class, 'update'])->name('perusahaan.update');
-        Route::post('/destroy/{id}', [PerusahaanController::class, 'destroy'])->name('perusahaan.destroy');
+        Route::delete('/destroy/{id}', [PerusahaanController::class, 'destroy'])->name('perusahaan.destroy');
         Route::get('/search/company',[PerusahaanController::class, 'SearchCompany'])->name('perusaahaan.SearchCompany');
     });
 
@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [CategoryPTController::class, 'store'])->name('menu-perusahaan.store');
         Route::get('/edit/{id}', [CategoryPTController::class, 'edit'])->name('menu-perusahaan.edit');
         Route::post('/update/{id}', [CategoryPTController::class, 'update'])->name('menu-perusahaan.update');
-        Route::get('/destroy/{id}', [CategoryPTController::class, 'destroy'])->name('menu-perusahaan.destroy');
+        Route::delete('/destroy/{id}', [CategoryPTController::class, 'destroy'])->name('menu-perusahaan.destroy');
         Route::get('/search/company',[CategoryPTController::class, 'SearchPT'])->name('menu-perusahaan.SearchPT');
     });
 
@@ -96,7 +96,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [PrivatePersonController::class, 'store'])->name('private-person.store');
         Route::get('/show/{id_company}/{id}', [PrivatePersonController::class, 'show'])->name('private-person.show');
         Route::post('/update/{id}', [PrivatePersonController::class, 'update'])->name('private-person.update');
-        Route::post('/destroy/{id}', [PrivatePersonController::class, 'destroy'])->name('private-person.destroy');
+        Route::delete('/destroy/{id}', [PrivatePersonController::class, 'destroy'])->name('private-person.destroy');
         // Route::get('/search/pp',[CategoryPengajuanPembelianController::class, 'SearchPP'])->name('private-person.SearchP');
     });
 
@@ -107,7 +107,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [CategoryPPController::class, 'store'])->name('menu-private-person.store');
         Route::get('/edit/{id}', [CategoryPPController::class, 'edit'])->name('menu-private-person.edit');
         Route::post('/update/{id}', [CategoryPPController::class, 'update'])->name('menu-private-person.update');
-        Route::get('/destroy/{id}', [CategoryPPController::class, 'destroy'])->name('menu-private-person.destroy');
+        Route::delete('/destroy/{id}', [CategoryPPController::class, 'destroy'])->name('menu-private-person.destroy');
         Route::get('/search/pp',[CategoryPPController::class, 'SearchPP'])->name('menu-private-person.SearchPP');
     });
 
@@ -119,7 +119,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [EcommerceController::class, 'store'])->name('ecommerce.store');
         Route::get('/show/{id_company}/{id}', [EcommerceController::class, 'show'])->name('ecommerce.show');
         Route::post('/update/{id}', [EcommerceController::class, 'update'])->name('ecommerce.update');
-        Route::post('/destroy/{id}', [EcommerceController::class, 'destroy'])->name('ecommerce.destroy');
+        Route::delete('/destroy/{id}', [EcommerceController::class, 'destroy'])->name('ecommerce.destroy');
         Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
     });
 
@@ -130,7 +130,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [CategoryEcommerceController::class, 'store'])->name('menu-ecommerce.store');
         Route::get('/edit/{id}', [CategoryEcommerceController::class, 'edit'])->name('menu-ecommerce.edit');
         Route::post('/update/{id}', [CategoryEcommerceController::class, 'update'])->name('menu-ecommerce.update');
-        Route::get('/destroy/{id}', [CategoryEcommerceController::class, 'destroy'])->name('menu-ecommerce.destroy');
+        Route::delete('/destroy/{id}', [CategoryEcommerceController::class, 'destroy'])->name('menu-ecommerce.destroy');
         Route::get('/search/ecommerce',[CategoryEcommerceController::class, 'SearchEC'])->name('menu-ecommerce.SearchEC');
     });
     //end Vendor
@@ -143,7 +143,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [WhoSubmittedController::class, 'store'])->name('who-submitted.store');
         Route::get('/edit/{id}', [WhoSubmittedController::class, 'edit'])->name('who-submitted.edit');
         Route::post('/update/{id}', [WhoSubmittedController::class, 'update'])->name('who-submitted.update');
-        Route::get('/destroy/{id}', [WhoSubmittedController::class, 'destroy'])->name('who-submitted.destroy');
+        Route::delete('/destroy/{id}', [WhoSubmittedController::class, 'destroy'])->name('who-submitted.destroy');
         Route::get('/search/ws',[WhoSubmittedController::class, 'SearchWS'])->name('who-submitted.SearchWS');
     });
 
@@ -153,7 +153,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [ReferensiNamaProjectController::class, 'store'])->name('project-reference.store');
         Route::get('/edit/{id}', [ReferensiNamaProjectController::class, 'edit'])->name('project-reference.edit');
         Route::post('/update/{id}', [ReferensiNamaProjectController::class, 'update'])->name('project-reference.update');
-        Route::get('/destroy/{id}', [ReferensiNamaProjectController::class, 'destroy'])->name('project-reference.destroy');
+        Route::delete('/destroy/{id}', [ReferensiNamaProjectController::class, 'destroy'])->name('project-reference.destroy');
         Route::get('/search/project',[ReferensiNamaProjectController::class, 'SearchProject'])->name('project-reference.SearchProject');
     });
 
@@ -163,7 +163,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [OfficeController::class, 'store'])->name('office.store');
         Route::get('/edit/{id}', [OfficeController::class, 'edit'])->name('office.edit');
         Route::post('/update/{id}', [OfficeController::class, 'update'])->name('office.update');
-        Route::get('/destroy/{id}', [OfficeController::class, 'destroy'])->name('office.destroy');
+        Route::delete('/destroy/{id}', [OfficeController::class, 'destroy'])->name('office.destroy');
         Route::get('/search/office',[officeController::class, 'SearchOffice'])->name('office.SearchOffice');
     });
 
@@ -173,7 +173,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [WorkshopController::class, 'store'])->name('workshop.store');
         Route::get('/edit/{id}', [WorkshopController::class, 'edit'])->name('workshop.edit');
         Route::post('/update/{id}', [WorkshopController::class, 'update'])->name('workshop.update');
-        Route::get('/destroy/{id}', [WorkshopController::class, 'destroy'])->name('workshop.destroy');
+        Route::delete('/destroy/{id}', [WorkshopController::class, 'destroy'])->name('workshop.destroy');
         Route::get('/search/workshop',[WorkshopController::class, 'SearchWorkshop'])->name('workshop.SearchWorkshop');
     });
 
@@ -183,7 +183,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [InventoryController::class, 'store'])->name('inventory.store');
         Route::get('/edit/{id}', [InventoryController::class, 'edit'])->name('inventory.edit');
         Route::post('/update/{id}', [InventoryController::class, 'update'])->name('inventory.update');
-        Route::get('/destroy/{id}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
+        Route::delete('/destroy/{id}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
         Route::get('/search/inventory',[InventoryController::class, 'SearchInventory'])->name('inventory.SearchInventory');
     });
 
@@ -193,7 +193,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [RNDController::class, 'store'])->name('RnD.store');
         Route::get('/edit/{id}', [RNDController::class, 'edit'])->name('RnD.edit');
         Route::post('/update/{id}', [RNDController::class, 'update'])->name('RnD.update');
-        Route::get('/destroy/{id}', [RNDController::class, 'destroy'])->name('RnD.destroy');
+        Route::delete('/destroy/{id}', [RNDController::class, 'destroy'])->name('RnD.destroy');
         Route::get('/search/RnD',[RNDController::class, 'SearchRND'])->name('RnD.SearchRND');
     });
 
@@ -203,7 +203,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [DepartmentController::class, 'store'])->name('department.store');
         Route::get('/edit/{id}', [DepartmentController::class, 'edit'])->name('department.edit');
         Route::post('/update/{id}', [DepartmentController::class, 'update'])->name('department.update');
-        Route::get('/destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
+        Route::delete('/destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
         Route::get('/search/department',[DepartmentController::class, 'SearchDepartment'])->name('department.SearchDepartment');
     });
 
@@ -213,7 +213,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [TravelController::class, 'store'])->name('travel.store');
         Route::get('/edit/{id}', [TravelController::class, 'edit'])->name('travel.edit');
         Route::post('/update/{id}', [TravelController::class, 'update'])->name('travel.update');
-        Route::get('/destroy/{id}', [TravelController::class, 'destroy'])->name('travel.destroy');
+        Route::delete('/destroy/{id}', [TravelController::class, 'destroy'])->name('travel.destroy');
         Route::get('/search/travel',[TravelController::class, 'SearchTravel'])->name('travel.SearchTravel');
     });
 
@@ -222,7 +222,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [BankController::class, 'store'])->name('bank.store');
         Route::get('/edit/{id}', [BankController::class, 'edit'])->name('bank.edit');
         Route::post('/update/{id}', [BankController::class, 'update'])->name('bank.update');
-        Route::get('/destroy/{id}', [BankController::class, 'destroy'])->name('bank.destroy');
+        Route::delete('/destroy/{id}', [BankController::class, 'destroy'])->name('bank.destroy');
         Route::get('/search/bank',[BankController::class, 'SearchBank'])->name('bank.SearchBank');
         Route::post('/import/bank',[BankController::class, 'import'])->name('bank.import');
     });
@@ -237,7 +237,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [PengajuanPembelianController::class, 'store'])->name('pengajuan-pembelian.store');
         Route::get('/edit/{pp_id}/{id}', [PengajuanPembelianController::class, 'edit'])->name('pengajuan-pembelian.edit');
         Route::post('/update/{id}', [PengajuanPembelianController::class, 'update'])->name('pengajuan-pembelian.update');
-        Route::get('/destroy/{id}', [PengajuanPembelianController::class, 'destroy'])->name('pengajuan-pembelian.destroy');
+        Route::delete('/destroy/{id}', [PengajuanPembelianController::class, 'destroy'])->name('pengajuan-pembelian.destroy');
         Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
     });
 
@@ -257,7 +257,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [CategoryPengajuanPembelianController::class, 'store'])->name('menu-pengajuan-pembelian.store');
         Route::post('/update/{id}', [CategoryPengajuanPembelianController::class, 'update'])->name('menu-pengajuan-pembelian.update');
         Route::get('/edit/{id}', [CategoryPengajuanPembelianController::class, 'edit'])->name('menu-pengajuan-pembelian.edit');
-        Route::get('/destroy/{id}', [CategoryPengajuanPembelianController::class, 'destroy'])->name('menu-pengajuan-pembelian.destroy');
+        Route::delete('/destroy/{id}', [CategoryPengajuanPembelianController::class, 'destroy'])->name('menu-pengajuan-pembelian.destroy');
         Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
         Route::get('/search/historyprq',[CategoryPengajuanPembelianController::class, 'SearchHistoryPRQ'])->name('menu-pengajuan-pembelian.SearchHistoryPRQ');
         Route::get('/search/historyfailprq',[CategoryPengajuanPembelianController::class, 'SearchHistoryFailPRQ'])->name('menu-pengajuan-pembelian.SearchHistoryFailPRQ');
@@ -273,7 +273,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history', [TaskListAtasanController::class, 'history'])->name('menu-taskList-atasan.history');
         Route::get('/detail/{id}', [TaskListAtasanController::class, 'detail'])->name('menu-taskList-atasan.detail');
         Route::get('/po_detail/{id}', [TaskListAtasanController::class, 'po_detail'])->name('menu-taskList-atasan.po_detail');
-        Route::get('/destroy/{id}', [TaskListAtasanController::class, 'destroy'])->name('menu-taskList-atasan.destroy');
+        Route::delete('/destroy/{id}', [TaskListAtasanController::class, 'destroy'])->name('menu-taskList-atasan.destroy');
         Route::get('/accept_atasan/{id}', [TaskListAtasanController::class, 'accept_atasan'])->name('menu-taskList-atasan-accept_atasan');
         Route::get('/accept_atasan_selected', [TaskListAtasanController::class, 'accept_atasan_selected'])->name('menu-taskList-atasan.accept_atasan_selected');
         Route::get('/reject_atasan_selected', [TaskListAtasanController::class, 'reject_atasan_selected'])->name('menu-taskList-atasan.reject_atasan_selected');
@@ -293,7 +293,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/po_detail/{id}', [TasklistAtasanPoController::class, 'po_detail'])->name('menu-taskList-atasan-po.po_detail');
         Route::post('/update/{id}', [TasklistAtasanPoController::class, 'update'])->name('menu-taskList-atasan-po.update');
         Route::get('/edit/{id}', [TasklistAtasanPoController::class, 'edit'])->name('menu-taskList-atasan-po.edit');
-        Route::get('/destroy/{id}', [TasklistAtasanPoController::class, 'destroy'])->name('menu-taskList-atasan-po.destroy');
+        Route::delete('/destroy/{id}', [TasklistAtasanPoController::class, 'destroy'])->name('menu-taskList-atasan-po.destroy');
         Route::get('/accept_atasan/{id}', [TasklistAtasanPoController::class, 'accept_atasan'])->name('menu-taskList-atasan-po-accept_atasan');
         Route::get('/reject/{id}', [TasklistAtasanPoController::class, 'reject'])->name('menu-taskList-atasan-po-reject');
         Route::get('/in/search/atasanpoIn',[TasklistAtasanPoController::class, 'SearchAtasanPOIn'])->name('menu-taskList-atasan-po.SearchAtasanPOIn');
@@ -312,7 +312,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history', [TasklistAtasanPaymentController::class, 'history'])->name('menu-taskList-atasan-payment.history');
         Route::get('/po_detail/{id}', [TasklistAtasanPaymentController::class, 'po_detail'])->name('menu-taskList-atasan-payment.po_detail');
         Route::get('/detail/{id}', [TasklistAtasanPaymentController::class, 'detail'])->name('menu-taskList-atasan-payment.detail');
-        Route::get('/destroy/{id}', [TasklistAtasanPaymentController::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
+        Route::delete('/destroy/{id}', [TasklistAtasanPaymentController::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
         Route::get('/approve_payment/{id}', [TasklistAtasanPaymentController::class, 'approve_payment'])->name('menu-taskList-atasan-payment-approve_payment');
         Route::get('/reject/{id}', [TasklistAtasanPaymentController::class, 'reject'])->name('menu-taskList-atasan-payment-reject');
         Route::get('/in/search/SearchTaskPYIn',[TasklistAtasanPaymentController::class, 'SearchTaskPYIn'])->name('menu-taskList-atasan-payment.SearchTaskPYIn');
@@ -332,7 +332,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
         Route::get('/history', [CategoryTaskListController::class, 'history'])->name('menu-task-list.history');
         Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
-        Route::get('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
+        Route::delete('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
         Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
         Route::post('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
         Route::get('/search/taskPOIn',[CategoryTaskListController::class, 'SearchtaskPOIn'])->name('menu-task-list.SearchtaskPOIn');
@@ -350,7 +350,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history', [TaskListFinanceController::class, 'history'])->name('menu-tasklist-finance.history');
         Route::get('/detail/{id}', [TaskListFinanceController::class, 'detail'])->name('menu-tasklist-finance.detail');
         Route::get('/po_detail/{id}', [TaskListFinanceController::class, 'po_detail'])->name('menu-tasklist-finance.po_detail');
-        Route::get('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
+        Route::delete('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
         Route::get('/approve/{id}', [TaskListFinanceController::class, 'approve'])->name('menu-tasklist-finance-approve');
         Route::get('/reject/{id}', [TaskListFinanceController::class, 'reject'])->name('menu-tasklist-finance-reject');
         Route::get('/approve_tpy/{id}', [TaskListFinanceController::class, 'approve_po'])->name('menu-tasklist-finance-approve_po');
@@ -375,7 +375,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
         Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
         Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
-        Route::post('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
+        Route::delete('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
         Route::get('/check_po/{id}', [CategoryPOController::class, 'checkPO'])->name('menu-purchase-order-checkPO');
         Route::get('/check_po2/{id}', [CategoryPOController::class, 'checkPO2'])->name('menu-purchase-order-checkPO2');
         Route::get('/ajukan_dana/{id}', [CategoryPOController::class, 'ajukan_dana'])->name('menu-purchase-order-ajukan_dana');
@@ -398,7 +398,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [InvoicingController::class, 'store'])->name('payment_request.store');
         Route::post('/update/{id}', [InvoicingController::class, 'update'])->name('payment_request.update');
         Route::get('/edit/{id}', [InvoicingController::class, 'edit'])->name('payment_request.edit');
-        Route::get('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('payment_request.destroy');
+        Route::delete('/destroy/{id}', [InvoicingController::class, 'destroy'])->name('payment_request.destroy');
         Route::get('/ajukan_dana/{id}', [InvoicingController::class, 'ajukan_dana'])->name('payment_request-ajukan_dana');
         Route::get('/ajukan_dana_ppo/{id}', [InvoicingController::class, 'ajukan_dana_ppo'])->name('payment_request-ajukan_dana_ppo');
         Route::get('/denied/{id}', [InvoicingController::class, 'denied'])->name('payment_request-denied');
@@ -417,7 +417,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/po_detail/{id}', [CategoryPDController::class, 'po_detail'])->name('menu-pengajuan-dana.po_detail');
         Route::get('/create/{id}', [CategoryPDController::class, 'create'])->name('menu-pengajuan-dana.create');
         Route::post('/store/{id}', [CategoryPDController::class, 'store'])->name('menu-pengajuan-dana.store');
-        Route::get('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
+        Route::delete('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
         Route::get('/paid/{id}', [CategoryPDController::class, 'paid'])->name('menu-pengajuan-dana-paid');
         Route::get('/reject/{id}', [CategoryPDController::class, 'reject'])->name('menu-pengajuan-dana-reject');
         Route::get('/paid_pd/{id}', [CategoryPDController::class, 'paid_pd'])->name('menu-pengajuan-dana-paid_pd');
@@ -439,7 +439,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [DeliveryController::class, 'store'])->name('delivery.store');
         Route::get('/edit/{id}', [DeliveryController::class, 'edit'])->name('delivery.edit');
         Route::post('/update/{id}', [DeliveryController::class, 'update'])->name('delivery.update');
-        Route::get('/destroy/{id}', [DeliveryController::class, 'destroy'])->name('delivery.destroy');
+        Route::delete('/destroy/{id}', [DeliveryController::class, 'destroy'])->name('delivery.destroy');
         Route::get('/complete/{id}', [DeliveryController::class, 'complete'])->name('delivery-complete');
         Route::get('/denied/{id}', [DeliveryController::class, 'denied'])->name('delivery-denied');
         Route::get('/complete_2/{id}', [DeliveryController::class, 'complete_2'])->name('delivery-complete_2');
@@ -456,7 +456,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [CheckPOController::class, 'index'])->name('check_po.index');
         Route::get('/detail/{id}', [CheckPOController::class, 'detail'])->name('check_po.detail');
         Route::get('/po_detail/{id}', [CheckPOController::class, 'po_detail'])->name('check_po.po_detail');
-        Route::get('/destroy/{id}', [CheckPOController::class, 'destroy'])->name('check_po.destroy');
+        Route::delete('/destroy/{id}', [CheckPOController::class, 'destroy'])->name('check_po.destroy');
         Route::get('/ajukan_keatasan/{id}', [CheckPOController::class, 'ajukan_keatasan'])->name('check_po-ajukan_keatasan');
         Route::get('/ajukan_keatasan_po/{id}', [CheckPOController::class, 'ajukan_keatasan_po'])->name('check_po-ajukan_keatasan_po');
         Route::get('/denied/{id}', [CheckPOController::class, 'denied'])->name('check_po-denied');

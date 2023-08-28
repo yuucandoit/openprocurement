@@ -198,6 +198,7 @@
                                         <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
                                     </li>
                                     @foreach ($comment_id as $cid)
+                                    @if(!empty($cid))
                                     @if($cid->is_read_purchase == 1)
 
                                     @else
@@ -207,8 +208,8 @@
                                         <li class="noti-success" style="overflow:scroll;">
                                         <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
                                             <div class="media-body" style="font-size: 8;">
-                                            <p style="font-size: 10;">{{ $cid->comment->users->name }}</p>
-                                            <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
+                                            <p style="font-size: 10;">{{ $cid->comment->users->name ?? '-' }}</p>
+                                            <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name ?? '-' }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
 
                                             </div>
                                         </div>
@@ -216,6 +217,7 @@
                                         <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
                                     </a>
                                     </form>
+                                    @endif
                                     @endif
                                     @endforeach
                                 </div>
