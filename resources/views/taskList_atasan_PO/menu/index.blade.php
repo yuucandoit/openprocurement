@@ -476,6 +476,8 @@
                                                     </td>
                                                 </tr>
                                                 @foreach ($ppb->quot as $po)
+                                                    @if($po->atasan_po == Auth::user()->id)
+                                                    @if($po->status == 'Waiting For PO Approval')
                                                     <tr>
 
                                                         @php
@@ -516,6 +518,8 @@
 
                                                         @endif
                                                     </tr>
+                                                    @endif
+                                                    @endif
                                                 @endforeach
                                             </tbody>
                                         @endforeach
