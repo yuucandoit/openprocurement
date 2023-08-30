@@ -111,7 +111,7 @@ class WorkshopController extends Controller
      * @param  \App\Models\Workshop  $workshop
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Workshop $workshop,$id)
+    public function destroy($id)
     {
         $data = Workshop::find($id);
         $data->delete();

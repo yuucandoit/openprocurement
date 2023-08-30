@@ -41,6 +41,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemHistoryController;
 use App\Http\Controllers\SendWaController;
 use App\Http\Controllers\TravelController;
+use App\Http\Controllers\ForceResetPassword;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,7 +64,12 @@ Route::get('/',function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
+     //forceReset
+     Route::get('/resetPage',[ForceResetPassword::class,'showForm'])->name('resetPage');
+     Route::post('/pushResetPassword',[ForceResetPassword::class,'resetPassword'])->name('pushReset');
+    Route::group(['middleware' => ['force_password_reset']], function(){
 
+    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
     //Vendor
     // Route untuk Data Vendor Perusahaan
     Route::group(['prefix' => 'perusahaan'], function () {
@@ -237,7 +243,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [PengajuanPembelianController::class, 'store'])->name('pengajuan-pembelian.store');
         Route::get('/edit/{pp_id}/{id}', [PengajuanPembelianController::class, 'edit'])->name('pengajuan-pembelian.edit');
         Route::post('/update/{id}', [PengajuanPembelianController::class, 'update'])->name('pengajuan-pembelian.update');
-        Route::delete('/destroy/{id}', [PengajuanPembelianController::class, 'destroy'])->name('pengajuan-pembelian.destroy');
+        // Route::delete('/destroy/{id}', [PengajuanPembelianController::class, 'destroy'])->name('pengajuan-pembelian.destroy');
         Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
     });
 
@@ -273,7 +279,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history', [TaskListAtasanController::class, 'history'])->name('menu-taskList-atasan.history');
         Route::get('/detail/{id}', [TaskListAtasanController::class, 'detail'])->name('menu-taskList-atasan.detail');
         Route::get('/po_detail/{id}', [TaskListAtasanController::class, 'po_detail'])->name('menu-taskList-atasan.po_detail');
-        Route::delete('/destroy/{id}', [TaskListAtasanController::class, 'destroy'])->name('menu-taskList-atasan.destroy');
+        // Route::delete('/destroy/{id}', [TaskListAtasanController::class, 'destroy'])->name('menu-taskList-atasan.destroy');
         Route::get('/accept_atasan/{id}', [TaskListAtasanController::class, 'accept_atasan'])->name('menu-taskList-atasan-accept_atasan');
         Route::get('/accept_atasan_selected', [TaskListAtasanController::class, 'accept_atasan_selected'])->name('menu-taskList-atasan.accept_atasan_selected');
         Route::get('/reject_atasan_selected', [TaskListAtasanController::class, 'reject_atasan_selected'])->name('menu-taskList-atasan.reject_atasan_selected');
@@ -293,7 +299,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/po_detail/{id}', [TasklistAtasanPoController::class, 'po_detail'])->name('menu-taskList-atasan-po.po_detail');
         Route::post('/update/{id}', [TasklistAtasanPoController::class, 'update'])->name('menu-taskList-atasan-po.update');
         Route::get('/edit/{id}', [TasklistAtasanPoController::class, 'edit'])->name('menu-taskList-atasan-po.edit');
-        Route::delete('/destroy/{id}', [TasklistAtasanPoController::class, 'destroy'])->name('menu-taskList-atasan-po.destroy');
+        // Route::delete('/destroy/{id}', [TasklistAtasanPoController::class, 'destroy'])->name('menu-taskList-atasan-po.destroy');
         Route::get('/accept_atasan/{id}', [TasklistAtasanPoController::class, 'accept_atasan'])->name('menu-taskList-atasan-po-accept_atasan');
         Route::get('/reject/{id}', [TasklistAtasanPoController::class, 'reject'])->name('menu-taskList-atasan-po-reject');
         Route::get('/in/search/atasanpoIn',[TasklistAtasanPoController::class, 'SearchAtasanPOIn'])->name('menu-taskList-atasan-po.SearchAtasanPOIn');
@@ -312,7 +318,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history', [TasklistAtasanPaymentController::class, 'history'])->name('menu-taskList-atasan-payment.history');
         Route::get('/po_detail/{id}', [TasklistAtasanPaymentController::class, 'po_detail'])->name('menu-taskList-atasan-payment.po_detail');
         Route::get('/detail/{id}', [TasklistAtasanPaymentController::class, 'detail'])->name('menu-taskList-atasan-payment.detail');
-        Route::delete('/destroy/{id}', [TasklistAtasanPaymentController::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
+        // Route::delete('/destroy/{id}', [TasklistAtasanPaymentController::class, 'destroy'])->name('menu-taskList-atasan-payment.destroy');
         Route::get('/approve_payment/{id}', [TasklistAtasanPaymentController::class, 'approve_payment'])->name('menu-taskList-atasan-payment-approve_payment');
         Route::get('/reject/{id}', [TasklistAtasanPaymentController::class, 'reject'])->name('menu-taskList-atasan-payment-reject');
         Route::get('/in/search/SearchTaskPYIn',[TasklistAtasanPaymentController::class, 'SearchTaskPYIn'])->name('menu-taskList-atasan-payment.SearchTaskPYIn');
@@ -332,7 +338,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
         Route::get('/history', [CategoryTaskListController::class, 'history'])->name('menu-task-list.history');
         Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
-        Route::delete('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
+        // Route::delete('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
         Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
         Route::post('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
         Route::get('/search/taskPOIn',[CategoryTaskListController::class, 'SearchtaskPOIn'])->name('menu-task-list.SearchtaskPOIn');
@@ -350,7 +356,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history', [TaskListFinanceController::class, 'history'])->name('menu-tasklist-finance.history');
         Route::get('/detail/{id}', [TaskListFinanceController::class, 'detail'])->name('menu-tasklist-finance.detail');
         Route::get('/po_detail/{id}', [TaskListFinanceController::class, 'po_detail'])->name('menu-tasklist-finance.po_detail');
-        Route::delete('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
+        // Route::delete('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
         Route::get('/approve/{id}', [TaskListFinanceController::class, 'approve'])->name('menu-tasklist-finance-approve');
         Route::get('/reject/{id}', [TaskListFinanceController::class, 'reject'])->name('menu-tasklist-finance-reject');
         Route::get('/approve_tpy/{id}', [TaskListFinanceController::class, 'approve_po'])->name('menu-tasklist-finance-approve_po');
@@ -375,7 +381,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/{id}', [CategoryPOController::class, 'store'])->name('menu-purchase-order.store');
         Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
         Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
-        Route::delete('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
+        // Route::delete('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
         Route::get('/check_po/{id}', [CategoryPOController::class, 'checkPO'])->name('menu-purchase-order-checkPO');
         Route::get('/check_po2/{id}', [CategoryPOController::class, 'checkPO2'])->name('menu-purchase-order-checkPO2');
         Route::get('/ajukan_dana/{id}', [CategoryPOController::class, 'ajukan_dana'])->name('menu-purchase-order-ajukan_dana');
@@ -383,7 +389,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/po_in',[CategoryPOController::class, 'SearchPOIn'])->name('menu-purchase-order.SearchPOIn');
         Route::get('/out/search/po_out',[CategoryPOController::class, 'SearchPOOut'])->name('menu-purchase-order.SearchPOOut');
         Route::get('/history/search/HistoryPO',[CategoryPOController::class, 'SearchHistoryPO'])->name('menu-purchase-order.SearchHistoryPO');
-        Route::post('/deletePOAll/{id}', [CategoryPOController::class, 'deletePOAll'])->name('menu-purchase-order.deletePOAll');
+        Route::delete('/deletePOAll/{id}', [CategoryPOController::class, 'deletePOAll'])->name('menu-purchase-order.deletePOAll');
         Route::get('/history/sortPO',[CategoryPOController::class, 'SortHistoryPO'])->name('menu-purchase-order.SortHistoryPO');
     });
 
@@ -483,7 +489,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/store-role', [RoleController::class, 'store']);
     Route::get('/role-edit/{id}', [RoleController::class, 'edit']);
     Route::post('/role-update/{id}', [RoleController::class, 'update']);
-    Route::get('/role-destroy/{id}', [RoleController::class, 'destroy']);
+    Route::delete('/role-destroy/{id}', [RoleController::class, 'destroy']);
     Route::get('/search/roles',[RoleController::class, 'SearchRoles'])->name('role.SearchRoles');
 
     //Item DB Pengajuan Pembelian & PO
@@ -570,8 +576,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('file-import-pengajuan', [DeliveryController::class, 'fileImport'])->name('file-import');
 
     Route::get('send-wa', [SendWaController::class,'send'])->name('send-wa');
+    });
 
 });
 
 Auth::routes();
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+

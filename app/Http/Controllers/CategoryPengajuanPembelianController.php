@@ -111,7 +111,8 @@ class CategoryPengajuanPembelianController extends Controller
     ->orWhereHas('whosubmit', function($q) use($cari){
          $q->where('name','like',"%".$cari."%");
     })
-    ->paginate(5);
+    ->where('user_id',Auth::user()->id)
+    ->paginate(10);
     $datapo = CategoryPO::get();
 
     return view('pengajuanPembelian.menu.index')
@@ -123,6 +124,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function detail($id)
     {
         /*$data_vendor*/
+        $check = Role::where('model_id', Auth::user()->id)->first();
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
@@ -137,25 +139,48 @@ class CategoryPengajuanPembelianController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $comments           = Comment::where('ppb_id',$id)->get();
-        return view('pengajuanPembelian.menu.detail')
-            ->with('atasan', $atasan)
-            ->with('pengajuan', $pengajuan)
-            ->with('delivery', $delivery)
-            ->with('dpp', $dpp)
-            ->with('ppn', $ppn)
-            ->with('datacpo', $datacpo)
-            ->with('total', $total)
-            ->with('disc', $disc)
-            ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('purpose', $purpose)
-            ->with('data_pengajuan', $data_pengajuan)
-            ->with('dataws', $dataws)
-            ->with('datadepartment', $datadepartment)
-            ->with('comments', $comments);
+        if ($check->role_id == 2) {
+            if(Auth::user()->id == $data_pengajuan->user_id){
+            return view('pengajuanPembelian.menu.detail')
+                ->with('atasan', $atasan)
+                ->with('pengajuan', $pengajuan)
+                ->with('delivery', $delivery)
+                ->with('dpp', $dpp)
+                ->with('ppn', $ppn)
+                ->with('datacpo', $datacpo)
+                ->with('total', $total)
+                ->with('disc', $disc)
+                ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                ->with('purpose', $purpose)
+                ->with('data_pengajuan', $data_pengajuan)
+                ->with('dataws', $dataws)
+                ->with('datadepartment', $datadepartment)
+                ->with('comments', $comments);
+            } else {
+                return view('403Page.index');
+            }
+        }else if ($check->role_id == 1 || $check->role_id == 3) {
+            return view('pengajuanPembelian.menu.detail')
+                ->with('atasan', $atasan)
+                ->with('pengajuan', $pengajuan)
+                ->with('delivery', $delivery)
+                ->with('dpp', $dpp)
+                ->with('ppn', $ppn)
+                ->with('datacpo', $datacpo)
+                ->with('total', $total)
+                ->with('disc', $disc)
+                ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                ->with('purpose', $purpose)
+                ->with('data_pengajuan', $data_pengajuan)
+                ->with('dataws', $dataws)
+                ->with('datadepartment', $datadepartment)
+                ->with('comments', $comments);
+        }
     }
 
     public function po_detail($id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
         $code               = CategoryPO::find($id);
         $datapo             = CategoryPO::where('id', $id)->get();
         $datacpo            = CategoryPO::where('id', $id)->first();
@@ -170,6 +195,7 @@ class CategoryPengajuanPembelianController extends Controller
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
 
         //dd($datacpo);
+        if ($check->role_id == 2) {
         return view('pengajuanPembelian.menu.po')
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
@@ -183,6 +209,21 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
             ->with('disc', $disc)
             ->with('comments', $comments);
+        }else if ($check->role_id == 1 || $check->role_id == 3) {
+            return view('pengajuanPembelian.menu.po')
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('code', $code)
+            ->with('datapo', $datapo)
+            ->with('dataws', $dataws)
+            ->with('datacpo', $datacpo)
+            ->with('datadepartment', $datadepartment)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('disc', $disc)
+            ->with('comments', $comments);
+        }
     }
 
     public function history()
@@ -405,6 +446,7 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
         $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
         $datapt = CategoryPT::all();
         $dv = CategoryPengajuanPembelian::find($id);
@@ -417,8 +459,11 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_rnd        = RND::all();
         $purpose_travel     = Travel::all();
         $item = PengajuanPembelian::where('pp_id', $id)->get();
-        //dd($item);
-        return view('pengajuanPembelian.menu.edit')
+
+
+        if ($check->role_id == 2) {
+            if(Auth::user()->id == $dv->user_id){
+            return view('pengajuanPembelian.menu.edit')
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
             ->with('purpose', $purpose)
@@ -431,6 +476,24 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('dv', $dv);
+            }else {
+                return view('403Page.index');
+            }
+        }else if ($check->role_id == 1 || $check->role_id == 3) {
+            return view('pengajuanPembelian.menu.edit')
+            ->with('atasan', $atasan)
+            ->with('datapt', $datapt)
+            ->with('purpose', $purpose)
+            ->with('purpose_office', $purpose_office)
+            ->with('purpose_inventory', $purpose_inventory)
+            ->with('purpose_workshop', $purpose_workshop)
+            ->with('purpose_rnd', $purpose_rnd)
+            ->with('purpose_travel', $purpose_travel)
+            ->with('item', $item)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('dv', $dv);
+        }
     }
 
     /**
@@ -535,11 +598,26 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function destroy($id)
     {
-        $data1 = PengajuanPembelian::where('pp_id', $id);
-        $data1->delete();
         $data = CategoryPengajuanPembelian::find($id);
-        $data->delete();
-        return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 2) {
+            if(Auth::user()->id == $data->user_id){
+                $data1 = PengajuanPembelian::where('pp_id', $id);
+                $data1->delete();
+                $data->delete();
+                 return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');
+            } else {
+                return 'Delete Failed, Different User Id';
+            }
+        }else if ($check->role_id == 1 || $check->role_id == 3) {
+            $data1 = PengajuanPembelian::where('pp_id', $id);
+            $data1->delete();
+            $data->delete();
+            return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');
+        }
+
+
+
     }
 
     public function export($id)
