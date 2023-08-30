@@ -52,6 +52,7 @@
     <table width="100%" class="mt-2" style="font-size: 10;">
         <tr>
             <td>
+                No PR  &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp; : {{ $cpo->ppb_id }}
                 @if (empty($cpo->vendorable_type))
                     <p>Not Filled Yet</p>
                 @elseif($cpo->vendorable_type == 'App\Models\CategoryPT')
