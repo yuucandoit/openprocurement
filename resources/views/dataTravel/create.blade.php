@@ -25,10 +25,9 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Form Purpose Travel</h5>
-                <form class="row g-3" action={{ url('/travel/store/') }}
-                    method="POST" enctype="multipart/form-data">
+                <form class="row g-3" action={{ url('/travel/store/') }} method="POST"
+                enctype="multipart/form-data">
                     @csrf
-
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input type="text" class="form-control mt-3" id="floatingName" placeholder="Your Name"

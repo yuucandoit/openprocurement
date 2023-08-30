@@ -981,7 +981,7 @@
                                                     <div class="modal-footer">
                                                         <form class="text-center" style="text-align: center;"
                                                         action="{{ route('menu-purchase-order.deletePOAll',$po->id) }}" method="POST">
-                                                        @csrf
+                                                        @csrf @method('DELETE')
                                                             <input type="hidden" name="id" value="{{ $po->id }}">
                                                             <button type="submit" class="btn btn-outline-danger "><i
                                                                     class="bx bx-trash"></i>

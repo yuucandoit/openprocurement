@@ -80,15 +80,36 @@
                                                     <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ route('bank.edit',$b->id) }}">
                                                         <i class="icon-pencil-alt" title="Edit"></i>
                                                     </a>
-                                                    {{-- <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;"
-                                                        href="{{ url('/bank/edit/' . $b->id) }}"><i
-                                                            class="icon-pencil-alt" title="Edit"></i>
-                                                    </a> --}}
-                                                    {{-- <a class="btn btn-iconsolid mt-1" style="background-color: #ff0000;" href="{{ url('/bank/destroy/'.$b->id) }}">
+                                                    <a class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
+                                                        data-bs-toggle="modal" data-bs-target="#modalDelete{{ $b->id }}">
                                                         <i class="icon-trash" title="Delete"></i>
-                                                    </a> --}}
+                                                    </a>
                                                 </td>
                                             </tr>
+                                            <div class="modal fade" id="modalDelete{{$b->id }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h2 class="modal-title" style="color: white">Delete</h2>
+                                                            <button style="color: white" type="button" class="" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body mx-5 mb-3 text-center">
+                                                            <span class="warning">
+                                                                <img src="{{ asset('assets/images/warning.png') }}">
+                                                            </span>
+                                                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="{{ url('/bank/destroy/' .$b->id) }}" method="POST">
+                                                                @csrf @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
+                                                                    Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </tbody>
                                 </table>

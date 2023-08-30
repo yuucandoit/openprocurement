@@ -4,33 +4,6 @@
 
 @section('main')
     <section>
-
-        @foreach ($data as $a)
-            <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h2 class="modal-title" style="color: white">Delete</h2>
-                            <button style="color: white" type="button" class="" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mx-5 mb-3 text-center">
-                            <span class="warning">
-                                <img src="{{ asset('assets/images/warning.png') }}">
-                            </span>
-                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
-                        </div>
-                        <div class="modal-footer">
-                            <form action="{{ url('/office/destroy/' . $a->id) }}">
-                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
-                                    Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -42,33 +15,6 @@
                             <li class="breadcrumb-item">Purpose Office</li>
                         </ol>
                     </div>
-                    {{-- <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -104,22 +50,46 @@
                                             $no = 1;
                                             $i = 1 + $data->currentPage() * $data->perPage() - $data->perPage();
                                         @endphp
-                                        @foreach ($data as $ws)
+                                        @foreach ($data as $off)
                                             <tr>
                                                 <td style="text-align: center;">{{ $i++ }}</td>
-                                                <td>{{ $ws->name }}</td>
+                                                <td>{{ $off->name }}</td>
                                                 <td style="text-align: center;">
                                                     <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;"
-                                                        href="{{ url('/office/edit/' . $ws->id) }}"><i
+                                                        href="{{ url('/office/edit/' . $off->id) }}"><i
                                                             class="icon-pencil-alt" title="Edit"></i>
                                                     </a>
-                                                    {{-- <button class="btn btn-danger mt-1" data-bs-toggle="modal"
-                                                        data-bs-target="#modalDelete{{ $ws->id }}"><i
-                                                            class="fa fa-trash-o" title="Delete."></i></button> --}}
+                                                    <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
+                                                    data-bs-toggle="modal" data-bs-target="#modalDelete{{ $off->id }}">
+                                                    <i class="fa fa-trash-o" title="Delete."></i>
+                                                    </button>
                                                 </td>
 
                                             </tr>
-                                            {{-- @endif --}}
+                                            <div class="modal fade" id="modalDelete{{ $off->id }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h2 class="modal-title" style="color: white">Delete</h2>
+                                                            <button style="color: white" type="button" class="" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body mx-5 mb-3 text-center">
+                                                            <span class="warning">
+                                                                <img src="{{ asset('assets/images/warning.png') }}">
+                                                            </span>
+                                                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="{{ url('/office/destroy/' . $off->id) }}" method="POST">
+                                                                @csrf @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
+                                                                    Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </tbody>
                                 </table>

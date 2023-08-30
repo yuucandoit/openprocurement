@@ -20,7 +20,9 @@
           <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
         </div>
         <div class="modal-footer">
-          <form action="{{ url('/menu-pengajuan-pembelian/destroy/' . $a->id) }}">
+          <form action="{{ url('/menu-pengajuan-pembelian/destroy/' . $a->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
             <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
             Delete</button>
           </form>
@@ -506,92 +508,6 @@
               @if(empty($ppembelian->quot))
 
               @else
-
-              {{-- @foreach ($ppembelian->quot as $po)
-              <tr>
-
-                  @php
-                      $po2 = \App\Models\CategoryPO::find($po->id);
-                      $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
-                      // $item = $po3->count();
-                  @endphp
-
-                  @if(empty($po2))
-
-                  @else
-                  <td style="text-align: center">-</td>
-                  <td>{{ $po->code_po }}</td>
-                  <td>Vendor : {{ $po2->vendorable->nama ?? ' - ' }}</td>
-                  <td style="font-weight: 700; white-space:nowrap;">
-                      @foreach ($po3 as $ipo)
-                      <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po2->id }}">{{ $ipo->qty }} Item</label>
-                      @endforeach
-                  </td>
-                  <td>{{ $po2->quotation }}</td>
-                  <td colspan="2"  class="text-center"><a
-                      class="badge {{ $ppembelian->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppembelian->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                      style="color: white; font-size:12">Approve</a></td>
-
-                  @endif
-              </tr>
-              @endforeach --}}
-              {{-- @foreach ($ppembelian->quot as $po)
-              <tr>
-
-                  @php
-                      $po2 = \App\Models\CategoryPO::find($po->id);
-                      $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
-                      $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
-                  @endphp
-
-                  @if(empty($po2))
-
-                  @else
-                  <td style="text-align: center">-</td>
-                  <td>
-                      <a href="{{ route('menu-pengajuan-pembelian.po_detail',$po->id) }}">
-                      {{ $po2->code_po }}
-                      </a>
-                  </td>
-                  <td>
-                      <ul>
-                          <a href="{{ route('menu-pengajuan-pembelian.po_detail',$po->id) }}">
-                              <li style="white-space: nowrap;">
-                                  @if($po2->vendorable_id == 0)
-                                  Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
-                                  @elseif($po2->vendorable == null)
-                                  Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
-                                  @else
-                                  Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
-                                  @endif
-                              </li>
-                              <li> Quotation : {{ $po2->quotation }}</li>
-                          </a>
-                      </ul>
-                  </td>
-                  <td style="font-weight: 700;">
-                      @foreach ($po3 as $ipo)
-                      <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
-                      @endforeach
-                  </td>
-                  <td>
-                      @foreach ($po4 as $ipo)
-                          <label>
-                              @if($ipo->matauang == "RP")
-                              Rp.{{ number_format($ipo->grand_total ,2) }}
-                              @elseif ($ipo->matauang == "USD")
-                              $ {{ number_format($ipo->grand_total ,2) }}
-                              @endif
-                          </label>
-                      @endforeach
-                  </td>
-                  <td colspan="2"  class="text-center"><a
-                      class="badge {{ $ppembelian->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppembelian->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                      style="color: white; font-size:12">{{ $po2->status }}</a></td>
-
-                  @endif
-              </tr>
-              @endforeach --}}
 
               @endif
               @endforeach

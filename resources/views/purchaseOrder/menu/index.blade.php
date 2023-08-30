@@ -21,7 +21,8 @@
                                 <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                             </div>
                             <div class="modal-footer">
-                                <form action="{{ url('/menu-purchase-order/destroy/' . $purchase->id) }}">
+                                <form action="{{ url('/menu-purchase-order/destroy/' . $purchase->id) }}" method="POST">
+                                    @csrf @method('DELETE')
                                     <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                         Delete</button>
                                 </form>

@@ -138,31 +138,6 @@
         </div>
         </div>
 
-
-        @foreach ($datadv as $a)
-            <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h2 class="modal-title" style="color: white">Delete</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mx-5 mb-3">
-                            <span class="warning">
-                                <img src="assets/images/warning.png">
-                            </span>
-                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
-                        </div>
-                        <div class="modal-footer">
-                            <form action="{{ url('/menu-private-person/destroy/' . $a->id) }}">
-                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
-                                    Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -241,12 +216,36 @@
                                                         href="{{ url('/menu-private-person/edit/' . $person->id) }}"><i
                                                             class="icon-pencil-alt" title="Edit"></i>
                                                     </a>
-                                                    {{-- <button class="btn btn-danger mt-1" data-bs-toggle="modal"
-                                                        data-bs-target="#modalDelete{{ $person->id }}"><i
-                                                            class="icon-trash" title="Delete"></i>
-                                                    </button> --}}
+                                                    <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
+                                                    data-bs-toggle="modal" data-bs-target="#modalDelete{{ $person->id }}">
+                                                    <i class="icon-trash" title="Delete"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
+                                            <div class="modal fade" id="modalDelete{{ $person->id }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h2 class="modal-title" style="color: white">Delete</h2>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body mx-5 mb-3" style="text-align: center;">
+                                                            <span class="warning">
+                                                                <img src="assets/images/warning.png">
+                                                            </span>
+                                                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="{{ url('/menu-private-person/destroy/' . $person->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
+                                                                    Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </tbody>
                                 </table>
