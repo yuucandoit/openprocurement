@@ -24,18 +24,15 @@ class CategoryPTController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 2) {
-            $datadv = CategoryPT::where('user_id', Auth::user()->id)->paginate(10);
-            $bank = Bank::orderBy('name')->get();
-            return view('dataPerusahaan.menu.index')
-                ->with('datadv', $datadv)
-                ->with('bank', $bank);
-        } else if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
+
+        if ($check->role_id == 17 || $check->role_id == 3 || $check->role_id == 4 ) {
             $datadv = CategoryPT::orderBy('nama')->paginate(10);
             $bank = Bank::orderBy('name')->get();
             return view('dataPerusahaan.menu.index')
                 ->with('datadv', $datadv)
                 ->with('bank', $bank);
+        } else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -52,15 +49,20 @@ class CategoryPTController extends Controller
      $bank = Bank::orderBy('name')->get();
 
      return view('dataPerusahaan.menu.index')
-     ->with('datadv',$datadv)   
+     ->with('datadv',$datadv)
      ->with('bank', $bank);
     }
 
     public function detail($id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
         $data_perusahaan = CategoryPT::find($id);
         return view('dataPerusahaan.menu.detail')
         ->with('data_perusahaan',$data_perusahaan);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -81,24 +83,28 @@ class CategoryPTController extends Controller
      */
     public function store(Request $request)
     {
-        //validasi formnya
-        $this->validate($request,[
-            'nama' => 'required',
-            'alamat' => 'required',
-            'no_telp_kantor' => 'required',
-            'nama_pic' => 'required',
-            'no_telp_pic' => 'required',
-            'email' => 'required',
-            'npwp_perusahaan' => 'required',
-            'Pkp' => 'required',
-            'bidang_usaha' => 'required',
-            'no_telp_kantor' => 'required'
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
+            $this->validate($request,[
+                'nama' => 'required',
+                'alamat' => 'required',
+                'no_telp_kantor' => 'required',
+                'nama_pic' => 'required',
+                'no_telp_pic' => 'required',
+                'email' => 'required',
+                'npwp_perusahaan' => 'required',
+                'Pkp' => 'required',
+                'bidang_usaha' => 'required',
+                'no_telp_kantor' => 'required'
+            ]);
 
-        $dv = $request->except(['_token']);
-        $dv['user_id'] = Auth::user()->id;
-        CategoryPT::insert($dv);
-        return redirect('menu-perusahaan/')->with('success', 'Task Created Successfully!');
+            $dv = $request->except(['_token']);
+            $dv['user_id'] = Auth::user()->id;
+            CategoryPT::insert($dv);
+            return redirect('menu-perusahaan/')->with('success', 'Task Created Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -120,11 +126,16 @@ class CategoryPTController extends Controller
      */
     public function edit(Request $request ,$id)
     {
-        $bank = Bank::orderBy('name')->get();
-        $dv = CategoryPT::find($id);
-        return view('dataPerusahaan.menu.edit')
-        ->with('dv' , $dv)
-        ->with('bank' , $bank);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
+            $bank = Bank::orderBy('name')->get();
+            $dv = CategoryPT::find($id);
+            return view('dataPerusahaan.menu.edit')
+            ->with('dv' , $dv)
+            ->with('bank' , $bank);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -136,27 +147,29 @@ class CategoryPTController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = CategoryPT::find($id);
-
-        // dd($data);
-        $tes = CategoryPT::where("id", $id)->update([
-            "nama" => $request->nama,
-            "alamat" => $request->alamat,
-            "no_telp_kantor" => $request->no_telp_kantor,
-            "website" => $request->website,
-            "nama_pic" => $request->nama_pic,
-            "email" => $request->email,
-            "npwp_perusahaan" => $request->npwp_perusahaan,
-            "Pkp" => $request->Pkp,
-            "nib" => $request->nib,
-            "bidang_usaha" => $request->bidang_usaha,
-            "no_rekening" => $request->no_rekening,
-            "bank" => $request->bank,
-            "cabang_bank" => $request->cabang_bank,
-            "nama_penerima" => $request->nama_penerima,
-        ]);
-        return redirect("menu-perusahaan/");
-        // dd($data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
+            $data = CategoryPT::find($id);
+            $tes = CategoryPT::where("id", $id)->update([
+                "nama" => $request->nama,
+                "alamat" => $request->alamat,
+                "no_telp_kantor" => $request->no_telp_kantor,
+                "website" => $request->website,
+                "nama_pic" => $request->nama_pic,
+                "email" => $request->email,
+                "npwp_perusahaan" => $request->npwp_perusahaan,
+                "Pkp" => $request->Pkp,
+                "nib" => $request->nib,
+                "bidang_usaha" => $request->bidang_usaha,
+                "no_rekening" => $request->no_rekening,
+                "bank" => $request->bank,
+                "cabang_bank" => $request->cabang_bank,
+                "nama_penerima" => $request->nama_penerima,
+            ]);
+            return redirect("menu-perusahaan/");
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -167,15 +180,24 @@ class CategoryPTController extends Controller
      */
     public function destroy($id)
     {
-
-        $data = CategoryPT::find($id);
-        $data->delete();
-        return redirect('/menu-perusahaan')->with('success', 'Task Deleted Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 17 || $check->role_id == 3 ) {
+            $data = CategoryPT::find($id);
+            $data->delete();
+            return redirect('/menu-perusahaan')->with('success', 'Task Deleted Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function fileImportPT()
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 17 || $check->role_id == 3 ) {
         return view('dataPerusahaan.menu.import');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function fileImport(Request $request)
@@ -203,7 +225,9 @@ class CategoryPTController extends Controller
 
     public function export()
     {
-        // dd('hallo');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 17 || $check->role_id == 3 || $check->role_id == 4) {
         return Excel::download(new PTExport, 'data_pt.xlsx');
+        }
     }
 }

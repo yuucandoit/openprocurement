@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WorkshopController extends Controller
 {
@@ -14,9 +16,14 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        $data = Workshop::paginate(10);
-        return view('dataWorkshop.index')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Workshop::paginate(10);
+            return view('dataWorkshop.index')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchWorkshop(Request $request)
@@ -38,9 +45,14 @@ class WorkshopController extends Controller
      */
     public function create()
     {
-        $data = Workshop::all();
-        return view('dataWorkshop.create')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Workshop::all();
+            return view('dataWorkshop.create')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -51,16 +63,21 @@ class WorkshopController extends Controller
      */
     public function store(Request $request)
     {
-        //validasi formnya
-        $this->validate($request,[
-            'name' => 'required',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            //validasi formnya
+            $this->validate($request,[
+                'name' => 'required',
+            ]);
 
-       Workshop::create([
-            "name" => $request->name,
-        ]);
+            Workshop::create([
+                "name" => $request->name,
+            ]);
 
-        return redirect("workshop/")->with('success', 'Created Successfully!');
+            return redirect("workshop/")->with('success', 'Created Successfully!');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -82,9 +99,14 @@ class WorkshopController extends Controller
      */
     public function edit(Workshop $workshop,$id)
     {
-        $data = Workshop::find($id);
-        return view('dataWorkshop.edit')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Workshop::find($id);
+            return view('dataWorkshop.edit')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -96,13 +118,18 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, Workshop $workshop,$id)
     {
-        $data = Workshop::find($id);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Workshop::find($id);
 
-        // dd($data);
-        $tes = Workshop::where("id", $id)->update([
-            "name" => $request->name,
-        ]);
-        return redirect("workshop/")->with('success', 'Updated Successfully!');
+            // dd($data);
+            $tes = Workshop::where("id", $id)->update([
+                "name" => $request->name,
+            ]);
+            return redirect("workshop/")->with('success', 'Updated Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -113,8 +140,13 @@ class WorkshopController extends Controller
      */
     public function destroy($id)
     {
-        $data = Workshop::find($id);
-        $data->delete();
-        return redirect("workshop/")->with('success', 'Deleted Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Workshop::find($id);
+            $data->delete();
+            return redirect("workshop/")->with('success', 'Deleted Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Department;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -23,13 +25,16 @@ class AdminController extends Controller
 
     public function index()
     {
-        // $id_admin = Admin::all();
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3) {
         $admin      = User::orderBy('name', 'ASC')->paginate(10);
         $department = Department::all();
         return view('admin.index')
             ->with('department', $department)
             ->with('admin', $admin);
-        // ->with('id_admin', $id_admin);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchUsers(Request $request)
@@ -59,7 +64,12 @@ class AdminController extends Controller
      */
     public function create()
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3) {
         return view('admin.create');
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -70,175 +80,180 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            "name" => 'required',
-            "email" => 'required',
-            "password" => 'required|min:8'
-        ]);
-        $data2 = $request->all();
-        // dd($data2);
-            try {
-            if($request->role == "Admin"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('admin');
-            }elseif ($request->role == "User") {
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->   email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('user');
-            }elseif ($request->role == "Super admin"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('super admin');
-            }elseif ($request->role == "Purchasing"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('purchasing');
-            }elseif ($request->role == "Finance"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('finance');
-            }elseif ($request->role == "Super User"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('super user');
-            }elseif ($request->role == "R&D"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('R&D');
-            }elseif ($request->role == "Production"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('production');
-            }elseif ($request->role == "Support Workshop"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('support workshop');
-            }elseif ($request->role == "Project"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('project');
-            }elseif ($request->role == "Business Development"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('business development');
-            }elseif ($request->role == "Product"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('product');
-            }elseif ($request->role == "Tax"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('tax');
-            }elseif ($request->role == "Human Resource"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('Human Resource');
-            }elseif ($request->role == "GA"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('GA');
-            }elseif ($request->role == "Legal"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('legal');
-            }elseif ($request->role == "Super Purchase"){
-            $data = new User();
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
-            $data->save();
-            $data->assignRole('super purchase');
-            }else {
-                throw new \Exception ('Error BLOG');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3) {
+            $this->validate($request, [
+                "name" => 'required',
+                "email" => 'required',
+                "password" => 'required|min:8'
+            ]);
+            $data2 = $request->all();
+            // dd($data2);
+                try {
+                if($request->role == "Admin"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('admin');
+                }elseif ($request->role == "User") {
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->   email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('user');
+                }elseif ($request->role == "Super admin"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('super admin');
+                }elseif ($request->role == "Purchasing"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('purchasing');
+                }elseif ($request->role == "Finance"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('finance');
+                }elseif ($request->role == "Super User"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('super user');
+                }elseif ($request->role == "R&D"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('R&D');
+                }elseif ($request->role == "Production"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('production');
+                }elseif ($request->role == "Support Workshop"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('support workshop');
+                }elseif ($request->role == "Project"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('project');
+                }elseif ($request->role == "Business Development"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('business development');
+                }elseif ($request->role == "Product"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('product');
+                }elseif ($request->role == "Tax"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('tax');
+                }elseif ($request->role == "Human Resource"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('Human Resource');
+                }elseif ($request->role == "GA"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('GA');
+                }elseif ($request->role == "Legal"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('legal');
+                }elseif ($request->role == "Super Purchase"){
+                $data = new User();
+                $data->name = $request->name;
+                $data->email = $request->email;
+                $data->password = Hash::make($request->password);
+                $data->department = $request->department;
+                $data->location = $request->location;
+                $data->save();
+                $data->assignRole('super purchase');
+                }else {
+                    throw new \Exception ('Error BLOG');
+                }
+            } catch (\Exception $err) {
+            dd($err);
             }
-        } catch (\Exception $err) {
-        dd($err);
-        }
 
         return redirect()->route('admin.index')->with('success', 'Task Created Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
     /**
      * Display the specified resource.
@@ -274,22 +289,27 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            "name" => 'required',
-            "email" => 'required',
-        ]);
-        $data2 = $request->all();
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3) {
+            $this->validate($request, [
+                "name" => 'required',
+                "email" => 'required',
+            ]);
+            $data2 = $request->all();
 
-        $data = User::find($id);
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = Hash::make($request->password);
-        $data->department = $request->department;
-        $data->location = $request->location;
-        $data->save();
+            $data = User::find($id);
+            $data->name = $request->name;
+            $data->email = $request->email;
+            $data->password = Hash::make($request->password);
+            $data->department = $request->department;
+            $data->location = $request->location;
+            $data->save();
 
+            return redirect()->route('admin.index')->with('success', 'Task Created Successfully!');
 
-        return redirect()->route('admin.index')->with('success', 'Task Created Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -300,8 +320,13 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        $item = User::find($id);
-        $item->delete();
-        return redirect('/admin');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3)  {
+            $item = User::find($id);
+            $item->delete();
+            return redirect('/admin');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 }

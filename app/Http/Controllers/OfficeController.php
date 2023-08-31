@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Office;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OfficeController extends Controller
 {
@@ -14,9 +16,14 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        $data = Office::paginate(10);
-        return view('dataOffice.index')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = Office::paginate(10);
+            return view('dataOffice.index')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchOffice(Request $request)
@@ -38,9 +45,14 @@ class OfficeController extends Controller
      */
     public function create()
     {
-        $data = Office::all();
-        return view('dataOffice.create')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = Office::all();
+            return view('dataOffice.create')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -51,16 +63,21 @@ class OfficeController extends Controller
      */
     public function store(Request $request)
     {
-        //validasi formnya
-        $this->validate($request,[
-            'name' => 'required',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            //validasi formnya
+            $this->validate($request,[
+                'name' => 'required',
+            ]);
 
-       Office::create([
-            "name" => $request->name,
-        ]);
+            Office::create([
+                "name" => $request->name,
+            ]);
 
-        return redirect("office/")->with('success', 'Created Successfully!');
+            return redirect("office/")->with('success', 'Created Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -82,9 +99,14 @@ class OfficeController extends Controller
      */
     public function edit(Office $office,$id)
     {
-        $data = Office::find($id);
-        return view('dataOffice.edit')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = Office::find($id);
+            return view('dataOffice.edit')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -96,13 +118,18 @@ class OfficeController extends Controller
      */
     public function update(Request $request, Office $office,$id)
     {
-        $data = Office::find($id);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = Office::find($id);
 
-        // dd($data);
-        $tes = Office::where("id", $id)->update([
-            "name" => $request->name,
-        ]);
-        return redirect("office/")->with('success', 'Updated Successfully!');
+            // dd($data);
+            $tes = Office::where("id", $id)->update([
+                "name" => $request->name,
+            ]);
+            return redirect("office/")->with('success', 'Updated Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -113,8 +140,13 @@ class OfficeController extends Controller
      */
     public function destroy(Office $office,$id)
     {
-        $data = Office::find($id);
-        $data->delete();
-        return redirect("office/")->with('success', 'Deleted Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = Office::find($id);
+            $data->delete();
+            return redirect("office/")->with('success', 'Deleted Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Imports\BankImport;
 use App\Models\Bank;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BankController extends Controller
@@ -16,9 +18,14 @@ class BankController extends Controller
      */
     public function index()
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         $data = Bank::orderBy('name','asc')->paginate(10);
         return view('dataBank.index')
         ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchBank(Request $request)
@@ -69,12 +76,17 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         Bank::create([
             'name' => $request->name,
             'alamat' => $request->alamat,
             'call_center' => $request->call_center,
         ]);
         return redirect()->back();
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -110,12 +122,17 @@ class BankController extends Controller
      */
     public function update(Request $request,$id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         Bank::where('id',$id)->update([
             'name' => $request->name,
             'alamat' => $request->alamat,
             'call_center' => $request->call_center,
         ]);
         return redirect('/bank');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -126,8 +143,13 @@ class BankController extends Controller
      */
     public function destroy(Bank $bank,$id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3) {
         $data = Bank::find($id);
         $data->delete();
         return redirect('/bank');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 }

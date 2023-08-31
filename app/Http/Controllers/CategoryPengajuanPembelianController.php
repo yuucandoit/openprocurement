@@ -123,7 +123,6 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function detail($id)
     {
-        /*$data_vendor*/
         $check = Role::where('model_id', Auth::user()->id)->first();
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
@@ -157,7 +156,7 @@ class CategoryPengajuanPembelianController extends Controller
                 ->with('datadepartment', $datadepartment)
                 ->with('comments', $comments);
             } else {
-                return view('403Page.index');
+                return redirect()->route('dashboard');
             }
         }else if ($check->role_id == 1 || $check->role_id == 3) {
             return view('pengajuanPembelian.menu.detail')
@@ -196,41 +195,80 @@ class CategoryPengajuanPembelianController extends Controller
 
         //dd($datacpo);
         if ($check->role_id == 2) {
-        return view('pengajuanPembelian.menu.po')
-            ->with('pengajuan', $pengajuan)
-            ->with('dpp', $dpp)
-            ->with('code', $code)
-            ->with('datapo', $datapo)
-            ->with('dataws', $dataws)
-            ->with('datacpo', $datacpo)
-            ->with('datadepartment', $datadepartment)
-            ->with('ppn', $ppn)
-            ->with('total', $total)
-            ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('disc', $disc)
-            ->with('comments', $comments);
-        }else if ($check->role_id == 1 || $check->role_id == 3) {
-            return view('pengajuanPembelian.menu.po')
-            ->with('pengajuan', $pengajuan)
-            ->with('dpp', $dpp)
-            ->with('code', $code)
-            ->with('datapo', $datapo)
-            ->with('dataws', $dataws)
-            ->with('datacpo', $datacpo)
-            ->with('datadepartment', $datadepartment)
-            ->with('ppn', $ppn)
-            ->with('total', $total)
-            ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('disc', $disc)
-            ->with('comments', $comments);
+            if(!empty($code->ppb->user_id )){
+                if($code->ppb->user_id == Auth::user()->id){
+                return view('pengajuanPembelian.menu.po')
+                    ->with('pengajuan', $pengajuan)
+                    ->with('dpp', $dpp)
+                    ->with('code', $code)
+                    ->with('datapo', $datapo)
+                    ->with('dataws', $dataws)
+                    ->with('datacpo', $datacpo)
+                    ->with('datadepartment', $datadepartment)
+                    ->with('ppn', $ppn)
+                    ->with('total', $total)
+                    ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                    ->with('disc', $disc)
+                    ->with('comments', $comments);
+                }else {
+                    return redirect()->route('dashboard');
+                }
+            } else {
+                return view('pengajuanPembelian.menu.po')
+                    ->with('pengajuan', $pengajuan)
+                    ->with('dpp', $dpp)
+                    ->with('code', $code)
+                    ->with('datapo', $datapo)
+                    ->with('dataws', $dataws)
+                    ->with('datacpo', $datacpo)
+                    ->with('datadepartment', $datadepartment)
+                    ->with('ppn', $ppn)
+                    ->with('total', $total)
+                    ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                    ->with('disc', $disc)
+                    ->with('comments', $comments);
+            }
+
+        } else if ($check->role_id == 1 || $check->role_id == 3) {
+                    return view('pengajuanPembelian.menu.po')
+                    ->with('pengajuan', $pengajuan)
+                    ->with('dpp', $dpp)
+                    ->with('code', $code)
+                    ->with('datapo', $datapo)
+                    ->with('dataws', $dataws)
+                    ->with('datacpo', $datacpo)
+                    ->with('datadepartment', $datadepartment)
+                    ->with('ppn', $ppn)
+                    ->with('total', $total)
+                    ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                    ->with('disc', $disc)
+                    ->with('comments', $comments);
         }
     }
 
     public function history()
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
         $datappb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status','Delivery Success')->paginate(10);
-        return view('pengajuanPembelian.menu.history')
+        if ($check->role_id == 2 ){
+            $ppb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->first();
+
+            if(!empty($ppb)){
+                if($ppb->user_id == Auth::user()->id){
+                    return view('pengajuanPembelian.menu.history')
+                    ->with('datappb', $datappb);
+                }else {
+                    return redirect()->route('dashboard');
+                }
+            }else {
+                return view('pengajuanPembelian.menu.history')
+                ->with('datappb', $datappb);
+            }
+
+        }else if ($check->role_id == 1 || $check->role_id == 3) {
+            return view('pengajuanPembelian.menu.history')
             ->with('datappb', $datappb);
+        }
     }
 
 
@@ -256,13 +294,7 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function historyfail()
     {
-        $datappb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status','like',"%Rejected%")
-            // ->where('status','Purchase Request Rejected By BOD')
-            // ->orWhere('status', 'Rejected by Purchasing')
-            // ->orWhere('status', 'PO Rejected by BOD')
-            // ->orWhere('status', 'Payment Rejected By BOD')
-            // ->orWhere('status', 'Rejected by Finance')
-        ->paginate(10);
+        $datappb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status','like',"%Rejected%")->paginate(10);
         return view('pengajuanPembelian.menu.historyfailed')
             ->with('datappb', $datappb);
     }
@@ -286,6 +318,8 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function create()
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id = 2 || $check->role_id == 3){
         $atasan             = User::find(7);
         // dd($atasan);
         $dataws             = WhoSubmitted::all();
@@ -314,8 +348,10 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('ppb', $ppb)
-            ->with('ppb_old', $ppb_old)
-            ;
+            ->with('ppb_old', $ppb_old);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -326,105 +362,108 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        // dd($data);
-        $request->validate([
-            'category_purpose' => 'required',
-            'date_ps' => 'required',
-            'dateline' => 'required',
-            'ws'      => 'required',
-            'department' => 'required',
-            'desc'  => 'required',
-            'atasan' => 'required',
-            'send_to' => 'required',
-            'path_file' => 'max:2047',
-        ], [
-            'category_purpose.required' => 'The Purpose field is required.',
-            'date_ps.required' => 'The Date field is required.',
-            'dateline.required' => 'The Date Line field is required.',
-            'ws.required' => 'The Who Submitted field is required.',
-            'department.required' => 'The Department field is required.',
-            'desc.required' => 'The Description field is required.',
-            'atasan.required' => 'The Super User field is required.',
-            'send_to.required' => 'The Send To field is required.',
-            'ppn.required' => 'The PPN To field is required.',
-            'path_file.max' => 'Maximum File Size Is 2MB ',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id = 2 || $check->role_id == 3){
+            $data = $request->all();
+            // dd($data);
+            $request->validate([
+                'category_purpose' => 'required',
+                'date_ps' => 'required',
+                'dateline' => 'required',
+                'ws'      => 'required',
+                'department' => 'required',
+                'desc'  => 'required',
+                'atasan' => 'required',
+                'send_to' => 'required',
+                'path_file' => 'max:2047',
+            ], [
+                'category_purpose.required' => 'The Purpose field is required.',
+                'date_ps.required' => 'The Date field is required.',
+                'dateline.required' => 'The Date Line field is required.',
+                'ws.required' => 'The Who Submitted field is required.',
+                'department.required' => 'The Department field is required.',
+                'desc.required' => 'The Description field is required.',
+                'atasan.required' => 'The Super User field is required.',
+                'send_to.required' => 'The Send To field is required.',
+                'ppn.required' => 'The PPN To field is required.',
+                'path_file.max' => 'Maximum File Size Is 2MB ',
+            ]);
 
-        try {
+            try {
 
-        // foreach($data['category_purpose'] as $purpose => $pp ){
-            // dd($purpose);
-        $pengajuan = new CategoryPengajuanPembelian([
-            'user_id' =>  Auth::user()->id,
-            'date_ps' => $request->date_ps,
-            'dateline' => $request->dateline,
-            'ws' => $request->ws,
-            'department' => $request->department,
-            'desc' => $request->desc,
-            'atasan' => $request->atasan,
-            'send_to' => $request->send_to,
-            'ppn' => $request->ppn,
-            // 'code_pengajuan' =>
+                $pengajuan = new CategoryPengajuanPembelian([
+                    'user_id' =>  Auth::user()->id,
+                    'date_ps' => $request->date_ps,
+                    'dateline' => $request->dateline,
+                    'ws' => $request->ws,
+                    'department' => $request->department,
+                    'desc' => $request->desc,
+                    'atasan' => $request->atasan,
+                    'send_to' => $request->send_to,
+                    'ppn' => $request->ppn,
+                    // 'code_pengajuan' =>
 
-        ]);
-
-
-
-        if ($request->category_purpose == "project") {
-            $purpose1 = ReferensiNamaProject::find($request->project);
-            $pengajuan = $purpose1->purposes()->save($pengajuan);
-        } elseif ($request->category_purpose == "office") {
-            $purpose2 = Office::find($request->company);
-            $pengajuan = $purpose2->purposes()->save($pengajuan);
-        } elseif ($request->category_purpose == "workshop") {
-            $purpose3 = Workshop::find($request->workshop);
-            $pengajuan = $purpose3->purposes()->save($pengajuan);
-        } elseif ($request->category_purpose == "inventory") {
-            $purpose4 = Inventory::find($request->inventory);
-            $pengajuan = $purpose4->purposes()->save($pengajuan);
-        } elseif ($request->category_purpose == "rnd") {
-            $purpose5 = RND::find($request->rnd);
-            $pengajuan = $purpose5->purposes()->save($pengajuan);
-        } elseif ($request->category_purpose == "travel") {
-            $purpose6 = Travel::find($request->travel);
-            $pengajuan = $purpose6->purposes()->save($pengajuan);
-        }
-        // dd($pengajuan);
-
-        $year = Carbon::parse($pengajuan->created_at)->format('y');
-        $month = Carbon::parse($pengajuan->created_at)->format('m');
-        $ppb_id = str_pad($pengajuan->id,5,'0', STR_PAD_LEFT);
-        $generateppb = strtoupper($ppb_id."/PPB/SII/".$month."/".$year);
-        // dd($generateppb);
-        CategoryPengajuanPembelian::where('id',$pengajuan->id)->update([
-            'code_pengajuan' => $generateppb
-        ]);
+                ]);
 
 
-        foreach ($data['item'] as $item => $value) {
-            $file = null;
-            if($path = $request->file('path_file')[$item] ?? null) {
-                $file = $path->getClientOriginalName();
-                $path->move(public_path('upload_pengajuan'), $file);
+
+                if ($request->category_purpose == "project") {
+                    $purpose1 = ReferensiNamaProject::find($request->project);
+                    $pengajuan = $purpose1->purposes()->save($pengajuan);
+                } elseif ($request->category_purpose == "office") {
+                    $purpose2 = Office::find($request->company);
+                    $pengajuan = $purpose2->purposes()->save($pengajuan);
+                } elseif ($request->category_purpose == "workshop") {
+                    $purpose3 = Workshop::find($request->workshop);
+                    $pengajuan = $purpose3->purposes()->save($pengajuan);
+                } elseif ($request->category_purpose == "inventory") {
+                    $purpose4 = Inventory::find($request->inventory);
+                    $pengajuan = $purpose4->purposes()->save($pengajuan);
+                } elseif ($request->category_purpose == "rnd") {
+                    $purpose5 = RND::find($request->rnd);
+                    $pengajuan = $purpose5->purposes()->save($pengajuan);
+                } elseif ($request->category_purpose == "travel") {
+                    $purpose6 = Travel::find($request->travel);
+                    $pengajuan = $purpose6->purposes()->save($pengajuan);
+                }
+                // dd($pengajuan);
+
+                $year = Carbon::parse($pengajuan->created_at)->format('y');
+                $month = Carbon::parse($pengajuan->created_at)->format('m');
+                $ppb_id = str_pad($pengajuan->id,5,'0', STR_PAD_LEFT);
+                $generateppb = strtoupper($ppb_id."/PPB/SII/".$month."/".$year);
+                // dd($generateppb);
+                CategoryPengajuanPembelian::where('id',$pengajuan->id)->update([
+                    'code_pengajuan' => $generateppb
+                ]);
+
+
+                foreach ($data['item'] as $item => $value) {
+                    $file = null;
+                    if($path = $request->file('path_file')[$item] ?? null) {
+                        $file = $path->getClientOriginalName();
+                        $path->move(public_path('upload_pengajuan'), $file);
+                    }
+                    // dd($pengajuan);
+                    $data2 = array(
+                        'pp_id'             => $pengajuan->id,
+                        'item'              => $data['item'][$item],
+                        'qty'               => $data['qty'][$item],
+                        'kategori'          => $data['kategori'][$item],
+                        'path_file'         => $file,
+                    );
+                    PengajuanPembelian::create($data2);
+                }
+        // }
+
+            } catch (Exception $err) {
+                dd($err);
             }
-            // dd($pengajuan);
-            $data2 = array(
-                'pp_id'             => $pengajuan->id,
-                'item'              => $data['item'][$item],
-                'qty'               => $data['qty'][$item],
-                'kategori'          => $data['kategori'][$item],
-                'path_file'         => $file,
-            );
-            PengajuanPembelian::create($data2);
+
+            return redirect('send/'.$pengajuan->id)->with('success', 'Task Created Successfully!');
+        } else {
+            return redirect()->route('dashboard');
         }
-    // }
-
-} catch (Exception $err) {
-       dd($err);
-    }
-
-        return redirect('send/'.$pengajuan->id)->with('success', 'Task Created Successfully!');
     }
 
     /**
@@ -477,7 +516,7 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('datadepartment', $datadepartment)
             ->with('dv', $dv);
             }else {
-                return view('403Page.index');
+                return redirect()->route('dashboard');
             }
         }else if ($check->role_id == 1 || $check->role_id == 3) {
             return view('pengajuanPembelian.menu.edit')

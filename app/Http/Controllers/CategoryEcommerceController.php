@@ -21,14 +21,12 @@ class CategoryEcommerceController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 2) {
-            $datadv = CategoryEcommerce::where('user_id', Auth::user()->id)->paginate(10);
-            return view('dataEcommerce.menu.index')
-                ->with('datadv', $datadv);
-        } else if ($check->role_id == 1 || $check->role_id == 3 ||$check->role_id == 4) {
+        if ($check->role_id == 1 || $check->role_id == 3 ||$check->role_id == 4) {
             $datadv = CategoryEcommerce::orderBy('nama')->paginate(10);
             return view('dataEcommerce.menu.index')
                 ->with('datadv', $datadv);
+        } else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -63,16 +61,21 @@ class CategoryEcommerceController extends Controller
      */
     public function store(Request $request)
     {
+    $check = Role::where('model_id', Auth::user()->id)->first();
+    if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
            //validasi formnya
        $this->validate($request,[
         'nama' => 'required',
         'link' => 'required',
-    ]);
+        ]);
 
-    $dv = $request->except(['_token']);
-    $dv['user_id'] = Auth::user()->id;
-    CategoryEcommerce::insert($dv);
-    return redirect('menu-ecommerce/')->with('success', 'Task Created Successfully!');
+        $dv = $request->except(['_token']);
+        $dv['user_id'] = Auth::user()->id;
+        CategoryEcommerce::insert($dv);
+        return redirect('menu-ecommerce/')->with('success', 'Task Created Successfully!');
+    }else {
+        return redirect()->route('dashboard');
+    }
     }
 
     /**
@@ -94,9 +97,14 @@ class CategoryEcommerceController extends Controller
      */
     public function edit($id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         $dv = CategoryEcommerce::find($id);
         return view('dataEcommerce.menu.edit')
         ->with('dv' , $dv);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -108,6 +116,8 @@ class CategoryEcommerceController extends Controller
      */
     public function update(Request $request, $id)
     {
+         $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         $data = CategoryEcommerce::find($id);
 
         // dd($data);
@@ -116,6 +126,9 @@ class CategoryEcommerceController extends Controller
             "link" => $request->link,
         ]);
         return redirect("menu-ecommerce/");
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -126,14 +139,24 @@ class CategoryEcommerceController extends Controller
      */
     public function destroy($id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         $data = CategoryEcommerce::find($id);
         $data->delete();
         return redirect('/menu-ecommerce')->with('success', 'Task Deleted Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function fileImportEC()
     {
-        return view('dataEcommerce.menu.import');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
+            return view('dataEcommerce.menu.import');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function fileImport(Request $request)
@@ -161,7 +184,11 @@ class CategoryEcommerceController extends Controller
 
     public function export()
     {
-        // dd('hallo');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         return Excel::download(new EcExport, 'Ecommerce.xlsx');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 }

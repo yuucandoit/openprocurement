@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\Travel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TravelController extends Controller
 {
@@ -14,9 +16,14 @@ class TravelController extends Controller
      */
     public function index()
     {
-        $data = Travel::paginate(10);
-        return view('dataTravel.index')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Travel::paginate(10);
+            return view('dataTravel.index')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchTravel(Request $request)
@@ -38,7 +45,12 @@ class TravelController extends Controller
      */
     public function create()
     {
-        return view('dataTravel.create');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            return view('dataTravel.create');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -49,15 +61,20 @@ class TravelController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name' => 'required',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $this->validate($request,[
+                'name' => 'required',
+            ]);
 
-       Travel::create([
-            "name" => $request->name,
-        ]);
+        Travel::create([
+                "name" => $request->name,
+            ]);
 
-        return redirect("travel/")->with('success', 'Created Successfully!');
+            return redirect("travel/")->with('success', 'Created Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -79,9 +96,14 @@ class TravelController extends Controller
      */
     public function edit(Travel $travel,$id)
     {
-        $data = Travel::find($id);
-        return view('dataTravel.edit')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Travel::find($id);
+            return view('dataTravel.edit')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -93,15 +115,20 @@ class TravelController extends Controller
      */
     public function update(Request $request, Travel $travel,$id)
     {
-        $this->validate($request,[
-            'name' => 'required',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $this->validate($request,[
+                'name' => 'required',
+            ]);
 
-       Travel::where('id',$id)->update([
-            "name" => $request->name,
-        ]);
+        Travel::where('id',$id)->update([
+                "name" => $request->name,
+            ]);
 
-        return redirect("travel/")->with('success', 'Created Successfully!');
+            return redirect("travel/")->with('success', 'Created Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -112,8 +139,13 @@ class TravelController extends Controller
      */
     public function destroy(Travel $travel,$id)
     {
-        $data = Travel::find($id);
-        $data->delete();
-        return redirect("travel/")->with('success', 'Deleted Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Travel::find($id);
+            $data->delete();
+            return redirect("travel/")->with('success', 'Deleted Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -14,9 +16,14 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $data = Department::paginate(10);
-        return view('dataDepartment.index')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Department::paginate(10);
+            return view('dataDepartment.index')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchDepartment(Request $request)
@@ -38,9 +45,14 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        $data = Department::all();
-        return view('dataDepartment.create')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Department::all();
+            return view('dataDepartment.create')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -51,6 +63,8 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
         //validasi formnya
         $this->validate($request,[
             'name' => 'required',
@@ -61,6 +75,9 @@ class DepartmentController extends Controller
         ]);
 
         return redirect("department/")->with('success', 'Created Successfully!');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -82,9 +99,14 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department, $id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
         $data = Department::find($id);
         return view('dataDepartment.edit')
         ->with('data', $data);
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -96,13 +118,16 @@ class DepartmentController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $data = Department::find($id);
-
-        // dd($data);
-        $tes = Department::where("id", $id)->update([
-            "name" => $request->name,
-        ]);
-        return redirect("department/")->with('success', 'Updated Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Department::find($id);
+            $tes = Department::where("id", $id)->update([
+                "name" => $request->name,
+            ]);
+            return redirect("department/")->with('success', 'Updated Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -113,8 +138,13 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department, $id)
     {
-        $data = Department::find($id);
-        $data->delete();
-        return redirect("department/")->with('success', 'Deleted Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Department::find($id);
+            $data->delete();
+            return redirect("department/")->with('success', 'Deleted Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 }

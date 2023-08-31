@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Exports\DBRolesExport;
+use App\Models\Role;
 use App\Models\Roles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RoleController extends Controller
@@ -16,9 +18,14 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $role = Roles::orderBy('name', 'ASC')->paginate(10);
-        return view('admin_role.index')
-            ->with('role', $role);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $role = Roles::orderBy('name', 'ASC')->paginate(10);
+            return view('admin_role.index')
+                ->with('role', $role);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchRoles(Request $request)
@@ -55,15 +62,20 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            "name" => 'required',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $this->validate($request, [
+                "name" => 'required',
+            ]);
 
-        Roles::create([
-            'name' => $request->name,
-            'guard_name' => 'web',
-        ]);
-        return redirect()->route('role.index')->with('success', 'Created Successfully!');
+            Roles::create([
+                'name' => $request->name,
+                'guard_name' => 'web',
+            ]);
+            return redirect()->route('role.index')->with('success', 'Created Successfully!');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -97,15 +109,20 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            "name" => 'required',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $this->validate($request, [
+                "name" => 'required',
+            ]);
 
-        Roles::where('id',$request->id)->update([
-            'name' => $request->name,
-            'guard_name' => 'web',
-        ]);
-        return redirect()->route('role.index')->with('success', 'Created Successfully!');
+            Roles::where('id',$request->id)->update([
+                'name' => $request->name,
+                'guard_name' => 'web',
+            ]);
+            return redirect()->route('role.index')->with('success', 'Created Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**

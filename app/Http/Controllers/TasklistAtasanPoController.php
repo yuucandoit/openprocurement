@@ -40,6 +40,8 @@ class TasklistAtasanPoController extends Controller
             return view('taskList_atasan_PO.menu.index')
             ->with('datapo', $datapo)
             ->with('datappb', $datappb);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -57,6 +59,8 @@ class TasklistAtasanPoController extends Controller
             return view('taskList_atasan_PO.menu.spesific.sindu')
             ->with('datapo', $datapo)
             ->with('datappb', $datappb);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -74,6 +78,8 @@ class TasklistAtasanPoController extends Controller
             return view('taskList_atasan_PO.menu.spesific.bayu')
             ->with('datapo', $datapo)
             ->with('datappb', $datappb);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -91,6 +97,8 @@ class TasklistAtasanPoController extends Controller
             return view('taskList_atasan_PO.menu.spesific.victor')
             ->with('datapo', $datapo)
             ->with('datappb', $datappb);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -108,6 +116,8 @@ class TasklistAtasanPoController extends Controller
             return view('taskList_atasan_PO.menu.spesific.erwin')
             ->with('datapo', $datapo)
             ->with('datappb', $datappb);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -125,6 +135,8 @@ class TasklistAtasanPoController extends Controller
             return view('taskList_atasan_PO.menu.spesific.triyani')
             ->with('datapo', $datapo)
             ->with('datappb', $datappb);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -156,6 +168,8 @@ class TasklistAtasanPoController extends Controller
             return view('taskList_atasan_PO.menu.history')
             ->with('datappb', $datappb)
             ->with('datapo', $datapo);
+        } else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -208,614 +222,654 @@ class TasklistAtasanPoController extends Controller
 
     public function detail($id)
     {
-        $data_pengajuan     = CategoryPengajuanPembelian::find($id);
-        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
-        $datapo             = CategoryPO::where('ppb_id', $id)->get();
-        $items              = CategoryPO::where('ppb_id',$id)->get();
-        $vendor             = CategoryPO::where('ppb_id',$id)->first();
-        $comments           = Comment::where('ppb_id',$id)->get();
-        $groupedItem        = ItemPO::groupBy('po_id')->get();
-        $itempurchase       = ItemPO::groupBy('po_id')->first();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $disc               = PengajuanPembelian::where('pp_id', $id)->first();
-        return view('taskList_atasan_PO.menu.detail')
-            ->with('pengajuan', $pengajuan)
-            ->with('datapo',$datapo)
-            ->with('groupedItem',$groupedItem)
-            ->with('items',$items)
-            ->with('itempurchase',$itempurchase)
-            ->with('vendor',$vendor)
-            ->with('comments', $comments)
-            ->with('data_pengajuan', $data_pengajuan)
-            ->with('dpp', $dpp)
-            ->with('ppn', $ppn)
-            ->with('total', $total)
-            ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('disc', $disc);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $data_pengajuan     = CategoryPengajuanPembelian::find($id);
+            $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+            $datapo             = CategoryPO::where('ppb_id', $id)->get();
+            $items              = CategoryPO::where('ppb_id',$id)->get();
+            $vendor             = CategoryPO::where('ppb_id',$id)->first();
+            $comments           = Comment::where('ppb_id',$id)->get();
+            $groupedItem        = ItemPO::groupBy('po_id')->get();
+            $itempurchase       = ItemPO::groupBy('po_id')->first();
+            $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $disc               = PengajuanPembelian::where('pp_id', $id)->first();
+            return view('taskList_atasan_PO.menu.detail')
+                ->with('pengajuan', $pengajuan)
+                ->with('datapo',$datapo)
+                ->with('groupedItem',$groupedItem)
+                ->with('items',$items)
+                ->with('itempurchase',$itempurchase)
+                ->with('vendor',$vendor)
+                ->with('comments', $comments)
+                ->with('data_pengajuan', $data_pengajuan)
+                ->with('dpp', $dpp)
+                ->with('ppn', $ppn)
+                ->with('total', $total)
+                ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                ->with('disc', $disc);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function po_detail($id)
     {
-        $datapo             = CategoryPO::where('id', $id)->get();
-        $datacpo            = CategoryPO::where('id', $id)->first();
-        $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
-        $dataws             = WhoSubmitted::all();
-        $datadepartment     = Department::all();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $comments           = Comment::where('ppb_id',$id)->get();
-        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $datapo             = CategoryPO::where('id', $id)->get();
+            $datacpo            = CategoryPO::where('id', $id)->first();
+            $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $comments           = Comment::where('ppb_id',$id)->get();
+            $disc               = PengajuanPembelian::where('pp_id',$id)->first();
 
-        //dd($datacpo);
-        return view('taskList_atasan_PO.menu.po')
-            ->with('pengajuan', $pengajuan)
-            ->with('dpp', $dpp)
-            ->with('datapo', $datapo)
-            ->with('dataws', $dataws)
-            ->with('datacpo', $datacpo)
-            ->with('datadepartment', $datadepartment)
-            ->with('ppn', $ppn)
-            ->with('total', $total)
-            ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('disc', $disc)
-            ->with('comments', $comments);
+            //dd($datacpo);
+            return view('taskList_atasan_PO.menu.po')
+                ->with('pengajuan', $pengajuan)
+                ->with('dpp', $dpp)
+                ->with('datapo', $datapo)
+                ->with('dataws', $dataws)
+                ->with('datacpo', $datacpo)
+                ->with('datadepartment', $datadepartment)
+                ->with('ppn', $ppn)
+                ->with('total', $total)
+                ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                ->with('disc', $disc)
+                ->with('comments', $comments);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
 
     public function edit($id)
     {
-        $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
-        $datapt = CategoryPT::all();
-        $dv = CategoryPengajuanPembelian::find($id);
-        $purpose = ReferensiNamaProject::all();
-        $dataws             = WhoSubmitted::all();
-        $datadepartment     = Department    ::all();
-        $item = PengajuanPembelian::where('pp_id', $id)->get();
-        return view('taskList_atasan_PO.menu.edit')
-            ->with('atasan', $atasan)
-            ->with('datapt', $datapt)
-            ->with('purpose', $purpose)
-            ->with('dataws', $dataws)
-            ->with('datadepartment', $datadepartment)
-            ->with('item', $item)
-            ->with('dv', $dv);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
+            $datapt = CategoryPT::all();
+            $dv = CategoryPengajuanPembelian::find($id);
+            $purpose = ReferensiNamaProject::all();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department    ::all();
+            $item = PengajuanPembelian::where('pp_id', $id)->get();
+            return view('taskList_atasan_PO.menu.edit')
+                ->with('atasan', $atasan)
+                ->with('datapt', $datapt)
+                ->with('purpose', $purpose)
+                ->with('dataws', $dataws)
+                ->with('datadepartment', $datadepartment)
+                ->with('item', $item)
+                ->with('dv', $dv);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
 
     public function update(Request $request, $id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+                    PengajuanPembelian::where('pp_id',$id)->delete();
+                    $request->validate([
+                        'purpose' => 'required',
+                        'date_ps' => 'required',
+                        'dateline'=> 'required',
+                        'ws'      => 'required',
+                        'department'=>'required',
+                        'desc'  => 'required',
+                        'atasan' => 'required',
+                        'matauang'=>'required',
+                        'send_to'=>'required',
+                    ],[
+                        'purpose.required' => 'The Purpose field is required.',
+                        'date_ps.required' => 'The Date field is required.',
+                        'dateline.required' => 'The Date Line field is required.',
+                        'ws.required' => 'The Who Submitted field is required.',
+                        'department.required' => 'The Department field is required.',
+                        'desc.required' => 'The Description field is required.',
+                        'atasan.required' => 'The Super User field is required.',
+                        'mata_uang.required' => 'The Currency field is required.',
+                        'send_to.required' => 'The Send To field is required.',
+                    ]);
 
-        PengajuanPembelian::where('pp_id',$id)->delete();
-        $request->validate([
-            'purpose' => 'required',
-            'date_ps' => 'required',
-            'dateline'=> 'required',
-            'ws'      => 'required',
-            'department'=>'required',
-            'desc'  => 'required',
-            'atasan' => 'required',
-            'matauang'=>'required',
-            'send_to'=>'required',
-        ],[
-            'purpose.required' => 'The Purpose field is required.',
-            'date_ps.required' => 'The Date field is required.',
-            'dateline.required' => 'The Date Line field is required.',
-            'ws.required' => 'The Who Submitted field is required.',
-            'department.required' => 'The Department field is required.',
-            'desc.required' => 'The Description field is required.',
-            'atasan.required' => 'The Super User field is required.',
-            'mata_uang.required' => 'The Currency field is required.',
-            'send_to.required' => 'The Send To field is required.',
-        ]);
+                    $data2 = $request->all();
+                    //dd($data2);
 
-        $data2 = $request->all();
-        //dd($data2);
-
-        if ($request->purpose == "custom") {
-            $project = ReferensiNamaProject::where("id", $id)->update([
-                'nama' => $request->nama,
-            ]);
-            $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
-                'user_id' =>  Auth::user()->id,
-                'date_ps' => $request->date_ps,
-                'dateline' => $request->dateline,
-                'ws' => $request->ws,
-                'purpose' => $project->id,
-                'department' => $request->department,
-                'desc' => $request->desc,
-                'atasan' => $request->atasan,
-                'matauang' => $request->matauang,
-                // 'proposed_supplier' => $request->proposed_supplier,
-                'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
-            ]);
-        } else {
-            $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
-                'user_id' =>  Auth::user()->id,
-                'date_ps' => $request->date_ps,
-                'dateline' => $request->dateline,
-                'ws' => $request->ws,
-                'purpose' => $request->purpose,
-                'department' => $request->department,
-                'desc' => $request->desc,
-                'atasan' => $request->atasan,
-                'matauang' => $request->matauang,
-                // 'proposed_supplier' => $request->proposed_supplier,
-                'send_to' => $request->send_to,
-                'ppn' => $request->ppn,
-            ]);
-        }
+                    if ($request->purpose == "custom") {
+                        $project = ReferensiNamaProject::where("id", $id)->update([
+                            'nama' => $request->nama,
+                        ]);
+                        $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
+                            'user_id' =>  Auth::user()->id,
+                            'date_ps' => $request->date_ps,
+                            'dateline' => $request->dateline,
+                            'ws' => $request->ws,
+                            'purpose' => $project->id,
+                            'department' => $request->department,
+                            'desc' => $request->desc,
+                            'atasan' => $request->atasan,
+                            'matauang' => $request->matauang,
+                            // 'proposed_supplier' => $request->proposed_supplier,
+                            'send_to' => $request->send_to,
+                            'ppn' => $request->ppn,
+                        ]);
+                    } else {
+                        $pengajuan = CategoryPengajuanPembelian::where("id", $id)->update([
+                            'user_id' =>  Auth::user()->id,
+                            'date_ps' => $request->date_ps,
+                            'dateline' => $request->dateline,
+                            'ws' => $request->ws,
+                            'purpose' => $request->purpose,
+                            'department' => $request->department,
+                            'desc' => $request->desc,
+                            'atasan' => $request->atasan,
+                            'matauang' => $request->matauang,
+                            // 'proposed_supplier' => $request->proposed_supplier,
+                            'send_to' => $request->send_to,
+                            'ppn' => $request->ppn,
+                        ]);
+                    }
 
 
 
-        if($request->item){
-            foreach ($data2['item'] as $item => $value) {
-                $unit_price = str_replace(".", "", $data2['unit_price'][$item]);
-                $data3 = array(
-                    'pp_id'             => $id,
-                    'item'              => $data2['item'][$item],
-                    'qty'               => $data2['qty'][$item],
-                    'kategori'          => $data2['kategori'][$item],
-                    'unit_price'        => $unit_price,
-                    'total'             => $data2['total'][$item],
-                );
-                // $unit_price = str_replace(".", "", $item['unit_price']);
-                PengajuanPembelian::create($data3);
-        }
-    }
-        return redirect("menu-taskList-atasan-po");
+                    if($request->item){
+                        foreach ($data2['item'] as $item => $value) {
+                            $unit_price = str_replace(".", "", $data2['unit_price'][$item]);
+                            $data3 = array(
+                                'pp_id'             => $id,
+                                'item'              => $data2['item'][$item],
+                                'qty'               => $data2['qty'][$item],
+                                'kategori'          => $data2['kategori'][$item],
+                                'unit_price'        => $unit_price,
+                                'total'             => $data2['total'][$item],
+                            );
+                            // $unit_price = str_replace(".", "", $item['unit_price']);
+                            PengajuanPembelian::create($data3);
+                    }
+                }
+                    return redirect("menu-taskList-atasan-po");
+            }else {
+                return redirect()->route('dashboard');
+            }
     }
 
 
 
     public function accept_atasan(Request $request,$id)
     {
-        // dd($id);
-        $data = CategoryPengajuanPembelian::find($id);
-        $data->note_bod_po = $request->note_po;
-        $data->status = 'PO Approved';
-        $data->save();
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $data = CategoryPengajuanPembelian::find($id);
+            $data->note_bod_po = $request->note_po;
+            $data->status = 'PO Approved';
+            $data->save();
 
-        $cpo = CategoryPO::where('ppb_id',$id)->first();
-        // dd($cpo);
-        $sig = new POSignature();
-       //dd($cpo);
-        if($data->atasan_po == 3){
-            $cpo->signature = 'superadmin.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->save();
+            $cpo = CategoryPO::where('ppb_id',$id)->first();
+            // dd($cpo);
+            $sig = new POSignature();
+        //dd($cpo);
+            if($data->atasan_po == 3){
+                $cpo->signature = 'superadmin.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->save();
 
-            $sig->ppb_id = $id;
-            $sig->signature = 'superadmin.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-            CategoryPO::where('ppb_id', $id)->update([
-                'status' => 'PO Approved'
-            ]);
-        }elseif($data->atasan_po == 6){
-            $cpo->signature = 'sinduirawan.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->save();
+                $sig->ppb_id = $id;
+                $sig->signature = 'superadmin.png';
+                $sig->approved_at = Carbon::now();
+                $sig->save();
+                CategoryPO::where('ppb_id', $id)->update([
+                    'status' => 'PO Approved'
+                ]);
+            }elseif($data->atasan_po == 6){
+                $cpo->signature = 'sinduirawan.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->save();
 
-            $sig->ppb_id = $id;
-            $sig->signature = 'sinduirawan.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-            CategoryPO::where('ppb_id', $id)->update([
-                'status' => 'PO Approved'
-            ]);
-        }elseif($data->atasan_po == 7){
-            $cpo->signature = 'bayu.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->save();
+                $sig->ppb_id = $id;
+                $sig->signature = 'sinduirawan.png';
+                $sig->approved_at = Carbon::now();
+                $sig->save();
+                CategoryPO::where('ppb_id', $id)->update([
+                    'status' => 'PO Approved'
+                ]);
+            }elseif($data->atasan_po == 7){
+                $cpo->signature = 'bayu.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->save();
 
-            $sig->ppb_id = $id;
-            $sig->signature = 'bayu.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-            CategoryPO::where('ppb_id', $id)->update([
-                'status' => 'PO Approved'
-            ]);
-        }elseif($data->atasan_po == 8){
-            $cpo->signature = 'victor.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->save();
+                $sig->ppb_id = $id;
+                $sig->signature = 'bayu.png';
+                $sig->approved_at = Carbon::now();
+                $sig->save();
+                CategoryPO::where('ppb_id', $id)->update([
+                    'status' => 'PO Approved'
+                ]);
+            }elseif($data->atasan_po == 8){
+                $cpo->signature = 'victor.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->save();
 
-            $sig->ppb_id = $id;
-            $sig->signature = 'victor.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-            CategoryPO::where('ppb_id', $id)->update([
-                'status' => 'PO Approved'
-            ]);
-        }elseif($data->atasan_po == 9){
-            $cpo->signature = 'erwin.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->save();
+                $sig->ppb_id = $id;
+                $sig->signature = 'victor.png';
+                $sig->approved_at = Carbon::now();
+                $sig->save();
+                CategoryPO::where('ppb_id', $id)->update([
+                    'status' => 'PO Approved'
+                ]);
+            }elseif($data->atasan_po == 9){
+                $cpo->signature = 'erwin.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->save();
 
-            $sig->ppb_id = $id;
-            $sig->signature = 'erwin.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-            CategoryPO::where('ppb_id', $id)->update([
-                'status' => 'PO Approved'
-            ]);
-        }elseif($data->atasan_po == 24){
-            $cpo->signature = 'Triyani.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->save();
+                $sig->ppb_id = $id;
+                $sig->signature = 'erwin.png';
+                $sig->approved_at = Carbon::now();
+                $sig->save();
+                CategoryPO::where('ppb_id', $id)->update([
+                    'status' => 'PO Approved'
+                ]);
+            }elseif($data->atasan_po == 24){
+                $cpo->signature = 'Triyani.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->save();
 
-            $sig->ppb_id = $id;
-            $sig->signature = 'Triyani.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-            CategoryPO::where('ppb_id', $id)->update([
-                'status' => 'PO Approved'
-            ]);
+                $sig->ppb_id = $id;
+                $sig->signature = 'Triyani.png';
+                $sig->approved_at = Carbon::now();
+                $sig->save();
+                CategoryPO::where('ppb_id', $id)->update([
+                    'status' => 'PO Approved'
+                ]);
+            }
+
+            return redirect('menu-taskList-atasan-po');
+        }else {
+            return redirect()->route('dashboard');
         }
-
-        return redirect('menu-taskList-atasan-po');
     }
 
     public function accept_atasan_selected_po(Request $request)
     {
-        // dd($request->ids);
-        $ids = explode(',', $request->ids);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+                $ids = explode(',', $request->ids);
 
-        $data = CategoryPengajuanPembelian::find($ids);
+                $data = CategoryPengajuanPembelian::find($ids);
 
-       foreach($data as $d){
-        if($d->atasan_po == 3){
-            CategoryPO::whereIn('ppb_id',$ids)->update([
-            'signature' => 'superadmin.png',
-            'approved_at' => Carbon::now(),
-            ]);
-            $d->status = 'PO Approved';
-            $d->save();
-
-            $sig = new POSignature();
-            $sig->ppb_id = $d->id;
-            $sig->signature = 'superadmin.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-        }elseif($d->atasan_po == 6){
-            CategoryPO::whereIn('ppb_id',$ids)->update([
-                'signature' => 'sinduirawan.png',
-                'approved_at' => Carbon::now(),
-                'status' => 'PO Approved'
-                ]);
-            $d->status = 'PO Approved';
-            $d->save();
-
-            $sig = new POSignature();
-            $sig->ppb_id = $d->id;
-            $sig->signature = 'sinduirawan.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-        }elseif($d->atasan_po == 7){
-            CategoryPO::whereIn('ppb_id',$ids)->update([
-                'signature' => 'bayu.png',
-                'approved_at' => Carbon::now(),
-                'status' => 'PO Approved'
-            ]);
-            $d->status = 'PO Approved';
-            $d->save();
-
-            $sig = new POSignature();
-            $sig->ppb_id = $d->id;
-            $sig->signature = 'bayu.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-        }elseif($d->atasan_po == 8){
-            CategoryPO::whereIn('ppb_id',$ids)->update([
-                'signature' => 'victor.png',
-                'approved_at' => Carbon::now(),
-                'status' => 'PO Approved'
-            ]);
-            $d->status = 'PO Approved';
-            $d->save();
-
-            $sig = new POSignature();
-            $sig->ppb_id = $d->id;
-            $sig->signature = 'victor.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-        }elseif($d->atasan_po == 9){
-            CategoryPO::whereIn('ppb_id',$ids)->update([
-                'signature' => 'erwin.png',
-                'approved_at' => Carbon::now(),
-                'status' => 'PO Approved'
-            ]);
-            $d->status = 'PO Approved';
-            $d->save();
-
-            $sig = new POSignature();
-            $sig->ppb_id = $d->id;
-            $sig->signature = 'erwin.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-        }elseif($d->atasan_po == 24){
-                CategoryPO::whereIn('ppb_id',$ids)->update([
-                    'signature' => 'Triyani.png',
+            foreach($data as $d){
+                if($d->atasan_po == 3){
+                    CategoryPO::whereIn('ppb_id',$ids)->update([
+                    'signature' => 'superadmin.png',
                     'approved_at' => Carbon::now(),
-                    'status' => 'PO Approved'
-                ]);
-                $d->status = 'PO Approved';
-                $d->save();
+                    ]);
+                    $d->status = 'PO Approved';
+                    $d->save();
 
-                $sig = new POSignature();
-                $sig->ppb_id = $d->id;
-                $sig->signature = 'Triyani.png';
-                $sig->approved_at = Carbon::now();
-                $sig->save();
-            }
+                    $sig = new POSignature();
+                    $sig->ppb_id = $d->id;
+                    $sig->signature = 'superadmin.png';
+                    $sig->approved_at = Carbon::now();
+                    $sig->save();
+                }elseif($d->atasan_po == 6){
+                    CategoryPO::whereIn('ppb_id',$ids)->update([
+                        'signature' => 'sinduirawan.png',
+                        'approved_at' => Carbon::now(),
+                        'status' => 'PO Approved'
+                        ]);
+                    $d->status = 'PO Approved';
+                    $d->save();
+
+                    $sig = new POSignature();
+                    $sig->ppb_id = $d->id;
+                    $sig->signature = 'sinduirawan.png';
+                    $sig->approved_at = Carbon::now();
+                    $sig->save();
+                }elseif($d->atasan_po == 7){
+                    CategoryPO::whereIn('ppb_id',$ids)->update([
+                        'signature' => 'bayu.png',
+                        'approved_at' => Carbon::now(),
+                        'status' => 'PO Approved'
+                    ]);
+                    $d->status = 'PO Approved';
+                    $d->save();
+
+                    $sig = new POSignature();
+                    $sig->ppb_id = $d->id;
+                    $sig->signature = 'bayu.png';
+                    $sig->approved_at = Carbon::now();
+                    $sig->save();
+                }elseif($d->atasan_po == 8){
+                    CategoryPO::whereIn('ppb_id',$ids)->update([
+                        'signature' => 'victor.png',
+                        'approved_at' => Carbon::now(),
+                        'status' => 'PO Approved'
+                    ]);
+                    $d->status = 'PO Approved';
+                    $d->save();
+
+                    $sig = new POSignature();
+                    $sig->ppb_id = $d->id;
+                    $sig->signature = 'victor.png';
+                    $sig->approved_at = Carbon::now();
+                    $sig->save();
+                }elseif($d->atasan_po == 9){
+                    CategoryPO::whereIn('ppb_id',$ids)->update([
+                        'signature' => 'erwin.png',
+                        'approved_at' => Carbon::now(),
+                        'status' => 'PO Approved'
+                    ]);
+                    $d->status = 'PO Approved';
+                    $d->save();
+
+                    $sig = new POSignature();
+                    $sig->ppb_id = $d->id;
+                    $sig->signature = 'erwin.png';
+                    $sig->approved_at = Carbon::now();
+                    $sig->save();
+                }elseif($d->atasan_po == 24){
+                        CategoryPO::whereIn('ppb_id',$ids)->update([
+                            'signature' => 'Triyani.png',
+                            'approved_at' => Carbon::now(),
+                            'status' => 'PO Approved'
+                        ]);
+                        $d->status = 'PO Approved';
+                        $d->save();
+
+                        $sig = new POSignature();
+                        $sig->ppb_id = $d->id;
+                        $sig->signature = 'Triyani.png';
+                        $sig->approved_at = Carbon::now();
+                        $sig->save();
+                    }
+                }
+
+                return redirect('menu-taskList-atasan-po');
+        }else {
+            return redirect()->route('dashboard');
         }
-
-        return redirect('menu-taskList-atasan-po');
     }
 
     public function accept_atasan_po(Request $request,$id)
     {
-        // dd($id);
-        $cpo = CategoryPO::find($id);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            // dd($id);
+            $cpo = CategoryPO::find($id);
 
-        CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->update([
-            'note_bod_po' => $request->note_po,
-        ]);
-        $data = CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->first();
-        // $data->note_bod_po = $request->note_po;
-        // $data->status = 'PO Approved';
-        // $data->save();
+            CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->update([
+                'note_bod_po' => $request->note_po,
+            ]);
+            $data = CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->first();
+            // $data->note_bod_po = $request->note_po;
+            // $data->status = 'PO Approved';
+            // $data->save();
 
-        // dd($data->atasan_po);
-        $sig = new POSignature();
-       //dd($cpo);
-        if($data->atasan_po == 3){
-            $cpo->signature = 'superadmin.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->status = 'PO Approved';
-            $cpo->save();
+            // dd($data->atasan_po);
+            $sig = new POSignature();
+        //dd($cpo);
+            if($data->atasan_po == 3){
+                $cpo->signature = 'superadmin.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->status = 'PO Approved';
+                $cpo->save();
 
-            $sig->ppb_id = $cpo->ppb_id;
-            $sig->signature = 'superadmin.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-
-            if($data->status == 'Waiting For PO Approval'){
-                $data->note_bod_po = $request->note_po;
-                $data->status = 'PO Approved';
-                $data->save();
-            }
-
-        }elseif($data->atasan_po == 6){
-            $cpo->signature = 'sinduirawan.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->status = 'PO Approved';
-            $cpo->save();
-
-            $sig->ppb_id = $cpo->ppb_id;
-            $sig->signature = 'sinduirawan.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-
-            if($data->status == 'Waiting For PO Approval'){
-                $data->note_bod_po = $request->note_po;
-                $data->status = 'PO Approved';
-                $data->save();
-            }
-        }elseif($data->atasan_po == 7){
-            $cpo->signature = 'bayu.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->status = 'PO Approved';
-            $cpo->save();
-
-            $sig->ppb_id = $cpo->ppb_id;
-            $sig->signature = 'bayu.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-
-            if($data->status == 'Waiting For PO Approval'){
-                $data->note_bod_po = $request->note_po;
-                $data->status = 'PO Approved';
-                $data->save();
-            }
-
-        }elseif($data->atasan_po == 8){
-            $cpo->signature = 'victor.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->status = 'PO Approved';
-            $cpo->save();
-
-            $sig->ppb_id = $cpo->ppb_id;
-            $sig->signature = 'victor.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-
-            if($data->status == 'Waiting For PO Approval'){
-                $data->note_bod_po = $request->note_po;
-                $data->status = 'PO Approved';
-                $data->save();
-            }
-
-        }elseif($data->atasan_po == 9){
-            $cpo->signature = 'erwin.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->status = 'PO Approved';
-            $cpo->save();
-
-            $sig->ppb_id = $cpo->ppb_id;
-            $sig->signature = 'erwin.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-
-            if($data->status == 'Waiting For PO Approval'){
-                $data->note_bod_po = $request->note_po;
-                $data->status = 'PO Approved';
-                $data->save();
-            }
-
-        }elseif($data->atasan_po == 24){
-            $cpo->signature = 'Triyani.png';
-            $cpo->approved_at = Carbon::now();
-            $cpo->status = 'PO Approved';
-            $cpo->save();
-
-            $sig->ppb_id = $cpo->ppb_id;
-            $sig->signature = 'Triyani.png';
-            $sig->approved_at = Carbon::now();
-            $sig->save();
-
-            if($data->status == 'Waiting For PO Approval'){
-                $data->note_bod_po = $request->note_po;
-                $data->status = 'PO Approved';
-                $data->save();
-            }
-
-        }
-
-        return redirect('menu-taskList-atasan-po');
-    }
-
-    public function accept_atasan_selected_prchs(Request $request)
-    {
-        // dd($request->ids);
-        $ids = explode(',', $request->ids);
-        // dd($ids);
-        $data = CategoryPO::find($ids);
-        // $ppb = CategoryPengajuanPembelian::whereIn('id', $data->ppb_id)->get();
-        // dd($data->ppb);
-
-        foreach($data as $d){
-            // dd($d->ppb->atasan_po == 3);
-            if($d->atasan_po == 3){
-                CategoryPO::whereIn('id',$ids)->update([
-                'status' =>    'PO Approved',
-                'signature' => 'superadmin.png',
-                'approved_at' => Carbon::now(),
-                ]);
-
-                $sig = new POSignature();
-                $sig->ppb_id = $d->ppb_id;
+                $sig->ppb_id = $cpo->ppb_id;
                 $sig->signature = 'superadmin.png';
                 $sig->approved_at = Carbon::now();
                 $sig->save();
 
-                if($d->ppb->status == 'Waiting For PO Approval'){
-                    CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
-                        'status' => 'PO Approved',
-                    ]);
+                if($data->status == 'Waiting For PO Approval'){
+                    $data->note_bod_po = $request->note_po;
+                    $data->status = 'PO Approved';
+                    $data->save();
                 }
 
-            }elseif($d->atasan_po == 6){
-                CategoryPO::whereIn('id',$ids)->update([
-                    'signature' => 'sinduirawan.png',
-                    'approved_at' => Carbon::now(),
-                    'status' => 'PO Approved'
-                    ]);
+            }elseif($data->atasan_po == 6){
+                $cpo->signature = 'sinduirawan.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->status = 'PO Approved';
+                $cpo->save();
 
-
-                $sig = new POSignature();
-                $sig->ppb_id = $d->ppb_id;
+                $sig->ppb_id = $cpo->ppb_id;
                 $sig->signature = 'sinduirawan.png';
                 $sig->approved_at = Carbon::now();
                 $sig->save();
 
-                if($d->ppb->status == 'Waiting For PO Approval'){
-                    CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
-                        'status' => 'PO Approved',
-                    ]);
+                if($data->status == 'Waiting For PO Approval'){
+                    $data->note_bod_po = $request->note_po;
+                    $data->status = 'PO Approved';
+                    $data->save();
                 }
-            }elseif($d->atasan_po == 7){
-                CategoryPO::whereIn('id',$ids)->update([
-                    'signature' => 'bayu.png',
-                    'approved_at' => Carbon::now(),
-                    'status' => 'PO Approved'
-                ]);
+            }elseif($data->atasan_po == 7){
+                $cpo->signature = 'bayu.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->status = 'PO Approved';
+                $cpo->save();
 
-                $sig = new POSignature();
-                $sig->ppb_id = $d->ppb_id;
+                $sig->ppb_id = $cpo->ppb_id;
                 $sig->signature = 'bayu.png';
                 $sig->approved_at = Carbon::now();
                 $sig->save();
 
-                if($d->ppb->status == 'Waiting For PO Approval'){
-                    CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
-                        'status' => 'PO Approved',
-                    ]);
+                if($data->status == 'Waiting For PO Approval'){
+                    $data->note_bod_po = $request->note_po;
+                    $data->status = 'PO Approved';
+                    $data->save();
                 }
-            }elseif($d->atasan_po == 8){
-                CategoryPO::whereIn('id',$ids)->update([
-                    'signature' => 'victor.png',
-                    'approved_at' => Carbon::now(),
-                    'status' => 'PO Approved'
-                ]);
 
-                $sig = new POSignature();
-                $sig->ppb_id = $d->ppb_id;
+            }elseif($data->atasan_po == 8){
+                $cpo->signature = 'victor.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->status = 'PO Approved';
+                $cpo->save();
+
+                $sig->ppb_id = $cpo->ppb_id;
                 $sig->signature = 'victor.png';
                 $sig->approved_at = Carbon::now();
                 $sig->save();
 
-                if($d->ppb->status == 'Waiting For PO Approval'){
-                    CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
-                        'status' => 'PO Approved',
-                    ]);
+                if($data->status == 'Waiting For PO Approval'){
+                    $data->note_bod_po = $request->note_po;
+                    $data->status = 'PO Approved';
+                    $data->save();
                 }
-            }elseif($d->atasan_po == 9){
-                CategoryPO::whereIn('id',$ids)->update([
-                    'signature' => 'erwin.png',
-                    'approved_at' => Carbon::now(),
-                    'status' => 'PO Approved'
-                ]);
 
-                $sig = new POSignature();
-                $sig->ppb_id = $d->ppb_id;
+            }elseif($data->atasan_po == 9){
+                $cpo->signature = 'erwin.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->status = 'PO Approved';
+                $cpo->save();
+
+                $sig->ppb_id = $cpo->ppb_id;
                 $sig->signature = 'erwin.png';
                 $sig->approved_at = Carbon::now();
                 $sig->save();
 
-                if($d->ppb->status == 'Waiting For PO Approval'){
-                    CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
-                        'status' => 'PO Approved',
-                    ]);
+                if($data->status == 'Waiting For PO Approval'){
+                    $data->note_bod_po = $request->note_po;
+                    $data->status = 'PO Approved';
+                    $data->save();
                 }
-            }elseif($d->atasan_po == 24){
-                    CategoryPO::whereIn('id',$ids)->update([
-                        'signature' => 'Triyani.png',
-                        'approved_at' => Carbon::now(),
-                        'status' => 'PO Approved'
-                    ]);
 
-                    $sig = new POSignature();
-                    $sig->ppb_id = $d->ppb_id;
-                    $sig->signature = 'Triyani.png';
-                    $sig->approved_at = Carbon::now();
-                    $sig->save();
+            }elseif($data->atasan_po == 24){
+                $cpo->signature = 'Triyani.png';
+                $cpo->approved_at = Carbon::now();
+                $cpo->status = 'PO Approved';
+                $cpo->save();
 
-                    if($d->ppb->status == 'Waiting For PO Approval'){
-                        CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
-                            'status' => 'PO Approved',
-                        ]);
-                    }
+                $sig->ppb_id = $cpo->ppb_id;
+                $sig->signature = 'Triyani.png';
+                $sig->approved_at = Carbon::now();
+                $sig->save();
+
+                if($data->status == 'Waiting For PO Approval'){
+                    $data->note_bod_po = $request->note_po;
+                    $data->status = 'PO Approved';
+                    $data->save();
+                }
+
             }
+
+            return redirect('menu-taskList-atasan-po');
+        }else {
+            return redirect()->route('dashboard');
         }
+    }
+
+    public function accept_atasan_selected_prchs(Request $request)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+                // dd($request->ids);
+                $ids = explode(',', $request->ids);
+                // dd($ids);
+                $data = CategoryPO::find($ids);
+                // $ppb = CategoryPengajuanPembelian::whereIn('id', $data->ppb_id)->get();
+                // dd($data->ppb);
+
+                foreach($data as $d){
+                    // dd($d->ppb->atasan_po == 3);
+                    if($d->atasan_po == 3){
+                        CategoryPO::whereIn('id',$ids)->update([
+                        'status' =>    'PO Approved',
+                        'signature' => 'superadmin.png',
+                        'approved_at' => Carbon::now(),
+                        ]);
+
+                        $sig = new POSignature();
+                        $sig->ppb_id = $d->ppb_id;
+                        $sig->signature = 'superadmin.png';
+                        $sig->approved_at = Carbon::now();
+                        $sig->save();
+
+                        if($d->ppb->status == 'Waiting For PO Approval'){
+                            CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                                'status' => 'PO Approved',
+                            ]);
+                        }
+
+                    }elseif($d->atasan_po == 6){
+                        CategoryPO::whereIn('id',$ids)->update([
+                            'signature' => 'sinduirawan.png',
+                            'approved_at' => Carbon::now(),
+                            'status' => 'PO Approved'
+                            ]);
 
 
+                        $sig = new POSignature();
+                        $sig->ppb_id = $d->ppb_id;
+                        $sig->signature = 'sinduirawan.png';
+                        $sig->approved_at = Carbon::now();
+                        $sig->save();
 
-        return redirect('menu-taskList-atasan-po');
+                        if($d->ppb->status == 'Waiting For PO Approval'){
+                            CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                                'status' => 'PO Approved',
+                            ]);
+                        }
+                    }elseif($d->atasan_po == 7){
+                        CategoryPO::whereIn('id',$ids)->update([
+                            'signature' => 'bayu.png',
+                            'approved_at' => Carbon::now(),
+                            'status' => 'PO Approved'
+                        ]);
+
+                        $sig = new POSignature();
+                        $sig->ppb_id = $d->ppb_id;
+                        $sig->signature = 'bayu.png';
+                        $sig->approved_at = Carbon::now();
+                        $sig->save();
+
+                        if($d->ppb->status == 'Waiting For PO Approval'){
+                            CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                                'status' => 'PO Approved',
+                            ]);
+                        }
+                    }elseif($d->atasan_po == 8){
+                        CategoryPO::whereIn('id',$ids)->update([
+                            'signature' => 'victor.png',
+                            'approved_at' => Carbon::now(),
+                            'status' => 'PO Approved'
+                        ]);
+
+                        $sig = new POSignature();
+                        $sig->ppb_id = $d->ppb_id;
+                        $sig->signature = 'victor.png';
+                        $sig->approved_at = Carbon::now();
+                        $sig->save();
+
+                        if($d->ppb->status == 'Waiting For PO Approval'){
+                            CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                                'status' => 'PO Approved',
+                            ]);
+                        }
+                    }elseif($d->atasan_po == 9){
+                        CategoryPO::whereIn('id',$ids)->update([
+                            'signature' => 'erwin.png',
+                            'approved_at' => Carbon::now(),
+                            'status' => 'PO Approved'
+                        ]);
+
+                        $sig = new POSignature();
+                        $sig->ppb_id = $d->ppb_id;
+                        $sig->signature = 'erwin.png';
+                        $sig->approved_at = Carbon::now();
+                        $sig->save();
+
+                        if($d->ppb->status == 'Waiting For PO Approval'){
+                            CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                                'status' => 'PO Approved',
+                            ]);
+                        }
+                    }elseif($d->atasan_po == 24){
+                            CategoryPO::whereIn('id',$ids)->update([
+                                'signature' => 'Triyani.png',
+                                'approved_at' => Carbon::now(),
+                                'status' => 'PO Approved'
+                            ]);
+
+                            $sig = new POSignature();
+                            $sig->ppb_id = $d->ppb_id;
+                            $sig->signature = 'Triyani.png';
+                            $sig->approved_at = Carbon::now();
+                            $sig->save();
+
+                            if($d->ppb->status == 'Waiting For PO Approval'){
+                                CategoryPengajuanPembelian::where('id',$d->ppb->id)->update([
+                                    'status' => 'PO Approved',
+                                ]);
+                            }
+                    }
+                }
+
+                return redirect('menu-taskList-atasan-po');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
     public function reject(Request $request,$id)
     {
-        $cpo = CategoryPO::find($id);
-        $cpo->status = 'PO Rejected by BOD';
-        $cpo->note_bod_po = $request->note_po;
-        $cpo->save();
-        return redirect('menu-taskList-atasan-po');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $cpo = CategoryPO::find($id);
+            $cpo->status = 'PO Rejected by BOD';
+            $cpo->note_bod_po = $request->note_po;
+            $cpo->save();
+            return redirect('menu-taskList-atasan-po');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     // public function reject(Request $request,$id)

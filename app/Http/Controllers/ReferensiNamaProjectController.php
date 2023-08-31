@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Imports\EcommerceImport;
 use App\Imports\ProjectImport;
 use App\Models\ReferensiNamaProject;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReferensiNamaProjectController extends Controller
@@ -17,9 +19,14 @@ class ReferensiNamaProjectController extends Controller
      */
     public function index()
     {
-        $data = ReferensiNamaProject::paginate(10);
-        return view('dataReferenceProject.index')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = ReferensiNamaProject::paginate(10);
+            return view('dataReferenceProject.index')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchProject(Request $request)
@@ -41,9 +48,14 @@ class ReferensiNamaProjectController extends Controller
      */
     public function create()
     {
-        $data = ReferensiNamaProject::all();
-        return view('dataReferenceProject.create')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = ReferensiNamaProject::all();
+            return view('dataReferenceProject.create')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -54,16 +66,21 @@ class ReferensiNamaProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //validasi formnya
-        $this->validate($request,[
-            'name' => 'required',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            //validasi formnya
+            $this->validate($request,[
+                'name' => 'required',
+            ]);
 
-       ReferensiNamaProject::create([
-            "name" => $request->name,
-        ]);
+            ReferensiNamaProject::create([
+                "name" => $request->name,
+            ]);
 
-        return redirect("project-reference/")->with('success', 'Created Successfully!');
+            return redirect("project-reference/")->with('success', 'Created Successfully!');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -85,9 +102,14 @@ class ReferensiNamaProjectController extends Controller
      */
     public function edit($id)
     {
-        $data = ReferensiNamaProject::find($id);
-        return view('dataReferenceProject.edit')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = ReferensiNamaProject::find($id);
+            return view('dataReferenceProject.edit')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -99,13 +121,18 @@ class ReferensiNamaProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = ReferensiNamaProject::find($id);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = ReferensiNamaProject::find($id);
 
-        // dd($data);
-        $tes = ReferensiNamaProject::where("id", $id)->update([
-            "name" => $request->name,
-        ]);
-        return redirect("project-reference/")->with('success', 'Updated Successfully!');
+            // dd($data);
+            $tes = ReferensiNamaProject::where("id", $id)->update([
+                "name" => $request->name,
+            ]);
+            return redirect("project-reference/")->with('success', 'Updated Successfully!');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
 
@@ -139,8 +166,13 @@ class ReferensiNamaProjectController extends Controller
 
     public function destroy($id)
     {
-        $data = ReferensiNamaProject::find($id);
-        $data->delete();
-        return redirect("project-reference/")->with('success', 'Deleted Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3) {
+            $data = ReferensiNamaProject::find($id);
+            $data->delete();
+            return redirect("project-reference/")->with('success', 'Deleted Successfully!');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 }

@@ -51,6 +51,8 @@ class TaskListAtasanController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('datadv', $datadv);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -67,6 +69,8 @@ class TaskListAtasanController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('datadv', $datadv);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -83,6 +87,8 @@ class TaskListAtasanController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('datadv', $datadv);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -99,6 +105,8 @@ class TaskListAtasanController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('datadv', $datadv);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -115,6 +123,8 @@ class TaskListAtasanController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('datadv', $datadv);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -131,6 +141,8 @@ class TaskListAtasanController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('datadv', $datadv);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -176,6 +188,8 @@ class TaskListAtasanController extends Controller
             ->with('datappb', $datappb)
             ->with('datapo', $datapo)
             ->with('datadv', $datadv);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -211,62 +225,73 @@ class TaskListAtasanController extends Controller
 
     public function detail($id)
     {
-        $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $dataws             = WhoSubmitted::all();
-        $datadepartment     = Department::all();
-        $comments           = Comment::where('ppb_id',$id)->get();
-        $vendor             = CategoryPO::where('ppb_id',$id)->first();
-        $items              = CategoryPO::where('ppb_id',$id)->get();
-        $groupedItem        = ItemPO::groupBy('po_id')->get();
-        $itempurchase       = ItemPO::groupBy('po_id')->first();
-        return view('taskList_atasan.menu.detail')
-            ->with('pengajuan', $pengajuan)
-            ->with('dataws', $dataws)
-            ->with('datadepartment', $datadepartment)
-            ->with('dpp', $dpp)
-            ->with('ppn', $ppn)
-            ->with('total', $total)
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
 
-            ->with('comments', $comments)
-            ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('data_pengajuan', $data_pengajuan)
-            ->with('items', $items)
-            ->with('vendor', $vendor)
-            ->with('groupedItem', $groupedItem)
-            ->with('itempurchase', $itempurchase);
+            $data_pengajuan = CategoryPengajuanPembelian::find($id);
+            $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
+            $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $comments           = Comment::where('ppb_id',$id)->get();
+            $vendor             = CategoryPO::where('ppb_id',$id)->first();
+            $items              = CategoryPO::where('ppb_id',$id)->get();
+            $groupedItem        = ItemPO::groupBy('po_id')->get();
+            $itempurchase       = ItemPO::groupBy('po_id')->first();
+            return view('taskList_atasan.menu.detail')
+                ->with('pengajuan', $pengajuan)
+                ->with('dataws', $dataws)
+                ->with('datadepartment', $datadepartment)
+                ->with('dpp', $dpp)
+                ->with('ppn', $ppn)
+                ->with('total', $total)
+
+                ->with('comments', $comments)
+                ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                ->with('data_pengajuan', $data_pengajuan)
+                ->with('items', $items)
+                ->with('vendor', $vendor)
+                ->with('groupedItem', $groupedItem)
+                ->with('itempurchase', $itempurchase);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
     public function po_detail($id)
     {
-        $datapo             = CategoryPO::where('id', $id)->get();
-        $datacpo            = CategoryPO::where('id', $id)->first();
-        $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
-        $dataws             = WhoSubmitted::all();
-        $datadepartment     = Department::all();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $comments           = Comment::where('ppb_id',$id)->get();
-        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $datapo             = CategoryPO::where('id', $id)->get();
+            $datacpo            = CategoryPO::where('id', $id)->first();
+            $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $comments           = Comment::where('ppb_id',$id)->get();
+            $disc               = PengajuanPembelian::where('pp_id',$id)->first();
 
-        //dd($datacpo);
-        return view('taskList_atasan.menu.po')
-            ->with('pengajuan', $pengajuan)
-            ->with('dpp', $dpp)
-            ->with('datapo', $datapo)
-            ->with('dataws', $dataws)
-            ->with('datacpo', $datacpo)
-            ->with('datadepartment', $datadepartment)
-            ->with('ppn', $ppn)
-            ->with('total', $total)
-            ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('disc', $disc)
-            ->with('comments', $comments);
+            //dd($datacpo);
+            return view('taskList_atasan.menu.po')
+                ->with('pengajuan', $pengajuan)
+                ->with('dpp', $dpp)
+                ->with('datapo', $datapo)
+                ->with('dataws', $dataws)
+                ->with('datacpo', $datacpo)
+                ->with('datadepartment', $datadepartment)
+                ->with('ppn', $ppn)
+                ->with('total', $total)
+                ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                ->with('disc', $disc)
+                ->with('comments', $comments);
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
     /**
      * Show the form for creating a new resource.
@@ -308,31 +333,36 @@ class TaskListAtasanController extends Controller
      */
     public function edit($id)
     {
-        $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
-        $datapt = CategoryPT::all();
-        $dv = CategoryPengajuanPembelian::find($id);
-        $purpose = ReferensiNamaProject::all();
-        $dataws             = WhoSubmitted::all();
-        $datadepartment     = Department::all();
-        $item = PengajuanPembelian::where('pp_id', $id)->get();
-        $purpose            = ReferensiNamaProject::get();
-        $purpose_office     = Office::all();
-        $purpose_inventory  = Inventory::all();
-        $purpose_workshop   = Workshop::all();
-        $purpose_rnd        = RND::all();
-        return view('taskList_atasan.menu.edit')
-            ->with('atasan', $atasan)
-            ->with('datapt', $datapt)
-            ->with('purpose', $purpose)
-            ->with('item', $item)
-            ->with('dataws', $dataws)
-            ->with('datadepartment', $datadepartment)
-            ->with('dv', $dv)
-            ->with('purpose', $purpose)
-            ->with('purpose_office', $purpose_office)
-            ->with('purpose_inventory', $purpose_inventory)
-            ->with('purpose_workshop', $purpose_workshop)
-            ->with('purpose_rnd', $purpose_rnd);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
+            $datapt = CategoryPT::all();
+            $dv = CategoryPengajuanPembelian::find($id);
+            $purpose = ReferensiNamaProject::all();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $item = PengajuanPembelian::where('pp_id', $id)->get();
+            $purpose            = ReferensiNamaProject::get();
+            $purpose_office     = Office::all();
+            $purpose_inventory  = Inventory::all();
+            $purpose_workshop   = Workshop::all();
+            $purpose_rnd        = RND::all();
+            return view('taskList_atasan.menu.edit')
+                ->with('atasan', $atasan)
+                ->with('datapt', $datapt)
+                ->with('purpose', $purpose)
+                ->with('item', $item)
+                ->with('dataws', $dataws)
+                ->with('datadepartment', $datadepartment)
+                ->with('dv', $dv)
+                ->with('purpose', $purpose)
+                ->with('purpose_office', $purpose_office)
+                ->with('purpose_inventory', $purpose_inventory)
+                ->with('purpose_workshop', $purpose_workshop)
+                ->with('purpose_rnd', $purpose_rnd);
+        }else{
+            return redirect()->route('dashboard');
+        }
 
     }
 
@@ -345,83 +375,88 @@ class TaskListAtasanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        // dd($data);
-        // PengajuanPembelian::where('pp_id',$id)->delete();
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $data = $request->all();
+            // dd($data);
+            // PengajuanPembelian::where('pp_id',$id)->delete();
 
-        $request->validate([
-            // 'purpose' => 'required',
-            'date_ps' => 'required',
-            'dateline'=> 'required',
-            'ws'      => 'required',
-            'department'=>'required',
-            'desc'  => 'required',
-            'atasan' => 'required',
-            'matauang'=>'required',
-            'send_to'=>'required',
-        ],[
-            // 'purpose.required' => 'The Purpose field is required.',
-            'date_ps.required' => 'The Date field is required.',
-            'dateline.required' => 'The Date Line field is required.',
-            'ws.required' => 'The Who Submitted field is required.',
-            'department.required' => 'The Department field is required.',
-            'desc.required' => 'The Description field is required.',
-            'atasan.required' => 'The Approved By field is required.',
-            'mata_uang.required' => 'The Currency field is required.',
-            'send_to.required' => 'The Send To field is required.',
-        ]);
-
-        $pengajuan = CategoryPengajuanPembelian::where('id',$id)->first();
-            $pengajuan->update([
-                'user_id' =>  Auth::user()->id,
-                'date_ps' => $request->date_ps,
-                'dateline' => $request->dateline,
-                'ws' => $request->ws,
-                'department' => $request->department,
-                'desc' => $request->desc,
-                'atasan' => $request->atasan,
-                'matauang' => $request->matauang,
-                'send_to' => $request->send_to,
+            $request->validate([
+                // 'purpose' => 'required',
+                'date_ps' => 'required',
+                'dateline'=> 'required',
+                'ws'      => 'required',
+                'department'=>'required',
+                'desc'  => 'required',
+                'atasan' => 'required',
+                'matauang'=>'required',
+                'send_to'=>'required',
+            ],[
+                // 'purpose.required' => 'The Purpose field is required.',
+                'date_ps.required' => 'The Date field is required.',
+                'dateline.required' => 'The Date Line field is required.',
+                'ws.required' => 'The Who Submitted field is required.',
+                'department.required' => 'The Department field is required.',
+                'desc.required' => 'The Description field is required.',
+                'atasan.required' => 'The Approved By field is required.',
+                'mata_uang.required' => 'The Currency field is required.',
+                'send_to.required' => 'The Send To field is required.',
             ]);
-        if($request->category_purpose){
-            if ($request->category_purpose == "project") {
-                $purpose1 = ReferensiNamaProject::find($request->project);
-                $purpose1->purposes()->where('id',$id)->delete();
-                $pengajuan = $purpose1->purposes()->save($pengajuan);
-            } elseif ($request->category_purpose == "office") {
-                $purpose2 = Office::find($request->office);
-                $purpose2->purposes()->where('id',$id)->delete();
-                $pengajuan = $purpose2->purposes()->save($pengajuan);
-            } elseif ($request->category_purpose == "workshop") {
-                $purpose3 = Workshop::find($request->workshop);
-                $purpose3->purposes()->where('id',$id)->delete();
-                $pengajuan = $purpose3->purposes()->save($pengajuan);
-            } elseif ($request->category_purpose == "inventory") {
-                $purpose4 = Inventory::find($request->inventory);
-                $purpose4->purposes()->where('id',$id)->delete();
-                $pengajuan = $purpose4->purposes()->save($pengajuan);
-            }
-        }
 
-
-            foreach ($data['id'] as $item => $value) {
-                $file = null;
-                if($path = $request->file('path_file')[$item] ?? null) {
-                    $file = $path->getClientOriginalName();
-                    $path->move(public_path('upload_pengajuan'), $file);
+            $pengajuan = CategoryPengajuanPembelian::where('id',$id)->first();
+                $pengajuan->update([
+                    'user_id' =>  Auth::user()->id,
+                    'date_ps' => $request->date_ps,
+                    'dateline' => $request->dateline,
+                    'ws' => $request->ws,
+                    'department' => $request->department,
+                    'desc' => $request->desc,
+                    'atasan' => $request->atasan,
+                    'matauang' => $request->matauang,
+                    'send_to' => $request->send_to,
+                ]);
+            if($request->category_purpose){
+                if ($request->category_purpose == "project") {
+                    $purpose1 = ReferensiNamaProject::find($request->project);
+                    $purpose1->purposes()->where('id',$id)->delete();
+                    $pengajuan = $purpose1->purposes()->save($pengajuan);
+                } elseif ($request->category_purpose == "office") {
+                    $purpose2 = Office::find($request->office);
+                    $purpose2->purposes()->where('id',$id)->delete();
+                    $pengajuan = $purpose2->purposes()->save($pengajuan);
+                } elseif ($request->category_purpose == "workshop") {
+                    $purpose3 = Workshop::find($request->workshop);
+                    $purpose3->purposes()->where('id',$id)->delete();
+                    $pengajuan = $purpose3->purposes()->save($pengajuan);
+                } elseif ($request->category_purpose == "inventory") {
+                    $purpose4 = Inventory::find($request->inventory);
+                    $purpose4->purposes()->where('id',$id)->delete();
+                    $pengajuan = $purpose4->purposes()->save($pengajuan);
                 }
-                $data2 = array(
-                    'item'              => $data['item'][$item],
-                    'qty'               => $data['qty'][$item],
-                    'kategori'          => $data['kategori'][$item],
-                    'path_file'         => $file,
-                );
-                PengajuanPembelian::updateOrCreate([
-                    'id' => $value,
-                ],$data2
-            );
             }
-        return redirect("menu-taskList-atasan/");
+
+
+                foreach ($data['id'] as $item => $value) {
+                    $file = null;
+                    if($path = $request->file('path_file')[$item] ?? null) {
+                        $file = $path->getClientOriginalName();
+                        $path->move(public_path('upload_pengajuan'), $file);
+                    }
+                    $data2 = array(
+                        'item'              => $data['item'][$item],
+                        'qty'               => $data['qty'][$item],
+                        'kategori'          => $data['kategori'][$item],
+                        'path_file'         => $file,
+                    );
+                    PengajuanPembelian::updateOrCreate([
+                        'id' => $value,
+                    ],$data2
+                );
+                }
+            return redirect("menu-taskList-atasan/");
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -436,291 +471,306 @@ class TaskListAtasanController extends Controller
     }
     public function accept_atasan(Request $request,$id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
-        // if($data->dateline == '≤3Jam'){
-        //     $data->dateline_time = ('03:00:00');
-        //     $data->updated_at = Carbon::now();
-        //     $data->approved_at = now();
-        //     $data->status = 'Purchase Submission Approved' ;
-        // }
-        if($data->dateline == '≤24Jam'){
-            $data->dateline_time = ('24:00:00');
-            $data->updated_at = Carbon::now();
-            $data->note_bod_pr = $request->note_pr;
-            $data->approved_at = now();
-            $data->status = 'Purchase Request Approved';
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $data = CategoryPengajuanPembelian::find($id);
+            // if($data->dateline == '≤3Jam'){
+            //     $data->dateline_time = ('03:00:00');
+            //     $data->updated_at = Carbon::now();
+            //     $data->approved_at = now();
+            //     $data->status = 'Purchase Submission Approved' ;
+            // }
+            if($data->dateline == '≤24Jam'){
+                $data->dateline_time = ('24:00:00');
+                $data->updated_at = Carbon::now();
+                $data->note_bod_pr = $request->note_pr;
+                $data->approved_at = now();
+                $data->status = 'Purchase Request Approved';
 
-            if($data->atasan == 3){
-                $data->signature = 'superadmin.png';
-            }elseif($data->atasan == 6){
-                $data->signature = 'sinduirawan.png';
-            }elseif($data->atasan == 7){
-                $data->signature = 'bayu.png';
-            }elseif($data->atasan == 8){
-                $data->signature = 'victor.png';
-            }elseif($data->atasan == 9){
-                $data->signature = 'erwin.png';
-            }elseif($data->atasan == 24){
-                $data->signature = 'Triyani.png';
+                if($data->atasan == 3){
+                    $data->signature = 'superadmin.png';
+                }elseif($data->atasan == 6){
+                    $data->signature = 'sinduirawan.png';
+                }elseif($data->atasan == 7){
+                    $data->signature = 'bayu.png';
+                }elseif($data->atasan == 8){
+                    $data->signature = 'victor.png';
+                }elseif($data->atasan == 9){
+                    $data->signature = 'erwin.png';
+                }elseif($data->atasan == 24){
+                    $data->signature = 'Triyani.png';
+                }
+
+
+            }elseif($data->dateline == '≤48Jam'){
+                $data->dateline_time = ('49:00:00');
+                $data->updated_at = Carbon::now();
+                $data->note_bod_pr = $request->note_pr;
+                $data->approved_at = now();
+                $data->status = 'Purchase Request Approved';
+
+                if($data->atasan == 3){
+                    $data->signature = 'superadmin.png';
+                }elseif($data->atasan == 6){
+                    $data->signature = 'sinduirawan.png';
+                }elseif($data->atasan == 7){
+                    $data->signature = 'bayu.png';
+                }elseif($data->atasan == 8){
+                    $data->signature = 'victor.png';
+                }elseif($data->atasan == 9){
+                    $data->signature = 'erwin.png';
+                }elseif($data->atasan == 24){
+                    $data->signature = 'Triyani.png';
+                }
+
+            }elseif($data->dateline == '≤72Jam'){
+                $data->dateline_time = ('73:00:00');
+                $data->updated_at = Carbon::now();
+                $data->note_bod_pr = $request->note_pr;
+                $data->approved_at = now();
+                $data->status = 'Purchase Request Approved';
+
+                if($data->atasan == 3){
+                    $data->signature = 'superadmin.png';
+                }elseif($data->atasan == 6){
+                    $data->signature = 'sinduirawan.png';
+                }elseif($data->atasan == 7){
+                    $data->signature = 'bayu.png';
+                }elseif($data->atasan == 8){
+                    $data->signature = 'victor.png';
+                }elseif($data->atasan == 9){
+                    $data->signature = 'erwin.png';
+                }elseif($data->atasan == 24){
+                    $data->signature = 'Triyani.png';
+                }
+
+            }elseif($data->dateline == '≤96Jam'){
+                $data->dateline_time = ('97:00:00');
+                $data->updated_at = Carbon::now();
+                $data->note_bod_pr = $request->note_pr;
+                $data->approved_at = now();
+                $data->status = 'Purchase Request Approved';
+
+                if($data->atasan == 3){
+                    $data->signature = 'superadmin.png';
+                }elseif($data->atasan == 6){
+                    $data->signature = 'sinduirawan.png';
+                }elseif($data->atasan == 7){
+                    $data->signature = 'bayu.png';
+                }elseif($data->atasan == 8){
+                    $data->signature = 'victor.png';
+                }elseif($data->atasan == 9){
+                    $data->signature = 'erwin.png';
+                }elseif($data->atasan == 24){
+                    $data->signature = 'Triyani.png';
+                }
+
+            }elseif($data->dateline == '≤168Jam'){
+                $data->dateline_time = ('169:00:00');
+                $data->updated_at = Carbon::now();
+                $data->note_bod_pr = $request->note_pr;
+                $data->approved_at = now();
+                $data->status = 'Purchase Request Approved';
+
+                if($data->atasan == 3){
+                    $data->signature = 'superadmin.png';
+                }elseif($data->atasan == 6){
+                    $data->signature = 'sinduirawan.png';
+                }elseif($data->atasan == 7){
+                    $data->signature = 'bayu.png';
+                }elseif($data->atasan == 8){
+                    $data->signature = 'victor.png';
+                }elseif($data->atasan == 9){
+                    $data->signature = 'erwin.png';
+                }elseif($data->atasan == 24){
+                    $data->signature = 'Triyani.png';
+                }
+
+            }elseif($data->dateline == '≤336Jam'){
+                $data->dateline_time = ('338:00:00');
+                $data->updated_at = Carbon::now();
+                $data->note_bod_pr = $request->note_pr;
+                $data->approved_at = now();
+                $data->status = 'Purchase Request Approved';
+
+                if($data->atasan == 3){
+                    $data->signature = 'superadmin.png';
+                }elseif($data->atasan == 6){
+                    $data->signature = 'sinduirawan.png';
+                }elseif($data->atasan == 7){
+                    $data->signature = 'bayu.png';
+                }elseif($data->atasan == 8){
+                    $data->signature = 'victor.png';
+                }elseif($data->atasan == 9){
+                    $data->signature = 'erwin.png';
+                }elseif($data->atasan == 24){
+                    $data->signature = 'Triyani.png';
+                }
+
             }
-
-
-        }elseif($data->dateline == '≤48Jam'){
-            $data->dateline_time = ('49:00:00');
-            $data->updated_at = Carbon::now();
-            $data->note_bod_pr = $request->note_pr;
-            $data->approved_at = now();
-            $data->status = 'Purchase Request Approved';
-
-            if($data->atasan == 3){
-                $data->signature = 'superadmin.png';
-            }elseif($data->atasan == 6){
-                $data->signature = 'sinduirawan.png';
-            }elseif($data->atasan == 7){
-                $data->signature = 'bayu.png';
-            }elseif($data->atasan == 8){
-                $data->signature = 'victor.png';
-            }elseif($data->atasan == 9){
-                $data->signature = 'erwin.png';
-            }elseif($data->atasan == 24){
-                $data->signature = 'Triyani.png';
-            }
-
-        }elseif($data->dateline == '≤72Jam'){
-            $data->dateline_time = ('73:00:00');
-            $data->updated_at = Carbon::now();
-            $data->note_bod_pr = $request->note_pr;
-            $data->approved_at = now();
-            $data->status = 'Purchase Request Approved';
-
-            if($data->atasan == 3){
-                $data->signature = 'superadmin.png';
-            }elseif($data->atasan == 6){
-                $data->signature = 'sinduirawan.png';
-            }elseif($data->atasan == 7){
-                $data->signature = 'bayu.png';
-            }elseif($data->atasan == 8){
-                $data->signature = 'victor.png';
-            }elseif($data->atasan == 9){
-                $data->signature = 'erwin.png';
-            }elseif($data->atasan == 24){
-                $data->signature = 'Triyani.png';
-            }
-
-        }elseif($data->dateline == '≤96Jam'){
-            $data->dateline_time = ('97:00:00');
-            $data->updated_at = Carbon::now();
-            $data->note_bod_pr = $request->note_pr;
-            $data->approved_at = now();
-            $data->status = 'Purchase Request Approved';
-
-            if($data->atasan == 3){
-                $data->signature = 'superadmin.png';
-            }elseif($data->atasan == 6){
-                $data->signature = 'sinduirawan.png';
-            }elseif($data->atasan == 7){
-                $data->signature = 'bayu.png';
-            }elseif($data->atasan == 8){
-                $data->signature = 'victor.png';
-            }elseif($data->atasan == 9){
-                $data->signature = 'erwin.png';
-            }elseif($data->atasan == 24){
-                $data->signature = 'Triyani.png';
-            }
-
-        }elseif($data->dateline == '≤168Jam'){
-            $data->dateline_time = ('169:00:00');
-            $data->updated_at = Carbon::now();
-            $data->note_bod_pr = $request->note_pr;
-            $data->approved_at = now();
-            $data->status = 'Purchase Request Approved';
-
-            if($data->atasan == 3){
-                $data->signature = 'superadmin.png';
-            }elseif($data->atasan == 6){
-                $data->signature = 'sinduirawan.png';
-            }elseif($data->atasan == 7){
-                $data->signature = 'bayu.png';
-            }elseif($data->atasan == 8){
-                $data->signature = 'victor.png';
-            }elseif($data->atasan == 9){
-                $data->signature = 'erwin.png';
-            }elseif($data->atasan == 24){
-                $data->signature = 'Triyani.png';
-            }
-
-        }elseif($data->dateline == '≤336Jam'){
-            $data->dateline_time = ('338:00:00');
-            $data->updated_at = Carbon::now();
-            $data->note_bod_pr = $request->note_pr;
-            $data->approved_at = now();
-            $data->status = 'Purchase Request Approved';
-
-            if($data->atasan == 3){
-                $data->signature = 'superadmin.png';
-            }elseif($data->atasan == 6){
-                $data->signature = 'sinduirawan.png';
-            }elseif($data->atasan == 7){
-                $data->signature = 'bayu.png';
-            }elseif($data->atasan == 8){
-                $data->signature = 'victor.png';
-            }elseif($data->atasan == 9){
-                $data->signature = 'erwin.png';
-            }elseif($data->atasan == 24){
-                $data->signature = 'Triyani.png';
-            }
-
+            //dd($data);
+            $data->save();
+            return redirect("menu-taskList-atasan");
+        }else {
+            return redirect()->route('dashboard');
         }
-        //dd($data);
-        $data->save();
-        return redirect("menu-taskList-atasan");
     }
 
     public function accept_atasan_selected(Request $request)
     {
-        $ids = explode(',', $request->ids);
-        $data = CategoryPengajuanPembelian::find($ids);
-        // dd($data);
-        // if($data->dateline == '≤3Jam'){
-        //     $data->dateline_time = ('03:00:00');
-        //     $data->updated_at = Carbon::now();
-        //     $data->approved_at = now();
-        //     $data->status = 'Purchase Submission Approved' ;
-        // }
-        // dd($data);
-        foreach($data as $d) {
-        if($d->dateline == '≤24Jam'){
-            $d->dateline_time = ('24:00:00');
-            $d->updated_at = Carbon::now();
-            $d->approved_at = now();
-            $d->status = 'Purchase Request Approved';
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $ids = explode(',', $request->ids);
+            $data = CategoryPengajuanPembelian::find($ids);
+            // dd($data);
+            // if($data->dateline == '≤3Jam'){
+            //     $data->dateline_time = ('03:00:00');
+            //     $data->updated_at = Carbon::now();
+            //     $data->approved_at = now();
+            //     $data->status = 'Purchase Submission Approved' ;
+            // }
+            // dd($data);
+            foreach($data as $d) {
+            if($d->dateline == '≤24Jam'){
+                $d->dateline_time = ('24:00:00');
+                $d->updated_at = Carbon::now();
+                $d->approved_at = now();
+                $d->status = 'Purchase Request Approved';
 
-            if($d->atasan == 3){
-                $d->signature = 'superadmin.png';
-            }elseif($d->atasan == 6){
-                $d->signature = 'sinduirawan.png';
-            }elseif($d->atasan == 7){
-                $d->signature = 'bayu.png';
-            }elseif($d->atasan == 8){
-                $d->signature = 'victor.png';
-            }elseif($d->atasan == 9){
-                $d->signature = 'erwin.png';
-            }elseif($d->atasan == 24){
-                $d->signature = 'Triyani.png';
+                if($d->atasan == 3){
+                    $d->signature = 'superadmin.png';
+                }elseif($d->atasan == 6){
+                    $d->signature = 'sinduirawan.png';
+                }elseif($d->atasan == 7){
+                    $d->signature = 'bayu.png';
+                }elseif($d->atasan == 8){
+                    $d->signature = 'victor.png';
+                }elseif($d->atasan == 9){
+                    $d->signature = 'erwin.png';
+                }elseif($d->atasan == 24){
+                    $d->signature = 'Triyani.png';
+                }
+
+            }elseif($d->dateline == '≤48Jam'){
+                $d->dateline_time = ('49:00:00');
+                $d->updated_at = Carbon::now();
+                $d->approved_at = now();
+                $d->status = 'Purchase Request Approved';
+
+                if($d->atasan == 3){
+                    $d->signature = 'superadmin.png';
+                }elseif($d->atasan == 6){
+                    $d->signature = 'sinduirawan.png';
+                }elseif($d->atasan == 7){
+                    $d->signature = 'bayu.png';
+                }elseif($d->atasan == 8){
+                    $d->signature = 'victor.png';
+                }elseif($d->atasan == 9){
+                    $d->signature = 'erwin.png';
+                }elseif($d->atasan == 24){
+                    $d->signature = 'Triyani.png';
+                }
+
+            }elseif($d->dateline == '≤72Jam'){
+                $d->dateline_time = ('73:00:00');
+                $d->updated_at = Carbon::now();
+                $d->approved_at = now();
+                $d->status = 'Purchase Request Approved';
+
+                if($d->atasan == 3){
+                    $d->signature = 'superadmin.png';
+                }elseif($d->atasan == 6){
+                    $d->signature = 'sinduirawan.png';
+                }elseif($d->atasan == 7){
+                    $d->signature = 'bayu.png';
+                }elseif($d->atasan == 8){
+                    $d->signature = 'victor.png';
+                }elseif($d->atasan == 9){
+                    $d->signature = 'erwin.png';
+                }elseif($d->atasan == 24){
+                    $d->signature = 'Triyani.png';
+                }
+
+            }elseif($d->dateline == '≤96Jam'){
+                $d->dateline_time = ('97:00:00');
+                $d->updated_at = Carbon::now();
+                $d->approved_at = now();
+                $d->status = 'Purchase Request Approved';
+
+                if($d->atasan == 3){
+                    $d->signature = 'superadmin.png';
+                }elseif($d->atasan == 6){
+                    $d->signature = 'sinduirawan.png';
+                }elseif($d->atasan == 7){
+                    $d->signature = 'bayu.png';
+                }elseif($d->atasan == 8){
+                    $d->signature = 'victor.png';
+                }elseif($d->atasan == 9){
+                    $d->signature = 'erwin.png';
+                }elseif($d->atasan == 24){
+                    $d->signature = 'Triyani.png';
+                }
+
+            }elseif($d->dateline == '≤168Jam'){
+                $d->dateline_time = ('169:00:00');
+                $d->updated_at = Carbon::now();
+                $d->approved_at = now();
+                $d->status = 'Purchase Request Approved';
+
+                if($d->atasan == 3){
+                    $d->signature = 'superadmin.png';
+                }elseif($d->atasan == 6){
+                    $d->signature = 'sinduirawan.png';
+                }elseif($d->atasan == 7){
+                    $d->signature = 'bayu.png';
+                }elseif($d->atasan == 8){
+                    $d->signature = 'victor.png';
+                }elseif($d->atasan == 9){
+                    $d->signature = 'erwin.png';
+                }elseif($d->atasan == 24){
+                    $d->signature = 'Triyani.png';
+                }
+
+            }elseif($d->dateline == '≤336Jam'){
+                $d->dateline_time = ('338:00:00');
+                $d->updated_at = Carbon::now();
+                $d->approved_at = now();
+                $d->status = 'Purchase Request Approved';
+
+                if($d->atasan == 3){
+                    $d->signature = 'superadmin.png';
+                }elseif($d->atasan == 6){
+                    $d->signature = 'sinduirawan.png';
+                }elseif($d->atasan == 7){
+                    $d->signature = 'bayu.png';
+                }elseif($d->atasan == 8){
+                    $d->signature = 'victor.png';
+                }elseif($d->atasan == 9){
+                    $d->signature = 'erwin.png';
+                }elseif($d->atasan == 24){
+                    $d->signature = 'Triyani.png';
+                }
+
             }
-
-        }elseif($d->dateline == '≤48Jam'){
-            $d->dateline_time = ('49:00:00');
-            $d->updated_at = Carbon::now();
-            $d->approved_at = now();
-            $d->status = 'Purchase Request Approved';
-
-            if($d->atasan == 3){
-                $d->signature = 'superadmin.png';
-            }elseif($d->atasan == 6){
-                $d->signature = 'sinduirawan.png';
-            }elseif($d->atasan == 7){
-                $d->signature = 'bayu.png';
-            }elseif($d->atasan == 8){
-                $d->signature = 'victor.png';
-            }elseif($d->atasan == 9){
-                $d->signature = 'erwin.png';
-            }elseif($d->atasan == 24){
-                $d->signature = 'Triyani.png';
+            $d->save();
             }
-
-        }elseif($d->dateline == '≤72Jam'){
-            $d->dateline_time = ('73:00:00');
-            $d->updated_at = Carbon::now();
-            $d->approved_at = now();
-            $d->status = 'Purchase Request Approved';
-
-            if($d->atasan == 3){
-                $d->signature = 'superadmin.png';
-            }elseif($d->atasan == 6){
-                $d->signature = 'sinduirawan.png';
-            }elseif($d->atasan == 7){
-                $d->signature = 'bayu.png';
-            }elseif($d->atasan == 8){
-                $d->signature = 'victor.png';
-            }elseif($d->atasan == 9){
-                $d->signature = 'erwin.png';
-            }elseif($d->atasan == 24){
-                $d->signature = 'Triyani.png';
-            }
-
-        }elseif($d->dateline == '≤96Jam'){
-            $d->dateline_time = ('97:00:00');
-            $d->updated_at = Carbon::now();
-            $d->approved_at = now();
-            $d->status = 'Purchase Request Approved';
-
-            if($d->atasan == 3){
-                $d->signature = 'superadmin.png';
-            }elseif($d->atasan == 6){
-                $d->signature = 'sinduirawan.png';
-            }elseif($d->atasan == 7){
-                $d->signature = 'bayu.png';
-            }elseif($d->atasan == 8){
-                $d->signature = 'victor.png';
-            }elseif($d->atasan == 9){
-                $d->signature = 'erwin.png';
-            }elseif($d->atasan == 24){
-                $d->signature = 'Triyani.png';
-            }
-
-        }elseif($d->dateline == '≤168Jam'){
-            $d->dateline_time = ('169:00:00');
-            $d->updated_at = Carbon::now();
-            $d->approved_at = now();
-            $d->status = 'Purchase Request Approved';
-
-            if($d->atasan == 3){
-                $d->signature = 'superadmin.png';
-            }elseif($d->atasan == 6){
-                $d->signature = 'sinduirawan.png';
-            }elseif($d->atasan == 7){
-                $d->signature = 'bayu.png';
-            }elseif($d->atasan == 8){
-                $d->signature = 'victor.png';
-            }elseif($d->atasan == 9){
-                $d->signature = 'erwin.png';
-            }elseif($d->atasan == 24){
-                $d->signature = 'Triyani.png';
-            }
-
-        }elseif($d->dateline == '≤336Jam'){
-            $d->dateline_time = ('338:00:00');
-            $d->updated_at = Carbon::now();
-            $d->approved_at = now();
-            $d->status = 'Purchase Request Approved';
-
-            if($d->atasan == 3){
-                $d->signature = 'superadmin.png';
-            }elseif($d->atasan == 6){
-                $d->signature = 'sinduirawan.png';
-            }elseif($d->atasan == 7){
-                $d->signature = 'bayu.png';
-            }elseif($d->atasan == 8){
-                $d->signature = 'victor.png';
-            }elseif($d->atasan == 9){
-                $d->signature = 'erwin.png';
-            }elseif($d->atasan == 24){
-                $d->signature = 'Triyani.png';
-            }
-
+            return redirect("menu-taskList-atasan");
+        } else {
+            return redirect()->route('dashboard');
         }
-        $d->save();
-    }
-        return redirect("menu-taskList-atasan");
     }
 
     public function reject(Request $request,$id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
-        $data->status = 'Purchase Request Rejected By BOD';
-        $data->note_bod_pr = $request->note_pr;
-        $data->save();
-        return redirect("menu-taskList-atasan");
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 ||$check->role_id == 3) {
+            $data = CategoryPengajuanPembelian::find($id);
+            $data->status = 'Purchase Request Rejected By BOD';
+            $data->note_bod_pr = $request->note_pr;
+            $data->save();
+            return redirect("menu-taskList-atasan");
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 }

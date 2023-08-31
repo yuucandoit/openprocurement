@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\WhoSubmitted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WhoSubmittedController extends Controller
 {
@@ -14,9 +16,14 @@ class WhoSubmittedController extends Controller
      */
     public function index()
     {
-        $data = WhoSubmitted::paginate(10);
-        return view('dataWhoSubmitted.index')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = WhoSubmitted::paginate(10);
+            return view('dataWhoSubmitted.index')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchWS(Request $request)
@@ -38,9 +45,14 @@ class WhoSubmittedController extends Controller
      */
     public function create()
     {
-        $data = WhoSubmitted::all();
-        return view('dataWhoSubmitted.create')
-        ->with('data', $data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = WhoSubmitted::all();
+            return view('dataWhoSubmitted.create')
+            ->with('data', $data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -51,16 +63,21 @@ class WhoSubmittedController extends Controller
      */
     public function store(Request $request)
     {
-         //validasi formnya
-         $this->validate($request,[
-            'name' => 'required',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            //validasi formnya
+            $this->validate($request,[
+                'name' => 'required',
+            ]);
 
-       WhoSubmitted::create([
-            "name" => $request->name,
-        ]);
+        WhoSubmitted::create([
+                "name" => $request->name,
+            ]);
 
-        return redirect("who-submitted/")->with('success', 'Created Successfully!');
+            return redirect("who-submitted/")->with('success', 'Created Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -82,9 +99,14 @@ class WhoSubmittedController extends Controller
      */
     public function edit(WhoSubmitted $whoSubmitted, $id)
     {
-        $data = WhoSubmitted::find($id);
-        return view('dataWhoSubmitted.edit')
-        ->with('data', $data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = WhoSubmitted::find($id);
+            return view('dataWhoSubmitted.edit')
+            ->with('data', $data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -96,13 +118,18 @@ class WhoSubmittedController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = WhoSubmitted::where('id',$id);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = WhoSubmitted::where('id',$id);
 
-        // dd($data);
-        $tes = WhoSubmitted::where("id", $id)->update([
-            "name" => $request->name,
-        ]);
-        return redirect("who-submitted/")->with('success', 'Updated Successfully!');
+            // dd($data);
+            $tes = WhoSubmitted::where("id", $id)->update([
+                "name" => $request->name,
+            ]);
+            return redirect("who-submitted/")->with('success', 'Updated Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -113,8 +140,13 @@ class WhoSubmittedController extends Controller
      */
     public function destroy(WhoSubmitted $whoSubmitted,$id)
     {
-        $data = WhoSubmitted::find($id);
-        $data->delete();
-        return redirect("who-submitted/")->with('success', 'Deleted Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = WhoSubmitted::find($id);
+            $data->delete();
+            return redirect("who-submitted/")->with('success', 'Deleted Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 }

@@ -40,44 +40,51 @@ class InvoicingController extends Controller
             return view('payment_request.menu.index')
                 ->with('datappb',$datappb)
                 ->with('datapo', $datapo);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
     public function po_detail($id)
     {
-        $datapo             = CategoryPO::where('id', $id)->get();
-        $datacpo            = CategoryPO::find($id);
-        $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
-        $dataws             = WhoSubmitted::all();
-        $datadepartment     = Department::all();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
-        $comments           = Comment::where('ppb_id',$id)->get();
-        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
-        $atasan             = User::whereIn('id', [3,6, 7, 8, 9, 24])->get();
-        $atasan1            = User::whereIn('id', [3,6, 8, 9, 24])->get();
-        $atasan2            = User::whereIn('id', [3, 8, 9, 24])->get();
-        $atasan3            = User::whereIn('id', [3, 8, 24])->get();
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3 || $check->role_id == 5) {
+            $datapo             = CategoryPO::where('id', $id)->get();
+            $datacpo            = CategoryPO::find($id);
+            $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
+            $comments           = Comment::where('ppb_id',$id)->get();
+            $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+            $atasan             = User::whereIn('id', [3,6, 7, 8, 9, 24])->get();
+            $atasan1            = User::whereIn('id', [3,6, 8, 9, 24])->get();
+            $atasan2            = User::whereIn('id', [3, 8, 9, 24])->get();
+            $atasan3            = User::whereIn('id', [3, 8, 24])->get();
 
-        //dd($datacpo);
-        return view('payment_request.menu.po')
-            ->with('atasan', $atasan)
-            ->with('atasan1', $atasan1)
-            ->with('atasan2', $atasan2)
-            ->with('atasan3', $atasan3)
-            ->with('pengajuan', $pengajuan)
-            ->with('dpp', $dpp)
-            ->with('datapo', $datapo)
-            ->with('dataws', $dataws)
-            ->with('datacpo', $datacpo)
-            ->with('datadepartment', $datadepartment)
-            ->with('ppn', $ppn)
-            ->with('total', $total)
-            ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('disc', $disc)
-            ->with('comments', $comments);
+            //dd($datacpo);
+            return view('payment_request.menu.po')
+                ->with('atasan', $atasan)
+                ->with('atasan1', $atasan1)
+                ->with('atasan2', $atasan2)
+                ->with('atasan3', $atasan3)
+                ->with('pengajuan', $pengajuan)
+                ->with('dpp', $dpp)
+                ->with('datapo', $datapo)
+                ->with('dataws', $dataws)
+                ->with('datacpo', $datacpo)
+                ->with('datadepartment', $datadepartment)
+                ->with('ppn', $ppn)
+                ->with('total', $total)
+                ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                ->with('disc', $disc)
+                ->with('comments', $comments);
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchPaymentreq_in(Request $request)
@@ -149,7 +156,7 @@ class InvoicingController extends Controller
     public function history()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 || $check->role_id == 3) {
+        if ($check->role_id == 5 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where('status','Invoicing Process')
             ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
             ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orWhere('status','Payment Rejected By BOD')
@@ -157,6 +164,8 @@ class InvoicingController extends Controller
             ->paginate(10);
             return view('payment_request.menu.history')
                 ->with('datappb',$datappb);
+        }else {
+            return redirect()->route('dashboard');
         }
     }
 
@@ -197,33 +206,38 @@ class InvoicingController extends Controller
 
     public function detail($id)
     {
-        $data_pengajuan = CategoryPengajuanPembelian::find($id);
-        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
-        $datapo             = CategoryPO::where('ppb_id', $id)->get();
-        $vendor             = CategoryPO::where('ppb_id',$id)->first();
-        $items              = CategoryPO::where('ppb_id',$id)->get();
-        $groupedItem        = ItemPO::groupBy('po_id')->get();
-        $itempurchase       = ItemPO::groupBy('po_id')->first();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $disc               = PengajuanPembelian::where('pp_id',$id)->first();
-        $comments           = Comment::where('ppb_id',$id)->get();
-        return view('payment_request.menu.detail')
-        ->with('pengajuan', $pengajuan)
-        ->with('dpp', $dpp)
-        ->with('datapo', $datapo)
-        ->with('vendor', $vendor)
-        ->with('items', $items)
-        ->with('groupedItem', $groupedItem)
-        ->with('itempurchase', $itempurchase)
-        ->with('ppn', $ppn)
-        ->with('total', $total)
-        ->with('disc',$disc)
-        ->with('total_tnpa_ppn', $total_tnpa_ppn)
-        ->with('data_pengajuan', $data_pengajuan)
-        ->with('comments', $comments);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3 || $check->role_id == 5) {
+            $data_pengajuan = CategoryPengajuanPembelian::find($id);
+            $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+            $datapo             = CategoryPO::where('ppb_id', $id)->get();
+            $vendor             = CategoryPO::where('ppb_id',$id)->first();
+            $items              = CategoryPO::where('ppb_id',$id)->get();
+            $groupedItem        = ItemPO::groupBy('po_id')->get();
+            $itempurchase       = ItemPO::groupBy('po_id')->first();
+            $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+            $comments           = Comment::where('ppb_id',$id)->get();
+            return view('payment_request.menu.detail')
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('datapo', $datapo)
+            ->with('vendor', $vendor)
+            ->with('items', $items)
+            ->with('groupedItem', $groupedItem)
+            ->with('itempurchase', $itempurchase)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('disc',$disc)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('data_pengajuan', $data_pengajuan)
+            ->with('comments', $comments);
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -233,42 +247,47 @@ class InvoicingController extends Controller
      */
     public function create($id)
     {
-        $data_pengajuan     = CategoryPengajuanPembelian::find($id);
-        $atasan             = User::whereIn('id', [3,6, 7, 8, 9, 24])->get();
-        $atasan1            = User::whereIn('id', [3,6, 8, 9, 24])->get();
-        $atasan2            = User::whereIn('id', [3, 8, 9, 24])->get();
-        $atasan3            = User::whereIn('id', [3, 8, 24])->get();
-        $datapo             = CategoryPO::where('ppb_id',$id)->get();
-        $vendor             = CategoryPO::where('ppb_id',$id)->first();
-        $items              = CategoryPO::where('ppb_id',$id)->get();
-        $groupedItem        = ItemPO::groupBy('po_id')->get();
-        $itempurchase       = ItemPO::groupBy('po_id')->first();
-        $dv                 = CategoryPengajuanPembelian::find($id);
-        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-    //    dd($itempurchase);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3 || $check->role_id == 5) {
+            $data_pengajuan     = CategoryPengajuanPembelian::find($id);
+            $atasan             = User::whereIn('id', [3,6, 7, 8, 9, 24])->get();
+            $atasan1            = User::whereIn('id', [3,6, 8, 9, 24])->get();
+            $atasan2            = User::whereIn('id', [3, 8, 9, 24])->get();
+            $atasan3            = User::whereIn('id', [3, 8, 24])->get();
+            $datapo             = CategoryPO::where('ppb_id',$id)->get();
+            $vendor             = CategoryPO::where('ppb_id',$id)->first();
+            $items              = CategoryPO::where('ppb_id',$id)->get();
+            $groupedItem        = ItemPO::groupBy('po_id')->get();
+            $itempurchase       = ItemPO::groupBy('po_id')->first();
+            $dv                 = CategoryPengajuanPembelian::find($id);
+            $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+            $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+        //    dd($itempurchase);
 
-        return view('payment_request.menu.create')
-            ->with('data_pengajuan',$data_pengajuan)
-            ->with('atasan', $atasan)
-            ->with('atasan1', $atasan1)
-            ->with('atasan2', $atasan2)
-            ->with('atasan3', $atasan3)
-            ->with('datapo', $datapo)
-            ->with('items', $items)
-            ->with('vendor', $vendor)
-            ->with('dpp', $dpp)
-            ->with('groupedItem', $groupedItem)
-            ->with('itempurchase', $itempurchase)
-            ->with('ppn', $ppn)
-            ->with('total', $total)
-            ->with('total_tnpa_ppn', $total_tnpa_ppn)
-            ->with('data_pengajuan', $data_pengajuan)
-            ->with('pengajuan', $pengajuan)
-            ->with('dv', $dv);
+            return view('payment_request.menu.create')
+                ->with('data_pengajuan',$data_pengajuan)
+                ->with('atasan', $atasan)
+                ->with('atasan1', $atasan1)
+                ->with('atasan2', $atasan2)
+                ->with('atasan3', $atasan3)
+                ->with('datapo', $datapo)
+                ->with('items', $items)
+                ->with('vendor', $vendor)
+                ->with('dpp', $dpp)
+                ->with('groupedItem', $groupedItem)
+                ->with('itempurchase', $itempurchase)
+                ->with('ppn', $ppn)
+                ->with('total', $total)
+                ->with('total_tnpa_ppn', $total_tnpa_ppn)
+                ->with('data_pengajuan', $data_pengajuan)
+                ->with('pengajuan', $pengajuan)
+                ->with('dv', $dv);
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -279,37 +298,42 @@ class InvoicingController extends Controller
      */
     public function store(Request $request,$id)
     {
-        $all = $request->all();
-        // dd($all);
-        $cpo = CategoryPO::find($id);
-        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->update([
-            'atasan_py' => $request->atasan_py,
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3 || $check->role_id == 5) {
+            $all = $request->all();
+            // dd($all);
+            $cpo = CategoryPO::find($id);
+            $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->update([
+                'atasan_py' => $request->atasan_py,
+            ]);
 
-        $file = null;
-        if ($path =  $request->file('path_invoice') ?? null){
-            $file = $path->getClientOriginalName();
-            $path->move('upload_invoice',$file);
+            $file = null;
+            if ($path =  $request->file('path_invoice') ?? null){
+                $file = $path->getClientOriginalName();
+                $path->move('upload_invoice',$file);
+            }
+            CategoryPO::where('id',$id)->update([
+                "atasan_py"    => $request->atasan_py,
+                "path_invoice" => $file,
+            ]);
+
+            $pyment = new Invoicing;
+            $pyment->ppb_id = $cpo->ppb->id;
+            $pyment->po_id = $cpo->id;
+            $year = Carbon::parse($pyment->created_at)->format('y');
+            $month = Carbon::parse($pyment->created_at)->format('m');
+            $pyment->save();
+
+            $py_id = str_pad($pyment->id,5,'0', STR_PAD_LEFT);
+            $generatepd = strtoupper($py_id."/PD/SII/".$month."/".$year);
+            Invoicing::where('id',$pyment->id)->update([
+                'code_pd' => $generatepd,
+            ]);
+
+            return redirect()->back();
+        }else{
+            return redirect()->route('dashboard');
         }
-        CategoryPO::where('id',$id)->update([
-            "atasan_py"    => $request->atasan_py,
-            "path_invoice" => $file,
-        ]);
-
-        $pyment = new Invoicing;
-        $pyment->ppb_id = $cpo->ppb->id;
-        $pyment->po_id = $cpo->id;
-        $year = Carbon::parse($pyment->created_at)->format('y');
-        $month = Carbon::parse($pyment->created_at)->format('m');
-        $pyment->save();
-
-        $py_id = str_pad($pyment->id,5,'0', STR_PAD_LEFT);
-        $generatepd = strtoupper($py_id."/PD/SII/".$month."/".$year);
-        Invoicing::where('id',$pyment->id)->update([
-            'code_pd' => $generatepd,
-        ]);
-
-        return redirect()->back();
 
     }
 
@@ -332,31 +356,36 @@ class InvoicingController extends Controller
      */
     public function edit($id)
     {
-        $pt                 = CategoryPT::all();
-        $op                 = CategoryPP::all();
-        $ec                 = CategoryEcommerce::all();
-        $datapo             = CategoryPO::where('ppb_id', $id)->get();
-        $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
-        $terms              = TermsAndConditions::all();
-        $dv                 = CategoryPengajuanPembelian::find($id);
-        $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
-        $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        return view('payment_request.menu.edit')
-        ->with('pt', $pt)
-        ->with('op',$op)
-        ->with('ec',$ec)
-        ->with('datapo' , $datapo)
-        ->with('dv' , $dv)
-        ->with('atasan' , $atasan)
-        ->with('terms' , $terms)
-        ->with('pengajuan', $pengajuan)
-        ->with('dpp', $dpp)
-        ->with('ppn', $ppn)
-        ->with('total', $total)
-        ->with('total_tnpa_ppn', $total_tnpa_ppn);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3 || $check->role_id == 5) {
+            $pt                 = CategoryPT::all();
+            $op                 = CategoryPP::all();
+            $ec                 = CategoryEcommerce::all();
+            $datapo             = CategoryPO::where('ppb_id', $id)->get();
+            $atasan             = User::whereIn('id', [3,6, 7, 8, 9])->get();
+            $terms              = TermsAndConditions::all();
+            $dv                 = CategoryPengajuanPembelian::find($id);
+            $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+            $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            return view('payment_request.menu.edit')
+            ->with('pt', $pt)
+            ->with('op',$op)
+            ->with('ec',$ec)
+            ->with('datapo' , $datapo)
+            ->with('dv' , $dv)
+            ->with('atasan' , $atasan)
+            ->with('terms' , $terms)
+            ->with('pengajuan', $pengajuan)
+            ->with('dpp', $dpp)
+            ->with('ppn', $ppn)
+            ->with('total', $total)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -379,64 +408,78 @@ class InvoicingController extends Controller
      */
     public function destroy($id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
-        $data->delete();
-        return redirect('/payment_request')->with('success', 'Task Deleted Successfully!');
+        // $data = CategoryPengajuanPembelian::find($id);
+        // $data->delete();
+        // return redirect('/payment_request')->with('success', 'Task Deleted Successfully!');
     }
 
     public function ajukan_dana($id)
     {
-        $data = CategoryPengajuanPembelian::find($id);
-        if(empty($data->atasan_po)){
-            return redirect()->back()->withErrors(["Approver Not Found"]);
-        }else{
-        $data->status = 'Invoicing Process';
-        $data->save();
-        CategoryPO::where('id',$id)->update([
-            'status' => 'Invoicing Process'
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3 || $check->role_id == 5) {
+            $data = CategoryPengajuanPembelian::find($id);
+            if(empty($data->atasan_po)){
+                return redirect()->back()->withErrors(["Approver Not Found"]);
+            }else{
+            $data->status = 'Invoicing Process';
+            $data->save();
+            CategoryPO::where('id',$id)->update([
+                'status' => 'Invoicing Process'
+            ]);
 
-        return redirect('send-payment/'.$data->id);
+            return redirect('send-payment/'.$data->id);
+            }
+        }else{
+            return redirect()->route('dashboard');
         }
     }
     public function ajukan_dana_ppo($id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3 || $check->role_id == 5) {
+            $po = CategoryPO::find($id);
+            $data = CategoryPengajuanPembelian::where('id',$po->ppb_id)->first();
+            // dd($data);
+            if(empty($po->atasan_py)){
+                return redirect()->back()->withErrors(["Approver Not Found"]);
+            }else{
 
-        $po = CategoryPO::find($id);
-        $data = CategoryPengajuanPembelian::where('id',$po->ppb_id)->first();
-        // dd($data);
-        if(empty($po->atasan_py)){
-            return redirect()->back()->withErrors(["Approver Not Found"]);
+            CategoryPO::where('id',$id)->update([
+                'status' => 'Invoicing Process'
+            ]);
+            if($data->status == 'PO Approved'){
+                CategoryPengajuanPembelian::where('id',$po->ppb_id)->update([
+                    'status' => 'Invoicing Process',
+                ]);
+                CategoryPO::where('id',$id)->update([
+                    'status' => 'Invoicing Process'
+                ]);
+            }else if($data->status == 'Invoicing Process') {
+                CategoryPO::where('id',$id)->update([
+                    'status' => 'Invoicing Process'
+                ]);
+            }
+
+            return redirect('/payment_request');
+            }
         }else{
-
-        CategoryPO::where('id',$id)->update([
-            'status' => 'Invoicing Process'
-        ]);
-        if($data->status == 'PO Approved'){
-            CategoryPengajuanPembelian::where('id',$po->ppb_id)->update([
-                'status' => 'Invoicing Process',
-            ]);
-            CategoryPO::where('id',$id)->update([
-                'status' => 'Invoicing Process'
-            ]);
-        }else if($data->status == 'Invoicing Process') {
-            CategoryPO::where('id',$id)->update([
-                'status' => 'Invoicing Process'
-            ]);
-        }
-
-        return redirect('/payment_request');
+            return redirect()->route('dashboard');
         }
     }
 
     public function Reject($id)
     {
-        $data = CategoryPO::find($id);
-        $data->status = 'Rejected By Purchasing';
-        $data->save();
-        CategoryPO::where('ppb_id',$id)->update([
-            'status' => 'Rejected By Purchasing'
-        ]);
-        return redirect('/payment_request');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ( $check->role_id == 3 || $check->role_id == 5) {
+            $data = CategoryPO::find($id);
+            $data->status = 'Rejected By Purchasing';
+            $data->save();
+            CategoryPO::where('ppb_id',$id)->update([
+                'status' => 'Rejected By Purchasing'
+            ]);
+            return redirect('/payment_request');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 }

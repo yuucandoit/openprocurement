@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
 {
@@ -14,9 +16,14 @@ class InventoryController extends Controller
      */
     public function index()
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
         $data = Inventory::paginate(10);
         return view('dataInventory.index')
         ->with('data',$data);
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     public function SearchInventory(Request $request)
@@ -38,9 +45,14 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        $data = Inventory::all();
-        return view('dataInventory.create')
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Inventory::all();
+            return view('dataInventory.create')
         ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -51,16 +63,21 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //validasi formnya
-        $this->validate($request,[
-            'name' => 'required',
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            //validasi formnya
+            $this->validate($request,[
+                'name' => 'required',
+            ]);
 
-       Inventory::create([
-            "name" => $request->name,
-        ]);
+            Inventory::create([
+                "name" => $request->name,
+            ]);
 
-        return redirect("inventory/")->with('success', 'Created Successfully!');
+            return redirect("inventory/")->with('success', 'Created Successfully!');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -82,9 +99,14 @@ class InventoryController extends Controller
      */
     public function edit(Inventory $inventory,$id)
     {
-        $data = Inventory::find($id);
-        return view('dataInventory.edit')
-        ->with('data',$data);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Inventory::find($id);
+            return view('dataInventory.edit')
+            ->with('data',$data);
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -96,13 +118,18 @@ class InventoryController extends Controller
      */
     public function update(Request $request, Inventory $inventory,$id)
     {
-        $data = Inventory::find($id);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Inventory::find($id);
 
-        // dd($data);
-        $tes = Inventory::where("id", $id)->update([
-            "name" => $request->name,
-        ]);
-        return redirect("inventory/")->with('success', 'Updated Successfully!');
+            // dd($data);
+            $tes = Inventory::where("id", $id)->update([
+                "name" => $request->name,
+            ]);
+            return redirect("inventory/")->with('success', 'Updated Successfully!');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -113,8 +140,13 @@ class InventoryController extends Controller
      */
     public function destroy(Inventory $inventory,$id)
     {
-        $data = Inventory::find($id);
-        $data->delete();
-        return redirect("inventory/")->with('success', 'Deleted Successfully!');
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $data = Inventory::find($id);
+            $data->delete();
+            return redirect("inventory/")->with('success', 'Deleted Successfully!');
+        }else{
+            return redirect()->route('dashboard');
+        }
     }
 }
