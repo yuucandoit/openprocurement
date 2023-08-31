@@ -11,7 +11,11 @@
     </thead>
     <tbody>
         @foreach ($roles as $r)
+        @php
+            $i = 1;
+        @endphp
         <tr>
+            <td>{{ $i++ }}</td>
             <td style="border: 1px solid black">{{ $r->name }}</td>
             <td style="border: 1px solid black">{{ $r->guard_name }}</td>
         </tr>
