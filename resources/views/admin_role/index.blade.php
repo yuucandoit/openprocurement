@@ -134,6 +134,9 @@
                         {{ $role->withQueryString()->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
+                <div class="mt-2">
+                    <a href="{{ route('export-roles') }}" class="btn btn-success">Export Role</a>
+                </div>
             </div>
         </div>
     </div>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DBRolesExport;
 use App\Models\Roles;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RoleController extends Controller
 {
@@ -115,5 +117,9 @@ class RoleController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function export()
+    {
+        return Excel::download(new DBRolesExport, 'Roles.xlsx');
     }
 }

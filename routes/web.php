@@ -545,6 +545,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/pengajuan_pembelian/{id}', [CategoryPengajuanPembelianController::class, 'export'])->name('export-ppb');
     Route::get('/export_excel/barang', [DeliveryController::class, 'export'])->name('export-pembelian');
     Route::get('/export_excel/history_purchase', [CategoryPOController::class, 'export'])->name('export-historyPO');
+    Route::get('/export/roles',[RoleController::class,'export'])->name('export-roles');
 
 
 
