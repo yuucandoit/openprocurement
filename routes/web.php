@@ -274,6 +274,11 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list atasan Pengajuan Pembelian
     Route::group(['prefix' => 'menu-taskList-atasan'], function () {
         Route::get('/', [TaskListAtasanController::class, 'index'])->name('menu-taskList-atasan.index');
+        Route::get('/taskSindu',[TaskListAtasanController::class, 'taskSindu'])->name('menu-taskList-atasan.Sindu');
+        Route::get('/taskBayu',[TaskListAtasanController::class, 'taskBayu'])->name('menu-taskList-atasan.Bayu');
+        Route::get('/taskVictor',[TaskListAtasanController::class, 'taskVictor'])->name('menu-taskList-atasan.Victor');
+        Route::get('/taskErwin',[TaskListAtasanController::class, 'taskErwin'])->name('menu-taskList-atasan.Erwin');
+        Route::get('/taskTriyani',[TaskListAtasanController::class, 'taskTriyani'])->name('menu-taskList-atasan.Triyani');
         Route::get('/edit/{id}', [TaskListAtasanController::class, 'edit'])->name('menu-taskList-atasan.edit');
         Route::post('/update/{id}', [TaskListAtasanController::class, 'update'])->name('menu-taskList-atasan.update');
         Route::get('/history', [TaskListAtasanController::class, 'history'])->name('menu-taskList-atasan.history');
@@ -293,6 +298,11 @@ Route::group(['middleware' => ['auth']], function () {
      // Menu Task list atasan Purchase Order
      Route::group(['prefix' => 'menu-taskList-atasan-po'], function () {
         Route::get('/', [TasklistAtasanPoController::class, 'index'])->name('menu-taskList-atasan-po.index');
+        Route::get('/taskPoSindu', [TasklistAtasanPoController::class, 'taskPoSindu'])->name('menu-taskList-atasan-po.sindu');
+        Route::get('/taskPoBayu', [TasklistAtasanPoController::class, 'taskPoBayu'])->name('menu-taskList-atasan-po.bayu');
+        Route::get('/taskPoVictor', [TasklistAtasanPoController::class, 'taskPoVictor'])->name('menu-taskList-atasan-po.victor');
+        Route::get('/taskPoErwin', [TasklistAtasanPoController::class, 'taskPoErwin'])->name('menu-taskList-atasan-po.erwin');
+        Route::get('/taskPoTriyani', [TasklistAtasanPoController::class, 'taskPoTriyani'])->name('menu-taskList-atasan-po.triyani');
         Route::get('/out', [TasklistAtasanPoController::class, 'out'])->name('menu-taskList-atasan-po.out');
         Route::get('/history', [TasklistAtasanPoController::class, 'history'])->name('menu-taskList-atasan-po.history');
         Route::get('/detail/{id}', [TasklistAtasanPoController::class, 'detail'])->name('menu-taskList-atasan-po.detail');
@@ -315,6 +325,11 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list atasan Payment/Pendanaan
     Route::group(['prefix' => 'menu-taskList-atasan-payment'], function () {
         Route::get('/', [TasklistAtasanPaymentController::class, 'index'])->name('menu-taskList-atasan-payment.index');
+        Route::get('/taskPySindu', [TasklistAtasanPaymentController::class, 'taskPySindu'])->name('menu-taskList-atasan-payment.taskPySindu');
+        Route::get('/taskPyBayu', [TasklistAtasanPaymentController::class, 'taskPyBayu'])->name('menu-taskList-atasan-payment.taskPyBayu');
+        Route::get('/taskPyVictor', [TasklistAtasanPaymentController::class, 'taskPyVictor'])->name('menu-taskList-atasan-payment.taskPyVictor');
+        Route::get('/taskPyErwin', [TasklistAtasanPaymentController::class, 'taskPyErwin'])->name('menu-taskList-atasan-payment.taskPyErwin');
+        Route::get('/taskPyTriyani', [TasklistAtasanPaymentController::class, 'taskPyTriyani'])->name('menu-taskList-atasan-payment.taskPyTriyani');
         Route::get('/history', [TasklistAtasanPaymentController::class, 'history'])->name('menu-taskList-atasan-payment.history');
         Route::get('/po_detail/{id}', [TasklistAtasanPaymentController::class, 'po_detail'])->name('menu-taskList-atasan-payment.po_detail');
         Route::get('/detail/{id}', [TasklistAtasanPaymentController::class, 'detail'])->name('menu-taskList-atasan-payment.detail');

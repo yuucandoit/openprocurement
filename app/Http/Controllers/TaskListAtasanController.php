@@ -54,6 +54,86 @@ class TaskListAtasanController extends Controller
         }
     }
 
+    public function taskSindu()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('atasan', 6)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $datadv = TaskListAtasan::all();
+            return view('taskList_atasan.menu.spesific.sindu')
+            ->with('datappb', $datappb)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('datadv', $datadv);
+        }
+    }
+
+    public function taskBayu()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('atasan', 7)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $datadv = TaskListAtasan::all();
+            return view('taskList_atasan.menu.spesific.bayu')
+            ->with('datappb', $datappb)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('datadv', $datadv);
+        }
+    }
+
+    public function taskVictor()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('atasan', 8)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $datadv = TaskListAtasan::all();
+            return view('taskList_atasan.menu.spesific.victor')
+            ->with('datappb', $datappb)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('datadv', $datadv);
+        }
+    }
+
+    public function taskErwin()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('atasan', 9)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $datadv = TaskListAtasan::all();
+            return view('taskList_atasan.menu.spesific.erwin')
+            ->with('datappb', $datappb)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('datadv', $datadv);
+        }
+    }
+
+    public function taskTriyani()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where('atasan', 24)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $datadv = TaskListAtasan::all();
+            return view('taskList_atasan.menu.spesific.triyani')
+            ->with('datappb', $datappb)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('datadv', $datadv);
+        }
+    }
+
     public function SearchTaskRequestBodIn(Request $request)
     {
      $cariIn = $request->cariIn;

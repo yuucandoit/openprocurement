@@ -43,6 +43,91 @@ class TasklistAtasanPoController extends Controller
         }
     }
 
+    public function taskPoSindu()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_po', 6)->where('status','Waiting For PO Approval');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+
+            //dd($data_atasan);
+            return view('taskList_atasan_PO.menu.spesific.sindu')
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function taskPoBayu()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_po', 7)->where('status','Waiting For PO Approval');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+
+            //dd($data_atasan);
+            return view('taskList_atasan_PO.menu.spesific.bayu')
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function taskPoVictor()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_po',8)->where('status','Waiting For PO Approval');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+
+            //dd($data_atasan);
+            return view('taskList_atasan_PO.menu.spesific.victor')
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function taskPoErwin()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_po', 9)->where('status','Waiting For PO Approval');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+
+            //dd($data_atasan);
+            return view('taskList_atasan_PO.menu.spesific.erwin')
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function taskPoTriyani()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_po', 24)->where('status','Waiting For PO Approval');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+
+            //dd($data_atasan);
+            return view('taskList_atasan_PO.menu.spesific.triyani')
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
     public function SearchAtasanPOIn(Request $request)
     {
      $cari = $request->cari;

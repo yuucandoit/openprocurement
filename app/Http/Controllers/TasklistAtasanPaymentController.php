@@ -45,6 +45,96 @@ class TasklistAtasanPaymentController extends Controller
         }
     }
 
+    public function taskPySindu()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_py', 6)->where('status','Invoicing Process');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+            // $py   = Invoicing::orderBy('ppb_id', 'asc')->first();
+
+            return view('taskList_atasan_payments.menu.index')
+            // ->with('py',$py)
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function taskPyBayu()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_py', 7)->where('status','Invoicing Process');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+            // $py   = Invoicing::orderBy('ppb_id', 'asc')->first();
+
+            return view('taskList_atasan_payments.menu.index')
+            // ->with('py',$py)
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function taskPyVictor()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_py', 8)->where('status','Invoicing Process');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+            // $py   = Invoicing::orderBy('ppb_id', 'asc')->first();
+
+            return view('taskList_atasan_payments.menu.index')
+            // ->with('py',$py)
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function taskPyErwin()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_py', 9)->where('status','Invoicing Process');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+            // $py   = Invoicing::orderBy('ppb_id', 'asc')->first();
+
+            return view('taskList_atasan_payments.menu.index')
+            // ->with('py',$py)
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function taskPyTriyani()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('atasan_py', 24)->where('status','Invoicing Process');
+            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datapo = CategoryPO::get();
+            // $py   = Invoicing::orderBy('ppb_id', 'asc')->first();
+
+            return view('taskList_atasan_payments.menu.index')
+            // ->with('py',$py)
+            ->with('datapo', $datapo)
+            ->with('datappb', $datappb);
+        }
+    }
+
     public function SearchTaskPYIn(Request $request)
     {
      $cari = $request->cari;

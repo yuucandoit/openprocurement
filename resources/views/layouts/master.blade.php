@@ -656,22 +656,44 @@
                          </li>
                         @endhasrole
 
-                                <!--TaskList-->
-                                @hasrole('super purchase|super user|super admin|purchasing|finance')
-                                    <li class="sidebar-main-title">
-                                        <div>
-                                            <h6>Tasks</h6>
-                                        </div>
-                                    </li>
+                    <!--TaskList-->
+                    @hasrole('super purchase|super user|super admin|purchasing|finance')
+                        <li class="sidebar-main-title">
+                            <div>
+                                <h6>Tasks</h6>
+                            </div>
+                        </li>
 
-                                    @php
-                                        $taskpr         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',Auth::user()->id)->get();
-                                        $taskpo         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', Auth::user()->id)->where('status','Waiting For PO Approval');})->get();
 
-                                        $taskpd         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', Auth::user()->id)->where('status','Invoicing Process');})->get();
-                                        $taskpurchase   = App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->get();
-                                        $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Payment Approved');})->get();
-                                    @endphp
+                        @php
+                            $taskpr         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',Auth::user()->id)->get();
+                            $taskpo         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', Auth::user()->id)->where('status','Waiting For PO Approval');})->get();
+                            $taskpd         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', Auth::user()->id)->where('status','Invoicing Process');})->get();
+
+                            $taskprsindu         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',6)->get();
+                            $taskposindu         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', 6)->where('status','Waiting For PO Approval');})->get();
+                            $taskpdsindu         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', 6)->where('status','Invoicing Process');})->get();
+
+                            $taskprbayu         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',7)->get();
+                            $taskpobayu         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', 7)->where('status','Waiting For PO Approval');})->get();
+                            $taskpdbayu         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', 7)->where('status','Invoicing Process');})->get();
+
+                            $taskprvictor         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',8)->get();
+                            $taskpovictor         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', 8)->where('status','Waiting For PO Approval');})->get();
+                            $taskpdvictor         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', 8)->where('status','Invoicing Process');})->get();
+
+                            $taskprerwin         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',9)->get();
+                            $taskpoerwin         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', 9)->where('status','Waiting For PO Approval');})->get();
+                            $taskpderwin         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', 9)->where('status','Invoicing Process');})->get();
+
+                            $taskprtriyani         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',24)->get();
+                            $taskpotriyani         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', 24)->where('status','Waiting For PO Approval');})->get();
+                            $taskpdtriyani         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', 24)->where('status','Invoicing Process');})->get();
+
+                            $taskpurchase   = App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->get();
+                            $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Payment Approved');})->get();
+
+                        @endphp
 
                     @hasrole('super user|super admin')
                             <li class="dropdown">
@@ -895,6 +917,227 @@
                             @endhasrole
                         </ul>
                     </li>
+                @endhasrole
+
+                @hasrole('super admin')
+                <li class="sidebar-main-title">
+                    <div>
+                        <h6>Tasks Sindu Irawan</h6>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan/taskSindu') ? 'active' : '' }}"
+                        href="{{ url('/menu-taskList-atasan/taskSindu') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Request
+                        @if($taskprsindu->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskprsindu->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po/taskPoSindu') ? 'active' : '' }} "
+                        href="{{ url('/menu-taskList-atasan-po/taskPoSindu') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Order
+                        @if($taskposindu->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskposindu->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-payment/taskPySindu') ? 'active' : '' }}"
+                        href="{{ url('menu-taskList-atasan-payment/taskPySindu') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Payment Request
+                        @if($taskpdsindu->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpdsindu->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="sidebar-main-title">
+                    <div>
+                        <h6>Tasks Bayu Nugraha</h6>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan/taskBayu') ? 'active' : '' }}"
+                        href="{{ url('/menu-taskList-atasan/taskBayu') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Request
+                        @if($taskprbayu->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskprbayu->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po/taskPoBayu') ? 'active' : '' }} "
+                        href="{{ url('/menu-taskList-atasan-po/taskPoBayu') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Order
+                        @if($taskpobayu->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpobayu->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-payment/taskPyBayu') ? 'active' : '' }}"
+                        href="{{ url('menu-taskList-atasan-payment/taskPyBayu') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Payment Request
+                        @if($taskpdbayu->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpdbayu->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="sidebar-main-title">
+                    <div>
+                        <h6>Tasks Victor</h6>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan/taskVictor') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}"
+                        href="{{ url('/menu-taskList-atasan/taskVictor') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Request
+                        @if($taskprvictor->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskprvictor->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po/taskPoVictor') ? 'active' : '' }} "
+                        href="{{ url('/menu-taskList-atasan-po/taskPoVictor') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Order
+                        @if($taskpovictor->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpovictor->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-payment/taskPyVictor') ? 'active' : '' }}"
+                        href="{{ url('menu-taskList-atasan-payment/taskPyVictor') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Payment Request
+                        @if($taskpdvictor->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpdvictor->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="sidebar-main-title">
+                    <div>
+                        <h6>Tasks Erwin Danuaji</h6>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan/taskErwin') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}"
+                        href="{{ url('/menu-taskList-atasan/taskErwin') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Request
+                        @if($taskprerwin->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskprerwin->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po/taskPoErwin') ? 'active' : '' }} "
+                        href="{{ url('/menu-taskList-atasan-po/taskPoErwin') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Order
+                        @if($taskpoerwin->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpoerwin->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-payment/taskPyErwin') ? 'active' : '' }}"
+                        href="{{ url('menu-taskList-atasan-payment/taskPyErwin') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Payment Request
+                        @if($taskpderwin->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpderwin->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="sidebar-main-title">
+                    <div>
+                        <h6>Tasks Triyani</h6>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan/taskTriyani') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}"
+                        href="{{ url('/menu-taskList-atasan/taskTriyani') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Request
+                        @if($taskprtriyani->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskprtriyani->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po/taskPoTriyani') ? 'active' : '' }} "
+                        href="{{ url('/menu-taskList-atasan-po/taskPoTriyani') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Purchase Order
+                        @if($taskpotriyani->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpotriyani->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-payment//taskPyTriyani') ? 'active' : '' }}"
+                        href="{{ url('menu-taskList-atasan-payment//taskPyTriyani') }}">
+                        <i data-feather="check-circle"></i>
+                        Task List Super User Payment Request
+                        @if($taskpdtriyani->count() == 0)
+
+                        @else
+                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpdtriyani->count() }}</span>
+                        @endif
+                    </a>
+                </li>
                 @endhasrole
                                 <!--End TaskList-->
 
