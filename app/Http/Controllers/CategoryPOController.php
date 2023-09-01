@@ -834,7 +834,7 @@ class CategoryPOController extends Controller
     public function checkPO($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 3 || $check->role_id == 17) {
+        if ($check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4 ) {
             $data = CategoryPengajuanPembelian::find($id);
 
             if(empty($data->atasan_po)){
@@ -853,7 +853,7 @@ class CategoryPOController extends Controller
     public function checkPO2(Request $request,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 3 || $check->role_id == 17) {
+        if ($check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4 ) {
             $data = CategoryPO::where('id',$id)->update([
                 'status' => 'Cross Check PO',
             ]);
