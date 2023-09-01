@@ -14,6 +14,35 @@
         height: 50px;
     }
 
+    .custom-loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    }
+
+    .loader {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+
+
 </style>
 <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 <section>
@@ -35,17 +64,16 @@
         </div>
     </div>
 
-
+    <div class="loader-3"></div>
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                {{-- <div class="card card-absolute"> --}}
-                    {{-- <div class="card-header bg-primary">
-                        <h5>Form Purchase Request</h5>
-                    </div> --}}
                     <div class="card-body">
+                        <div id="loadingScreen" class="custom-loader">
+                            <div class="loader"></div>
+                        </div>
                         <form action="{{ url('/menu-pengajuan-pembelian/store') }}" id="formAdd" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row mb-3">
@@ -124,11 +152,6 @@
                                             </span>
                                         </div>
                                         @enderror
-                                        {{-- @error('ws')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror --}}
                                     </div>
                                 </div>
 
@@ -152,11 +175,6 @@
                                             </span>
                                         </div>
                                         @enderror
-                                        {{-- @error('department')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror --}}
                                     </div>
                                 </div>
 
@@ -437,10 +455,9 @@
                                 </div>
                                 <br>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
+                                    <button type="submit" class="btn btn-primary btn_add mt-3" id="submitBtn">Submit</button>
                                     <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-dark mt-3">Back</a>
                                 </div>
-
                         </form>
                     </div>
                 </div>
@@ -650,6 +667,45 @@
                 customOther.classList.add('hide');
             }
         })
+
+    </script>
+
+    <script type="text/javascript">
+    document.getElementById('formAdd').addEventListener('submit', function (event) {
+    event.preventDefault();
+    showLoadingScreen();
+
+    console.log(this);
+    const formData = new FormData(this);
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response=> {
+            hideLoadingScreen();
+            if (response.ok) {
+                window.location.href = '{{ route('menu-pengajuan-pembelian.index') }}'; // Redirect to home page
+            } else {
+                console.log(response);
+                console.error('Error:', response.statusText);
+            }
+        })
+        .catch(error => {
+            hideLoadingScreen();
+            console.error('Error:', error);
+        });
+    });
+
+    function showLoadingScreen() {
+        const loadingScreen = document.getElementById('loadingScreen');
+        loadingScreen.style.display = 'flex';
+    }
+
+    function hideLoadingScreen() {
+        const loadingScreen = document.getElementById('loadingScreen');
+        loadingScreen.style.display = 'none';
+    }
 
     </script>
 

@@ -852,13 +852,17 @@ class CategoryPOController extends Controller
     }
     public function checkPO2(Request $request,$id)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17) {
+            $data = CategoryPO::where('id',$id)->update([
+                'status' => 'Cross Check PO',
+            ]);
+            $data2 = CategoryPO::where('id',$id)->first();
 
-        // $data = CategoryPO::where('id',$id)->update([
-        //     'status' => 'Cross Check PO',
-        // ]);
-        // $data2 = CategoryPO::where('id',$id)->first();
-
-        // return redirect()->back();
+            return redirect()->back();
+        }else{
+            return redirect()->route('dashboard');
+        }
 
     }
 
