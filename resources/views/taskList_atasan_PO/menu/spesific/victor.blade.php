@@ -172,6 +172,8 @@
                                                     </td>
                                                 </tr>
                                                 @foreach ($ppb->quot as $po)
+                                                    @if($po->atasan_po == 8)
+                                                    @if($po->status == 'Waiting For PO Approval')
                                                     <tr>
 
                                                         @php
@@ -218,6 +220,8 @@
 
                                                         @endif
                                                     </tr>
+                                                    @endif
+                                                    @endif
                                                 @endforeach
                                         @endforeach
                                     </tbody>
