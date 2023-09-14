@@ -88,7 +88,7 @@ class TasklistAtasanPoController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
-                $i->where('atasan_po',8)->where('status','Waiting For PO Approval');
+                $i->where('atasan_po', 8)->where('status','Waiting For PO Approval');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
 
             $datapo = CategoryPO::get();
