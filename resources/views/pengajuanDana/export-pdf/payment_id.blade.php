@@ -15,7 +15,9 @@
          use Carbon\Carbon;
         $date = Carbon::parse($cpo->ppb->created_at)->format('d/m/Y');
         $p =  App\Models\Invoicing::where('ppb_id', $cpo->ppb_id)->first();
-        if (empty($p->approved_at)) {
+        if($cpo->approved_at){
+           $approvedAt = Carbon::parse($cpo->approved_at)->format('d F Y');
+        } elseif (empty($p->approved_at)) {
             $approvedAt = 'Not Record yet';
         } else {
             $approvedAt = Carbon::parse($p->approved_at)->format('d F Y');
@@ -324,21 +326,23 @@
                 <div style="text-align: center; font-size:14px; margin-top:-40px;">
 
                 <p>Jakarta, {{ $approvedAt }}</p>
-                @if (empty($sig->signature))
-
-                @else
+                @if(!empty($cpo->signature))
                 <p>
                     <img style="max-height:50px; margin-top:-15px;"
-                    src="{{ public_path('assets/images/signature_super_user/'.$sig->signature) }}"
+                    src="{{ public_path('assets/images/signature_super_user/'.$cpo->signature) }}"
                     alt="">
                 </p>
+                @elseif (!empty($sig->signature))
+                    <p>
+                        <img style="max-height:50px; margin-top:-15px;"
+                        src="{{ public_path('assets/images/signature_super_user/'.$sig->signature) }}"
+                        alt="">
+                    </p>
+                @else
+
                 @endif
                 </div>
-                @if (empty($cpo->atasanpy->name))
-                    <div style="text-align: center; font-size: 15px; margin-top:-10px;">Unfilled Data <br>
-                        <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
-                    </div>
-                @else
+                @if (!empty($cpo->atasanpy->name))
                     <div style="text-align: center; font-size: 15px; margin-top:-10px;">{{ $cpo->atasanpy->name }} <br>
                         <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">
                         @if($cpo->atasanpy->name == 'Bayu Nugraha' || $cpo->atasanpy->name == 'Triyani')
@@ -347,6 +351,20 @@
                             Director
                         @endif
                         </label>
+                    </div>
+                @elseif(!empty($cpo->atasans->name))
+                    <div style="text-align: center; font-size: 15px; margin-top:-10px;">{{ $cpo->atasans->name }} <br>
+                        <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">
+                        @if($cpo->atasans->name == 'Bayu Nugraha' || $cpo->atasans->name == 'Triyani')
+                            General Manager
+                        @else
+                            Director
+                        @endif
+                        </label>
+                    </div>
+                @else
+                    <div style="text-align: center; font-size: 15px; margin-top:-10px;">Unfilled Data <br>
+                        <label style="font-size: 19px; font-weight: bold; text-decoration: overline;">Director</label>
                     </div>
                 @endif
             </td>

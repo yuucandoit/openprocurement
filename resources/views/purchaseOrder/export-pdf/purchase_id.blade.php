@@ -313,6 +313,7 @@
                 <div style="text-align: center; font-size:14px; margin-top:-40px;">
                         @if ($cpo->ppb->status == 'Waiting For PO Approval' ||
                             $cpo->ppb->status == 'Purchase Proses' ||
+                            $cpo->ppb->status == 'PO & Payment Approved' ||
                             $cpo->ppb->status == 'Cross Check PO' ||
                             $cpo->ppb->status == 'PO Approved' ||
                             $cpo->ppb->status == 'Invoicing Process' ||

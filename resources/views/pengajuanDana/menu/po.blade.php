@@ -328,7 +328,7 @@
                     <div class="col-sm-12">
                         <div class="card card-absolute">
                             <div class="card-header bg-primary">
-                                <h5>Report Delivery</h5>
+                                <h5>Report Payment</h5>
                             </div>
                             <div class="card-body">
                                 <!-- Floating Labels Form -->

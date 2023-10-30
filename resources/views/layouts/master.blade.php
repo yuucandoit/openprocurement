@@ -691,7 +691,7 @@
                             $taskpdtriyani         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', 24)->where('status','Invoicing Process');})->get();
 
                             $taskpurchase   = App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->get();
-                            $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Payment Approved');})->get();
+                            $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->whereIn('status',['Payment Approved','PO & Payment Approved']);})->get();
 
                         @endphp
 

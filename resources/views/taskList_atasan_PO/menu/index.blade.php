@@ -1027,7 +1027,7 @@
 @section('scripts')
 <script>
     const databodPo = @json($approvedPPB);
-    // console.log(databodPo);
+    console.log(databodPo);
     const item = databodPo[0];
 
     // FOR CALCULATE REMAINING DEADLINE TIME 😃

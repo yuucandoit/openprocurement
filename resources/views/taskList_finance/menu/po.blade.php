@@ -388,7 +388,7 @@
                                                 class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
                                                 <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
-                                                @elseif($datacpo->status == 'Payment Approved')
+                                                @elseif($datacpo->status == 'Payment Approved' || $datacpo->status == 'PO & Payment Approved')
                                                 <button type="submit" class="btn btn-success text-center"> Process</button>
                                                 <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
                                                 @else

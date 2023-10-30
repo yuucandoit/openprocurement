@@ -161,7 +161,7 @@
 
                                         </tr>
                                         @foreach ($ppb->quot as $po)
-                                        @if($po->status == 'Payment Approved')
+                                        @if($po->status == 'Payment Approved' || $po->status =='PO & Payment Approved')
                                             <tr>
 
                                                 @php

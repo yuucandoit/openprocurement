@@ -24,9 +24,9 @@ class TaskListFinanceController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
-                $i->where('status','Payment Approved');
+                $i->whereIn('status',['Payment Approved','PO & Payment Approved']);
             })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::where('status','Payment Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
+            $datappb2 = CategoryPengajuanPembelian::whereIn('status',['Payment Approved','PO & Payment Approved'])->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
             $datadv = TaskListFinance::all();
             $datapo = CategoryPO::get();
             return view('taskList_finance.menu.index')
