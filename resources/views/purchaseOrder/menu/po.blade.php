@@ -270,7 +270,8 @@
                                 <div class="mt-4">
                                     <a href="{{ url()->previous() }}" class="btn "
                                         style=" color:white; background-color:black">Back</a>
-                                    <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
+                                    <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF PO</a>
+                                    <a href="{{ url('/exportpdf/pymnt_id/' . $po->id) }}" class="btn btn-danger">Export PDF PD</a>
                                 </div>
                             </div>
                         </div>
