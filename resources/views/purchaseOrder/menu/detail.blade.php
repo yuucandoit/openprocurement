@@ -370,6 +370,7 @@
                                                                 <option value="AUD">AUD</option>
                                                                 <option value="MYR">MYR</option>
                                                                 <option value="EUR">EUR</option>
+                                                                <option value="GBP">GBP</option>
                                                             </select>
                                                             @error('matauang')
                                                             <div class="invalid-feedback">
