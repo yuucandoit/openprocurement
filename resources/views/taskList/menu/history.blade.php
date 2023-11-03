@@ -93,6 +93,10 @@
                                         </label>
                                     </li>
                                     <li>
+                                        <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'PO & Payment Approved' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="PO & Payment Approved">&nbsp;PO & Payment Approved
+                                        </label>
+                                    </li>
+                                    <li>
                                         <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Unpaid' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Unpaid">&nbsp;Unpaid
                                         </label>
                                     </li>
@@ -253,7 +257,8 @@
                                         $ppb->status == 'Delivery Process' ||
                                         $ppb->status == 'Delivery Success' ||
                                         $ppb->status == 'PO Rejected by BOD' ||
-                                        $ppb->status == 'Rejected by Purchasing'
+                                        $ppb->status == 'Rejected by Purchasing' ||
+                                        $ppb->status == 'PO & Payment Approved'
                                         )
                                         @php
                                             $status[] = $ppb;
@@ -414,10 +419,10 @@
                 <!-- Zero Configuration  Ends-->
             </div>
         </div>
-            <script>
-                const status = @json($status);
-                console.log(status);
-                /* Sort function */
+<script>
+const status = @json($status);
+console.log(status);
+/* Sort function */
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("le-Table-1");
