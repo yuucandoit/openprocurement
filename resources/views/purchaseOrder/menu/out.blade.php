@@ -164,117 +164,106 @@
                                 @endphp
                                 <tbody>
                                     @foreach ($datappb as $ppb)
-                                        @if (
-                                        $ppb->status == 'Cross Check PO' ||
-                                        $ppb->status == 'Waiting For PO Approval' ||
-                                        $ppb->status == 'PO Approved' ||
-                                        $ppb->status == 'Invoicing Process' ||
-                                        $ppb->status == 'Payment Approved' ||
-                                        $ppb->status == 'Unpaid' ||
-                                        $ppb->status == 'Paid' ||
-                                        $ppb->status == 'Delivery Process' ||
-                                        $ppb->status == 'Delivery Success')
-                                            <tr style="background-color:#F1F6F5;">
-                                                <td>{{ $i++ }}</td>
-                                                <td>{{ $ppb->code_pengajuan }}</td>
-                                                <td>
-                                                    <ul>
-                                                        <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
-                                                        <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break: break-word;">{{ $ppb->desc }}</a></li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <ul>
-                                                        <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
-                                                    </ul>
+                                        <tr style="background-color:#F1F6F5;">
+                                            <td>{{ $i++ }}</td>
+                                            <td>{{ $ppb->code_pengajuan }}</td>
+                                            <td>
+                                                <ul>
+                                                    <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
+                                                    <li><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}" style="word-break: break-word;">{{ $ppb->desc }}</a></li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
+                                                </ul>
 
-                                                </td>
-                                                {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
-                                                <td style="text-align: center;">
-                                                    <ul>
-                                                        <li>
-                                                            <a class="badge" style="text-align: center; font-size:10; color: white; background-color:rgb(0, 121, 6);">{{ $ppb->status }}</a>
-                                                        </li>
-                                                        <li style="text-align: center;">
-                                                            {{-- @foreach ($comments as $c) --}}
-                                                                <a style="font-style: italic; font-size:10; " href="{{ route('menu-purchase-order.detail',$ppb->id) }}/#comment">
-                                                                - {{ $ppb->comment->count() }} Comments
-                                                                </a>
-                                                            {{-- @endforeach --}}
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                @hasrole('purchasing|super admin')
-                                                    <td style="text-align: center; white-space:nowrap;">
+                                            </td>
+                                            {{-- <td style="text-align: center;">{{ $ppb->send_to }}</td> --}}
+                                            <td style="text-align: center;">
+                                                <ul>
+                                                    <li>
+                                                        <a class="badge" style="text-align: center; font-size:10; color: white; background-color:rgb(0, 121, 6);">{{ $ppb->status }}</a>
+                                                    </li>
+                                                    <li style="text-align: center;">
+                                                        {{-- @foreach ($comments as $c) --}}
+                                                            <a style="font-style: italic; font-size:10; " href="{{ route('menu-purchase-order.detail',$ppb->id) }}/#comment">
+                                                            - {{ $ppb->comment->count() }} Comments
+                                                            </a>
+                                                        {{-- @endforeach --}}
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            @hasrole('purchasing|super admin')
+                                                <td style="text-align: center; white-space:nowrap;">
 
+                                                    <a class="btn btn-iconsolid mt-1"
+                                                    style="background-color: #B1D0E0; font-size:10;"
+                                                    href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
+                                                        class="icon-eye" title="Preview Purchase Order"></i>
+                                                </a>
+                                                    @if ($ppb->status == 'Purchase Proses')
                                                         <a class="btn btn-iconsolid mt-1"
-                                                        style="background-color: #B1D0E0; font-size:10;"
-                                                        href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
-                                                            class="icon-eye" title="Preview Purchase Order"></i>
-                                                    </a>
-                                                        @if ($ppb->status == 'Purchase Proses')
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #008000; font-size:10;"
-                                                                href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
-                                                                    class="icon-file" title="Record Data"></i>
-                                                            </a>
-                                                        @endif
-                                                    </td>
-                                                @endhasrole
-                                            </tr>
-                                            <tbody>
-                                                @foreach ($ppb->quot as $var_po)
-                                                <tr>
-
-                                                    @php
-                                                        $po2 = \App\Models\CategoryPO::find($var_po->id);
-                                                        $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$var_po->id)->groupBy('po_id')->get();
-                                                        $po4 = \App\Models\ItemPO::where('po_id',$var_po->id)->groupBy('po_id')->get();
-                                                    @endphp
-
-                                                    @if(empty($var_po))
-
-                                                    @else
-                                                    <td style="text-align: center">-</td>
-                                                    <td>
-                                                        <a href="{{ route('menu-purchase-order.po_detail',$var_po->id) }}">
-                                                            {{ $var_po->code_po }}
+                                                            style="background-color: #008000; font-size:10;"
+                                                            href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
+                                                                class="icon-file" title="Record Data"></i>
                                                         </a>
-                                                    </td>
-                                                    <td>
-                                                        <ul>
-                                                            <a href="{{ route('menu-purchase-order.po_detail',$var_po->id) }}">
-                                                                <li style="white-space: nowrap;">
-                                                                    @if($po2->vendorable_id == 0)
-                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
-                                                                    @else
-                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
-                                                                    @endif
-                                                                </li>
-                                                                <li> Quotation : {{ $po2->quotation }}</li>
-                                                            </a>
-                                                        </ul>
-                                                    </td>
-                                                    <td style="font-weight: 700; white-space:nowrap;">
-                                                        @foreach ($po3 as $ipo)
-                                                        <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $var_po->id }}">{{ $ipo->qty }} Item</label>
-                                                        @endforeach
-                                                    </td>
-                                                    <td class="text-center"><a
-                                                        class="badge  mt-1"
-                                                        style=" color: white; background-color: #008000; font-size:10;">{{ $var_po->status }}</a></td>
-                                                    <td style="white-space: nowrap;">
-                                                        @foreach ($po4 as $ipo)
-                                                            <label>
-                                                                {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
-                                                            </label>
-                                                        @endforeach
-                                                    </td>
                                                     @endif
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        @endif
+                                                </td>
+                                            @endhasrole
+                                        </tr>
+                                        <tbody>
+                                            @foreach ($ppb->quot as $var_po)
+                                            <tr>
+
+                                                @php
+                                                    $po2 = \App\Models\CategoryPO::find($var_po->id);
+                                                    $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$var_po->id)->groupBy('po_id')->get();
+                                                    $po4 = \App\Models\ItemPO::where('po_id',$var_po->id)->groupBy('po_id')->get();
+                                                @endphp
+
+                                                @if(empty($var_po))
+
+                                                @else
+                                                <td style="text-align: center">-</td>
+                                                <td>
+                                                    <a href="{{ route('menu-purchase-order.po_detail',$var_po->id) }}">
+                                                        {{ $var_po->code_po }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <a href="{{ route('menu-purchase-order.po_detail',$var_po->id) }}">
+                                                            <li style="white-space: nowrap;">
+                                                                @if($po2->vendorable_id == 0)
+                                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                @else
+                                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
+                                                                @endif
+                                                            </li>
+                                                            <li> Quotation : {{ $po2->quotation }}</li>
+                                                        </a>
+                                                    </ul>
+                                                </td>
+                                                <td style="font-weight: 700; white-space:nowrap;">
+                                                    @foreach ($po3 as $ipo)
+                                                    <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $var_po->id }}">{{ $ipo->qty }} Item</label>
+                                                    @endforeach
+                                                </td>
+                                                <td class="text-center"><a
+                                                    class="badge  mt-1"
+                                                    style=" color: white; background-color: #008000; font-size:10;">{{ $var_po->status }}</a></td>
+                                                <td style="white-space: nowrap;">
+                                                    @foreach ($po4 as $ipo)
+                                                        <label>
+                                                            {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
+                                                        </label>
+                                                    @endforeach
+                                                </td>
+                                                @endif
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
                                     @endforeach
                                 </tbody>
                             </table>
