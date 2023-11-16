@@ -80,19 +80,11 @@ class CategoryPOController extends Controller
    {
        $check = Role::where('model_id', Auth::user()->id)->first();
        if ($check->role_id == 4 || $check->role_id == 3 ||$check->role_id == 17) {
-        $datappb          = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
-        ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-        ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('updated_at','desc')->paginate(10, ['*'],'out');
-        //    $pt = CategoryPT::all();
-        //    $op = CategoryPP::all();
-        //    $ec = CategoryEcommerce::all();
-           $datapo = CategoryPO::get();
-           return view('purchaseOrder.menu.out')
-            //    ->with('pt', $pt)
-            //    ->with('op', $op)
-            //    ->with('ec', $ec)
-               ->with('datappb', $datappb)
-               ->with('datapo', $datapo);
+        $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO & Payment Approved','PO Approved','Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success'])->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'out');
+        $datapo = CategoryPO::get();
+        return view('purchaseOrder.menu.out')
+            ->with('datappb', $datappb)
+            ->with('datapo', $datapo);
        }
    }
 
@@ -209,12 +201,9 @@ class CategoryPOController extends Controller
             ->with('pengajuan', $pengajuan)
             ->with('pengajuanfirst', $pengajuanfirst)
             ->with('dpp', $dpp)
-            // ->with('datapo', $datapo)
-            // ->with('datacpo', $datacpo)
             ->with('ppn', $ppn)
             ->with('vendor', $vendor)
             ->with('items', $items)
-            // ->with('item', $item)
             ->with('total', $total)
             ->with('disc' , $disc)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
