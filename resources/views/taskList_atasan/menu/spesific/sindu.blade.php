@@ -83,10 +83,10 @@
                                     <tr>
                                         <th style="text-align: center"><input type="checkbox" id="head-cb"></th>
                                         <th>No</th>
-                                        <th>Description</th>
-                                        <th>Deadline</th>
-                                        <th>Request By</th>
-                                        <th>Status</th>
+                                        <th style="text-align: center;">Request By</th>
+                                        <th>Item</th>
+                                        <th style="text-align: center;">Deadline</th>
+                                        <th style="text-align: center;">Status</th>
                                         {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>
@@ -102,8 +102,14 @@
                                             <tr>
                                                 <td style="text-align: center;"><input type="checkbox" class="child-cb" value="{{ $ppb->id }}"></td>
                                                 <td style="text-align: center;"><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">{{ $ppb->code_pengajuan }}</a></td>
-                                                <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}"
-                                                    >{{ $ppb->desc }}</a></td>
+                                                <td><a href="{{ url('menu-taskList-atasan/detail/' . $ppb->id) }}">
+                                                    <ul>
+                                                        <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
+                                                        <li style="margin-top:10px;">{{ $ppb->desc }}</li>
+                                                    </ul>
+                                                </a>
+                                                </td>
+                                                <td><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item</label></td>
                                                 <td style="text-align: center;">
                                                     <ul>
                                                         <li style="white-space: nowrap;">

@@ -42,6 +42,8 @@ use App\Http\Controllers\ItemHistoryController;
 use App\Http\Controllers\SendWaController;
 use App\Http\Controllers\TravelController;
 use App\Http\Controllers\ForceResetPassword;
+use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\UomController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -231,6 +233,26 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/destroy/{id}', [BankController::class, 'destroy'])->name('bank.destroy');
         Route::get('/search/bank',[BankController::class, 'SearchBank'])->name('bank.SearchBank');
         Route::post('/import/bank',[BankController::class, 'import'])->name('bank.import');
+    });
+
+    Route::group(['prefix' => 'currency'], function () {
+        Route::get('/', [CurrencyController::class, 'index'])->name('currency.index');
+        Route::post('/store', [CurrencyController::class, 'store'])->name('currency.store');
+        Route::get('/edit/{id}', [CurrencyController::class, 'edit'])->name('currency.edit');
+        Route::post('/update/{id}', [CurrencyController::class, 'update'])->name('currency.update');
+        Route::delete('/destroy/{id}', [CurrencyController::class, 'destroy'])->name('currency.destroy');
+        Route::get('/search/currency',[CurrencyController::class, 'Searchcurrency'])->name('currency.Searchcurrency');
+        Route::post('/import/currency',[CurrencyController::class, 'import'])->name('currency.import');
+    });
+
+    Route::group(['prefix' => 'uom'], function () {
+        Route::get('/', [UomController::class, 'index'])->name('uom.index');
+        Route::post('/store', [UomController::class, 'store'])->name('uom.store');
+        Route::get('/edit/{id}', [UomController::class, 'edit'])->name('uom.edit');
+        Route::post('/update/{id}', [UomController::class, 'update'])->name('uom.update');
+        Route::delete('/destroy/{id}', [UomController::class, 'destroy'])->name('uom.destroy');
+        Route::get('/search/uom',[UomController::class, 'Searchuom'])->name('uom.Searchuom');
+        Route::post('/import/uom',[UomController::class, 'import'])->name('uom.import');
     });
 
     // End Data Master Submission

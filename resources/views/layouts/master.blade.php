@@ -1257,6 +1257,31 @@
                                             <span>Bank</span>
                                         </a>
                                     </li>
+
+                                    <li class="sidebar-main-title">
+                                        <div>
+                                            <h6>Master Currency </h6>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('*currency*') ? 'active' : '' }}"
+                                            href="{{ url('/currency') }}">
+                                            <i class="fa fa-dollar"></i> &nbsp;&nbsp;&nbsp;
+                                            <span>Currency</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-main-title">
+                                        <div>
+                                            <h6>Master Uom </h6>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('*uom*') ? 'active' : '' }}"
+                                            href="{{ url('/uom') }}">
+                                            <i class="fa fa-spin fa-cog"></i> &nbsp;&nbsp;&nbsp;
+                                            <span>Uom</span>
+                                        </a>
+                                    </li>
                                 @endhasrole
 
                                 @hasrole('admin|super admin')

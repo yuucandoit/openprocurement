@@ -364,13 +364,9 @@
                                                                 Currency :</label>
                                                             <select class="form-select currency" id="floatingdateline" placeholder="Mata Uang"
                                                                 name="matauang" required="">
-                                                                <option value="RP">RP</option>
-                                                                <option value="USD">USD</option>
-                                                                <option value="SGD">SGD</option>
-                                                                <option value="AUD">AUD</option>
-                                                                <option value="MYR">MYR</option>
-                                                                <option value="EUR">EUR</option>
-                                                                <option value="GBP">GBP</option>
+                                                                @foreach ($currency as $crc)
+                                                                <option value="{{ $crc->code }}">{{ $crc->code }}</option>
+                                                                @endforeach
                                                             </select>
                                                             @error('matauang')
                                                             <div class="invalid-feedback">
@@ -418,34 +414,15 @@
                                                                 value="{{ $i->qty }}" min="1" max="{{ $i->qty }}" />
                                                         </td>
                                                         <td>
-                                                            <select class="form-select " placeholder="Kategori" name="kategori[]"
-                                                                value="{{ $i->kategori }}">
-                                                                <option value="{{ $i->kategori }}">
-                                                                    {{ $i->kategori }}</option>
-                                                                <option value="Pcs">Pcs </option>
-                                                                <option value="Lusin">Lusin </option>
-                                                                <option value="Box">Box </option>
-                                                                <option value="Unit">Unit </option>
-                                                                <option value="Lot">Lot </option>
-                                                                <option value="Rim">Rim </option>
-                                                                <option value="Org">Org </option>
-                                                                <option value="Line">Line </option>
-                                                                <option value="Ruang">Ruang </option>
-                                                                <option value="Pax">Pax </option>
-                                                                <option value="Set">Set </option>
-                                                                <option value="Piece">Piece </option>
-                                                                <option value="Rol">Rol </option>
-                                                                <option value="Pack">Pack </option>
-                                                                <option value="Batang">Batang </option>
-                                                                <option value="Dus">Dus </option>
-                                                                <option value="Strip">Strip </option>
-                                                                <option value="Pasang">Pasang </option>
-                                                                <option value="Lembar">Lembar </option>
-                                                                <option value="Jerigen">Jerigen </option>
-                                                                <option value="Meter">Meter </option>
-                                                                <option value="Botol">Botol </option>
-                                                                <option value="Buku">Buku </option>
-                                                                <option value="Titik">Titik </option>
+                                                            <select class="form-select " placeholder="Kategori" name="kategori[]">
+                                                                @foreach ($uom as $u)
+                                                                    @if($u->name == $i->kategori)
+                                                                    <option value="{{ $i->kategori }}" selected>{{ $i->kategori }}</option>
+                                                                    @else
+                                                                    <option value="{{ $u->name }}">{{ $u->name }}</option>
+                                                                    @endif
+                                                                @endforeach
+
                                                             </select>
                                                         </td>
 

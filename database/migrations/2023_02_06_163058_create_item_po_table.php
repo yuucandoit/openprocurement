@@ -24,7 +24,7 @@ return new class extends Migration
             $table->bigInteger('discount')->nullable();
             $table->bigInteger('dpp')->nullable();
             $table->bigInteger('ongkir')->default(0)->nullable();
-            $table->enum('matauang',['USD','RP']);
+            $table->string('matauang')->nullable();
             $table->boolean('ppn')->nullable()->default(false);
             $table->bigInteger('grand_total')->nullable();
             $table->timestamps();

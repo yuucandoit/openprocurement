@@ -20,6 +20,8 @@ use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
 use App\Models\WhoSubmitted;
+use App\Models\Currency;
+use App\Models\Uom;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -181,6 +183,8 @@ class CategoryPOController extends Controller
         $items              = CategoryPO::where('ppb_id',$id)->get();
         $groupedItem        = ItemPO::groupBy('po_id')->get();
         $itempurchase       = ItemPO::groupBy('po_id')->first();
+        $currency           = Currency::orderBy('name','asc')->get();
+        $uom                = Uom::orderBy('name','asc')->get();
 
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -194,6 +198,8 @@ class CategoryPOController extends Controller
             ->with('pt', $pt)
             ->with('op', $op)
             ->with('ec', $ec)
+            ->with('currency',$currency)
+            ->with('uom',$uom)
             ->with('terms', $terms)
             ->with('groupedItem', $groupedItem)
             ->with('itempurchase', $itempurchase)

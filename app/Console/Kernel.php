@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // dd((new \ReflectionClass($schedule->command('test:send ')))->getMethods());
         //Send Notif WA
         // $schedule->command('send:notif')->twiceDaily(11,16);
         $schedule->command(SendNotifikasiBOD::class)->twiceDaily(11,15);

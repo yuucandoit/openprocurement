@@ -21,6 +21,7 @@ use App\Models\Travel;
 use App\Models\User;
 use App\Models\WhoSubmitted;
 use App\Models\Workshop;
+use App\Models\Uom;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
@@ -331,6 +332,7 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_rnd        = RND::all();
         $purpose_travel     = Travel::all();
         $ppb                = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
+        $uom                = Uom::orderBy('name','asc')->get();
         if (request()->pengajuan_id == null) {
         $ppb_old            = CategoryPengajuanPembelian::where('id',0)->get();
         } else {
@@ -348,6 +350,7 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('ppb', $ppb)
+            ->with('uom', $uom)
             ->with('ppb_old', $ppb_old);
         }else {
             return redirect()->route('dashboard');
