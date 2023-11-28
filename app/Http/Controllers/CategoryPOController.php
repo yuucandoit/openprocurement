@@ -65,6 +65,9 @@ class CategoryPOController extends Controller
     ->orWhereHas('whosubmit', function($q) use($cariIn){
          $q->where('name','like',"%".$cariIn."%");
     })
+    ->orWhereHas('po', function($posearch) use($cariIn){
+        $posearch->where('id','like',"%".$cariIn."%");
+    })
     ->paginate(10, ['*'],'in');
 
     $datahstry = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')

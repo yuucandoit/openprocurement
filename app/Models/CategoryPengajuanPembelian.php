@@ -76,7 +76,7 @@ class CategoryPengajuanPembelian extends Model
     }
     public function po()
     {
-        return $this->belongsTo(CategoryPO::class, 'ppb_id');
+        return $this->belongsTo(CategoryPO::class, 'id', 'ppb_id');
     }
     public function pd()
     {
