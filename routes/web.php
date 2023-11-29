@@ -502,7 +502,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/destroy/{id}', [CheckPOController::class, 'destroy'])->name('check_po.destroy');
         Route::get('/ajukan_keatasan/{id}', [CheckPOController::class, 'ajukan_keatasan'])->name('check_po-ajukan_keatasan');
         Route::get('/ajukan_keatasan_po/{id}', [CheckPOController::class, 'ajukan_keatasan_po'])->name('check_po-ajukan_keatasan_po');
-        Route::get('/denied/{id}', [CheckPOController::class, 'denied'])->name('check_po-denied');
+        Route::post('/reject/{id}', [CheckPOController::class, 'reject_po'])->name('check_po.reject_po');
         Route::get('/search/checkpo',[CheckPOController::class, 'SearchCheckPO'])->name('check_po.SearchCheckPO');
         Route::get('/history', [CheckPOController::class, 'history'])->name('check_po.history');
         Route::get('/search/history/checkpo',[CheckPOController::class, 'SearchHistoryCheckPO'])->name('check_po.SearchHistoryCheckPO');

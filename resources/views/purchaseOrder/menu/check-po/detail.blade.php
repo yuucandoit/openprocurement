@@ -422,17 +422,26 @@
                                     </a>
                                     <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
                                         @if ($po->status == 'Waiting For PO Approval')
-                                        <button class="btn btn-success mt-3" data-bs-toggle="modal"
-                                            data-bs-target="#modalSendToBOD" disabled> Approval Request Sent
-                                        </button>
+                                            <button class="btn btn-success mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#modalSendToBOD" disabled> Approval Request Sent
+                                            </button>
                                         @elseif ($po->status == 'Cross Check PO')
                                             @if (empty($data_pengajuan->atasans->name))
-                                                    <button class="btn btn-success mt-3 " data-bs-toggle="modal"
-                                                        data-bs-target="#modalSendToBOD{{ $po->id }}">Send Approval Request For Purchase Order</button>
+                                                <button class="btn btn-success mt-3 " data-bs-toggle="modal"
+                                                    data-bs-target="#modalSendToBOD{{ $po->id }}">
+                                                    Send Approval PO
+                                                </button>
                                             @else
                                                 <button class="btn btn-success mt-3 " data-bs-toggle="modal"
-                                                    data-bs-target="#modalSendToBOD{{ $po->id }}">Send Approval Request For Purchase Order</button>
+                                                    data-bs-target="#modalSendToBOD{{ $po->id }}">
+                                                    Send Approval PO
+                                                </button>
                                             @endif
+                                        @elseif($po->status == 'Reject PO')
+                                            <button class="btn btn-success mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#modalSendToBOD{{ $po->id }}" disabled>
+                                                Send Approval PO
+                                            </button>
                                         @endif
                                         <div class="modal fade" id="modalSendToBOD{{ $po->id }}" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
@@ -458,6 +467,54 @@
                                                             </button>
                                                         </form>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @if ($po->status == 'Waiting For PO Approval')
+                                            <button class="btn btn-danger mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#modalReject" disabled> Reject PO
+                                            </button>
+                                        @elseif ($po->status == 'Cross Check PO')
+                                            @if (empty($data_pengajuan->atasans->name))
+                                                <button class="btn btn-danger mt-3 " data-bs-toggle="modal"
+                                                    data-bs-target="#modalReject{{ $po->id }}">
+                                                    Reject PO
+                                                </button>
+                                            @else
+                                                <button class="btn btn-danger mt-3 " data-bs-toggle="modal"
+                                                    data-bs-target="#modalReject{{ $po->id }}">
+                                                    Reject PO
+                                                </button>
+                                            @endif
+                                        @elseif($po->status == 'Reject PO')
+                                            <button class="btn btn-danger mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#modalReject{{ $po->id }}" disabled>
+                                                PO Rejected
+                                            </button>
+                                        @endif
+
+                                        <div class="modal fade" id="modalReject{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-danger">
+                                                        <h2 class="modal-title" style="color: white">Reject PO</h2>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('check_po.reject_po',$po->id) }}" method="POST">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+                                                                <label for="note" class="form-label">Reason <span style="color: red;">*</span> </label>
+                                                                <textarea name="notes" id="note" class="form-control" cols="30" rows="20" placeholder="Reason Here . . ."></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-danger">Reject</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

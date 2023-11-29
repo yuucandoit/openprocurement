@@ -309,9 +309,19 @@
                                                             <label>{{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}</label>
                                                         @endforeach
                                                         </td>
-                                                        <td colspan="2"  class="text-center"><a
-                                                            class="badge {{ $ppb->status == 'Waiting For PO Approval' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                            style="color: white; font-size:12">{{ $po2->status }}</a></td>
+                                                        <td colspan="2"  class="text-center">
+                                                            @if($po2->status == 'Reject PO')
+                                                            <a class="badge bg-danger mt-1" style="color: white; font-size:12">
+                                                                {{ $po2->status }}
+                                                            </a>
+                                                            <a class="badge bg-danger mt-1" style="color: white; font-size:12">
+                                                                {{ $po2->notes ?? '-' }}
+                                                            </a>
+                                                            @else
+                                                            <a class="badge {{ $po2->status == 'Waiting For PO Approval' ? 'bg-warning' : ($po2->status == 'Reject PO' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                style="color: white; font-size:12">{{ $po2->status }}</a>
+                                                            @endif
+                                                        </td>
 
                                                         @endif
                                                     </tr>

@@ -146,6 +146,28 @@ class CheckPOController extends Controller
         }
     }
 
+    public function reject_po(Request $request,$id)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17) {
+            $data = CategoryPO::find($id);
+
+            $ppb = CategoryPengajuanPembelian::where('id',$data->ppb->id)->first();
+            CategoryPengajuanPembelian::where('id', $data->ppb->id)->update([
+                'status' => 'Purchase Proses',
+            ]);
+
+            $data->status = 'Reject PO';
+            $data->notes = $request->notes;
+            $data->save();
+
+
+            return redirect()->route('check_po.index');
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
     public function detail($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
