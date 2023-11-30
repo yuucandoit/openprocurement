@@ -406,8 +406,8 @@
                                                         <tr class="form-row">
                                                         <td class="text">
 
-                                                            <input type="text" placeholder="Input Item" class="form-control" name="item[]"
-                                                                style="text-align: center;" value="{{ $i->item }}" />
+                                                            <textarea type="text" placeholder="Input Item" class="form-control" name="item[]"
+                                                                style="text-align: center;">{{ $i->item }}</textarea>
                                                         </td>
                                                         <td><input type="number" name="qty[]" placeholder="Input Quantity"
                                                                 class="form-control form-calc form-qty" style="text-align: center;"
