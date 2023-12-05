@@ -153,11 +153,12 @@
                                                 class="icofont icofont-stamp"></i> Send Approval To:</label>
                                         <select class="form-select page" id="floatingproposedto"
                                             placeholder="Proposed To" name="atasan_po" required="">
-                                            <option selected="" value="{{ $po->ppb->atasan_po }}">
-                                                {{ $po->ppb->atasans->name }}
-                                            </option>
                                             @foreach ($atasan as $sui)
-                                            <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                @if($po->atasan_po == $sui->id)
+                                                <option selected value="{{ $po->atasan_po }}">{{ $po->atasans->name }}</option>
+                                                @else
+                                                <option value="{{ $sui->id }}">{{ $sui->name }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>

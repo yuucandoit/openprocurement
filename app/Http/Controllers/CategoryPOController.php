@@ -568,6 +568,7 @@ class CategoryPOController extends Controller
                 $purchase->update([
                     "ppb_id" => $datapo->ppb_id,
                     "term_conditions" => $term->id,
+                    "atasan_po" => $request->atasan_po,
                     "quotation" => $request->quotation,
                 ]);
                 // dd($purchase);
@@ -695,6 +696,7 @@ class CategoryPOController extends Controller
                 $purchase->update([
                     "ppb_id" => $datapo->ppb_id,
                     "term_conditions" => $request->term_conditions,
+                    "atasan_po" => $request->atasan_po,
                     "quotation" => $request->quotation,
                 ]);
 
