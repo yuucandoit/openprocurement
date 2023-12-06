@@ -186,7 +186,7 @@ class CategoryPOController extends Controller
         $items              = CategoryPO::where('ppb_id',$id)->get();
         $groupedItem        = ItemPO::groupBy('po_id')->get();
         $itempurchase       = ItemPO::groupBy('po_id')->first();
-        $currency           = Currency::orderBy('name','asc')->get();
+        $currency           = Currency::all();
         $uom                = Uom::orderBy('name','asc')->get();
 
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -509,11 +509,13 @@ class CategoryPOController extends Controller
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $item               = PengajuanPembelian::where('pp_id', $id)->get();
+            $concurency         = Currency::all();
 
             return view('purchaseOrder.menu.edit')
                 ->with('atasan', $atasan)
                 ->with('atasanpo', $atasanpo)
                 ->with('currency', $currency)
+                ->with('concurency', $concurency)
                 ->with('groupedItem', $groupedItem)
                 ->with('pt', $pt)
                 ->with('datapo', $datapo)

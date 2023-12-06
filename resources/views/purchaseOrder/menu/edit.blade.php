@@ -170,16 +170,13 @@
                                             Currency :</label>
                                         <select class="form-select page" id="floatingdateline" placeholder="Mata Uang"
                                             name="matauang" required="">
-                                            <option selected="" value="{{ $currency->matauang }}">
-                                                {{ $currency->matauang }}
-                                            </option>
-                                            <option value="USD">USD</option>
-                                            <option value="RP">RP</option>
-                                            <option value="SGD">SGD</option>
-                                            <option value="AUD">AUD</option>
-                                            <option value="MYR">MYR</option>
-                                            <option value="EUR">EUR</option>
-                                            <option value="GBP">GBP</option>
+                                            @foreach ($concurency as $crency)
+                                                @if($crency->code == $currency->matauang)
+                                                <option value="{{ $currency->matauang }}"> {{ $currency->matauang }} </option>
+                                                @else
+                                                <option value="{{ $crency->code }}">{{ $crency->code }}</option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                         @error('matauang')
                                         <div class="invalid-feedback">
