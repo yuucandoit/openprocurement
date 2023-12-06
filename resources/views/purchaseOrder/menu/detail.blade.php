@@ -874,11 +874,11 @@
                                                             data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
                                                     @endif
                                                 @endif
-                                            <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $po->ppb_id) }}"
-                                                target="_blank" style="font-size:12;">Export PDF PR</i>
-                                            </a>
                                             <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                                 target="_blank" style="font-size:12;">Export PDF PO</i>
+                                            </a>
+                                            <a class="btn btn-danger mt-3" href="{{ route('export_py_id.pdf',$po->id) }}"
+                                                target="_blank" style="font-size:12;">Export PDF PD</i>
                                             </a>
                                             <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3"> Edit PO <i class="fa fa-plus"></i></a>
                                             {{-- <a data-bs-toggle="modal"
