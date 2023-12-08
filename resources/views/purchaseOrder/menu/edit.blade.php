@@ -377,8 +377,9 @@
             })
 
         </script>
-         <script type="text/javascript">
 
+        <script type="text/javascript">
+            //Math
             document.querySelectorAll('.form-row').forEach(row => {
                 row.addEventListener('input', (e) => updateFileds(e, row));
             })
@@ -391,9 +392,12 @@
                 totalElmnt.value = new Intl.NumberFormat('en-IN').format(qty *  price);
                 var dpp = 0;
                 $('.form-line').each(function(key, item){
+                    // console.log(item);
                     dpp += new Number(item.value.replace(/\,/g, ""));
                 });
                 $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
+                $(".total").val(new Intl.NumberFormat('en-IN').format(dpp));
+
 
             var discount = 0 ;
                 var diskon = document.querySelector(".discount");
@@ -404,59 +408,68 @@
                     discount = dpp - discint;
                     console.log(discount);
                     $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
+                    $(".total").val(new Intl.NumberFormat('en-IN').format(discount));
             })
+
             var checkbox = document.querySelector(".check-box");
+
             checkbox.addEventListener('change', (event) => {
-
                 var totalppn = 0;
-                if (event.currentTarget.checked) {
-                totalppn = discount * 11 / 100;
-                ppntotal2 = discount + totalppn;
-                console.log(discount);
-                console.log(ppntotal2);
-                $(".ppn").text(totalppn.toLocaleString('en-US'));
-
-                var ongkir = document.querySelector(".ongkir");
-                ongkir.addEventListener("input", function(){
-                    var ongkos = ongkir.value;
-                    var replace = ongkos.replace(/\,/g, "");
-                    var ongkoskirim = parseFloat(replace);
+                if (event.currentTarget.checked) {                  // PPN
+                    totalppn = discount * 11 / 100;
+                    ppntotal2 = discount + totalppn;
+                    console.log(discount);
                     console.log(ppntotal2);
-                    grandtotal = ongkoskirim  + ppntotal2;
-                });
-                var adminfee = document.querySelector(".adminfee");
-                adminfee.addEventListener("input", function(){
-                    var admin = adminfee.value;
-                    var replace = admin.replace(/\,/g, "");
-                    var biayaAdmin = parseFloat(replace);
-                    grandtotal2 = biayaAdmin  + grandtotal ;
-                    $(".total").val(grandtotal2);
-                });
-            } else {
-                totalppn = discount * 0;
-                ppntotal2 = discount + totalppn;
-                $(".ppn").text(totalppn);
+                    $(".ppn").text(totalppn.toLocaleString('en-US'));
+                    $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
 
-                var ongkir = document.querySelector(".ongkir");
-                ongkir.addEventListener("input", function(){
-                    var ongkos = ongkir.value;
-                    var replace = ongkos.replace(/\,/g, "");
-                    var ongkoskirim = parseFloat(replace);
+                    var ongkir = document.querySelector(".ongkir");
+                    ongkir.addEventListener("input", function(){
+                        var ongkos = ongkir.value;
+                        var replace = ongkos.replace(/\,/g, "");
+                        var ongkoskirim = parseFloat(replace);
+                        console.log(ongkoskirim);
+                        grandtotal = ongkoskirim  + ppntotal2;
+                        $(".total").val(grandtotal);
+                        console.log(grandtotal);
+                    });
+                    var adminfee = document.querySelector(".adminfee");
+                    adminfee.addEventListener("input", function(){
+                        var admin = adminfee.value;
+                        var replace = admin.replace(/\,/g, "");
+                        var biayaAdmin = parseFloat(replace);
+                        grandtotal2 = biayaAdmin  + grandtotal ;
+                        $(".total").val(grandtotal2);
+                    });
+                } else {                                            // Non PPN
+                    totalppn = discount * 0;
+                    ppntotal2 = discount + totalppn;
+                    $(".ppn").text(totalppn);
                     console.log(ppntotal2);
-                    grandtotal = ongkoskirim  + ppntotal2 ;
-                });
-                var adminfee = document.querySelector(".adminfee");
-                adminfee.addEventListener("input", function(){
-                    var admin = adminfee.value;
-                    var replace = admin.replace(/\,/g, "");
-                    var biayaAdmin = parseFloat(replace);
-                    grandtotal2 = biayaAdmin  + grandtotal ;
-                    $(".total").val(grandtotal2);
-                });
-            }
+                    $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
+
+                    var ongkir = document.querySelector(".ongkir");
+                    ongkir.addEventListener("input", function(){
+                        var ongkos = ongkir.value;
+                        var replace = ongkos.replace(/\,/g, "");
+                        var ongkoskirim = parseFloat(replace);
+                        console.log(ongkoskirim);
+                        grandtotal = ongkoskirim  + ppntotal2 ;
+                        $(".total").val(grandtotal);
+                        console.log(grandtotal);
+                    });
+                    var adminfee = document.querySelector(".adminfee");
+                    adminfee.addEventListener("input", function(){
+                        var admin = adminfee.value;
+                        var replace = admin.replace(/\,/g, "");
+                        var biayaAdmin = parseFloat(replace);
+                        grandtotal2 = biayaAdmin  + grandtotal ;
+                        $(".total").val(grandtotal2);
+                    });
+                }
             });
-
             };
+
 
             $(document).on('click', '.remove-input-field', function() {
                 $(this).parents('tr').remove();
@@ -467,7 +480,6 @@
                     item.value = formatRupiah(this.value, "");
                 });
             });
-
 
         </script>
 

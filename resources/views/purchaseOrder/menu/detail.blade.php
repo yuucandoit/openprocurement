@@ -1103,9 +1103,6 @@
             const qty = row.querySelector('.form-qty').value;
             const price = row.querySelector('.form-cost').value.replace(/\,/g, "");
             const totalElmnt = row.querySelector('.form-line');
-            // const discount = row.querySelector('discount');
-            // const afterDisc = row.querySelector('total_disc')
-            // const dpp = row.querySelector('.total_A');
 
             totalElmnt.value = new Intl.NumberFormat('en-IN').format(qty *  price);
             var dpp = 0;
@@ -1114,6 +1111,7 @@
                 dpp += new Number(item.value.replace(/\,/g, ""));
             });
             $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
+            $(".total").val(new Intl.NumberFormat('en-IN').format(dpp));
 
 
         var discount = 0 ;
@@ -1125,18 +1123,20 @@
                 discount = dpp - discint;
                 console.log(discount);
                 $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
+                $(".total").val(new Intl.NumberFormat('en-IN').format(discount));
         })
 
         var checkbox = document.querySelector(".check-box-create");
 
         checkbox.addEventListener('change', (event) => {
             var totalppn = 0;
-            if (event.currentTarget.checked) {
+            if (event.currentTarget.checked) {                  // PPN
                 totalppn = discount * 11 / 100;
                 ppntotal2 = discount + totalppn;
                 console.log(discount);
                 console.log(ppntotal2);
                 $(".ppn").text(totalppn.toLocaleString('en-US'));
+                $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
 
                 var ongkir = document.querySelector(".ongkir");
                 ongkir.addEventListener("input", function(){
@@ -1145,6 +1145,7 @@
                     var ongkoskirim = parseFloat(replace);
                     console.log(ongkoskirim);
                     grandtotal = ongkoskirim  + ppntotal2;
+                    $(".total").val(grandtotal);
                     console.log(grandtotal);
                 });
                 var adminfee = document.querySelector(".adminfee");
@@ -1155,11 +1156,12 @@
                     grandtotal2 = biayaAdmin  + grandtotal ;
                     $(".total").val(grandtotal2);
                 });
-            } else {
+            } else {                                            // Non PPN
                 totalppn = discount * 0;
                 ppntotal2 = discount + totalppn;
                 $(".ppn").text(totalppn);
                 console.log(ppntotal2);
+                $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
 
                 var ongkir = document.querySelector(".ongkir");
                 ongkir.addEventListener("input", function(){
@@ -1168,6 +1170,7 @@
                     var ongkoskirim = parseFloat(replace);
                     console.log(ongkoskirim);
                     grandtotal = ongkoskirim  + ppntotal2 ;
+                    $(".total").val(grandtotal);
                     console.log(grandtotal);
                 });
                 var adminfee = document.querySelector(".adminfee");
@@ -1189,8 +1192,6 @@
         var rupiah = document.querySelectorAll(".rupiah");
         rupiah.forEach((item) => {
             item.addEventListener('keyup', function(e) {
-                // tambahkan 'Rp.' pada saat form di ketik
-                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
                 item.value = formatRupiah(this.value, "");
             });
         });
