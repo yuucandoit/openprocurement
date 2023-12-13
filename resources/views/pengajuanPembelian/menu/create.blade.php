@@ -496,21 +496,29 @@
 
         function addItem() {
             var item =
-                `<tr><td> <textarea name="item[]" id="" class="form-control" rows="2"></textarea></td>
-                     <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/></td>
-                     <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option><option value="Lot">Lot </option> <option value="Rim">Rim </option>
-                    <option value="Org">Org </option><option value="Line">Line </option><option value="Ruang">Ruang </option><option value="Pax">Pax </option> <option value="Set">Set </option>
-                    <option value="Piece">Piece </option><option value="Rol">Rol </option><option value="Pack">Pack </option><option value="Batang">Batang </option> <option value="Dus">Dus </option>
-                    <option value="Strip">Strip </option><option value="Pasang">Pasang </option><option value="Lembar">Lembar </option><option value="Jerigen">Jerigen </option><option value="Meter">Meter </option><option value="Botol">Botol </option>
-                    <option value="Buku">Buku </option>
-                    <option value="Titik">Titik </option>
-                    </select></td>
-                     <td><input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
-                    @error('path_file')
-                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                     @enderror
+                `<tr>
+                    <td>
+                        <textarea name="item[]" id="" class="form-control" rows="2"></textarea>
                     </td>
-                     <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
+                    <td>
+                        <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
+                    </td>
+                    <td>
+                        <select class="form-select" placeholder="Kategori" name="kategori[]" >
+                            @foreach ($uom as $u)
+                                <option value="{{ $u->name }}">{{ $u->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                     <td>
+                        <input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
+                        @error('path_file')
+                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </td>
+                     <td style="text-align: center;">
+                        <button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button>
+                    </td> `;
             $(".item").append(item)
         }
         $(document).on('click', '.remove-input-field', function() {

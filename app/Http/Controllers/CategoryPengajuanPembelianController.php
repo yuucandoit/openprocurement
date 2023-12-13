@@ -332,7 +332,7 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_rnd        = RND::all();
         $purpose_travel     = Travel::all();
         $ppb                = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
-        $uom                = Uom::orderBy('name','asc')->get();
+        $uom                = Uom::all();
         if (request()->pengajuan_id == null) {
         $ppb_old            = CategoryPengajuanPembelian::where('id',0)->get();
         } else {
@@ -378,7 +378,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'desc'  => 'required',
                 'atasan' => 'required',
                 'send_to' => 'required',
-                'path_file' => 'max:2047',
+                'path_file.*' => 'max:2047',
             ], [
                 'category_purpose.required' => 'The Purpose field is required.',
                 'date_ps.required' => 'The Date field is required.',
@@ -389,7 +389,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'atasan.required' => 'The Super User field is required.',
                 'send_to.required' => 'The Send To field is required.',
                 'ppn.required' => 'The PPN To field is required.',
-                'path_file.max' => 'Maximum File Size Is 2MB ',
+                'path_file.*.max' => 'Maximum File Size Is 2MB ',
             ]);
 
             try {
@@ -488,19 +488,20 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
-        $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
-        $datapt = CategoryPT::all();
-        $dv = CategoryPengajuanPembelian::find($id);
+        $check              = Role::where('model_id', Auth::user()->id)->first();
+        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
+        $datapt             = CategoryPT::all();
+        $dv                 = CategoryPengajuanPembelian::find($id);
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
-        $purpose = ReferensiNamaProject::all();
+        $purpose            = ReferensiNamaProject::all();
         $purpose_office     = Office::all();
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
         $purpose_rnd        = RND::all();
         $purpose_travel     = Travel::all();
-        $item = PengajuanPembelian::where('pp_id', $id)->get();
+        $item               = PengajuanPembelian::where('pp_id', $id)->get();
+        $uom                = Uom::all();
 
 
         if ($check->role_id == 2) {
@@ -517,7 +518,8 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('item', $item)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
-            ->with('dv', $dv);
+            ->with('dv', $dv)
+            ->with('uom', $uom);
             }else {
                 return redirect()->route('dashboard');
             }
@@ -534,7 +536,8 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('item', $item)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
-            ->with('dv', $dv);
+            ->with('dv', $dv)
+            ->with('uom', $uom);
         }
     }
 
