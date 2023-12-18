@@ -291,11 +291,14 @@
                                         @elseif($po->status == 'Waiting For PO Approval')
                                         <button type="button" class="btn btn-success text-center" data-bs-toggle="modal" data-bs-target="#approve"> Approve</button>
                                         <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
-                                        @else
+                                        @elseif ($po->status == 'PO Rejected by BOD')
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-success text-center" onclick="return">Aprove</a>
                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                        @else
+                                        <button type="button" class="btn btn-success text-center" data-bs-toggle="modal" data-bs-target="#approve"> Approve</button>
+                                        <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
                                         @endif
                                     @endhasrole
                                     </div>
