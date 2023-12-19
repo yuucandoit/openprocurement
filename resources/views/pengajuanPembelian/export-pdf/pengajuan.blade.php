@@ -85,6 +85,9 @@
         <tbody class="text-center">
             <tr>
                 <td>
+                    <h6>No</h6>
+                </td>
+                <td>
                     <h6>Item</h6>
                 </td>
                 <td class="Hours">
@@ -94,8 +97,14 @@
                     <h6>Unit</h6>
                 </td>
             </tr>
+            @php
+            $no = 1
+            @endphp
             @foreach ($category_q as $q)
                 <tr>
+                    <td>
+                        <p>{{ $no++ }}</p>
+                    </td>
                     <td>
                         <label style="word-break: break-word;">{!! nl2br($q->item) !!}</label>
                     </td>
