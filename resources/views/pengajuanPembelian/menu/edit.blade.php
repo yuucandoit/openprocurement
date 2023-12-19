@@ -243,6 +243,8 @@
                                 <table class="table table-bordered item order-entry">
                                     <tr style="text-align: center;">
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            No</th>
+                                        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             Item</th>
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             Qty</th>
@@ -254,8 +256,14 @@
                                             Action</th>
 
                                     </tr>
+                                    @php
+                                        $no_edit = 1;
+                                    @endphp
                                     @foreach ($item as $i)
                                     <tr>
+                                        <td style="text-align: center;">
+                                            {{ $no_edit++ }}
+                                        </td>
                                         <td class="text">
                                             <input type="text" name="id[]" placeholder="Input Item" class="form-control" style="text-align: center;" value="{{ $i->id }}" hidden />
                                             <textarea name="item[]" id="" class="form-control" rows="2" style="min-width: 300px">{{ $i->item }}</textarea>
@@ -368,6 +376,8 @@
 
                     });
                 });
+
+                let $i = {{ $no_edit }};
                 //Add Form
                 $(".addItem").on('click', function() {
                     addItem();
@@ -375,7 +385,9 @@
 
                 function addItem() {
                     var item =
-                        `<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td>
+                        `<tr>
+                            <td style="text-align:center;"> `+ $i +` </td>
+                            <td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td>
                             <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td>
                             <td>
                             <select class="form-select" placeholder="Kategori" name="kategori[]" >
@@ -392,6 +404,8 @@
                                 </td>
                             <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
                     $(".item").append(item)
+
+                    $i++;
                 }
                 $(document).on('click', '.remove-input-field', function() {
                     $(this).parents('tr').remove();

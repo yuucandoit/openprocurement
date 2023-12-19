@@ -327,6 +327,8 @@
                                 <table class="table table-bordered item order-entry">
                                     <tr style="text-align: center;">
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            No</th>
+                                        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             Item</th>
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             Qty</th>
@@ -340,6 +342,9 @@
                                     </tr>
                                     @if($ppb_old->isEmpty())
                                     <tr>
+                                        <td style="text-align:center;">
+                                            1
+                                        </td>
                                         <td class="text">
                                             <textarea name="item[]" id="" class="form-control" rows="2" style="min-width: 300px"></textarea>
                                             {{-- <input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required /> --}}
@@ -370,8 +375,15 @@
                                         </td>
                                     </tr>
                                     @else
+                                    @php
+                                        $old_number = 1;
+                                    @endphp
                                     @foreach ($ppb_old as $item)
+
                                         <tr>
+                                            <td>
+                                                {{ $old_number++ }}
+                                            </td>
                                             <td class="text">
                                                 <textarea name="item[]" id="" class="form-control" rows="2" style="min-width: 300px">{{ $item->item }}</textarea>
                                                 {{-- <input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required /> --}}
@@ -481,6 +493,8 @@
             });
             $(".js-example-basic-single").select2();
         });
+
+        let $i = 2;
         //Add Form
         $(".addItem").on('click', function() {
             addItem();
@@ -497,6 +511,9 @@
         function addItem() {
             var item =
                 `<tr>
+                    <td style="text-align:center;">
+                        `+ $i +`
+                    </td>
                     <td>
                         <textarea name="item[]" id="" class="form-control" rows="2"></textarea>
                     </td>
@@ -520,6 +537,8 @@
                         <button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button>
                     </td> `;
             $(".item").append(item)
+
+            $i++
         }
         $(document).on('click', '.remove-input-field', function() {
             $(this).parents('tr').remove();
