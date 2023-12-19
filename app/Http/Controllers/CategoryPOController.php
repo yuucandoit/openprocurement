@@ -510,8 +510,10 @@ class CategoryPOController extends Controller
             $datadepartment     = Department::all();
             $item               = PengajuanPembelian::where('pp_id', $id)->get();
             $concurency         = Currency::all();
+            $uom                = Uom::all();
 
             return view('purchaseOrder.menu.edit')
+                ->with('uom', $uom)
                 ->with('atasan', $atasan)
                 ->with('atasanpo', $atasanpo)
                 ->with('currency', $currency)

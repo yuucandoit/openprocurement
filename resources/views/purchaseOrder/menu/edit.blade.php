@@ -190,6 +190,9 @@
                                     <tr style="text-align: center;">
                                         <th
                                             style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            No</th>
+                                        <th
+                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             Item</th>
                                         <th
                                             style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
@@ -210,10 +213,14 @@
                                     @php
                                     $id = 0;
                                     $id++;
+                                    $no = 1;
                                     @endphp
 
                                     @foreach ($po->itempo as $item)
                                     <tr class="form-row">
+                                    <td style="text-align: center;">
+                                        {{ $no++ }}
+                                    </td>
                                     <td class="text">
                                         <input type="text" name="id[]" placeholder="Input Item" class="form-control"
                                             style="text-align: center;" value="{{ $item->id }}" hidden />
@@ -225,34 +232,14 @@
                                             value="{{ $item->qty }}" min="1" />
                                     </td>
                                     <td>
-                                        <select class="form-select " placeholder="Kategori" name="kategori[]"
-                                            value="{{ $item->kategori }}">
-                                            <option value="{{ $item->kategori }}">
-                                                {{ $item->kategori }}</option>
-                                            <option value="Pcs">Pcs </option>
-                                            <option value="Lusin">Lusin </option>
-                                            <option value="Box">Box </option>
-                                            <option value="Unit">Unit </option>
-                                            <option value="Lot">Lot </option>
-                                            <option value="Rim">Rim </option>
-                                            <option value="Org">Org </option>
-                                            <option value="Line">Line </option>
-                                            <option value="Ruang">Ruang </option>
-                                            <option value="Pax">Pax </option>
-                                            <option value="Set">Set </option>
-                                            <option value="Piece">Piece </option>
-                                            <option value="Rol">Rol </option>
-                                            <option value="Pack">Pack </option>
-                                            <option value="Batang">Batang </option>
-                                            <option value="Dus">Dus </option>
-                                            <option value="Strip">Strip </option>
-                                            <option value="Pasang">Pasang </option>
-                                            <option value="Lembar">Lembar </option>
-                                            <option value="Jerigen">Jerigen </option>
-                                            <option value="Meter">Meter </option>
-                                            <option value="Botol">Botol </option>
-                                            <option value="Buku">Buku </option>
-                                            <option value="Titik">Titik </option>
+                                        <select class="form-select " placeholder="Kategori" name="kategori[]">
+                                        @foreach ($uom as $u)
+                                            @if($item->kategori == $u->name)
+                                             <option value="{{ $item->kategori }}" selected>{{ $item->kategori }}</option>
+                                            @else
+                                            <option value="{{ $u->name }}">{{ $u->name }}</option>
+                                            @endif
+                                        @endforeach
                                         </select>
                                     </td>
 
