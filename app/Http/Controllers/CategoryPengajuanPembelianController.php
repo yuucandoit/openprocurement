@@ -378,7 +378,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'desc'  => 'required',
                 'atasan' => 'required',
                 'send_to' => 'required',
-                'path_file.*' => 'max:8192',
+                // 'path_file.*' => 'max:8192',
             ], [
                 'category_purpose.required' => 'The Purpose field is required.',
                 'date_ps.required' => 'The Date field is required.',
@@ -389,7 +389,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'atasan.required' => 'The Super User field is required.',
                 'send_to.required' => 'The Send To field is required.',
                 'ppn.required' => 'The PPN To field is required.',
-                'path_file.*.max' => 'Maximum File Size Is 2MB ',
+                // 'path_file.*.max' => 'Maximum File Size Is 2MB ',
             ]);
 
             try {

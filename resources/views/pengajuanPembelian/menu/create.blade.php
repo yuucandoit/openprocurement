@@ -46,6 +46,26 @@
 </style>
 <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 <section>
+    @if(session('error'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{ session('error') }}
+</div>
+@elseif ($errors->any())
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <ul>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@elseif(session()->has('message'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session()->get('message') }}
+    </div>
+@endif
     <div class="container-fluid">
         <div class="page-header">
             <div class="row">
@@ -71,9 +91,9 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <div id="loadingScreen" class="custom-loader">
+                        {{-- <div id="loadingScreen" class="custom-loader">
                             <div class="loader"></div>
-                        </div>
+                        </div> --}}
                         <form action="{{ url('/menu-pengajuan-pembelian/store') }}" id="formAdd" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row mb-3">
@@ -658,7 +678,7 @@
 
     </script>
 
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
     document.getElementById('formAdd').addEventListener('submit', function (event) {
     event.preventDefault();
     showLoadingScreen();
@@ -695,7 +715,7 @@
         loadingScreen.style.display = 'none';
     }
 
-    </script>
+    </script> --}}
 
 
 </section>
