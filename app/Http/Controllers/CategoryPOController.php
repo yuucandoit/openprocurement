@@ -318,8 +318,16 @@ class CategoryPOController extends Controller
             $pt = CategoryPT::find($id);
             $pp = CategoryPP::find($id);
             $ec = CategoryEcommerce::find($id);
+            foreach ($data2['item'] as $key => $item) {
+                $existingItemPO = ItemPO::where('ppb_id', $id)
+                    ->where('item', $data2['item'][$key])
+                    ->where('qty', $data2['qty'][$key])
+                    ->first();
 
-
+                if ($existingItemPO) {
+                    return redirect()->back()->with('error', 'Item PO with the same item and quantity already exists.');
+                }
+            }
 
 
             if ($request->term_conditions == "custom") {
@@ -393,9 +401,8 @@ class CategoryPOController extends Controller
                         $item_po_id = ItemPO::create($update);
                 }
 
-            }
+            } else {
 
-            else {
                 $po = CategoryPO::where('ppb_id',$id)->first();
 
                 $ppn = CategoryPengajuanPembelian::find($id);
