@@ -71,6 +71,26 @@
   </div>
   @endforeach
 
+@if(session('error'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{ session('error') }}
+</div>
+@elseif ($errors->any())
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <ul>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@elseif(session()->has('message'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session()->get('message') }}
+    </div>
+@endif
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-6 col-xl-3 col-lg-6 mt-4" style="margin-bottom: -40px;">

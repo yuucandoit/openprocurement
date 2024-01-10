@@ -378,7 +378,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'desc'  => 'required',
                 'atasan' => 'required',
                 'send_to' => 'required',
-                'path_file.*' => 'max:2047',
+                'path_file.*' => 'max:8192',
             ], [
                 'category_purpose.required' => 'The Purpose field is required.',
                 'date_ps.required' => 'The Date field is required.',
