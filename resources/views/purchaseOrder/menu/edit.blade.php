@@ -352,165 +352,171 @@
           </div>
 
 
-        <!-- JavaScript Item -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
+<!-- JavaScript Item -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
 
-        <script>
-            const dollars = document.querySelectorAll('.dollar');
-            dollars.forEach(dollar => {
-                new AutoNumeric(dollar,'dotDecimalCharCommaSeparator');
-            })
+<script>
+    const dollars = document.querySelectorAll('.dollar');
+    dollars.forEach(dollar => {
+        new AutoNumeric(dollar,'dotDecimalCharCommaSeparator');
+    })
 
-        </script>
+</script>
 
-        <script type="text/javascript">
-            //Math
-            document.querySelectorAll('.form-row').forEach(row => {
-                row.addEventListener('input', (e) => updateFileds(e, row));
-            })
+<script type="text/javascript">
+    //Math
+    document.querySelectorAll('.form-row').forEach(row => {
+        row.addEventListener('input', (e) => updateFileds(e, row));
+    })
 
-            function updateFileds(event, row) {
-                const qty = row.querySelector('.form-qty').value;
-                const price = row.querySelector('.form-cost').value.replace(/\,/g, "");
-                const totalElmnt = row.querySelector('.form-line');
+    function updateFileds(event, row) {
+        const qty = row.querySelector('.form-qty').value;
+        const price = row.querySelector('.form-cost').value.replace(/\,/g, "");
+        const totalElmnt = row.querySelector('.form-line');
 
-                totalElmnt.value = new Intl.NumberFormat('en-IN').format(qty *  price);
-                var dpp = 0;
-                $('.form-line').each(function(key, item){
-                    // console.log(item);
-                    dpp += new Number(item.value.replace(/\,/g, ""));
-                });
-                $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
-                $(".total").val(new Intl.NumberFormat('en-IN').format(dpp));
+        totalElmnt.value = new Intl.NumberFormat('en-IN').format(qty *  price);
+        var dpp = 0;
+        $('.form-line').each(function(key, item){
+            // console.log(item);
+            dpp += new Number(item.value.replace(/\,/g, ""));
+        });
+        $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
+        $(".total").val(new Intl.NumberFormat('en-IN').format(dpp));
 
 
-            var discount = 0 ;
-                var diskon = document.querySelector(".discount");
-                diskon.addEventListener("input", function() {
-                    var disc = diskon.value;
-                    var rep = disc.replace(/\,/g, "");
-                    var discint = parseFloat(rep);
-                    discount = dpp - discint;
-                    console.log(discount);
-                    $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
-                    $(".total").val(new Intl.NumberFormat('en-IN').format(discount));
-            })
+    var discount = 0 ;
+        var diskon = document.querySelector(".discount");
+        diskon.addEventListener("input", function() {
+            var disc = diskon.value;
+            var rep = disc.replace(/\,/g, "");
+            var discint = parseFloat(rep);
+            discount = dpp - discint;
+            console.log(discount);
+            $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
+            $(".total").val(new Intl.NumberFormat('en-IN').format(discount));
+    })
 
-            var checkbox = document.querySelector(".check-box");
+    var checkbox = document.querySelector(".check-box");
 
-            checkbox.addEventListener('change', (event) => {
-                var totalppn = 0;
-                if (event.currentTarget.checked) {                  // PPN
-                    totalppn = discount * 11 / 100;
-                    ppntotal2 = discount + totalppn;
-                    console.log(discount);
-                    console.log(ppntotal2);
-                    $(".ppn").text(totalppn.toLocaleString('en-US'));
-                    $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
+    checkbox.addEventListener('change', (event) => {
+        var totalppn = 0;
+        if (event.currentTarget.checked) {                  // PPN
+            totalppn = discount * 11 / 100;
+            ppntotal2 = discount + totalppn;
+            console.log(discount);
+            console.log(ppntotal2);
+            $(".ppn").text(totalppn.toLocaleString('en-US'));
+            $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
 
-                    var ongkir = document.querySelector(".ongkir");
-                    ongkir.addEventListener("input", function(){
-                        var ongkos = ongkir.value;
-                        var replace = ongkos.replace(/\,/g, "");
-                        var ongkoskirim = parseFloat(replace);
-                        console.log(ongkoskirim);
-                        grandtotal = ongkoskirim  + ppntotal2;
-                        $(".total").val(grandtotal);
-                        console.log(grandtotal);
-                    });
-                    var adminfee = document.querySelector(".adminfee");
-                    adminfee.addEventListener("input", function(){
-                        var admin = adminfee.value;
-                        var replace = admin.replace(/\,/g, "");
-                        var biayaAdmin = parseFloat(replace);
-                        grandtotal2 = biayaAdmin  + grandtotal ;
-                        $(".total").val(grandtotal2);
-                    });
-                } else {                                            // Non PPN
-                    totalppn = discount * 0;
-                    ppntotal2 = discount + totalppn;
-                    $(".ppn").text(totalppn);
-                    console.log(ppntotal2);
-                    $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
-
-                    var ongkir = document.querySelector(".ongkir");
-                    ongkir.addEventListener("input", function(){
-                        var ongkos = ongkir.value;
-                        var replace = ongkos.replace(/\,/g, "");
-                        var ongkoskirim = parseFloat(replace);
-                        console.log(ongkoskirim);
-                        grandtotal = ongkoskirim  + ppntotal2 ;
-                        $(".total").val(grandtotal);
-                        console.log(grandtotal);
-                    });
-                    var adminfee = document.querySelector(".adminfee");
-                    adminfee.addEventListener("input", function(){
-                        var admin = adminfee.value;
-                        var replace = admin.replace(/\,/g, "");
-                        var biayaAdmin = parseFloat(replace);
-                        grandtotal2 = biayaAdmin  + grandtotal ;
-                        $(".total").val(grandtotal2);
-                    });
-                }
+            var ongkir = document.querySelector(".ongkir");
+            ongkir.addEventListener("input", function(){
+                var ongkos = ongkir.value;
+                var replace = ongkos.replace(/\,/g, "");
+                var ongkoskirim = parseFloat(replace);
+                console.log(ongkoskirim);
+                grandtotal = ongkoskirim  + ppntotal2;
+                $(".total").val(grandtotal);
+                console.log(grandtotal);
             });
-            };
-
-
-            $(document).on('click', '.remove-input-field', function() {
-                $(this).parents('tr').remove();
+            var adminfee = document.querySelector(".adminfee");
+            adminfee.addEventListener("input", function(){
+                var admin = adminfee.value;
+                var replace = admin.replace(/\,/g, "");
+                var biayaAdmin = parseFloat(replace);
+                grandtotal2 = biayaAdmin  + grandtotal ;
+                $(".total").val(grandtotal2);
             });
-            var rupiah = document.querySelectorAll(".rupiah");
-            rupiah.forEach((item) => {
-                item.addEventListener('keyup', function(e) {
-                    item.value = formatRupiah(this.value, "");
-                });
-            });
+        } else {                                            // Non PPN
+            totalppn = discount * 0;
+            ppntotal2 = discount + totalppn;
+            $(".ppn").text(totalppn);
+            console.log(ppntotal2);
+            $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
 
-        </script>
+            var ongkir = document.querySelector(".ongkir");
+            ongkir.addEventListener("input", function(){
+                var ongkos = ongkir.value;
+                var replace = ongkos.replace(/\,/g, "");
+                var ongkoskirim = parseFloat(replace);
+                console.log(ongkoskirim);
+                grandtotal = ongkoskirim  + ppntotal2 ;
+                $(".total").val(grandtotal);
+                console.log(grandtotal);
+            });
+            var adminfee = document.querySelector(".adminfee");
+            adminfee.addEventListener("input", function(){
+                var admin = adminfee.value;
+                var replace = admin.replace(/\,/g, "");
+                var biayaAdmin = parseFloat(replace);
+                grandtotal2 = biayaAdmin  + grandtotal ;
+                $(".total").val(grandtotal2);
+            });
+        }
+    });
+    };
+
+
+    $(document).on('click', '.remove-input-field', function() {
+        $(this).parents('tr').remove();
+    });
+    var rupiah = document.querySelectorAll(".rupiah");
+    rupiah.forEach((item) => {
+        item.addEventListener('keyup', function(e) {
+            item.value = formatRupiah(this.value, "");
+        });
+    });
+
+</script>
 
 
 <script type="text/javascript">
     var pageSelector = document.querySelector('.pageSelector');
-                            var customInput = document.querySelector('.customInput');
-                            pageSelector.addEventListener('change', function() {
-                                if (this.value == "custom") {
-                                    customInput.classList.remove('hide');
-                                } else {
-                                    customInput.classList.add('hide');
-                                }
-                            })
+    var customInput = document.querySelector('.customInput');
+    pageSelector.addEventListener('change', function() {
+        if (this.value == "custom") {
+            customInput.classList.remove('hide');
+        } else {
+            customInput.classList.add('hide');
+        }
+    })
 </script>
 <script type="text/javascript">
     var pageSelect = document.querySelector('.pageSelect');
-                            var selectedInput = document.querySelector('.perusahaan_0');
-                            var selectedInput2 = document.querySelector('.privateperson_0');
-                            var selectedInput3 = document.querySelector('.ecommerce_0');
-                            // Company
-                            pageSelect.addEventListener('change', function() {
-                                if (this.value == "company") {
-                                    selectedInput.classList.remove('hide');
-                                } else {
-                                    selectedInput.classList.add('hide');
-                                }
-                            })
-                            // Private Person
-                            pageSelect.addEventListener('change', function() {
-                                if (this.value == "privateperson") {
-                                    selectedInput2.classList.remove('hide');
-                                }  else {
-                                    selectedInput2.classList.add('hide');
-                                }
-                            })
-                            // Ecommerce
-                            pageSelect.addEventListener('change', function() {
-                                if (this.value == "ecommerce") {
-                                    selectedInput3.classList.remove('hide');
-                                }  else {
-                                    selectedInput3.classList.add('hide');
-                                }
-                            })
+    var selectedInput = document.querySelector('.perusahaan_0');
+    var selectedInput2 = document.querySelector('.privateperson_0');
+    var selectedInput3 = document.querySelector('.ecommerce_0');
+    // Company
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "company") {
+            selectedInput.classList.remove('hide');
+            $(selectedInput).select2();
+        } else {
+            selectedInput.classList.add('hide');
+            $(selectedInput).select2('destroy');
+        }
+    })
+    // Private Person
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "privateperson") {
+            selectedInput2.classList.remove('hide');
+            $(selectedInput2).select2();
+        }  else {
+            selectedInput2.classList.add('hide');
+            $(selectedInput2).select2('destroy');
+        }
+    })
+    // Ecommerce
+    pageSelect.addEventListener('change', function() {
+        if (this.value == "ecommerce") {
+            selectedInput3.classList.remove('hide');
+            $(selectedInput3).select2();
+        }  else {
+            selectedInput3.classList.add('hide');
+            $(selectedInput3).select2('destroy');
+        }
+    })
 </script>
 
     </section>

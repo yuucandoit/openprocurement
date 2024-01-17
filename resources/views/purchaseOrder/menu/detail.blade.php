@@ -3,6 +3,7 @@
 @extends('layouts.master')
 
 @section('main')
+
 @if(session('error'))
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -24,6 +25,33 @@
     </div>
 @endif
 <section>
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@latest/dist/css/select2.min.css"> --}}
+    <style>
+        .tutup {
+            width: 0;
+            height: 0;
+            opacity: 0;
+        }
+        .createPO {
+            display: none;
+        }
+
+        .hide {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        display: none;
+        }
+
+        .page {
+            height: 60px;
+        }
+
+        .terms {
+            height: 60px;
+        }
+    </style>
     <!-- Page Sidebar Ends-->
     <div class="container-fluid">
         <div class="page-header">
@@ -234,7 +262,7 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="modalCreatePO" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
+                            <div class="modal fade" id="modalCreatePO" data-backdrop="static" data-keyboard="false" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -264,7 +292,7 @@
                                                             <option value="ecommerce">Ecommerce</option>
                                                         </select>
 
-                                                        <select class=" form-select perusahaan_0 hide mt-2" id="selectedInput"
+                                                        <select class="hide perusahaan_0 mt-2" id="selectedInput"
                                                             name="perusahaan">
                                                             @foreach ($pt as $p)
                                                             <option value="{{ $p->id }}">{{ $p->nama }}
@@ -272,7 +300,7 @@
                                                             @endforeach
                                                         </select>
 
-                                                        <select class=" form-select privateperson_0 hide mt-2" id="selectedInput2"
+                                                        <select class="hide privateperson_0 mt-2" id="selectedInput2"
                                                             name="orangpribadi">
                                                             @foreach ($op as $o)
                                                             <option value="{{ $o->id }}">{{ $o->nama }}
@@ -280,7 +308,7 @@
                                                             @endforeach
                                                         </select>
 
-                                                        <select class=" form-select ecommerce_0 hide mt-2" id="selectedInput3"
+                                                        <select class="hide ecommerce_0 mt-2" id="selectedInput3"
                                                             name="ecommerce">
                                                             @foreach ($ec as $e)
                                                             <option value="{{ $e->id }}">{{ $e->nama }}
@@ -306,7 +334,7 @@
                                                         <label class="form-label" style="font-weight: bold;"><i
                                                                 class="fa fa-file-text-o"></i> Terms &
                                                             Conditions</label>
-                                                        <select class="form-select  pageSelector" id="pageSelector"
+                                                        <select class="form-select terms  pageSelector" id="pageSelector"
                                                             placeholder="Terms and Conditions" name="term_conditions">
                                                             <option value="" disabled selected hidden>Terms And
                                                                 Conditions
@@ -1062,35 +1090,10 @@
                 </div>
             </div>
 
-            <style>
-                .tutup {
-                    width: 0;
-                    height: 0;
-                    opacity: 0;
-                }
-                .createPO {
-                    display: none;
-                }
-
-                .hide {
-                width: 0;
-                height: 0;
-                opacity: 0;
-                display: none;
-                }
-
-                .page {
-                    height: 60px;
-                }
-
-                .terms {
-                    height: 60px;
-                }
-            </style>
-
 </section>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/select2@latest/dist/js/select2.min.js"></script> --}}
 
 <script>
     const dollars = document.querySelectorAll('.dollar');
@@ -1222,31 +1225,39 @@
     var selectedInput = document.querySelector('.perusahaan_0');
     var selectedInput2 = document.querySelector('.privateperson_0');
     var selectedInput3 = document.querySelector('.ecommerce_0');
+    // $(".js-example-basic-single");
     // Company
     pageSelect.addEventListener('change', function() {
         if (this.value == "company") {
             selectedInput.classList.remove('hide');
+            $(selectedInput).select2();
         } else {
             selectedInput.classList.add('hide');
+            $(selectedInput).select2('destroy');
         }
     })
     // Private Person
     pageSelect.addEventListener('change', function() {
         if (this.value == "privateperson") {
             selectedInput2.classList.remove('hide');
+            $(selectedInput2).select2();
         }  else {
             selectedInput2.classList.add('hide');
+            $(selectedInput2).select2('destroy');
         }
     })
     // Ecommerce
     pageSelect.addEventListener('change', function() {
         if (this.value == "ecommerce") {
             selectedInput3.classList.remove('hide');
+            $(selectedInput3).select2();
         }  else {
             selectedInput3.classList.add('hide');
+            $(selectedInput3).select2('destroy');
         }
     })
 </script>
+
 
 
 
