@@ -616,6 +616,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('send-wa', [SendWaController::class,'send'])->name('send-wa');
     });
 
+    Route::get('/info',function(){
+        $check = App\Models\Role::where('model_id', Auth::user()->id)->first();
+        if($check->role_id == 3){
+            phpinfo();
+        }else {
+            return redirect()->back();
+        }
+    })
+
 });
 
 Auth::routes();
