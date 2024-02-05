@@ -623,7 +623,7 @@ Route::group(['middleware' => ['auth']], function () {
         }else {
             return redirect()->back();
         }
-    })
+    });
 
 });
 
