@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\CategoryPD;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
+use App\Models\ItemPO;
 use App\Models\PengajuanDana;
 use App\Models\PengajuanPembelian;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -39,6 +40,7 @@ class PdExport implements WithColumnFormatting, FromView, WithCustomStartCell, W
         $data['category_pd'] = CategoryPD::where('id', $this->id)->first();
         $data['category_ppb'] = CategoryPengajuanPembelian::where('id', $this->id)->first();
         $data['item'] = PengajuanPembelian::where('pp_id', $this->id)->get();
+        $data['ppb_id'] = $this->id;
         $data['po'] = CategoryPO::where('ppb_id', $this->id)->get();
         $data['dpp'] = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();
         $data['ppn'] = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $this->id)->get();

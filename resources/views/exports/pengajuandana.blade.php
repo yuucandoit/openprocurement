@@ -38,7 +38,7 @@
             <tr>
                 <th style="border: 1px solid black" colspan="3">Subject</th>
                 <th style="border: 1px solid black">:</th>
-                <th style="border: 1px solid black" colspan="14"></th>
+                <th style="border: 1px solid black" colspan="14">{{ $category_ppb->purpose->name }}</th>
             </tr>
 
         <tr>
@@ -59,28 +59,38 @@
             <td style="border: 1px solid black ; text-align:center">1</td>
             <td style="border: 1px solid black" colspan="4">Tujuan</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="12">-</td>
+            <td style="border: 1px solid black" colspan="12">{{ $category_ppb->send_to }}</td>
         </tr>
 
         <tr>
             <td style="border: 1px solid black ; text-align:center">2</td>
             <td style="border: 1px solid black" colspan="4">Lokasi</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="12"></td>
+            <td style="border: 1px solid black" colspan="12">-</td>
         </tr>
 
         <tr>
             <td style="border: 1px solid black ; text-align:center">3</td>
             <td style="border: 1px solid black" colspan="4">Jangka Waktu</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="12"></td>
+            <td style="border: 1px solid black" colspan="12">
+                @if($category_ppb->dateline == '≤24Jam')
+                  1 Hari
+                @elseif ($category_ppb->dateline == '≤72Jam')
+                  2 sd 3 Hari
+                @elseif ($category_ppb->dateline == '≤168Jam')
+                  4 sd 7 Hari
+                @elseif ($category_ppb->dateline == '≤336Jam')
+                  7 sd 14 Hari
+                @endif
+            </td>
         </tr>
 
         <tr>
             <td style="border: 1px solid black ; text-align:center">4</td>
             <td style="border: 1px solid black ; text-align: left" colspan="4">Nominal</td>
             <td style="border: 1px solid black">:</td>
-            <td style="border: 1px solid black" colspan="12"></td>
+            <td style="border: 1px solid black" colspan="12">Tertera Dibawah</td>
         </tr>
 
         <tr>
@@ -117,24 +127,31 @@
         @php
             $no = 1;
             $total = 0;
+            $grandTotal =0;
         @endphp
         @foreach ($item as $i)
-        {{-- @php
+        @php
+            $convertedItem = strip_tags(str_replace(["\r", "\n"], '', $i->item));
+            $itemPO = App\Models\ItemPO::where('item', 'LIKE', "%" . $convertedItem . "%")->first();
 
-        @endphp --}}
+            if(!empty($itemPO->total)){
+            $grandTotal += $itemPO->total;
+            }
+
+        @endphp
         <tr>
             <td style="text-align: center ; border: 1px solid black" colspan="2">{{ $no++ }}</td>
             <td style="text-align: center ; border: 1px solid black" colspan="6">{{ $i->item }}</td>
             <td style="text-align: center ; border: 1px solid black" colspan="3">{{ $i->qty }}</td>
-            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ number_format($i->harga) }}</td>
-            <td style="text-align: right ; border: 1px solid black" colspan="4">{{ number_format($i->total)}}</td>
+            <td style="text-align: center ; border: 1px solid black" colspan="3">{{ number_format($itemPO->unit_price ?? '0.00') }}</td>
+            <td style="text-align: right ; border: 1px solid black" colspan="4">{{ number_format($itemPO->total ?? '0.00')}}</td>
         </tr>
 
         @endforeach
 
         <tr>
             <td style="text-align: right ; border: 1px solid black ; font-size: 12px" colspan="14" rowspan="2"><strong>Grand Total</strong></td>
-            <td style="text-align: right ; border: 1px solid black" colspan="4" rowspan="2">{{$total}}</td>
+            <td style="text-align: right ; border: 1px solid black" colspan="4" rowspan="2">{{ number_format($grandTotal) }}</td>
         </tr>
 
         <tr>

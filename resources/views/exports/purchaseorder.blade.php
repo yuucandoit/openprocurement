@@ -36,7 +36,7 @@
             <td></td>
             <td rowspan="2">
                 <p>
-                    Head Office : Emerald Commercial Blok UB No. 50 Summarecon Bekasi Telp. 021-89454790 </p>
+                    Head Office : Jl Cikunir Raya No.689 Jakamulya, Bekasi Selatan, Telp. 021-89454790 </p>
             </td>
         </tr>
 
@@ -319,44 +319,29 @@
         @php
             $no = 1;
             $data = 0;
+            $grandTotal = 0;
         @endphp
-        {{-- @foreach ($purchase_order as $po)
-            @php
-                $data+=$po->amount;
-            @endphp
-            <tr>
-                <td></td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $no++ }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->keterangan }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->qty }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->unit }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->unit_price }}</td>
-                <td style="border: 1px solid black; font-size: 14;">{{ $po->amount }}</td>
-            </tr>
-        @endforeach --}}
 
-            @foreach ($category_q as $q)
+        @foreach ($category_q as $q)
+        @php
+            $convertedItem = strip_tags(str_replace(["\r", "\n"], '', $q->item));
+            $itemPO = App\Models\ItemPO::where('item', 'LIKE', "%" . $convertedItem . "%")->first();
+
+            if(!empty($itemPO->total)){
+            $grandTotal += $itemPO->total;
+            }
+
+        @endphp
            <tr>
                 <td></td>
                 <td style="border: 3px solid black; font-size: 14; text-align: center;">{{ $no++ }}</td>
                 <td style="border: 3px solid black; font-size: 14;">{{ $q->item }}</td>
                 <td style="border: 3px solid black; font-size: 14; text-align: center;">{{ $q->qty }}</td>
                 <td style="border: 3px solid black; font-size: 14; text-align: center;">{{ $q->kategori }}</td>
-                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($q->unit_price) }}</td>
-                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($q->total) }}</td>
+                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($itemPO->unit_price ?? 0) }}</td>
+                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($itemPO->total ?? 0) }}</td>
             </tr>
-            @endforeach
-
-            {{-- <tr>
-                <td></td>
-                <td>3</td>
-                <td>TEst</td>
-                <td>3</td>
-                <td>coba-coba</td>
-                <td>2000</td>
-                <td>6000</td>
-            </tr> --}}
-
+        @endforeach
         <tr>
             <td></td>
             <td></td>
@@ -364,8 +349,7 @@
             <td></td>
             <td></td>
             <td style="border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2"><strong>DPP</strong></td>
-            @foreach ($dpp as $d)
-            @if ($category_po->matauang == "RP")
+
             <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">RP.{{ number_format( $d->total )}}</td>
             @elseif ($category_po->matauang == "USD")
             <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">$ {{ number_format($d->total) }}</td>
@@ -379,40 +363,8 @@
             <td></td>
             <td></td>
             <td></td>
-            <td style="border: 1px solid black; font-size: 14; font-weight: bold;" colspan="2"><strong>PPN 11%</strong></td>
-            @foreach ($ppn as $p)
-            @if ($category_po->matauang == "RP")
-            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">RP.{{ number_format( $p->total )}}</td>
-            @elseif ($category_po->matauang == "USD")
-            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">$ {{ number_format($p->total) }}</td>
-            @endif
-            @endforeach
-        </tr>
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
             <td style="border: 1px solid black; font-size: 14; font-weight: bold;" colspan="2"><strong>Total</strong></td>
-                 @if ($category_po->ppn == 0)
-                     @foreach ($total_tnp_ppn as $tpn)
-                        @if ($category_po->matauang == "RP")
-                        <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">Rp.{{$tpn->total}}</td>
-                        @elseif ($category_po->matauang == "USD")
-                        <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">$ {{$tpn->total}}</td>
-                        @endif
-                     @endforeach
-                @elseif($category_po->ppn == 1)
-                    @foreach ($total as $t)
-                        @if ($category_po->matauang == "RP")
-                            <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">Rp. {{ number_format($t->total)}}</td>
-                            @elseif ($category_po->matauang == "USD")
-                            <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">$.{{number_format($t->total)}}</td>
-                        @endif
-                    @endforeach
-             @endif
+            <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">{{ number_format($grandTotal) }}</td>
         </tr>
 
         <tr>

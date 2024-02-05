@@ -57,7 +57,7 @@
                                 @csrf
                                 {{-- {{ dd($po->id) }} --}}
                                 <input type="hidden" name="item_ppid" value="{{ $po->po_id }}">
-                                <div class="col-md-4 ">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label" style="font-weight: bold;"><i
                                                 class="fa fa-database"></i> Select
