@@ -109,10 +109,6 @@
                                 <div>
                                     <a href="{{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}"
                                         class="btn btn-success" style="align-self: flex-end"> Export Excel Purchase Request</a>
-                                    <a href="{{ url('/export_excel/purchase_order/' . $data_pengajuan->id) }}"
-                                        class="btn btn-success" style="align-self: flex-end"> Export Excel Purchase Order</a>
-                                    <a href="{{ url('/export_excel/pengajuan_dana/' . $data_pengajuan->id) }}"
-                                        class="btn btn-success" style="align-self: flex-end"> Export Excel Payment</a>
                                     <a class="btn btn-danger"  style="align-self: flex-end" href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}"
                                         target="_blank" style="font-size:12;">Export PDF PR</i>
                                     </a>
@@ -467,9 +463,9 @@
                                 <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}"
                                     target="_blank" style="font-size:12;">Export PDF PR</i>
                                 </a>
-                                {{-- <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
+                                <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                     target="_blank" style="font-size:12;">Export PDF PO</i>
-                                </a> --}}
+                                </a>
                                 <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/pymnt_id/' . $po->id) }}"
                                     target="_blank" style="font-size:12;">Export PDF Payment</i>
                                 </a>

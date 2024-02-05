@@ -106,7 +106,7 @@
             <td style="text-align: center;
                 border: 1px solid black;
                 font-size: 14;"
-                rowspan="1" colspan="2">Q{{ $year2 }}{{ $month }}{{ $day }}{{ $id->id }}</td>
+                rowspan="1" colspan="2">Q{{ $year2 }}{{ $month }}{{ $day }}{{ $category_po->id }}</td>
 
             <td></td>
         </tr>
@@ -143,6 +143,12 @@
                 font-size: 12;
                 font-weight: bold;
                 border: 2px solid black" colspan="4">Send To :</td>
+
+            <td style="border: 2px solid black;
+            vertical-align: center;
+            text-align: center;
+            font-size: 14;"
+            colspan="4" rowspan="2">{{ $category_po->ppb->send_to }}</td>
         </tr>
 
         <tr>
@@ -155,12 +161,6 @@
                 border: 2px solid black" colspan="2">Vendor</td>
 
             <td colspan="2"></td>
-
-            <td style="border: 2px solid black;
-                vertical-align: center;
-                text-align: center;
-                font-size: 14;"
-                colspan="4" rowspan="2">{{ $category_po->send_to }}</td>
         </tr>
 
         <tr>
@@ -171,22 +171,11 @@
                 <strong>Name</strong>
             </td>
 
-            <td style="border-right: 2px solid black;"></td>
-            <td colspan="2"></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td style="font-size: 12;
-                border-right: 2px solid black;
-                border-left: 2px solid black;">
-                <strong>Company</strong>
+            <td style="border-right: 2px solid black;">
+                {{ $category_po->vendorable->nama }}
             </td>
-
-            <td style="border-right: 2px solid black;"></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
             <td colspan="2">
+
             </td>
         </tr>
 
@@ -198,10 +187,12 @@
                 <strong>Adress</strong>
             </td>
 
-            <td style="border-right: 2px solid black;"></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
-            <td colspan="2"></td>
+            <td style="border-right: 2px solid black;">
+                {{ $category_po->vendorable->alamat ?? $category_po->vendorable->link   }}
+            </td>
+            <td colspan="2">
+
+            </td>
         </tr>
 
         <tr>
@@ -212,19 +203,12 @@
                 <strong>Phone</strong>
             </td>
 
-            <td style="border-right:
-                2px solid black;">
-                </td>
+            <td style="border-right:2px solid black;"></td>
 
-            <td colspan="2"></td>
+            <td colspan="2">
+                {{ $category_po->vendorable->no_telp_kantor ?? $category_po->vendorable->contact    }}
+            </td>
 
-            <td style="background-color: #29465B;
-                color: #ffffff;
-                text-align: center;
-                font-size: 12;
-                font-weight: bold;
-                border: 2px solid black"
-                colspan="4">Alamat :</td>
         </tr>
 
         <tr>
@@ -240,12 +224,10 @@
                 border-right: 2px solid black;">
             </td>
 
-            <td colspan="2"></td>
-            <td style="font-size: 14;
-                 vertical-align: center;
-                 border: 2px solid black;
-                 text-align: center;"
-                 rowspan="2" colspan="4"><p>{{ $category_po->address }}</p></td>
+            <td colspan="2">
+                {{ $category_po->vendorable->email  }}
+            </td>
+
         </tr>
 
         <tr>
@@ -320,26 +302,37 @@
             $no = 1;
             $data = 0;
             $grandTotal = 0;
+            $dpp = 0 ;
+            $discount = 0;
+            $ppn = 0;
+            $shipping = 0;
+            $adminFee = 0;
+            $grandTotal = 0;
         @endphp
 
-        @foreach ($category_q as $q)
+        @foreach ($category_po->itempo  as $q)
         @php
-            $convertedItem = strip_tags(str_replace(["\r", "\n"], '', $q->item));
-            $itemPO = App\Models\ItemPO::where('item', 'LIKE', "%" . $convertedItem . "%")->first();
-
-            if(!empty($itemPO->total)){
-            $grandTotal += $itemPO->total;
+            $dpp = $q->dpp;
+            $discount = $q->discount;
+            if ($q->ppn == 1){
+                $afterdisc = $dpp - $disc;
+                $ppn = $afterdisc *11 /100;
+            }else{
+                $ppn = 0;
             }
-
+            $shipping = $q->ongkir;
+            $adminFee = $q->admin_fee;
+            $grandTotal = $q->grand_total;
         @endphp
+
            <tr>
                 <td></td>
                 <td style="border: 3px solid black; font-size: 14; text-align: center;">{{ $no++ }}</td>
                 <td style="border: 3px solid black; font-size: 14;">{{ $q->item }}</td>
                 <td style="border: 3px solid black; font-size: 14; text-align: center;">{{ $q->qty }}</td>
                 <td style="border: 3px solid black; font-size: 14; text-align: center;">{{ $q->kategori }}</td>
-                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($itemPO->unit_price ?? 0) }}</td>
-                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($itemPO->total ?? 0) }}</td>
+                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($q->unit_price ?? 0) }}</td>
+                <td style="border: 3px solid black; font-size: 14; text-align: right;" colspan="2">Rp.{{ number_format($q->total ?? 0) }}</td>
             </tr>
         @endforeach
         <tr>
@@ -349,12 +342,7 @@
             <td></td>
             <td></td>
             <td style="border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2"><strong>DPP</strong></td>
-
-            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">RP.{{ number_format( $d->total )}}</td>
-            @elseif ($category_po->matauang == "USD")
-            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">$ {{ number_format($d->total) }}</td>
-            @endif
-            @endforeach
+            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">{{ number_format( $dpp,2 )}}</td>
         </tr>
 
         <tr>
@@ -363,8 +351,48 @@
             <td></td>
             <td></td>
             <td></td>
-            <td style="border: 1px solid black; font-size: 14; font-weight: bold;" colspan="2"><strong>Total</strong></td>
-            <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">{{ number_format($grandTotal) }}</td>
+            <td style="border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2"><strong>DISCOUNT</strong></td>
+            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">{{ number_format( $discount,2 )}}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2"><strong>PPN</strong></td>
+            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">{{ number_format( $ppn,2 )}}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2"><strong>SHIPPING & Protection Fee</strong></td>
+            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">{{ number_format( $shipping,2 )}}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2"><strong>Admin Or Service Fee</strong></td>
+            <td style=" text-align: right; border: 1px solid black; font-size: 14; font-weight: 14;" colspan="2">{{ number_format( $adminFee,2 )}}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="border: 1px solid black; font-size: 14; font-weight: bold;" colspan="2"><strong>Grand Total</strong></td>
+            <td style="text-align: right; border: 1px solid black; font-size: 14; font-weight: bold" colspan="2">{{ number_format($grandTotal,2) }}</td>
         </tr>
 
         <tr>
@@ -382,7 +410,7 @@
         <tr>
             <td></td>
             {{-- <td style="font-size: 14; mso-data-placement:same-cell;">{{ preg_replace("/\r|\n/","<br style=\"mso-data-placement:same-cell;\" />",)$cpo->term->term_condition }}</td> --}}
-            <td style="font-size: 14;">{!!  nl2br($cpo->term->term_condition) !!}</td>
+            <td style="font-size: 14;">{!!  nl2br($category_po->term->term_condition) !!}</td>
             <td></td>
             <td></td>
             <td></td>

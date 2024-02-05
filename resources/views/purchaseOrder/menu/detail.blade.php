@@ -912,10 +912,19 @@
                                         <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                             target="_blank" style="font-size:12;">Export PDF PO</i>
                                         </a>
+
+                                        {{-- <a href="{{ url('/export_excel/purchase_order/' . $po->id) }}"
+                                            class="btn btn-success mt-3" style="align-self: flex-end"> Export Excel PO</a> --}}
+
                                         <a class="btn btn-danger mt-3" href="{{ route('export_py_id.pdf',$po->id) }}"
                                             target="_blank" style="font-size:12;">Export PDF PD</i>
                                         </a>
+
+                                        {{-- <a href="{{ url('/export_excel/pengajuan_dana/' . $po->id) }}"
+                                            class="btn btn-success mt-3" style="align-self: flex-end"> Export Excel PD</a> --}}
+
                                         <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3"> Edit PO <i class="fa fa-plus"></i></a>
+
                                         {{-- <a data-bs-toggle="modal"
                                         data-bs-target="#modalDeletePO{{ $po->id }}" class="btn btn-danger mt-3">
                                             Delete
