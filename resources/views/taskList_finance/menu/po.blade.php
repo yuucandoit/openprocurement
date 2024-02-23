@@ -127,7 +127,7 @@
                                             <th>No</th>
                                             <th>Item</th>
                                             <th>Qty</th>
-                                            <th>Category</th>
+                                            <th>UOM</th>
                                             <th>Price-per-unit</th>
                                             <th>Total</th>
                                         </tr>
@@ -240,7 +240,7 @@
                                             <th>No</th>
                                             <th>Item</th>
                                             <th>Qty</th>
-                                            <th>Category</th>
+                                            <th>UOM</th>
                                             <th>Price-per-unit</th>
                                             <th>Total</th>
                                         </tr>

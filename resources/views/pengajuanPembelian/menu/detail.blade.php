@@ -70,7 +70,7 @@
                                              <tr class="text-center" style="font-size: 17; font-weight: bold;">
                                                  <th>Item</th>
                                                  <th>Qty</th>
-                                                 <th>Category</th>
+                                                 <th>UOM</th>
                                                  <th>File</th>
                                              </tr>
                                          </thead>

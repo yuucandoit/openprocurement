@@ -95,7 +95,7 @@
                                             style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
                                             <th>Item</th>
                                             <th>Qty</th>
-                                            <th>Category</th>
+                                            <th>UOM</th>
                                             <th>File</th>
                                         </tr>
                                     </thead>
