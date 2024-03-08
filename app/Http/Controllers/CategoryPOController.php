@@ -8,6 +8,12 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
+use App\Models\Delivery;
+use App\Models\Inventory;
+use App\Models\Office;
+use App\Models\RND;
+use App\Models\Travel;
+use App\Models\Workshop;
 use App\Models\Comment;
 use App\Models\Department;
 use App\Models\ItemPO;
@@ -886,6 +892,15 @@ class CategoryPOController extends Controller
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
         $data = CategoryPengajuanPembelian::find($id);
+
+        if(!empty($data->quot)){
+            foreach($data->quot as $po)
+            {
+                $po->status = 'Rejected By Purchasing';
+                $po->save();
+            }
+        }
+
         $data->status = 'Rejected By Purchasing';
         $data->save();
         return redirect('menu-purchase-order');
@@ -900,6 +915,150 @@ class CategoryPOController extends Controller
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
         return Excel::download(new DBPurchaseHistoryExport, 'Database Purchase History.xlsx');
         }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function EditPRPurchase()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
+            $purchaseRequest = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->orderBy('created_at','DESC')->paginate(10);
+
+            return view('EditPRPurchase.index')->with('purchaseRequest', $purchaseRequest);
+        } else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function SearchEditPRPurchase(Request $request)
+   {
+    $check = Role::where('model_id', Auth::user()->id)->first();
+
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
+            $cari = $request->cari;
+
+            $purchaseRequest = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->orderBy('created_at','DESC')
+            ->where('id','like',"%".$cari."%")
+            ->orWhere('status','like',"%".$cari."%")
+            ->orWhere('desc','like',"%".$cari."%")
+            ->orWhereHas('itemppn', function($i) use($cari){
+                $i->where('item','like',"%".$cari."%");
+            })
+            ->orWhereHas('whosubmit', function($q) use($cari){
+                $q->where('name','like',"%".$cari."%");
+            })
+            ->orWhereHas('po', function($posearch) use($cari){
+                $posearch->where('id','like',"%".$cari."%");
+            })
+            ->paginate(10);
+
+            return view('EditPRPurchase.index')
+            ->with('purchaseRequest',$purchaseRequest);
+        } else {
+            return redirect()->route('dashboard');
+        }
+   }
+
+    public function ShowEditPRPurchase($id)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
+            $purchaseRequest = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('id',$id)->orderBy('created_at','DESC')->first();
+            $datapt             = CategoryPT::all();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $purpose            = ReferensiNamaProject::all();
+            $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
+            $purpose_office     = Office::all();
+            $purpose_inventory  = Inventory::all();
+            $purpose_workshop   = Workshop::all();
+            $purpose_rnd        = RND::all();
+            $purpose_travel     = Travel::all();
+            $item               = PengajuanPembelian::where('pp_id', $id)->get();
+            $uom                = Uom::all();
+
+            return view('EditPRPurchase.edit')
+            ->with('purchaseRequest', $purchaseRequest)
+            ->with('datapt', $datapt)
+            ->with('atasan', $atasan)
+            ->with('purpose', $purpose)
+            ->with('purpose_office', $purpose_office)
+            ->with('purpose_inventory', $purpose_inventory)
+            ->with('purpose_workshop', $purpose_workshop)
+            ->with('purpose_rnd', $purpose_rnd)
+            ->with('purpose_travel', $purpose_travel)
+            ->with('item', $item)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('uom', $uom);
+        } else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function ShowPRPurchaseDetail($id)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
+            $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
+            $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
+            $delivery           = Delivery::where('ppb_id', $id)->get();
+            $datacpo            = CategoryPO::where('ppb_id', $id)->first();
+            $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
+            $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+            $purpose            = ReferensiNamaProject::all();
+            $dataws             = WhoSubmitted::all();
+            $datadepartment     = Department::all();
+            $comments           = Comment::where('ppb_id',$id)->get();
+            $purchaseRequest = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('id',$id)->orderBy('created_at','DESC')->first();
+            return view('EditPRPurchase.detail')
+            ->with('purchaseRequest', $purchaseRequest)
+            ->with('atasan', $atasan)
+            ->with('pengajuan', $pengajuan)
+            ->with('delivery', $delivery)
+            ->with('dpp', $dpp)
+            ->with('ppn', $ppn)
+            ->with('datacpo', $datacpo)
+            ->with('total', $total)
+            ->with('disc', $disc)
+            ->with('total_tnpa_ppn', $total_tnpa_ppn)
+            ->with('purpose', $purpose)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('comments', $comments);
+        } else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function UpdatePRPurchase(Request $request, $id)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
+            $data = $request->all();
+
+        try {
+
+            $pengajuan = CategoryPengajuanPembelian::where('id',$id)->first();
+            $pengajuan->update([
+                'desc' => $request->desc,
+            ]);
+
+            return redirect()->route('editPRPurchase')->with(['success' => true, 'message' => 'Update Successfully']);
+
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+
+        } else {
             return redirect()->route('dashboard');
         }
     }

@@ -442,74 +442,74 @@
             })
         </script>
 
-<script type="text/javascript">
-    var pageSelect = document.getElementById('pageSelect');
+        <script type="text/javascript">
+            var pageSelect = document.getElementById('pageSelect');
 
-    var selectedInput = document.getElementById('selectedInput');
-    var selectedInputCustom = document.getElementById('selectedInputCustom');
+            var selectedInput = document.getElementById('selectedInput');
+            var selectedInputCustom = document.getElementById('selectedInputCustom');
 
-    var selectedInput2 = document.getElementById('selectedInput2');
-    var selectedInputCustom2 = document.getElementById('selectedInputCustom2');
+            var selectedInput2 = document.getElementById('selectedInput2');
+            var selectedInputCustom2 = document.getElementById('selectedInputCustom2');
 
-    var selectedInput3 = document.getElementById('selectedInput3');
-    var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
+            var selectedInput3 = document.getElementById('selectedInput3');
+            var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
 
-    var selectedInput4 = document.getElementById('selectedInput4');
-    var selectedInputCustom4 = document.getElementById('selectedInputCustom4');
+            var selectedInput4 = document.getElementById('selectedInput4');
+            var selectedInputCustom4 = document.getElementById('selectedInputCustom4');
 
-    var selectedInput5 = document.getElementById('selectedInput5');
-    var selectedInputCustom5 = document.getElementById('selectedInputCustom5');
+            var selectedInput5 = document.getElementById('selectedInput5');
+            var selectedInputCustom5 = document.getElementById('selectedInputCustom5');
 
-    var selectedInput6 = document.getElementById('selectedInput6');
-    var selectedInputCustom6 = document.getElementById('selectedInputCustom6');
+            var selectedInput6 = document.getElementById('selectedInput6');
+            var selectedInputCustom6 = document.getElementById('selectedInputCustom6');
 
 
-    // Project
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "project") {
-            selectedInput.classList.remove('hide').select2();
-        } else {
-            selectedInput.classList.add('hide');
-        }
-    })
+            // Project
+            pageSelect.addEventListener('change', function() {
+                if (this.value == "project") {
+                    selectedInput.classList.remove('hide').select2();
+                } else {
+                    selectedInput.classList.add('hide');
+                }
+            })
 
-    // Office
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "office") {
-            selectedInput2.classList.remove('hide');
-        } else {
-            selectedInput2.classList.add('hide');
-        }
-    })
+            // Office
+            pageSelect.addEventListener('change', function() {
+                if (this.value == "office") {
+                    selectedInput2.classList.remove('hide');
+                } else {
+                    selectedInput2.classList.add('hide');
+                }
+            })
 
-    // Workshop
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "workshop") {
-            selectedInput3.classList.remove('hide');
-        } else {
-            selectedInput3.classList.add('hide');
-        }
-    })
+            // Workshop
+            pageSelect.addEventListener('change', function() {
+                if (this.value == "workshop") {
+                    selectedInput3.classList.remove('hide');
+                } else {
+                    selectedInput3.classList.add('hide');
+                }
+            })
 
-    // inventory
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "inventory") {
-            selectedInput4.classList.remove('hide');
-        } else {
-            selectedInput4.classList.add('hide');
-        }
-    })
+            // inventory
+            pageSelect.addEventListener('change', function() {
+                if (this.value == "inventory") {
+                    selectedInput4.classList.remove('hide');
+                } else {
+                    selectedInput4.classList.add('hide');
+                }
+            })
 
-    // R&D
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "rnd") {
-            selectedInput5.classList.remove('hide');
-        } else {
-            selectedInput5.classList.add('hide');
-        }
-    })
+            // R&D
+            pageSelect.addEventListener('change', function() {
+                if (this.value == "rnd") {
+                    selectedInput5.classList.remove('hide');
+                } else {
+                    selectedInput5.classList.add('hide');
+                }
+            })
 
-</script>
+        </script>
 
         <script type="text/javascript">
             var pageSelector = document.getElementById('pageSelector');

@@ -43,6 +43,7 @@ use App\Http\Controllers\SendWaController;
 use App\Http\Controllers\TravelController;
 use App\Http\Controllers\ForceResetPassword;
 use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\PrePrController;
 use App\Http\Controllers\UomController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -257,6 +258,20 @@ Route::group(['middleware' => ['auth']], function () {
 
     // End Data Master Submission
 
+    // Pre PR
+
+    Route::group(['prefix' => 'pre-pr'], function () {
+        Route::get('/', [PrePrController::class, 'index'])->name('prepr.index');
+        Route::get('/search',[PrePrController::class, 'search'])->name('prepr.search');
+        Route::get('/create',[PrePrController::class, 'create'])->name('prepr.create');
+        Route::post('/store',[PrePrController::class, 'store'])->name('prepr.store');
+        Route::get('/edit/{id}',[PrePrController::class, 'edit'])->name('prepr.edit');
+        Route::post('/update/{id}',[PrePrController::class, 'update'])->name('prepr.update');
+        Route::delete('/delete/{id}',[PrePrController::class, 'destroy'])->name('prepr.delete');
+        Route::get('/import',[PrePrController::class, 'import'])->name('prepr.import');
+    });
+
+    // End Pre PR
 
     // Pengajuan Pembelian
     Route::group(['prefix' => 'pengajuan-pembelian'], function () {
@@ -405,6 +420,15 @@ Route::group(['middleware' => ['auth']], function () {
 
     });
     //End Task List Finance
+
+    // Menu Edit PR Purchase
+
+    Route::get('/PrList',[CategoryPOController::class, 'EditPRPurchase'])->name('editPRPurchase');
+    Route::get('/PrList/detail/{id}',[CategoryPOController::class, 'ShowPRPurchaseDetail'])->name('ShowPRPurchaseDetail');
+    Route::get('/PrList/edit/{id}',[CategoryPOController::class, 'ShowEditPRPurchase'])->name('ShowEditPRPurchase');
+    Route::post('/PrList/update/{id}',[CategoryPOController::class, 'UpdatePRPurchase'])->name('UpdatePRPurchase');
+    Route::get('/Prlist/search',[CategoryPOController::class, 'SearchEditPRPurchase'])->name('PrList.search');
+    // End Menu Edit PR Purchase
 
 
     // Menu Purchase Order

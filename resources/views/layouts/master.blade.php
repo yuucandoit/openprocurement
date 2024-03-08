@@ -420,6 +420,15 @@
                                 @endphp
                                 @hasrole('super purchase|purchasing|super admin')
 
+
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav {{ request()->is('*PrList*') ? 'active' : '' }} {{ request()->is('*PrList/search?=*') ? 'active' : '' }}"
+                                        href="{{ url('/PrList') }}">
+                                        <i data-feather="file-minus"></i>
+                                        <span>Edit Purchase Request</span>
+                                    </a>
+                                </li>
+
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('menu-purchase-order') ? 'active' : '' }} {{ request()->is('menu-purchase-order/out') ? 'active' : '' }} {{ request()->is('menu-purchase-order/detail/*') ? 'active' : '' }}">
                                             <i data-feather="file-text" style="margin-right: -2px;"></i>

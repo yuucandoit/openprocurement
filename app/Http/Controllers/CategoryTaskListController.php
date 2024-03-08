@@ -273,6 +273,14 @@ class CategoryTaskListController extends Controller
             $path_name->move('upload_pengajuan_reject', $name);
             $data->path_img = $name;
             }
+            if(!empty($data->quot)){
+                foreach($data->quot as $po)
+                {
+                    $po->status = 'Rejected By Purchasing';
+                    $po->notes = $request->note_purchase;
+                    $po->save();
+                }
+            }
             $data->status = 'Rejected by Purchasing';
             $data->note_purchase = $request->note_purchase;
             $data->save();
