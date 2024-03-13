@@ -160,8 +160,8 @@
                         {{ $pp->due_date ? \Carbon\Carbon::parse($pp->due_date)->format('l, d-F-Y') : '-' }}
                     </td>
                     <td style="text-align: center;">
-                        <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;  font-size:10;" href="{{ route('prepr.edit',$pp->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
-                        </a>
+                        <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00; font-size:10;" href="{{ route('prepr.edit',$pp->id) }}"><i class="icon-pencil-alt" title="Edit"></i></a>
+                        <a class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $pp->id }}" ><i class="icon-trash" title="Delete"></i></a>
                     </td>
                 </tr>
 
@@ -206,6 +206,33 @@
                         </table>
                     </div>
                 </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="modalDelete{{ $pp->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header bg-danger">
+                  <h2 class="modal-title" style="color: white">Delete</h2>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+                </div>
+                <div class="modal-body mx-5 mb-3" style="text-align: center">
+                  <span class="warning">
+                    <img src="assets/images/warning.png">
+                  </span>
+                  <h2 style="text-align: center"> Are you sure want to delete this ?  </h2><br>
+                  <p style="text-align: center">{{ $pp->project->name ?? '' }}</p>
+                </div>
+                <div class="modal-footer">
+                  <form action="{{ route('prepr.delete',$pp->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
+                    Delete</button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
           @endforeach

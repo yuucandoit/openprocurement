@@ -203,8 +203,11 @@ class PrePrController extends Controller
      * @param  \App\Models\Pre_pr  $pre_pr
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pre_pr $pre_pr)
+    public function destroy($id)
     {
-        //
+        $pre_pr = Pre_pr::find($id);
+        PartItem_Pre_pr::where('pre_pr_id', $id)->delete();
+        $pre_pr->delete();
+        return redirect()->route('prepr.index')->with('message', 'Success Delete Pre PR');
     }
 }
