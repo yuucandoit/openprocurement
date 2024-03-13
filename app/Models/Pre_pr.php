@@ -19,6 +19,7 @@ class Pre_pr extends Model
         'id',
         'user_id',
         'project_id',
+        'due_date',
         'deleted_at'
     ];
 
@@ -30,6 +31,11 @@ class Pre_pr extends Model
     public function project()
     {
         return $this->belongsTo(ReferensiNamaProject::class, 'project_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 

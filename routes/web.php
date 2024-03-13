@@ -262,6 +262,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'pre-pr'], function () {
         Route::get('/', [PrePrController::class, 'index'])->name('prepr.index');
+        Route::get('/detail/{id}',[PrePrController::class, 'detail'])->name('prepr.detail');
         Route::get('/search',[PrePrController::class, 'search'])->name('prepr.search');
         Route::get('/create',[PrePrController::class, 'create'])->name('prepr.create');
         Route::post('/store',[PrePrController::class, 'store'])->name('prepr.store');

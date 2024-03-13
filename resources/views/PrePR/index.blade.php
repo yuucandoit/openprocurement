@@ -146,7 +146,10 @@
                <tr style="background-color:#F1F6F5;">
                     <td>{{ $i++ }}</td>
                     <td>
-                        {{ $pp->project->name ?? '' }}
+                        <a href="{{ route('prepr.detail',$pp->id) }}">
+                            {{ $pp->project->name ?? '' }}
+                        </a>
+
                     </td>
                     <td>
                         <ul>
@@ -154,7 +157,7 @@
                         </ul>
                     </td>
                     <td>
-                        {{ \Carbon\Carbon::parse($pp->due_date)->format('l, d-F-Y') }}
+                        {{ $pp->due_date ? \Carbon\Carbon::parse($pp->due_date)->format('l, d-F-Y') : '-' }}
                     </td>
                     <td style="text-align: center;">
                         <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;  font-size:10;" href="{{ route('prepr.edit',$pp->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
@@ -165,7 +168,8 @@
                 @endforeach
             </tbody>
           </table>
-          
+
+          @foreach($pre_pr as $pp)
           <div class="modal fade" id="modalItem{{ $pp->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -203,7 +207,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+          </div>
+          @endforeach
           <div class="mt-4">
           {{ $pre_pr->withQueryString()->links('pagination::bootstrap-5') }}
           </div>

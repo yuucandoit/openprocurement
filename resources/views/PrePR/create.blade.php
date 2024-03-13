@@ -115,7 +115,7 @@
                                         <div id="selectedInput">
                                         <select class= "js-example-basic-single mt-2 "  name="project">
                                             @foreach ($purpose as $p)
-                                            <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                            <option value="{{ $p->id }}" {{ old('project') == $p->id ? 'selected' : '' }}>{{ $p->name }}</option>
                                             @endforeach
                                         </select>
                                          </div>
@@ -152,33 +152,27 @@
                                                 Action</th>
 
                                         </tr>
+                                        @foreach (old('item', ['']) as $index => $oldItem)
                                         <tr class="form-row">
                                             <td style="text-align:center;">
-                                                1
+                                                {{ $index + 1 }}
                                             </td>
                                             <td class="text">
-                                                <textarea name="item[]" id="" class="form-control" rows="2"></textarea>
+                                                <textarea name="item[]" id="" class="form-control" rows="2">{{ old('item.' . $index) }}</textarea>
                                             </td>
-                                            <td><textarea name="desc[]" id="" class="form-control" rows="2"></textarea>
-                                            </td>
-                                            <td><input type="text" name="link[]" placeholder="Link Item" class="form-control" style="text-align: center;"/>
-                                            </td>
-                                            <td><input type="text" name="status[]" placeholder="Status" class="form-control" style="text-align: center;" />
-                                            </td>
-                                            <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-qty" style="text-align: center;" />
-                                            </td>
-                                            <td>
-                                                <input type="number" name="buffer[]" placeholder="Input Buffer" class="form-control form-buff" style="text-align: center;" />
-                                            </td>
-                                            <td>
-                                                <input type="text" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" />
-                                            </td>
+                                            <td><textarea name="desc[]" id="" class="form-control" rows="2">{{ old('desc.' . $index) }}</textarea></td>
+                                            <td><input type="text" name="link[]" placeholder="Link Item" class="form-control" style="text-align: center;" value="{{ old('link.' . $index) }}"/></td>
+                                            <td><input type="text" name="status[]" placeholder="Status" class="form-control" style="text-align: center;" value="{{ old('status.' . $index) }}"/></td>
+                                            <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-qty" style="text-align: center;" value="{{ old('qty.' . $index) }}"/></td>
+                                            <td><input type="number" name="buffer[]" placeholder="Input Buffer" class="form-control form-buff" style="text-align: center;" value="{{ old('buffer.' . $index) }}"/></td>
+                                            <td><input type="text" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" value="{{ old('total.' . $index) }}"/></td>
                                             <td style="text-align: center;">
                                                 <button type="button" name="add" class="btn btn-danger remove-input-field">
                                                     <i class="fa fa-times"></i>
                                                 </button>
                                             </td>
                                         </tr>
+                                        @endforeach
                                     </table>
                                 </div>
                                 <div class="mt-2">
