@@ -385,13 +385,13 @@
                                             <span>Dashboard</span>
                                         </a>
                                     </li>
-                                    <li class="dropdown">
+                                    {{-- <li class="dropdown">
                                         <a class="nav-link menu-title link-nav {{ request()->is('*pre-pr*') ? 'active' : '' }} {{ request()->is('*pre-pr/search?=*') ? 'active' : '' }}"
                                             href="{{ url('/pre-pr') }}">
                                             <i data-feather="file-minus"></i>
                                             <span>Pre PR</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li class="dropdown">
                                         <a class="nav-link {{ request()->is('menu-pengajuan-pembelian') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/create') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/detail/*') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/po_detail/*') ? 'active' : '' }}"
                                             href="{{ url('menu-pengajuan-pembelian') }}">
@@ -428,13 +428,13 @@
                                 @hasrole('super purchase|purchasing|super admin')
 
 
-                                <li class="dropdown">
+                                {{-- <li class="dropdown">
                                     <a class="nav-link menu-title link-nav {{ request()->is('*PrList*') ? 'active' : '' }} {{ request()->is('*PrList/search?=*') ? 'active' : '' }}"
                                         href="{{ url('/PrList') }}">
                                         <i data-feather="file-minus"></i>
                                         <span>Edit Purchase Request</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                                     <li class="dropdown">
                                         <a class="nav-link menu-title {{ request()->is('menu-purchase-order') ? 'active' : '' }} {{ request()->is('menu-purchase-order/out') ? 'active' : '' }} {{ request()->is('menu-purchase-order/detail/*') ? 'active' : '' }}">
