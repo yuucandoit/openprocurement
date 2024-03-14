@@ -159,7 +159,8 @@
                     <td>
                         {{ $pp->due_date ? \Carbon\Carbon::parse($pp->due_date)->format('l, d-F-Y') : '-' }}
                     </td>
-                    <td style="text-align: center;">
+                    <td style="text-align: center;font-size:10;">
+                        <a class="btn btn-iconsolid mt-1" style="background-color: #0d5e00; font-size:10;" href="{{ route('prepr.export',$pp->id) }}" title="Export Excel"><i class="icon-bookmark-alt" title="Export Excel"></i></a>
                         <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00; font-size:10;" href="{{ route('prepr.edit',$pp->id) }}"><i class="icon-pencil-alt" title="Edit"></i></a>
                         <a class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $pp->id }}" ><i class="icon-trash" title="Delete"></i></a>
                     </td>

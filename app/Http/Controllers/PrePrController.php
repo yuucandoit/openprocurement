@@ -10,6 +10,7 @@ use App\Models\PartItem_Pre_pr;
 use App\Imports\PrePRImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
+use App\Exports\PrePRExport;
 
 class PrePrController extends Controller
 {
@@ -225,5 +226,11 @@ class PrePrController extends Controller
         }
 
         return redirect()->back()->with(['error' => 'Please choose file before!']);
+    }
+
+    public function exportPrePR($id)
+    {
+        // $convertID = intval($id);
+        return Excel::download(new PrePRExport($id), 'PrePR.xlsx');
     }
 }

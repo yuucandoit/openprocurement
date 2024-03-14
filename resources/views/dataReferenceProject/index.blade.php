@@ -29,6 +29,8 @@
                                     class="fa fa-plus"></i></a>
                             <a href={{ url('file-import-rf') }} class="btn btn-danger mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-import"></i> Import From Excel</a>
+                            <a href={{ route('project-reference.export') }} class="btn btn-success mb-3 mr-1"
+                                style="align-self: flex-end"><i class="icon-export"></i> Export From Excel</a>
                             <div class="pull-right">
                                 <form action="{{ route('project-reference.SearchProject') }}" method="get"
                                         class="input-group">

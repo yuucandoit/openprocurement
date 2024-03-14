@@ -164,6 +164,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update/{id}', [ReferensiNamaProjectController::class, 'update'])->name('project-reference.update');
         Route::delete('/destroy/{id}', [ReferensiNamaProjectController::class, 'destroy'])->name('project-reference.destroy');
         Route::get('/search/project',[ReferensiNamaProjectController::class, 'SearchProject'])->name('project-reference.SearchProject');
+        Route::get('/export', [ReferensiNamaProjectController::class, 'exportProjectCode'])->name('project-reference.export');
     });
 
     Route::group(['prefix' => 'office'], function () {
@@ -269,6 +270,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}',[PrePrController::class, 'edit'])->name('prepr.edit');
         Route::post('/update/{id}',[PrePrController::class, 'update'])->name('prepr.update');
         Route::delete('/delete/{id}',[PrePrController::class, 'destroy'])->name('prepr.delete');
+        Route::get('/export/{id}',[PrePrController::class, 'exportPrePR'])->name('prepr.export');
         Route::post('/import',[PrePrController::class, 'importPrePR'])->name('prepr.import');
     });
 

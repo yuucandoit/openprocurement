@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\EcommerceImport;
 use App\Imports\ProjectImport;
+use App\Exports\ProjectCode;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -174,5 +175,10 @@ class ReferensiNamaProjectController extends Controller
         }else{
             return redirect()->route('dashboard');
         }
+    }
+
+    public function exportProjectCode()
+    {
+        return Excel::download(new ProjectCode, 'ProjectCode.xlsx');
     }
 }
