@@ -244,4 +244,71 @@
     </div>
   </div>
 </section>
+
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Import Pre PR</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" id="importform"  action="{{ route('prepr.import') }}" method="post" enctype="multipart/form-data">
+                @csrf
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputProject" >
+                                    Project
+                                </label>
+                                <select class="js-example-basic-single" name="project" id="">
+                                    @foreach ($purpose as $p)
+                                    <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputDate" >
+                                    Due Date
+                                </label>
+                                <input  class="form-control" type="date" name="due_date" value="{{ old('due_date', date('Y-m-d')) }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputFile" >
+                            Input File
+                        </label>
+                        <input type="file" id="file" name="file" class="@error('file')is-invalid @enderror form-control">
+                        @error('file')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        {{-- <p class="text-danger">{{ $errors->first('file') }}</p> --}}
+
+                    </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="text-end" style="margin-right: 30px;">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+                <div class="card-body">
+                <div class="alert alert-warning alert-dismissible">
+                    <i class="icon fa fa-warning"></i> Warning! &nbsp;
+                    File Data Item Only Type (.xls, .xlsx)
+                </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
 @endsection

@@ -113,7 +113,7 @@
                                         <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i> Project:</label>
                                         {{-- Project Dropdown --}}
                                         <div id="selectedInput">
-                                        <select class= "js-example-basic-single mt-2 "  name="project">
+                                        <select class= "js-example-basic-single mt-2"  name="project" disabled>
                                             @foreach ($purpose as $p)
                                                 @if($p->id == $pre_pr->project_id)
                                                 <option value="{{ $p->id }}" selected>{{ $p->name }}</option>

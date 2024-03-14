@@ -269,7 +269,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}',[PrePrController::class, 'edit'])->name('prepr.edit');
         Route::post('/update/{id}',[PrePrController::class, 'update'])->name('prepr.update');
         Route::delete('/delete/{id}',[PrePrController::class, 'destroy'])->name('prepr.delete');
-        Route::get('/import',[PrePrController::class, 'import'])->name('prepr.import');
+        Route::post('/import',[PrePrController::class, 'importPrePR'])->name('prepr.import');
     });
 
     // End Pre PR

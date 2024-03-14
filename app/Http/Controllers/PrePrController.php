@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ReferensiNamaProject;
 use App\Models\PartItem_Pre_pr;
+use App\Imports\PrePRImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
 
 class PrePrController extends Controller
@@ -19,7 +21,9 @@ class PrePrController extends Controller
     public function index()
     {
         $pre_pr = Pre_pr::where('user_id', Auth::user()->id)->paginate(10);
+        $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
         return view('PrePR.index')
+        ->with('purpose', $purpose)
         ->with('pre_pr', $pre_pr);
     }
 
@@ -159,14 +163,8 @@ class PrePrController extends Controller
     {
         $data = $request->all();
 
-        $existProject = Pre_pr::where('user_id',Auth::user()->id)->where('project_id',$request->project)->first();
-        if($existProject){
-            return redirect()->back()->with('error', 'Project Already Exist -_- ');
-        }
-
         $pre_pr = Pre_pr::where('id',$id)->update([
             'user_id' =>  Auth::user()->id,
-            'project_id' => $request->project,
             'due_date'=> $request->due_date
         ]);
 
@@ -209,5 +207,23 @@ class PrePrController extends Controller
         PartItem_Pre_pr::where('pre_pr_id', $id)->delete();
         $pre_pr->delete();
         return redirect()->route('prepr.index')->with('message', 'Success Delete Pre PR');
+    }
+
+    public function importPrePR(Request $request)
+    {
+        $this->validate($request, [
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+        $project = $request->input('project');
+        $due_date = $request->input('due_date');
+        if ($request->hasFile('file')) {
+            //UPLOAD FILE
+            $file = $request->file('file'); //GET FILE
+            // dd($file);
+            Excel::import(new PrePRImport($project, $due_date), $file); //IMPORT FILE
+            return redirect()->back()->with(['success' => 'Upload file data !']);
+        }
+
+        return redirect()->back()->with(['error' => 'Please choose file before!']);
     }
 }
