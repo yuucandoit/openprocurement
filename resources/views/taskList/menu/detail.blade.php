@@ -187,318 +187,317 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card">
-                @if (empty($vendor->vendorable->nama))
-                <div class="card-body">
-                    <h6 class="text-center">PO Not Found</h6>
-                </div>
-                @else
                 <div class="card-body">
                     @foreach ($items as $po)
-                        <div class="default-according" id="accordionclose{{ $po->id }}">
+                        @if (empty($po))
+                        <h6 class="text-center">PO Not Found</h6>
+                        @else
+                            <div class="default-according" id="accordionclose{{ $po->id }}">
 
-                        <div class="card">
-                            <div class="card-header" id="heading{{ $po->id }}">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1">
-                                    <span style="font-weight: bold; color:green; float: left;">{{ $po->code_po }}</span>
-                                    <span style="float: left;">&nbsp; Vendor #{{ $po->vendorable->nama ?? '-' }}</span>
-                                    <span  style="float: right;">
-                                        @if(empty($item_po))
+                            <div class="card">
+                                <div class="card-header" id="heading{{ $po->id }}">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1">
+                                        <span style="font-weight: bold; color:green; float: left;">{{ $po->code_po }}</span>
+                                        <span style="float: left;">&nbsp; Vendor #{{ $po->vendorable->nama ?? '-' }}</span>
+                                        <span  style="float: right;">
+                                            @if(empty($item_po))
 
-                                        @else
-                                        {{ $item_po->matauang }} {{ number_format($item_po->grand_total,2) }}
-                                        @endif
-                                    </span>
-                                </button>
-                            </h5>
-                            </div>
-                            <div class="collapse" id="collapse{{ $po->id }}" aria-labelledby="heading{{ $po->id }}" data-bs-parent="#accordionclose{{ $po->id }}">
-                            <div class="card-body">
-                                <div class="row">
-                                        <div class="col-md-6 ">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i>
-                                                    Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                    &nbsp; &nbsp;:
-                                                    @if (empty($po->vendorable->nama))
-                                                    @else
-                                                        {{ $po->vendorable->nama ?? '-' }}
-                                                    @endif
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 ">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i>
-                                                    Quotation  :
-                                                    @if (empty($po->quotation))
-                                                    @else
-                                                        {{ $po->quotation }}
-                                                    @endif
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 ">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i>
-                                                    Terms conditions :
-                                                    @if (empty($po->term->term_condition))
-                                                    @else
-                                                        <br>
-                                                        {!! nl2br($po->term->term_condition) !!}
-                                                    @endif
-                                                </label>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-6 ">
-                                            <div class="form-group">
-                                                <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i>
-                                                    File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
-                                                    @if (empty($po->path_quotation))
-                                                        -
-                                                    @else
-                                                        <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank">{!! nl2br($po->path_quotation) !!}</a>
-                                                    @endif
-                                                </label>
-                                            </div>
-                                        </div>
-                                </div>
-                            @php
-                                foreach($po->itempo as $i)
-                            {
-                                $e = $i->po_id;
-                            }
-                            @endphp
-
-                                @if(empty($e))
-
-                                <table class="table table-bordered mt-4 mb-4 order-entry">
-                                    <thead>
-                                        <tr class="text-center"
-                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
-                                            <th>Item</th>
-                                            <th>Qty</th>
-                                            <th>UOM</th>
-                                            <th>Price-per-unit</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($pengajuan as $p)
-                                            <tr>
-                                                <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
-                                                <td style="text-align: center;">{{ $p->qty }}</td>
-                                                <td style="text-align: center;">{{ $p->kategori }}</td>
-                                                <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->unit_price) }}</td>
-                                                <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->total) }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered ">
-                                    <tr>
-                                        <td><label class="pull-right mx-2"> DPP :</label></td>
-                                        <td style="text-align: right;">
-                                            @foreach ($dpp as $d)
-                                            {{ $data_pengajuan->matauang }} {{ number_format($d->total) }}
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><label class="pull-right mx-2"> Discount :</label></td>
-                                        <td style="text-align: right;">
-                                            {{ $data_pengajuan->matauang }} {{ number_format($disc->discount) }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                                value="{{ $data_pengajuan->ppn }}"
-                                                @if ($data_pengajuan->ppn == 1) @checked(true)
                                             @else
-                                        @endif
-                                                disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
-                                        <td style="text-align:right;">
-                                            @if ($data_pengajuan->ppn == 1)
-                                                @foreach ($ppn as $p)
-                                                    {{ $data_pengajuan->matauang }} {{ number_format($p->total) }}
-                                                @endforeach
-                                            @else
-                                                @foreach ($ppn as $p)
-                                                    {{ $data_pengajuan->matauang }} 0
-                                                @endforeach
+                                            {{ $item_po->matauang }} {{ number_format($item_po->grand_total,2) }}
                                             @endif
-                                        </td>
-                                    </tr>
-                                    @if ($data_pengajuan->ppn == 1)
-                                        <tr>
-                                            <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                                            @foreach ($total as $t)
-                                                    <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($t->total) }}</td>
-                                            @endforeach
-                                        @elseif ($data_pengajuan->ppn == 0)
-                                            <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                                            @foreach ($total_tnpa_ppn as $tpn)
-                                            <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($tpn->total) }}</td>
-                                            @endforeach
-                                        </tr>
-                                    @endif
-                                </table>
+                                        </span>
+                                    </button>
+                                </h5>
+                                </div>
+                                <div class="collapse" id="collapse{{ $po->id }}" aria-labelledby="heading{{ $po->id }}" data-bs-parent="#accordionclose{{ $po->id }}">
+                                <div class="card-body">
+                                    <div class="row">
+                                            <div class="col-md-6 ">
+                                                <div class="form-group">
+                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                            class="fa fa-database"></i>
+                                                        Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                        &nbsp; &nbsp;:
+                                                        @if (empty($po->vendorable->nama))
+                                                        @else
+                                                            {{ $po->vendorable->nama ?? '-' }}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                            </div>
 
-                                @else
+                                            <div class="col-md-6 ">
+                                                <div class="form-group">
+                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                            class="fa fa-database"></i>
+                                                        Quotation  :
+                                                        @if (empty($po->quotation))
+                                                        @else
+                                                            {{ $po->quotation }}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 ">
+                                                <div class="form-group">
+                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                            class="fa fa-database"></i>
+                                                        Terms conditions :
+                                                        @if (empty($po->term->term_condition))
+                                                        @else
+                                                            <br>
+                                                            {!! nl2br($po->term->term_condition) !!}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                            </div>
 
 
-                                <table class="table table-bordered item order-entry mx-2">
-                                    <tr style="text-align: center;">
-                                        <th
-                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                            No</th>
-                                        <th
-                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                            Item</th>
-                                        <th
-                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                            Qty</th>
-                                        <th
-                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                            Category</th>
-                                        <th
-                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                            Price-per-unit</th>
-                                        <th
-                                            style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                            Total</th>
-                                    </tr>
-                                    @php
-                                        $id = 1;
-                                    @endphp
-                                    @foreach ($po->itempo as $item)
-                                    {{-- {{ dd($item) }} --}}
-                                            <tr>
-                                                <td class="text-center">{{ $id++ }}</td>
-                                                <td class="text-center">{{ $item->item }}</td>
-                                                <td class="text-center">{{ $item->qty }}</td>
-                                                <td class="text-center">{{ $item->kategori }}</td>
-                                                <td class="text-end">{{ $item->matauang }} {{ number_format($item->unit_price,2) }}</td>
-                                                <td class="text-end">{{ $item->matauang }} {{ number_format($item->total,2)  }}</td>
+                                            <div class="col-md-6 ">
+                                                <div class="form-group">
+                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                            class="fa fa-database"></i>
+                                                        File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
+                                                        @if (empty($po->path_quotation))
+                                                            -
+                                                        @else
+                                                            <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank">{!! nl2br($po->path_quotation) !!}</a>
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                            </div>
+                                    </div>
+                                @php
+                                    foreach($po->itempo as $i)
+                                {
+                                    $e = $i->po_id;
+                                }
+                                @endphp
+
+                                    @if(empty($e))
+
+                                    <table class="table table-bordered mt-4 mb-4 order-entry">
+                                        <thead>
+                                            <tr class="text-center"
+                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
+                                                <th>Item</th>
+                                                <th>Qty</th>
+                                                <th>UOM</th>
+                                                <th>Price-per-unit</th>
+                                                <th>Total</th>
                                             </tr>
-                                    @endforeach
-                                </table>
-                                <table class="table table-bordered ">
-                                    <tbody>
-                                        @foreach ($groupedItem as $value)
-                                        @if($value->po_id === $po->id)
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($pengajuan as $p)
+                                                <tr>
+                                                    <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
+                                                    <td style="text-align: center;">{{ $p->qty }}</td>
+                                                    <td style="text-align: center;">{{ $p->kategori }}</td>
+                                                    <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->unit_price) }}</td>
+                                                    <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->total) }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered ">
                                         <tr>
                                             <td><label class="pull-right mx-2"> DPP :</label></td>
                                             <td style="text-align: right;">
-                                                {{ $value->matauang }} {{ number_format($value->dpp ,2) }}
+                                                @foreach ($dpp as $d)
+                                                {{ $data_pengajuan->matauang }} {{ number_format($d->total) }}
+                                                @endforeach
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><label class="pull-right mx-2"> Discount :</label></td>
                                             <td style="text-align: right;">
-                                                {{ $value->matauang }} {{ number_format($value->discount,2) }}
+                                                {{ $data_pengajuan->matauang }} {{ number_format($disc->discount) }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
-                                                <input class="mt-1 pull-right check-box" type="checkbox"
-                                                    value="{{ $value->ppn }}"
-                                                    @if ($value->ppn == 1) @checked(true)
-                                                    @else
-                                                    @endif
-                                                    disabled="true"><label class="pull-right mx-2"> PPN 11%
-                                                    :</label>
-                                                </td>
-                                            <td style="text-align:right;">
-                                                @if ($value->ppn == 1)
-                                                @php
-                                                    $dpp = $value->dpp;
-                                                    $disc = $value->discount;
-                                                    $afterdisc = $dpp - $disc;
-                                                    // dd($dpp);
-                                                    $ppn = $afterdisc *11 /100;
-                                                @endphp
-                                                    {{ $value->matauang }} {{ number_format($ppn,2) }}
+                                            <td><input class="mt-1 pull-right check-box" type="checkbox"
+                                                    value="{{ $data_pengajuan->ppn }}"
+                                                    @if ($data_pengajuan->ppn == 1) @checked(true)
                                                 @else
-                                                    {{ $value->matauang }} 0
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
-                                            <td style="text-align: right;">
-                                                {{ $value->matauang }} {{ number_format($value->ongkir,2) }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label class="pull-right mx-2">Admin Or Service Fee :</label></td>
-                                            <td style="text-align: right;">
-                                                {{ $value->matauang }}  {{ number_format($value->admin_fee,2) }}
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="text-end" style="font-weight: bold;">Grand Total
-                                                    :</td>
-                                            <td style="text-align:right;">
-                                            @if ($value->ppn == 1)
-                                                {{ $value->matauang }} {{ number_format($value->grand_total,2) }}
-                                            @elseif ($value->ppn == 0)
-                                                {{ $value->matauang }} {{ number_format($value->grand_total,2) }}
                                             @endif
+                                                    disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                            <td style="text-align:right;">
+                                                @if ($data_pengajuan->ppn == 1)
+                                                    @foreach ($ppn as $p)
+                                                        {{ $data_pengajuan->matauang }} {{ number_format($p->total) }}
+                                                    @endforeach
+                                                @else
+                                                    @foreach ($ppn as $p)
+                                                        {{ $data_pengajuan->matauang }} 0
+                                                    @endforeach
+                                                @endif
                                             </td>
                                         </tr>
+                                        @if ($data_pengajuan->ppn == 1)
+                                            <tr>
+                                                <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+                                                @foreach ($total as $t)
+                                                        <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($t->total) }}</td>
+                                                @endforeach
+                                            @elseif ($data_pengajuan->ppn == 0)
+                                                <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+                                                @foreach ($total_tnpa_ppn as $tpn)
+                                                <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($tpn->total) }}</td>
+                                                @endforeach
+                                            </tr>
                                         @endif
+                                    </table>
+
+                                    @else
+
+
+                                    <table class="table table-bordered item order-entry mx-2">
+                                        <tr style="text-align: center;">
+                                            <th
+                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                No</th>
+                                            <th
+                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Item</th>
+                                            <th
+                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Qty</th>
+                                            <th
+                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Category</th>
+                                            <th
+                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Price-per-unit</th>
+                                            <th
+                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Total</th>
+                                        </tr>
+                                        @php
+                                            $id = 1;
+                                        @endphp
+                                        @foreach ($po->itempo as $item)
+                                        {{-- {{ dd($item) }} --}}
+                                                <tr>
+                                                    <td class="text-center">{{ $id++ }}</td>
+                                                    <td class="text-center">{{ $item->item }}</td>
+                                                    <td class="text-center">{{ $item->qty }}</td>
+                                                    <td class="text-center">{{ $item->kategori }}</td>
+                                                    <td class="text-end">{{ $item->matauang }} {{ number_format($item->unit_price,2) }}</td>
+                                                    <td class="text-end">{{ $item->matauang }} {{ number_format($item->total,2)  }}</td>
+                                                </tr>
                                         @endforeach
-                                        </tbody>
-                                </table>
-                                <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}"
-                                    target="_blank" style="font-size:12;">Export PDF PR</i>
-                                </a>
-                                <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
-                                    target="_blank" style="font-size:12;">Export PDF PO</i>
-                                </a>
-                                <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/pymnt_id/' . $po->id) }}"
-                                    target="_blank" style="font-size:12;">Export PDF Payment</i>
-                                </a>
-                                <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
-
-                                <div class="mt-2">
-                                    <h6>Info :</h6>
-                                            <ul>
-                                                <li>PO Submitted At {{ $po->created_at }}</li>
-                                                <li>PO Check At {{ $data_pengajuan->w_approval_po_timestamp }}</li>
-                                                <li>
-                                                    PO
-                                                    @if($po->status == 'PO Rejected by BOD')
-                                                    Reject At {{ $po->updated_at }} - {{ $data_pengajuan->atasans->name }}
+                                    </table>
+                                    <table class="table table-bordered ">
+                                        <tbody>
+                                            @foreach ($groupedItem as $value)
+                                            @if($value->po_id === $po->id)
+                                            <tr>
+                                                <td><label class="pull-right mx-2"> DPP :</label></td>
+                                                <td style="text-align: right;">
+                                                    {{ $value->matauang }} {{ number_format($value->dpp ,2) }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="pull-right mx-2"> Discount :</label></td>
+                                                <td style="text-align: right;">
+                                                    {{ $value->matauang }} {{ number_format($value->discount,2) }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input class="mt-1 pull-right check-box" type="checkbox"
+                                                        value="{{ $value->ppn }}"
+                                                        @if ($value->ppn == 1) @checked(true)
+                                                        @else
+                                                        @endif
+                                                        disabled="true"><label class="pull-right mx-2"> PPN 11%
+                                                        :</label>
+                                                    </td>
+                                                <td style="text-align:right;">
+                                                    @if ($value->ppn == 1)
+                                                    @php
+                                                        $dpp = $value->dpp;
+                                                        $disc = $value->discount;
+                                                        $afterdisc = $dpp - $disc;
+                                                        // dd($dpp);
+                                                        $ppn = $afterdisc *11 /100;
+                                                    @endphp
+                                                        {{ $value->matauang }} {{ number_format($ppn,2) }}
                                                     @else
-                                                    Approve At {{ $po->approved_at }}
+                                                        {{ $value->matauang }} 0
                                                     @endif
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
+                                                <td style="text-align: right;">
+                                                    {{ $value->matauang }} {{ number_format($value->ongkir,2) }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><label class="pull-right mx-2">Admin Or Service Fee :</label></td>
+                                                <td style="text-align: right;">
+                                                    {{ $value->matauang }}  {{ number_format($value->admin_fee,2) }}
+                                                </td>
+                                            </tr>
 
-                                                </li>
-                                                @if($po->status == 'PO Rejected by BOD')
-                                                    <li>
-                                                        Note Reject : {{ $po->note_bod_po }}
-                                                    </li>
-                                                @else
-
+                                            <tr>
+                                                <td class="text-end" style="font-weight: bold;">Grand Total
+                                                        :</td>
+                                                <td style="text-align:right;">
+                                                @if ($value->ppn == 1)
+                                                    {{ $value->matauang }} {{ number_format($value->grand_total,2) }}
+                                                @elseif ($value->ppn == 0)
+                                                    {{ $value->matauang }} {{ number_format($value->grand_total,2) }}
                                                 @endif
-                                            </ul>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                            @endforeach
+                                            </tbody>
+                                    </table>
+                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}"
+                                        target="_blank" style="font-size:12;">Export PDF PR</i>
+                                    </a>
+                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
+                                        target="_blank" style="font-size:12;">Export PDF PO</i>
+                                    </a>
+                                    <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/pymnt_id/' . $po->id) }}"
+                                        target="_blank" style="font-size:12;">Export PDF Payment</i>
+                                    </a>
+                                    <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
+
+                                    <div class="mt-2">
+                                        <h6>Info :</h6>
+                                                <ul>
+                                                    <li>PO Submitted At {{ $po->created_at }}</li>
+                                                    <li>PO Check At {{ $data_pengajuan->w_approval_po_timestamp }}</li>
+                                                    <li>
+                                                        PO
+                                                        @if($po->status == 'PO Rejected by BOD')
+                                                        Reject At {{ $po->updated_at }} - {{ $data_pengajuan->atasans->name }}
+                                                        @else
+                                                        Approve At {{ $po->approved_at }}
+                                                        @endif
+
+                                                    </li>
+                                                    @if($po->status == 'PO Rejected by BOD')
+                                                        <li>
+                                                            Note Reject : {{ $po->note_bod_po }}
+                                                        </li>
+                                                    @else
+
+                                                    @endif
+                                                </ul>
+                                    </div>
+                                    @endif
                                 </div>
-                                @endif
+                                </div>
                             </div>
                             </div>
-                        </div>
-                        </div>
+                        @endif
                     @endforeach
                   <div class="mt-4">
                     <h6>Info :</h6>
@@ -519,7 +518,6 @@
                         </ul>
                     </div>
                 </div>
-                @endif
                 </div>
               </div>
             </div>
