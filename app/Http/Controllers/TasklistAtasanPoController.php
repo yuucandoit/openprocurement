@@ -29,7 +29,7 @@ class TasklistAtasanPoController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_po', Auth::user()->id)->where('status','Waiting For PO Approval');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
@@ -162,7 +162,7 @@ class TasklistAtasanPoController extends Controller
     public function history()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where('atasan_po', Auth::user()->id)->orderBy('updated_at','desc')->paginate(10, ['*'],'out');
             $datapo = CategoryPO::get();
             return view('taskList_atasan_PO.menu.history')
@@ -223,7 +223,7 @@ class TasklistAtasanPoController extends Controller
     public function detail($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data_pengajuan     = CategoryPengajuanPembelian::find($id);
             $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
             $datapo             = CategoryPO::where('ppb_id', $id)->get();
@@ -259,7 +259,7 @@ class TasklistAtasanPoController extends Controller
     public function po_detail($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datapo             = CategoryPO::where('id', $id)->get();
             $datacpo            = CategoryPO::where('id', $id)->first();
             $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
@@ -294,7 +294,7 @@ class TasklistAtasanPoController extends Controller
     public function edit($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
             $datapt = CategoryPT::all();
             $dv = CategoryPengajuanPembelian::find($id);
@@ -319,7 +319,7 @@ class TasklistAtasanPoController extends Controller
     public function update(Request $request, $id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
                     PengajuanPembelian::where('pp_id',$id)->delete();
                     $request->validate([
                         'purpose' => 'required',
@@ -409,7 +409,7 @@ class TasklistAtasanPoController extends Controller
     public function accept_atasan(Request $request,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data = CategoryPengajuanPembelian::find($id);
             $data->note_bod_po = $request->note_po;
             $data->status = 'PO Approved';
@@ -502,7 +502,7 @@ class TasklistAtasanPoController extends Controller
     public function accept_atasan_selected_po(Request $request)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
                 $ids = explode(',', $request->ids);
 
                 $data = CategoryPengajuanPembelian::find($ids);
@@ -603,7 +603,7 @@ class TasklistAtasanPoController extends Controller
     public function accept_atasan_po(Request $request,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             // dd($id);
             $cpo = CategoryPO::find($id);
 
@@ -617,7 +617,7 @@ class TasklistAtasanPoController extends Controller
 
             // dd($data->atasan_po);
             $sig = new POSignature();
-        // dd($data);   
+        // dd($data);
             if($cpo->atasan_po == 3){
                 $cpo->signature = 'superadmin.png';
                 $cpo->approved_at = Carbon::now();
@@ -743,7 +743,7 @@ class TasklistAtasanPoController extends Controller
     public function accept_atasan_selected_prchs(Request $request)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
                 // dd($request->ids);
                 $ids = explode(',', $request->ids);
                 // dd($ids);
@@ -886,7 +886,7 @@ class TasklistAtasanPoController extends Controller
     public function reject(Request $request,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $cpo = CategoryPO::find($id);
             $cpo->status = 'PO Rejected by BOD';
             $cpo->note_bod_po = $request->note_po;

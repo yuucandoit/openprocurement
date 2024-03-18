@@ -145,7 +145,7 @@
                             }
                         </style>
 
-            @hasrole('user')
+            @hasrole('user|admin project')
 
                     <li class="onhover-dropdown">
                             <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
@@ -264,7 +264,7 @@
                     </li>
             @endhasrole
 
-            @hasrole('super user|super admin')
+            @hasrole('super user|General Manager Business|super admin')
                     <li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
 
@@ -301,7 +301,7 @@
                             </ul>
                         </li>
 
-                @endhasrole
+            @endhasrole
 
                         <li style="margin-bottom: 5px;">
                             <a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()">
@@ -369,7 +369,7 @@
                                     </li>
                                 @endhasrole
 
-                                @hasrole('user')
+                                @hasrole('user|admin project')
                                     <li class="sidebar-main-title">
                                         <div>
                                             <h6>Menu</h6>
@@ -377,7 +377,7 @@
                                     </li>
                                 @endhasrole
 
-                                @hasrole('user|super admin')
+                                @hasrole('user|super admin|admin project')
                                     <li class="dropdown">
                                         <a class="nav-link menu-title link-nav {{ request()->is('*dashboard*') ? 'active' : '' }}"
                                             href="{{ url('/dashboard') }}">
@@ -385,18 +385,33 @@
                                             <span>Dashboard</span>
                                         </a>
                                     </li>
-                                    {{-- <li class="dropdown">
+                                    <li class="dropdown">
                                         <a class="nav-link menu-title link-nav {{ request()->is('*pre-pr*') ? 'active' : '' }} {{ request()->is('*pre-pr/search?=*') ? 'active' : '' }}"
                                             href="{{ url('/pre-pr') }}">
                                             <i data-feather="file-minus"></i>
                                             <span>Pre PR</span>
                                         </a>
-                                    </li> --}}
+                                    </li>
                                     <li class="dropdown">
                                         <a class="nav-link {{ request()->is('menu-pengajuan-pembelian') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/create') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/detail/*') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/po_detail/*') ? 'active' : '' }}"
                                             href="{{ url('menu-pengajuan-pembelian') }}">
                                             <i data-feather="file-text"></i>
                                             <span>Purchase Request </span>
+                                        </a>
+                                    </li>
+                                @endhasrole
+
+                                @hasrole('admin project')
+                                    <li class="sidebar-main-title">
+                                        <div>
+                                            <h6>Menu</h6>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a class="nav-link {{ request()->is('project-code') ? 'active' : '' }}{{ request()->is('project-code/create') ? 'active' : '' }}{{ request()->is('project-code/edit/*') ? 'active' : '' }}"
+                                            href="{{ url('project-code') }}">
+                                            <i data-feather="file-text"></i>
+                                            <span>Project Code </span>
                                         </a>
                                     </li>
                                 @endhasrole
@@ -657,7 +672,7 @@
                                 @endhasrole
                                 <!--Menu-->
 
-                        @hasrole('super user')
+                        @hasrole('super user|General Manager Business')
                             <li class="sidebar-main-title">
                                 <div>
                                 <h6>Home</h6>
@@ -672,8 +687,8 @@
                          </li>
                         @endhasrole
 
-                    <!--TaskList-->
-                    @hasrole('super purchase|super user|super admin|purchasing|finance')
+                <!--TaskList-->
+                @hasrole('super purchase|super user|super admin|purchasing|finance|General Manager Business')
                         <li class="sidebar-main-title">
                             <div>
                                 <h6>Tasks</h6>
@@ -708,48 +723,67 @@
 
                             $taskpurchase   = App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->get();
                             $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->whereIn('status',['Payment Approved','PO & Payment Approved']);})->get();
+                            $pendingProjectCode = App\Models\ProjectCodeCreates::where('status','Waiting Approval')->count();
 
                         @endphp
 
-                    @hasrole('super user|super admin')
-                            <li class="dropdown">
-                                <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}"
-                                    href="{{ url('/menu-taskList-atasan') }}">
-                                    <i data-feather="check-circle"></i>
-                                    Task List Super User Purchase Request
-                                    @if($taskpr->count() == 0)
+                        @hasrole('super user|General Manager Business|super admin')
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan') ? 'active' : '' }} {{ request()->is('menu-taskList-atasan/out') ? 'active' : '' }}"
+                                        href="{{ url('/menu-taskList-atasan') }}">
+                                        <i data-feather="check-circle"></i>
+                                        Task List Super User Purchase Request
+                                        @if($taskpr->count() == 0)
 
-                                    @else
-                                    <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpr->count() }}</span>
-                                    @endif
-                                </a>
-                            </li>
+                                        @else
+                                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpr->count() }}</span>
+                                        @endif
+                                    </a>
+                                </li>
 
-                            <li class="dropdown">
-                                <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po') ? 'active' : '' }} "
-                                    href="{{ url('/menu-taskList-atasan-po') }}">
-                                    <i data-feather="check-circle"></i>
-                                    Task List Super User Purchase Order
-                                    @if($taskpo->count() == 0)
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-po') ? 'active' : '' }} "
+                                        href="{{ url('/menu-taskList-atasan-po') }}">
+                                        <i data-feather="check-circle"></i>
+                                        Task List Super User Purchase Order
+                                        @if($taskpo->count() == 0)
 
-                                    @else
-                                    <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpo->count() }}</span>
-                                    @endif
-                                </a>
-                            </li>
+                                        @else
+                                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpo->count() }}</span>
+                                        @endif
+                                    </a>
+                                </li>
 
-                            <li class="dropdown">
-                                <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-payment') ? 'active' : '' }}"
-                                    href="{{ url('menu-taskList-atasan-payment') }}">
-                                    <i data-feather="check-circle"></i>
-                                    Task List Super User Payment Request
-                                    @if($taskpd->count() == 0)
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan-payment') ? 'active' : '' }}"
+                                        href="{{ url('menu-taskList-atasan-payment') }}">
+                                        <i data-feather="check-circle"></i>
+                                        Task List Super User Payment Request
+                                        @if($taskpd->count() == 0)
 
-                                    @else
-                                    <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpd->count() }}</span>
-                                    @endif
-                                </a>
-                            </li>
+                                        @else
+                                        <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskpd->count() }}</span>
+                                        @endif
+                                    </a>
+                                </li>
+                        @endhasrole
+                        @hasrole('super admin|General Manager Business')
+                        <li class="sidebar-main-title">
+                            <div>
+                            <h6>Task List Project Code</h6>
+                            </div>
+                        </li>
+                        <li class="dropdown">
+                            <a class="nav-link menu-title link-nav {{ request()->is('*project-code/approval*') ? 'active' : '' }}"
+                            href="{{ url('project-code/approval') }}">
+                            <i data-feather="home"></i>
+                                Task List Code
+                                @if($pendingProjectCode == 0)
+                                @else
+                                <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $pendingProjectCode }}</span>
+                                @endif
+                            </a>
+                        </li>
                     @endhasrole
                     <li class="dropdown">
                         @hasrole('super purchase|purchasing|super admin|finance')
@@ -934,6 +968,8 @@
                         </ul>
                     </li>
                 @endhasrole
+
+
 
                 @hasrole('super admin')
                 <li class="sidebar-main-title">
@@ -1451,7 +1487,7 @@
                                     </div>
                                 </li>
 
-                                @hasrole('user|super admin')
+                                @hasrole('user|super admin|admin project')
                                     <li
                                         class="dropdown {{ request()->is('*/menu-pengajuan-pembelian/history*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-pembelian/history') ? 'active' : '' }}"
@@ -1470,7 +1506,7 @@
                                     </li>
                                 @endhasrole
 
-                                @hasrole('super user|super admin')
+                                @hasrole('super user|General Manager Business|super admin')
                                     <li
                                         class="dropdown  {{ request()->is('menu-taskList-atasan/history') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav {{ request()->is('menu-taskList-atasan/history') ? 'active' : '' }}"

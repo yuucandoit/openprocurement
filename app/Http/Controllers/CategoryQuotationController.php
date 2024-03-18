@@ -18,7 +18,7 @@ class CategoryQuotationController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 2) {
+        if ($check->role_id == 2 || $check->role_id == 18) {
             $dataqt = CategoryQuotation::where('user_id', Auth::user()->id)->get();
             return view('quotation.menu.index')
                 ->with('dataqt', $dataqt);

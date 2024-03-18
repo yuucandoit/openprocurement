@@ -173,7 +173,7 @@
                             </div>
                         </div>
 
-                        @hasrole('super user|super admin')
+                        @hasrole('super user|General Manager Business|super admin')
                             <div class="mt-3">
 
                                 @if ($data_pengajuan->status == 'Purchase Submission Approved')

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectCodeCreatesController;
 use App\Http\Controllers\CategoryPDController;
 use App\Http\Controllers\CategoryPOController;
 use App\Http\Controllers\PengajuanDanaController;
@@ -155,6 +156,21 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/destroy/{id}', [WhoSubmittedController::class, 'destroy'])->name('who-submitted.destroy');
         Route::get('/search/ws',[WhoSubmittedController::class, 'SearchWS'])->name('who-submitted.SearchWS');
     });
+
+    // Project Code user
+    Route::group(['prefix' => 'project-code'], function () {
+        Route::get('/', [ProjectCodeCreatesController::class, 'index'])->name('project-code.index');
+        Route::get('/create', [ProjectCodeCreatesController::class, 'create'])->name('project-code.create');
+        Route::post('/store', [ProjectCodeCreatesController::class, 'store'])->name('project-code.store');
+        Route::get('/edit/{id}', [ProjectCodeCreatesController::class, 'edit'])->name('project-code.edit');
+        Route::post('/update/{id}', [ProjectCodeCreatesController::class, 'update'])->name('project-code.update');
+        Route::get('/approval', [ProjectCodeCreatesController::class, 'approver'])->name('project-code.approve');
+        Route::post('/accept/{id}', [ProjectCodeCreatesController::class, 'accept'])->name('project-code.accept');
+        Route::post('/accept_selected', [ProjectCodeCreatesController::class, 'acceptSelect'])->name('project-code.acceptSelect');
+        Route::post('/reject/{id}', [ProjectCodeCreatesController::class, 'reject'])->name('project-code.reject');
+        Route::post('/reject_selected', [ProjectCodeCreatesController::class, 'rejectSelect'])->name('project-code.rejectSelect');
+    });
+    // End Project Code User
 
     Route::group(['prefix' => 'project-reference'], function () {
         Route::get('/', [ReferensiNamaProjectController::class, 'index'])->name('project-reference.index');

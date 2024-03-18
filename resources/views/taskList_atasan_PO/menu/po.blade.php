@@ -276,7 +276,7 @@
                                 @endif
                                 <div class="row mt-4">
                                     <div class="col-md-6">
-                                        @hasrole('super user|super admin')
+                                        @hasrole('super user|General Manager Business|super admin')
                                         @if ($po->status == 'PO Approved' ||
                                         $po->status == 'Invoicing Process' ||
                                         $po->status == 'Payment Approved' ||

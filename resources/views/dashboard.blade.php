@@ -122,7 +122,7 @@
                 </div>
 
                 @endhasrole
-                @hasrole('user')
+                @hasrole('user|admin project')
                 <div class="col-sm-6 col-xl-3 col-lg-6">
                     <a href="{{ url('/menu-pengajuan-pembelian') }}">
                     <div class="card o-hidden border-0">
@@ -256,7 +256,7 @@
                     </div>
                 </div>
                 @endhasrole
-                @hasrole('super user|super admin')
+                @hasrole('super user|General Manager Business|super admin')
                 <div class="col-sm-6 col-xl-3 col-lg-6">
                     <a href="{{ url('menu-taskList-atasan') }}">
                     <div class="card o-hidden border-0">

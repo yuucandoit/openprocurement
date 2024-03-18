@@ -14,5 +14,11 @@ class Role extends Model
         'model_type',
         'model_id',
     ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'model_id');
+    }
 }
 

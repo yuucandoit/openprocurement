@@ -105,7 +105,7 @@
                                 $purchase = App\Models\CategoryPO::where('ppb_id',$data_pengajuan->id)->groupBy('ppb_id')->get();
                             @endphp
                                 <div class="mt-3">
-                            {{-- @hasrole('super user|super admin')
+                            {{-- @hasrole('super user|General Manager Business|super admin')
                             @foreach ($purchase as $p)
                                 @if ($p->status == 'PO Approved' ||
                                 $p->status == 'Invoicing Process' ||

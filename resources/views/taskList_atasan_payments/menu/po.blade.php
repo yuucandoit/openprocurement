@@ -276,7 +276,7 @@
                                 @endif
                                 <div class="row">
                                     <div class="col-md-6 mt-3">
-                                    @hasrole('super user|super admin')
+                                    @hasrole('super user|General Manager Business|super admin')
                                         @if ($datacpo->status == 'Payment Approved' ||
                                         $datacpo->status == 'Unpaid' ||
                                         $datacpo->status == 'Paid' ||

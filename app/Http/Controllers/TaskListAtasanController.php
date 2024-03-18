@@ -32,7 +32,7 @@ class TaskListAtasanController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
             $datappb2 = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status', 'Purchase Request Approved')->
             orWhere('status','Purchase Proses')->
@@ -177,7 +177,7 @@ class TaskListAtasanController extends Controller
     public function history()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status', '!=' ,'Awaiting Purchase Request Approval')
             ->paginate(10);
             $datapo  = CategoryPO::get();
@@ -226,7 +226,7 @@ class TaskListAtasanController extends Controller
     public function detail($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
 
             $data_pengajuan = CategoryPengajuanPembelian::find($id);
             $pengajuan = PengajuanPembelian::where('pp_id', $id)->get();
@@ -263,7 +263,7 @@ class TaskListAtasanController extends Controller
     public function po_detail($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datapo             = CategoryPO::where('id', $id)->get();
             $datacpo            = CategoryPO::where('id', $id)->first();
             $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
@@ -334,7 +334,7 @@ class TaskListAtasanController extends Controller
     public function edit($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
             $datapt = CategoryPT::all();
             $dv = CategoryPengajuanPembelian::find($id);
@@ -376,7 +376,7 @@ class TaskListAtasanController extends Controller
     public function update(Request $request, $id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data = $request->all();
             // dd($data);
             // PengajuanPembelian::where('pp_id',$id)->delete();
@@ -472,7 +472,7 @@ class TaskListAtasanController extends Controller
     public function accept_atasan(Request $request,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data = CategoryPengajuanPembelian::find($id);
             // if($data->dateline == '≤3Jam'){
             //     $data->dateline_time = ('03:00:00');
@@ -619,7 +619,7 @@ class TaskListAtasanController extends Controller
     public function accept_atasan_selected(Request $request)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $ids = explode(',', $request->ids);
             $data = CategoryPengajuanPembelian::find($ids);
             // dd($data);
@@ -763,7 +763,7 @@ class TaskListAtasanController extends Controller
     public function reject(Request $request,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data = CategoryPengajuanPembelian::find($id);
             $data->status = 'Purchase Request Rejected By BOD';
             $data->note_bod_pr = $request->note_pr;

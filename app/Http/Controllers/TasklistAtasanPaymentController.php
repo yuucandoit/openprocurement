@@ -30,7 +30,7 @@ class TasklistAtasanPaymentController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_py', Auth::user()->id)->where('status','Invoicing Process');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
@@ -187,7 +187,7 @@ class TasklistAtasanPaymentController extends Controller
     public function history()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where('atasan_py', Auth::user()->id)->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
             $datapo = CategoryPO::get();
             return view('taskList_atasan_payments.menu.history')
@@ -233,7 +233,7 @@ class TasklistAtasanPaymentController extends Controller
     public function detail($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data_pengajuan     = CategoryPengajuanPembelian::find($id);
             $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
             $datapo             = CategoryPO::where('ppb_id', $id)->first();
@@ -269,7 +269,7 @@ class TasklistAtasanPaymentController extends Controller
     public function po_detail($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datapo             = CategoryPO::where('id', $id)->get();
             $datacpo            = CategoryPO::find($id);
             $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
@@ -341,7 +341,7 @@ class TasklistAtasanPaymentController extends Controller
     public function edit(TasklistAtasanPayment $tasklistAtasanPayment,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
             $datapt = CategoryPT::all();
             $dv = CategoryPengajuanPembelian::find($id);
@@ -372,7 +372,7 @@ class TasklistAtasanPaymentController extends Controller
     public function update(Request $request, $id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
                 PengajuanPembelian::where('pp_id',$id)->delete();
                 $request->validate([
                     'purpose' => 'required',
@@ -472,7 +472,7 @@ class TasklistAtasanPaymentController extends Controller
     public function approve_payment_py(Request $request,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $cpo = CategoryPO::find($id);
             CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->update([
                 'note_bod_py' => $request->note_py,
@@ -524,7 +524,7 @@ class TasklistAtasanPaymentController extends Controller
     public function accept_atasan_selected_pymnt(Request $request)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $ids = explode(',', $request->ids);
             // dd($ids);
             $data = CategoryPO::find($ids);
@@ -636,7 +636,7 @@ class TasklistAtasanPaymentController extends Controller
     public function reject(Request $request,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 6 ||$check->role_id == 3) {
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $cpo = CategoryPO::find($id);
             $cpo->status = 'Payment Rejected by BOD';
             $cpo->note_bod_py = $request->note_py;

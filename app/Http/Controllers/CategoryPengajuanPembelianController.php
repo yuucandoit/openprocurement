@@ -43,7 +43,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 2) {
+        if ($check->role_id == 2 || $check->role_id == 18) {
             $user   = User::where('id', Auth::user()->id)->get();
             $datapt = CategoryPT::all();
             $dataop = CategoryPP::all();
@@ -139,7 +139,7 @@ class CategoryPengajuanPembelianController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $comments           = Comment::where('ppb_id',$id)->get();
-        if ($check->role_id == 2) {
+        if ($check->role_id == 2 || $check->role_id == 18) {
             if(Auth::user()->id == $data_pengajuan->user_id){
             return view('pengajuanPembelian.menu.detail')
                 ->with('atasan', $atasan)
@@ -195,7 +195,7 @@ class CategoryPengajuanPembelianController extends Controller
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
 
         //dd($datacpo);
-        if ($check->role_id == 2) {
+        if ($check->role_id == 2 || $check->role_id == 18) {
             if(!empty($code->ppb->user_id )){
                 if($code->ppb->user_id == Auth::user()->id){
                 return view('pengajuanPembelian.menu.po')
@@ -251,7 +251,7 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         $datappb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status','Delivery Success')->paginate(10);
-        if ($check->role_id == 2 ){
+        if ($check->role_id == 2 || $check->role_id == 18 ){
             $ppb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->first();
 
             if(!empty($ppb)){
@@ -504,7 +504,7 @@ class CategoryPengajuanPembelianController extends Controller
         $uom                = Uom::all();
 
 
-        if ($check->role_id == 2) {
+        if ($check->role_id == 2 || $check->role_id == 18) {
             if(Auth::user()->id == $dv->user_id){
             return view('pengajuanPembelian.menu.edit')
             ->with('atasan', $atasan)
@@ -645,7 +645,7 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 2) {
+        if ($check->role_id == 2 || $check->role_id == 18) {
             if(Auth::user()->id == $data->user_id){
                 $data1 = PengajuanPembelian::where('pp_id', $id);
                 $data1->delete();
