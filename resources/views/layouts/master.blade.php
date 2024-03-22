@@ -385,13 +385,13 @@
                                             <span>Dashboard</span>
                                         </a>
                                     </li>
-                                    <li class="dropdown">
+                                    {{-- <li class="dropdown">
                                         <a class="nav-link menu-title link-nav {{ request()->is('*pre-pr*') ? 'active' : '' }} {{ request()->is('*pre-pr/search?=*') ? 'active' : '' }}"
                                             href="{{ url('/pre-pr') }}">
                                             <i data-feather="file-minus"></i>
                                             <span>Pre PR</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li class="dropdown">
                                         <a class="nav-link {{ request()->is('menu-pengajuan-pembelian') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/create') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/detail/*') ? 'active' : '' }}{{ request()->is('menu-pengajuan-pembelian/po_detail/*') ? 'active' : '' }}"
                                             href="{{ url('menu-pengajuan-pembelian') }}">
@@ -407,13 +407,13 @@
                                             <h6>Menu</h6>
                                         </div>
                                     </li>
-                                    <li class="dropdown">
+                                    {{-- <li class="dropdown">
                                         <a class="nav-link {{ request()->is('project-code') ? 'active' : '' }}{{ request()->is('project-code/create') ? 'active' : '' }}{{ request()->is('project-code/edit/*') ? 'active' : '' }}"
                                             href="{{ url('project-code') }}">
                                             <i data-feather="file-text"></i>
                                             <span>Project Code </span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 @endhasrole
 
                                 @hasrole('super purchase|purchasing')
@@ -723,7 +723,7 @@
 
                             $taskpurchase   = App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->get();
                             $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->whereIn('status',['Payment Approved','PO & Payment Approved']);})->get();
-                            $pendingProjectCode = App\Models\ProjectCodeCreates::where('status','Waiting Approval')->count();
+                            // $pendingProjectCode = App\Models\ProjectCodeCreates::where('status','Waiting Approval')->count();
 
                         @endphp
 
