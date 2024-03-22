@@ -966,7 +966,7 @@ class CategoryPOController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
-            $purchaseRequest = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('id',$id)->orderBy('created_at','DESC')->first();
+            $purchaseRequest = CategoryPengajuanPembelian::where('id',$id)->orderBy('created_at','DESC')->first();
             $datapt             = CategoryPT::all();
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
@@ -1052,7 +1052,7 @@ class CategoryPOController extends Controller
                 'desc' => $request->desc,
             ]);
 
-            return redirect()->route('editPRPurchase')->with(['success' => true, 'message' => 'Update Successfully']);
+            return redirect()->route('menu-purchase-order.detail',$id)->with(['success' => true, 'message' => 'Update PR Successfully']);
 
         } catch (\Exception $e) {
             return ['success' => false, 'message' => $e->getMessage()];

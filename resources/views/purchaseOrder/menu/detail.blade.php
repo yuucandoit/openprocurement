@@ -172,15 +172,19 @@
                             </div>
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-4 mt-3">
+                                        <div class="col-md-3 mt-3">
                                             <button name="add" class=" btn btn-outline-primary w-100"  data-bs-toggle="modal"
                                             data-bs-target="#modalCreatePO" data-backdrop="static" data-keyboard="false"> Create PO <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
-                                        <div class="col-md-4 mt-3">
+                                        <div class="col-md-3 mt-3">
+                                            <a href="{{ route('ShowEditPRPurchase',$data_pengajuan->id) }}" class=" btn btn-outline-warning w-100"> Edit PR</i>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-3 mt-3">
                                             <button type="button" class="btn btn-outline-danger text-center w-100" data-bs-toggle="modal" data-bs-target="#reject">Reject PO</button>
                                         </div>
-                                        <div class="col-md-4 mt-3">
+                                        <div class="col-md-3 mt-3">
                                             @if ($data_pengajuan->status == 'Waiting For PO Approval')
                                             <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
                                                 data-bs-target="#modalSelesai" disabled>Finished
