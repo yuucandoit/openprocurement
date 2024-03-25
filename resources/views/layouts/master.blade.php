@@ -768,7 +768,7 @@
                                 </li>
                         @endhasrole
                         @hasrole('super admin|General Manager Business')
-                        <li class="sidebar-main-title">
+                        {{-- <li class="sidebar-main-title">
                             <div>
                             <h6>Task List Project Code</h6>
                             </div>
@@ -783,7 +783,7 @@
                                 <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $pendingProjectCode }}</span>
                                 @endif
                             </a>
-                        </li>
+                        </li> --}}
                     @endhasrole
                     <li class="dropdown">
                         @hasrole('super purchase|purchasing|super admin|finance')
