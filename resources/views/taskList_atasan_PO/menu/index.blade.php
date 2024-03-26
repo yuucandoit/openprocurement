@@ -1026,7 +1026,7 @@
 @endsection
 @section('scripts')
 <script>
-    const databodPo = @json($approvedPPB);
+    const databodPo = @json($approvedPPB ?? []);
     console.log(databodPo);
     const item = databodPo[0];
 

@@ -1065,7 +1065,7 @@
 @endsection
 @section('scripts')
 <script>
-    const dataBodPy = @json($approvedPPB);
+    const dataBodPy = @json($approvedPPB ?? []);
     // console.log(dataBodPy);
     const item = dataBodPy[0];
 
