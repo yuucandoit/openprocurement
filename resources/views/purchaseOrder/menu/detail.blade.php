@@ -66,6 +66,7 @@
                 </div>
             </div>
         </div>
+    </div>
         <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
@@ -178,8 +179,10 @@
                                             </button>
                                         </div>
                                         <div class="col-md-3 mt-3">
-                                            <a href="{{ route('ShowEditPRPurchase',$data_pengajuan->id) }}" class=" btn btn-outline-warning w-100"> Edit PR</i>
-                                            </a>
+                                            <button name="add" class=" btn btn-outline-warning w-100"  data-bs-toggle="modal"
+                                            data-bs-target="#EditPR"> Edit PR</button>
+                                            {{-- <a href="{{ route('ShowEditPRPurchase',$data_pengajuan->id) }}" class=" btn btn-outline-warning w-100"> Edit PR</i>
+                                            </a> --}}
                                         </div>
                                         <div class="col-md-3 mt-3">
                                             <button type="button" class="btn btn-outline-danger text-center w-100" data-bs-toggle="modal" data-bs-target="#reject">Reject PO</button>
@@ -235,7 +238,7 @@
                                     padding: 15px 10px;
                                 }
                             </style>
-
+                            {{-- Modal Finish --}}
                             <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -265,7 +268,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            {{-- Modal Create PO --}}
                             <div class="modal fade" id="modalCreatePO" data-backdrop="static" data-keyboard="false" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -565,6 +568,7 @@
                                     </div>
                                         </div>
                             </div>
+                            {{-- Modal Reject --}}
                             <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -597,11 +601,43 @@
 
                                     </div>
                                 </div>
+                                </div>
+                           </div>
+                            {{-- Modal Edit PR --}}
+                            <div class="modal fade" id="EditPR" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editlable" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="editlable">Edit PR</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form class="row g-2 mt-4" action="{{ route('UpdatePRPurchase',$data_pengajuan->id) }}"method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="col-md-12" style="margin-top: 10px;">
+                                                <div class="form-group">
+                                                    <label for="floatingDesc">Description</label>
+                                                    <div class="form-group">
+                                                        <textarea name="desc" id="floatingDesc" class="form-control" rows="4">{{ $data_pengajuan->desc }}</textarea>
+                                                        @error('desc')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-
                         </div>
-                        <!-- Container-fluid Ends-->
                     </div>
+                        <!-- Container-fluid Ends-->
                 </div>
             </div>
         </div>
