@@ -32,11 +32,16 @@ class TasklistAtasanPoController extends Controller
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_po', Auth::user()->id)->where('status','Waiting For PO Approval');
-            })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            })
+            ->with('quot.itempo')
+            ->orderBy('status', 'desc')
+            ->orderBy('dateline', 'asc')
+            ->orderBy('approved_at','asc')
+            ->paginate(10, ['*'],'in');
 
             $datapo = CategoryPO::get();
 
-            //dd($data_atasan);
+            // dd($datappb);
             return view('taskList_atasan_PO.menu.index')
             ->with('datapo', $datapo)
             ->with('datappb', $datappb);
