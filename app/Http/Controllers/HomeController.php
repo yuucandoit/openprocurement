@@ -53,6 +53,7 @@ class HomeController extends Controller
         $task_finance        = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', '!=','Payment Approved')->get();
         $payment_process     = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status','Paid' && 'Delivery Success')->get();
         $delivery            = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', 'Delivery Success')->get();
+        $logistCheck         = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)->get();
 
 
         for ($i=1;$i<=12;$i++){
@@ -72,6 +73,7 @@ class HomeController extends Controller
             $data_delivery [(int)$i]=0;
             $taskFinance [(int)$i]=0;
             $data_pp [(int)$i]=0;
+            $data_checkInven [(int)$i]=0;
         }
         foreach($quotation as $c){
             $check=explode('-',$c->created_at)[1];
@@ -137,6 +139,11 @@ class HomeController extends Controller
             $check=explode('-',$c->created_at)[1];
             $data_pp[(int)$check]+=1;
         }
+
+        foreach($logistCheck as $lc){
+            $check=explode('-',$lc->created_at)[1];
+            $data_checkInven[(int)$check]+=1;
+        }
         // dd($data_pb);
         // dd($data_month);
         return view('dashboard')
@@ -159,7 +166,8 @@ class HomeController extends Controller
             ->with('data_pp', $data_pp)
             ->with('pr_pending_count', $pr_pending_count)
             ->with('pr_success_count', $pr_success_count)
-            ->with('pr_fail_count', $pr_fail_count);
+            ->with('pr_fail_count', $pr_fail_count)
+            ->with('data_checkInven', $data_checkInven);
 
         }
     }

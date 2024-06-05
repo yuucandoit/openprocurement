@@ -61,6 +61,10 @@
                                              <td>Approver</td>
                                              <td>{{ $data_pengajuan->bod->name }}</td>
                                          </tr>
+                                         <tr>
+                                            <td>File PR</td>
+                                            <td><a href="{{ asset('upload_file_pr/'.$data_pengajuan->file_pr) }}" target="_blank">{{ $data_pengajuan->file_pr }}</a></td>
+                                        </tr>
                                      </tbody>
                                  </table>
 

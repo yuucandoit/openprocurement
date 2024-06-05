@@ -10,6 +10,7 @@ use App\Models\Inventory;
 use App\Models\Office;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
+use App\Models\PartItem_Pre_pr;
 use App\Models\RND;
 use App\Models\Role;
 use App\Models\TaskListAtasan;
@@ -33,7 +34,7 @@ class TaskListAtasanController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status','Awaiting Purchase Request Approval')->where('logistic_check', 0)->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
             $datappb2 = CategoryPengajuanPembelian::where('atasan', Auth::user()->id)->where('status', 'Purchase Request Approved')->
             orWhere('status','Purchase Proses')->
             orWhere('status','Waiting For PO Approval')->
@@ -60,7 +61,7 @@ class TaskListAtasanController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan', 6)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::where('atasan', 6)->where('status','Awaiting Purchase Request Approval')->where('logistic_check', 0)->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
@@ -78,7 +79,7 @@ class TaskListAtasanController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan', 7)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::where('atasan', 7)->where('status','Awaiting Purchase Request Approval')->where('logistic_check', 0)->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
@@ -96,7 +97,7 @@ class TaskListAtasanController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan', 8)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::where('atasan', 8)->where('status','Awaiting Purchase Request Approval')->where('logistic_check', 0)->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
@@ -114,7 +115,7 @@ class TaskListAtasanController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan', 9)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::where('atasan', 9)->where('status','Awaiting Purchase Request Approval')->where('logistic_check', 0)->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
@@ -132,7 +133,7 @@ class TaskListAtasanController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('atasan', 24)->where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::where('atasan', 24)->where('status','Awaiting Purchase Request Approval')->where('logistic_check', 0)->orderBy('status', 'asc')->orderBy('dateline', 'asc')->paginate(10, ['*'],'in');
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $datadv = TaskListAtasan::all();
@@ -752,6 +753,8 @@ class TaskListAtasanController extends Controller
                 }
 
             }
+
+
             $d->save();
             }
             return redirect("menu-taskList-atasan");
@@ -765,6 +768,32 @@ class TaskListAtasanController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data = CategoryPengajuanPembelian::find($id);
+            if($data->purpose_type == 'App\Models\ReferensiNamaProject'){
+                foreach ($data->itemppn as $item => $value) {
+                    if(!empty($data->itemppn[$item]->id)){
+                    $pengajuanItems = PengajuanPembelian::find($data->itemppn[$item]->id); // Kalau id nya ada maka get
+                    }else {
+                    $pengajuanItems = null; // kalau idnnya ga ada maka dbkinn null
+                    }
+
+                    if($pengajuanItems){
+                        $preprOldItems = PartItem_Pre_pr::where('id',$pengajuanItems->prepr_id)->first(); //kalau item oldnya ada maka get data old
+                    } else {
+                        $preprOldItems = null; //bikin null kalau item pr nya ga ada
+                    }
+
+                    // dd($preprOldItems->id);
+                    if($preprOldItems){
+                        //Update Data
+                        $sumskuy = $preprOldItems->total + $pengajuanItems->qty; //Kalau minus dia ngurang jadi misal 10 + -(8); jadi 2
+                        PartItem_Pre_pr::where('id', $preprOldItems->id)->update([
+                            'total' => $sumskuy,
+                        ]);
+                    }
+                }
+            }
+
+
             $data->status = 'Purchase Request Rejected By BOD';
             $data->note_bod_pr = $request->note_pr;
             $data->save();

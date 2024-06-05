@@ -62,6 +62,10 @@
                                         <td>{{ $data_pengajuan->dateline }}</td>
                                     </tr>
                                     <tr>
+                                        <td>File PR</td>
+                                        <td><a href="{{ asset('upload_file_pr/'.$data_pengajuan->file_pr) }}" target="_blank">{{ $data_pengajuan->file_pr }}</a></td>
+                                    </tr>
+                                    <tr>
                                         <td>PDF Quotation</td>
                                         <td>
                                  @foreach ($items as $pdf)

@@ -17,6 +17,7 @@ class PartItem_Pre_pr extends Model
     protected $table = 'part_item__pre_prs';
     protected $fillable = [
         'id',
+        'product_id',
         'pre_pr_id',
         'parent_item',
         'child_item',
@@ -28,6 +29,11 @@ class PartItem_Pre_pr extends Model
         'status',
         'deleted_at',
     ];
+
+    public function prItems()
+    {
+        return $this->hasMany(PengajuanPembelian::class,'prepr_id');
+    }
 
     protected static $logFillable = true;
     protected static $logName = 'PartItem_pre_pr';

@@ -660,6 +660,46 @@
 
                 @endhasrole
 
+
+                @hasrole('Logistic Checker')
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/check-logistic') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(251, 9, 1);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="file-text"
+                                    style="color: rgb(251, 9, 1);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: rgb(251, 9, 1); font-family: 'Times New Roman', Times, serif;">INVENTORY CHECK</h6>
+                                    <h2 class="mb-0 counter" style="color: rgb(251, 9, 1);">
+                                        {{ App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)->count(); }}</h2>
+                                    <i class="icon-bg" data-feather="file-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 box-col-12">
+                            <div class="card">
+                              <div class="card-header pb-0">
+                                <h5>Monthly Chart</h5>
+                              </div>
+                              <div class="card-body">
+                                <div id="apex-logist"></div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @endhasrole
+
     </section>
 
 
@@ -957,6 +997,62 @@
         colors:['rgba(150, 148, 255, 0.9)','rgba(255, 225, 0, 0.9)', 'rgb(12, 174, 0)', 'rgb(255, 0, 0)']
     }
 
+
+    var CLogist = {
+        chart: {
+            height:500,
+            type: 'bar',
+            toolbar:{
+            show: false
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '60%',
+                borderRadius: 3,
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 5,
+            colors: ['transparent']
+        },
+        series: [{
+            name: 'Inventory Check',
+            data: [
+                @foreach ($data_checkInven as $clog)
+                    {{ $clog }},
+                @endforeach
+            ]
+        }],
+
+        xaxis: {
+            categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct','Nov','Dec'],
+        },
+        yaxis: {
+            title: {
+                text: 'Value'
+            }
+        },
+        fill: {
+            opacity: 1
+
+        },
+
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return "Value " + val
+                }
+            }
+        },
+        colors:['rgba(150, 148, 255, 0.9)','rgba(255, 225, 0, 0.9)', 'rgb(12, 174, 0)', 'rgb(255, 0, 0)']
+    }
+
     var apexUser = new ApexCharts(
         document.querySelector("#apex-user"),
         Cuser
@@ -973,11 +1069,16 @@
         document.querySelector("#apex-pd"),
         Cpd
     );
+    var apexCheckLogs = new ApexCharts(
+        document.querySelector("#apex-logist"),
+        CLogist
+    );
 
     apexUser.render();
     apexBod.render();
     apexPO.render();
     apexPD.render();
+    apexCheckLogs.render();
 </script>
 
 

@@ -1,4 +1,4 @@
-<title>Detail Purchase Submission</title>
+<title>Detail Pre-PR</title>
 
 @extends('layouts.master')
 
@@ -50,10 +50,11 @@
                                                 <th>Item</th>
                                                 <th>Qty</th>
                                                 <th>Buffer</th>
+                                                <th>Belum dibeli</th>
+                                                <th>Sudah dibeli</th>
+                                                <th>Logs</th>
                                                 <th>Description</th>
                                                 <th>Link</th>
-                                                <th>Status</th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -62,9 +63,28 @@
                                                     <td style="text-align: center;">{!! nl2br($p->child_item) !!}</td>
                                                     <td style="text-align: center;">{{ $p->qty }}</td>
                                                     <td style="text-align: center;">{{ $p->buffer }}</td>
+                                                    <td style="text-align: center;">{{ $p->total }}</td>
+                                                    <td style="text-align: center;">{{ $p->prItems->sum('qty') }}</td>
+                                                    <td>
+                                                        <ul style="list-style: none; white-space: nowrap;">
+                                                            @if($p->prItems)
+                                                                @foreach ($p->prItems as $pr)
+                                                                    @if($pr->ppb)
+                                                                    <a target="_blank" href="{{ route('menu-pengajuan-pembelian.detail',$pr->ppb->id) }}">
+                                                                        <li>PR {{ $pr->ppb->code_pengajuan }} : (-{{ $pr->qty }})</li>
+                                                                    </a>
+                                                                    @else
+
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+
+                                                            @endif
+                                                        </ul>
+                                                    </td>
+
                                                     <td style="text-align: center;">{{ $p->desc }}</td>
-                                                    <td style="text-align: center;">{{ $p->link }}</td>
-                                                    <td style="text-align: center;">{{ $p->status }}</td>
+                                                    <td style="text-align: center;"><a  target="_blank" href="{!! $p->link !!}">{{ $p->link }}</a></td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

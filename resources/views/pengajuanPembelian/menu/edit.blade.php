@@ -4,6 +4,26 @@
 
 @section('main')
     <section>
+        @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{ session('error') }}
+        </div>
+        @elseif ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul>
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @elseif(session()->has('message'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{ session()->get('message') }}
+            </div>
+        @endif
         <div class="container-fluid">
             <div class="page-header">
                 <div class="row">
@@ -138,7 +158,7 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-md-8">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
                                         <div class="">
@@ -149,6 +169,16 @@
                                             </div>
                                             @enderror
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label> Attach File PR </label>
+                                        <input type="file" placeholder="Choose File" class="form-control" enctype="multipart/form-data" name="file_pr">
+                                        @if($dv->file_pr)
+                                            <p>Old File: <a href="{{ asset('upload_file_pr/'.$dv->file_pr) }}" target="_blank">{{ $dv->file_pr }}</a></p>
+                                        @else
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -286,9 +316,7 @@
                                             <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
                                         </td>
                                         <td style="text-align: center;">
-                                            <button type="button" name="add" class="btn btn-danger remove-input-field">
-                                                <i class="fa fa-times"></i>
-                                            </button>
+
                                         </td>
                                     </tr>
                                     @endforeach
@@ -312,121 +340,126 @@
             </div>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js"></script>
         <script type="text/javascript">
-            $(document).ready(function() {
-
-                //Convert To Rupiah
-                var rupiah = document.querySelectorAll(".rupiah");
-                rupiah.forEach(item => {
-                    item.value = formatRupiah(item.value, "Rp. ");
-                })
-
-                /* Fungsi formatRupiah */
-                function formatRupiah(angka, prefix) {
-                    var number_string = angka.replace(/[^,\d]/g, ""),
-                        split = number_string.split(","),
-                        sisa = split[0].length % 3,
-                        rupiah = split[0].substr(0, sisa),
-                        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                    if (ribuan) {
-                        separator = sisa ? "." : "";
-                        rupiah += separator + ribuan.join(".");
-                    }
-
-                    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-                }
-
-                var rupiah = document.querySelectorAll(".rupiah");
-                rupiah.forEach(function(item) {
-                    item.addEventListener('keyup', function(e) {
-                        // tambahkan 'Rp.' pada saat form di ketik
-                        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-                        item.value = formatRupiah(this.value, "Rp. ");
-                    });
-
-                    $(".order-entry").on("keyup", ".form-calc", function() {
-                        var parent = $(this).closest("tr");
-                        var str = parent.find(".form-cost").val();
-                        var res = str.replace(/\D/g, "");
-                        parent.find(".form-line").val((parent.find(".form-qty").val() * res).toFixed(
-                            0));
-                        var total = 0;
-                        $(".form-line").each(function() {
-                            total += parseInt($(this).val() || 0);
-                        });
-                        $(".total_A").text(total.toLocaleString('en-US'));
-                        var checkbox = document.querySelector(".check-box");
-                        checkbox.addEventListener('change', (event) => {
-                            if (event.currentTarget.checked) {
-                                totalppn = total * 11 / 100;
-                                grandtotal = total + totalppn;
-                                $(".ppn").text(totalppn.toLocaleString('en-US'));
-                                $(".total").text(grandtotal.toLocaleString('en-US'));
-                            } else {
-                                totalppn = total * 0;
-                                $(".ppn").text(totalppn);
-                                $(".total").text(total.toLocaleString('en-US'));
-                            }
-                        })
-
-                    });
-                });
-
+            document.addEventListener('DOMContentLoaded', function() {
+                var pageSelect = document.getElementById('pageSelect');
+                var selectElement = document.querySelector('.itemprePR');
+                var selectpreprList = document.querySelector('#projectlist');
+                var selectedInput = document.getElementById('selectedInput');
+                var selectedInput2 = document.getElementById('selectedInput2');
+                var selectedInput3 = document.getElementById('selectedInput3');
+                var selectedInput4 = document.getElementById('selectedInput4');
+                var selectedInput5 = document.getElementById('selectedInput5');
+                var selectedInput6 = document.getElementById('selectedInput6');
+                var textareanormal = document.querySelector('.item-text');
+                var selectprepr = document.querySelector('.selectItem');
+                let formItem;
+                var selectItemsOptions;
+                var selectedInputs = [
+                    document.getElementById('selectedInput2'),
+                    document.getElementById('selectedInput3'),
+                    document.getElementById('selectedInput4'),
+                    document.getElementById('selectedInput5'),
+                    document.getElementById('selectedInput6')
+                ];
+                var selectedPage = '';
+                // Append Table Item
                 let $i = {{ $no_edit }};
-                //Add Form
-                $(".addItem").on('click', function() {
-                    addItem();
-                });
+                let pengajuanData = {!! $dv !!};
+                    $(".addItem").on('click', function() {
+                        addItem();
+                    });
 
-                function addItem() {
-                    var item =
-                        `<tr>
-                            <td style="text-align:center;"> `+ $i +` </td>
-                            <td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td>
-                            <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td>
-                            <td>
-                            <select class="form-select" placeholder="Kategori" name="kategori[]" >
-                                <option value="Pcs"  >Pcs   </option>
-                                <option value="Lusin">Lusin </option>
-                                <option value="Box"  >Box   </option>
-                                <option value="Unit" >Unit</option>
-                                <option value="Lot">Lot </option> <option value="Rim">Rim </option>
-                                <option value="Org">Org </option><option value="Line">Line </option><option value="Ruang">Ruang </option><option value="Pax">Pax </option> <option value="Set">Set </option>
-                                <option value="Piece">Piece </option><option value="Rol">Rol </option><option value="Pack">Pack </option><option value="Batang">Batang </option>
-                                <option value="Dus">Dus </option><option value="Strip">Strip </option><option value="Pasang">Pasang </option><option value="Lembar">Lembar </option>
-                                <option value="Jerigen">Jerigen </option><option value="Meter">Meter </option><option value="Botol">Botol </option><option value="Buku">Buku </option><option value="Titik">Titik </option>
-                            </select>
-                                </td>
-                            <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
-                    $(".item").append(item)
+                    // Event listener for pageSelect change
+                    pageSelect.addEventListener('change', function() {
+                        selectedPage = this.value;
+                        console.log('Selected page:', selectedPage);
+                        showSelectedInput(selectedPage);
+                    });
 
-                    $i++;
-                }
-                $(document).on('click', '.remove-input-field', function() {
-                    $(this).parents('tr').remove();
-                });
-                /* Fungsi formatRupiah */
-                function formatRupiah(angka, prefix) {
-                    var number_string = angka.replace(/[^,\d]/g, ""),
-                        split = number_string.split(","),
-                        sisa = split[0].length % 3,
-                        rupiah = split[0].substr(0, sisa),
-                        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-                    if (ribuan) {
-                        separator = sisa ? "." : "";
-                        rupiah += separator + ribuan.join(".");
+                    console.log(pengajuanData);
+
+                    //Fetch PrePR Data
+                    fetch("{{ route('menu-pengajuan-pembelian.getDataPrePR', ':selectedValue') }}".replace(':selectedValue', pengajuanData.purpose_id), {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        selectItemsOptions = updateSelectOptionAppend(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+                    function updateSelectOptionAppend(data){
+                        let options = ''; // Variabel options didefinisikan di sini
+                        let result = data.data.part_item;
+                        console.log(result)
+                        result.forEach(function(item) {
+                            options += `<option value="${item.id}">${item.child_item}</option>`;
+                        });
+                        return options;
                     }
 
-                    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-                    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-                }
+                    function addItem() {
+                        var item;
+                        console.log(selectedPage);
+                        console.log(selectItemsOptions);
+                        if(pengajuanData.purpose_type){
+                            if(pengajuanData.purpose_type === "App\\Models\\ReferensiNamaProject"){
+                                formItem = `<select class="js-example-basic-single itemprePR" name="item[]">`+ selectItemsOptions +`</select>`;
+                            }else{
+                                formItem = `<textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>`;
+                            }
+                        }else {
+                            formItem = `<textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>`;
+                        }
+
+
+                        item =
+                            `<tr>
+                                <td style="text-align:center;">
+                                    `+ $i +`
+                                </td>
+                                <td class="item-text">
+                                    `+ formItem +`
+                                </td>
+                                <td>
+                                    <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
+                                </td>
+                                <td>
+                                    <select class="form-select" placeholder="Kategori" name="kategori[]" >
+                                        @foreach ($uom as $u)
+                                            <option value="{{ $u->name }}">{{ $u->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
+                                    @error('path_file')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    @enderror
+                                </td>
+                                <td style="text-align: center;">
+                                    <button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button>
+                                </td> `;
+                        $(".item").append(item)
+                        $(".js-example-basic-single").select2();
+                        $i++
+                    }
+                    $(document).on('click', '.remove-input-field', function() {
+                        $(this).parents('tr').remove();
+                    });
+                // End Append Table Item
             });
         </script>
         <script type="text/javascript">
@@ -440,75 +473,6 @@
                     customInput.classList.add('hide');
                 }
             })
-        </script>
-
-        <script type="text/javascript">
-            var pageSelect = document.getElementById('pageSelect');
-
-            var selectedInput = document.getElementById('selectedInput');
-            var selectedInputCustom = document.getElementById('selectedInputCustom');
-
-            var selectedInput2 = document.getElementById('selectedInput2');
-            var selectedInputCustom2 = document.getElementById('selectedInputCustom2');
-
-            var selectedInput3 = document.getElementById('selectedInput3');
-            var selectedInputCustom3 = document.getElementById('selectedInputCustom3');
-
-            var selectedInput4 = document.getElementById('selectedInput4');
-            var selectedInputCustom4 = document.getElementById('selectedInputCustom4');
-
-            var selectedInput5 = document.getElementById('selectedInput5');
-            var selectedInputCustom5 = document.getElementById('selectedInputCustom5');
-
-            var selectedInput6 = document.getElementById('selectedInput6');
-            var selectedInputCustom6 = document.getElementById('selectedInputCustom6');
-
-
-            // Project
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "project") {
-                    selectedInput.classList.remove('hide').select2();
-                } else {
-                    selectedInput.classList.add('hide');
-                }
-            })
-
-            // Office
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "office") {
-                    selectedInput2.classList.remove('hide');
-                } else {
-                    selectedInput2.classList.add('hide');
-                }
-            })
-
-            // Workshop
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "workshop") {
-                    selectedInput3.classList.remove('hide');
-                } else {
-                    selectedInput3.classList.add('hide');
-                }
-            })
-
-            // inventory
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "inventory") {
-                    selectedInput4.classList.remove('hide');
-                } else {
-                    selectedInput4.classList.add('hide');
-                }
-            })
-
-            // R&D
-            pageSelect.addEventListener('change', function() {
-                if (this.value == "rnd") {
-                    selectedInput5.classList.remove('hide');
-                } else {
-                    selectedInput5.classList.add('hide');
-                }
-            })
-
         </script>
 
         <script type="text/javascript">

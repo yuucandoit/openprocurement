@@ -1,4 +1,4 @@
-<title>Data Pengajuan</title>
+<title>Detail Check Logistic</title>
 
 @extends('layouts.master')
 
@@ -10,16 +10,15 @@
                 <div class="row">
                     <div class="col-sm-6 mt-4">
                         <h3>Details
-                            @if(empty($data_pengajuan->code_pengajuan))
-                            {{ $data_pengajuan->whosubmit->name }}
+                            @if(empty($pengajuan->code_pengajuan))
+                            {{ $pengajuan->whosubmit->name }}
                             @else
-                            {{ $data_pengajuan->code_pengajuan }}
+                            {{ $pengajuan->code_pengajuan }}
                             @endif
                         </h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('menu-taskList-atasan.index') }}">Task List Super
-                                    User</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('logistic.index') }}">Check Logistic</a></li>
                             <li class="breadcrumb-item active">Details</li>
                         </ol>
                     </div>
@@ -32,10 +31,10 @@
                         <div class="card card-absolute">
                             <div class="card-header bg-primary">
                                 <h5 class="text-white">Details
-                                    @if (empty($data_pengajuan->whosubmit->name))
+                                    @if (empty($pengajuan->whosubmit->name))
                                         Not Filled
                                     @else
-                                        {{ $data_pengajuan->whosubmit->name }}
+                                        {{ $pengajuan->whosubmit->name }}
                                     @endif
                                 </h5>
                             </div>
@@ -46,50 +45,50 @@
                                         <tr>
                                             <td>Code</td>
                                             <td>
-                                                @if(empty($data_pengajuan->code_pengajuan))
+                                                @if(empty($pengajuan->code_pengajuan))
                                                 -
                                                 @else
-                                                {{ $data_pengajuan->code_pengajuan }}
+                                                {{ $pengajuan->code_pengajuan }}
                                                 @endif
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Who Submitted</td>
                                             <td>
-                                                @if (empty($data_pengajuan->whosubmit->name))
+                                                @if (empty($pengajuan->whosubmit->name))
                                                     Not Filled
                                                 @else
-                                                    {{ $data_pengajuan->whosubmit->name }}
+                                                    {{ $pengajuan->whosubmit->name }}
                                                 @endif
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Date</td>
-                                            <td>{{ $data_pengajuan->date_ps }}</td>
+                                            <td>{{ $pengajuan->date_ps }}</td>
                                         </tr>
                                         <tr>
                                             <td>Department</td>
-                                            <td>{{ $data_pengajuan->dps->name }}</td>
+                                            <td>{{ $pengajuan->dps->name }}</td>
                                         </tr>
                                         <tr>
                                             <td>Description</td>
-                                            <td>{{ $data_pengajuan->desc }}</td>
+                                            <td>{{ $pengajuan->desc }}</td>
                                         </tr>
                                         <tr>
                                             <td>Purpose</td>
-                                            <td>{{ $data_pengajuan->purpose->name }}</td>
+                                            <td>{{ $pengajuan->purpose->name }}</td>
                                         </tr>
                                         <tr>
                                             <td>Send To</td>
-                                            <td>{{ $data_pengajuan->send_to }}</td>
+                                            <td>{{ $pengajuan->send_to }}</td>
                                         </tr>
                                         <tr>
                                             <td>Date Line</td>
-                                            <td>{{ $data_pengajuan->dateline }}</td>
+                                            <td>{{ $pengajuan->dateline }}</td>
                                         </tr>
                                         <tr>
                                             <td>File PR</td>
-                                            <td><a href="{{ asset('upload_file_pr/'.$data_pengajuan->file_pr) }}" target="_blank">{{ $data_pengajuan->file_pr }}</a></td>
+                                            <td><a href="{{ asset('upload_file_pr/'.$pengajuan->file_pr) }}" target="_blank">{{ $pengajuan->file_pr }}</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -104,7 +103,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($pengajuan as $p)
+                                        @foreach ($pengajuan->itemppn as $p)
                                             <tr>
                                                 <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
                                                 <td style="text-align: center;">{{ $p->qty }}</td>
@@ -129,13 +128,13 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
-                                            <form action="{{ url('menu-taskList-atasan/reject', $data_pengajuan->id) }}"
-                                                id="formAdd" method="get" enctype="multipart/form-data">
+                                            <form action="{{ route('logistic.reject', $pengajuan->id) }}"
+                                                id="formAdd" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="mb-3">
                                                         <label for="note" class="form-label">Reject Message</label>
-                                                        <textarea name="note_pr" id="note" class="form-control" cols="30" rows="0" required></textarea>
+                                                        <textarea name="note_logistic" id="note" class="form-control" cols="30" rows="0" required></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -157,14 +156,14 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="{{ url('menu-taskList-atasan/accept_atasan', $data_pengajuan->id) }}"
-                                            id="formAdd" method="get" enctype="multipart/form-data">
+                                        <form action="{{ route('logistic.approve', $pengajuan->id) }}"
+                                            id="formAdd" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="modal-body">
                                                 <div class="mb-3">
                                                     <label for="note" class="form-label">Approver Note <p
                                                             style="color: red; font-size:10;">*Optional</p></label>
-                                                    <textarea name="note_pr" id="note" class="form-control" cols="30" rows="0"></textarea>
+                                                    <textarea name="note_logistic" id="note" class="form-control" cols="30" rows="0"></textarea>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -177,26 +176,31 @@
                             </div>
                         </div>
 
-                        @hasrole('super user|General Manager Business|super admin')
+                        @hasrole('Logistic Checker|super admin')
                             <div class="mt-3">
-
-                                @if ($data_pengajuan->status == 'Purchase Submission Approved')
+                                @if ($pengajuan->logistic_check == 0)
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-danger text-center" onclick="return">Reject</a>
-                                @elseif($data_pengajuan->status == 'Awaiting Purchase Request Approval')
+                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-warning text-center">Edit</a>
+                                @elseif($pengajuan->logistic_check == 1 && $pengajuan->status == 'Awaiting Purchase Request Approval')
                                     <button type="button" class="btn btn-success text-center" data-bs-toggle="modal"
                                         data-bs-target="#approve">Approve</button>
                                     {{-- <button type="submit" class="btn btn-success text-center"> Approve</button> --}}
                                     <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal"
                                         data-bs-target="#reject">Reject</button>
-                                @else
+                                    <a class="btn btn-warning text-center" href="{{ route('logistic.edit',$pengajuan->id) }}">Edit</a>
+                                @elseif($pengajuan->status == 'Rejected From Logistics')
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-success text-center" onclick="return">Aprove</a>
                                     <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                         class="btn btn-danger text-center" onclick="return"><b>Rejected</b></a>
+                                    <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                        class="btn btn-warning text-center">Edit</a>
                                 @endif
+
                             </div>
                         @endhasrole
                         <style>
@@ -222,7 +226,7 @@
 
                         <div class="container">
                             <div class="mt-4">
-                                <form action="{{ route('comment.store', $data_pengajuan->id) }}" method="POST">
+                                <form action="{{ route('comment.store', $pengajuan->id) }}" method="POST">
                                     @csrf
                                     <textarea name="comment" class="form-control" placeholder='Add Your Comment'></textarea>
                                     <div style="text-align: right; margin-top:20px;">

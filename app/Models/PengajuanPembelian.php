@@ -14,6 +14,8 @@ class PengajuanPembelian extends Model
     protected $fillable = [
         'id',
         'pp_id',
+        'product_id',
+        'prepr_id',
         'path_file',
         'item',
         'qty',
@@ -28,6 +30,11 @@ class PengajuanPembelian extends Model
     public function ppb()
     {
         return $this->belongsTo(CategoryPengajuanPembelian::class,'pp_id');
+    }
+
+    public function itemPrePR()
+    {
+        return $this->belongsTo(PartItem_Pre_pr::class, 'prepr_id');
     }
 
 }

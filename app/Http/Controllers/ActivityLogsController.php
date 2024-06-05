@@ -19,11 +19,11 @@ class ActivityLogsController extends Controller
     {
         $cari= $request->cari;
 
-        $data = Activity::where('id','like',"%".$cari."%")
-                ->orWhere('description','like',"%".$cari."%")
+        $data = Activity::where('description','like',"%".$cari."%")
                 ->orWhere('event','like',"%".$cari."%")
                 ->orWhere('subject_type','like',"%".$cari."%")
                 ->orWhere('created_at','like',"%".$cari."%")
+                ->orWhere('properties','LIKE',"%".$cari."%")
                 ->orderBy('created_at','DESC')->paginate(10);
         return view('activity_logs.index')
         ->with('data',$data);

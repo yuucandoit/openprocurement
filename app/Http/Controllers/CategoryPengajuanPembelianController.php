@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PPBExport;
+use App\Models\Pre_pr;
+use App\Models\PartItem_Pre_pr;
 use App\Models\CategoryEcommerce;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
@@ -32,6 +34,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
+use Illuminate\Support\Facades\Session;
 
 class CategoryPengajuanPembelianController extends Controller
 {
@@ -326,6 +329,7 @@ class CategoryPengajuanPembelianController extends Controller
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose            = ReferensiNamaProject::get();
+        $prepr              = Pre_pr::where('user_id',Auth::user()->id)->get();
         $purpose_office     = Office::all();
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
@@ -338,6 +342,8 @@ class CategoryPengajuanPembelianController extends Controller
         } else {
         $ppb_old            = CategoryPengajuanPembelian::find(request()->pengajuan_id)->itemppn()->get();
         }
+
+        $oldInput = Session::getOldInput();
         // dd($ppb_old);
         return view('pengajuanPembelian.menu.create')
             ->with('atasan', $atasan)
@@ -350,7 +356,9 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('ppb', $ppb)
+            ->with('prepr', $prepr)
             ->with('uom', $uom)
+            ->with('oldInput', $oldInput)
             ->with('ppb_old', $ppb_old);
         }else {
             return redirect()->route('dashboard');
@@ -394,7 +402,26 @@ class CategoryPengajuanPembelianController extends Controller
 
             try {
 
+                foreach($data['item'] as $item => $value){
+                    $preprItems = PartItem_Pre_pr::find($data['item'][$item]);
+                    if($preprItems){
+                        if($preprItems->total < $data['qty'][$item]){
+                            Session::flashInput($request->input());
+                            return redirect()->back()->with('error','Request qty > prepr total item '.$preprItems->child_item.' Request qty = '.$data['qty'][$item].' total required in prePR = '.$preprItems->total);
+                        }
+                    }
+                }
+
+                $logisticCheck;
+                // dd($request->category_purpose == "project");
+                if ($request->category_purpose == "project") {
+                    $logisticCheck = 1;
+                }else {
+                    $logisticCheck = 0;
+                }
+
                 $pengajuan = new CategoryPengajuanPembelian([
+                    'logistic_check' => $logisticCheck,
                     'user_id' =>  Auth::user()->id,
                     'date_ps' => $request->date_ps,
                     'dateline' => $request->dateline,
@@ -404,8 +431,6 @@ class CategoryPengajuanPembelianController extends Controller
                     'atasan' => $request->atasan,
                     'send_to' => $request->send_to,
                     'ppn' => $request->ppn,
-                    // 'code_pengajuan' =>
-
                 ]);
 
 
@@ -431,14 +456,21 @@ class CategoryPengajuanPembelianController extends Controller
                 }
                 // dd($pengajuan);
 
+
                 $year = Carbon::parse($pengajuan->created_at)->format('y');
                 $month = Carbon::parse($pengajuan->created_at)->format('m');
                 $ppb_id = str_pad($pengajuan->id,5,'0', STR_PAD_LEFT);
                 $generateppb = strtoupper($ppb_id."/PPB/SII/".$month."/".$year);
-                // dd($generateppb);
+                $file_pr = null;
+                if($path_pr = $request->file('file_pr') ?? null) {
+                    $file_pr = $ppb_id .'_'. $path_pr->getClientOriginalName();
+                    $path_pr->move(public_path('upload_file_pr'), $file_pr);
+                }
                 CategoryPengajuanPembelian::where('id',$pengajuan->id)->update([
-                    'code_pengajuan' => $generateppb
+                    'code_pengajuan' => $generateppb,
+                    'file_pr' => $file_pr,
                 ]);
+
 
 
                 foreach ($data['item'] as $item => $value) {
@@ -447,16 +479,30 @@ class CategoryPengajuanPembelianController extends Controller
                         $file = $path->getClientOriginalName();
                         $path->move(public_path('upload_pengajuan'), $file);
                     }
-                    // dd($pengajuan);
+                    $preprItems2 = PartItem_Pre_pr::find($data['item'][$item]);
+                    if($preprItems2){
+                        if($preprItems2->total < $data['qty'][$item]){
+                            Session::flashInput($request->input());
+                            return redirect()->back()->with('error','Request qty > prepr total');
+                        }
+                        $preprItems2->total -= $data['qty'][$item];
+                        $preprItems2->save();
+                    }
+
                     $data2 = array(
                         'pp_id'             => $pengajuan->id,
-                        'item'              => $data['item'][$item],
+                        'product_id'        => $preprItems2->product_id ?? null,
+                        'prepr_id'          => $preprItems2->id ?? null,
+                        'item'              => $preprItems2->child_item ?? $data['item'][$item] ?? '-',
                         'qty'               => $data['qty'][$item],
                         'kategori'          => $data['kategori'][$item],
                         'path_file'         => $file,
                     );
                     PengajuanPembelian::create($data2);
+
+
                 }
+
         // }
 
             } catch (Exception $err) {
@@ -493,6 +539,7 @@ class CategoryPengajuanPembelianController extends Controller
         $datapt             = CategoryPT::all();
         $dv                 = CategoryPengajuanPembelian::find($id);
         $dataws             = WhoSubmitted::all();
+        $prepr              = Pre_pr::where('user_id',Auth::user()->id)->get();
         $datadepartment     = Department::all();
         $purpose            = ReferensiNamaProject::all();
         $purpose_office     = Office::all();
@@ -502,6 +549,7 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_travel     = Travel::all();
         $item               = PengajuanPembelian::where('pp_id', $id)->get();
         $uom                = Uom::all();
+        $oldInput           = Session::getOldInput();
 
 
         if ($check->role_id == 2 || $check->role_id == 18) {
@@ -510,6 +558,7 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('atasan', $atasan)
             ->with('datapt', $datapt)
             ->with('purpose', $purpose)
+            ->with('prepr', $prepr)
             ->with('purpose_office', $purpose_office)
             ->with('purpose_inventory', $purpose_inventory)
             ->with('purpose_workshop', $purpose_workshop)
@@ -519,6 +568,7 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('dv', $dv)
+            ->with('oldInput',$oldInput)
             ->with('uom', $uom);
             }else {
                 return redirect()->route('dashboard');
@@ -571,8 +621,37 @@ class CategoryPengajuanPembelianController extends Controller
         ]);
 
         try {
+            foreach ($data['item'] as $item => $value) {
+                // dd($data['item']);
+                $pengajuanItems = PengajuanPembelian::find($data['item'][$item]);
+                $preprItems = PartItem_Pre_pr::find($data['item'][$item]);
+                    if($preprItems){
+                        if($preprItems->total < $data['qty'][$item]){
+                            Session::flashInput($request->input());
+                            return redirect()->back()->with('error','Request qty > prepr total 1');
+                        }
+                    }else if($pengajuanItems){
+                        if($pengajuanItems->itemPrePR->total < $data['qty'][$item]){
+                            Session::flashInput($request->input());
+                            return redirect()->back()->with('error','Request qty > prepr total 2');
+                        }
+                    }
+            }
 
             $pengajuan = CategoryPengajuanPembelian::where('id',$id)->first();
+            $file_pr = null;
+            if($path_pr = $request->file('file_pr') ?? null) {
+                $file_pr = $id .'_'. $path_pr->getClientOriginalName();
+                $path_pr->move(public_path('upload_file_pr'), $file_pr);
+                if ($old_file = $pengajuan->file_pr) {
+
+                    $old_file_path = public_path('upload_file_pr/' . $old_file);
+
+                    if (file_exists($old_file_path)) {
+                        \File::delete($old_file_path);
+                    }
+                }
+            }
             $pengajuan->update([
                 'user_id' =>  Auth::user()->id,
                 'date_ps' => $request->date_ps,
@@ -583,6 +662,7 @@ class CategoryPengajuanPembelianController extends Controller
                 'atasan' => $request->atasan,
                 'matauang' => $request->matauang,
                 'send_to' => $request->send_to,
+                'file_pr' => $file_pr ?? null,
             ]);
 
             if ($request->category_purpose == "project") {
@@ -611,23 +691,74 @@ class CategoryPengajuanPembelianController extends Controller
                 $pengajuan = $purpose6->purposes()->save($pengajuan);
             }
 
-            foreach ($data['id'] as $item => $value) {
+            foreach ($data['item'] as $item => $value) {
+
                 $file = null;
                 if($path = $request->file('path_file')[$item] ?? null) {
                     $file = $path->getClientOriginalName();
                     $path->move(public_path('upload_pengajuan'), $file);
                 }
-                $data2 = array(
-                    'item'              => $data['item'][$item],
-                    'qty'               => $data['qty'][$item],
-                    'kategori'          => $data['kategori'][$item],
-                    'path_file'         => $file,
-                );
-                PengajuanPembelian::where('id',$value)->update($data2);
+
+                if(!empty($data['id'][$item])){
+                $pengajuanItems = PengajuanPembelian::find($data['id'][$item]); // Kalau id nya ada maka get
+                }else {
+                $pengajuanItems = null; // kalau idnnya ga ada maka dbkinn null
+                }
+
+                $preprOldItems = null;
+                if($pengajuanItems){
+                    $preprOldItems = PartItem_Pre_pr::where('id',$pengajuanItems->prepr_id)->first(); //kalau item oldnya ada maka get data old
+                } else {
+                    $preprOldItems = null; //bikin null kalau item pr nya ga ada
+                }
+
+                $preprItemsNew = PartItem_Pre_pr::find($data['item'][$item]);
+
+                // dd($preprOldItems);
+                if($preprOldItems){
+                    //Update Data
+                    PengajuanPembelian::where('id',$pengajuanItems->id)->update([
+                        'item'              => $preprOldItems->child_item ?? $data['item'][$item] ?? '-',
+                        'qty'               => $data['qty'][$item],
+                        'kategori'          => $data['kategori'][$item],
+                        'path_file'         => $file,
+                    ]);
+                    $cutoff =  $pengajuanItems->qty - $data['qty'][$item]; //ItemPR old - ItemPR New
+                    $sumskuy = $preprOldItems->total + $cutoff; //Kalau minus dia ngurang jadi misal 10 + -(8); jadi 2
+                    PartItem_Pre_pr::where('id', $preprOldItems->id)->update([
+                        'total' => $sumskuy,
+                    ]);
+                }else if($preprItemsNew) {
+                    //Create Data Baru
+
+                    $defisitTotal = $preprItemsNew->total - $data['qty'][$item];
+
+                    PengajuanPembelian::create([
+                        'pp_id'             => $id,
+                        'prepr_id'          => $preprItemsNew->id ?? null,
+                        'item'              => $preprItemsNew->child_item ?? '-',
+                        'qty'               => $data['qty'][$item],
+                        'kategori'          => $data['kategori'][$item],
+                        'path_file'         => $file,
+                    ]);
+
+                    PartItem_Pre_pr::where('id', $preprItemsNew->id)->update([
+                        'total' => $defisitTotal
+                    ]);
+                }else {
+                    $data2 = array(
+                        'item'              => $data['item'][$item],
+                        'qty'               => $data['qty'][$item],
+                        'kategori'          => $data['kategori'][$item],
+                        'path_file'         => $file,
+                    );
+                    PengajuanPembelian::where('id',$data['id'][$item])->update($data2);
+                }
             }
 
             return redirect('menu-pengajuan-pembelian/')->with(['success' => true, 'message' => 'Update Successfully']);
         } catch (\Exception $e) {
+            dd($e);
             return ['success' => false, 'message' => $e->getMessage()];
         }
 
@@ -644,19 +775,58 @@ class CategoryPengajuanPembelianController extends Controller
     public function destroy($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
+        // dd($data);
         $check = Role::where('model_id', Auth::user()->id)->first();
+        // dd($check->role_id == 2 || $check->role_id == 18);
         if ($check->role_id == 2 || $check->role_id == 18) {
             if(Auth::user()->id == $data->user_id){
-                $data1 = PengajuanPembelian::where('pp_id', $id);
-                $data1->delete();
+                $itemPr = PengajuanPembelian::where('pp_id',$id)->get();
+                foreach($itemPr as $item){
+                    // dd($item->prepr_id);
+                    if($item->prepr_id){
+                        $preprItem = PartItem_Pre_pr::find($item->prepr_id);
+                        // dd($preprItem);
+                        $sumPreprtotal = $preprItem->qty + $preprItem->buffer;
+                        $sumValue = $preprItem->total + $item->qty;
+                        if($sumPreprtotal < $sumValue){
+                            $updatePreprItem = PartItem_Pre_pr::where('id', $item->prepr_id)->update([
+                                'total' => $sumPreprtotal
+                            ]);
+                        }else {
+                            $updatePreprItem = PartItem_Pre_pr::where('id', $item->prepr_id)->update([
+                                'total' => $sumValue
+                            ]);
+                        }
+                    }
+                    $item->delete();
+                }
                 $data->delete();
                  return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');
             } else {
                 return 'Delete Failed, Different User Id';
             }
         }else if ($check->role_id == 1 || $check->role_id == 3) {
-            $data1 = PengajuanPembelian::where('pp_id', $id);
-            $data1->delete();
+            $itemPr = PengajuanPembelian::where('pp_id',$id)->get();
+            // dd($itemPr);
+            foreach($itemPr as $item){
+                // dd($item->prepr_id);
+                if($item->prepr_id){
+                    $preprItem = PartItem_Pre_pr::find($item->prepr_id);
+                    // dd($preprItem);
+                    $sumPreprtotal = $preprItem->qty + $preprItem->buffer;
+                    $sumValue = $preprItem->total + $item->qty;
+                    if($sumPreprtotal < $sumValue){
+                        $updatePreprItem = PartItem_Pre_pr::where('id', $item->prepr_id)->update([
+                            'total' => $sumPreprtotal
+                        ]);
+                    }else {
+                        $updatePreprItem = PartItem_Pre_pr::where('id', $item->prepr_id)->update([
+                            'total' => $sumValue
+                        ]);
+                    }
+                }
+                $item->delete();
+            }
             $data->delete();
             return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');
         }
@@ -686,5 +856,14 @@ class CategoryPengajuanPembelianController extends Controller
         $pdf = FacadePdf::loadView('pengajuanPembelian.export-pdf.pengajuan', $data)->setpaper('A4', 'potrait');
         return $pdf->stream('Pengajuan.pdf');
 
+    }
+
+    public function getDataPrePR($id)
+    {
+        $prepr = Pre_pr::with('partItem')->where('project_id',$id)->first();
+        return response()->json([
+            'message' => 'Success Get Data',
+            'data' => $prepr,
+        ]);
     }
 }

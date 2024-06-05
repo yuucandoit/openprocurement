@@ -97,7 +97,7 @@
                             @csrf
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="floatingTanggal"><i class="fa fa-calendar"></i> Due Date :</label>
+                                    <label for="floatingTanggal"><i class="fa fa-calendar"></i> Due Date</label>
                                     <div class="form-group">
                                         <input type="date" class="form-control @error('due_date') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" name="due_date" value="{{ old('due_date', date('Y-m-d')) }}">
                                         @error('date_ps')
@@ -110,7 +110,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i> Project:</label>
+                                        <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i> Project</label>
                                         {{-- Project Dropdown --}}
                                         <div id="selectedInput">
                                         <select class= "js-example-basic-single mt-2 "  name="project">
@@ -141,8 +141,6 @@
                                             <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Link</th>
                                             <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Status</th>
-                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Qty</th>
                                             <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Buffer</th>
@@ -158,11 +156,16 @@
                                                 {{ $index + 1 }}
                                             </td>
                                             <td class="text">
-                                                <textarea name="item[]" id="" class="form-control" rows="2">{{ old('item.' . $index) }}</textarea>
+                                                <select name="item[]" id="" class="form-select select1">
+                                                    <option value="" selected>Select Item</option>
+                                                    @foreach ($products as $p)
+                                                    <option value="{{ $p['id'] }}:{{ $p['name'] }}"">{{ $p['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                                {{-- <textarea name="item[]" id="" class="form-control" rows="2">{{ old('item.' . $index) }}</textarea> --}}
                                             </td>
                                             <td><textarea name="desc[]" id="" class="form-control" rows="2">{{ old('desc.' . $index) }}</textarea></td>
                                             <td><input type="text" name="link[]" placeholder="Link Item" class="form-control" style="text-align: center;" value="{{ old('link.' . $index) }}"/></td>
-                                            <td><input type="text" name="status[]" placeholder="Status" class="form-control" style="text-align: center;" value="{{ old('status.' . $index) }}"/></td>
                                             <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-qty" style="text-align: center;" value="{{ old('qty.' . $index) }}"/></td>
                                             <td><input type="number" name="buffer[]" placeholder="Input Buffer" class="form-control form-buff" style="text-align: center;" value="{{ old('buffer.' . $index) }}"/></td>
                                             <td><input type="text" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" value="{{ old('total.' . $index) }}"/></td>
@@ -214,27 +217,33 @@
         }
 
         // End Math
+        $('.select1').select2();
 
         let $i = 2;
         //Add Form
         $(".addItem").on('click', function() {
             addItem();
         });
+        // selectProducts${partID}
 
         function addItem() {
+            $i++
             var item =
-                `<tr class="form-row">
+                `<tr class="form-row" id="partID${$i}">
                     <td style="text-align:center;">
                         `+ $i +`
                     </td>
                     <td>
-                        <textarea name="item[]" id="" class="form-control" rows="2"></textarea>
+                        <select name="item[]" id="" class="form-select selectProducts${$i}">
+                            <option value="" selected>Select Item</option>
+                            @foreach ($products as $p)
+                            <option value="{{ $p['id'] }}:{{ $p['name'] }}"">{{ $p['name'] }}</option>
+                            @endforeach
+                        </select>
                     </td>
                     <td><textarea name="desc[]" id="" class="form-control" rows="2"></textarea>
                     </td>
                     <td><input type="text" name="link[]" placeholder="Link Item" class="form-control" style="text-align: center;"/>
-                    </td>
-                    <td><input type="text" name="status[]" placeholder="Status" class="form-control" style="text-align: center;" />
                     </td>
                     <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" />
                     </td>
@@ -249,7 +258,7 @@
                 </td> `;
             $(".item").append(item)
 
-            $i++
+            $('.selectProducts' + $i).select2();
             $(".form-row").last().find(".form-qty, .form-buff").on("input", function() {
                 updateFileds(null, $(".form-row").last()[0]);
             });

@@ -16,6 +16,7 @@ class ItemPO extends Model
     protected $table = 'item_po';
     protected $fillable = [
         'ppb_id',
+        'product_id',
         'po_id',
         'item',
         'qty',

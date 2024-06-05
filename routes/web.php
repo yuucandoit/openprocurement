@@ -292,6 +292,19 @@ Route::group(['middleware' => ['auth']], function () {
 
     // End Pre PR
 
+    // Check Logistic
+    Route::group(['prefix' => 'check-logistic'], function () {
+        Route::get('/', [PrePrController::class, 'check_logistic'])->name('logistic.index');
+        Route::get('/edit/{id}', [PrePrController::class, 'check_logistic_edit'])->name('logistic.edit');
+        Route::post('/updatelogistic/{id}', [PrePrController::class, 'check_logistic_update'])->name('logistic.update');
+        Route::get('/detail/{id}',[PrePrController::class, 'detail_check_logistic'])->name('logistic.detail');
+        Route::get('/search',[PrePrController::class, 'search_check_logistic'])->name('logistic.search');
+        Route::post('/approve/{id}',[PrePrController::class, 'approve_check_logistic'])->name('logistic.approve');
+        Route::post('/reject/{id}',[PrePrController::class, 'reject_check_logistic'])->name('logistic.reject');
+        Route::post('/approveselected',[PrePrController::class, 'approve_check_logistic_selected'])->name('logistic.approveSelected');
+    });
+    // End Check Logistic
+
     // Pengajuan Pembelian
     Route::group(['prefix' => 'pengajuan-pembelian'], function () {
         Route::get('/{id}', [PengajuanPembelianController::class, 'index'])->name('pengajuan-pembelian.index');
@@ -323,6 +336,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/prq',[CategoryPengajuanPembelianController::class, 'SearchPRQ'])->name('menu-pengajuan-pembelian.SearchPRQ');
         Route::get('/search/historyprq',[CategoryPengajuanPembelianController::class, 'SearchHistoryPRQ'])->name('menu-pengajuan-pembelian.SearchHistoryPRQ');
         Route::get('/search/historyfailprq',[CategoryPengajuanPembelianController::class, 'SearchHistoryFailPRQ'])->name('menu-pengajuan-pembelian.SearchHistoryFailPRQ');
+        Route::get('/getData/prePR/{id}',[CategoryPengajuanPembelianController::class, 'getDataPrePR'])->name('menu-pengajuan-pembelian.getDataPrePR');
     });
 
     //Tasklist's Super User
@@ -535,6 +549,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history/search/delivery',[DeliveryController::class, 'SearchHistoryDelivery'])->name('delivery.SearchHistoryDelivery');
         Route::get('/history/sortDelivery',[DeliveryController::class, 'SortHistoryDelivery'])->name('delivery.SortHistoryDelivery');
         Route::post('/statusDeliveryStore/{id}', [DeliveryController::class, 'deliverystatus'])->name('delivery.deliverystatus');
+        // Route::get('/track-dhl',[DeliveryController::class, 'trackDHL'])->name('`delivery.trackDHL`');
+        // Route::get('/track-fedex',[DeliveryController::class, 'trackFedex'])->name('delivery.trackFedex');
     });
 
      // Menu Check Purchase Order

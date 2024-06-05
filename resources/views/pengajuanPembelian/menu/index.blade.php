@@ -257,93 +257,68 @@
                 <td style="white-space: nowrap;">
                     <ul>
                         <li>
-                        <p><strong>Purchase&nbsp;:</strong>
+                            <p><strong>Purchase&nbsp;:</strong>
 
-                        @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
-                        -
-                        @elseif ($ppembelian->status == 'Waiting For PO Approval')
-                        <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Process PO</a>
-                        @elseif($ppembelian->status == 'Invoicing Process')
-                        <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
-                        @elseif ($ppembelian->status == 'Purchase Request Approved' )
-                        <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
-
-                        @elseif( $ppembelian->status == 'Purchase Proses')
-                        <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Process PO</a>
-
-                        @elseif( $ppembelian->status == 'Cross Check PO')
-                        -
-
-                        @elseif( $ppembelian->status == 'PO Approved')
-                        <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
-
-                        @elseif($ppembelian->status == 'Payment Approved' )
-                        <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process</a>
-
-                        @elseif ($ppembelian->status == 'PO & Payment Approved' || $ppembelian->status == 'Unpaid' || $ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery process' || $ppembelian->status == 'Delivery Success')
-                        <a class="badge bg-success mt-1" style="color:white; font-size:8;">Done</a>
-                        @endif
-                        @if ($ppembelian->status == 'Rejected by Purchasing')
-                        <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
-                        @endif
-                        @if ($ppembelian->status == 'Purchase Request Rejected By BOD')
-                        <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
-                        @endif
-                        @if ($ppembelian->status == 'PO Rejected by BOD')
-                        <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected PO</a>
-                        @endif
-                        </p>
-
-                        </li>
-                        <li>
-                        <p><strong>Payment&nbsp; :</strong>
-                        @if ($ppembelian->status == 'Unpaid' || $ppembelian->status == 'PO & Payment Approved')
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:8">Unpaid</a>
-                        @elseif ($ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery Success' )
-                        <a class="badge bg-success mt-1" style="color: white; font-size:8">Done</a>
-                        @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses'  || $ppembelian->status == 'Payment Approved' )
-                        -
-                        @elseif ($ppembelian->status == 'PO Approved')
-                        <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
-                        @elseif ($ppembelian->status == 'Awaiting Purchase Request Approval')
-                        -
-                        @elseif ($ppembelian->status == 'Waiting For PO Approval')
-                        -
-                        @elseif($ppembelian->status == 'Invoicing Process')
-                        <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >On-Process</a>
-                        @elseif ($ppembelian->status == 'Payment Rejected By BOD')
-                        <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
-                        @elseif ($ppembelian->status == 'Rejected by Finance')
-                        <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
-                        -
-                        @elseif ($ppembelian->status == 'Rejected by Purchasing')
-                        -
-                        @elseif ($ppembelian->status == 'Purchase Request Rejected By BOD')
-                        -
-                        @elseif ($ppembelian->status == 'Payment Rejected By BOD')
-                        -
-                        @elseif ($ppembelian->status == 'PO Rejected by BOD')
-                        -
-                        @elseif ($ppembelian->status == 'Rejected by Finance')
-                        -
-                        @elseif( $ppembelian->status == 'Cross Check PO')
-                        -
-                        @endif
-                        </p>
-                        </li>
-                        <li>
-                        <p><strong>Delivery&nbsp;&nbsp;&nbsp;:</strong>
-                            @if ($ppembelian->status == 'Paid')
-                            <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> On The Way</a>
-                            @elseif ($ppembelian->status == 'Delivery Success')
-                            <a class="badge bg-success mt-1" style="color: white; font-size:8">Delivered</a>
-                            @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
+                            @if ($ppembelian->status == 'Awaiting Purchase Request Approval')
                             -
-                            @elseif ($ppembelian->status == 'Awaiting Purchase Request Approval' || $ppembelian->status == 'PO & Payment Approved')
+                            @elseif ($ppembelian->status == 'Waiting For PO Approval')
+                            <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Process PO</a>
+                            @elseif($ppembelian->status == 'Invoicing Process')
+                            <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
+                            @elseif ($ppembelian->status == 'Purchase Request Approved' )
+                            <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
+
+                            @elseif( $ppembelian->status == 'Purchase Proses')
+                            <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Process PO</a>
+
+                            @elseif( $ppembelian->status == 'Cross Check PO')
+                            -
+                            @elseif( $ppembelian->status == 'Rejected From Logistics')
+                            -
+
+                            @elseif( $ppembelian->status == 'PO Approved')
+                            <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
+
+                            @elseif($ppembelian->status == 'Payment Approved' )
+                            <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process</a>
+
+                            @elseif ($ppembelian->status == 'PO & Payment Approved' || $ppembelian->status == 'Unpaid' || $ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery process' || $ppembelian->status == 'Delivery Success')
+                            <a class="badge bg-success mt-1" style="color:white; font-size:8;">Done</a>
+                            @endif
+                            @if ($ppembelian->status == 'Rejected by Purchasing')
+                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                            @endif
+                            @if ($ppembelian->status == 'Purchase Request Rejected By BOD')
+                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                            @endif
+                            @if ($ppembelian->status == 'PO Rejected by BOD')
+                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected PO</a>
+                            @endif
+                            </p>
+
+                        </li>
+                        <li>
+                            <p><strong>Payment&nbsp; :</strong>
+                            @if ($ppembelian->status == 'Unpaid' || $ppembelian->status == 'PO & Payment Approved')
+                            <a class="badge bg-warning mt-1" style="color: white; font-size:8">Unpaid</a>
+                            @elseif ($ppembelian->status == 'Paid' || $ppembelian->status == 'Delivery Success' )
+                            <a class="badge bg-success mt-1" style="color: white; font-size:8">Done</a>
+                            @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses'  || $ppembelian->status == 'Payment Approved' )
+                            -
+                            @elseif ($ppembelian->status == 'PO Approved')
+                            <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
+                            @elseif ($ppembelian->status == 'Awaiting Purchase Request Approval')
                             -
                             @elseif ($ppembelian->status == 'Waiting For PO Approval')
                             -
+                            @elseif( $ppembelian->status == 'Rejected From Logistics')
+                            -
                             @elseif($ppembelian->status == 'Invoicing Process')
+                            <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >On-Process</a>
+                            @elseif ($ppembelian->status == 'Payment Rejected By BOD')
+                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                            @elseif ($ppembelian->status == 'Rejected by Finance')
+                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
                             -
                             @elseif ($ppembelian->status == 'Rejected by Purchasing')
                             -
@@ -355,10 +330,41 @@
                             -
                             @elseif ($ppembelian->status == 'Rejected by Finance')
                             -
-                            @elseif ($ppembelian->status == 'Cross Check PO')
+                            @elseif( $ppembelian->status == 'Cross Check PO')
                             -
                             @endif
-                        </p>
+                            </p>
+                        </li>
+                        <li>
+                            <p><strong>Delivery&nbsp;&nbsp;&nbsp;:</strong>
+                                @if ($ppembelian->status == 'Paid')
+                                <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> On The Way</a>
+                                @elseif ($ppembelian->status == 'Delivery Success')
+                                <a class="badge bg-success mt-1" style="color: white; font-size:8">Delivered</a>
+                                @elseif ($ppembelian->status == 'Purchase Request Approved' || $ppembelian->status == 'Purchase Proses' || $ppembelian->status == 'PO Approved'  || $ppembelian->status == 'Payment Approved' )
+                                -
+                                @elseif ($ppembelian->status == 'Awaiting Purchase Request Approval' || $ppembelian->status == 'PO & Payment Approved')
+                                -
+                                @elseif ($ppembelian->status == 'Waiting For PO Approval')
+                                -
+                                @elseif($ppembelian->status == 'Invoicing Process')
+                                -
+                                @elseif ($ppembelian->status == 'Rejected by Purchasing')
+                                -
+                                @elseif( $ppembelian->status == 'Rejected From Logistics')
+                                -
+                                @elseif ($ppembelian->status == 'Purchase Request Rejected By BOD')
+                                -
+                                @elseif ($ppembelian->status == 'Payment Rejected By BOD')
+                                -
+                                @elseif ($ppembelian->status == 'PO Rejected by BOD')
+                                -
+                                @elseif ($ppembelian->status == 'Rejected by Finance')
+                                -
+                                @elseif ($ppembelian->status == 'Cross Check PO')
+                                -
+                                @endif
+                            </p>
                         </li>
                     </ul>
                 </td>
@@ -371,7 +377,15 @@
                         <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request </a>
                         <button class="btn btn-primary" type="button">Comments <span class="badge rounded-pill badge-light text-dark"><i data-feather="mail"></i></span></button>
                         @else
-                        <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a>
+                            @if($ppembelian->purpose_type == 'App\Models\ReferensiNamaProject')
+                                @if($ppembelian->logistic_check == 1  )
+                                <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Inventory Check</a>
+                                @else
+                                <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a>
+                                @endif
+                            @else
+                            <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a>
+                            @endif
                         @endif
                     {{-- <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Request {{ $ppembelian->bod->name }}</a> --}}
                     @endif
@@ -461,6 +475,11 @@
                     @if($ppembelian->status == 'Delivery Success')
                     <a class="badge bg-success mt-1" style="color: white; font-size:12">Request Completed</a>
                     @endif
+                    @if ($ppembelian->status == 'Rejected From Logistics')
+                    <li><a class="badge bg-danger mt-1" style="color: white; font-size:12;">Rejected From Logistics</a></li>
+                    <li><a class="badge bg-danger mt-1" style="color: white; font-size:8;">{{ $ppembelian->note_logistic }}</a></li>
+                    <li><a class="badge bg-danger mt-1" style="color: white; font-size:8;">Please update the pre pr</a></li>
+                    @endif
                     @if ($ppembelian->status == 'Rejected by Purchasing')
                     <li><a class="badge bg-danger mt-1" style="color: white; font-size:12">Rejected By Purchase</a></li>
                     <li><a class="badge bg-danger mt-1" style="color: white; font-size:8">{{ $ppembelian->note_purchase }}</a></li>
@@ -526,16 +545,16 @@
                 <td style="text-align: center;">
 
                     @if ($ppembelian->status == 'Awaiting Purchase Request Approval' )
+                    <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;  font-size:10;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
+                    </a>
+                    <div>
+                        <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal" style="background-color: #ff0000; font-size:10;" data-bs-target="#modalDelete{{ $ppembelian->id }}" title="Delete"><i class="icon-trash" title="Delete"></i>
+                        </button>
+                    </div>
+                    @else
 
-                  <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;  font-size:10;" href="{{ url('/menu-pengajuan-pembelian/edit/' . $ppembelian->id) }}"><i class="icon-pencil-alt" title="Edit"></i>
-                  </a>
-                  @else
+                    @endif
 
-                  @endif
-                  <div>
-                  <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal" style="background-color: #ff0000; font-size:10;" data-bs-target="#modalDelete{{ $ppembelian->id }}" title="Delete"><i class="icon-trash" title="Delete"></i>
-                  </button>
-                  </div>
                 </td>
 
               </tr>

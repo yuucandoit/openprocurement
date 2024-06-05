@@ -9,7 +9,7 @@
                     <h2 class="modal-title" style="color: white">Add User</h2>
                     <button style="color: white" type="button" class="" data-bs-dismiss="modal"
                         aria-label="Close"></button>
-                </div>  
+                </div>
                 <form action={{ url('/store-admin') }} id="formAdd" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body container">
@@ -45,23 +45,10 @@
                         <div class="col-md-12">
                             <div class="form-floating">
                                 <select class="form-select mt-3" id="floatingRole" placeholder="Select Role" name="role">
-                                    <option value="Admin">Admin</option>
-                                    <option value="User">User</option>
-                                    <option value="Super Admin">Super Admin</option>
-                                    <option value="Purchasing">Purchasing</option>
-                                    <option value="Finance">Finance</option>
-                                    <option value="Super User">Super User</option>
-                                    <option value="R&D">R&D</option>
-                                    <option value="Production">Production</option>
-                                    <option value="Support Workshop">Support Workshop</option>
-                                    <option value="Project">Project</option>
-                                    <option value="Business Development">Business Development</option>
-                                    <option value="Product">Product</option>
-                                    <option value="Tax">Tax</option>
-                                    <option value="Human Resource">Human Resource</option>
-                                    <option value="GA">GA</option>
-                                    <option value="Legal">Legal</option>
-                                    <option value="Super Purchase">Super Purchase</option>
+                                    <option value="" selected>Select Role</option>
+                                    @foreach ($role as $r)
+                                    <option value="{{ $r->name }}">{{ $r->name }}</option>
+                                    @endforeach
                                 </select>
                                 <label for="floatingRole">Role</label>
                             </div>

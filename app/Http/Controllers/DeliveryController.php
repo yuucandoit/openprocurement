@@ -21,6 +21,8 @@ use App\Models\Role;
 use App\Models\WhoSubmitted;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class DeliveryController extends Controller
 {
@@ -407,6 +409,70 @@ class DeliveryController extends Controller
         }
     }
 
+    //Generate Token Gerry
+    private function getToken()
+    {
+        $loginServiceUrl = env('LOGIN_SERVICE_URL');
+        $response = Http::post($loginServiceUrl, [
+            'email' => env('EMAIL_SERVICE_URL'),
+            'password' => env('PASSWORD_SERVICE_URL'),
+        ]);
+
+        if (!empty($response['status'])) {
+            if ($response['status'] == 200) {
+                $userData = $response['user'];
+                $token = $response['token'];
+                dd($response);
+                Session::put('token', $token);
+            }
+        }
+    }
+
+//Check Token US
+    private function CheckToken($token)
+    {
+        if($token){
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+            ])->get('https://gerry.intek.co.id/api/check-token');
+            // dd($token);
+            if ($response->successful() && $response['valid']) {
+                // Token masih valid, lanjutkan ke rute yang diminta
+                return true;
+            }else {
+                return false;
+            }
+        }
+    }
+
+
+    private function pushStocky($id,$qty)
+    {
+        $tokenGerry = Session::get('token');
+
+        $checking = $this->CheckToken($tokenGerry);
+
+        // dd($checking);
+        $items= [];
+
+        if(!$checking){
+            $this->getToken();
+        }else {
+          // dd($bearer);
+            $url = env('URL_STOCKY').'/incoming_product_api/'.$id;
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer '. $tokenGerry,
+            ])->post($url,['qty'=>$qty]);
+            // dd($response);
+
+            if($response->successful()) {
+
+            }else {
+                dd($response);
+            }
+        }
+    }
+
     public function complete_2($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
@@ -416,6 +482,15 @@ class DeliveryController extends Controller
             CategoryPO::where('id',$id)->update([
                 'status' => 'Delivery Success'
             ]);
+
+            $itemPO = ItemPO::where('po_id', $id)->get();
+
+            foreach($itemPO as $itemp){
+                // dd($itemp->product_id);
+                if(!empty($itemp->product_id)){
+                    $this->pushStocky($itemp->product_id, $itemp->qty);
+                }
+            }
 
             $ppb = CategoryPengajuanPembelian::where('id', $cpo->ppb->id)->first();
             if($ppb->status == 'Paid'){
@@ -476,4 +551,18 @@ class DeliveryController extends Controller
             // return redirect()->back()->withErrors([$e->getMessage()]);
         // }
     }
+
+    //Tracking DHL
+
+    public function trackDHL()
+    {
+        return view('delivery.menu.tracking.dhl.index');
+    }
+
+    //Tracking Fedex
+    public function trackFedex()
+    {
+        return view('delivery.menu.tracking.fedex.fedex');
+    }
+
 }

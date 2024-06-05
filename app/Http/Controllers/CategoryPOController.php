@@ -311,7 +311,7 @@ class CategoryPOController extends Controller
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $data = CategoryPengajuanPembelian::find($id);
-            $item = PengajuanPembelian::all();
+            // $item = PengajuanPembelian::all();
 
             $data2 = $request->all();
             $request->validate([
@@ -387,9 +387,10 @@ class CategoryPOController extends Controller
                     $grand_total = str_replace(",","", $data2['grand_total']);
                     $ongkir     = str_replace(",", "", $data2['ongkir']);
                     $admin     = str_replace(",", "", $data2['admin_fee']);
-                    //  dd($ppn->id);
+                    $product_ids = PengajuanPembelian::where('pp_id',$data->id)->where('item',$data2['item'][$key])->first();
                     $update = array(
                         'ppb_id'            => $ppn->id,
+                        'product_id'        => $product_ids->product_id ?? null,
                         'po_id'             => $purchase->id,
                         'item'              => $data2['item'][$key],
                         'qty'               => $data2['qty'][$key],
@@ -461,9 +462,11 @@ class CategoryPOController extends Controller
                     $grand_total = str_replace(",","", $data2['grand_total']);
                     $ongkir     = str_replace(",", "", $data2['ongkir']);
                     $admin     = str_replace(",", "", $data2['admin_fee']);
+                    $product_ids = PengajuanPembelian::where('pp_id',$data->id)->where('item',$data2['item'][$key])->first();
                     // dd($ppn->id);
                     $update = array(
                         'ppb_id'            => $ppn->id,
+                        'product_id'        => $product_ids->product_id ?? null,
                         'po_id'             => $purchase->id,
                         'item'              => $data2['item'][$key],
                         'qty'               => $data2['qty'][$key],
