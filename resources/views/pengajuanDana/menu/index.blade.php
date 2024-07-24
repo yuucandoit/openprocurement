@@ -40,45 +40,46 @@
                     </div>
                 </div>
             </div>
-        @endforeach
-        @foreach ($datapo as $po)
-            <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
+            @foreach ($ppb->quot as $po)
+                <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
 
-                            <h4 class="modal-title" style="color: white">List Item</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mx-5 mb-3">
-                            @php
-                                $i = 1;
-                            @endphp
-                            <table class="table table-bordered table-hover">
-                                <thead class="bg-primary">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                        <th>Uom</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                <h4 class="modal-title" style="color: white">List Item</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body mx-5 mb-3">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Uom</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                    @foreach ($po->itempo as $item)
-                                    <tr>
-                                        <td> {{ $item->item }}</td>
-                                        <td> {{ $item->qty }}</td>
-                                        <td> {{ $item->kategori }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                        @foreach ($po->itempo as $item)
+                                        <tr>
+                                            <td> {{ $item->item }}</td>
+                                            <td> {{ $item->qty }}</td>
+                                            <td> {{ $item->kategori }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
         @endforeach
+
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -190,18 +191,7 @@
                                                                 style="background-color: #ADD8E6; font-size:10"
                                                                 href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}" target="_blank"><i
                                                                     class="icon-eye" title="Preview PDF"></i>
-                                                            </a>
-
-                                                        {{-- <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #008b2c; font-size:10"
-                                                                href="{{ url('/menu-pengajuan-dana/create/' . $ppb->id) }}"><i
-                                                                    class="icon-file" title="Create"></i>
-                                                        </a> --}}
-
-                                                        {{-- <button class="btn btn-iconsolid mt-1" data-bs-toggle="modal"
-                                                        style="background-color: #ff0000; font-size:10" data-bs-target="#modalDelete{{ $ppb->id }}"><i
-                                                                class="icon-trash" title="Delete"></i>
-                                                        </button> --}}
+                                                        </a>
                                                     </td>
                                                 @endhasrole
                                             </tr>

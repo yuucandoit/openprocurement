@@ -7,17 +7,22 @@
             <th style="border: 1px solid black"><strong>No.</strong></th>
             <th style="border: 1px solid black"><strong>Project Code</strong></th>
             <th style="border: 1px solid black"><strong>No. PR</strong></th>
-            <th style="border: 1px solid black"><strong>Date Input PR</strong></th>
+            <th style="border: 1px solid black"><strong>Submit Date PR</strong></th>
             <th style="border: 1px solid black"><strong>Date PR Approved</strong></th>
             <th style="border: 1px solid black"><strong>No. PO</strong></th>
-            <th style="border: 1px solid black"><strong>Date Input PO</strong></th>
+            <th style="border: 1px solid black"><strong>Submit Date PO</strong></th>
             <th style="border: 1px solid black"><strong>Date PO Approved</strong></th>
             <th style="border: 1px solid black"><strong>No. PD</strong></th>
-            <th style="border: 1px solid black"><strong>Date Input Pengajuan Dana</strong></th>
+            <th style="border: 1px solid black"><strong>Submit Date Pengajuan Dana</strong></th>
             <th style="border: 1px solid black"><strong>Date Pengajuan Dana Approved</strong></th>
             <th style="border: 1px solid black"><strong>Vendor</strong></th>
             <th style="border: 1px solid black"><strong>Items</strong></th>
             <th style="border: 1px solid black"><strong>Qty</strong></th>
+            <th style="border: 1px solid black"><strong>Unit Price</strong></th>
+            <th style="border: 1px solid black"><strong>Discount</strong></th>
+            <th style="border: 1px solid black"><strong>Shipping Cost</strong></th>
+            <th style="border: 1px solid black"><strong>Admin Fee</strong></th>
+            <th style="border: 1px solid black"><strong>PPN 11%</strong></th>
             <th style="border: 1px solid black"><strong>Grand Total</strong></th>
             <th style="border: 1px solid black"><strong>Status</strong></th>
         </tr>
@@ -33,16 +38,14 @@
                 $pos = $ppb->quot;
                 $hasPO = $pos->isNotEmpty();
             @endphp
-            @foreach ($ppb->quot as $p)
             @if ($hasPO)
+                @foreach ($ppb->quot as $p)
                     @php
                         $date_sig = App\Models\POSignature::where('ppb_id', $p->ppb_id)->first();
                         $invoicing = App\Models\Invoicing::where('ppb_id', $p->ppb_id)->get();
                         foreach ($invoicing as $var_pd) {
                             $pd = $var_pd;
                         }
-                        $po2 = App\Models\CategoryPO::find($p->id);
-                        $ppbid = App\Models\CategoryPengajuanPembelian::get();
                     @endphp
                     {{-- Foreach Dibawah buat ambil List itemPO --}}
                     @foreach ($p->itempo as $i)
@@ -92,78 +95,35 @@
                                 {{ $i->qty }}
                             </td>
                             <td style="border: 1px solid black">
-                                {{ number_format($i->grand_total) }}
+                               {{ $i->matauang }} {{ number_format($i->unit_price) }}
+                            </td>
+                            <td>
+                                {{ $i->matauang }} {{ number_format($i->discount) }}
+                            </td>
+                            <td>
+                                {{ $i->matauang }} {{ number_format($i->ongkir) }}
+                            </td>
+                            <td>
+                                {{ $i->matauang }} {{ number_format($i->admin_fee) }}
+                            </td>
+                            <td>
+                                @if($i->ppn == 1)
+                                    Yes
+                                @else
+                                    No
+                                @endif
+                            </td>
+
+                            <td style="border: 1px solid black">
+                                {{ $i->matauang }} {{ number_format($i->grand_total) }}
                             </td>
                             <td style="border: 1px solid black">
                                 {{ $p->ppb->status }}
                             </td>
                         </tr>
                     @endforeach
-            @else
-                {{-- Foreach Dibawah buat ambil List item pengajuan pembelian --}}
-                @foreach($ppb->itemppn as $itemp)
-                @php
-                    $id_po = $ppb->id;
-                    $po_number = str_pad($id_po,5,'0', STR_PAD_LEFT);
-                    $month = \Carbon\Carbon::parse($p->created_at)->format('m');
-                    $year = \Carbon\Carbon::parse($p->created_at)->format('y');
-                @endphp
-
-                <tr>
-                    <td style="border: 1px solid black">{{ $x++ }}</td>
-                    <td style="border: 1px solid black">
-                        {{ $ppb->purpose->name }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $ppb->code_pengajuan }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $ppb->created_at }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $ppb->approved_at }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $po_number }}/PO/SII/{{ $month }}/{{ $year }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $ppb->created_at }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $ppb->approved_at }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $po_number }}/PD/SII/{{ $month }}/{{ $year }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $ppb->created_at }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $ppb->approved_at }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        @if (empty($p->vendorable_type) || empty($ppb->po->vendorable))
-                        -
-                        @else
-                            {{ $p->vendorable->nama ?? '-' }}
-                        @endif
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $itemp->item }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $itemp->qty }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ number_format($itemp->grand_total) }}
-                    </td>
-                    <td style="border: 1px solid black">
-                        {{ $ppb->status }}
-                    </td>
-                </tr>
                 @endforeach
             @endif
-            @endforeach
         @endforeach
     </tbody>
 

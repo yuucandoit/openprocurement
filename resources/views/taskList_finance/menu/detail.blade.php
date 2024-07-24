@@ -115,7 +115,7 @@
                                         <div class="col-md-6 ">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i>
+                                                        data-feather="database"></i>
                                                     Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                                     &nbsp; &nbsp;:
                                                     @if (empty($po->vendorable->nama))
@@ -129,7 +129,7 @@
                                         <div class="col-md-6 ">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i>
+                                                        data-feather="database"></i>
                                                     Quotation  :
                                                     @if (empty($po->quotation))
                                                     @else
@@ -142,7 +142,7 @@
                                         <div class="col-md-6 ">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i>
+                                                        data-feather="database"></i>
                                                     Terms conditions :
                                                     @if (empty($po->term->term_condition))
                                                     @else
@@ -157,7 +157,7 @@
                                         <div class="col-md-6 ">
                                             <div class="form-group">
                                                 <label class="form-label" style="font-weight: bold;"><i
-                                                        class="fa fa-database"></i>
+                                                        data-feather="database"></i>
                                                     File &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :
                                                     @if (empty($po->path_quotation))
                                                         -
@@ -418,26 +418,26 @@
                                         </tr>
 
                                         <tr>
-                                                <td class="text-end" style="font-weight: bold;">Grand Total
-                                                    :</td>
+                                            <td class="text-end" style="font-weight: bold;">Grand Total :</td>
                                             @if ($calculate->ppn == 1)
-                                            <td style="text-align:right;">
-                                                @if ($calculate->matauang == 'RP')
-                                                    RP.{{ number_format($calculate->grand_total) }}
-                                                @elseif ($calculate->matauang == 'USD')
-                                                    ${{ number_format($calculate->grand_total /100,2) }}
-                                                @endif
-                                            </td>
+                                                <td style="text-align:right;">
+                                                    @if ($calculate->matauang == 'RP')
+                                                        RP.{{ number_format($calculate->grand_total) }}
+                                                    @elseif ($calculate->matauang == 'USD')
+                                                        ${{ number_format($calculate->grand_total /100,2) }}
+                                                    @endif
+                                                </td>
                                             @elseif ($calculate->ppn == 0)
-                                            <td style="text-align:right;">
-                                                @if ($calculate->matauang == 'RP')
-                                                RP.{{ number_format($calculate->grand_total) }}</td>
-                                                @elseif ($calculate->matauang == 'USD')
-                                                ${{ number_format($calculate->grand_total /100 ,2) }}
-                                                @endif
-                                            </td>
-                                            </tr>
-                                        @endif
+                                                <td style="text-align:right;">
+                                                    @if ($calculate->matauang == 'RP')
+                                                    RP.{{ number_format($calculate->grand_total) }}</td>
+                                                    @elseif ($calculate->matauang == 'USD')
+                                                    ${{ number_format($calculate->grand_total /100 ,2) }}
+                                                    @endif
+                                                </td>
+                                            @endif
+                                        </tr>
+
                                     @endif
                                     @endforeach
                                     </tbody>

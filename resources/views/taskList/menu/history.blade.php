@@ -5,41 +5,79 @@
 @section('main')
     <section>
         @foreach ($datappb as $ppb)
-        <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger">
+            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
 
-                        <h4 class="modal-title" style="color: white">List Item</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body mx-5 mb-3">
-                        @php
-                            $i = 1;
-                        @endphp
-                        <table class="table table-bordered table-hover">
-                            <thead class="bg-primary">
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Qty</th>
-                                    <th>Uom</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($ppb->itemppn as $item)
-                                <tr>
-                                    <td> {{ $item->item }}</td>
-                                    <td> {{ $item->qty }}</td>
-                                    <td> {{ $item->kategori }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                            <h4 class="modal-title" style="color: white">List Item</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body mx-5 mb-3">
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($ppb->itemppn as $item)
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            @foreach ($ppb->quot as $po)
+                <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+
+                                <h4 class="modal-title" style="color: white">List Item</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body mx-5 mb-3">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Uom</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach ($po->itempo as $item)
+                                        <tr>
+                                            <td> {{ $item->item }}</td>
+                                            <td> {{ $item->qty }}</td>
+                                            <td> {{ $item->kategori }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         @endforeach
 
         <div class="modal fade" id="modalSort" tabindex="-1" aria-hidden="true">
@@ -133,44 +171,6 @@
             </div>
         </div>
 
-        @foreach ($datapo as $po)
-        <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger">
-
-                        <h4 class="modal-title" style="color: white">List Item</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body mx-5 mb-3">
-                        @php
-                            $i = 1;
-                        @endphp
-                        <table class="table table-bordered table-hover">
-                            <thead class="bg-primary">
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Qty</th>
-                                    <th>Uom</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach ($po->itempo as $item)
-                                <tr>
-                                    <td> {{ $item->item }}</td>
-                                    <td> {{ $item->qty }}</td>
-                                    <td> {{ $item->kategori }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endforeach
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -200,7 +200,7 @@
                         <div class="row">
                             <div class="col-sm-9">
                                 <div style="margin-top: 40px; margin-left:30px;">
-                                    <label data-bs-toggle="modal" data-bs-target="#modalSort"><i class="fa fa-filter" style="font-size:20px"></i> Sort</label>
+                                    <label data-bs-toggle="modal" data-bs-target="#modalSort"><i data-feather="filter" style="font-size:20px"></i> Sort</label>
                                     @if(empty($sort))
 
                                     @else
@@ -401,7 +401,7 @@
 
                                                         @endif
                                                     </tr>
-                                                    @endforeach
+                                                @endforeach
                                         @endif
                                     @endforeach
                                     </tbody>
@@ -419,110 +419,108 @@
                 <!-- Zero Configuration  Ends-->
             </div>
         </div>
-<script>
-const status = @json($status);
-console.log(status);
-/* Sort function */
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("le-Table-1");
-  switching = true;
-  //Set the sorting direction to ascending:
-  dir = "asc";
-  /*Make a loop that will continue until
-  no switching has been done:*/
-  while (switching) {
-    //start by saying: no switching is done:
-    switching = false;
-    rows = table.rows;
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
-    for (i = 1; i < (rows.length - 1); i++) {
-      //start by saying there should be no switching:
-      shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      /*check if the two rows should switch place,
-      based on the direction, asc or desc:*/
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch= true;
-          break;
-        }
-      } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch = true;
-          break;
-        }
-      }
-    }
-    if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      //Each time a switch is done, increase this count by 1:
-      switchcount ++;
-    } else {
-      /*If no switching has been done AND the direction is "asc",
-      set the direction to "desc" and run the while loop again.*/
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-      }
-    }
-  }
-}
+            <script>
+                const status = @json($status);
+                console.log(status);
+                /* Sort function */
+                function sortTable(n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.getElementById("le-Table-1");
+                switching = true;
+                //Set the sorting direction to ascending:
+                dir = "asc";
+                /*Make a loop that will continue until
+                no switching has been done:*/
+                while (switching) {
+                    //start by saying: no switching is done:
+                    switching = false;
+                    rows = table.rows;
+                    /*Loop through all table rows (except the
+                    first, which contains table headers):*/
+                    for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /*Get the two elements you want to compare,
+                    one from current row and one from the next:*/
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    /*check if the two rows should switch place,
+                    based on the direction, asc or desc:*/
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch= true;
+                        break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                        }
+                    }
+                    }
+                    if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    //Each time a switch is done, increase this count by 1:
+                    switchcount ++;
+                    } else {
+                    /*If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again.*/
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                    }
+                }
+                }
 
-document.querySelector('#le-Input-1').addEventListener('keyup', filterTable, false);
+                document.querySelector('#le-Input-1').addEventListener('keyup', filterTable, false);
 
-function content(elem) {
-	}
+                function content(elem) {
+                }
 
+                /* checkbox filter */
+                function filter_type(box) {
+                    var cbs = document.getElementsByTagName('input');
+                    var all_checked_types = [];
+                    for(var i=0; i < cbs.length; i++) {
+                        if(cbs[i].type == "checkbox") {
+                                if(cbs[i].name.match(/^filter/)) {
+                                        if(cbs[i].checked) {
+                                            all_checked_types.push(cbs[i].value);
+                                        }
+                                    }
+                            }
+                    }
+                    if (all_checked_types.length > 0) {
+                        $('#le-Table-1 tr').each(function (i, row) {
+                            var $tds = $(this).find('td')
+                            if ($tds.length) {
+                            var type = $tds[2].innerText;
+                            console.log(type)
+                            if(!(type && all_checked_types.indexOf(type) >= 0)) {
+                                $(this).hide();
+                                }
+                                else {
+                                $(this).show();
+                                }
+                            }
+                        });
 
-	 /* checkbox filter */
-function filter_type(box) {
-			 var cbs = document.getElementsByTagName('input');
-			 var all_checked_types = [];
-			 for(var i=0; i < cbs.length; i++) {
-				 if(cbs[i].type == "checkbox") {
-						 if(cbs[i].name.match(/^filter/)) {
-								 if(cbs[i].checked) {
-									 all_checked_types.push(cbs[i].value);
-								  }
-							  }
-					   }
-			  }
-			 if (all_checked_types.length > 0) {
-				 $('#le-Table-1 tr').each(function (i, row) {
-					 var $tds = $(this).find('td')
-					 if ($tds.length) {
-						var type = $tds[2].innerText;
-						console.log(type)
-						if(!(type && all_checked_types.indexOf(type) >= 0)) {
-							$(this).hide();
-						 }
-						 else {
-							$(this).show();
-						 }
-					  }
-				  });
-
-			  }
-				else {
-					$('#le-Table-1 tr').each(function (i, row) {
-						var $tds = $(this).find('td'),
-						type = $tds.eq(2).text();
-						$(this).show();
-					 });
-				}
-				return true;
-			}
-
+                    }
+                    else {
+                        $('#le-Table-1 tr').each(function (i, row) {
+                            var $tds = $(this).find('td'),
+                            type = $tds.eq(2).text();
+                            $(this).show();
+                            });
+                    }
+                    return true;
+                }
             </script>
-        </section>
-    @endsection
+    </section>
+@endsection

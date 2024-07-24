@@ -108,12 +108,12 @@
 
                                      <hr>
                                      <div class="button" style="float: right;">
-                                        <a href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}" class="btn btn-danger" >
+                                        <a href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}" class="btn btn-secondary" >
                                             Export To PDF
                                         </a>
 
                                          <a href="{{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}"
-                                             class="btn btn-success" style="align-self: flex-end"> Export to Excel</a>
+                                             class="btn btn-warning" style="align-self: flex-end"> Export to Excel</a>
 
                                          <a type="reset" class="btn btn-dark"
                                              href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>

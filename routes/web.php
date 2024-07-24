@@ -46,6 +46,8 @@ use App\Http\Controllers\ForceResetPassword;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\PrePrController;
 use App\Http\Controllers\UomController;
+use App\Http\Controllers\PrePRCommentsController;
+use App\Http\Controllers\IsReadPrePRCommentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -74,6 +76,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['force_password_reset']], function(){
 
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+
+
     //Vendor
     // Route untuk Data Vendor Perusahaan
     Route::group(['prefix' => 'perusahaan'], function () {
@@ -290,15 +294,21 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/import',[PrePrController::class, 'importPrePR'])->name('prepr.import');
     });
 
+    //PrePRComment
+    Route::get('/prepr_comments/detail/{id}',[PrePRCommentsController::class, 'detail'])->name('preprComent.detail');
+    Route::post('/prepr_comment_store',[PrePRCommentsController::class, 'store'])->name('preprComent.store');
+    Route::post('/prepr_comment/mark-as-read', [IsReadPrePRCommentController::class, 'markAsRead'])->name('preprCommennt.markRead');
     // End Pre PR
 
     // Check Logistic
     Route::group(['prefix' => 'check-logistic'], function () {
         Route::get('/', [PrePrController::class, 'check_logistic'])->name('logistic.index');
+        Route::get('/history', [PrePrController::class, 'history_check_logistic'])->name('logistic.history');
         Route::get('/edit/{id}', [PrePrController::class, 'check_logistic_edit'])->name('logistic.edit');
         Route::post('/updatelogistic/{id}', [PrePrController::class, 'check_logistic_update'])->name('logistic.update');
         Route::get('/detail/{id}',[PrePrController::class, 'detail_check_logistic'])->name('logistic.detail');
         Route::get('/search',[PrePrController::class, 'search_check_logistic'])->name('logistic.search');
+        Route::get('/history-search',[PreprController::class, 'SearchHistoryCheckLogistic'])->name('logistic.history.search');
         Route::post('/approve/{id}',[PrePrController::class, 'approve_check_logistic'])->name('logistic.approve');
         Route::post('/reject/{id}',[PrePrController::class, 'reject_check_logistic'])->name('logistic.reject');
         Route::post('/approveselected',[PrePrController::class, 'approve_check_logistic_selected'])->name('logistic.approveSelected');
@@ -421,11 +431,14 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list po
     Route::group(['prefix' => 'menu-task-list'], function () {
         Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
+        Route::get('/upcoming', [CategoryTaskListController::class, 'upComing'])->name('menu-task-list.upComing');
+        Route::get('/upcoming/detail/{id}',[CategoryTaskListController::class, 'upComingDetail'])->name('menu-task-list.upComing.detail');
         Route::get('/history', [CategoryTaskListController::class, 'history'])->name('menu-task-list.history');
         Route::get('/detail/{id}', [CategoryTaskListController::class, 'detail'])->name('menu-task-list.detail');
         // Route::delete('/destroy/{id}', [CategoryTaskListController::class, 'destroy'])->name('menu-task-list.destroy');
         Route::get('/accept/{id}', [CategoryTaskListController::class, 'accept'])->name('menu-task-list-accept');
         Route::post('/reject/{id}', [CategoryTaskListController::class, 'reject'])->name('menu-task-list-reject');
+        Route::get('/search/upcoming',[CategoryTaskListController::class, 'SearchtaskUpComming'])->name('menu-task-list.SearchtaskUpComming');
         Route::get('/search/taskPOIn',[CategoryTaskListController::class, 'SearchtaskPOIn'])->name('menu-task-list.SearchtaskPOIn');
         Route::get('/out/search/taskPOOut',[CategoryTaskListController::class, 'SearchtaskPOOut'])->name('menu-task-list.SearchtaskPOOut');
         Route::get('/history/search/taskPOHistory',[CategoryTaskListController::class, 'SearchtaskPOHistory'])->name('menu-task-list.SearchtaskPOHistory');
@@ -444,8 +457,8 @@ Route::group(['middleware' => ['auth']], function () {
         // Route::delete('/destroy/{id}', [TaskListFinanceController::class, 'destroy'])->name('menu-tasklist-finance.destroy');
         Route::get('/approve/{id}', [TaskListFinanceController::class, 'approve'])->name('menu-tasklist-finance-approve');
         Route::get('/reject/{id}', [TaskListFinanceController::class, 'reject'])->name('menu-tasklist-finance-reject');
-        Route::get('/approve_tpy/{id}', [TaskListFinanceController::class, 'approve_po'])->name('menu-tasklist-finance-approve_po');
-        Route::get('/reject_tpy/{id}', [TaskListFinanceController::class, 'reject_po'])->name('menu-tasklist-finance-reject_po');
+        Route::post('/approve_tpy/{id}', [TaskListFinanceController::class, 'approve_po'])->name('menu-tasklist-finance-approve_po');
+        Route::post('/reject_tpy/{id}', [TaskListFinanceController::class, 'reject_po'])->name('menu-tasklist-finance-reject_po');
         Route::get('/search/task-finance',[TaskListFinanceController::class, 'SearchTaskFinance'])->name('menu-tasklist-finance.SearchTaskFinance');
         Route::get('/out/search/task-finance-Out',[TaskListFinanceController::class, 'SearchTaskFinanceOut'])->name('menu-tasklist-finance.SearchTaskFinanceOut');
         Route::get('/search/history-task-finance',[TaskListFinanceController::class, 'SearchHistoryTaskFinance'])->name('menu-tasklist-finance.SearchHistoryTaskFinance');
@@ -518,10 +531,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/create/{id}', [CategoryPDController::class, 'create'])->name('menu-pengajuan-dana.create');
         Route::post('/store/{id}', [CategoryPDController::class, 'store'])->name('menu-pengajuan-dana.store');
         Route::delete('/destroy/{id}', [CategoryPDController::class, 'destroy'])->name('menu-pengajuan-dana.destroy');
-        Route::get('/paid/{id}', [CategoryPDController::class, 'paid'])->name('menu-pengajuan-dana-paid');
-        Route::get('/reject/{id}', [CategoryPDController::class, 'reject'])->name('menu-pengajuan-dana-reject');
-        Route::get('/paid_pd/{id}', [CategoryPDController::class, 'paid_pd'])->name('menu-pengajuan-dana-paid_pd');
-        Route::get('/reject_pd/{id}', [CategoryPDController::class, 'reject_pd'])->name('menu-pengajuan-dana-reject_pd');
+        Route::post('/paid/{id}', [CategoryPDController::class, 'paid'])->name('menu-pengajuan-dana-paid');
+        Route::post('/reject/{id}', [CategoryPDController::class, 'reject'])->name('menu-pengajuan-dana-reject');
+        Route::post('/paid_pd/{id}', [CategoryPDController::class, 'paid_pd'])->name('menu-pengajuan-dana-paid_pd');
+        Route::post('/reject_pd/{id}', [CategoryPDController::class, 'reject_pd'])->name('menu-pengajuan-dana-reject_pd');
         Route::get('/search/pd_in',[CategoryPDController::class, 'SearchPDIn'])->name('menu-pengajuan-dana.SearchPDIn');
         Route::get('/search/pd_out',[CategoryPDController::class, 'SearchPDOut'])->name('menu-pengajuan-dana.SearchPDOut');
         Route::get('/history/search',[CategoryPDController::class, 'SearchHistoryPD'])->name('menu-pengajuan-dana.SearchHistoryPD');

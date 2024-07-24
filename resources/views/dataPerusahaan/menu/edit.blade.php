@@ -33,7 +33,7 @@
                                     @csrf
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="floatingName"><i class="fa fa-building-o"></i> Company
+                                            <label for="floatingName"><i data-feather="briefcase"></i> Company
                                                 Name</label>
                                             <input type="text" class="form-control" id="floatingName"
                                                 placeholder="Your Name" name="nama" value="{{ $dv->nama }}">
@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="floatingAddress"><i class="fa fa-link"></i> Website</label>
+                                            <label for="floatingAddress"><i data-feather="code"></i> Website</label>
                                             <input type="text" class="form-control" id="floatingAddress"
                                                 placeholder="alamat" name="website" value="{{ $dv->website }}">
                                         </div>
@@ -116,7 +116,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="floatingName"><i class="fa fa-briefcase"></i> Business
+                                            <label for="floatingName"><i data-feather="coffee"></i> Business
                                                 Fields</label>
                                             <input type="text" class="form-control" id="floatingName"
                                                 placeholder="Your Name" name="bidang_usaha"
@@ -125,7 +125,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="floatingName"><i class="fa fa-credit-card"></i> Account
+                                            <label for="floatingName"><i data-feather="credit-card"></i> Account
                                                 Number</label>
                                             <input type="text" class="form-control" id="floatingName"
                                                 placeholder="Your Name" name="no_rekening"
@@ -134,7 +134,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="floatingUnit"><i class="fa fa-bank"></i> -- Bank --</label>
+                                            <label for="floatingUnit"><i data-feather="dollar-sign"></i> -- Bank --</label>
                                             <select class="form-select js-example-basic-single" id="floatingUnit" placeholder="Bank"
                                                 name="bank">
                                                 @foreach ($bank as $b)
@@ -149,7 +149,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="floatingKeterangan"><i class="fa fa-code-fork"></i> Bank
+                                            <label for="floatingKeterangan"><i data-feather="git-branch"></i> Bank
                                                 Branch</label>
                                             <input type="text" class="form-control" id="floatingKeterangan"
                                                 placeholder="Email" name="cabang_bank" value="{{ $dv->cabang_bank }}">
@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="floatingKeterangan"><i class="fa fa-user"></i> Recipient's
+                                            <label for="floatingKeterangan"><i data-feather="user"></i> Recipient's
                                                 Name</label>
                                             <input type="text" class="form-control" id="floatingKeterangan"
                                                 placeholder="Email" name="nama_penerima"

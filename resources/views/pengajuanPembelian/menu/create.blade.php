@@ -98,7 +98,7 @@
                             @csrf
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date <span style="color: red">*</span></label>
+                                    <label for="floatingTanggal"><i data-feather="calendar"></i> Date <span style="color: red">*</span></label>
                                     <div class="form-group">
                                         <input type="date" class="form-control @error('date_ps') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" name="date_ps" value="{{ old('date_ps', date('Y-m-d')) }}">
                                         @error('date_ps')
@@ -112,7 +112,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingdateline"><i class="fa fa-clock-o"></i> Deadline <span style="color: red">*</span></label>
+                                        <label for="floatingdateline"><i data-feather="clock"></i> Deadline <span style="color: red">*</span></label>
                                         <select class="form-select @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" required="">
                                             @if(old('dateline'))
                                             <option selected="" disabled="" value="{{ old('dateline') }}">{{ old('dateline') }}</option>
@@ -139,7 +139,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="" for="pageSelector"><i class="fa fa-send"></i> Send To <span style="color: red">*</span></label>
+                                        <label class="" for="pageSelector"><i  data-feather="send"></i> Send To <span style="color: red">*</span></label>
                                         <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to">
                                             <option value="{{ old('send_to')  }}" selected>{{ old('send_to') ?? 'Select Send To'   }}</option>
                                             <option value="Tebet">Tebet</option>
@@ -153,7 +153,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingrequestby"><i class="fa fa-user"></i> Request By <span style="color: red">*</span></label>
+                                        <label for="floatingrequestby"><i data-feather="user"></i> Request By <span style="color: red">*</span></label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" required="" data-live-search="true">
 
                                             @foreach ($dataws as $ws)
@@ -178,7 +178,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingdepartment"><i class="fa fa-institution"></i> Department <span style="color: red">*</span></label>
+                                        <label for="floatingdepartment"><i data-feather="briefcase"></i> Department <span style="color: red">*</span></label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
                                             @foreach ($datadepartment as $dp)
                                             @if(Auth::user()->department == $dp->name)
@@ -217,7 +217,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description <span style="color: red">*</span></label>
+                                        <label for="floatingNoTelpon"><i data-feather="link"></i> Description <span style="color: red">*</span></label>
                                         <div class="">
                                             <textarea name="desc" id="floatingNoTelpon" class="form-control" rows="4" required>{{ old('desc') }}</textarea>
                                             @error('desc')
@@ -350,9 +350,12 @@
                                 </div>
 
                                 @php
+                                    $ItemsProject = [];
                                     if (old('project') != null) {
+                                        // dd(old('project'));
                                         $ItemsProject =  App\Models\Pre_pr::with('partItem')->where('project_id',old('project'))->first();
                                     }
+                                    $no = 1;
                                 @endphp
 
 
@@ -374,43 +377,88 @@
                                             Action</th>
 
                                     </tr>
-                                    @if($ppb_old->isEmpty())
-                                    @foreach (old('item', ['']) as $index => $oldItem)
+                                    @if($ppb_old->isEmpty() && empty(old('item')))
+                                    <tr>
+                                        <td style="text-align:center;">
+                                            {{ $no++ }}
+                                        </td>
+                                        <td>
+                                            <textarea name="item[]" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>
+                                            <div class="selectItem hide">
+                                                <select class="js-example-basic-single itemprePR" name="item[]" ></select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
+                                        </td>
+                                        <td>
+                                            <select class="form-select " placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
+                                                @foreach ($uom as $u)
+                                                    <option value="{{ $u->name }}">{{ $u->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                                            @error('path_file')
+                                            <div class='mt-1'>
+                                                <span class="text-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            </div>
+                                            @enderror
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button type="button" name="add" class="btn btn-danger remove-input-field">
+                                                <i class="icofont icofont-ui-close"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    @elseif($ppb_old->isEmpty())
+                                    @php
+                                        // Ambil data item dan qty
+                                        $items = old('item', []);
+                                        $uniqueItems = array_unique($items);
+                                        $items = array_values($uniqueItems);
+                                    @endphp
+
+                                    @foreach ($items as $index => $oldItem)
                                         <tr>
                                             <td style="text-align:center;">
-                                                {{ $index + 1 }}
+                                                {{ $no++ }}
                                             </td>
                                             <td>
-                                                @if(old('category_purpose') == 'project' )
-                                                <textarea name="item[]" id="" class="form-control item-text hide" rows="2" style="min-width: 300px">{{ old('item.' . $index) }}</textarea>
-                                                <div class="selectItem">
-                                                    <select class="js-example-basic-single itemprePR" name="item[]" value="{{ old('item.' . $index) }}">
-                                                        @foreach ($ItemsProject->partItem as $itemp)
-                                                        <option value="{{ $itemp->id }}" {{ $oldItem == $itemp->id ? 'selected' : '' }}>{{ $itemp->child_item }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+                                                @if(old('category_purpose') == 'project')
+                                                    {{-- Jika kategori tujuan adalah project, tampilkan select, bukan textarea --}}
+                                                    <div class="selectItem">
+                                                        <select class="js-example-basic-single" name="item[]" value="{{ $oldItem }}">
+                                                            @foreach ($ItemsProject->partItem as $itemp)
+                                                                <option value="{{ $itemp->id }}" {{ $itemp->id == intval($oldItem) ? 'selected' : '' }}>
+                                                                    {{ $itemp->child_item }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 @else
-                                                <textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px">{{ old('item.' . $index) }}</textarea>
-                                                <div class="selectItem hide">
-                                                    <select class="js-example-basic-single itemprePR" name="item[]" value="{{ old('item.' . $index) }}">{{ old('item.' . $index) }}</select>
-                                                </div>
+                                                    {{-- Jika bukan project, tampilkan textarea --}}
+                                                    <textarea name="item[]" class="form-control item-text" rows="2" style="min-width: 300px">{{ $oldItem }}</textarea>
                                                 @endif
                                             </td>
-                                            <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required value="{{ old('qty.' . $index) }}"/>
+                                            <td>
+                                                <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required value="{{ old('qty.' . $index) }}"/>
                                             </td>
                                             <td>
-                                                <select class="form-select " placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
+                                                <select class="form-select " name="kategori[]" required style="min-width: 100px">
                                                     @foreach ($uom as $u)
                                                         <option value="{{ $u->name }}">{{ $u->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                                                <input type="file" name="path_file[]" class="form-control" enctype="multipart/form-data">
                                                 @error('path_file')
                                                 <div class='mt-1'>
-                                                    <span class=" text-danger" >
+                                                    <span class="text-danger">
                                                         {{ $message }}
                                                     </span>
                                                 </div>
@@ -418,17 +466,17 @@
                                             </td>
                                             <td style="text-align: center;">
                                                 <button type="button" name="add" class="btn btn-danger remove-input-field">
-                                                    <i class="fa fa-times"></i>
+                                                    <i class="icofont icofont-ui-close"></i>
                                                 </button>
                                             </td>
                                         </tr>
                                     @endforeach
-                                    @else
-                                        @php
-                                            $old_number = 1;
-                                        @endphp
+                                @else
+                                    @php
+                                        $old_number = 1;
+                                    @endphp
+                                    @if (empty(old('project')))
                                         @foreach ($ppb_old as $item)
-
                                             <tr>
                                                 <td>
                                                     {{ $old_number++ }}
@@ -462,17 +510,18 @@
                                                 </td>
                                                 <td style="text-align: center;">
                                                     <button type="button" name="add" class="btn btn-danger remove-input-field">
-                                                        <i class="fa fa-times"></i>
+                                                        <i class="icofont icofont-ui-close"></i>
                                                     </button>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                            @endforeach
+                                        @endif
                                     @endif
                                 </table>
                                 <div class="mt-2">
                                     <button type="button" name="add" class="addItem btn btn-outline-primary">
                                         AddItem
-                                        <i class="fa fa-plus"></i>
+                                        <i class="icofont icofont-ui-add"></i>
                                     </button>
                                 </div>
                                 <br>
@@ -492,245 +541,272 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js"></script>
 
     <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        var pageSelect = document.getElementById('pageSelect');
-        var selectElement = document.querySelector('.itemprePR');
-        var selectpreprList = document.querySelector('#projectlist');
-        var selectedInput = document.getElementById('selectedInput');
-        var selectedInput2 = document.getElementById('selectedInput2');
-        var selectedInput3 = document.getElementById('selectedInput3');
-        var selectedInput4 = document.getElementById('selectedInput4');
-        var selectedInput5 = document.getElementById('selectedInput5');
-        var selectedInput6 = document.getElementById('selectedInput6');
-        var textareanormal = document.querySelector('.item-text');
-        var selectprepr = document.querySelector('.selectItem');
-        let oldItems = {!! json_encode(old('item', [''])) !!};
-        var selectedValueProject = {!! json_encode(old('project')) ?? 'null' !!};
-        let formItem;
-        var selectItemsOptions;
-        var selectedInputs = [
-            document.getElementById('selectedInput2'),
-            document.getElementById('selectedInput3'),
-            document.getElementById('selectedInput4'),
-            document.getElementById('selectedInput5'),
-            document.getElementById('selectedInput6')
-        ];
-        var selectedPage = '';
-        // Append Table Item
-          let $i = 2;
-            $(".addItem").on('click', function() {
-                addItem();
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            var pageSelect = document.getElementById('pageSelect');
+            var selectElement = document.querySelector('.itemprePR');
+            var selectpreprList = document.querySelector('#projectlist');
+            var selectedInput = document.getElementById('selectedInput');
+            var selectedInput2 = document.getElementById('selectedInput2');
+            var selectedInput3 = document.getElementById('selectedInput3');
+            var selectedInput4 = document.getElementById('selectedInput4');
+            var selectedInput5 = document.getElementById('selectedInput5');
+            var selectedInput6 = document.getElementById('selectedInput6');
+            var textareanormal = document.querySelector('.item-text');
+            var selectprepr = document.querySelector('.selectItem');
+            let oldItems = {!! json_encode(old('item', [''])) !!};
+            var selectedValueProject = {!! json_encode(old('project')) ?? 'null' !!};
+            let formItem;
+            var selectItemsOptions;
+            var selectedInputs = [
+                document.getElementById('selectedInput2'),
+                document.getElementById('selectedInput3'),
+                document.getElementById('selectedInput4'),
+                document.getElementById('selectedInput5'),
+                document.getElementById('selectedInput6')
+            ];
+            var selectedPage = '';
+            // Append Table Item'
+            let $i;
 
-            document.querySelector('#pengajuan-select').addEventListener('change', (e) => {
-                const { value } = e.target;
+            console.log(selectedValueProject);
+            if(oldItems){
+                @if(isset($items))
+                $i = {{ count($items) }} + 1; // Tambah 1 jika `selectedValueProject` adalah null
+                @else
+                    $i = 2; // Default ke 1 jika tidak ada item, karena Anda menambah 1
+                @endif
+            }else {
+                $i = 2;
+            }
+            console.log($i);
 
-                const url = new URL(window.location.href);
-                url.searchParams.set('pengajuan_id', value);
-                window.location.href = url;
-            });
+                $(".addItem").on('click', function() {
+                    addItem();
+                });
 
-            // Event listener for pageSelect change
-            pageSelect.addEventListener('change', function() {
-                selectedPage = this.value;
-                console.log('Selected page:', selectedPage);
-                showSelectedInput(selectedPage);
-            });
+                document.querySelector('#pengajuan-select').addEventListener('change', (e) => {
+                    const { value } = e.target;
 
-            $('#projectlist').on("select2:select", function(e) {
-                console.log(e);
-                console.log(selectedValueProject);
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('pengajuan_id', value);
+                    window.location.href = url;
+                });
 
-                // Jika ada nilai 'old', maka lakukan fetch data
-                if (selectedValueProject !== null) {
+                // Event listener for pageSelect change
+                pageSelect.addEventListener('change', function() {
+                    selectedPage = this.value;
+                    console.log('Selected page:', selectedPage);
+                    showSelectedInput(selectedPage);
+                });
+
+                $('#projectlist').on("select2:select", function(e) {
+                    console.log(e);
+                    console.log(selectedValueProject);
+
+                    // Jika ada nilai 'old', maka lakukan fetch data
+                    if (selectedValueProject !== null) {
+                        fetchProjectData(selectedValueProject);
+                    } else {
+                        // Jika tidak ada nilai 'old', gunakan nilai terpilih saat ini
+                        var currentValue = this.value;
+                        if (currentValue !== null && currentValue !== '') {
+                            fetchProjectData(currentValue);
+                        }
+                    }
+                });
+
+                if(selectedValueProject){
                     fetchProjectData(selectedValueProject);
-                } else {
-                    // Jika tidak ada nilai 'old', gunakan nilai terpilih saat ini
-                    var currentValue = this.value;
-                    if (currentValue !== null && currentValue !== '') {
-                        fetchProjectData(currentValue);
-                    }
-                }
-            });
-
-            if(selectedValueProject){
-                fetchProjectData(selectedValueProject);
-            }
-
-            function fetchProjectData(value) {
-                console.log(value);
-                fetch("{{ route('menu-pengajuan-pembelian.getDataPrePR', ':selectedValue') }}".replace(':selectedValue', value), {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    updateSelectOptions(data);
-                    selectItemsOptions = updateSelectOptionAppend(data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            }
-
-            function updateSelectOptions(data) {
-                selectElement.innerHTML = '';
-                let result = data.data.part_item;
-                console.log(result)
-                console.log(oldItems);
-                result.forEach(function(item) {
-                    var option = document.createElement('option');
-                    option.value = item.id;
-                    option.textContent = item.child_item;
-                    selectElement.appendChild(option);
-                });
-            }
-
-            function updateSelectOptionAppend(data){
-                let options = ''; // Variabel options didefinisikan di sini
-                let result = data.data.part_item;
-                console.log(result)
-                result.forEach(function(item) {
-                    options += `<option value="${item.id}">${item.child_item}</option>`;
-                });
-                return options;
-            }
-
-            function addItem() {
-                var item;
-                var selectedProject= {!! json_encode(old('project')) ?? null !!};
-                console.log(selectedProject);
-                console.log(selectedPage);
-                console.log(selectItemsOptions);
-                if(selectedPage){
-                    if(selectedPage === 'project'){
-                        formItem = `<select class="js-example-basic-single itemprePR" name="item[]">`+ selectItemsOptions +`</select>`;
-                    }else{
-                        formItem = `<textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>`;
-                    }
-                }else if({!! json_encode(old('category_purpose')) ?? null !!}){
-                    if( {!! json_encode(old('category_purpose')) ?? null !!} === 'project'){
-                        formItem = `<select class="js-example-basic-single itemprePR" name="item[]">`+ selectItemsOptions +`</select>`;
-                    }else {
-                        formItem = `<textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>`;
-                    }
-                }
-                else {
-                    formItem = `<textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>`;
                 }
 
-
-                item =
-                    `<tr>
-                        <td style="text-align:center;">
-                            `+ $i +`
-                        </td>
-                        <td class="item-text">
-                            `+ formItem +`
-                        </td>
-                        <td>
-                            <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
-                        </td>
-                        <td>
-                            <select class="form-select" placeholder="Kategori" name="kategori[]" >
-                                @foreach ($uom as $u)
-                                    <option value="{{ $u->name }}">{{ $u->name }}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td>
-                            <input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
-                            @error('path_file')
-                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                            @enderror
-                        </td>
-                        <td style="text-align: center;">
-                            <button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button>
-                        </td> `;
-                $(".item").append(item)
-                $(".js-example-basic-single").select2();
-                $i++
-            }
-            $(document).on('click', '.remove-input-field', function() {
-                $(this).parents('tr').remove();
-            });
-        // End Append Table Item
-
-
-        // Show And Hide Form Purpose
-
-                // Function to hide all selected inputs
-                function hideAllSelectedInputs() {
-                    selectedInput.classList.add('hide');
-                    selectedInputs.forEach(function(input) {
-                        input.classList.add('hide');
+                function fetchProjectData(value) {
+                    console.log(value);
+                    fetch("{{ route('menu-pengajuan-pembelian.getDataPrePR', ':selectedValue') }}".replace(':selectedValue', value), {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        updateSelectOptions(data);
+                        selectItemsOptions = updateSelectOptionAppend(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                     });
                 }
 
-                // Function to show selected input based on pageSelect value
-                function showSelectedInput(page) {
-                    hideAllSelectedInputs();
-                    if (page === "project") {
-                        selectedInput.classList.remove('hide');
-                        textareanormal.classList.add('hide');
-                        document.querySelector('#pengajuan-select').classList.add('hide');
-                        textareanormal.disabled = true;
-                        selectprepr.classList.remove('hide');
-                        selectprepr.classList.disabled = false;
-                    } else if(page === "office") {
-                        selectedInput2.classList.remove('hide');
-                        selectprepr.classList.add('hide');
-                        selectprepr.classList.disabled = true;
-                        textareanormal.classList.remove('hide');
-                        textareanormal.disabled = false;
+                function updateSelectOptions(data) {
+                    selectElement.innerHTML = '';
+                    let result = data.data.part_item;
+                    console.log(result)
+                    console.log(oldItems);
+                    result.forEach(function(item) {
+                        var option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.child_item;
+                        selectElement.appendChild(option);
+                    });
+                }
 
-                    } else if(page === "workshop") {
-                        selectedInput3.classList.remove('hide');
-                        selectprepr.classList.add('hide');
-                        selectprepr.classList.disabled = true;
-                        textareanormal.classList.remove('hide');
-                        textareanormal.disabled = false;
-                    } else if(page === "inventory") {
-                        selectedInput4.classList.remove('hide');
-                        selectprepr.classList.add('hide');
-                        selectprepr.classList.disabled = true;
-                        textareanormal.classList.remove('hide');
-                        textareanormal.disabled = false;
-                    } else if(page === "rnd") {
-                        selectedInput5.classList.remove('hide');
-                        selectprepr.classList.add('hide');
-                        selectprepr.classList.disabled = true;
-                        textareanormal.classList.remove('hide');
-                        textareanormal.disabled = false;
-                    } else if(page === "travel") {
-                        selectedInput6.classList.remove('hide');
-                        selectprepr.classList.add('hide');
-                        selectprepr.classList.disabled = true;
-                        textareanormal.classList.remove('hide');
-                        textareanormal.disabled = false;
-                    } else {
-                        if (page !== "") {
-                            var index = parseInt(page) - 2; // Assuming IDs start from 2
-                            if (index >= 0 && index < selectedInputs.length) {
-                                selectedInputs[index].classList.remove('hide');
+                function updateSelectOptionAppend(data){
+                    let options = ''; // Variabel options didefinisikan di sini
+                    let result = data.data.part_item;
+                    console.log(result)
+
+                    result.forEach(function(item) {
+                    options += `<option value="${item.id}">${item.child_item}</option>`;
+                    });
+
+                    return options;
+                }
+
+                function addItem() {
+                    var item;
+                    var selectedProject= {!! json_encode(old('project')) ?? null !!};
+                    console.log(selectedProject);
+                    console.log(selectedPage);
+                    console.log(selectItemsOptions);
+                    if(selectedPage){
+                        console.log("Hore 1 ");
+                        if(selectedPage === 'project'){
+                            formItem = `<select class="js-example-basic-single itemprePR" name="item[]">`+ selectItemsOptions +`</select>`;
+                        }else{
+                            formItem = `<textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>`;
+                        }
+                    }else if({!! json_encode(old('category_purpose')) ?? 'null' !!} !== 'null'){
+                        console.log("Hore 2");
+                        if( {!! json_encode(old('category_purpose')) ?? null !!} === 'project'){
+                            formItem = `<select class="js-example-basic-single itemprePR" name="item[]">
+                                @if(!empty($ItemsProject->partItem) || !empty($ItemsProject))
+                                    @foreach ($ItemsProject->partItem as $itemp)
+                                        <option value="{{ $itemp->id }}">
+                                            {{ $itemp->child_item }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                <option value="Null">Null</option>
+                                @endif
+                                </select>`;
+                        }else {
+                            formItem = `<textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>`;
+                        }
+                    }
+                    else {
+                        formItem = `<textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>`;
+                    }
+
+
+                    item =
+                        `<tr>
+                            <td style="text-align:center;">
+                                `+ $i +`
+                            </td>
+                            <td class="item-text">
+                                `+ formItem +`
+                            </td>
+                            <td>
+                                <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
+                            </td>
+                            <td>
+                                <select class="form-select" placeholder="Kategori" name="kategori[]" >
+                                    @foreach ($uom as $u)
+                                        <option value="{{ $u->name }}">{{ $u->name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                <input type="file" name="path_file[]" placeholder="Choose File" multiple class="form-control">
+                                @error('path_file')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </td>
+                            <td style="text-align: center;">
+                                <button type="button"  class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button>
+                            </td> `;
+                    $(".item").append(item)
+                    $(".js-example-basic-single").select2();
+                    $i++
+                }
+                $(document).on('click', '.remove-input-field', function() {
+                    $(this).parents('tr').remove();
+                });
+            // End Append Table Item
+
+
+            // Show And Hide Form Purpose
+
+                    // Function to hide all selected inputs
+                    function hideAllSelectedInputs() {
+                        selectedInput.classList.add('hide');
+                        selectedInputs.forEach(function(input) {
+                            input.classList.add('hide');
+                        });
+                    }
+
+                    // Function to show selected input based on pageSelect value
+                    function showSelectedInput(page) {
+                        hideAllSelectedInputs();
+                        if (page === "project") {
+                            selectedInput.classList.remove('hide');
+                            textareanormal.classList.add('hide');
+                            document.querySelector('#pengajuan-select').classList.add('hide');
+                            textareanormal.disabled = true;
+                            selectprepr.classList.remove('hide');
+                            selectprepr.classList.disabled = false;
+                        } else if(page === "office") {
+                            selectedInput2.classList.remove('hide');
+                            selectprepr.classList.add('hide');
+                            selectprepr.classList.disabled = true;
+                            textareanormal.classList.remove('hide');
+                            textareanormal.disabled = false;
+
+                        } else if(page === "workshop") {
+                            selectedInput3.classList.remove('hide');
+                            selectprepr.classList.add('hide');
+                            selectprepr.classList.disabled = true;
+                            textareanormal.classList.remove('hide');
+                            textareanormal.disabled = false;
+                        } else if(page === "inventory") {
+                            selectedInput4.classList.remove('hide');
+                            selectprepr.classList.add('hide');
+                            selectprepr.classList.disabled = true;
+                            textareanormal.classList.remove('hide');
+                            textareanormal.disabled = false;
+                        } else if(page === "rnd") {
+                            selectedInput5.classList.remove('hide');
+                            selectprepr.classList.add('hide');
+                            selectprepr.classList.disabled = true;
+                            textareanormal.classList.remove('hide');
+                            textareanormal.disabled = false;
+                        } else if(page === "travel") {
+                            selectedInput6.classList.remove('hide');
+                            selectprepr.classList.add('hide');
+                            selectprepr.classList.disabled = true;
+                            textareanormal.classList.remove('hide');
+                            textareanormal.disabled = false;
+                        } else {
+                            if (page !== "") {
+                                var index = parseInt(page) - 2; // Assuming IDs start from 2
+                                if (index >= 0 && index < selectedInputs.length) {
+                                    selectedInputs[index].classList.remove('hide');
+                                }
                             }
                         }
                     }
-                }
 
-                // Event listener for preprList change
-                selectpreprList.addEventListener('change', function() {
-                    var selectedValue = this.value;
-                    console.log('Selected value:', selectedValue);
-                });
+                    // Event listener for preprList change
+                    selectpreprList.addEventListener('change', function() {
+                        var selectedValue = this.value;
+                        console.log('Selected value:', selectedValue);
+                    });
 
-                // Initialize visibility based on initial pageSelect value
-            showSelectedInput(pageSelect.value);
-        // End Show And Hide Form Purpose
-    });
+                    // Initialize visibility based on initial pageSelect value
+                showSelectedInput(pageSelect.value);
+            // End Show And Hide Form Purpose
+        });
     </script>
 
 
@@ -748,6 +824,14 @@
             }
         })
 
+    </script>
+
+    <script type="text/javascript">
+     document.getElementById('formAdd').addEventListener('submit', function() {
+        var submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Processing';
+    });
     </script>
 
 </section>

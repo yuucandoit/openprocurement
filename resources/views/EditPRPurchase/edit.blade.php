@@ -33,7 +33,7 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date :</label>
+                                    <label for="floatingTanggal"><i data-feather="calendar"></i> Date :</label>
                                     <div class="form-group">
                                         <input type="date" class="form-control @error('date_ps') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" disabled name="date_ps" value="{{ old('date_ps', date('Y-m-d')) }}">
                                         @error('date_ps')
@@ -47,7 +47,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingdateline"><i class="fa fa-clock-o"></i> Deadline :</label>
+                                        <label for="floatingdateline"><i data-feather="clock"></i> Deadline :</label>
                                         <select class="form-select @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" disabled>
                                             <option selected="" value="{{ $purchaseRequest->dateline }}">{{ $purchaseRequest->dateline }}
                                             </option>
@@ -69,7 +69,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="" for="pageSelector"><b><i class="fa fa-send"></i> Send To</b></label>
+                                        <label class="" for="pageSelector"><b><i  data-feather="send"></i> Send To</b></label>
                                         <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to" disabled>
                                             <option value="{{ $purchaseRequest->send_to }}" selected hidden>{{ $purchaseRequest->send_to }}</option>
                                             <option value="Tebet">Tebet</option>
@@ -83,7 +83,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingrequestby"><i class="fa fa-user"></i> Request By
+                                        <label for="floatingrequestby"><i data-feather="user"></i> Request By
                                             :</label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" disabled data-live-search="true">
                                             <option value="{{ $purchaseRequest->ws }}" selected hidden>{{ $purchaseRequest->whosubmit->name }}</option>
@@ -101,7 +101,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingdepartment"><i class="fa fa-institution"></i> Department
+                                        <label for="floatingdepartment"><i data-feather="briefcase"></i> Department
                                             :</label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" disabled>
                                             <option value="{{ $purchaseRequest->department }}" selected hidden>{{ $purchaseRequest->dps->name }}</option>
@@ -138,7 +138,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
+                                        <label for="floatingNoTelpon"><i data-feather="link"></i> Description :</label>
                                         <div class="">
                                             <textarea name="desc" id="floatingNoTelpon" class="form-control" rows="4">{{ $purchaseRequest->desc }}</textarea>
                                             @error('desc')

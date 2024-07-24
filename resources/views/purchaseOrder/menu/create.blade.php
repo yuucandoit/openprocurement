@@ -74,7 +74,7 @@
                                     <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
-                                                    class="fa fa-database"></i> Select
+                                                    data-feather="database"></i> Select
                                                 Vendor</label>
                                             <select class="form-select page pageSelect"
                                                 id="pageSelect" placeholder="Proposed To"
@@ -117,7 +117,7 @@
                                     <div class="col-md-6 page" style="margin-top: 10px;">
                                         <div class="form-group">
                                             <label for="floatingQuotation"><i
-                                                    class="fa fa-file-excel-o"></i>
+                                                    data-feather="file-plus"></i>
                                                 Quotation</label>
                                             <div class="form-floating">
                                                 <input required type="text" class="form-control"
@@ -130,7 +130,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
-                                                    class="fa fa-file-text-o"></i> Terms &
+                                                     data-feather="file-text"></i> Terms &
                                                 Conditions</label>
                                             <select class="form-select page pageSelector"
                                                 id="pageSelector" placeholder="Terms and Conditions"
@@ -155,7 +155,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">
-                                                <i class="fa fa-file-pdf-o"
+                                                <i data-feather="file"
                                                     style="font-weight: bold;"></i>
                                                 Upload Quotation
                                             </label>
@@ -243,7 +243,7 @@
                                     </td>
                                     <td style="text-align: center;"><button type="button"
                                             class="btn btn-danger remove-input-field"><i
-                                                class="fa fa-times"></i></button></td>
+                                                class="icofont icofont-ui-close"></i></button></td>
 
                                     </tr>
                                     @endforeach
@@ -338,7 +338,7 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i> Currency :</label>
+                                        <label class="form-label" style="font-weight: bold;"><i data-feather="dollar-sign"></i> Currency :</label>
                                         <select class="form-select page" id="floatingdateline" placeholder="Mata Uang" name="matauang" required="">
                                             <option selected="" disabled="" value="">select currency
                                             </option>
@@ -479,7 +479,7 @@
                                             style="text-align: center;" value="{{ $i->id }}" hidden /><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option> <option value="Lot">Lot </option> <option value="Rim">Rim </option>
                                     <option value="Org">Org </option><option value="Line">Line </option> <option value="Ruang">Ruang </option><option value="Pax">Pax </option><option value="Set">Set </option>
                                     <option value="Piece">Piece </option><option value="Rol">Rol </option><option value="Pack">Pack </option>
-                                    <option value="Batang">Batang </option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> `;
+                                    <option value="Batang">Batang </option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button></td> `;
                 $(".item").append(item)
                 var rupiah = document.querySelectorAll(".rupiah");
                 rupiah.forEach((item) => {

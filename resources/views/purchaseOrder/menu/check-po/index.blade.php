@@ -5,72 +5,44 @@
 @section('main')
     <section>
 
-        @foreach ($datappb as $purchase)
-            <div class="modal fade" id="modalDelete{{ $purchase->id }}" tabindex="-1" aria-hidden="true">
+        @foreach ($datappb as $ppb)
+            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-danger">
-                            <h2 class="modal-title" style="color: white">Delete</h2>
+                            <h2 class="modal-title" style="color: white">List Item</h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body mx-5 mb-3">
-                            <span class="warning">
-                                <img src="assets/images/warning.png">
-                            </span>
-                            <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+                                        <th>Uom</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($ppb->itemppn as $item)
+                                    <tr>
+                                        <td> {{ $item->item }}</td>
+                                        <td> {{ $item->qty }}</td>
+                                        <td> {{ $item->kategori }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/menu-purchase-order/destroy/' . $purchase->id) }}">
-                                <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
-                                    Delete</button>
-                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        @endforeach
-
-        @foreach ($datappb as $ppb)
-        <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger">
-                        <h2 class="modal-title" style="color: white">List Item</h2>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body mx-5 mb-3">
-                        @php
-                            $i = 1;
-                        @endphp
-                        <table class="table table-bordered table-hover">
-                            <thead class="bg-primary">
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Qty</th>
-                                    <th>Uom</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($ppb->itemppn as $item)
-                                <tr>
-                                    <td> {{ $item->item }}</td>
-                                    <td> {{ $item->qty }}</td>
-                                    <td> {{ $item->kategori }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endforeach
-
-        @foreach ($datapo as $po)
+            @foreach($ppb->quot as $po)
             <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -107,6 +79,7 @@
                     </div>
                 </div>
             </div>
+            @endforeach
         @endforeach
 
 

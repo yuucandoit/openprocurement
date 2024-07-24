@@ -18,14 +18,14 @@
                         <div class="modal-body container">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="floatingName"><i class="fa fa-shopping-cart"></i> E-commerce Name</label>
+                                    <label for="floatingName"><i data-feather="shopping-cart"></i> E-commerce Name</label>
                                     <input type="text" class="form-control" id="floatingName" placeholder="Name"
                                         name="nama">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="floatingAlamat"><i class="fa fa-link"></i> Seller Link</label>
+                                    <label for="floatingAlamat"><i data-feather="link"></i> Seller Link</label>
                                     <input required type="text" class="form-control" id="floatingAlamat"
                                         placeholder="Link" name="link">
                                 </div>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="card-body">
                             <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
-                                    class="bx bx-list-plus"></i> Add <i class="fa fa-plus"></i></button>
+                                    class="bx bx-list-plus"></i> Add <i class="icofont icofont-ui-add"></i></button>
                             <a href={{ url('/export_excel/ecommerce') }} class="btn btn-success mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-export"></i> Export to Excel</a>
                             <a href={{ url('file-import-ec') }} class="btn btn-danger mb-3 mr-1"

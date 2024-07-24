@@ -175,7 +175,7 @@
                         <div class="row">
                             <div class="col-sm-9">
                                 <div style="margin-top: 40px; margin-left:30px;">
-                                    <label data-bs-toggle="modal" data-bs-target="#modalSort"><i class="fa fa-filter" style="font-size:20px"></i> Sort</label>
+                                    <label data-bs-toggle="modal" data-bs-target="#modalSort"><i data-feather="filter" style="font-size:20px"></i> Sort</label>
                                     @if(empty($sort))
 
                                     @else

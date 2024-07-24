@@ -40,45 +40,44 @@
                 </div>
             </div>
         </div>
-        @endforeach
+            @foreach($ppb->quot as $po)
+                <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
 
-        @foreach ($datapo as $po)
-        <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger">
+                                <h4 class="modal-title" style="color: white">List Item</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body mx-5 mb-3">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Uom</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                        <h4 class="modal-title" style="color: white">List Item</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body mx-5 mb-3">
-                        @php
-                            $i = 1;
-                        @endphp
-                        <table class="table table-bordered table-hover">
-                            <thead class="bg-primary">
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Qty</th>
-                                    <th>Uom</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach ($po->itempo as $item)
-                                <tr>
-                                    <td> {{ $item->item }}</td>
-                                    <td> {{ $item->qty }}</td>
-                                    <td> {{ $item->kategori }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                        @foreach ($po->itempo as $item)
+                                        <tr>
+                                            <td> {{ $item->item }}</td>
+                                            <td> {{ $item->qty }}</td>
+                                            <td> {{ $item->kategori }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            @endforeach
         @endforeach
 
         <!-- Page Sidebar Ends-->

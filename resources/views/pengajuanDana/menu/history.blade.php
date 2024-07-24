@@ -56,32 +56,17 @@
             </div>
         </div>
         <!-- Container-fluid starts-->
-        <div class="container-fluid">
+         <div class="container-fluid">
             <div class="row">
                 <!-- Zero Configuration  Starts-->
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="row">
-                            <div class="col-sm-8">
-                                <div style="margin-bottom:-30px; margin-top:20px; margin-left:30px;">
-                                    <label data-bs-toggle="modal" data-bs-target="#modalSort"><i class="fa fa-filter" style="font-size:20px"></i> Sort</label>
-                                    @if(empty($sort))
-
-                                    @else
-                                        @foreach ($sort as $s)
-                                            @if(empty($s))
-
-                                            @else
-                                            <a class="badge badge-success" style="font-size: 10; color:white;">{{ $s }}</a>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </div>
-                            </div>
+                            <div class="col-sm-8"></div>
                             <div class="col-sm-4">
                             <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
-                                <form action="{{ route('menu-pengajuan-dana.SearchHistoryPD') }}" method="get" class="input-group" >
-                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
+                                <form action="{{ route('menu-pengajuan-dana.SearchPDOut') }}" method="get" class="input-group" >
+                                    <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
@@ -91,75 +76,120 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead class="bg-primary">
-                                        <tr>
-                                            <th style="text-align: center;">No</th>
+                                        <tr >
+                                            <th>No</th>
                                             <th>Name</th>
-                                            <th style="text-align: center; white-space:nowrap;">Send To</th>
-                                            <th style="text-align: center; white-space:nowrap;">Deadline</th>
-                                            <th style="text-align: center;">Date</th>
-                                            <th style="text-align: center;">Status</th>
-                                            <th>Function</th>
+                                            <th>Description</th>
+                                            <th>Item</th>
+                                            <th>Deadline</th>
+                                            @hasrole('finance|super admin')
+                                                <th style="text-align: center;">Status</th>
+                                            @endhasrole
                                         </tr>
                                     </thead>
-                                    @php
-                                        $no = 1;
-                                        $approvedPPB = [];
-                                    @endphp
 
                                     <tbody>
+                                        @php
+                                         $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+                                        @endphp
                                         @foreach ($datappb as $ppb)
                                             @if ($ppb->status == 'Paid'||
                                                 $ppb->status == 'Delivery Process'||
                                                 $ppb->status == 'Delivery Success')
-                                                <tr>
-                                                    <td style="text-align: center;">{{ $no++ }}</td>
+                                                @php $approvedPPB[] =$ppb; @endphp
+                                                <tr style="background-color:#F1F6F5;">
+                                                    <td style="text-align: center;">{{ $i++ }}</td>
+                                                    <td>{{ $ppb->whosubmit->name }}</td>
+                                                    <td><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
                                                     <td>
-                                                    <a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">
                                                         <ul>
-                                                            <li style="font-weight: 600;"> {{ $ppb->whosubmit->name }}</li>
-                                                            <li style="margin-top: 8px;"> {{ $ppb->desc }}</li>
-                                                        </ul>
-                                                    </a>
-                                                    </td>
-                                                    <td style="text-align: center;">{{ $ppb->send_to }}</td>
-                                                    <td style="text-align: center; white-space:nowrap;">
-                                                        <ul>
-                                                            <li>
-                                                                @if($ppb->dateline == '≤24Jam')
-                                                                <strong><p>1 Hari</p></strong>
-                                                                @elseif ($ppb->dateline == '≤72Jam')
-                                                                <strong><p>2 sd 3 Hari</p></strong>
-                                                                @elseif ($ppb->dateline == '≤168Jam')
-                                                                <strong><p>4 sd 7 Hari</p></strong>
-                                                                @elseif ($ppb->dateline == '≤336Jam')
-                                                                <strong><p>7 sd 14 Hari</p></strong>
-                                                                @endif
-                                                            </li>
+                                                            <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
                                                         </ul>
                                                     </td>
-                                                    <td style="text-align: center;">{{ $ppb->created_at }}</td>
+                                                    <td style="white-space: nowrap;">
+                                                        @if($ppb->dateline == '≤24Jam')
+                                                        <strong><p>1 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                        @endif
+                                                    </td>
                                                     @hasrole('finance|super admin')
-                                                        <td style="text-align: center">
+                                                        <td class="text-center">
                                                             <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                                style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                                                style="color: white; font-size:10">{{ $ppb->status }}</a>
                                                         </td>
 
-                                                        <td>
+                                                        {{-- <td style="text-align: center">
                                                             <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #00008B;"
-                                                                href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}"><i
-                                                                    class="icon-zoom-in" title="Details"></i>
+                                                            style="background-color: #ADD8E6;font-size:10;"
+                                                            href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}" target="_blank"><i
+                                                                class="icon-eye" title="Preview PDF"></i>
                                                             </a>
-                                                        </td>
+
+                                                        </td> --}}
                                                     @endhasrole
                                                 </tr>
+                                                @foreach ($ppb->quot as $po)
+                                                    <tr>
+
+                                                        @php
+                                                            $po2 = \App\Models\CategoryPO::with('vendorable')->find($po->id);
+                                                            $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                            $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
+                                                        @endphp
+
+                                                        @if(empty($po))
+
+                                                        @else
+                                                        <td style="text-align: center">-</td>
+                                                        <td>
+                                                            <a href="{{ route('menu-pengajuan-dana.po_detail',$po->id) }}">
+                                                            {{ $po2->code_po }}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <ul>
+                                                                <a href="{{ route('menu-pengajuan-dana.po_detail',$po->id) }}">
+                                                                    <li style="white-space: nowrap;">
+                                                                        @if($po2->vendorable_id == 0)
+                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                        @else
+                                                                        Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
+                                                                        @endif
+                                                                    </li>
+                                                                    <li> Quotation : {{ $po2->quotation }}</li>
+                                                                </a>
+                                                            </ul>
+                                                        </td>
+                                                        <td style="font-weight: 700; white-space:nowrap;">
+                                                            @foreach ($po3 as $ipo)
+                                                            <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po2->id }}">{{ $ipo->qty }} Item</label>
+                                                            @endforeach
+                                                        </td>
+                                                        <td>
+                                                            @foreach ($po4 as $ipo)
+                                                            <label>
+                                                                {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
+                                                            </label>
+                                                            @endforeach
+                                                        </td>
+                                                        <td class="text-center"><a
+                                                            class="badge {{ $ppb->status == 'Unpaid' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                            style="color: white; font-size:10">{{ $po2->status }}</a></td>
+
+                                                        @endif
+                                                    </tr>
+                                                @endforeach
                                             @endif
                                         @endforeach
-
                                     </tbody>
                                 </table>
                                 <div class="mt-4">
-                                    {{ $datappb->withQueryString()->links('pagination::bootstrap-5') }}
+                                    {{ $datappb->appends(['out'=> request('out')],'out')->withQueryString()->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                         </div>
@@ -168,15 +198,5 @@
                 <!-- Zero Configuration  Ends-->
             </div>
         </div>
-        <script>
-            $(document).ready(function() {
-
-                $('.servideletebtn').click(function(e) {
-                    e.preventDefault();
-                    alert('hello');
-                });
-
-            });
-        </script>
     </section>
 @endsection

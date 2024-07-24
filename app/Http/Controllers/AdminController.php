@@ -54,9 +54,11 @@ class AdminController extends Controller
     ->orWhere('location','like',"%".$cari."%")
     ->paginate(10);
     $department = Department::all();
+    $role = Roles::all();
 
     return view('admin.index')
     ->with('department',$department)
+    ->with('role',$role)
     ->with('admin',$admin);
    }
 

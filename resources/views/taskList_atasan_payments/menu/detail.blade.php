@@ -175,7 +175,7 @@
                                     <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
-                                                    class="fa fa-database"></i>
+                                                    data-feather="database"></i>
                                                 Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                                 &nbsp; &nbsp;:
                                                 @if (empty($po->vendorable->nama))
@@ -189,7 +189,7 @@
                                     <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
-                                                    class="fa fa-database"></i>
+                                                    data-feather="database"></i>
                                                 Quotation :
                                                 @if (empty($po->quotation))
                                                 @else
@@ -202,7 +202,7 @@
                                     <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
-                                                    class="fa fa-database"></i>
+                                                    data-feather="database"></i>
                                                 Terms conditions :
                                                 @if (empty($po->term->term_condition))
                                                 @else
@@ -216,7 +216,7 @@
                                     <div class="col-md-6 ">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
-                                                    class="fa fa-database"></i>
+                                                    data-feather="database"></i>
                                                 File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  :
                                                 @if (empty($po->path_quotation))
                                                     -

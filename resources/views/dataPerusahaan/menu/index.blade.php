@@ -20,7 +20,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingName"><i class="fa fa-building-o"></i> Company Name</label>
+                                        <label for="floatingName"><i data-feather="briefcase"></i> Company Name</label>
                                         <input required type="text" class="form-control" id="floatingName"
                                             placeholder="Perusahaan" name="nama">
                                     </div>
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingNoTelpon"><i class="fa fa-link"></i> Website</label>
+                                        <label for="floatingNoTelpon"><i data-feather="link"></i> Website</label>
                                         <input type="text" class="form-control" id="floatingNoTelpon"
                                             placeholder="Website" name="website">
                                     </div>
@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingNoTelpon"><i class="fa fa-briefcase"></i> Business
+                                        <label for="floatingNoTelpon"><i data-feather="coffee"></i> Business
                                             Field</label>
                                         <input required type="text" class="form-control" id="floatingNoTelpon"
                                             placeholder="bidang usaha" name="bidang_usaha">
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingNoTelpon"><i class="fa fa-credit-card"></i> Account
+                                        <label for="floatingNoTelpon"><i data-feather="credit-card"></i> Account
                                             Number</label>
                                         <input required type="text" class="form-control" id="floatingNoTelpon"
                                             placeholder="No Rek" name="no_rekening">
@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingUnit"><i class="fa fa-bank"></i> -- Bank --</label>
+                                        <label for="floatingUnit"><i data-feather="airplay"></i> -- Bank --</label>
                                         <select class="form-select js-example-basic-single" id="floatingUnit" placeholder="Bank" name="bank">
                                             @foreach ($bank as $b)
                                             <option value="{{ $b->name }}">{{ $b->name }}</option>
@@ -123,7 +123,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingCabangBank"><i class="fa fa-code-fork"></i> Bank
+                                        <label for="floatingCabangBank"><i data-feather="git-branch"></i> Bank
                                             Branch</label>
                                         <input required type="text" class="form-control" id="floatingCabangBank"
                                             placeholder="Cabang Bank" name="cabang_bank">
@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingNoTelpon"><i class="fa fa-user"></i> Recipient's Name</label>
+                                        <label for="floatingNoTelpon"><i data-feather="user"></i> Recipient's Name</label>
                                         <input required type="text" class="form-control" id="floatingNoTelpon"
                                             placeholder="Penerima" name="nama_penerima">
                                     </div>
@@ -170,21 +170,27 @@
                             <h5>List Of Company Data</h5>
                         </div>
                         <div class="card-body">
-                            <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"><i
-                                    class="bx bx-list-plus"></i> Add <i class="fa fa-plus"></i></button>
-                            <a href={{ url('/export_excel/perusahaan/') }} class="btn btn-success mb-3 mr-1"
-                                style="align-self: flex-end"><i class="icon-export"></i> Export to Excel</a>
-                            <a href={{ url('file-import-pt') }} class="btn btn-danger mb-3 mr-1"
-                                style="align-self: flex-end"><i class="icon-import"></i> Import From Excel</a>
-                            <div class="pull-right">
-                                <form action="{{ route('menu-perusahaan.SearchPT') }}" method="get"
-                                            class="input-group">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd">
+                                        <i class="bx bx-list-plus"></i> Add <i class="icofont icofont-ui-add"></i>
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <div class="pull-right">
+                                        <form action="{{ route('menu-perusahaan.SearchPT') }}" method="get"class="input-group">
                                             <input type="text" name="cari" class="form-control " placeholder="Search ..."
                                                 value="{{ old('cari') }}">
                                             <span class="input-group-btn "><input type="submit" class="btn btn-primary"
                                                     value="Go"></span>
                                         </form>
                                     </div>
+                                </div>
+
+                            </div>
+
+
+
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead class="bg-primary">
@@ -256,6 +262,12 @@
                                     </tbody>
                                 </table>
                                 {{ $datadv->withQueryString()->links('pagination::bootstrap-5') }}
+                            </div>
+                            <div class="mt-2">
+                                <a href={{ url('/export_excel/perusahaan/') }} class="btn btn-secondary mb-3 mr-1"
+                                style="align-self: flex-end"><i class="icon-export"></i> Export to Excel</a>
+                                <a href={{ url('file-import-pt') }} class="btn btn-warning mb-3 mr-1"
+                                    style="align-self: flex-end"><i class="icon-import"></i> Import From Excel</a>
                             </div>
                         </div>
                     </div>

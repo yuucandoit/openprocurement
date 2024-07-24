@@ -47,11 +47,11 @@ class CategoryPOController extends Controller
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb         = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Cross Check PO')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'in');
             $datappb2        = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->get();
-            $datapo          = CategoryPO::get();
+            // $datapo          = CategoryPO::get();
             return view('purchaseOrder.menu.index')
                 ->with('datappb2', $datappb2)
-                ->with('datappb', $datappb)
-                ->with('datapo', $datapo);
+                ->with('datappb', $datappb);
+                // ->with('datapo', $datapo);
         } else {
             return redirect()->route('dashboard');
         }
@@ -79,11 +79,11 @@ class CategoryPOController extends Controller
     $datahstry = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
     ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
     ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10);
-    $datapo          = CategoryPO::get();
+    // $datapo          = CategoryPO::get();
 
     return view('purchaseOrder.menu.index')
     ->with('datappb',$datappb)
-    ->with('datapo', $datapo)
+    // ->with('datapo', $datapo)
     ->with('datahstry',$datahstry);
    }
 
@@ -91,11 +91,11 @@ class CategoryPOController extends Controller
    {
        $check = Role::where('model_id', Auth::user()->id)->first();
        if ($check->role_id == 4 || $check->role_id == 3 ||$check->role_id == 17) {
-        $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO & Payment Approved','PO Approved','Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success'])->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'out');
-        $datapo = CategoryPO::get();
+        $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO & Payment Approved','PO Approved','Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success'])->orderBy('updated_at','DESC')->orderBy('id', 'desc')->paginate(10, ['*'],'out');
+        // $datapo = CategoryPO::get();
         return view('purchaseOrder.menu.out')
-            ->with('datappb', $datappb)
-            ->with('datapo', $datapo);
+            ->with('datappb', $datappb);
+            // ->with('datapo', $datapo);
        }
    }
 
@@ -103,22 +103,24 @@ class CategoryPOController extends Controller
    {
     $cariOut = $request->cariOut;
     //dd($cari);
-    $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+    $datappb = CategoryPengajuanPembelian::orderBy('updated_at','DESC')->orderBy('id', 'desc')
     ->orWhere('id','like',"%".$cariOut."%")
     ->orWhere('status','like',"%".$cariOut."%")
     ->orWhere('desc','like',"%".$cariOut."%")
+    ->orWhere('code_pengajuan','like',"%".$cariOut."%")
     ->orWhereHas('itemppn', function($i) use($cariOut){
         $i->where('item','like',"%".$cariOut."%");
     })
     ->orWhereHas('whosubmit', function($q) use($cariOut){
          $q->where('name','like',"%".$cariOut."%");
     })
+    ->orWhereHas('quot', function($po) use($cariOut){
+        $po->where('code_po','like',"%".$cariOut."%");
+   })
     ->paginate(10, ['*'],'out');
-    $datapo          = CategoryPO::get();
 
     return view('purchaseOrder.menu.out')
-    ->with('datappb',$datappb)
-    ->with('datapo', $datapo);
+    ->with('datappb',$datappb);
    }
 
 

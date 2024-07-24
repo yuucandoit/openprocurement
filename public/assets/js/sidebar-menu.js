@@ -14,32 +14,32 @@
 
   // left sidebar and horizotal menu
     if($('#pageWrapper').hasClass('compact-wrapper')){
-          jQuery('.submenu-title').append('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+          jQuery('.submenu-title').append('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
           jQuery('.submenu-title').click(function () {
               jQuery('.submenu-title').removeClass('active');
-              jQuery('.submenu-title').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+              jQuery('.submenu-title').find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
               jQuery('.submenu-content').slideUp('normal');
               if (jQuery(this).next().is(':hidden') == true) {
                   jQuery(this).addClass('active');
-                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
+                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-down"></i></div>');
                   jQuery(this).next().slideDown('normal');
               } else {
-                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
               }
           });
         //   jQuery('.submenu-content').hide();
 
-          jQuery('.menu-title').append('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+          jQuery('.menu-title').append('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
           jQuery('.menu-title').click(function () {
               jQuery('.menu-title').removeClass('active');
-              jQuery('.menu-title').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+              jQuery('.menu-title').find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
               jQuery('.menu-content').slideUp('normal');
               if (jQuery(this).next().is(':hidden') == true) {
                   jQuery(this).addClass('active');
-                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
+                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-down"></i></div>');
                   jQuery(this).next().slideDown('normal');
               } else {
-                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
               }
           });
         //   jQuery('.menu-content').hide();
@@ -48,32 +48,32 @@
         if ((contentwidth) < '992') {
             $('#pageWrapper').removeClass('horizontal-wrapper').addClass('compact-wrapper');
             $('.page-body-wrapper').removeClass('horizontal-menu').addClass('sidebar-icon');
-            jQuery('.submenu-title').append('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+            jQuery('.submenu-title').append('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
           jQuery('.submenu-title').click(function () {
               jQuery('.submenu-title').removeClass('active');
-              jQuery('.submenu-title').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+              jQuery('.submenu-title').find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
               jQuery('.submenu-content').slideUp('normal');
               if (jQuery(this).next().is(':hidden') == true) {
                   jQuery(this).addClass('active');
-                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
+                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-down"></i></div>');
                   jQuery(this).next().slideDown('normal');
               } else {
-                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
               }
           });
         //   jQuery('.submenu-content').hide();
 
-          jQuery('.menu-title').append('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+          jQuery('.menu-title').append('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
           jQuery('.menu-title').click(function () {
               jQuery('.menu-title').removeClass('active');
-              jQuery('.menu-title').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+              jQuery('.menu-title').find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
               jQuery('.menu-content').slideUp('normal');
               if (jQuery(this).next().is(':hidden') == true) {
                   jQuery(this).addClass('active');
-                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
+                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-down"></i></div>');
                   jQuery(this).next().slideDown('normal');
               } else {
-                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-right"></i></div>');
+                  jQuery(this).find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-right"></i></div>');
               }
           });
         //   jQuery('.menu-content').hide();
@@ -193,8 +193,8 @@ $("#left-arrow").click(function () {
                 $(this).parents().children('a').addClass('active');
                 $(this).parents().parents().children('ul').css('display', 'block');
                 $(this).addClass('active');
-                $(this).parent().parent().parent().children('a').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
-                $(this).parent().parent().parent().parent().parent().children('a').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
+                $(this).parent().parent().parent().children('a').find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-down"></i></div>');
+                $(this).parent().parent().parent().parent().parent().children('a').find('div').replaceWith('<div class="according-menu"><i data-feather="chevron-down"></i></div>');
                 return false;
             }
         }

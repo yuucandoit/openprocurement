@@ -49,49 +49,7 @@
                     </div>
                 </div>
             </div>
-        @endforeach
-
-        @foreach ($datapo as $po)
-            <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-
-                            <h4 class="modal-title" style="color: white">List Item</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mx-5 mb-3">
-                            @php
-                                $i = 1;
-                            @endphp
-                            <table class="table table-bordered table-hover">
-                                <thead class="bg-primary">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                        <th>Uom</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach ($po->itempo as $item)
-                                    <tr>
-                                        <td> {{ $item->item }}</td>
-                                        <td> {{ $item->qty }}</td>
-                                        <td> {{ $item->kategori }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-
-        @foreach ($datappb as $purchase)
-            <div class="modal fade" id="modalDelete{{ $purchase->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="modalDelete{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-danger">
@@ -106,7 +64,7 @@
                             <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ url('/menu-purchase-order/destroy/' . $purchase->id) }}">
+                            <form action="{{ url('/menu-purchase-order/destroy/' . $ppb->id) }}">
                                 <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                     Delete</button>
                             </form>
@@ -114,7 +72,46 @@
                     </div>
                 </div>
             </div>
+            @foreach ($ppb->quot as $po)
+                <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger">
+
+                                <h4 class="modal-title" style="color: white">List Item</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body mx-5 mb-3">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                <table class="table table-bordered table-hover">
+                                    <thead class="bg-primary">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Uom</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach ($po->itempo as $item)
+                                        <tr>
+                                            <td> {{ $item->item }}</td>
+                                            <td> {{ $item->qty }}</td>
+                                            <td> {{ $item->kategori }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         @endforeach
+
 
             <div class="container-fluid">
                 <div class="page-header">
@@ -137,8 +134,8 @@
                             <div class="row">
                             <div class="col-sm-8">
                                 <div style="margin-top:20px; margin-bottom:-30px; margin-left: 30px;">
-                                    <a href="{{ route('export-pembelian') }}" class="btn" style="background-color: #06491b; color:white;">Export Excel</a>
-                                    <a href="{{ url('/file-import-ppb') }}" class="btn" style="background-color: #06491b; color:white;">Import Excel</a>
+                                    {{-- <a href="{{ route('export-pembelian') }}" class="btn" style="background-color: #06491b; color:white;">Export Excel</a>
+                                    <a href="{{ url('/file-import-ppb') }}" class="btn" style="background-color: #06491b; color:white;">Import Excel</a> --}}
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -159,8 +156,8 @@
                                                 <th>Code PR/PO</th>
                                                 <th>Applicant Name</th>
                                                 <th>Item</th>
+                                                <th style="text-align: center;">Deadline</th>
                                                 <th style="text-align: center;">Status</th>
-                                                <th style="text-align: center;">Action</th>
                                             </tr>
                                         </thead>
                                         @php
@@ -188,17 +185,26 @@
                                                         </ul>
                                                     </td>
                                                     <td style="text-align: center;">
+                                                        <ul>
+                                                            <li>
+                                                                <p class="ppb-countdown" style="color:rgb(81, 171, 71);width:150px;"></p>
+                                                            </li>
+                                                            <li>
+                                                                @if($ppb->dateline == '≤24Jam')
+                                                                <strong><p>1 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤72Jam')
+                                                                <strong><p>2 sd 3 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤168Jam')
+                                                                <strong><p>4 sd 7 Hari</p></strong>
+                                                                @elseif ($ppb->dateline == '≤336Jam')
+                                                                <strong><p>7 sd 14 Hari</p></strong>
+                                                                @endif
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td style="text-align: center;">
                                                         <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting For Process</a>
                                                     </td>
-                                                    @hasrole('purchasing|super admin')
-                                                        <td style="text-align: center;">
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                style="background-color: #008b2c;font-size:10;"
-                                                                href="{{ url('/delivery/create/' . $ppb->id) }}">
-                                                                <i class="icon-file" title="Create"></i>
-                                                            </a>
-                                                        </td>
-                                                    @endhasrole
                                                 </tr>
                                                 @foreach ($ppb->quot as $po)
                                                 @if($po->status == 'Paid')

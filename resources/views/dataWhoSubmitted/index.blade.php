@@ -26,7 +26,7 @@
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ url('who-submitted/create/') }}" class="btn btn-primary mb-3"></i> Add <i
-                                    class="fa fa-plus"></i></a>
+                                    class="icofont icofont-ui-add"></i></a>
                                         <div class="pull-right">
                                             <form action="{{ route('who-submitted.SearchWS') }}" method="get"
                                                 class="input-group">

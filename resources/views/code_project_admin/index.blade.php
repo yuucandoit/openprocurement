@@ -25,7 +25,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <a href="{{ url('/project-code/create/') }}" class="btn btn-primary mb-3"></i> Add <i class="fa fa-plus"></i></a>
+                            <a href="{{ url('/project-code/create/') }}" class="btn btn-primary mb-3"></i> Add <i class="icofont icofont-ui-add"></i></a>
                             <div class="pull-right">
                                 <form action="{{ route('project-reference.SearchProject') }}" method="get"
                                         class="input-group">

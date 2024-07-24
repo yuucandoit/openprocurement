@@ -126,7 +126,7 @@
                                                     <div class="col-md-6 ">
                                                         <div class="form-group">
                                                             <label class="form-label" style="font-weight: bold;"><i
-                                                                    class="fa fa-database"></i>
+                                                                    data-feather="database"></i>
                                                                 Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                                                 &nbsp; &nbsp;:
                                                                 @if (empty($po->vendorable->nama))
@@ -140,7 +140,7 @@
                                                     <div class="col-md-6 ">
                                                         <div class="form-group">
                                                             <label class="form-label" style="font-weight: bold;"><i
-                                                                    class="fa fa-database"></i>
+                                                                    data-feather="database"></i>
                                                                 Quotation  :
                                                                 @if (empty($po->quotation))
                                                                 @else
@@ -153,7 +153,7 @@
                                                     <div class="col-md-6 ">
                                                         <div class="form-group">
                                                             <label class="form-label" style="font-weight: bold;"><i
-                                                                    class="fa fa-database"></i>
+                                                                    data-feather="database"></i>
                                                                 Terms conditions :
                                                                 @if (empty($po->term->term_condition))
                                                                 @else
@@ -168,7 +168,7 @@
                                                     <div class="col-md-6 ">
                                                         <div class="form-group">
                                                             <label class="form-label" style="font-weight: bold;"><i
-                                                                    class="fa fa-database"></i>
+                                                                    data-feather="database"></i>
                                                                 File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
                                                                 @if (empty($po->path_quotation))
                                                                     -
@@ -376,7 +376,7 @@
                                             <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/pymnt_id/' . $po->id) }}"
                                                 target="_blank" style="font-size:12;">Export PDF Payment</i>
                                             </a>
-                                            <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="fa fa-plus"></i></a>
+                                            <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3" target="_blank"> Edit PO <i class="icofont icofont-ui-add"></i></a>
                                             @endif
                                             </div>
                                         </div>

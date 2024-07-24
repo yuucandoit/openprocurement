@@ -61,7 +61,7 @@
                                     @csrf
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="floatingName"><i class="fa fa-shopping-cart"></i> E-commerce
+                                            <label for="floatingName"><i data-feather="shopping-cart"></i> E-commerce
                                                 Name</label>
                                             <input type="text" class="form-control" id="floatingName"
                                                 placeholder="Your Name" name="nama" value="{{ $dv->nama }}">
@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="floatingName"><i class="fa fa-link"></i> Seller Link</label>
+                                            <label for="floatingName"><i data-feather="link"></i> Seller Link</label>
                                             <input type="text" class="form-control" id="floatingName"
                                                 placeholder="Your Name" name="link" value="{{ $dv->link }}">
                                         </div>

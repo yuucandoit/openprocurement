@@ -26,7 +26,7 @@
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ url('/workshop/create/') }}" class="btn btn-primary mb-3"></i> Add <i
-                                    class="fa fa-plus"></i></a>
+                                    class="icofont icofont-ui-add"></i></a>
                                     <div class="pull-right">
                                         <form action="{{ route('workshop.SearchWorkshop') }}" method="get"
                                             class="input-group">
@@ -61,7 +61,7 @@
                                                     </a>
                                                     <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
                                                     data-bs-toggle="modal" data-bs-target="#modalDelete{{ $wo->id }}">
-                                                    <i class="fa fa-trash-o" title="Delete."></i>
+                                                    <i data-feather="trash-2" title="Delete."></i>
                                                 </button>
                                                 </td>
 

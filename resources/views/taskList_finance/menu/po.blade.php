@@ -29,94 +29,92 @@
                             <div class="card-body">
                                 <table class="table table-bordered mt-4">
                                     <tbody>
-                                        @foreach ($datapo as $po)
-                                            <tr>
-                                                <td>Code PO</td>
-                                                <td>{{ $po->code_po }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Who Submitted</td>
-                                                <td>{{ $po->ppb->whosubmit->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Date</td>
-                                                <td>{{ $po->ppb->date_ps }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Department</td>
-                                                <td>{{ $po->ppb->dps->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Description</td>
-                                                <td>{{ $po->ppb->desc }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Purpose</td>
-                                                <td>{{ $po->ppb->purpose->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Send To</td>
-                                                <td>{{ $po->ppb->send_to }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Deadline</td>
-                                                <td>
-                                                    @if($po->ppb->dateline == '≤24Jam')
-                                                    <strong><p>1 Hari</p></strong>
-                                                    @elseif ($po->ppb->dateline == '≤72Jam')
-                                                    <strong><p>2 sd 3 Hari</p></strong>
-                                                    @elseif ($po->ppb->dateline == '≤168Jam')
-                                                    <strong><p>4 sd 7 Hari</p></strong>
-                                                    @elseif ($po->ppb->dateline == '≤336Jam')
-                                                    <strong><p>7 sd 14 Hari</p></strong>
-                                                    @endif
-                                                    {{-- {{ $po->ppb->dateline }} --}}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Quotation</td>
-                                                <td>{{ $po->quotation }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Nama Vendor</td>
-                                                <td>
-                                                @if (empty($po->vendorable_type))
-                                                    Belum Diisi Datanya
-                                                @else
-
-                                                    @if(empty($po->vendorable->nama))
-                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
-                                                    @else
-                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po->vendorable->nama ?? '-' }}
-                                                    @endif
+                                        <tr>
+                                            <td>Code PO</td>
+                                            <td>{{ $datacpo->code_po }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Who Submitted</td>
+                                            <td>{{ $datacpo->ppb->whosubmit->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date</td>
+                                            <td>{{ $datacpo->ppb->date_ps }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Department</td>
+                                            <td>{{ $datacpo->ppb->dps->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Description</td>
+                                            <td>{{ $datacpo->ppb->desc }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Purpose</td>
+                                            <td>{{ $datacpo->ppb->purpose->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Send To</td>
+                                            <td>{{ $datacpo->ppb->send_to }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Deadline</td>
+                                            <td>
+                                                @if($datacpo->ppb->dateline == '≤24Jam')
+                                                <strong><p>1 Hari</p></strong>
+                                                @elseif ($datacpo->ppb->dateline == '≤72Jam')
+                                                <strong><p>2 sd 3 Hari</p></strong>
+                                                @elseif ($datacpo->ppb->dateline == '≤168Jam')
+                                                <strong><p>4 sd 7 Hari</p></strong>
+                                                @elseif ($datacpo->ppb->dateline == '≤336Jam')
+                                                <strong><p>7 sd 14 Hari</p></strong>
                                                 @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Approver Note</td>
-                                                <td>
-                                                    @if (empty($po->ppb->note_bod_pr))
-                                                        -
-                                                    @else
-                                                        {{ $po->ppb->note_bod_pr }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Approve To</td>
-                                                <td>
-                                                    @if (empty($po->ppb->atasans->name))
-                                                        -
-                                                    @else
-                                                        {{ $po->ppb->atasans->name }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                {{-- {{ $datacpo->ppb->dateline }} --}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Quotation</td>
+                                            <td>{{ $datacpo->quotation }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama Vendor</td>
+                                            <td>
+                                            @if (empty($datacpo->vendorable_type))
+                                                Belum Diisi Datanya
+                                            @else
+
+                                                @if(empty($datacpo->vendorable->nama))
+                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                @else
+                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $datacpo->vendorable->nama ?? '-' }}
+                                                @endif
+                                            @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Approver Note</td>
+                                            <td>
+                                                @if (empty($datacpo->ppb->note_bod_pr))
+                                                    -
+                                                @else
+                                                    {{ $datacpo->ppb->note_bod_pr }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Approve To</td>
+                                            <td>
+                                                @if (empty($datacpo->ppb->atasans->name))
+                                                    -
+                                                @else
+                                                    {{ $datacpo->ppb->atasans->name }}
+                                                @endif
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 @php
-                                   $item_po = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->first();
+                                   $item_po = \App\Models\ItemPO::where('po_id',$datacpo->id)->groupBy('po_id')->first();
                                 @endphp
 
                                 @if(empty($item_po))
@@ -249,7 +247,7 @@
                                         $no = 1;
                                     @endphp
                                     <tbody>
-                                        @foreach ($po->itempo as $item)
+                                        @foreach ($datacpo->itempo as $item)
                                             <tr>
                                                 <td style="text-align: center;">{{ $no++ }}</td>
                                                 <td style="text-align: center;">{{ $item->item }}</td>
@@ -372,25 +370,23 @@
 
                                 @endif
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mt-3">
+                                    <div class="col-md-12">
+                                        <div class="mt-3" style="text-align: center;">
                                             @hasrole('finance|super admin')
-                                            <form action="{{ url('menu-tasklist-finance/approve_tpy', $datacpo->id) }}" method="get">
-                                                <div class="mb-3">
-                                                    <label for="note" class="form-label">Comment</label>
-                                                    <textarea name="note_finance" id="note" class="form-control" cols="30" rows="0"></textarea>
-                                                </div>
+                                            <form action="{{ url('menu-tasklist-finance/approve_tpy', $datacpo->id) }}" method="POST">
+                                                @csrf
+                                                {{-- <a href="{{ url()->previous() }}" class="btn" style=" color:white; background-color:black">Back</a>     --}}
                                                 @if ($datacpo->status == 'Unpaid' ||
                                                 $datacpo->status == 'Paid' ||
                                                 $datacpo->status == 'Delivery Process' ||
                                                 $datacpo->status == 'Delivery Success')
                                                 <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
-                                                class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
-                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-danger text-center" onclick="return">Reject</a>
+                                                <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
+                                                class="btn btn-success text-center" onclick="return"><b>Approved</b></a>
                                                 @elseif($datacpo->status == 'Payment Approved' || $datacpo->status == 'PO & Payment Approved')
-                                                <button type="submit" class="btn btn-success text-center"> Process</button>
                                                 <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#reject">Reject</button>
+                                                <button type="submit" class="btn btn-success text-center"> Process</button>
                                                 @else
                                                 <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
                                                 class="btn btn-success text-center" onclick="return">Process</a>
@@ -401,36 +397,32 @@
                                             @endhasrole
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mt-3" style="text-align: right;">
-                                            <a href="{{ url()->previous() }}" class="btn "
-                                                style=" color:white; background-color:black">Back</a>
-                                            <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
+                                    {{-- <div class="col-md-6"> --}}
+                                        {{-- <div class="mt-3" style="text-align: right;"> --}}
+
+                                            {{-- <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a> --}}
+                                        {{-- </div> --}}
+                                    {{-- </div> --}}
+                                </div>
+                                    <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="rejectLabel">Reject Message</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ url('menu-tasklist-finance/reject_tpy', $datacpo->id) }}" id="formAdd" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <textarea name="notes" id="" cols="30" rows="10" class="form-control"></textarea>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="rejectLabel">Reject Message</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <form action="{{ url('menu-tasklist-finance/reject_tpy', $datacpo->id) }}" id="formAdd" method="get"
-                                        enctype="multipart/form-data">
-                                        @csrf
-
-                                        <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-danger">Reject</button>
-                                        </form>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-
-
-
                             </div>
                         </div>
                     </div>

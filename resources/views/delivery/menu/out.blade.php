@@ -39,9 +39,8 @@
                     </div>
                 </div>
             </div>
-        @endforeach
-
-        @foreach ($datapo as $po)
+            
+            @foreach ($ppb->quot as $po)
             <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -78,7 +77,10 @@
                     </div>
                 </div>
             </div>
+            @endforeach
         @endforeach
+
+
     <section>
         <div class="modal fade" id="modalAdd" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg">

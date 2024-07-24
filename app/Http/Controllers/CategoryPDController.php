@@ -33,37 +33,22 @@ class CategoryPDController extends Controller
         if ($check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','Unpaid');
-            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datapo = CategoryPO::all();
+            })->where('status', 'not like', '%Rejected%')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             return view('pengajuanDana.menu.index')
-                ->with('datappb',$datappb)
-                ->with('datapo', $datapo);
+                ->with('datappb',$datappb);
         } else if ($check->role_id == 3 || $check->role_id == 5 || $check->role_id == 2) {
-            $datappb = CategoryPengajuanPembelian::where('status','Unpaid')->orWhereHas('quot',function($i){
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','Unpaid');
-            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::where('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-            $pt = CategoryPT::all();
-            $op = CategoryPP::all();
-            $ec = CategoryEcommerce::all();
-            $datapo = CategoryPO::all();
+            })->where('status', 'not like', '%Rejected%')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             return view('pengajuanDana.menu.index')
-            ->with('pt',$pt)
-            ->with('op',$op)
-            ->with('ec',$ec)
-            ->with('datappb',$datappb)
-            ->with('datappb2',$datappb2)
-            ->with('datapo', $datapo);
+            ->with('datappb',$datappb);
         }
     }
 
     public function po_detail($id)
     {
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
-        $datapo             = CategoryPO::where('id', $id)->get();
         $datacpo            = CategoryPO::where('id', $id)->first();
-        $dataws             = WhoSubmitted::all();
-        $datadepartment     = Department::all();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -74,10 +59,7 @@ class CategoryPDController extends Controller
         return view('pengajuanDana.menu.po')
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
-            ->with('datapo', $datapo)
-            ->with('dataws', $dataws)
             ->with('datacpo', $datacpo)
-            ->with('datadepartment', $datadepartment)
             ->with('ppn', $ppn)
             ->with('total', $total)
             ->with('total_tnpa_ppn', $total_tnpa_ppn)
@@ -89,22 +71,30 @@ class CategoryPDController extends Controller
     {
      $cari = $request->cariIn;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")->orWhere('status','like',"%".$cari."%")
-     ->orWhere('desc','like',"%".$cari."%")
-     ->orWhereHas('whosubmit', function($w) use($cari){
-          $w->where('name','like',"%".$cari."%");
-     })
-     ->orWhereHas('itemppn', function($i) use($cari){
-        $i->where('item','like',"%".$cari."%");
-    })
-    ->orWhereHas('quot', function($q) use($cari){
-        $q->where('id','like',"%".$cari."%");
-    })
-     ->paginate(10, ['*'],'in');
-     $datapo             = CategoryPO::get();
+     $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
+        $query->whereHas('quot', function($q) {
+                $q->where('status', 'Unpaid');
+            })
+            ->where('status', 'not like', '%Rejected%')
+            ->where(function($q) use ($cari) {
+                $q->where('id', 'like', "%" . $cari . "%")
+                    ->orWhere('status', 'like', "%" . $cari . "%")
+                    ->orWhere('desc', 'like', "%" . $cari . "%")
+                    ->orWhere('code_pengajuan', 'like', "%" . $cari . "%")
+                    ->orWhereHas('whosubmit', function($q) use ($cari) {
+                        $q->where('name', 'like', "%" . $cari . "%");
+                    })
+                    ->orWhereHas('itemppn', function($q) use ($cari) {
+                        $q->where('item', 'like', "%" . $cari . "%");
+                    })
+                    ->orWhereHas('quot', function($q) use ($cari) {
+                        $q->where('id', 'like', "%" . $cari . "%")
+                        ->orWhere('code_po', 'like', "%" . $cari . "%");
+                    });
+            });
+    })->paginate(10, ['*'], 'in');
      return view('pengajuanDana.menu.index')
-     ->with('datappb',$datappb)
-     ->with('datapo', $datapo);
+     ->with('datappb',$datappb);
     }
 
     public function out()
@@ -250,22 +240,28 @@ class CategoryPDController extends Controller
     public function store(Request $request, $id)
     {
         $cpo = CategoryPO::find($id);
-        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
-        $request->validate([
-            'path_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-           ]);
-        //    dd($request->all());
-           $pengajuan        = $data->id;
-           $po_id            = $id;
-           $path_name        = $request->file('path_image');
-           $name             = $path_name->getClientOriginalName();
-           $path_name->move('images', $name);
+        if (!$cpo) {
+            return redirect()->back()->with('error', 'Category PO not found.');
+        }
 
-           $save = new CategoryPD;
-           $save->ppb_id     = $pengajuan;
-           $save->po_id      = $po_id;
-           $save->path_image = $name;
-           $save->save();
+        $request->validate([
+            'path_image.*' => 'required|file|mimes:xlsx,pdf,docx,png,jpeg,jpg|max:2048',
+        ]);
+
+        $pengajuan = $cpo->ppb->id;
+
+        if ($request->hasFile('path_image')) {
+            foreach ($request->file('path_image') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move(public_path('images'), $name);
+
+                $save = new CategoryPD;
+                $save->ppb_id     = $pengajuan;
+                $save->po_id      = $id;
+                $save->path_image = $name;
+                $save->save();
+            }
+        }
 
         return redirect()->back()->with('success', 'Task Created Successfully!');
     }
@@ -344,25 +340,28 @@ class CategoryPDController extends Controller
     public function paid_pd(Request $request, $id)
     {
         $cpo = CategoryPO::find($id);
-        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->update([
-            'p_finance_timestamp' => now(),
-        ]);
-        // $data->status = 'Paid';
-        CategoryPO::where('id',$id)->update([
-            'status' => 'Paid'
-        ]);
+        $pr = CategoryPengajuanPembelian::find($cpo->ppb_id);
+        $lastQuot = $pr->quot->last();
+        if($cpo->id == $lastQuot->id && $pr->status == $cpo->status){
+                // PO & Payment Approved
+            $data = CategoryPengajuanPembelian::where('id',$cpo->ppb_id)->update([
+                'note_finance'            => $request->note_finance,
+                'w_finance_pay_timestamp' => now(),
+                'status'                  => 'Paid'
+            ]);
+        }
+            CategoryPO::where('id',$id)->update([
+                'status' => 'Paid'
+            ]);
+
         return redirect('/menu-pengajuan-dana');
     }
 
     public function reject_pd($id)
     {
         $cpo = CategoryPO::find($id);
-
-        $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->update([
-            'status' => 'Rejected by Finance',
-            'p_finance_timestamp' => now(),
-        ]);
         CategoryPO::where('id',$id)->update([
+            'notes' => $request->notes . ' # ' . Auth::user()->name,
             'status' => 'Rejected by Finance'
         ]);
         return redirect('/menu-pengajuan-dana');

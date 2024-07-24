@@ -40,10 +40,9 @@
                     </div>
                 </div>
             </div>
-        @endforeach
 
-        @foreach ($datapo as $po)
-            <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
+            @foreach ($ppb->quot as $po)
+             <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-danger">
@@ -79,7 +78,9 @@
                     </div>
                 </div>
             </div>
+            @endforeach
         @endforeach
+        
         <div class="modal fade" id="modalSort" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -196,7 +197,7 @@
                     <div class="row">
                         <div class="col-sm-8">
                             <div style="margin-bottom:-20px; margin-top: 30px; margin-left:30px;">
-                                <label data-bs-toggle="modal" data-bs-target="#modalSort"><i class="fa fa-filter" style="font-size:20px"></i> Sort</label>
+                                <label data-bs-toggle="modal" data-bs-target="#modalSort"><i data-feather="filter" style="font-size:20px"></i> Sort</label>
                                 @if(empty($sort))
 
                                 @else

@@ -27,11 +27,28 @@ class PrePrController extends Controller
      */
     public function index()
     {
-        $pre_pr = Pre_pr::where('user_id', Auth::user()->id)->paginate(10);
-        $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
-        return view('PrePR.index')
-        ->with('purpose', $purpose)
-        ->with('pre_pr', $pre_pr);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 2 || $check->role_id == 3 ||  $check->role_id == 4 || $check->role_id == 17) {
+            if($check->role_id == 2){
+                if(Auth::user()->id == 34 || Auth::user()->email == 'edward@intek.co.id'){
+                    $pre_pr = Pre_pr::orderBy('created_at', 'DESC')->paginate(10);
+                    $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
+                    return view('PrePR.index')
+                    ->with('purpose', $purpose)
+                    ->with('pre_pr', $pre_pr);
+                } else {
+                    return redirect()->route('dashboard');
+                }
+            }else {
+            $pre_pr = Pre_pr::orderBy('created_at', 'DESC')->paginate(10);
+            $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
+            return view('PrePR.index')
+            ->with('purpose', $purpose)
+            ->with('pre_pr', $pre_pr);
+            }
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -42,18 +59,44 @@ class PrePrController extends Controller
 
     public function detail($id)
     {
-        $pre_pr = Pre_pr::with(['partItem' => function ($query) {
-            $query->with('prItems', function ($query) {
-                $query->whereHas('ppb', function ($query) {
-                    $query->where('status', 'NOT LIKE', '%Rejected%');
-                });
-            });
-        }])->find($id);
 
-        // $pre_pr =
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 2 || $check->role_id == 3 ||  $check->role_id == 4 || $check->role_id == 17) {
+            if($check->role_id == 2){
+                if(Auth::user()->id == 34 || Auth::user()->email == 'edward@intek.co.id'){
+                    $pre_pr = Pre_pr::with(['partItem' => function ($query) {
+                        $query->with('prItems', function ($query) {
+                            $query->whereHas('ppb', function ($query) {
+                                $query->where('status', 'NOT LIKE', '%Rejected%');
+                            });
+                        });
+                    }])->find($id);
 
-        return view('PrePR.detail')
-        ->with('pre_pr', $pre_pr);
+                    // $pre_pr =
+
+                    return view('PrePR.detail')
+                    ->with('pre_pr', $pre_pr);
+                } else {
+                    return redirect()->route('dashboard');
+                }
+            }else {
+                $pre_pr = Pre_pr::with(['partItem' => function ($query) {
+                    $query->with('prItems', function ($query) {
+                        $query->whereHas('ppb', function ($query) {
+                            $query->where('status', 'NOT LIKE', '%Rejected%');
+                        });
+                    });
+                }])->find($id);
+
+                // $pre_pr =
+
+                return view('PrePR.detail')
+                ->with('pre_pr', $pre_pr);
+            }
+        }else {
+            return redirect()->route('dashboard');
+        }
+
     }
 
     /**
@@ -98,7 +141,7 @@ class PrePrController extends Controller
             if ($response['status'] == 200) {
                 $userData = $response['user'];
                 $token = $response['token'];
-                dd($response);
+                // dd($response);
                 Session::put('token', $token);
             }
         }
@@ -137,7 +180,7 @@ class PrePrController extends Controller
             // dd($resjson['products']);
             return $products;
         }else {
-            dd($response);
+            return $products = [];
         }
     }
 
@@ -145,24 +188,24 @@ class PrePrController extends Controller
 
     public function create()
     {
-        $tokenGerry = Session::get('token');
+        // $tokenGerry = Session::get('token');
 
-        $checking = $this->CheckToken($tokenGerry);
+        // $checking = $this->CheckToken($tokenGerry);
 
         // dd($checking);
-        $items= [];
+        // $items= [];
 
-        if(!$checking){
-            $this->getToken();
-        }else {
-          $products =   $this->getProducts($tokenGerry);
-        }
+        // if(!$checking){
+        //     $this->getToken();
+        // }else {
+        //   $products =   $this->getProducts($tokenGerry);
+        // }
         // dd($products);
         $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
         $oldInput = Session::getOldInput();
         return view('PrePR.create')
         ->with('oldInput', $oldInput)
-        ->with('products', $products)
+        // ->with('products', $products)
         ->with('purpose',$purpose);
     }
 
@@ -177,10 +220,10 @@ class PrePrController extends Controller
         // dd($request->all());
         $data = $request->all();
         // dd($data);
-        $existProject = Pre_pr::where('user_id',Auth::user()->id)->where('project_id',$request->project)->first();
+        $existProject = Pre_pr::where('project_id',$request->project)->first();
         if($existProject){
             Session::flashInput($request->input());
-            return redirect()->back()->with('error', 'Project Already Exist -_- ');
+            return redirect()->back()->with('error', 'Pre-pr for '.$existProject->project->name.' project has been made by '.$existProject->user->name );
         }
 
         $pre_pr = Pre_pr::create([
@@ -195,12 +238,12 @@ class PrePrController extends Controller
             $buffer =  $data['buffer'][$item];
             $total = $qty + $buffer;
 
-            list($id, $name) = explode(':', $data['item'][$item]);
+            // list($id, $name) = explode(':', $data['item'][$item]);
 
             $data2 = array(
                 'pre_pr_id'         => $pre_pr->id,
                 'product_id'        => $id ?? null,
-                'child_item'        => $name,
+                'child_item'        => $name ?? $data['item'][$item] ,
                 'desc'              => $data['desc'][$item],
                 'link'              => $data['link'][$item],
                 'status'            => $data['status'][$item]?? '',
@@ -232,7 +275,13 @@ class PrePrController extends Controller
      */
     public function edit($id)
     {
-        $pre_pr = Pre_pr::find($id);
+        $pre_pr = Pre_pr::with(['partItem' => function ($query) {
+            $query->with('prItems', function ($query) {
+                $query->whereHas('ppb', function ($query) {
+                    $query->where('status', 'NOT LIKE', '%Rejected%');
+                });
+            });
+        }])->find($id);
         $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
         return view('PrePR.edit')
         ->with('purpose',$purpose)
@@ -258,13 +307,14 @@ class PrePrController extends Controller
         foreach ($data['item'] as $item => $value) {
             $qty = $data['qty'][$item];
             $buffer =  $data['buffer'][$item];
-            $total = $qty + $buffer;
+            $purchased = $data['purchased'][$item] ?? 0;
+            $total = $qty + $buffer - $purchased;
 
             $data2 = array(
                 'child_item'        => $data['item'][$item],
                 'desc'              => $data['desc'][$item],
                 'link'              => $data['link'][$item],
-                'status'            => $data['status'][$item],
+                // 'status'            => $data['status'][$item],
                 'qty'               => $qty ?? 0 ,
                 'buffer'            => $buffer ?? 0,
                 'total'             => $total
@@ -328,6 +378,35 @@ class PrePrController extends Controller
         ->paginate(10);
         return view('check_logistic.index')
         ->with('pengajuan', $pengajuan);
+    }
+
+
+    public function history_check_logistic()
+    {
+        $pengajuan = CategoryPengajuanPembelian::whereNot('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 0)->where('purpose_type', ReferensiNamaProject::class)
+        ->orderBy('id', 'desc')
+        ->with('itemppn')
+        ->paginate(10);
+        return view('check_logistic.history')
+        ->with('pengajuan', $pengajuan);
+    }
+
+    public function SearchHistoryCheckLogistic(Request $request)
+    {
+        $cariIn = $request->cariIn;
+        //dd($cari);
+        $pengajuan = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)
+        ->orderBy('status', 'desc')->orderBy('dateline', 'asc')
+        ->where('id','like',"%".$cariIn."%")
+        ->orWhere('status','like',"%".$cariIn."%")
+        ->orWhere('desc','like',"%".$cariIn."%")
+        ->orWhereHas('whosubmit', function($q) use($cariIn){
+            $q->where('name','like',"%".$cariIn."%");
+        })
+        ->paginate(10);
+        return view('check_logistic.history')
+        ->with('pengajuan', $pengajuan);
+
     }
 
     public function check_logistic_edit($id)

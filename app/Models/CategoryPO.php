@@ -49,6 +49,10 @@ class CategoryPO extends Model
     {
         return $this->belongsTo(PengajuanPembelian::class, 'item_ppid');
     }
+    public function pengajuanDana()
+    {
+        return $this->hasMany(CategoryPD::class, 'po_id');
+    }
     public function term()
     {
         return $this->belongsTo(TermsAndConditions::class, 'term_conditions');

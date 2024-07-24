@@ -55,7 +55,7 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date :</label>
+                                    <label for="floatingTanggal"><i data-feather="calendar"></i> Date :</label>
                                     <div class="form-group">
                                         <input type="date" class="form-control @error('date_ps') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" name="date_ps" value="{{ old('date_ps', date('Y-m-d')) }}">
                                         @error('date_ps')
@@ -69,7 +69,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingdateline"><i class="fa fa-clock-o"></i> Deadline :</label>
+                                        <label for="floatingdateline"><i data-feather="clock"></i> Deadline :</label>
                                         <select class="form-select @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" required="">
                                             <option selected="" value="{{ $dv->dateline }}">{{ $dv->dateline }}
                                             </option>
@@ -91,7 +91,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="" for="pageSelector"><b><i class="fa fa-send"></i> Send To</b></label>
+                                        <label class="" for="pageSelector"><b><i  data-feather="send"></i> Send To</b></label>
                                         <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to">
                                             <option value="{{ $dv->send_to }}" selected hidden>{{ $dv->send_to }}</option>
                                             <option value="Tebet">Tebet</option>
@@ -105,7 +105,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingrequestby"><i class="fa fa-user"></i> Request By
+                                        <label for="floatingrequestby"><i data-feather="user"></i> Request By
                                             :</label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" required="" data-live-search="true">
                                             <option value="{{ $dv->ws }}" selected hidden>{{ $dv->whosubmit->name }}</option>
@@ -123,7 +123,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingdepartment"><i class="fa fa-institution"></i> Department
+                                        <label for="floatingdepartment"><i data-feather="briefcase"></i> Department
                                             :</label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
                                             <option value="{{ $dv->department }}" selected hidden>{{ $dv->dps->name }}</option>
@@ -160,7 +160,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
+                                        <label for="floatingNoTelpon"><i data-feather="link"></i> Description :</label>
                                         <div class="">
                                             <textarea name="desc" id="floatingNoTelpon" class="form-control" rows="4">{{ $dv->desc }}</textarea>
                                             @error('desc')
@@ -324,12 +324,12 @@
                                 <div class="mt-2">
                                     <button type="button" name="add" class="addItem btn btn-outline-primary">
                                         AddItem
-                                        <i class="fa fa-plus"></i>
+                                        <i class="icofont icofont-ui-add"></i>
                                     </button>
                                 </div>
                                 <br>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
+                                    <button type="submit" class="btn btn-primary btn_add mt-3" id="submitBtn">Submit</button>
                                     <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-dark mt-3">Back</a>
                                 </div>
 
@@ -450,7 +450,7 @@
                                     @enderror
                                 </td>
                                 <td style="text-align: center;">
-                                    <button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button>
+                                    <button type="button"  class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button>
                                 </td> `;
                         $(".item").append(item)
                         $(".js-example-basic-single").select2();
@@ -488,6 +488,14 @@
                     customOther.classList.add('hide');
                 }
             })
+        </script>
+
+        <script type="text/javascript">
+            document.getElementById('formAdd').addEventListener('submit', function() {
+            var submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Processing';
+        });
         </script>
 
     </section>

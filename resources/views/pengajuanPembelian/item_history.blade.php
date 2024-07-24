@@ -97,7 +97,7 @@
 
                                     <div class="card-body">
                                     <div class="alert alert-warning alert-dismissible">
-                                        <i class="icon fa fa-warning"></i> Warning! &nbsp;
+                                        Warning! &nbsp;
                                         File Data Item Only Type (.xls, .xlsx)
                                     </div>
                                     </div>

@@ -35,7 +35,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label for="floatingName"><i class="fa fa-user"></i> Bank Name</label>
+                                                                    <label for="floatingName"><i data-feather="dollar-sign"></i> Bank Name</label>
                                                                     <input type="text" class="form-control" id="floatingName" placeholder="Name"
                                                                         name="name" value="{{ $data->name }}">
                                                                 </div>

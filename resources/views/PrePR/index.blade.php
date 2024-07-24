@@ -4,72 +4,6 @@
 
 @section('main')
 <section>
-  {{-- @foreach ($datadv as $a)
-  <div class="modal fade" id="modalDelete{{ $a->id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-danger">
-          <h2 class="modal-title" style="color: white">Delete</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"
-          aria-label="Close"></button>
-        </div>
-        <div class="modal-body mx-5 mb-3">
-          <span class="warning">
-            <img src="assets/images/warning.png">
-          </span>
-          <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
-        </div>
-        <div class="modal-footer">
-          <form action="{{ url('/menu-pengajuan-pembelian/destroy/' . $a->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
-            Delete</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  @endforeach
-
-  @foreach ($datapo as $po)
-  <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-              <div class="modal-header bg-danger">
-
-                  <h4 class="modal-title" style="color: white">List Item</h4>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"
-                      aria-label="Close"></button>
-              </div>
-              <div class="modal-body mx-5 mb-3">
-                  @php
-                      $i = 1;
-                  @endphp
-                  <table class="table table-bordered table-hover">
-                      <thead class="bg-primary">
-                          <tr>
-                              <th>Item</th>
-                              <th>Qty</th>
-                              <th>Uom</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-
-                          @foreach ($po->itempo as $item)
-                          <tr>
-                              <td> {{ $item->item }}</td>
-                              <td> {{ $item->qty }}</td>
-                              <td> {{ $item->kategori }}</td>
-                          </tr>
-                          @endforeach
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
-  </div>
-  @endforeach --}}
 
 @if(session('error'))
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -116,7 +50,9 @@
           <div class="card-body">
             <div class="row">
             <div class="col-sm-8">
-            <a href="{{ route('prepr.create') }}" class="btn btn-primary mb-3" ></i> Add <i class="fa fa-plus"></i></a>
+            @hasrole('user|super admin')
+            <a href="{{ route('prepr.create') }}" class="btn btn-primary mb-3" ></i> Add <i class="icofont icofont-ui-add"></i></a>
+            @endhasrole
             </div>
             <div class="col-sm-4 ">
                 <form action="{{ route('prepr.search') }}" method="get" class="input-group">
@@ -133,7 +69,9 @@
                   <th>Project</th>
                   <th>Item</th>
                   <th>Due Date</th>
+                  @hasrole('user|super admin')
                   <th style="text-align: center">Action</th>
+                  @endhasrole
                 </tr>
               </thead>
               <tbody>
@@ -159,11 +97,13 @@
                     <td>
                         {{ $pp->due_date ? \Carbon\Carbon::parse($pp->due_date)->format('l, d-F-Y') : '-' }}
                     </td>
+                    @hasrole('user|super admin')
                     <td style="text-align: center;font-size:10;">
-                        <a class="btn btn-iconsolid mt-1" style="background-color: #0d5e00; font-size:10;" href="{{ route('prepr.export',$pp->id) }}" title="Export Excel"><i class="icon-bookmark-alt" title="Export Excel"></i></a>
+                        <a class="btn btn-iconsolid mt-1" style="background-color: #0d5e00; font-size:10;" href="{{ route('prepr.export',$pp->id) }}" target="_blank" title="Export Excel"><i class="icon-bookmark-alt" title="Export Excel"></i></a>
                         <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00; font-size:10;" href="{{ route('prepr.edit',$pp->id) }}"><i class="icon-pencil-alt" title="Edit"></i></a>
                         <a class="btn btn-iconsolid mt-1" style="background-color: #ff0000; font-size:10;" data-bs-toggle="modal" data-bs-target="#modalDelete{{ $pp->id }}" ><i class="icon-trash" title="Delete"></i></a>
                     </td>
+                    @endhasrole
                 </tr>
 
                 @endforeach
@@ -246,6 +186,7 @@
   </div>
 </section>
 
+@hasrole('user|super admin')
 <div class="row">
     <!-- left column -->
     <div class="col-md-6">
@@ -303,7 +244,7 @@
 
                 <div class="card-body">
                 <div class="alert alert-warning alert-dismissible">
-                    <i class="icon fa fa-warning"></i> Warning! &nbsp;
+                     Warning! &nbsp;
                     File Data Item Only Type (.xls, .xlsx)
                 </div>
                 </div>
@@ -312,4 +253,5 @@
         <!-- /.box -->
     </div>
 </div>
+@endhasrole
 @endsection

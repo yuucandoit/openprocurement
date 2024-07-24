@@ -4,6 +4,20 @@
 
 @section('main')
     <section>
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -277,18 +291,18 @@
 
                                 @endif
                                 <div class="row">
-                                    <div class="col-md-6" >
+                                    <div class="col-md-12 mb-3 mt-4" style="text-align: center;">
                                          {{-- Start Modal Approval --}}
                                         @if ($datacpo->status == 'Purchase Complete')
-                                            <button class="btn btn-outline-success mt-3" data-bs-toggle="modal"
-                                                data-bs-target="#modalSelesai" disabled>Purchase Complete
-                                            </button>
+                                            <button class="btn btn-outline-success mt-3" disabled> Purchase Complete </button>
                                         @elseif ($datacpo->status == 'Paid')
-                                            <button class="btn btn-outline-success mt-3" data-bs-toggle="modal"
-                                                data-bs-target="#modalSelesai">Set Purchase Complete </button>
+                                            <button class="btn btn-outline-success mt-3" data-bs-toggle="modal" data-bs-target="#modalSelesai">
+                                                Set Purchase Complete
+                                            </button>
                                         @endif
                                     </div>
-                                    <div class="col-md-6 mt-3" style="text-align: right;">
+                                    <hr>
+                                    <div class="col-md-12 mt-3">
                                         <a href="{{ url()->previous() }}" class="btn "
                                             style=" color:white; background-color:black">Back</a>
                                         <a href="{{ url('/exportpdf/po_id/' . $po->id) }}" class="btn btn-danger">Export PDF</a>
@@ -310,11 +324,11 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <div class="modal-body mx-5 mb-3">
+                        <div class="modal-body mx-5 mb-3" style="text-align: center;">
                             <span class="warning">
                                 <img src="{{ asset('assets/images/warning.png') }}">
                             </span>
-                            <h2 style="text-align: center">Make Sure! <br>All Items Arrived</h2>
+                            <h2 style="text-align: center; margin-top:25px;">Make Sure! <br>All Items Arrived</h2>
                         </div>
                         {{-- End Modal Approval --}}
 
@@ -331,14 +345,6 @@
                         </div>
                     </div>
                 </div>
-
-                    <a href={{ url('/exportpdf/po/' . $datacpo->id) }}
-                        class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"> Export to
-                        PDF</a>
-
-                    <a type="reset" class="btn btn-dark mb-3 mr-1"
-                        href="{{ route('delivery.index') }}">Back</a>
-
             </div>
 
              <!-- Container-fluid Ends-->
@@ -358,7 +364,9 @@
                                     <input name="status" type="text" class="form-control" id="floatingStatus" placeholder="Out Delivery Jakarta ....">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </form>
                       </div>
                     </div>
@@ -399,7 +407,6 @@
                                     <br>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
-                                        <a href="{{ route('delivery.index') }}" class="btn btn-dark mt-3">Back</a>
                                     </div>
                                 </form>
                             </div>

@@ -97,7 +97,7 @@
                             @csrf
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="floatingTanggal"><i class="fa fa-calendar"></i> Due Date</label>
+                                    <label for="floatingTanggal"><i data-feather="calendar"></i> Due Date</label>
                                     <div class="form-group">
                                         <input type="date" class="form-control @error('due_date') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" name="due_date" value="{{ old('due_date', date('Y-m-d')) }}">
                                         @error('date_ps')
@@ -156,13 +156,13 @@
                                                 {{ $index + 1 }}
                                             </td>
                                             <td class="text">
-                                                <select name="item[]" id="" class="form-select select1">
+                                                {{-- <select name="item[]" id="" class="form-select select1">
                                                     <option value="" selected>Select Item</option>
                                                     @foreach ($products as $p)
                                                     <option value="{{ $p['id'] }}:{{ $p['name'] }}"">{{ $p['name'] }}</option>
                                                     @endforeach
-                                                </select>
-                                                {{-- <textarea name="item[]" id="" class="form-control" rows="2">{{ old('item.' . $index) }}</textarea> --}}
+                                                </select> --}}
+                                                <textarea name="item[]" id="" class="form-control" rows="2">{{ old('item.' . $index) }}</textarea>
                                             </td>
                                             <td><textarea name="desc[]" id="" class="form-control" rows="2">{{ old('desc.' . $index) }}</textarea></td>
                                             <td><input type="text" name="link[]" placeholder="Link Item" class="form-control" style="text-align: center;" value="{{ old('link.' . $index) }}"/></td>
@@ -171,7 +171,7 @@
                                             <td><input type="text" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" value="{{ old('total.' . $index) }}"/></td>
                                             <td style="text-align: center;">
                                                 <button type="button" name="add" class="btn btn-danger remove-input-field">
-                                                    <i class="fa fa-times"></i>
+                                                    <i class="icofont icofont-ui-close"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -181,13 +181,13 @@
                                 <div class="mt-2">
                                     <button type="button" name="add" class="addItem btn btn-outline-primary">
                                         Add New Item
-                                        <i class="fa fa-plus"></i>
+                                        <i class="icofont icofont-ui-add"></i>
                                     </button>
                                 </div>
                                 <br>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary btn_add mt-3" id="submitBtn">Submit</button>
-                                    <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-dark mt-3">Back</a>
+                                    <a href="{{ route('prepr.index') }}" class="btn btn-dark mt-3">Back</a>
                                 </div>
                         </form>
                     </div>
@@ -219,7 +219,7 @@
         // End Math
         $('.select1').select2();
 
-        let $i = 2;
+        let $i = 1;
         //Add Form
         $(".addItem").on('click', function() {
             addItem();
@@ -234,12 +234,7 @@
                         `+ $i +`
                     </td>
                     <td>
-                        <select name="item[]" id="" class="form-select selectProducts${$i}">
-                            <option value="" selected>Select Item</option>
-                            @foreach ($products as $p)
-                            <option value="{{ $p['id'] }}:{{ $p['name'] }}"">{{ $p['name'] }}</option>
-                            @endforeach
-                        </select>
+                        <textarea name="item[]" id="" class="form-control" rows="2">{{ old('item.' . $index) }}</textarea>
                     </td>
                     <td><textarea name="desc[]" id="" class="form-control" rows="2"></textarea>
                     </td>
@@ -254,7 +249,7 @@
                         <input type="number" name="total[]" placeholder="Total" class="form-control form-calc total" style="text-align: center;" />
                     </td>
                     <td style="text-align: center;">
-                    <button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button>
+                    <button type="button"  class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button>
                 </td> `;
             $(".item").append(item)
 

@@ -97,7 +97,7 @@
                             @csrf
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="floatingTanggal"><i class="fa fa-calendar"></i> Due Date :</label>
+                                    <label for="floatingTanggal"><i data-feather="calendar"></i> Due Date :</label>
                                     <div class="form-group">
                                         <input type="date" class="form-control @error('due_date') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" name="due_date" value="{{ $pre_pr->due_date ? \Carbon\Carbon::parse($pre_pr->due_date)->format('Y-m-d') : '' }}">
                                         @error('date_ps')
@@ -144,14 +144,18 @@
                                                 Desc</th>
                                             <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Link</th>
-                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Status</th>
+                                            {{-- <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Status</th> --}}
                                             <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Qty</th>
                                             <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Buffer</th>
                                             <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Total</th>
+                                                Sudah dibeli</th>
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Logs</th>
+                                                <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                    Total</th>
                                             <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                                 Action</th>
 
@@ -172,19 +176,40 @@
                                             </td>
                                             <td><input type="text" name="link[]" placeholder="Link Item" class="form-control" style="text-align: center;" value="{{ $items->link }}"/>
                                             </td>
-                                            <td><input type="text" name="status[]" placeholder="Status" class="form-control" style="text-align: center;" value="{{ $items->status }}"/>
-                                            </td>
+                                            {{-- <td><input type="text" name="status[]" placeholder="Status" class="form-control" style="text-align: center;" value="{{ $items->status }}"/>
+                                            </td> --}}
                                             <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-qty" style="text-align: center;" value="{{ $items->qty }}"/>
                                             </td>
                                             <td>
                                                 <input type="number" name="buffer[]" placeholder="Input Buffer" class="form-control form-buff" style="text-align: center;" value="{{ $items->buffer }}"/>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                {{ $items->prItems->sum('qty') }}
+                                                <input type="hidden" name="purchased[]" placeholder="Sudah dibeli" class="form-control" style="text-align: center;" value="{{ $items->prItems->sum('qty') }}"/>
+                                            </td>
+                                            <td>
+                                                <ul style="list-style: none; white-space: nowrap;">
+                                                    @if($items->prItems)
+                                                        @foreach ($items->prItems as $pr)
+                                                            @if($pr->ppb)
+                                                            <a target="_blank" href="{{ route('menu-pengajuan-pembelian.detail',$pr->ppb->id) }}">
+                                                                <li>PR {{ $pr->ppb->code_pengajuan }} : (-{{ $pr->qty }})</li>
+                                                            </a>
+                                                            @else
+
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+
+                                                    @endif
+                                                </ul>
                                             </td>
                                             <td>
                                                 <input type="text" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" value="{{ $items->total }}"/>
                                             </td>
                                             <td style="text-align: center;">
                                                 <button type="button" name="add" class="btn btn-danger remove-input-field">
-                                                    <i class="fa fa-times"></i>
+                                                    <i class="icofont icofont-ui-close"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -194,13 +219,13 @@
                                 <div class="mt-2">
                                     <button type="button" name="add" class="addItem btn btn-outline-primary">
                                         Add New Item
-                                        <i class="fa fa-plus"></i>
+                                        <i class="icofont icofont-ui-add"></i>
                                     </button>
                                 </div>
                                 <br>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary btn_add mt-3" id="submitBtn">Submit</button>
-                                    <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-dark mt-3">Back</a>
+                                    <a href="{{ route('prepr.index') }}" class="btn btn-dark mt-3">Back</a>
                                 </div>
                         </form>
                     </div>
@@ -214,64 +239,71 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js"></script>
 
     <script type="text/javascript">
-        // Math
+         document.addEventListener('DOMContentLoaded', function () {
+            let currentIndex = {{ $pre_pr->partItem->count() }} + 1;
 
-        document.querySelectorAll('.form-row').forEach(row => {
-            row.addEventListener('input', (e) => updateFileds(e, row));
-        });
+            // Function to update fields
+            function updateFields(row) {
+                const qty = parseInt(row.querySelector('.form-qty').value) || 0;
+                const buffer = parseInt(row.querySelector('.form-buff').value) || 0;
+                const total = row.querySelector('.total');
+                total.value = qty + buffer;
+            }
 
-        function updateFileds(event, row) {
-            const total = row.querySelector('.total');
-            const qty = parseInt(row.querySelector('.form-qty').value) || 0;
-            const buffer = parseInt(row.querySelector('.form-buff').value) || 0;
+            // Function to add a new item row
+            function addItem() {
+                var item = `
+                    <tr class="form-row">
+                        <td style="text-align:center;">
+                            ${currentIndex}
+                        </td>
+                        <td>
+                            <textarea name="item[]" class="form-control" rows="2"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="desc[]" class="form-control" rows="2"></textarea>
+                        </td>
+                        <td>
+                            <input type="text" name="link[]" placeholder="Link Item" class="form-control" style="text-align: center;"/>
+                        </td>
+                        <td>
+                            <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-qty" style="text-align: center;" />
+                        </td>
+                        <td>
+                            <input type="number" name="buffer[]" placeholder="Input Buffer" class="form-control form-buff" style="text-align: center;" />
+                        </td>
+                        <td style="text-align: center;">
+                            0
+                        </td>
+                        <td>
+                            <ul style="list-style: none; white-space: nowrap;">
+                                -
+                            </ul>
+                        </td>
+                        <td>
+                            <input type="number" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" />
+                        </td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button>
+                        </td>
+                    </tr>`;
+                $(".item").append(item);
+                currentIndex++;
+            }
 
-            total.value = qty + buffer;
-
-        }
-
-        // End Math
-
-        let $i = {{ $pre_pr->partItem->count() }} +  1;
-        //Add Form
-        $(".addItem").on('click', function() {
-            addItem();
-        });
-
-        function addItem() {
-            var item =
-                `<tr class="form-row">
-                    <td style="text-align:center;">
-                        `+ $i +`
-                    </td>
-                    <td>
-                        <textarea name="item[]" id="" class="form-control" rows="2"></textarea>
-                    </td>
-                    <td><textarea name="desc[]" id="" class="form-control" rows="2"></textarea>
-                    </td>
-                    <td><input type="text" name="link[]" placeholder="Link Item" class="form-control" style="text-align: center;"/>
-                    </td>
-                    <td><input type="text" name="status[]" placeholder="Status" class="form-control" style="text-align: center;" />
-                    </td>
-                    <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" />
-                    </td>
-                    <td>
-                        <input type="number" name="buffer[]" placeholder="Input Buffer" class="form-control form-calc form-buff" style="text-align: center;" />
-                    </td>
-                    <td>
-                        <input type="number" name="total[]" placeholder="Total" class="form-control form-calc total" style="text-align: center;" />
-                    </td>
-                    <td style="text-align: center;">
-                    <button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button>
-                </td> `;
-            $(".item").append(item)
-
-            $i++
-            $(".form-row").last().find(".form-qty, .form-buff").on("input", function() {
-                updateFileds(null, $(".form-row").last()[0]);
+            // Event listener for adding items
+            $('.addItem').on('click', function() {
+                addItem();
             });
-        }
-        $(document).on('click', '.remove-input-field', function() {
-            $(this).parents('tr').remove();
+
+            // Event delegation for updating fields and removing rows
+            $(document).on('input', '.form-qty, .form-buff', function() {
+                updateFields($(this).closest('tr')[0]);
+            });
+
+            $(document).on('click', '.remove-input-field', function() {
+                $(this).closest('tr').remove();
+            });
         });
     </script>
 </section>

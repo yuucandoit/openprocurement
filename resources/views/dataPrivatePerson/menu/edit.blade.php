@@ -35,7 +35,7 @@
                                         @csrf
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="floatingName"><i class="fa fa-user"></i> Full Name </label>
+                                                <label for="floatingName"><i data-feather="user"></i> Full Name </label>
                                                 <input type="text" class="form-control" id="floatingName"
                                                     placeholder="Your Name" name="nama" value="{{ $dv->nama }}">
                                             </div>
@@ -107,7 +107,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="floatingName"><i class="fa fa-credit-card"></i> Account
+                                                <label for="floatingName"><i data-feather="credit-card"></i> Account
                                                     Number</label>
                                                 <input type="text" class="form-control" id="floatingName"
                                                     placeholder="Your Name" name="no_rekening"
@@ -116,7 +116,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="floatingUnit"><i class="fa fa-bank"></i> -- Bank --</label>
+                                                <label for="floatingUnit"><i data-feather="airplay"></i> -- Bank --</label>
                                                 <select class="form-select js-example-basic-single" id="floatingUnit" placeholder="Bank"
                                                     name="bank">
                                                     @foreach ($bank as $b)
@@ -131,7 +131,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="floatingKeterangan"><i class="fa fa-code-fork"></i> Bank
+                                                <label for="floatingKeterangan"><i data-feather="git-branch"></i> Bank
                                                     Branch</label>
                                                 <input type="text" class="form-control" id="floatingKeterangan"
                                                     placeholder="Email" name="cabang_bank" value="{{ $dv->cabang_bank }}">

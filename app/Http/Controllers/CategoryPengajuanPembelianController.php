@@ -56,7 +56,7 @@ class CategoryPengajuanPembelianController extends Controller
             $purpose = ReferensiNamaProject::all();
             $atasan = User::whereIn('id', [3, 6, 7, 8, 9])->get();
             $datadv = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->orderBy('id','DESC')->orderBy('date_ps','DESC')->orderBy('created_at','ASC')->paginate(10);
-            $datapo = CategoryPO::get();
+            // $datapo = CategoryPO::get();
             // $count  = \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->count();
             $comments = Comment::where('user_id',Auth::user()->id)->count();
             // dd($count);
@@ -71,12 +71,12 @@ class CategoryPengajuanPembelianController extends Controller
                 ->with('datadv', $datadv)
                 ->with('dataws', $dataws)
                 ->with('comments', $comments)
-                ->with('datapo', $datapo)
+                // ->with('datapo', $datapo)
                 ->with('datadepartment', $datadepartment);
         } else if ($check->role_id == 1 || $check->role_id == 3) {
             $user = User::where('id', Auth::user()->id)->get();
             $datapt = CategoryPT::all();
-            $datapo = CategoryPO::get();
+            // $datapo = CategoryPO::get();
             $dataop = CategoryPP::all();
             $dataec = CategoryEcommerce::all();
             $dataws = WhoSubmitted::all();
@@ -92,7 +92,7 @@ class CategoryPengajuanPembelianController extends Controller
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
                 ->with('datapt', $datapt)
-                ->with('datapo', $datapo)
+                // ->with('datapo', $datapo)
                 ->with('dataop', $dataop)
                 ->with('dataec', $dataec)
                 ->with('atasan', $atasan)
@@ -288,7 +288,7 @@ class CategoryPengajuanPembelianController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->where('status','Delivery Success')
-     ->paginate(5);
+     ->paginate(10);
 
      return view('pengajuanPembelian.menu.history')
      ->with('datappb',$datappb);
@@ -323,13 +323,15 @@ class CategoryPengajuanPembelianController extends Controller
     public function create()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 1 || $check->role_id = 2 || $check->role_id == 3){
+        if ($check->role_id == 1 || $check->role_id == 2){
+
+        $prepr              = Pre_pr::where('user_id',Auth::user()->id)->orderBy('id','DESC')->get();
         $atasan             = User::find(7);
         // dd($atasan);
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose            = ReferensiNamaProject::get();
-        $prepr              = Pre_pr::where('user_id',Auth::user()->id)->get();
+
         $purpose_office     = Office::all();
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
@@ -337,6 +339,7 @@ class CategoryPengajuanPembelianController extends Controller
         $purpose_travel     = Travel::all();
         $ppb                = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
         $uom                = Uom::all();
+        $ItemsProject       = Pre_pr::with('partItem')->where('project_id', old('project'))->first();
         if (request()->pengajuan_id == null) {
         $ppb_old            = CategoryPengajuanPembelian::where('id',0)->get();
         } else {
@@ -359,6 +362,47 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('prepr', $prepr)
             ->with('uom', $uom)
             ->with('oldInput', $oldInput)
+            ->with('ItemsProject', $ItemsProject)
+            ->with('ppb_old', $ppb_old);
+        }elseif ($check->role_id == 3){
+        $prepr              = Pre_pr::orderBy('id','DESC')->get();
+        $atasan             = User::find(7);
+        // dd($atasan);
+        $dataws             = WhoSubmitted::all();
+        $datadepartment     = Department::all();
+        $purpose            = ReferensiNamaProject::get();
+
+        $purpose_office     = Office::all();
+        $purpose_inventory  = Inventory::all();
+        $purpose_workshop   = Workshop::all();
+        $purpose_rnd        = RND::all();
+        $purpose_travel     = Travel::all();
+        $ppb                = CategoryPengajuanPembelian::where('user_id', Auth::user()->id)->get();
+        $uom                = Uom::all();
+        $ItemsProject       = Pre_pr::with('partItem')->where('project_id', old('project'))->first();
+        if (request()->pengajuan_id == null) {
+        $ppb_old            = CategoryPengajuanPembelian::where('id',0)->get();
+        } else {
+        $ppb_old            = CategoryPengajuanPembelian::find(request()->pengajuan_id)->itemppn()->get();
+        }
+
+        $oldInput = Session::getOldInput();
+        // dd($ppb_old);
+        return view('pengajuanPembelian.menu.create')
+            ->with('atasan', $atasan)
+            ->with('purpose', $purpose)
+            ->with('purpose_office', $purpose_office)
+            ->with('purpose_inventory', $purpose_inventory)
+            ->with('purpose_workshop', $purpose_workshop)
+            ->with('purpose_rnd', $purpose_rnd)
+            ->with('purpose_travel', $purpose_travel)
+            ->with('dataws', $dataws)
+            ->with('datadepartment', $datadepartment)
+            ->with('ppb', $ppb)
+            ->with('prepr', $prepr)
+            ->with('uom', $uom)
+            ->with('oldInput', $oldInput)
+            ->with('ItemsProject', $ItemsProject)
             ->with('ppb_old', $ppb_old);
         }else {
             return redirect()->route('dashboard');
@@ -401,7 +445,7 @@ class CategoryPengajuanPembelianController extends Controller
             ]);
 
             try {
-
+                // dd($data);
                 foreach($data['item'] as $item => $value){
                     $preprItems = PartItem_Pre_pr::find($data['item'][$item]);
                     if($preprItems){
@@ -779,7 +823,6 @@ class CategoryPengajuanPembelianController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         // dd($check->role_id == 2 || $check->role_id == 18);
         if ($check->role_id == 2 || $check->role_id == 18) {
-            if(Auth::user()->id == $data->user_id){
                 $itemPr = PengajuanPembelian::where('pp_id',$id)->get();
                 foreach($itemPr as $item){
                     // dd($item->prepr_id);
@@ -801,10 +844,7 @@ class CategoryPengajuanPembelianController extends Controller
                     $item->delete();
                 }
                 $data->delete();
-                 return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');
-            } else {
-                return 'Delete Failed, Different User Id';
-            }
+                return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');
         }else if ($check->role_id == 1 || $check->role_id == 3) {
             $itemPr = PengajuanPembelian::where('pp_id',$id)->get();
             // dd($itemPr);
@@ -847,7 +887,7 @@ class CategoryPengajuanPembelianController extends Controller
         // $data['atasan'] = CategoryPengajuanPembelian::where('id',$id)->first();
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->get()->first();
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
-        $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
+        $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();   
         // $data['day'] = Carbon::now()->format('d');
         // $data['year2'] = Carbon::now()->format('Y');
         $data['year'] = Carbon::now()->format('y');
@@ -860,10 +900,19 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function getDataPrePR($id)
     {
-        $prepr = Pre_pr::with('partItem')->where('project_id',$id)->first();
-        return response()->json([
-            'message' => 'Success Get Data',
-            'data' => $prepr,
-        ]);
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3){
+            $prepr = Pre_pr::with('partItem')->where('project_id',$id)->first();
+            return response()->json([
+                'message' => 'Success Get Data',
+                'data' => $prepr,
+            ]);
+        } else {
+            $prepr = Pre_pr::where('user_id',Auth::user()->id)->with('partItem')->where('project_id',$id)->first();
+            return response()->json([
+                'message' => 'Success Get Data',
+                'data' => $prepr,
+            ]);
+        }
     }
 }

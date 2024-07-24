@@ -25,15 +25,9 @@ class TaskListFinanceController extends Controller
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->whereIn('status',['Payment Approved','PO & Payment Approved']);
-            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::whereIn('status',['Payment Approved','PO & Payment Approved'])->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->get();
-            $datadv = TaskListFinance::all();
-            $datapo = CategoryPO::get();
+            })->where('status', 'not like', '%Rejected%')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
             return view('taskList_finance.menu.index')
-            ->with('datappb2', $datappb2)
-            ->with('datappb', $datappb)
-            ->with('datadv', $datadv)
-            ->with('datapo', $datapo);
+            ->with('datappb', $datappb);
         }else {
             return redirect()->route('dashboard');
         }
@@ -42,24 +36,34 @@ class TaskListFinanceController extends Controller
     {
      $cari = $request->cari;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
-     ->orWhere('status','like',"%".$cari."%")
-     ->orWhere('desc','like',"%".$cari."%")
-     ->orWhereHas('whosubmit', function($w) use($cari){
-          $w->where('name','like',"%".$cari."%");
-    })
-     ->orWhereHas('itemppn', function($i) use($cari){
-        $i->where('item','like',"%".$cari."%");
-    })
-        ->orWhereHas('quot', function($q) use($cari){
-            $q->where('id','like',"%".$cari."%");
-    })
-     ->paginate(10);
-     $datapo = CategoryPO::get();
+     $datappb = CategoryPengajuanPembelian::whereHas('quot', function($i) {
+        $i->whereIn('status', ['Payment Approved', 'PO & Payment Approved']);
+        })
+        ->where('status', 'not like', '%Rejected%')
+        ->where(function($query) use ($cari) {
+            $query->where('id', 'like', "%".$cari."%")
+                ->orWhere('status', 'like', "%".$cari."%")
+                ->orWhere('desc', 'like', "%".$cari."%")
+                ->orWhere('code_pengajuan','like', "%".$cari."%")
+                ->orWhereHas('whosubmit', function($w) use ($cari) {
+                    $w->where('name', 'like', "%".$cari."%");
+                })
+                ->orWhereHas('itemppn', function($i) use ($cari) {
+                    $i->where('item', 'like', "%".$cari."%");
+                })
+                ->orWhereHas('quot', function($q) use ($cari) {
+                    $q->where('id', 'like', "%".$cari."%")
+                    ->orWhere('status','like', "%".$cari."%")
+                    ->orWhere('code_po','like', "%".$cari."%");
+                });
+        })
+        ->orderBy('status', 'asc')
+        ->orderBy('dateline', 'asc')
+        ->orderBy('approved_at', 'asc')
+        ->paginate(10);
 
      return view('taskList_finance.menu.index')
-     ->with('datappb',$datappb)
-     ->with('datapo', $datapo);
+     ->with('datappb',$datappb);
     }
 
     public function out()
@@ -192,8 +196,8 @@ class TaskListFinanceController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 ||$check->role_id == 5) {
-            $datapo             = CategoryPO::where('id', $id)->get();
-            $datacpo            = CategoryPO::where('id', $id)->first();
+            // $datapo             = CategoryPO::where('id', $id)->get();
+            $datacpo            = CategoryPO::find($id);
             $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
             $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
             $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
@@ -206,7 +210,7 @@ class TaskListFinanceController extends Controller
             return view('taskList_finance.menu.po')
                 ->with('pengajuan', $pengajuan)
                 ->with('dpp', $dpp)
-                ->with('datapo', $datapo)
+                // ->with('datapo', $datapo)
                 ->with('datacpo', $datacpo)
                 ->with('ppn', $ppn)
                 ->with('total', $total)
@@ -301,16 +305,27 @@ class TaskListFinanceController extends Controller
         }
     }
 
+
     public function approve_po(Request $request,$id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $cpo = CategoryPO::find($id);
+            $pr = CategoryPengajuanPembelian::find($cpo->ppb_id);
 
-            $data = CategoryPengajuanPembelian::where('id',$cpo->ppb_id)->update([
-                'note_finance'            => $request->note_finance,
-                'w_finance_pay_timestamp' => now(),
-            ]);
+            $lastQuot = $pr->quot->last();
+            // dd($lastQuot->id == $id);
+
+            if($cpo->id == $lastQuot->id && $pr->status == $cpo->status){
+                 // PO & Payment Approved
+                $data = CategoryPengajuanPembelian::where('id',$cpo->ppb_id)->update([
+                    'note_finance'            => $request->note_finance,
+                    'w_finance_pay_timestamp' => now(),
+                    'status'                  => 'Unpaid'
+                ]);
+            }
+
+
 
             CategoryPO::where('id',$id)->update([
                 'status' => 'Unpaid'
@@ -335,6 +350,22 @@ class TaskListFinanceController extends Controller
             ]);
             return redirect('menu-tasklist-finance');
         }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+
+    public function reject_po(Request $request,$id)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 ||$check->role_id == 5) {
+            $cpo = CategoryPO::find($id);
+            CategoryPO::where('id',$id)->update([
+                'notes' => $request->notes . ' # ' . Auth::user()->name,
+                'status' => 'Rejected by Finance'
+            ]);
+            return redirect('menu-tasklist-finance');
+        }else{
             return redirect()->route('dashboard');
         }
     }

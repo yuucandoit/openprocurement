@@ -60,7 +60,7 @@
                                 @csrf
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="floatingTanggal"><i class="fa fa-calendar"></i> Date :</label>
+                                        <label for="floatingTanggal"><i data-feather="calendar"></i> Date :</label>
                                         <div class="form-group">
                                             <input type="date"
                                                 class="form-control page @error('date_ps') is-invalid @enderror"
@@ -77,7 +77,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="floatingdateline"><i class="fa fa-clock-o"></i> Date Line :</label>
+                                            <label for="floatingdateline"><i data-feather="clock"></i> Date Line :</label>
                                             <select class="form-select page @error('dateline') is-invalid @enderror"
                                                 id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}"
                                                 name="dateline">
@@ -98,7 +98,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="floatingwhosubmitted"><i class="fa fa-user"></i> Who Submitted
+                                            <label for="floatingwhosubmitted"><i data-feather="user"></i> Who Submitted
                                                 :</label>
                                             <select class="form-select page @error('ws') is-invalid @enderror"
                                                 id="floatingwhosubmitted" placeholder="Who Submitted" name="ws">
@@ -133,7 +133,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="floatingwhosubmitted"><i class="fa fa-laptop"></i> Purpose :</label>
+                                            <label for="floatingwhosubmitted"><i data-feather="airplay"></i> Purpose :</label>
                                             <select class="form-select page @error('purpose') is-invalid @enderror"
                                                 id="pageSelector" placeholder="Purpose" name="purpose">
                                                 <option selected hidden value="{{ $dv->referensi->id }}"
@@ -156,7 +156,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="floatingdepartment"><i class="fa fa-institution"></i> Department
+                                            <label for="floatingdepartment"><i data-feather="briefcase"></i> Department
                                                 :</label>
                                             <select class="form-select page @error('department') is-invalid @enderror"
                                                 id="floatingdepartment" placeholder="department" name="department">
@@ -176,7 +176,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="floatingNoTelpon"><i class="fa fa-link"></i> Description :</label>
+                                            <label for="floatingNoTelpon"><i data-feather="link"></i> Description :</label>
                                             <div class="form-floating">
                                                 <textarea name="desc" id="floatingNoTelpon" class="form-control page @error('desc') is-invalid @enderror"
                                                     cols="50" rows="30">{{ $dv->desc }}</textarea>
@@ -212,7 +212,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label" style="font-weight: bold;"><i
-                                                    class="fa fa-money"></i> Currency :</label>
+                                                    data-feather="dollar-sign"></i> Currency :</label>
                                             <select class="form-select page @error('matauang') is-invalid @enderror"
                                                 id="floatingdateline" placeholder="Mata Uang" name="matauang">
                                                 <option selected value="{{ $dv->matauang }}">{{ $dv->matauang }}</option>
@@ -231,7 +231,7 @@
                                         <div
                                             class=" form-group m-checkbox-inline mb-0 @error('send_to') is-invalid @enderror">
                                             <div class="col-6">
-                                                <label><i class="fa fa-send"></i> Send To :</label>
+                                                <label><i  data-feather="send"></i> Send To :</label>
                                             </div>
                                             <div class="radio radio-primary col-md-6" required>
                                                 <input id="tebet" type="radio" name="send_to" value="Tebet"
@@ -303,7 +303,7 @@
                                                 </td>
                                                 <td style="text-align: center;">
                                                     <button type="button" class="btn btn-danger remove-input-field"><i
-                                                            class="fa fa-times"></i></button>
+                                                            class="icofont icofont-ui-close"></i></button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -343,7 +343,7 @@
                                     <div class="mt-2">
                                         <button type="button" name="add" class="addItem btn btn-outline-primary">
                                             AddItem
-                                            <i class="fa fa-plus"></i>
+                                            <i class="icofont icofont-ui-add"></i>
                                         </button>
                                     </div>
                                     <br>
@@ -419,7 +419,7 @@
 
             function addItem() {
                 var item =
-                    '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="fa fa-times"></i></button></td> ';
+                    '<tr><td><input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;"/></td> <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" /></td> <td><select class="form-select" placeholder="Kategori" name="kategori[]" ><option value="Pcs"  >Pcs   </option><option value="Lusin">Lusin </option><option value="Box"  >Box   </option><option value="Unit" >Unit</option></select></td> <td><input type="text" name="unit_price[]" placeholder="Input Price" class="form-control text-end form-calc form-cost rupiah" style="text-align: right;"  required/></td><td><input type="text" name="total[]" class="form-control form-line" style="text-align: right;" required  /></td> <td style="text-align: center;"><button type="button"  class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button></td> ';
                 $(".item").append(item)
 
                 var rupiah = document.querySelectorAll(".rupiah");

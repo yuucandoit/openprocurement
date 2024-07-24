@@ -517,28 +517,6 @@
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-xl-3 col-lg-6">
-                    <a href="{{ url('/delivery') }}">
-                    <div class="card o-hidden border-0">
-                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(21, 180, 18);">
-                            <div class="media static-top-widget">
-                                <div class="align-self-center text-center mb-3"><i data-feather="truck"
-                                        style="color: rgb(21, 180, 18);"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h6 style="color: rgb(21, 180, 18); font-family: 'Times New Roman', Times, serif;">
-                                        DELIVERY <br>
-                                    PROCES</h6>
-                                    <h2 class="mb-0 counter" style="color: rgb(21, 180, 18);">
-                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','Paid')->count() }}</h2>
-                                    <i class="icon-bg" data-feather="truck"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  </a>
-                </div>
-
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 box-col-12">
@@ -674,8 +652,30 @@
                                 <div class="media-body">
                                     <h6 style="color: rgb(251, 9, 1); font-family: 'Times New Roman', Times, serif;">INVENTORY CHECK</h6>
                                     <h2 class="mb-0 counter" style="color: rgb(251, 9, 1);">
-                                        {{ App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)->count(); }}</h2>
+                                        {{ App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 0)->where('purpose_type', ReferensiNamaProject::class)->count(); }}</h2>
                                     <i class="icon-bg" data-feather="file-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/delivery') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(21, 180, 18);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="truck"
+                                        style="color: rgb(21, 180, 18);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color: rgb(21, 180, 18); font-family: 'Times New Roman', Times, serif;">
+                                        DELIVERY <br>
+                                    PROCES</h6>
+                                    <h2 class="mb-0 counter" style="color: rgb(21, 180, 18);">
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','Paid')->count() }}</h2>
+                                    <i class="icon-bg" data-feather="truck"></i>
                                 </div>
                             </div>
                         </div>
@@ -899,13 +899,6 @@
                     {{ $po }},
                 @endforeach
             ]
-        }, {
-            name: 'Delivery Process',
-            data: [
-                @foreach ($data_delivery as $ddeliver)
-                    {{ $ddeliver }},
-                @endforeach
-            ]
         }],
         xaxis: {
             categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct','Nov','Dec'],
@@ -1026,6 +1019,13 @@
             data: [
                 @foreach ($data_checkInven as $clog)
                     {{ $clog }},
+                @endforeach
+            ]
+        },{
+            name: 'Delivery Process',
+            data: [
+                @foreach ($data_delivery as $ddeliver)
+                    {{ $ddeliver }},
                 @endforeach
             ]
         }],

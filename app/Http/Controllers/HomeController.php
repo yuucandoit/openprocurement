@@ -9,6 +9,7 @@ use App\Models\CategoryPO;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\CategoryQuotation;
+use App\Models\ReferensiNamaProject;
 use App\Models\Invoicing;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,7 +54,7 @@ class HomeController extends Controller
         $task_finance        = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', '!=','Payment Approved')->get();
         $payment_process     = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status','Paid' && 'Delivery Success')->get();
         $delivery            = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', 'Delivery Success')->get();
-        $logistCheck         = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)->get();
+        $logistCheck         = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', 'Awaiting Purchase Request Approval')->where('purpose_type', ReferensiNamaProject::class)->where('logistic_check', 0)->get();
 
 
         for ($i=1;$i<=12;$i++){

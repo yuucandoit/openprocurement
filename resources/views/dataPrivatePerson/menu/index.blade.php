@@ -20,7 +20,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingName"><i class="fa fa-user"></i> Full Name</label>
+                                        <label for="floatingName"><i data-feather="user"></i> Full Name</label>
                                         <input type="text" class="form-control" id="floatingName" placeholder="Name"
                                             name="nama">
                                     </div>
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingNoTelpon"><i class="fa fa-credit-card"></i> -- Bank Account
+                                        <label for="floatingNoTelpon"><i data-feather="credit-card"></i> -- Bank Account
                                             Number --</label>
                                         <input required type="text" class="form-control" id="floatingNoTelpon"
                                             placeholder="No Rek" name="no_rekening">
@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingUnit"><i class="fa fa-bank"></i> -- Bank --</label>
+                                        <label for="floatingUnit"><i data-feather="airplay"></i> -- Bank --</label>
                                         <select class="form-select js-example-basic-single" id="floatingUnit" placeholder="Bank" name="bank" data-live-search="true">
                                             @foreach ($bank as $b)
                                             <option value="{{ $b->name }}">{{ $b->name }}</option>
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingCabangBank"><i class="fa fa-code-fork"></i> Bank
+                                        <label for="floatingCabangBank"><i data-feather="git-branch"></i> Bank
                                             Branch</label>
                                         <input required type="text" class="form-control" id="floatingCabangBank"
                                             placeholder="Cabang Bank" name="cabang_bank">
@@ -163,7 +163,7 @@
                         </div>
                         <div class="card-body">
                             <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"> Add
-                                <i class="fa fa-plus"></i></button>
+                                <i class="icofont icofont-ui-add"></i></button>
                             <a href={{ url('/export_excel/private_person') }} class="btn btn-success mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-export"></i> Export to Excel</a>
                             <a href={{ url('file-import-pp') }} class="btn btn-danger mb-3 mr-1"

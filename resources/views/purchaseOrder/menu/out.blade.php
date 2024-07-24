@@ -5,8 +5,8 @@
 
 <section>
 
-    @foreach ($datappb as $purchase)
-        <div class="modal fade" id="modalDelete{{ $purchase->id }}" tabindex="-1" aria-hidden="true">
+    @foreach ($datappb as $ppb)
+        <div class="modal fade" id="modalDelete{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header bg-danger">
@@ -21,7 +21,7 @@
                         <h2 style="text-align: center"> Are you sure want to delete this task? </h2>
                     </div>
                     <div class="modal-footer">
-                        <form action="{{ url('/menu-purchase-order/destroy/' . $purchase->id) }}">
+                        <form action="{{ url('/menu-purchase-order/destroy/' . $ppb->id) }}">
                             <button type="submit" class="btn btn-danger"><i class="bx bx-trash"></i>
                                 Delete</button>
                         </form>
@@ -29,88 +29,90 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h4 class="modal-title" style="color: white">List Item</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body ">
+                                @php
+                                    $i = 1;
+                                @endphp
+
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>UOM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ppb->itemppn as $item)
+                                <tr>
+                                    <td>{{ $item->item }}</td>
+                                    <td>{{ $item->qty }}</td>
+                                    <td>{{ $item->kategori }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{-- <ul style="font-size: 18">
+                            <li>- {{ $item->item }}</li>
+                        </ul> --}}
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @foreach ($ppb->quot as $item_po)
+        <div class="modal fade" id="modalItemVendor{{ $item_po->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+
+                        <h4 class="modal-title" style="color: white">List Item</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mx-5 mb-3">
+                        @php
+                            $i = 1;
+                        @endphp
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Uom</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach ($item_po->itempo as $item)
+                                <tr>
+                                    <td> {{ $item->item }}</td>
+                                    <td> {{ $item->qty }}</td>
+                                    <td> {{ $item->kategori }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
     @endforeach
-        @foreach ($datappb as $ppb)
-            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h4 class="modal-title" style="color: white">List Item</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body ">
-                                    @php
-                                        $i = 1;
-                                    @endphp
 
-                            <table class="table table-bordered table-hover">
-                                <thead class="bg-primary">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                        <th>UOM</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($ppb->itemppn as $item)
-                                    <tr>
-                                        <td>{{ $item->item }}</td>
-                                        <td>{{ $item->qty }}</td>
-                                        <td>{{ $item->kategori }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            {{-- <ul style="font-size: 18">
-                                <li>- {{ $item->item }}</li>
-                            </ul> --}}
-                        </div>
-                        <div class="modal-footer">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
 
-            @foreach ($datapo as $item_po)
-            <div class="modal fade" id="modalItemVendor{{ $item_po->id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-
-                            <h4 class="modal-title" style="color: white">List Item</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body mx-5 mb-3">
-                            @php
-                                $i = 1;
-                            @endphp
-                            <table class="table table-bordered table-hover">
-                                <thead class="bg-primary">
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                        <th>Uom</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach ($item_po->itempo as $item)
-                                    <tr>
-                                        <td> {{ $item->item }}</td>
-                                        <td> {{ $item->qty }}</td>
-                                        <td> {{ $item->kategori }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
 
     <!-- Page Sidebar Ends-->
     <div class="container-fluid">
@@ -194,21 +196,11 @@
                                                     </li>
                                                 </ul>
                                             </td>
-                                            @hasrole('purchasing|super admin')
+                                            @hasrole('purchasing|super admin|super purchase')
                                                 <td style="text-align: center; white-space:nowrap;">
-
-                                                    <a class="btn btn-iconsolid mt-1"
-                                                    style="background-color: #B1D0E0; font-size:10;"
-                                                    href="{{ url('/exportpdf/po/' . $ppb->id) }}" target="_blank"><i
-                                                        class="icon-eye" title="Preview Purchase Order"></i>
-                                                </a>
-                                                    @if ($ppb->status == 'Purchase Proses')
-                                                        <a class="btn btn-iconsolid mt-1"
-                                                            style="background-color: #008000; font-size:10;"
-                                                            href="{{ url('/menu-purchase-order/create/' . $ppb->id) }}"><i
-                                                                class="icon-file" title="Record Data"></i>
-                                                        </a>
-                                                    @endif
+                                                    <a class="btn btn-iconsolid mt-1"style="background-color: #B1D0E0; font-size:10;" href="{{ url('/exportpdf/ppb/' . $ppb->id) }}" target="_blank">
+                                                        <i class="icon-eye" title="Preview Purchase Request"></i>
+                                                    </a>
                                                 </td>
                                             @endhasrole
                                         </tr>
@@ -253,13 +245,13 @@
                                                 <td class="text-center"><a
                                                     class="badge  mt-1"
                                                     style=" color: white; background-color: #008000; font-size:10;">{{ $var_po->status }}</a></td>
-                                                <td style="white-space: nowrap;">
-                                                    @foreach ($po4 as $ipo)
-                                                        <label>
-                                                            {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
-                                                        </label>
-                                                    @endforeach
-                                                </td>
+                                                @hasrole('purchasing|super admin|super purchase')
+                                                    <td style="text-align: center; white-space:nowrap;">
+                                                        <a class="btn btn-iconsolid mt-1"style="background-color: #f63900;; font-size:10;" href="{{ url('/exportpdf/ppb/' . $ppb->id) }}" target="_blank">
+                                                            <i class="icon-eye" title="Preview Purchase Order"></i>
+                                                        </a>
+                                                    </td>
+                                                @endhasrole
                                                 @endif
                                             </tr>
                                             @endforeach

@@ -60,7 +60,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label" style="font-weight: bold;"><i
-                                                class="fa fa-database"></i> Select
+                                                data-feather="database"></i> Select
                                             Vendor</label>
                                         <select class="form-select page pageSelect" id="pageSelect"
                                             placeholder="Proposed To" name="vendor" >
@@ -101,7 +101,7 @@
 
                                 <div class="col-md-4 page" style="margin-top: 10px;">
                                     <div class="form-group">
-                                        <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
+                                        <label for="floatingQuotation"><i data-feather="file-plus"></i>
                                             Quotation</label>
                                         <div class="form-floating">
                                             <input required type="text" class="form-control" id="floatingQuotation"
@@ -113,7 +113,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label" style="font-weight: bold;"><i
-                                                class="fa fa-file-text-o"></i> Terms &
+                                                 data-feather="file-text"></i> Terms &
                                             Conditions</label>
                                         <select class="form-select page pageSelector" id="pageSelector"
                                             placeholder="Terms and Conditions" name="term_conditions">
@@ -140,7 +140,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">
-                                            <i class="fa fa-file-pdf-o" style="font-weight: bold;"></i>
+                                            <i data-feather="file" style="font-weight: bold;"></i>
                                             Upload Quotation
                                         </label>
                                         <input type="file" name="path_quotation" class="form-control form-control-lg">
@@ -166,7 +166,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i>
+                                        <label class="form-label" style="font-weight: bold;"><i data-feather="dollar-sign"></i>
                                             Currency :</label>
                                         <select class="form-select page" id="floatingdateline" placeholder="Mata Uang"
                                             name="matauang" required="">
@@ -254,7 +254,7 @@
                                     </td>
                                     <td style="text-align: center;"><button type="button"
                                             class="btn btn-danger remove-input-field"><i
-                                                class="fa fa-times"></i></button></td>
+                                                class="icofont icofont-ui-close"></i></button></td>
 
                                         @endforeach
                                     </tr>

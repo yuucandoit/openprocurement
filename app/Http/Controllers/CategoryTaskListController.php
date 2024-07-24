@@ -39,19 +39,83 @@ class CategoryTaskListController extends Controller
     {
         $cari = $request->cari;
         //dd($cari);
-        $datappb = CategoryPengajuanPembelian::whereIn('status','Purchase Request Approved')->where('atasan_po', Auth::user()->id)->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')
-        ->orWhere('id','like',"%".$cari."%")
-        ->orWhere('status','like',"%".$cari."%")
-        ->orWhere('desc','like',"%".$cari."%")
-        ->orWhereHas('itemppn', function($i) use($cari){
-            $i->where('item','like',"%".$cari."%");
-        })
-        ->orWhereHas('whosubmit', function($q) use($cari){
-            $q->where('name','like',"%".$cari."%");
+        $datappb = CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')
+        ->orderBy('status', 'desc')
+        ->orderBy('dateline', 'asc')
+        ->orderBy('approved_at', 'asc')
+        ->where(function($query) use ($cari) {
+            $query->orWhere('id', 'like', "%".$cari."%")
+                ->orWhere('status', 'like', "%".$cari."%")
+                ->orWhere('code_pengajuan', 'like', "%".$cari."%")
+                ->orWhere('send_to', 'like', "%".$cari."%")
+                ->orWhere('desc', 'like', "%".$cari."%")
+                ->orWhereHas('itemppn', function($i) use ($cari) {
+                    $i->where('item', 'like', "%".$cari."%");
+                })
+                ->orWhereHas('whosubmit', function($q) use ($cari) {
+                    $q->where('name', 'like', "%".$cari."%");
+                });
         })
         ->paginate(10);
         return view('taskList.menu.index')
         ->with('datappb',$datappb);
+    }
+
+    public function upComing()
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 4 ||$check->role_id == 3||$check->role_id == 17) {
+            $datappb = CategoryPengajuanPembelian::where('status','Awaiting Purchase Request Approval')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            $purpose = ReferensiNamaProject::all();
+            return view('taskList.menu.upcoming')
+            ->with('purpose', $purpose)
+            ->with('datappb', $datappb);
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function SearchtaskUpComming(Request $request)
+    {
+        $cari = $request->cari;
+        //dd($cari);
+        $datappb = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')
+        ->where(function($query) use ($cari) {
+            $query->where('id', 'like', "%".$cari."%")
+                ->orWhere('status', 'like', "%".$cari."%")
+                ->orWhere('desc', 'like', "%".$cari."%")
+                ->orWhereHas('itemppn', function($i) use($cari){
+                    $i->where('item', 'like', "%".$cari."%");
+                })
+                ->orWhereHas('whosubmit', function($q) use($cari){
+                    $q->where('name', 'like', "%".$cari."%");
+                });
+        })
+        ->orderBy('status', 'desc')
+        ->orderBy('dateline', 'asc')
+        ->orderBy('approved_at', 'asc')
+        ->paginate(10);
+        return view('taskList.menu.upcoming')
+        ->with('datappb',$datappb);
+    }
+
+    public function upComingDetail($id)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 4 ||$check->role_id == 3||$check->role_id == 17) {
+            if($id){
+                $datappb = CategoryPengajuanPembelian::find($id);
+                $purpose = ReferensiNamaProject::all();
+                return view('taskList.menu.detail_upcoming')
+                ->with('purpose', $purpose)
+                ->with('datappb', $datappb);
+            }else {
+                return redirect()->back()->with('message','ID Not Found ?!?');
+            }
+
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 
     public function out()

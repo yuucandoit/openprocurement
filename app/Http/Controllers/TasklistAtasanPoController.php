@@ -57,12 +57,7 @@ class TasklistAtasanPoController extends Controller
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_po', 6)->where('status','Waiting For PO Approval');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-
-            $datapo = CategoryPO::get();
-
-            //dd($data_atasan);
             return view('taskList_atasan_PO.menu.spesific.sindu')
-            ->with('datapo', $datapo)
             ->with('datappb', $datappb);
         }else {
             return redirect()->route('dashboard');
@@ -77,11 +72,7 @@ class TasklistAtasanPoController extends Controller
                 $i->where('atasan_po', 7)->where('status','Waiting For PO Approval');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
 
-            $datapo = CategoryPO::get();
-
-            //dd($data_atasan);
             return view('taskList_atasan_PO.menu.spesific.bayu')
-            ->with('datapo', $datapo)
             ->with('datappb', $datappb);
         }else {
             return redirect()->route('dashboard');
@@ -96,11 +87,7 @@ class TasklistAtasanPoController extends Controller
                 $i->where('atasan_po', 8)->where('status','Waiting For PO Approval');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
 
-            $datapo = CategoryPO::get();
-
-            //dd($data_atasan);
             return view('taskList_atasan_PO.menu.spesific.victor')
-            ->with('datapo', $datapo)
             ->with('datappb', $datappb);
         }else {
             return redirect()->route('dashboard');
@@ -115,11 +102,7 @@ class TasklistAtasanPoController extends Controller
                 $i->where('atasan_po', 9)->where('status','Waiting For PO Approval');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
 
-            $datapo = CategoryPO::get();
-
-            //dd($data_atasan);
             return view('taskList_atasan_PO.menu.spesific.erwin')
-            ->with('datapo', $datapo)
             ->with('datappb', $datappb);
         }else {
             return redirect()->route('dashboard');
@@ -134,11 +117,7 @@ class TasklistAtasanPoController extends Controller
                 $i->where('atasan_po', 24)->where('status','Waiting For PO Approval');
             })->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
 
-            $datapo = CategoryPO::get();
-
-            //dd($data_atasan);
             return view('taskList_atasan_PO.menu.spesific.triyani')
-            ->with('datapo', $datapo)
             ->with('datappb', $datappb);
         }else {
             return redirect()->route('dashboard');
@@ -157,10 +136,8 @@ class TasklistAtasanPoController extends Controller
           $q->where('name','like',"%".$cari."%");
      })
      ->paginate(10);
-     $datapo = CategoryPO::get();
      return view('taskList_atasan_PO.menu.index')
-     ->with('datappb',$datappb)
-     ->with('datapo',$datapo);
+     ->with('datappb',$datappb);
 
     }
 

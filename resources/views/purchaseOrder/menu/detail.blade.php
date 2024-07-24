@@ -175,7 +175,7 @@
                                     <div class="row">
                                         <div class="col-md-3 mt-3">
                                             <button name="add" class=" btn btn-outline-primary w-100"  data-bs-toggle="modal"
-                                            data-bs-target="#modalCreatePO" data-backdrop="static" data-keyboard="false"> Create PO <i class="fa fa-plus"></i>
+                                            data-bs-target="#modalCreatePO" data-backdrop="static" data-keyboard="false"> Create PO
                                             </button>
                                         </div>
                                         <div class="col-md-3 mt-3">
@@ -279,14 +279,14 @@
                                         </div>
                                         <div class="modal-body">
                                             <form class="row g-2 mt-4" action="{{ url('/menu-purchase-order/store/' . $data_pengajuan->id) }}"
-                                                method="POST" enctype="multipart/form-data">
+                                                method="POST" enctype="multipart/form-data" id="formAdd">
                                                 @csrf
 
 
                                                 <div class="col-md-4 ">
                                                     <div class="form-group">
                                                         <label class="form-label" style="font-weight: bold;"><i
-                                                                class="fa fa-database"></i> Select
+                                                                data-feather="database"></i> Select
                                                             Vendor</label>
                                                         <select class="form-select pageSelect" id="pageSelect"
                                                             placeholder="Proposed To" name="vendor">
@@ -327,7 +327,7 @@
 
                                                 <div class="col-md-4 " style="margin-top: 10px;">
                                                     <div class="form-group">
-                                                        <label for="floatingQuotation"><i class="fa fa-file-excel-o"></i>
+                                                        <label for="floatingQuotation"><i data-feather="file-plus"></i>
                                                             Quotation</label>
                                                         <div class="form-group">
                                                             <input required type="text" class="form-control" id="floatingQuotation"
@@ -339,9 +339,9 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label" style="font-weight: bold;"><i
-                                                                class="fa fa-file-text-o"></i> Terms &
+                                                                 data-feather="file-text"></i> Terms &
                                                             Conditions</label>
-                                                        <select class="form-select terms  pageSelector" id="pageSelector"
+                                                        <select class=" terms pageSelector"
                                                             placeholder="Terms and Conditions" name="term_conditions">
                                                             <option value="" disabled selected hidden>Terms And
                                                                 Conditions
@@ -369,7 +369,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">
-                                                            <i class="fa fa-file-pdf-o" style="font-weight: bold;"></i>
+                                                            <i data-feather="file" style="font-weight: bold;"></i>
                                                             Upload Quotation
                                                         </label>
                                                         <input type="file" name="path_quotation" class="form-control form-control-lg">
@@ -378,8 +378,9 @@
 
                                                 <div class="col-md-4 ">
                                                     <div class="form-group">
-                                                        <label class="form-label" style="font-weight: bold;"><i
-                                                                class="icofont icofont-stamp"></i> Send Approval To:</label>
+                                                        <label class="form-label" style="font-weight: bold;">
+                                                            <i data-feather="user-check"></i> Send Approval To:
+                                                        </label>
                                                         <select class="form-select" id="floatingproposedto"
                                                             placeholder="Proposed To" name="atasan_po" required="">
                                                             <option selected="" disabled="" value="">-- Please Choose
@@ -395,7 +396,7 @@
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label" style="font-weight: bold;"><i class="fa fa-money"></i>
+                                                        <label class="form-label" style="font-weight: bold;"><i data-feather="dollar-sign"></i>
                                                             Currency :</label>
                                                         <select class="form-select currency" id="floatingdateline" placeholder="Mata Uang"
                                                             name="matauang" required="">
@@ -477,10 +478,9 @@
                                                         <input type="text" name="total[]" class="form-control form-line"
                                                             style="text-align: right;" required  value="0"/>
                                                     </td>
-                                                    <td style="text-align: center;"><button type="button"
-                                                            class="btn btn-danger remove-input-field"><i
-                                                                class="fa fa-times"></i></button></td>
-
+                                                    <td style="text-align: center;">
+                                                        <button type="button" class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button>
+                                                    </td>
                                                     </tr>
                                                     @endforeach
                                                     <tr>
@@ -558,7 +558,7 @@
                                                 </table>
                                             </div>
                                                 <div class="form-group" style="text-align:right;">
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
                                                     <a type="reset" class="btn btn-dark"
                                                         href="{{ url('/menu-purchase-order/') }}">Back</a>
                                             </div>
@@ -648,17 +648,18 @@
         @endphp
 
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-12">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header pb-0">
                         <h5>List PO</h5>
                         </div>
                         <div class="card-body">
                             @if (empty($vendor->vendorable->nama))
-                                @else
-                                    <div class="default-according" id="accordionclose">
+
+                            @else
+                                <div class="default-according" id="accordionclose">
                                     @foreach ($items as $po)
                                         @php
                                             foreach($po->itempo as $var_i)
@@ -666,478 +667,471 @@
                                                 $item_po = $var_i;
                                             }
                                         @endphp
+                                        <div class="card">
+                                            <div class="card-header" id="heading{{ $po->id }}">
+                                                <button class="btn btn-link" style="width: 100%;" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1">
+                                                    <span style="font-weight: bold; color:green; float: left;">{{ $po->code_po }}</span>
+                                                    <span style="float: left;">&nbsp; Vendor #{{ $po->vendorable->nama ?? '-' }}</span>
+                                                    <span style="float: left; font-weight:600; color:blueviolet;">&nbsp; ({{ $po->status ?? '-' }})</span>
+                                                    <span  style="float: right;">
+                                                        @if(empty($item_po))
 
-                                        {{-- <div class="card-body"> --}}
-                                <div class="card">
-                                <div class="card-header" id="heading{{ $po->id }}">
-                                    <button class="btn btn-link" style="width: 100%;" data-bs-toggle="collapse" data-bs-target="#collapse{{ $po->id }}" aria-expanded="true" aria-controls="heading1">
-                                        <span style="font-weight: bold; color:green; float: left;">{{ $po->code_po }}</span>
-                                        <span style="float: left;">&nbsp; Vendor #{{ $po->vendorable->nama ?? '-' }}</span>
-                                        <span  style="float: right;">
-                                            @if(empty($item_po))
-
-                                            @else
-                                            {{ $item_po->matauang }} {{ number_format($item_po->grand_total,2) }}
-                                            @endif
-                                        </span>
-                                    </button>
-                                </div>
-                                <div class="collapse" id="collapse{{ $po->id }}" aria-labelledby="heading{{ $po->id }}" data-bs-parent="#accordionclose{{ $po->id }}">
-                                    <div class="card-body">
-
-                                    <div class="row">
-                                            <div class="col-md-6 ">
-                                                <div class="form-group">
-                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                            class="fa fa-database"></i>
-                                                        Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                                        &nbsp; &nbsp;:
-                                                        @if (empty($po->vendorable->nama))
                                                         @else
-                                                            {{ $po->vendorable->nama ?? '-' }}
+                                                        {{ $item_po->matauang }} {{ number_format($item_po->grand_total,2) }}
                                                         @endif
-                                                    </label>
-                                                </div>
+                                                    </span>
+                                                </button>
                                             </div>
+                                            <div class="collapse" id="collapse{{ $po->id }}" aria-labelledby="heading{{ $po->id }}" data-bs-parent="#accordionclose{{ $po->id }}">
+                                                <div class="card-body">
 
-                                            <div class="col-md-6 ">
-                                                <div class="form-group">
-                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                            class="fa fa-database"></i>
-                                                        Quotation  :
-                                                        @if (empty($po->quotation))
-                                                        @else
-                                                            {{ $po->quotation }}
-                                                        @endif
-                                                    </label>
-                                                </div>
-                                            </div>
+                                                    <div class="row">
+                                                            <div class="col-md-6 ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                                            data-feather="database"></i>
+                                                                        Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                                        &nbsp; &nbsp;:
+                                                                        @if (empty($po->vendorable->nama))
+                                                                        @else
+                                                                            {{ $po->vendorable->nama ?? '-' }}
+                                                                        @endif
+                                                                    </label>
+                                                                </div>
+                                                            </div>
 
-                                            <div class="col-md-6 ">
-                                                <div class="form-group">
-                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                            class="fa fa-database"></i>
-                                                        Terms conditions :
-                                                        @if (empty($po->term->term_condition))
-                                                        @else
-                                                            <br>
-                                                            {!! nl2br($po->term->term_condition) !!}
-                                                        @endif
-                                                    </label>
-                                                </div>
-                                            </div>
+                                                            <div class="col-md-6 ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                                            data-feather="database"></i>
+                                                                        Quotation  :
+                                                                        @if (empty($po->quotation))
+                                                                        @else
+                                                                            {{ $po->quotation }}
+                                                                        @endif
+                                                                    </label>
+                                                                </div>
+                                                            </div>
 
-
-                                            <div class="col-md-6 ">
-                                                <div class="form-group">
-                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                            class="fa fa-database"></i>
-                                                        File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
-                                                        @if (empty($po->path_quotation))
-                                                            -
-                                                        @else
-                                                            <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank">{!! nl2br($po->path_quotation) !!}</a>
-                                                        @endif
-                                                    </label>
-                                                </div>
-                                            </div>
-                                    </div>
-                                @php
-                                    foreach($po->itempo as $i)
-                                {
-                                    $e = $i->po_id;
-                                }
-                                @endphp
-
-                                    @if(empty($e))
-
-                                    <table class="table table-bordered mt-4 mb-4 order-entry">
-                                        <thead>
-                                            <tr class="text-center"
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
-                                                <th>Item</th>
-                                                <th>Qty</th>
-                                                <th>UOM</th>
-                                                <th>Price-per-unit</th>
-                                                <th>Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($pengajuan as $p)
-                                                <tr>
-                                                    <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
-                                                    <td style="text-align: center;">{{ $p->qty }}</td>
-                                                    <td style="text-align: center;">{{ $p->kategori }}</td>
-                                                    <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->unit_price) }}</td>
-                                                    <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->total) }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <table class="table table-bordered ">
-                                        <tr>
-                                            <td><label class="pull-right mx-2"> DPP :</label></td>
-                                            <td style="text-align: right;">
-                                                @foreach ($dpp as $d)
-                                                    {{ $data_pengajuan->matauang }} {{ number_format($d->total) }}
-                                                @endforeach
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label class="pull-right mx-2"> Discount :</label></td>
-                                            <td style="text-align: right;">
-                                                {{ $data_pengajuan->matauang }} {{ number_format($disc->discount) }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><input class="mt-1 pull-right check-box" type="checkbox"
-                                                    value="{{ $data_pengajuan->ppn }}"
-                                                    @if ($data_pengajuan->ppn == 1) @checked(true)
-                                                @else
-                                            @endif
-                                                    disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
-                                            <td style="text-align:right;">
-                                                @if ($data_pengajuan->ppn == 1)
-                                                    @foreach ($ppn as $p)
-                                                        {{$data_pengajuan->matauang}} {{ number_format($p->total) }}
-                                                    @endforeach
-                                                @else
-                                                    @foreach ($ppn as $p)
-                                                        {{ $data_pengajuan->matauang }} 0
-                                                    @endforeach
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @if ($data_pengajuan->ppn == 1)
-                                            <tr>
-                                                <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-
-                                                @foreach ($total as $t)
-                                                <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($t->total) }}</td>
-                                                @endforeach
-                                            @elseif ($data_pengajuan->ppn == 0)
-                                                <td class="text-end" style="font-weight: bold;">Grand Total :</td>
-                                                @foreach ($total_tnpa_ppn as $tpn)
-                                                <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($tpn->total) }}</td>
-                                                @endforeach
-                                            </tr>
-                                        @endif
-                                    </table>
-
-                                    @else
+                                                            <div class="col-md-6 ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                                            data-feather="database"></i>
+                                                                        Terms conditions :
+                                                                        @if (empty($po->term->term_condition))
+                                                                        @else
+                                                                            <br>
+                                                                            {!! nl2br($po->term->term_condition) !!}
+                                                                        @endif
+                                                                    </label>
+                                                                </div>
+                                                            </div>
 
 
-                                    <table class="table table-bordered item order-entry mx-2">
-                                        <tr style="text-align: center;">
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                No</th>
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Item</th>
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Qty</th>
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Category</th>
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Price-per-unit</th>
-                                            <th
-                                                style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
-                                                Total</th>
-                                        </tr>
-                                        @php
-                                            $id = 1;
-                                        @endphp
-                                        @foreach ($po->itempo as $item)
-                                        {{-- {{ dd($item) }} --}}
-                                                <tr>
-                                                    <td class="text-center">{{ $id++ }}</td>
-                                                    <td class="text-center">{{ $item->item }}</td>
-                                                    <td class="text-center">{{ $item->qty }}</td>
-                                                    <td class="text-center">{{ $item->kategori }}</td>
-                                                    <td class="text-end">{{ $item->matauang }} {{ number_format($item->unit_price,2) }}</td>
-                                                    <td class="text-end">{{ $item->matauang }} {{ number_format($item->total,2)  }} </td>
-                                                </tr>
-                                        @endforeach
-                                    </table>
-                                    <table class="table table-bordered ">
-                                        <tbody>
-                                            @foreach ($groupedItem as $value)
-                                            @if($value->po_id === $po->id)
-                                            <tr>
-                                                <td><label class="pull-right mx-2"> DPP :</label></td>
-                                                <td style="text-align: right;">
-                                                    {{ $value->matauang }} {{ number_format($value->dpp ,2) }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><label class="pull-right mx-2"> Discount :</label></td>
-                                                <td style="text-align: right;">
-                                                    {{ $value->matauang }} {{ number_format($value->discount) }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input class="mt-1 pull-right check-box" type="checkbox"
-                                                        value="{{ $value->ppn }}"
-                                                        @if ($value->ppn == 1) @checked(true)
-                                                        @else
-                                                        @endif
-                                                        disabled="true"><label class="pull-right mx-2"> PPN 11%
-                                                        :</label>
-                                                    </td>
-                                                <td style="text-align:right;">
-                                                    @if ($value->ppn == 1)
-
-
-                                                    {{-- @dd($value->ppn) --}}
+                                                            <div class="col-md-6 ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" style="font-weight: bold;"><i
+                                                                            data-feather="database"></i>
+                                                                        File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
+                                                                        @if (empty($po->path_quotation))
+                                                                            -
+                                                                        @else
+                                                                            <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank">{!! nl2br($po->path_quotation) !!}</a>
+                                                                        @endif
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                    </div>
                                                     @php
-                                                        $dpp = $value->dpp;
-                                                        $disc = $value->discount;
-                                                        $afterdisc = $dpp - $disc;
-                                                        // dd($dpp);
-                                                        $ppn = $afterdisc *11 /100;
+                                                        foreach($po->itempo as $i)
+                                                    {
+                                                        $e = $i->po_id;
+                                                    }
                                                     @endphp
-                                                        {{ $value->matauang }} {{ number_format($ppn,2) }}
-                                                    @else
-                                                        {{ $value->matauang }} 0
-                                                    @endif
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
-                                                <td style="text-align: right;">
-                                                    {{ $value->matauang }} {{ number_format($value->ongkir,2) }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><label class="pull-right mx-2">Admin Or Service Fee :</label></td>
-                                                <td style="text-align: right;">
-                                                    {{ $value->matauang }} {{ number_format($value->admin_fee,2) }}
-                                                </td>
-                                            </tr>
+                                                    @if(empty($e))
 
-                                            <tr>
-                                                <td class="text-end" style="font-weight: bold;">Grand Total
-                                                        :</td>
-                                                <td style="text-align:right;">
-                                                @if ($value->ppn == 1)
-                                                    {{ $value->matauang }} {{ number_format($value->grand_total,2) }}
-                                                @elseif ($value->ppn == 0)
-                                                    {{ $value->matauang }} {{ number_format($value->grand_total,2) }}</td>
-                                                @endif
-                                            </td>
-                                            </tr>
-                                            @endif
-                                            @endforeach
-                                            </tbody>
-                                    </table>
-                                            @if ($po->status == 'Waiting For PO Approval')
-                                            <button class="btn btn-success mt-3" data-bs-toggle="modal"
-                                                data-bs-target="#modalCheckPo" disabled>Check PO Done
-                                            </button>
-                                            @elseif ($po->status == 'Purchase Proses')
-                                                @if (empty($data_pengajuan->atasans->name))
-                                                        <button class="btn btn-success mt-3 " data-bs-toggle="modal"
-                                                            data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
-                                                @else
-                                                    <button class="btn btn-success mt-3 " data-bs-toggle="modal"
-                                                        data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
-                                                @endif
-                                            @endif
-                                        <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
-                                            target="_blank" style="font-size:12;">Export PDF PO</i>
-                                        </a>
-
-                                        {{-- <a href="{{ url('/export_excel/purchase_order/' . $po->id) }}"
-                                            class="btn btn-success mt-3" style="align-self: flex-end"> Export Excel PO</a> --}}
-
-                                        <a class="btn btn-danger mt-3" href="{{ route('export_py_id.pdf',$po->id) }}"
-                                            target="_blank" style="font-size:12;">Export PDF PD</i>
-                                        </a>
-
-                                        {{-- <a href="{{ url('/export_excel/pengajuan_dana/' . $po->id) }}"
-                                            class="btn btn-success mt-3" style="align-self: flex-end"> Export Excel PD</a> --}}
-
-                                        <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3"> Edit PO <i class="fa fa-plus"></i></a>
-
-                                        {{-- <a data-bs-toggle="modal"
-                                        data-bs-target="#modalDeletePO{{ $po->id }}" class="btn btn-danger mt-3">
-                                            Delete
-                                        </a> --}}
-                                        <div class="mt-3">
-                                        <h6>Info :</h6>
-                                            <ul>
-                                                <li>PO Submitted At {{ $po->created_at }}</li>
-                                                <li>PO Check At {{ $data_pengajuan->w_approval_po_timestamp }}</li>
-                                                <li>
-                                                    PO
-                                                    @if($po->status == 'PO Rejected by BOD')
-                                                    Reject At {{ $po->updated_at }} - {{ $data_pengajuan->atasans->name }}
-                                                    @else
-                                                    Approve At {{ $po->approved_at }}
-                                                    @endif
-
-                                                </li>
-                                                @if($po->status == 'PO Rejected by BOD')
-                                                    <li>
-                                                        Note : {{ $po->note_bod_po }}
-                                                    </li>
-                                                @else
-
-                                                @endif
-                                            </ul>
-                                            </div>
-                                        @endif
-                                        </div>
-
-                                    </div>
-                                    </div>
-
-                                    <div class="modal fade" id="modalCheckPo{{ $po->id }}" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-danger">
-                                                    <h2 class="modal-title" style="color: white">Warning</h2>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body mx-5 mb-3" style="text-align: center;">
-                                                    <span class="warning">
-                                                        <img src="{{ asset('assets/images/warning.png') }}" >
-                                                    </span>
-                                                    <h2 style="text-align: center">Make sure the data is correct!</h2>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <form class="text-center" style="text-align: center;"
-                                                        action="{{ url('menu-purchase-order/check_po2/' .$po->id) }}">
-                                                        <input type="hidden" name="ppb_id" value="{{ $po->id }}">
-                                                        <button type="submit" class="btn btn-outline-danger "><i
-                                                                class="bx bx-trash"></i>
-                                                            Check PO
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal fade" id="modalDeletePO{{ $po->id }}" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-danger">
-                                                    <h2 class="modal-title" style="color: white">Warning</h2>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body mx-5 mb-3" style="text-align: center;">
-                                                    <span class="warning">
-                                                        <img src="{{ asset('assets/images/warning.png') }}" >
-                                                    </span>
-                                                    <h2 style="text-align: center">Are you sure Delete PO?</h2>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <form class="text-center" style="text-align: center;"
-                                                    action="{{ route('menu-purchase-order.deletePOAll',$po->id) }}" method="POST">
-                                                    @csrf @method('DELETE')
-                                                        <input type="hidden" name="id" value="{{ $po->id }}">
-                                                        <button type="submit" class="btn btn-outline-danger "><i
-                                                                class="bx bx-trash"></i>
-                                                            Delete PO
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                {{-- </div> --}}
-
-                                @endforeach
-                            </div>
-
-                            @endif
-                    <div class="mt-4">
-                        <h6>Info :</h6>
-                        <ul>
-                            <li>PR Submit By {{ $data_pengajuan->whosubmit->name }} - {{ $data_pengajuan->created_at }}</li>
-                            <li>PR Approved By {{ $data_pengajuan->bod->name }} - {{ $data_pengajuan->approved_at }}</li>
-                            <li>PR Note :
-                                "
-                                @if( empty($data_pengajuan->note_bod_pr))
-                                -
-                                @else
-                                {{ $data_pengajuan->note_bod_pr }}
-                                @endif
-                                "
-                                    {{ $data_pengajuan->bod->name }}
-                            </li>
-
-                        </ul>
-                        <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}"
-                            target="_blank" style="font-size:12;">Export PDF PR</i>
-                        </a>
-                    </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4>Comment</h4>
-                                        <form action="{{ route('comment.store', $data_pengajuan->id) }}" method="POST">
-                                            @csrf
-                                            <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
-                                            <div style="text-align: right; margin-top:20px;">
-                                                <input type="submit" class="btn btn-primary" value="Comment">
-                                                <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
-                                            </div>
-                                        </form>
-                                    <div class="AllComment" id="comment">
-                                        <div class="container">
-                                            @foreach ($comments as $c)
-                                                <ul>
-                                                    <li>
-                                                        <p>
-                                                            <strong>
-                                                                @if (empty($c->users->name))
-                                                                @else
-                                                                    - {{ $c->users->name }}
+                                                        <table class="table table-bordered mt-4 mb-4 order-entry">
+                                                            <thead>
+                                                                <tr class="text-center"
+                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17;">
+                                                                    <th>Item</th>
+                                                                    <th>Qty</th>
+                                                                    <th>UOM</th>
+                                                                    <th>Price-per-unit</th>
+                                                                    <th>Total</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($pengajuan as $p)
+                                                                    <tr>
+                                                                        <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
+                                                                        <td style="text-align: center;">{{ $p->qty }}</td>
+                                                                        <td style="text-align: center;">{{ $p->kategori }}</td>
+                                                                        <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->unit_price) }}</td>
+                                                                        <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($p->total) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                        <table class="table table-bordered ">
+                                                            <tr>
+                                                                <td><label class="pull-right mx-2"> DPP :</label></td>
+                                                                <td style="text-align: right;">
+                                                                    @foreach ($dpp as $d)
+                                                                        {{ $data_pengajuan->matauang }} {{ number_format($d->total) }}
+                                                                    @endforeach
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="pull-right mx-2"> Discount :</label></td>
+                                                                <td style="text-align: right;">
+                                                                    {{ $data_pengajuan->matauang }} {{ number_format($disc->discount) }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><input class="mt-1 pull-right check-box" type="checkbox"
+                                                                        value="{{ $data_pengajuan->ppn }}"
+                                                                        @if ($data_pengajuan->ppn == 1) @checked(true)
+                                                                    @else
                                                                 @endif
-                                                            </strong>
-                                                            @if (empty($c->created_at))
-                                                            @else
-                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
+                                                                        disabled="true"><label class="pull-right mx-2"> PPN 11% :</label></td>
+                                                                <td style="text-align:right;">
+                                                                    @if ($data_pengajuan->ppn == 1)
+                                                                        @foreach ($ppn as $p)
+                                                                            {{$data_pengajuan->matauang}} {{ number_format($p->total) }}
+                                                                        @endforeach
+                                                                    @else
+                                                                        @foreach ($ppn as $p)
+                                                                            {{ $data_pengajuan->matauang }} 0
+                                                                        @endforeach
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                            @if ($data_pengajuan->ppn == 1)
+                                                                <tr>
+                                                                    <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+
+                                                                    @foreach ($total as $t)
+                                                                    <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($t->total) }}</td>
+                                                                    @endforeach
+                                                                @elseif ($data_pengajuan->ppn == 0)
+                                                                    <td class="text-end" style="font-weight: bold;">Grand Total :</td>
+                                                                    @foreach ($total_tnpa_ppn as $tpn)
+                                                                    <td style="text-align:right;">{{ $data_pengajuan->matauang }} {{ number_format($tpn->total) }}</td>
+                                                                    @endforeach
+                                                                </tr>
                                                             @endif
-                                                        </p>
-                                                    </li>
-                                                    <li>
-                                                        @if (empty($c->comment))
-                                                        @else
-                                                            <p>{{ $c->comment }}</p>
+                                                        </table>
+
+                                                    @else
+
+
+                                                        <table class="table table-bordered item order-entry mx-2">
+                                                            <tr style="text-align: center;">
+                                                                <th
+                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                    No</th>
+                                                                <th
+                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                    Item</th>
+                                                                <th
+                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                    Qty</th>
+                                                                <th
+                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                    Category</th>
+                                                                <th
+                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                    Price-per-unit</th>
+                                                                <th
+                                                                    style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                                    Total</th>
+                                                            </tr>
+                                                            @php
+                                                                $id = 1;
+                                                            @endphp
+                                                            @foreach ($po->itempo as $item)
+                                                            {{-- {{ dd($item) }} --}}
+                                                                    <tr>
+                                                                        <td class="text-center">{{ $id++ }}</td>
+                                                                        <td class="text-center">{{ $item->item }}</td>
+                                                                        <td class="text-center">{{ $item->qty }}</td>
+                                                                        <td class="text-center">{{ $item->kategori }}</td>
+                                                                        <td class="text-end">{{ $item->matauang }} {{ number_format($item->unit_price,2) }}</td>
+                                                                        <td class="text-end">{{ $item->matauang }} {{ number_format($item->total,2)  }} </td>
+                                                                    </tr>
+                                                            @endforeach
+                                                        </table>
+                                                        <table class="table table-bordered ">
+                                                            <tbody>
+                                                                @foreach ($groupedItem as $value)
+                                                                @if($value->po_id === $po->id)
+                                                                <tr>
+                                                                    <td><label class="pull-right mx-2"> DPP :</label></td>
+                                                                    <td style="text-align: right;">
+                                                                        {{ $value->matauang }} {{ number_format($value->dpp ,2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><label class="pull-right mx-2"> Discount :</label></td>
+                                                                    <td style="text-align: right;">
+                                                                        {{ $value->matauang }} {{ number_format($value->discount) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input class="mt-1 pull-right check-box" type="checkbox"
+                                                                            value="{{ $value->ppn }}"
+                                                                            @if ($value->ppn == 1) @checked(true)
+                                                                            @else
+                                                                            @endif
+                                                                            disabled="true"><label class="pull-right mx-2"> PPN 11%
+                                                                            :</label>
+                                                                        </td>
+                                                                    <td style="text-align:right;">
+                                                                        @if ($value->ppn == 1)
+
+
+                                                                        {{-- @dd($value->ppn) --}}
+                                                                        @php
+                                                                            $dpp = $value->dpp;
+                                                                            $disc = $value->discount;
+                                                                            $afterdisc = $dpp - $disc;
+                                                                            // dd($dpp);
+                                                                            $ppn = $afterdisc *11 /100;
+                                                                        @endphp
+                                                                            {{ $value->matauang }} {{ number_format($ppn,2) }}
+                                                                        @else
+                                                                            {{ $value->matauang }} 0
+                                                                        @endif
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><label class="pull-right mx-2">Shipping & Protection Fee :</label></td>
+                                                                    <td style="text-align: right;">
+                                                                        {{ $value->matauang }} {{ number_format($value->ongkir,2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><label class="pull-right mx-2">Admin Or Service Fee :</label></td>
+                                                                    <td style="text-align: right;">
+                                                                        {{ $value->matauang }} {{ number_format($value->admin_fee,2) }}
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td class="text-end" style="font-weight: bold;">Grand Total
+                                                                            :</td>
+                                                                    <td style="text-align:right;">
+                                                                    @if ($value->ppn == 1)
+                                                                        {{ $value->matauang }} {{ number_format($value->grand_total,2) }}
+                                                                    @elseif ($value->ppn == 0)
+                                                                        {{ $value->matauang }} {{ number_format($value->grand_total,2) }}</td>
+                                                                    @endif
+                                                                </td>
+                                                                </tr>
+                                                                @endif
+                                                                @endforeach
+                                                                </tbody>
+                                                        </table>
+                                                        @if ($po->status == 'Waiting For PO Approval')
+                                                            <button class="btn btn-success mt-3" data-bs-toggle="modal"
+                                                                data-bs-target="#modalCheckPo" disabled>Check PO Done
+                                                            </button>
+                                                        @elseif ($po->status == 'Purchase Proses')
+                                                                @if (empty($data_pengajuan->atasans->name))
+                                                                        <button class="btn btn-success mt-3 " data-bs-toggle="modal"
+                                                                            data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
+                                                                @else
+                                                                    <button class="btn btn-success mt-3 " data-bs-toggle="modal"
+                                                                        data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
+                                                                @endif
                                                         @endif
-                                                    </li>
-                                                    <hr>
-                                                </ul>
-                                            @endforeach
+                                                        <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
+                                                            target="_blank" style="font-size:12;">Export PDF PO</i>
+                                                        </a>
+
+                                                        {{-- <a href="{{ url('/export_excel/purchase_order/' . $po->id) }}"
+                                                            class="btn btn-success mt-3" style="align-self: flex-end"> Export Excel PO</a> --}}
+
+                                                        <a class="btn btn-danger mt-3" href="{{ route('export_py_id.pdf',$po->id) }}"
+                                                            target="_blank" style="font-size:12;">Export PDF PD</i>
+                                                        </a>
+
+                                                        {{-- <a href="{{ url('/export_excel/pengajuan_dana/' . $po->id) }}"
+                                                            class="btn btn-success mt-3" style="align-self: flex-end"> Export Excel PD</a> --}}
+
+                                                        <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3"> Edit PO <i class="icofont icofont-ui-add"></i></a>
+
+                                                        {{-- <a data-bs-toggle="modal"
+                                                        data-bs-target="#modalDeletePO{{ $po->id }}" class="btn btn-danger mt-3">
+                                                            Delete
+                                                        </a> --}}
+                                                        <div class="mt-3">
+                                                            <h6>Info :</h6>
+                                                            <ul>
+                                                                <li>PO Submitted At {{ $po->created_at }}</li>
+                                                                <li>PO Check At {{ $data_pengajuan->w_approval_po_timestamp }}</li>
+                                                                <li>
+                                                                    PO
+                                                                    @if($po->status == 'PO Rejected by BOD')
+                                                                    Reject At {{ $po->updated_at }} - {{ $data_pengajuan->atasans->name }}
+                                                                    @else
+                                                                    Approve At {{ $po->approved_at }}
+                                                                    @endif
+
+                                                                </li>
+                                                                @if($po->status == 'PO Rejected by BOD')
+                                                                    <li>
+                                                                        Note : {{ $po->note_bod_po }}
+                                                                    </li>
+                                                                @else
+
+                                                                @endif
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        <div class="modal fade" id="modalCheckPo{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-danger">
+                                                        <h2 class="modal-title" style="color: white">Warning</h2>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body mx-5 mb-3" style="text-align: center;">
+                                                        <span class="warning">
+                                                            <img src="{{ asset('assets/images/warning.png') }}" >
+                                                        </span>
+                                                        <h2 style="text-align: center">Make sure the data is correct!</h2>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form class="text-center" style="text-align: center;"
+                                                            action="{{ url('menu-purchase-order/check_po2/' .$po->id) }}">
+                                                            <input type="hidden" name="ppb_id" value="{{ $po->id }}">
+                                                            <button type="submit" class="btn btn-outline-danger "><i
+                                                                    class="bx bx-trash"></i>
+                                                                Check PO
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="modalDeletePO{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-danger">
+                                                        <h2 class="modal-title" style="color: white">Warning</h2>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body mx-5 mb-3" style="text-align: center;">
+                                                        <span class="warning">
+                                                            <img src="{{ asset('assets/images/warning.png') }}" >
+                                                        </span>
+                                                        <h2 style="text-align: center">Are you sure Delete PO?</h2>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form class="text-center" style="text-align: center;"
+                                                        action="{{ route('menu-purchase-order.deletePOAll',$po->id) }}" method="POST">
+                                                        @csrf @method('DELETE')
+                                                            <input type="hidden" name="id" value="{{ $po->id }}">
+                                                            <button type="submit" class="btn btn-outline-danger "><i
+                                                                    class="bx bx-trash"></i>
+                                                                Delete PO
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                            <div class="mt-4">
+                                <h6>Info :</h6>
+                                <ul>
+                                    <li>PR Submit By {{ $data_pengajuan->whosubmit->name }} - {{ $data_pengajuan->created_at }}</li>
+                                    <li>PR Approved By {{ $data_pengajuan->bod->name }} - {{ $data_pengajuan->approved_at }}</li>
+                                    <li>PR Note :
+                                        "
+                                        @if( empty($data_pengajuan->note_bod_pr))
+                                        -
+                                        @else
+                                        {{ $data_pengajuan->note_bod_pr }}
+                                        @endif
+                                        "
+                                            {{ $data_pengajuan->bod->name }}
+                                    </li>
+
+                                </ul>
+                                <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/ppb/' . $data_pengajuan->id) }}"
+                                    target="_blank" style="font-size:12;">Export PDF PR</i>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Comment</h4>
+                                    <form action="{{ route('comment.store', $data_pengajuan->id) }}" method="POST">
+                                        @csrf
+                                        <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
+                                        <div style="text-align: right; margin-top:20px;">
+                                            <input type="submit" class="btn btn-primary" value="Comment">
+                                            <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
+                                        </div>
+                                    </form>
+                                <div class="AllComment" id="comment">
+                                    <div class="container">
+                                        @foreach ($comments as $c)
+                                            <ul>
+                                                <li>
+                                                    <p>
+                                                        <strong>
+                                                            @if (empty($c->users->name))
+                                                            @else
+                                                                - {{ $c->users->name }}
+                                                            @endif
+                                                        </strong>
+                                                        @if (empty($c->created_at))
+                                                        @else
+                                                            &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
+                                                        @endif
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    @if (empty($c->comment))
+                                                    @else
+                                                        <p>{{ $c->comment }}</p>
+                                                    @endif
+                                                </li>
+                                                <hr>
+                                            </ul>
+                                        @endforeach
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 </section>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -1159,6 +1153,7 @@
     })
 
     function updateFileds(event, row) {
+        var checkbox = document.querySelector(".check-box-create");
         const qty = row.querySelector('.form-qty').value;
         const price = row.querySelector('.form-cost').value.replace(/\,/g, "");
         const totalElmnt = row.querySelector('.form-line');
@@ -1173,77 +1168,92 @@
         $(".total").val(new Intl.NumberFormat('en-IN').format(dpp));
 
 
-    var discount = 0 ;
+        var discount = dpp;
+        $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
         var diskon = document.querySelector(".discount");
         diskon.addEventListener("input", function() {
             var disc = diskon.value;
             var rep = disc.replace(/\,/g, "");
             var discint = parseFloat(rep);
+            if (isNaN(discint)) {
+                discint = 0;
+            }
             discount = dpp - discint;
-            console.log(discount);
+            checker_ppn(discount,checkbox);
             $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
             $(".total").val(new Intl.NumberFormat('en-IN').format(discount));
-    })
 
-    var checkbox = document.querySelector(".check-box-create");
-
-    checkbox.addEventListener('change', (event) => {
-        var totalppn = 0;
-        if (event.currentTarget.checked) {                  // PPN
-            totalppn = discount * 11 / 100;
-            ppntotal2 = discount + totalppn;
-            console.log(discount);
-            console.log(ppntotal2);
-            $(".ppn").text(totalppn.toLocaleString('en-US'));
-            $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
-
-            var ongkir = document.querySelector(".ongkir");
-            ongkir.addEventListener("input", function(){
-                var ongkos = ongkir.value;
-                var replace = ongkos.replace(/\,/g, "");
-                var ongkoskirim = parseFloat(replace);
-                console.log(ongkoskirim);
-                grandtotal = ongkoskirim  + ppntotal2;
-                $(".total").val(grandtotal);
-                console.log(grandtotal);
-            });
-            var adminfee = document.querySelector(".adminfee");
-            adminfee.addEventListener("input", function(){
-                var admin = adminfee.value;
-                var replace = admin.replace(/\,/g, "");
-                var biayaAdmin = parseFloat(replace);
-                grandtotal2 = biayaAdmin  + grandtotal ;
-                $(".total").val(grandtotal2);
-            });
-        } else {                                            // Non PPN
-            totalppn = discount * 0;
-            ppntotal2 = discount + totalppn;
-            $(".ppn").text(totalppn);
-            console.log(ppntotal2);
-            $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
-
-            var ongkir = document.querySelector(".ongkir");
-            ongkir.addEventListener("input", function(){
-                var ongkos = ongkir.value;
-                var replace = ongkos.replace(/\,/g, "");
-                var ongkoskirim = parseFloat(replace);
-                console.log(ongkoskirim);
-                grandtotal = ongkoskirim  + ppntotal2 ;
-                $(".total").val(grandtotal);
-                console.log(grandtotal);
-            });
-            var adminfee = document.querySelector(".adminfee");
-            adminfee.addEventListener("input", function(){
-                var admin = adminfee.value;
-                var replace = admin.replace(/\,/g, "");
-                var biayaAdmin = parseFloat(replace);
-                grandtotal2 = biayaAdmin  + grandtotal ;
-                $(".total").val(grandtotal2);
-            });
-        }
-    });
+        })
+        console.log(discount);
+        checker_ppn(discount,checkbox);
     };
 
+
+    function checker_ppn(discount,checkbox){
+        checkbox.addEventListener('change', (event) => {
+            var totalppn = 0;
+            if (event.currentTarget.checked) {                  // PPN
+                totalppn = discount * 0.11;
+                ppntotal2 = discount + totalppn;
+                console.log(discount);
+                console.log(ppntotal2);
+                $(".ppn").text(totalppn.toLocaleString('en-US'));
+                $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
+
+                var ongkir = document.querySelector(".ongkir");
+                ongkir.addEventListener("input", function(){
+                    var ongkos = ongkir.value;
+                    var replace = ongkos.replace(/\,/g, "");
+                    var ongkoskirim = parseFloat(replace);
+                    if (isNaN(ongkoskirim)) {
+                        ongkoskirim = 0;
+                    }
+                    grandtotal = ongkoskirim  + ppntotal2;
+                    $(".total").val(grandtotal);
+                });
+                var adminfee = document.querySelector(".adminfee");
+                adminfee.addEventListener("input", function(){
+                    var admin = adminfee.value;
+                    var replace = admin.replace(/\,/g, "");
+                    var biayaAdmin = parseFloat(replace);
+                    if (isNaN(biayaAdmin)) {
+                        biayaAdmin = 0;
+                    }
+                    grandtotal2 = biayaAdmin  + grandtotal;
+                    $(".total").val(grandtotal2);
+                });
+            } else {                                            // Non PPN
+                totalppn = discount * 0;
+                ppntotal2 = discount + totalppn;
+                $(".ppn").text(totalppn);
+                console.log(ppntotal2);
+                $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
+
+                var ongkir = document.querySelector(".ongkir");
+                ongkir.addEventListener("input", function(){
+                    var ongkos = ongkir.value;
+                    var replace = ongkos.replace(/\,/g, "");
+                    var ongkoskirim = parseFloat(replace);
+                    if (isNaN(ongkoskirim)) {
+                        ongkoskirim = 0;
+                    }
+                    grandtotal = ongkoskirim  + ppntotal2 ;
+                    $(".total").val(grandtotal);
+                });
+                var adminfee = document.querySelector(".adminfee");
+                adminfee.addEventListener("input", function(){
+                    var admin = adminfee.value;
+                    var replace = admin.replace(/\,/g, "");
+                    var biayaAdmin = parseFloat(replace);
+                    if (isNaN(biayaAdmin)) {
+                        biayaAdmin = 0;
+                    }   
+                    grandtotal2 = biayaAdmin  + grandtotal ;
+                    $(".total").val(grandtotal2);
+                });
+            }
+        });
+    }
 
     $(document).on('click', '.remove-input-field', function() {
         $(this).parents('tr').remove();
@@ -1259,8 +1269,19 @@
 
 <script type="text/javascript">
     var pageSelector = document.querySelector('.pageSelector');
+    var terms = document.querySelector('.terms');
     var customInput = document.querySelector('.customInput');
+    var termsVal =  $(terms).val();
+    console.log(termsval);
+
+    if(termsVal == "custom"){
+        customInput.classList.remove('hide');
+    } else {
+        customInput.classList.add('hide');
+    }
+
     pageSelector.addEventListener('change', function() {
+        console.log(this.value);
         if (this.value == "custom") {
             customInput.classList.remove('hide');
         } else {
@@ -1307,7 +1328,29 @@
     })
 </script>
 
+@endsection
 
+@section('scripts')
+<script>
+    var terms = document.querySelector('.terms');
+    var pageSelector = document.querySelector('.pageSelector');
+    var customInput = document.querySelector('.customInput');
+    $(terms).select2();
 
+    $(terms).on('change', function(e) {
+        if($(terms).select2("val") == "custom"){
+            customInput.classList.remove('hide');
+        } else {
+            customInput.classList.add('hide');
+        }
+    });
+</script>
+<script type="text/javascript">
+    document.getElementById('formAdd').addEventListener('submit', function() {
+       var submitBtn = document.getElementById('submitBtn');
+       submitBtn.disabled = true;
+       submitBtn.innerHTML = 'Processing';
+   });
+</script>
 
 @endsection

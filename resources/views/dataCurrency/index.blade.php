@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"> Add
-                                        <i class="fa fa-plus"></i>
+                                        <i class="icofont icofont-ui-add"></i>
                                     </button>
                                 </div>
                                 <div class="col-md-2"></div>
@@ -223,7 +223,7 @@
 
                     <div class="card-body">
                     <div class="alert alert-warning alert-dismissible">
-                        <i class="icon fa fa-warning"></i> Warning! &nbsp;
+                        Warning! &nbsp;
                         File Data Item Only Type (.xls, .xlsx)
                     </div>
                     </div>
