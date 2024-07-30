@@ -658,24 +658,19 @@ class CategoryPOController extends Controller
 
                 }
 
+                $existingItemIds = ItemPO::where('po_id', $purchase->id)->pluck('id')->toArray();
+                $incomingItemIds = $data2['id'];
 
-                foreach ($data2['id'] as $key => $item) {
+                foreach ($incomingItemIds as $key => $item) {
+
                     $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
                     $sum = str_replace(",", "" , $data2['total'][$key]);
                     $dpp = str_replace(",", "" , $data2['dpp']);
-                    // dd($price_unit);
                     $diskon = str_replace(",", "", $data2['discount']);
                     $grand_total = str_replace(",","", $data2['grand_total']);
                     $ongkir     = str_replace(",", "", $data2['ongkir']);
                     $admin     = str_replace(",", "", $data2['admin_fee']);
 
-                    // $price_unit = str_replace("." ,"", $data2['unit_price'][$key]);
-                    // $unit_price = str_replace(",", "" , $price_unit);
-
-                    // $diskon = str_replace(".", "", $data2['discount']);
-                    // $grand_total = str_replace(",","", $data2['grand_total']);
-                    // $ongkir     = str_replace(".", "", $data2['ongkir']);
-                    //dd($diskon);
                     $update = array(
                         'po_id'             => $purchase->id,
                         'item'              => $data2['item'][$key],
@@ -694,9 +689,10 @@ class CategoryPOController extends Controller
                     ItemPO::where('id', $item)->update($update);
                 }
 
-            }
+                $itemsToDelete = array_diff($existingItemIds, $incomingItemIds);
+                ItemPO::whereIn('id', $itemsToDelete)->delete();
 
-            else {
+            } else {
                 $po = CategoryPO::where('ppb_id',$id)->first();
 
                 // $ppn = CategoryPengajuanPembelian::find($id);
@@ -722,72 +718,75 @@ class CategoryPOController extends Controller
                     "quotation" => $request->quotation,
                 ]);
 
-            if(isset($request->vendor)){
-                if($request->vendor == "company") {
-                    // dd($purchase->vendorable_id == $request->perusahaan);
-                    if ($purchase->vendorable_id == $request->perusahaan){
+                if(isset($request->vendor)){
+                    if($request->vendor == "company") {
+                        // dd($purchase->vendorable_id == $request->perusahaan);
+                        if ($purchase->vendorable_id == $request->perusahaan){
 
-                    }else {
-                        if ($request->vendor == "company") {
-                            $vendor1 = CategoryPT::find($request->perusahaan);
-                            $vendor1->vendors()->where('id',$id)->delete();
-                            $vendor1->vendors()->save($purchase);
-                        } elseif ($request->vendor == "privateperson") {
-                            $vendor2 = CategoryPP::find($request->orangpribadi);
-                            $vendor2->vendors()->where('id',$id)->delete();
-                            $vendor2->vendors()->save($purchase);
-                        } elseif ($request->vendor == "ecommerce") {
-                            $vendor3 = CategoryEcommerce::find($request->ecommerce);
-                            $vendor3->vendors()->where('id',$id)->delete();
-                            $vendor3->vendors()->save($purchase);
+                        }else {
+                            if ($request->vendor == "company") {
+                                $vendor1 = CategoryPT::find($request->perusahaan);
+                                $vendor1->vendors()->where('id',$id)->delete();
+                                $vendor1->vendors()->save($purchase);
+                            } elseif ($request->vendor == "privateperson") {
+                                $vendor2 = CategoryPP::find($request->orangpribadi);
+                                $vendor2->vendors()->where('id',$id)->delete();
+                                $vendor2->vendors()->save($purchase);
+                            } elseif ($request->vendor == "ecommerce") {
+                                $vendor3 = CategoryEcommerce::find($request->ecommerce);
+                                $vendor3->vendors()->where('id',$id)->delete();
+                                $vendor3->vendors()->save($purchase);
+                            }
+                        }
+                    } elseif ($request->vendor == "privateperson") {
+                        // dd($purchase->vendorable_id == $request->orangpribadi);
+                        if ($purchase->vendorable_id == $request->orangpribadi){
+
+                        }else {
+                            if ($request->vendor == "company") {
+                                $vendor1 = CategoryPT::find($request->perusahaan);
+                                $vendor1->vendors()->where('id',$id)->delete();
+                                $vendor1->vendors()->save($purchase);
+                            } elseif ($request->vendor == "privateperson") {
+                                $vendor2 = CategoryPP::find($request->orangpribadi);
+                                $vendor2->vendors()->where('id',$id)->delete();
+                                $vendor2->vendors()->save($purchase);
+                            } elseif ($request->vendor == "ecommerce") {
+                                $vendor3 = CategoryEcommerce::find($request->ecommerce);
+                                $vendor3->vendors()->where('id',$id)->delete();
+                                $vendor3->vendors()->save($purchase);
+                            }
+                        }
+                    } elseif ($request->vendor == "ecommerce") {
+                        // dd($purchase->vendorable_id == $request->ecommerce);
+                        if ($purchase->vendorable_id == $request->ecommerce){
+
+                        }else {
+                            if ($request->vendor == "company") {
+                                $vendor1 = CategoryPT::find($request->perusahaan);
+                                $vendor1->vendors()->where('id',$id)->delete();
+                                $vendor1->vendors()->save($purchase);
+                            } elseif ($request->vendor == "privateperson") {
+                                $vendor2 = CategoryPP::find($request->orangpribadi);
+                                $vendor2->vendors()->where('id',$id)->delete();
+                                $vendor2->vendors()->save($purchase);
+                            } elseif ($request->vendor == "ecommerce") {
+                                $vendor3 = CategoryEcommerce::find($request->ecommerce);
+                                $vendor3->vendors()->where('id',$id)->delete();
+                                $vendor3->vendors()->save($purchase);
+                            }
                         }
                     }
-                } elseif ($request->vendor == "privateperson") {
-                    // dd($purchase->vendorable_id == $request->orangpribadi);
-                    if ($purchase->vendorable_id == $request->orangpribadi){
 
-                    }else {
-                        if ($request->vendor == "company") {
-                            $vendor1 = CategoryPT::find($request->perusahaan);
-                            $vendor1->vendors()->where('id',$id)->delete();
-                            $vendor1->vendors()->save($purchase);
-                        } elseif ($request->vendor == "privateperson") {
-                            $vendor2 = CategoryPP::find($request->orangpribadi);
-                            $vendor2->vendors()->where('id',$id)->delete();
-                            $vendor2->vendors()->save($purchase);
-                        } elseif ($request->vendor == "ecommerce") {
-                            $vendor3 = CategoryEcommerce::find($request->ecommerce);
-                            $vendor3->vendors()->where('id',$id)->delete();
-                            $vendor3->vendors()->save($purchase);
-                        }
-                    }
-                } elseif ($request->vendor == "ecommerce") {
-                    // dd($purchase->vendorable_id == $request->ecommerce);
-                    if ($purchase->vendorable_id == $request->ecommerce){
+                } else{
 
-                    }else {
-                        if ($request->vendor == "company") {
-                            $vendor1 = CategoryPT::find($request->perusahaan);
-                            $vendor1->vendors()->where('id',$id)->delete();
-                            $vendor1->vendors()->save($purchase);
-                        } elseif ($request->vendor == "privateperson") {
-                            $vendor2 = CategoryPP::find($request->orangpribadi);
-                            $vendor2->vendors()->where('id',$id)->delete();
-                            $vendor2->vendors()->save($purchase);
-                        } elseif ($request->vendor == "ecommerce") {
-                            $vendor3 = CategoryEcommerce::find($request->ecommerce);
-                            $vendor3->vendors()->where('id',$id)->delete();
-                            $vendor3->vendors()->save($purchase);
-                        }
-                    }
                 }
 
-            }else{
+                $existingItemIds = ItemPO::where('po_id', $purchase->id)->pluck('id')->toArray();
+                $incomingItemIds = $data2['id'];
 
-            }
+                foreach ($incomingItemIds as $key => $item) {
 
-
-                foreach ($data2['id'] as $key => $item) {
                     $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
                     $sum = str_replace(",", "" , $data2['total'][$key]);
                     $dpp = str_replace(",", "" , $data2['dpp']);
@@ -814,6 +813,9 @@ class CategoryPOController extends Controller
                     );
                     ItemPO::where('id', $item)->update($update);
                 }
+
+                $itemsToDelete = array_diff($existingItemIds, $incomingItemIds);
+                ItemPO::whereIn('id', $itemsToDelete)->delete();
             }
 
             return redirect("menu-purchase-order/detail/".$datapo->ppb_id);
