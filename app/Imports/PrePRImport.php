@@ -27,7 +27,7 @@ class PrePRImport implements  ToModel, WithHeadingRow
         // dd($this->due_date);
         // dd($row);
 
-        $existProject = Pre_pr::where('user_id',Auth::user()->id)->where('project_id',$this->project)->first();
+        $existProject = Pre_pr::where('project_id',$this->project)->first();
         if($existProject){
             $qty = $row['qty'];
             $buffer =  $row['buffer'];
@@ -39,12 +39,27 @@ class PrePRImport implements  ToModel, WithHeadingRow
                 'link'              => $row['link'],
                 'qty'               => $qty ?? 0 ,
                 'buffer'            => $buffer ?? 0,
-                'total'             => $total
+                'total'             => $total,
+                'creator_id'        => null,
+                'creator_name'      => null,
             );
-            PartItem_Pre_pr::updateOrCreate(
-                ['pre_pr_id' => $existProject->id, 'child_item' => $row['part_name']],
-                $data1
-            );
+            $record = PartItem_Pre_pr::firstOrNew(['pre_pr_id' => $existProject->id, 'child_item' => $row['part_name']]);
+
+            // Set creator fields only if the record is new
+            if (!$record->exists) {
+                $record->creator_id = Auth::user()->id;
+                $record->creator_name = Auth::user()->name;
+            }
+
+            // Update other fields
+            $record->desc = $data1['desc'];
+            $record->link = $data1['link'];
+            $record->qty = $qty ?? 0;
+            $record->buffer = $buffer ?? 0;
+            $record->total = $total;
+
+            // Save the record
+            $record->save();
         } else {
             $pre_pr = Pre_pr::create([
                 'user_id' =>  Auth::user()->id,
@@ -63,7 +78,9 @@ class PrePRImport implements  ToModel, WithHeadingRow
                 'link'              => $row['link'],
                 'qty'               => $qty ?? 0 ,
                 'buffer'            => $buffer ?? 0,
-                'total'             => $total
+                'total'             => $total,
+                'creator_id'        => Auth::user()->id,
+                'creator_name'      => Auth::user()->name,
             );
             PartItem_Pre_pr::create($data2);
         }

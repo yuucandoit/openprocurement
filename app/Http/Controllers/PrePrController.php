@@ -29,23 +29,11 @@ class PrePrController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2 || $check->role_id == 3 ||  $check->role_id == 4 || $check->role_id == 17) {
-            if($check->role_id == 2){
-                if(Auth::user()->id == 34 || Auth::user()->email == 'edward@intek.co.id'){
-                    $pre_pr = Pre_pr::orderBy('created_at', 'DESC')->paginate(10);
-                    $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
-                    return view('PrePR.index')
-                    ->with('purpose', $purpose)
-                    ->with('pre_pr', $pre_pr);
-                } else {
-                    return redirect()->route('dashboard');
-                }
-            }else {
             $pre_pr = Pre_pr::orderBy('created_at', 'DESC')->paginate(10);
             $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
             return view('PrePR.index')
             ->with('purpose', $purpose)
             ->with('pre_pr', $pre_pr);
-            }
         }else {
             return redirect()->route('dashboard');
         }
@@ -62,37 +50,18 @@ class PrePrController extends Controller
 
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 2 || $check->role_id == 3 ||  $check->role_id == 4 || $check->role_id == 17) {
-            if($check->role_id == 2){
-                if(Auth::user()->id == 34 || Auth::user()->email == 'edward@intek.co.id'){
-                    $pre_pr = Pre_pr::with(['partItem' => function ($query) {
-                        $query->with('prItems', function ($query) {
-                            $query->whereHas('ppb', function ($query) {
-                                $query->where('status', 'NOT LIKE', '%Rejected%');
-                            });
-                        });
-                    }])->find($id);
 
-                    // $pre_pr =
-
-                    return view('PrePR.detail')
-                    ->with('pre_pr', $pre_pr);
-                } else {
-                    return redirect()->route('dashboard');
-                }
-            }else {
-                $pre_pr = Pre_pr::with(['partItem' => function ($query) {
-                    $query->with('prItems', function ($query) {
-                        $query->whereHas('ppb', function ($query) {
-                            $query->where('status', 'NOT LIKE', '%Rejected%');
-                        });
+            $pre_pr = Pre_pr::with(['partItem' => function ($query) {
+                $query->with('prItems', function ($query) {
+                    $query->whereHas('ppb', function ($query) {
+                        $query->where('status', 'NOT LIKE', '%Rejected%');
                     });
-                }])->find($id);
+                });
+            }])->find($id);
 
-                // $pre_pr =
+            return view('PrePR.detail')
+            ->with('pre_pr', $pre_pr);
 
-                return view('PrePR.detail')
-                ->with('pre_pr', $pre_pr);
-            }
         }else {
             return redirect()->route('dashboard');
         }
@@ -109,22 +78,26 @@ class PrePrController extends Controller
     {
         $cari = $request->cari;
         //dd($cari);=
-        $pre_pr = Pre_pr::where('user_id', Auth::user()->id)
-        ->where('id','like',"%".$cari."%")
-        ->orWhereHas('partItem', function($q) use($cari){
-            $q->where('child_item','like',"%".$cari."%")
-            ->orWhere('qty','like',"%".$cari."%")
-            ->orWhere('buffer','like',"%".$cari."%")
-            ->orWhere('desc','like',"%".$cari."%")
-            ->orWhere('status','like',"%".$cari."%");
+        $pre_pr = Pre_pr::where('id', 'like', "%" . $cari . "%")
+        ->orWhereHas('partItem', function($q) use ($cari) {
+            $q->where('child_item', 'like', "%" . $cari . "%")
+                ->orWhere('qty', 'like', "%" . $cari . "%")
+                ->orWhere('buffer', 'like', "%" . $cari . "%")
+                ->orWhere('desc', 'like', "%" . $cari . "%")
+                ->orWhere('creator_name', 'like', "%" . $cari . "%")
+                ->orWhere('status', 'like', "%" . $cari . "%");
         })
-        ->orWhereHas('project', function($p) use($cari){
-            $p->where('name','like',"%".$cari."%");
+        ->orWhereHas('project', function($p) use ($cari) {
+            $p->where('name', 'like', "%" . $cari . "%");
         })
-        ->orWhere('due_date','like',"%".$cari."%")
+        ->orWhere('due_date', 'like', "%" . $cari . "%")
+        ->with(['partItem', 'project']) // Eager load partItem and project relationships
         ->paginate(10);
 
+        $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
+
         return view('PrePR.index')
+        ->with('purpose', $purpose)
         ->with('pre_pr', $pre_pr);
     }
 
@@ -249,7 +222,9 @@ class PrePrController extends Controller
                 'status'            => $data['status'][$item]?? '',
                 'qty'               => $qty ?? 0 ,
                 'buffer'            => $buffer ?? 0,
-                'total'             => $total
+                'total'             => $total,
+                'creator_id'        => Auth::user()->id,
+                'creator_name'      => Auth::user()->name,
             );
             PartItem_Pre_pr::create($data2);
         }
@@ -317,17 +292,36 @@ class PrePrController extends Controller
                 // 'status'            => $data['status'][$item],
                 'qty'               => $qty ?? 0 ,
                 'buffer'            => $buffer ?? 0,
-                'total'             => $total
+                'total'             => $total,
+                'creator_id'        => null,
+                'creator_name'      => null,
             );
-            PartItem_Pre_pr::updateOrCreate(
-                ['pre_pr_id' => $id, 'child_item' => $value],
-                $data2
-            );
+            $record = PartItem_Pre_pr::firstOrNew(['pre_pr_id' => $id, 'child_item' => $value]);
+
+            // Set creator fields only if the record is new
+            if (!$record->exists) {
+                $record->creator_id = Auth::user()->id;
+                $record->creator_name = Auth::user()->name;
+            }
+
+            // Update other fields
+            $record->desc = $data['desc'][$item];
+            $record->link = $data['link'][$item];
+            $record->qty = $qty ?? 0;
+            $record->buffer = $buffer ?? 0;
+            $record->total = $total;
+
+            // Save the record
+            $record->save();
         }
 
-        PartItem_Pre_pr::where('pre_pr_id', $id)
+        $itemsToDelete = PartItem_Pre_pr::where('pre_pr_id', $id)
         ->whereNotIn('child_item', $data['item'])
-        ->delete();
+        ->get();
+
+        $itemsToDelete->each(function ($item) {
+            $item->delete();
+        });
 
         return redirect()->route('prepr.index')->with('message', 'Success Update Pre PR');
     }

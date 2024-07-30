@@ -68,6 +68,7 @@
                                                 <th>Logs</th>
                                                 <th>Description</th>
                                                 <th>Link</th>
+                                                <th>Creator</th>
                                                 <th>Comment</th>
                                             </tr>
                                         </thead>
@@ -99,6 +100,7 @@
 
                                                     <td style="text-align: center;">{{ $p->desc }}</td>
                                                     <td style="text-align: center;"><a  target="_blank" href="{!! $p->link !!}">{{ $p->link }}</a></td>
+                                                    <td style="text-align: center;">{{ $p->creator->name ?? $p->creator_name  ?? '-' }}</td>
                                                     <td style="text-align: center; white-space:nowrap;">
                                                         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalSeeComment{{ $p->id }}" onclick="markAsRead({{ $p->id }}, {{ $p->comments }})">
                                                             See

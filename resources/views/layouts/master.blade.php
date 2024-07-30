@@ -364,8 +364,6 @@
                                         </a>
                                     </li>
                                     @hasrole('user|super admin|super purchase|purchasing')
-                                    @hasrole('user')
-                                    @if(Auth::user()->id == 34 || Auth::user()->email == 'edward@intek.co.id')
                                     <li class="dropdown">
                                         <a class="nav-link menu-title link-nav {{ request()->is('*pre-pr*') ? 'active' : '' }} {{ request()->is('*pre-pr/search?=*') ? 'active' : '' }}"
                                             href="{{ url('/pre-pr') }}">
@@ -373,17 +371,6 @@
                                             <span>Pre PR</span>
                                         </a>
                                     </li>
-                                    @endif
-                                    @endhasrole
-                                    @hasrole('super admin|super purchase|purchasing')
-                                    <li class="dropdown">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('*pre-pr*') ? 'active' : '' }} {{ request()->is('*pre-pr/search?=*') ? 'active' : '' }}"
-                                            href="{{ url('/pre-pr') }}">
-                                            <i data-feather="file-minus"></i>
-                                            <span>Pre PR</span>
-                                        </a>
-                                    </li>
-                                    @endhasrole
                                     @endhasrole
                                     @hasrole('user|super admin')
                                     <li class="dropdown">
@@ -1701,7 +1688,7 @@
                                     </li>
                                 @endhasrole
 
-                                @hasrole('finance|super admin')
+                                @hasrole('super purchase|purchasing|finance|super admin')
                                     <li class=" dropdowns {{ request()->is('*menu-pengajuan-dana*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav {{ request()->is('menu-pengajuan-dana/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-pengajuan-dana/history') }}">

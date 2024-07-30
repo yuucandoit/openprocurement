@@ -33,6 +33,7 @@ class CategoryPO extends Model
         'atasan_po',
         'atasan_py',
         'approved_at',
+        'flag_delivery',
         'approved_at_py',
         'note_bod_po',
         'note_bod_py',

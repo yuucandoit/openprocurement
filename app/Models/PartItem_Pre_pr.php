@@ -28,6 +28,8 @@ class PartItem_Pre_pr extends Model
         'link',
         'status',
         'deleted_at',
+        'creator_id',
+        'creator_name',
     ];
 
     public function prItems()
@@ -40,6 +42,10 @@ class PartItem_Pre_pr extends Model
         return $this->hasMany(PrePRComments::class,'id_pre_pr_items', 'id');
     }
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 
 
     public function unreadCommentsCount()
