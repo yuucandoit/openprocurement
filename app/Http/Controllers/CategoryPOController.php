@@ -351,7 +351,7 @@ class CategoryPOController extends Controller
                 $existingItemPO = ItemPO::where('ppb_id', $id)
                     ->where('item', $data2['item'][$key])
                     ->where('qty', $data2['qty'][$key])
-                    ->where('is_rejected', 0)
+                    ->where('is_reject', 0)
                     ->first();
 
                 if ($existingItemPO) {
