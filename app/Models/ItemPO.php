@@ -58,7 +58,8 @@ class ItemPO extends Model
         'dpp',
         'grand_total',
         'ppn',
-        'deleted_at']);
+        'deleted_at',
+        'is_reject']);
     }
 
 }

@@ -53,6 +53,12 @@ class CategoryPT extends Model
     {
         return $this->morphMany(CategoryPO::class, 'vendorable');
     }
+
+    public function vendorBanks()
+    {
+        return $this->morphMany(VendorBank::class, 'vendor');
+    }
+
     protected static $logFillable = true;
     protected static $logName = 'Vendor PT';
     public function getActivitylogOptions() : LogOptions

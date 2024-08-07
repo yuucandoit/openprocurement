@@ -27,6 +27,26 @@
         transition: width 0.4s ease;
     }
 </style>
+@if(session('error'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{ session('error') }}
+</div>
+@elseif ($errors->any())
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <ul>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@elseif(session()->has('message'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session()->get('message') }}
+    </div>
+@endif
     <section>
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
@@ -97,8 +117,18 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Quotation</td>
+                                            <td>No Invoice</td>
                                             <td>{{  $datacpo->quotation }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>File Invoice</td>
+                                            <td>
+                                                @if (empty($datacpo->path_quotation))
+                                                    -
+                                                @else
+                                                    <a href="/upload_quotation/{!! nl2br($datacpo->path_quotation) !!}" target="_blank" style="color: rgb(138, 43, 226); text-decoration:underline;">{!! nl2br($datacpo->path_quotation) !!}</a>
+                                                @endif
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Nama Vendor</td>
@@ -128,6 +158,28 @@
                                                 @endif
                                             </td>
                                         </tr>
+                                        @if($datacpo->payment_type == 'Bank')
+                                        <tr>
+                                            <td>Rekening </td>
+                                            <td>
+                                                @if (empty($datacpo->vendorRek))
+                                                    {{ $datacpo->no_rekening ?? '-' }}
+                                                @else
+                                                    {{ $datacpo->vendorRek->no_rekening ?? '-' }} {{ $datacpo->vendorRek->rel_bank->name ?? '' }}  "{{ $datacpo->vendorRek->nama_penerima ?? '-' }}"
+                                                @endif
+                                            </td>
+                                        </tr>
+
+                                        @elseif($datacpo->payment_type == 'Va')
+                                        <tr>
+                                            <td>Virtual Account </td>
+                                            <td>
+                                                @if (!empty($datacpo->va_code))
+                                                    {{ $datacpo->va_code }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endif
                                         <tr>
                                             <td>Status</td>
                                             <td>{{  $datacpo->status }}</td>
@@ -313,11 +365,8 @@
                                                     </div>
                                                 @elseif($datacpo->status == 'Unpaid')
                                                     <div>
-                                                        <form action="{{ route('menu-pengajuan-dana-paid_pd', $datacpo->id) }}" method="POST">
-                                                            @csrf
-                                                                <button type="button" data-bs-toggle="modal" data-bs-target="#reject" class="btn btn-danger ">Reject</button>
-                                                                <button class="btn btn-success ml-2" type="submit">Paid</button>
-                                                        </form>
+                                                        <button type="button" data-bs-toggle="modal" data-bs-target="#reject" class="btn btn-danger ">Reject</button>
+                                                        <button class="btn btn-success ml-2" data-bs-toggle="modal" data-bs-target="#paid" type="button">Paid</button>
                                                     </div>
                                                 @else
                                                     <div>
@@ -359,9 +408,33 @@
                             </div>
                             <div class="card-body">
 
+                                <div class="mt-3">
+                                    <h6>Payment Status :</h6>
+                                    <ul>
+                                        <li>Payment Date : {{ $datacpo->payment_date ?? '-' }}</li>
+                                        <li>Payment Purpose : {{ $datacpo->payment_purpose ?? '-' }}</li>
+                                        <li>
+                                            Tax :
+                                            @if(!empty($datacpo->ket_pajak))
+                                                @if($datacpo->ket_pajak == 1)
+                                                Yes
+                                                @elseif($datacpo->ket_pajak == 0)
+                                                No
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+
+                                        </li>
+                                        <li>
+                                            Nilai  : {{ $datacpo->nilai ?? '-' }}
+                                        </li>
+                                    </ul>
+                                </div>
                                 <!-- Floating Labels Form -->
                                 <form class="row g-2 mt-4" action="{{ url('/menu-pengajuan-dana/store/'.$datacpo->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    @hasrole('finance|super admin')
                                     <div class="col-md-12 mt-4">
                                         <label for="path_image">Enter payment proof</label>
                                         <div class="form-group">
@@ -378,6 +451,8 @@
                                         <ul id="fileList"></ul>
                                     </div>
                                     <hr>
+                                    @endhasrole
+
                                     <div class="col-md-12 mt-4">
                                         <strong>Files uploaded:</strong>
                                         @if (empty($datacpo->pengajuanDana))
@@ -390,12 +465,62 @@
                                         @endif
                                     </div>
 
+                                    @hasrole('finance|super admin')
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
                                         <a href="{{ route('menu-pengajuan-dana.index') }}" class="btn btn-dark mt-3">Back</a>
                                     </div>
+                                    @endhasrole
                                 </form>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @hasrole('finance|super admin')
+            <div class="modal fade" id="paid" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="rejectLabel">Paid Modal</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('menu-pengajuan-dana-paid_pd', $datacpo->id) }}" id="formAdd" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="">Payment Date</label>
+                                    <input type="date" class="form-control" name="payment_date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Payment Purpose</label>
+                                    <input type="text" class="form-control" name="payment_purpose" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Nilai</label>
+                                    <textarea name="nilai" id="" cols="30" rows="10" class="form-control" required></textarea>
+                                </div>
+                                <div class="mt-2">
+                                    <label for="">Tax</label>
+                                </div>
+                                <div class="form-group m-t-15 m-checkbox-inline mb-3 custom-radio-ml">
+
+                                    <div class="radio radio-primary">
+                                        <input id="radioinline1" type="radio" name="ket_pajak" value="1">
+                                        <label class="mb-0" for="radioinline1">Yes</label>
+                                    </div>
+                                    <div class="radio radio-primary">
+                                        <input id="radioinline2" type="radio" name="ket_pajak" value="0">
+                                        <label class="mb-0" for="radioinline2">No</label>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Paid</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -418,6 +543,7 @@
                     </div>
                 </div>
             </div>
+            @endhasrole
     </section>
     <script>
      document.addEventListener("DOMContentLoaded", function() {

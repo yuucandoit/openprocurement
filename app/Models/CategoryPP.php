@@ -29,15 +29,16 @@ class CategoryPP extends Model
     ];
     protected $hidden;
 
-
-    // public function vendors()
-    // {
-    //     return $this->morphMany(PengajuanPembelian::class, 'vendorable');
-    // }
     public function vendors()
     {
         return $this->morphMany(CategoryPO::class, 'vendorable');
     }
+
+    public function vendorBanks()
+    {
+        return $this->morphMany(VendorBank::class, 'vendor');
+    }
+
     protected static $logFillable = true;
     protected static $logName = 'Vendor PP';
     public function getActivitylogOptions() : LogOptions

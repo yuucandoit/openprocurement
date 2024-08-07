@@ -103,7 +103,9 @@
                                             placeholder="bidang usaha" name="bidang_usaha">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+
+
+                                {{-- <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="floatingNoTelpon"><i data-feather="credit-card"></i> Account
                                             Number</label>
@@ -135,7 +137,7 @@
                                         <input required type="text" class="form-control" id="floatingNoTelpon"
                                             placeholder="Penerima" name="nama_penerima">
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
@@ -172,9 +174,9 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd">
+                                    <a class="btn btn-primary mb-3" href="{{ route('menu-perusahaan.create') }}">
                                         <i class="bx bx-list-plus"></i> Add <i class="icofont icofont-ui-add"></i>
-                                    </button>
+                                    </a>
                                 </div>
                                 <div class="col-6">
                                     <div class="pull-right">

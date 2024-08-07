@@ -362,7 +362,12 @@ class TaskListFinanceController extends Controller
             $cpo = CategoryPO::find($id);
             CategoryPO::where('id',$id)->update([
                 'notes' => $request->notes . ' # ' . Auth::user()->name,
-                'status' => 'Rejected by Finance'
+                'status' => 'Rejected by Finance',
+                'rejected_at' => now(),
+            ]);
+
+            $itempo = ItemPO::where('po_id',$id)->update([
+                'is_reject' => 1,
             ]);
             return redirect('menu-tasklist-finance');
         }else{

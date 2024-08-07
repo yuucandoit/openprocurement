@@ -93,7 +93,7 @@
                                         PURCHASE <br>
                                         ORDER</h6>
                                     <h2 class="mb-0 counter" style="color: red;">
-                                        {{ \App\Models\CategoryPO::count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count() }}</h2>
                                     <i class="icon-bg" data-feather="file-text"></i>
                                 </div>
                             </div>
@@ -113,7 +113,10 @@
                                         PAYMENT <br>
                                         PROSES</h6>
                                     <h2 class="mb-0 counter" style="color: rgb(251, 140, 1);">
-                                        {{ \App\Models\CategoryPD::count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){
+                                            $i->where('status','Unpaid');
+                                        })->where('status', 'not like', '%Rejected%')->count() }}
+                                    </h2>
                                     <i class="icon-bg" data-feather="dollar-sign"></i>
                                 </div>
                             </div>
@@ -558,7 +561,9 @@
                                         TASK LIST <br>
                                         FINANCE</h6>
                                     <h2 class="mb-0 counter" style="color: rgb(251, 9, 1);">
-                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','Payment Approved')->count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){
+                                            $i->whereIn('status',['Payment Approved','PO & Payment Approved']);
+                                        })->where('status', 'not like', '%Rejected%')->count() }}</h2>
                                     <i class="icon-bg" data-feather="dollar-sign"></i>
                                 </div>
                             </div>
@@ -566,7 +571,7 @@
                     </div>
                   </a>
                 </div>
-                <div class="col-sm-6 col-xl-3 col-lg-6">
+                {{-- <div class="col-sm-6 col-xl-3 col-lg-6">
                     <a href="{{ url('/payment_request') }}">
                     <div class="card o-hidden border-0">
                         <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid rgb(254, 159, 56);">
@@ -586,7 +591,7 @@
                         </div>
                     </div>
                 </a>
-                </div>
+                </div> --}}
 
                 <div class="col-sm-6 col-xl-3 col-lg-6">
                     <a href="{{ url('/menu-pengajuan-dana') }}">
@@ -601,7 +606,9 @@
                                         PAYMENT <br>
                                         PROCESS</h6>
                                     <h2 class="mb-0 counter" style="color: rgb(37, 178, 68);">
-                                        {{ \App\Models\CategoryPengajuanPembelian::where('status','Unpaid')->count() }}</h2>
+                                        {{ \App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){
+                                            $i->where('status','Unpaid');
+                                        })->where('status', 'not like', '%Rejected%')->count() }}</h2>
                                     <i class="icon-bg" data-feather="dollar-sign"></i>
                                 </div>
                             </div>

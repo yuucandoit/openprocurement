@@ -28,6 +28,7 @@ use App\Models\User;
 use App\Models\WhoSubmitted;
 use App\Models\Currency;
 use App\Models\Uom;
+use App\Models\VendorBank;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -46,10 +47,8 @@ class CategoryPOController extends Controller
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb         = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Cross Check PO')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'in');
-            $datappb2        = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->get();
             // $datapo          = CategoryPO::get();
             return view('purchaseOrder.menu.index')
-                ->with('datappb2', $datappb2)
                 ->with('datappb', $datappb);
                 // ->with('datapo', $datapo);
         } else {
@@ -60,31 +59,31 @@ class CategoryPOController extends Controller
     public function SearchPOIn(Request $request)
    {
     $cariIn = $request->cariIn;
-    //dd($cari);
-    $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->
-    orWhere('id','like',"%".$cariIn."%")
-    ->orWhere('status','like',"%".$cariIn."%")
-    ->orWhere('desc','like',"%".$cariIn."%")
-    ->orWhereHas('itemppn', function($i) use($cariIn){
-        $i->where('item','like',"%".$cariIn."%");
+    // dd($cariIn);
+    $datappb = CategoryPengajuanPembelian::where(function($query) use ($cariIn) {
+        $query->where('id', 'like', "%".$cariIn."%")
+              ->orWhere('code_pengajuan','like', "%".$cariIn."%")
+              ->orWhere('status', 'like', "%".$cariIn."%")
+              ->orWhere('desc', 'like', "%".$cariIn."%")
+              ->orWhereHas('itemppn', function($i) use ($cariIn) {
+                  $i->where('item', 'like', "%".$cariIn."%");
+              })
+              ->orWhereHas('whosubmit', function($q) use ($cariIn) {
+                  $q->where('name', 'like', "%".$cariIn."%");
+              })
+              ->orWhereHas('quot', function($posearch) use ($cariIn) {
+                  $posearch->where('id', 'like', "%".$cariIn."%")
+                  ->orWhere('code_po', 'like', "%".$cariIn."%");
+              });
     })
-    ->orWhereHas('whosubmit', function($q) use($cariIn){
-         $q->where('name','like',"%".$cariIn."%");
-    })
-    ->orWhereHas('po', function($posearch) use($cariIn){
-        $posearch->where('id','like',"%".$cariIn."%");
-    })
-    ->paginate(10, ['*'],'in');
+    ->orderBy('status', 'desc')
+    ->orderBy('dateline', 'asc')
+    ->orderBy('approved_at', 'asc')
+    ->paginate(10, ['*'], 'in');
 
-    $datahstry = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
-    ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-    ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->paginate(10);
-    // $datapo          = CategoryPO::get();
 
     return view('purchaseOrder.menu.index')
-    ->with('datappb',$datappb)
-    // ->with('datapo', $datapo)
-    ->with('datahstry',$datahstry);
+    ->with('datappb',$datappb);
    }
 
    public function out()
@@ -175,6 +174,27 @@ class CategoryPOController extends Controller
      ->with('datappb',$datappb)
      ->with('datapo',$datapo)
      ->with('sort',$sort);
+    }
+
+    public function getVendorRekening(Request $request)
+    {
+        if($request->type == 'company'){
+            $vendor = VendorBank::with('rel_bank')->where('vendor_id', $request->id)
+            ->where('vendor_type', CategoryPT::class)
+            ->get()
+            ->keyBy('id');
+        }elseif ($request->type == 'privateperson'){
+            $vendor = VendorBank::with('rel_bank')->where('vendor_id', $request->id)
+            ->where('vendor_type', CategoryPP::class)
+            ->get()
+            ->keyBy('id');
+        }
+
+        return response()->json([
+            'code' => 200,
+            'data' => $vendor ?? null,
+        ]);
+
     }
 
     public function detail($id)
@@ -316,6 +336,7 @@ class CategoryPOController extends Controller
             // $item = PengajuanPembelian::all();
 
             $data2 = $request->all();
+            // dd($data2);
             $request->validate([
                 'term_conditions' => 'required',
             ], [
@@ -330,11 +351,21 @@ class CategoryPOController extends Controller
                 $existingItemPO = ItemPO::where('ppb_id', $id)
                     ->where('item', $data2['item'][$key])
                     ->where('qty', $data2['qty'][$key])
+                    ->where('is_rejected', 0)
                     ->first();
 
                 if ($existingItemPO) {
                     return redirect()->back()->with('error', 'Item PO with the same item and quantity already exists.');
                 }
+            }
+
+            if($request->no_rekening){
+                $parts = explode('|', $request->no_rekening);
+                // Mendapatkan ID (bagian sebelum '|')
+                $id_rekening = trim($parts[0]);
+
+                // Mendapatkan string sisanya (bagian setelah '|')
+                $string_rekening = trim($parts[1]);
             }
 
 
@@ -352,12 +383,23 @@ class CategoryPOController extends Controller
                 $file->move('upload_quotation',$path_file);
                 }
 
+                $file2 = null;
+                if ($file2 =  $request->file('path_invoice') ?? null){
+                    $pathfile2 = $file2->getClientOriginalName();
+                    $file2->move('upload_invoice',$pathfile2);
+                }
+
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
                     "term_conditions" => $term->id ,
                     "quotation" => $request->quotation,
                     "path_quotation" => $path_file ?? null,
+                    "path_invoice" => $pathfile2 ?? null,
                     "atasan_po" => $request->atasan_po,
+                    "payment_type" => $request->payment_type ?? null,
+                    "id_vendor_bank" => $id_rekening ?? null,
+                    "no_rekening" => $string_rekening ?? null,
+                    "va_code"=> $request->va_code ?? null,
                     "status" => 'Purchase Proses',
                 ]);
                 // dd($purchase);
@@ -426,12 +468,23 @@ class CategoryPOController extends Controller
                 $file->move('upload_quotation',$path_file);
                 }
 
+                $file2 = null;
+                if ($file2 =  $request->file('path_invoice') ?? null){
+                    $pathfile2 = $file2->getClientOriginalName();
+                    $file2->move('upload_invoice',$pathfile2);
+                }
+
                 $purchase = new CategoryPO([
                     "ppb_id" => $data->id,
                     "term_conditions" => $request->term_conditions,
                     "quotation" => $request->quotation,
                     "atasan_po" => $request->atasan_po,
                     "path_quotation" => $path_file ?? null,
+                    "path_invoice" => $pathfile2 ?? null,
+                    "payment_type" => $request->payment_type ?? null,
+                    "id_vendor_bank" => $id_rekening ?? null,
+                    "no_rekening" => $string_rekening ?? null,
+                    "va_code"=> $request->va_code ?? null,
                     "status" => 'Purchase Proses',
                 ]);
                 // dd($purchase->id);
@@ -581,10 +634,16 @@ class CategoryPOController extends Controller
 
                 $file = null;
                 if ($file = $request->file('path_quotation') ?? null){
-                $path_file = $file->getClientOriginalName();
-                $file->move('upload_quotation',$path_file);
-                $purchase->path_quotation = $path_file;
-                $purchase->save();
+                    $path_file = $file->getClientOriginalName();
+                    $file->move('upload_quotation',$path_file);
+                    $purchase->path_quotation = $path_file;
+                    $purchase->save();
+                }
+
+                $file2 = null;
+                if ($file2 =  $request->file('path_invoice') ?? null){
+                    $pathfile2 = $file2->getClientOriginalName();
+                    $file2->move('upload_invoice',$pathfile2);
                 }
 
                 $purchase->update([
@@ -592,6 +651,13 @@ class CategoryPOController extends Controller
                     "term_conditions" => $term->id,
                     "atasan_po" => $request->atasan_po,
                     "quotation" => $request->quotation,
+                    "path_quotation" => $path_file ?? null,
+                    "path_invoice" => $pathfile2 ?? null,
+                    "atasan_po" => $request->atasan_po,
+                    "payment_type" => $request->payment_type ?? null,
+                    "id_vendor_bank" => $id_rekening ?? null,
+                    "no_rekening" => $string_rekening ?? null,
+                    "va_code"=> $request->va_code ?? null,
                 ]);
                 // dd($purchase);
                 if(isset($request->vendor)){
@@ -706,9 +772,15 @@ class CategoryPOController extends Controller
 
                 $file = null;
                 if ($file = $request->file('path_quotation') ?? null){
-                $path_file = $file->getClientOriginalName();
-                $file->move('upload_quotation',$path_file);
-                $purchase->path_quotation = $path_file;
+                    $path_file = $file->getClientOriginalName();
+                    $file->move('upload_quotation',$path_file);
+                    $purchase->path_quotation = $path_file;
+                }
+
+                $file2 = null;
+                if ($file2 =  $request->file('path_invoice') ?? null){
+                    $pathfile2 = $file2->getClientOriginalName();
+                    $file2->move('upload_invoice',$pathfile2);
                 }
 
                 $purchase->update([
@@ -716,6 +788,13 @@ class CategoryPOController extends Controller
                     "term_conditions" => $request->term_conditions,
                     "atasan_po" => $request->atasan_po,
                     "quotation" => $request->quotation,
+                    "path_quotation" => $path_file ?? null,
+                    "path_invoice" => $pathfile2 ?? null,
+                    "atasan_po" => $request->atasan_po,
+                    "payment_type" => $request->payment_type ?? null,
+                    "id_vendor_bank" => $id_rekening ?? null,
+                    "no_rekening" => $string_rekening ?? null,
+                    "va_code"=> $request->va_code ?? null,
                 ]);
 
                 if(isset($request->vendor)){

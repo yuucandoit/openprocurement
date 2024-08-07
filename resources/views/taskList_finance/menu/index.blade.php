@@ -195,7 +195,7 @@
                                                                 @endif
                                                             @endif
                                                         </li>
-                                                        <li> Quotation : {{ $po2->quotation }}</li>
+                                                        <li> No Invoice : {{ $po2->quotation }}</li>
                                                     </ul>
                                                     </a>
                                                 </td>

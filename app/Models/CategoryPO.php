@@ -27,6 +27,14 @@ class CategoryPO extends Model
         'status',
         'path_quotation',
         'path_invoice',
+        'payment_type',
+        'id_vendor_bank',
+        'no_rekening',
+        'va_code',
+        'payment_date',
+        'payment_purpose',
+        'nilai',
+        'ket_pajak',
         'matauang',
         'notes',
         'code_po',
@@ -74,13 +82,22 @@ class CategoryPO extends Model
     {
         return $this->morphTo();
     }
+    public function deliveryStatus()
+    {
+        return $this->hasMany(DeliveryTrack::class, 'po_id');
+    }
+    public function vendorRek()
+    {
+        return $this->belongsTo(VendorBank::class, 'id_vendor_bank');
+    }
 
     protected static $logFillable = true;
     protected static $logName = 'PO';
     public function getActivitylogOptions() : LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly(['ppb_id',
+        ->logOnly([
+        'ppb_id',
         'item_ppid',
         'term_conditions',
         'vendorable_type',
@@ -91,12 +108,22 @@ class CategoryPO extends Model
         'status',
         'path_quotation',
         'path_invoice',
+        'payment_type',
+        'id_vendor_bank',
+        'no_rekening',
+        'va_code',
+        'payment_date',
+        'payment_purpose',
+        'nilai',
+        'ket_pajak',
         'matauang',
         'notes',
         'code_po',
         'atasan_po',
         'atasan_py',
         'approved_at',
+        'rejected_at',
+        'flag_delivery',
         'approved_at_py',
         'note_bod_po',
         'note_bod_py',

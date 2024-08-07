@@ -73,10 +73,10 @@
                                                 <td>{{ $b->nik }}</td>
                                                 <td style="text-align: center;white-space: nowrap;">
 
-                                                    <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
+                                                    {{-- <a class="btn btn-iconsolid mt-1" style="background-color: #00008B;"
                                                         href="{{ url('/bank/detail/' . $b->id) }}"><i
                                                             class="icon-zoom-in" title="Details"></i>
-                                                    </a>
+                                                    </a> --}}
                                                     <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;" href="{{ route('bank.edit',$b->id) }}">
                                                         <i class="icon-pencil-alt" title="Edit"></i>
                                                     </a>

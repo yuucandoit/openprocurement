@@ -10,6 +10,7 @@ use App\Models\CategoryPT;
 use App\Models\DataVendor;
 use App\Models\Perusahaan;
 use App\Models\Role;
+use App\Models\VendorBank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -72,7 +73,8 @@ class CategoryPTController extends Controller
      */
     public function create()
     {
-        //
+        $bank = Bank::orderBy('name')->get();
+        return view('dataPerusahaan.menu.create',compact('bank'));
     }
 
     /**
@@ -83,6 +85,7 @@ class CategoryPTController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $this->validate($request,[
@@ -97,10 +100,49 @@ class CategoryPTController extends Controller
                 'bidang_usaha' => 'required',
                 'no_telp_kantor' => 'required'
             ]);
+            // dd($request->no_rekening[0]);
 
-            $dv = $request->except(['_token']);
-            $dv['user_id'] = Auth::user()->id;
-            CategoryPT::insert($dv);
+            $pt = CategoryPT::create([
+                'user_id'               => Auth::user()->id,
+                'nama'                  => $request->nama ?? '-',
+                'alamat'                => $request->alamat ?? '-',
+                'no_telp_kantor'        => $request->no_telp_kantor ?? '-',
+                'website'               => $request->website ?? '-',
+                'nama_pic'              => $request->nama_pic ?? '-',
+                'no_telp_pic'           => $request->no_telp_pic ?? '-',
+                'email'                 => $request->email ?? '-',
+                'npwp_perusahaan'       => $request->npwp_perusahaan ?? '-',
+                'pkp'                   => $request->pkp ?? '-',
+                'nib'                   => $request->nib ?? '-',
+                'bidang_usaha'          => $request->bidang_usaha ?? '-',
+                'no_rekening'           => $request->no_rekening[0] ?? '-',
+                'bank'                  => $request->bank[0] ?? '-',
+                'cabang_bank'           => $request->cabang_bank ?? '-',
+                'nama_penerima'         => $request->nama_penerima[0] ?? '-',
+            ]);
+
+            $bankData = $request->input('bank');
+            $noRekeningData = $request->input('no_rekening');
+            $namaPenerimaData = $request->input('nama_penerima');
+
+            // Iterate over the bank data and save each record
+            foreach ($bankData as $index => $bankName) {
+                $noRekening = $noRekeningData[$index];
+                $namaPenerima = $namaPenerimaData[$index];
+
+                // Create a new instance of VendorBank and fill the fields
+                $vendorBank = new VendorBank();
+                $vendorBank->vendor_id = $pt->id;
+                $vendorBank->vendor_type = CategoryPT::class; // Set the class name as vendor_type
+                $vendorBank->bank_id = $bankName;
+                $vendorBank->no_rekening = $noRekening;
+                $vendorBank->nama_penerima = $namaPenerima;
+
+                // Save the record to the database
+                $vendorBank->save();
+            }
+
+
             return redirect('menu-perusahaan/')->with('success', 'Task Created Successfully!');
         }else {
             return redirect()->route('dashboard');
@@ -147,6 +189,7 @@ class CategoryPTController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $data = CategoryPT::find($id);
@@ -161,11 +204,52 @@ class CategoryPTController extends Controller
                 "Pkp" => $request->Pkp,
                 "nib" => $request->nib,
                 "bidang_usaha" => $request->bidang_usaha,
-                "no_rekening" => $request->no_rekening,
-                "bank" => $request->bank,
-                "cabang_bank" => $request->cabang_bank,
-                "nama_penerima" => $request->nama_penerima,
             ]);
+
+            $existingVendorBanks = VendorBank::where('vendor_id', $id)
+                                      ->where('vendor_type', CategoryPT::class)
+                                      ->get()
+                                      ->keyBy('id'); // Key by ID for easier comparison
+
+            // Collect data from the request
+            $bankData = $request->input('bank');
+            $noRekeningData = $request->input('no_rekening');
+            $namaPenerimaData = $request->input('nama_penerima');
+
+            // Iterate over the bank data and process each record
+            foreach ($bankData as $index => $bankName) {
+                $noRekening = $noRekeningData[$index];
+                $namaPenerima = $namaPenerimaData[$index];
+
+                // Check if we need to update an existing record or create a new one
+                $existingVendorBank = $existingVendorBanks->firstWhere('bank_id', $bankName);
+
+                if ($existingVendorBank) {
+                    // Update existing record
+                    $existingVendorBank->update([
+                        'no_rekening'    => $noRekening,
+                        'nama_penerima'  => $namaPenerima,
+                    ]);
+
+                    // Remove from existing records to track for deletion
+                    $existingVendorBanks->forget($existingVendorBank->id);
+                } else {
+                    // Create a new record
+                    VendorBank::create([
+                        'vendor_id'       => $id,
+                        'vendor_type'     => CategoryPT::class,
+                        'bank_id'         => $bankName,
+                        'no_rekening'     => $noRekening,
+                        'nama_penerima'   => $namaPenerima,
+                    ]);
+                }
+            }
+
+            // Delete records that were not included in the current request
+            foreach ($existingVendorBanks as $vendorBank) {
+                $vendorBank->delete();
+            }
+
             return redirect("menu-perusahaan/");
         }else {
             return redirect()->route('dashboard');

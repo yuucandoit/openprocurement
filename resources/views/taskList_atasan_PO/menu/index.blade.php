@@ -193,7 +193,7 @@
                                                             <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                             <ul>
                                                                 <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}</li>
-                                                                <li> Quotation : {{ $po2->quotation }}</li>
+                                                                <li> No Invoice : {{ $po2->quotation }}</li>
                                                             </ul>
                                                             </a>
                                                         </td>
@@ -332,7 +332,7 @@
                                                             <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                             <ul>
                                                                 <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}</li>
-                                                                <li> Quotation : {{ $po2->quotation }}</li>
+                                                                <li> No Invoice : {{ $po2->quotation }}</li>
                                                             </ul>
                                                             </a>
                                                         </td>
@@ -470,7 +470,7 @@
                                                             <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                             <ul>
                                                                 <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}</li>
-                                                                <li> Quotation : {{ $po2->quotation }}</li>
+                                                                <li> No Invoice : {{ $po2->quotation }}</li>
                                                             </ul>
                                                             </a>
                                                         </td>
@@ -608,7 +608,7 @@
                                                             <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                             <ul>
                                                                 <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}</li>
-                                                                <li> Quotation : {{ $po2->quotation }}</li>
+                                                                <li> No Invoice : {{ $po2->quotation }}</li>
                                                             </ul>
                                                             </a>
                                                         </td>
@@ -747,7 +747,7 @@
                                                                 <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                                 <ul>
                                                                     <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}</li>
-                                                                    <li> Quotation : {{ $po2->quotation }}</li>
+                                                                    <li> No Invoice : {{ $po2->quotation }}</li>
                                                                 </ul>
                                                                 </a>
                                                             </td>
@@ -890,7 +890,7 @@
                                                         <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                         <ul>
                                                             <li> Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}</li>
-                                                            <li> Quotation : {{ $po2->quotation }}</li>
+                                                            <li> No Invoice : {{ $po2->quotation }}</li>
                                                         </ul>
                                                         </a>
                                                     </td>

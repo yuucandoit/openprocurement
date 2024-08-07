@@ -285,9 +285,7 @@
 
                                                 <div class="col-md-4 ">
                                                     <div class="form-group">
-                                                        <label class="form-label" style="font-weight: bold;"><i
-                                                                data-feather="database"></i> Select
-                                                            Vendor</label>
+                                                        <label class="form-label" style="font-weight: bold;"> Select Vendor</label>
                                                         <select class="form-select pageSelect" id="pageSelect"
                                                             placeholder="Proposed To" name="vendor">
                                                             <option value="" disabled selected hidden>Select
@@ -299,24 +297,27 @@
                                                             <option value="ecommerce">Ecommerce</option>
                                                         </select>
 
-                                                        <select class="hide perusahaan_0 mt-2" id="selectedInput"
+                                                        <select class="hide perusahaan_0 mt-2" id="perusahaanSelect"
                                                             name="perusahaan">
+                                                            <option value="#" selected disabled>Select Vendor PT</option>
                                                             @foreach ($pt as $p)
                                                             <option value="{{ $p->id }}">{{ $p->nama }}
                                                             </option>
                                                             @endforeach
                                                         </select>
 
-                                                        <select class="hide privateperson_0 mt-2" id="selectedInput2"
+                                                        <select class="hide privateperson_0 mt-2" id="privatepersonSelect"
                                                             name="orangpribadi">
+                                                            <option value="#" selected disabled>Select Vendor PP</option>
                                                             @foreach ($op as $o)
                                                             <option value="{{ $o->id }}">{{ $o->nama }}
                                                             </option>
                                                             @endforeach
                                                         </select>
 
-                                                        <select class="hide ecommerce_0 mt-2" id="selectedInput3"
+                                                        <select class="hide ecommerce_0 mt-2" id="ecommerceSelect"
                                                             name="ecommerce">
+                                                            <option value="#" selected disabled>Select Vendor Ecommerce</option>
                                                             @foreach ($ec as $e)
                                                             <option value="{{ $e->id }}">{{ $e->nama }}
                                                             </option>
@@ -327,20 +328,18 @@
 
                                                 <div class="col-md-4 " style="margin-top: 10px;">
                                                     <div class="form-group">
-                                                        <label for="floatingQuotation"><i data-feather="file-plus"></i>
-                                                            Quotation</label>
+                                                        <label for="floatingInvoice"> No Invoice</label>
                                                         <div class="form-group">
-                                                            <input required type="text" class="form-control" id="floatingQuotation"
-                                                                placeholder="Quotation" name="quotation">
+                                                            <input required type="text" class="form-control" id="floatingInvoice"
+                                                                placeholder="No Invoice" name="quotation">
                                                             <div class="invalid-feedback"></div>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label" style="font-weight: bold;"><i
-                                                                 data-feather="file-text"></i> Terms &
-                                                            Conditions</label>
+                                                        <label class="form-label" style="font-weight: bold;"> Terms & Conditions</label>
                                                         <select class=" terms pageSelector"
                                                             placeholder="Terms and Conditions" name="term_conditions">
                                                             <option value="" disabled selected hidden>Terms And
@@ -366,21 +365,25 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+
+
+                                                {{-- <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Upload Invoice</label>
+                                                        <input type="file" name="path_invoice" class="form-control form-control-lg">
+                                                    </div>
+                                                </div> --}}
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label">
-                                                            <i data-feather="file" style="font-weight: bold;"></i>
-                                                            Upload Quotation
-                                                        </label>
+                                                        <label class="form-label">Upload Invoice</label>
                                                         <input type="file" name="path_quotation" class="form-control form-control-lg">
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4 ">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label" style="font-weight: bold;">
-                                                            <i data-feather="user-check"></i> Send Approval To:
-                                                        </label>
+                                                        <label class="form-label" style="font-weight: bold;">Send Approval</label>
                                                         <select class="form-select" id="floatingproposedto"
                                                             placeholder="Proposed To" name="atasan_po" required="">
                                                             <option selected="" disabled="" value="">-- Please Choose
@@ -396,8 +399,7 @@
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label" style="font-weight: bold;"><i data-feather="dollar-sign"></i>
-                                                            Currency :</label>
+                                                        <label class="form-label" style="font-weight: bold;"> Currency</label>
                                                         <select class="form-select currency" id="floatingdateline" placeholder="Mata Uang"
                                                             name="matauang" required="">
                                                             @foreach ($currency as $crc)
@@ -409,6 +411,47 @@
                                                             {{ $message }}
                                                         </div>
                                                         @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="form-label" style="font-weight: bold;">   Payment Type</label>
+                                                        <select class="form-select pytype" placeholder="Payment Type" name="payment_type">
+                                                            <option value="" disabled selected hidden>
+                                                                Select Payment Type
+                                                            </option>
+                                                            <option value="Bank">Transfer Bank</option>
+                                                            <option value="Va">Virtual account</option>
+                                                        </select>
+                                                        @error('payment_type')
+                                                            <div class='mt-1'>
+                                                                <span class="text-danger" style="font-size: 10;">
+                                                                    {{ $message }}
+                                                                </span>
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 bank" style="margin-top: 10px; display:none;">
+                                                    <div class="form-group">
+                                                        <label for="floatingNorekening">Rekening</label>
+                                                        <div class="form-group">
+                                                            <select class="form-select rekening" placeholder="Rekening" name="no_rekening" id="rekeningSelect">
+                                                                <option value="" disabled selected hidden>Select Rekening</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 va" style="margin-top: 10px; display:none;">
+                                                    <div class="form-group">
+                                                        <label for="floatingVa">Virtual Account</label>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" id="floatingVa" placeholder="No Virtual Account" name="va_code">
+                                                            <div class="invalid-feedback"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -688,8 +731,7 @@
                                                     <div class="row">
                                                             <div class="col-md-6 ">
                                                                 <div class="form-group">
-                                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                                            data-feather="database"></i>
+                                                                    <label class="form-label" style="font-weight: bold;">
                                                                         Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                                                         &nbsp; &nbsp;:
                                                                         @if (empty($po->vendorable->nama))
@@ -702,9 +744,8 @@
 
                                                             <div class="col-md-6 ">
                                                                 <div class="form-group">
-                                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                                            data-feather="database"></i>
-                                                                        Quotation  :
+                                                                    <label class="form-label" style="font-weight: bold;">
+                                                                        No Invoice  :
                                                                         @if (empty($po->quotation))
                                                                         @else
                                                                             {{ $po->quotation }}
@@ -715,8 +756,7 @@
 
                                                             <div class="col-md-6 ">
                                                                 <div class="form-group">
-                                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                                            data-feather="database"></i>
+                                                                    <label class="form-label" style="font-weight: bold;">
                                                                         Terms conditions :
                                                                         @if (empty($po->term->term_condition))
                                                                         @else
@@ -730,17 +770,60 @@
 
                                                             <div class="col-md-6 ">
                                                                 <div class="form-group">
-                                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                                            data-feather="database"></i>
-                                                                        File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
+                                                                    <label class="form-label" style="font-weight: bold;">
+                                                                        File Invoice &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
                                                                         @if (empty($po->path_quotation))
                                                                             -
                                                                         @else
-                                                                            <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank">{!! nl2br($po->path_quotation) !!}</a>
+                                                                            <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank" style="color: rgb(138, 43, 226); text-decoration:underline;">{!! nl2br($po->path_quotation) !!}</a>
                                                                         @endif
                                                                     </label>
                                                                 </div>
                                                             </div>
+
+
+                                                            @if($po->payment_type == 'Bank')
+                                                                <div class="col-md-6 ">
+                                                                    <div class="form-group">
+                                                                        <label class="form-label" style="font-weight: bold;">
+                                                                            Rekening :
+                                                                            @if (empty($po->vendorRek))
+                                                                            <br>
+                                                                                {{ $po->no_rekening ?? '-' }}
+                                                                            @else
+                                                                            <br>
+                                                                                {{ $po->vendorRek->no_rekening ?? '-' }} {{ $po->vendorRek->rel_bank->name ?? '' }}  "{{ $po->vendorRek->nama_penerima ?? '-' }}"
+                                                                            @endif
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            @elseif($po->payment_type == 'Va')
+                                                                <div class="col-md-6 ">
+                                                                    <div class="form-group">
+                                                                        <label class="form-label" style="font-weight: bold;">
+                                                                            VA :
+                                                                            <br>
+                                                                            @if (!empty($po->va_code))
+                                                                            {{ $po->va_code }}
+                                                                            @endif
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+
+
+                                                            {{-- <div class="col-md-6 ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" style="font-weight: bold;">
+                                                                        Invoice &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
+                                                                        @if (empty($po->path_invoice))
+                                                                            -
+                                                                        @else
+                                                                            <a href="/upload_invoice/{!! nl2br($po->path_invoice) !!}" target="_blank">{!! nl2br($po->path_invoice) !!}</a>
+                                                                        @endif
+                                                                    </label>
+                                                                </div>
+                                                            </div> --}}
                                                     </div>
                                                     @php
                                                         foreach($po->itempo as $i)
@@ -970,6 +1053,29 @@
                                                             Delete
                                                         </a> --}}
                                                         <div class="mt-3">
+                                                            <h6>Payment Status :</h6>
+                                                            <ul>
+                                                                <li>Payment Date : {{ $po->payment_date ?? '-' }}</li>
+                                                                <li>Payment Purpose : {{ $po->payment_purpose ?? '-' }}</li>
+                                                                <li>
+                                                                    Tax :
+                                                                    @if(!empty($po->ket_pajak))
+                                                                        @if($po->ket_pajak == 1)
+                                                                        Yes
+                                                                        @elseif($po->ket_pajak == 0)
+                                                                        No
+                                                                        @endif
+                                                                    @else
+                                                                        -
+                                                                    @endif
+
+                                                                </li>
+                                                                <li>
+                                                                    Nilai  : {{ $po->nilai ?? '-' }}
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="mt-3">
                                                             <h6>Info :</h6>
                                                             <ul>
                                                                 <li>PO Submitted At {{ $po->created_at }}</li>
@@ -987,8 +1093,13 @@
                                                                     <li>
                                                                         Note : {{ $po->note_bod_po }}
                                                                     </li>
-                                                                @else
-
+                                                                @elseif($po->status == 'Rejected by Finance')
+                                                                    <li style="color: red;">
+                                                                        Rejected by Finance : {{ $po->rejected_at ?? $po->updated_at ?? '-' }}
+                                                                    </li>
+                                                                    <li style="color: red;">
+                                                                        Reason : "{{ $po->notes }}"
+                                                                    </li>
                                                                 @endif
                                                             </ul>
                                                         </div>
@@ -1138,6 +1249,32 @@
 <script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
 {{-- <script src="https://cdn.jsdelivr.net/npm/select2@latest/dist/js/select2.min.js"></script> --}}
 
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the select element and the form elements to show/hide
+        var paymentTypeSelect = document.querySelector(".pytype");
+        var bankForm = document.querySelector(".bank");
+        var vaForm = document.querySelector(".va");
+
+        // Event listener for payment type change
+        paymentTypeSelect.addEventListener("change", function() {
+            var selectedValue = this.value;
+
+            // Hide both forms initially
+            bankForm.style.display = "none";
+            vaForm.style.display = "none";
+
+            // Show the corresponding form based on selected payment type
+            if (selectedValue === "Bank") {
+                bankForm.style.display = "block";
+            } else if (selectedValue === "Va") {
+                vaForm.style.display = "block";
+            }
+        });
+    });
+</script>
+
 <script>
     const dollars = document.querySelectorAll('.dollar');
     dollars.forEach(dollar => {
@@ -1247,7 +1384,7 @@
                     var biayaAdmin = parseFloat(replace);
                     if (isNaN(biayaAdmin)) {
                         biayaAdmin = 0;
-                    }   
+                    }
                     grandtotal2 = biayaAdmin  + grandtotal ;
                     $(".total").val(grandtotal2);
                 });
@@ -1291,41 +1428,87 @@
 </script>
 
 <script type="text/javascript">
-    var pageSelect = document.querySelector('.pageSelect');
-    var selectedInput = document.querySelector('.perusahaan_0');
-    var selectedInput2 = document.querySelector('.privateperson_0');
-    var selectedInput3 = document.querySelector('.ecommerce_0');
-    // $(".js-example-basic-single");
-    // Company
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "company") {
-            selectedInput.classList.remove('hide');
-            $(selectedInput).select2();
-        } else {
-            selectedInput.classList.add('hide');
-            $(selectedInput).select2('destroy');
+    $(document).ready(function() {
+        var perusahaanSelect = $('.perusahaan_0');
+        var privatepersonSelect = $('.privateperson_0');
+        var ecommerceSelect = $('.ecommerce_0');
+        var rekeningSelect = $('#rekeningSelect');
+        var pageSelect = $('.pageSelect');
+
+        // Function to check if Select2 is initialized
+        function isSelect2Initialized(element) {
+            return element.data('select2') !== undefined;
         }
-    })
-    // Private Person
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "privateperson") {
-            selectedInput2.classList.remove('hide');
-            $(selectedInput2).select2();
-        }  else {
-            selectedInput2.classList.add('hide');
-            $(selectedInput2).select2('destroy');
+
+        // Event listener for pageSelect change
+        pageSelect.on('change', function() {
+            var selectedValue = $(this).val();
+
+            // Hide all and destroy Select2 if initialized
+            if (isSelect2Initialized(perusahaanSelect)) {
+                perusahaanSelect.select2('destroy');
+            }
+            perusahaanSelect.addClass('hide');
+
+            if (isSelect2Initialized(privatepersonSelect)) {
+                privatepersonSelect.select2('destroy');
+            }
+            privatepersonSelect.addClass('hide');
+
+            if (isSelect2Initialized(ecommerceSelect)) {
+                ecommerceSelect.select2('destroy');
+            }
+            ecommerceSelect.addClass('hide');
+
+            rekeningSelect.empty().append('<option value="" disabled selected hidden>Select Rekening</option>');
+
+            // Show and initialize the selected element with Select2
+            if (selectedValue === "company") {
+                perusahaanSelect.removeClass('hide').select2();
+            } else if (selectedValue === "privateperson") {
+                privatepersonSelect.removeClass('hide').select2();
+            } else if (selectedValue === "ecommerce") {
+                ecommerceSelect.removeClass('hide').select2();
+            }
+        });
+
+
+        // Function to fetch rekening data
+        function fetchRekeningData(type, id) {
+            $.ajax({
+                url: '/menu-purchase-order/get-data',
+                type: 'POST',
+                data: {
+                    type: type,
+                    id: id,
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                },
+                success: function(response) {
+                    console.log(response);
+                    rekeningSelect.empty().append('<option value="" disabled selected hidden>Select Rekening</option>');
+                    $.each(response.data, function(index, rekening) {
+                        rekeningSelect.append('<option value="' + rekening.id + '| ' + rekening.rel_bank.name + ' ' + rekening.no_rekening + ' ('+ rekening.nama_penerima +')">' + rekening.rel_bank.name + ' ' + rekening.no_rekening + ' ('+ rekening.nama_penerima +')</option>');
+                    });
+                },
+                error: function(xhr) {
+                    console.error('Failed to fetch rekening data', xhr);
+                }
+            });
         }
-    })
-    // Ecommerce
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "ecommerce") {
-            selectedInput3.classList.remove('hide');
-            $(selectedInput3).select2();
-        }  else {
-            selectedInput3.classList.add('hide');
-            $(selectedInput3).select2('destroy');
-        }
-    })
+
+        // Event listeners for select changes
+            perusahaanSelect.on('change', function() {
+                fetchRekeningData('company', $(this).val());
+            });
+
+            privatepersonSelect.on('change', function() {
+                fetchRekeningData('privateperson', $(this).val());
+            });
+
+            ecommerceSelect.on('change', function() {
+                fetchRekeningData('ecommerce', $(this).val());
+            });
+    });
 </script>
 
 @endsection

@@ -1,6 +1,11 @@
 /node_modules
 /public/hot
 /public/storage
+/public/upload_invoice
+/public/upload_file_pr
+/public/upload_pengajuan
+/public/upload_quotation
+/public/images
 /storage/*.key
 /vendor
 .env

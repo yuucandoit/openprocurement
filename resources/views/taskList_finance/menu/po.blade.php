@@ -73,20 +73,30 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Quotation</td>
+                                            <td>No Invoice</td>
                                             <td>{{ $datacpo->quotation }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>File Invoice</td>
+                                            <td>
+                                                @if (empty($datacpo->path_quotation))
+                                                    -
+                                                @else
+                                                    <a href="/upload_quotation/{!! nl2br($datacpo->path_quotation) !!}" target="_blank" style="color: rgb(138, 43, 226); text-decoration:underline;">{!! nl2br($datacpo->path_quotation) !!}</a>
+                                                @endif
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Nama Vendor</td>
                                             <td>
                                             @if (empty($datacpo->vendorable_type))
-                                                Belum Diisi Datanya
+                                                Null
                                             @else
 
                                                 @if(empty($datacpo->vendorable->nama))
-                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                -
                                                 @else
-                                                Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $datacpo->vendorable->nama ?? '-' }}
+                                                {{ $datacpo->vendorable->nama ?? '-' }}
                                                 @endif
                                             @endif
                                             </td>
@@ -101,16 +111,28 @@
                                                 @endif
                                             </td>
                                         </tr>
+                                        @if($datacpo->payment_type == 'Bank')
                                         <tr>
-                                            <td>Approve To</td>
+                                            <td>Rekening </td>
                                             <td>
-                                                @if (empty($datacpo->ppb->atasans->name))
-                                                    -
+                                                @if (empty($datacpo->vendorRek))
+                                                    {{ $datacpo->no_rekening ?? '-' }}
                                                 @else
-                                                    {{ $datacpo->ppb->atasans->name }}
+                                                    {{ $datacpo->vendorRek->no_rekening ?? '-' }} {{ $datacpo->vendorRek->rel_bank->name ?? '' }}  "{{ $datacpo->vendorRek->nama_penerima ?? '-' }}"
                                                 @endif
                                             </td>
                                         </tr>
+
+                                        @elseif($datacpo->payment_type == 'Va')
+                                        <tr>
+                                            <td>Virtual Account </td>
+                                            <td>
+                                                @if (!empty($datacpo->va_code))
+                                                    {{ $datacpo->va_code }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                                 @php

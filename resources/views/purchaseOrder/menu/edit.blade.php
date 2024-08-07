@@ -37,13 +37,13 @@
                 opacity: 0;
             }
 
-            .page {
+            /* .page {
                 height: 60px;
             }
 
             .terms {
                 height: 60px;
-            }
+            } */
         </style>
 
         <div class="container-fluid">
@@ -59,9 +59,7 @@
                                 <input type="hidden" name="item_ppid" value="{{ $po->po_id }}">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i
-                                                data-feather="database"></i> Select
-                                            Vendor</label>
+                                        <label class="form-label" style="font-weight: bold;">Select Vendor</label>
                                         <select class="form-select page pageSelect" id="pageSelect"
                                             placeholder="Proposed To" name="vendor" >
                                             <option value=""  selected hidden>Select
@@ -101,20 +99,18 @@
 
                                 <div class="col-md-4 page" style="margin-top: 10px;">
                                     <div class="form-group">
-                                        <label for="floatingQuotation"><i data-feather="file-plus"></i>
-                                            Quotation</label>
+                                        <label for="floatingQuotation">No Invoice</label>
                                         <div class="form-floating">
                                             <input required type="text" class="form-control" id="floatingQuotation"
-                                                placeholder="Quotation" name="quotation" value="{{ $po->quotation }}">
+                                                placeholder="No Invoice" name="quotation" value="{{ $po->quotation }}">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i
-                                                 data-feather="file-text"></i> Terms &
-                                            Conditions</label>
+                                        <label class="form-label" style="font-weight: bold;">Terms & Conditions</label>
                                         <select class="form-select page pageSelector" id="pageSelector"
                                             placeholder="Terms and Conditions" name="term_conditions">
 
@@ -137,20 +133,24 @@
                                             placeholder="Input Terms And Conditions"></textarea>
                                     </div>
                                 </div>
+
+                                {{-- <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Upload Invoice</label>
+                                        <input type="file" name="path_invoice" class="form-control form-control-lg">
+                                    </div>
+                                </div> --}}
+
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label">
-                                            <i data-feather="file" style="font-weight: bold;"></i>
-                                            Upload Quotation
-                                        </label>
+                                        <label class="form-label">Upload Invoice</label>
                                         <input type="file" name="path_quotation" class="form-control form-control-lg">
                                     </div>
                                 </div>
 
                                 <div class="col-md-4 ">
                                     <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i
-                                                class="icofont icofont-stamp"></i> Send Approval To:</label>
+                                        <label class="form-label" style="font-weight: bold;">Send Approval To</label>
                                         <select class="form-select page" id="floatingproposedto"
                                             placeholder="Proposed To" name="atasan_po" required="">
                                             @foreach ($atasan as $sui)
@@ -166,8 +166,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label" style="font-weight: bold;"><i data-feather="dollar-sign"></i>
-                                            Currency :</label>
+                                        <label class="form-label" style="font-weight: bold;">Currency</label>
                                         <select class="form-select page" id="floatingdateline" placeholder="Mata Uang"
                                             name="matauang" required="">
                                             @foreach ($concurency as $crency)
@@ -183,6 +182,47 @@
                                             {{ $message }}
                                         </div>
                                         @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-weight: bold;">Payment Type</label>
+                                        <select class="form-select pytype" placeholder="Payment Type" name="payment_type">
+                                            <option value="" disabled selected hidden>
+                                                Select Payment Type
+                                            </option>
+                                            <option value="Bank">Transfer Bank</option>
+                                            <option value="Va">Virtual account</option>
+                                        </select>
+                                        @error('payment_type')
+                                            <div class='mt-1'>
+                                                <span class="text-danger" style="font-size: 10;">
+                                                    {{ $message }}
+                                                </span>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 bank" style="margin-top: 10px; display:none;">
+                                    <div class="form-group">
+                                        <label for="floatingNorekening">Rekening</label>
+                                        <div class="form-group">
+                                            <select class="form-select rekening" placeholder="Rekening" name="no_rekening" id="rekeningSelect">
+                                                <option value="" disabled selected hidden>Select Rekening</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 va" style="margin-top: 10px; display:none;">
+                                    <div class="form-group">
+                                        <label for="floatingVa">Virtual Account</label>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="floatingVa" placeholder="No Virtual Account" name="va_code">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -352,172 +392,244 @@
           </div>
 
 
-<!-- JavaScript Item -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
+        <!-- JavaScript Item -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
 
-<script>
-    const dollars = document.querySelectorAll('.dollar');
-    dollars.forEach(dollar => {
-        new AutoNumeric(dollar,'dotDecimalCharCommaSeparator');
-    })
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Get the select element and the form elements to show/hide
+                var paymentTypeSelect = document.querySelector(".pytype");
+                var bankForm = document.querySelector(".bank");
+                var vaForm = document.querySelector(".va");
 
-</script>
+                // Event listener for payment type change
+                paymentTypeSelect.addEventListener("change", function() {
+                    var selectedValue = this.value;
 
-<script type="text/javascript">
-    //Math
-    document.querySelectorAll('.form-row').forEach(row => {
-        row.addEventListener('input', (e) => updateFileds(e, row));
-    })
+                    // Hide both forms initially
+                    bankForm.style.display = "none";
+                    vaForm.style.display = "none";
 
-    function updateFileds(event, row) {
-        const qty = row.querySelector('.form-qty').value;
-        const price = row.querySelector('.form-cost').value.replace(/\,/g, "");
-        const totalElmnt = row.querySelector('.form-line');
-
-        totalElmnt.value = new Intl.NumberFormat('en-IN').format(qty *  price);
-        var dpp = 0;
-        $('.form-line').each(function(key, item){
-            // console.log(item);
-            dpp += new Number(item.value.replace(/\,/g, ""));
-        });
-        $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
-        $(".total").val(new Intl.NumberFormat('en-IN').format(dpp));
-
-
-    var discount = 0 ;
-        var diskon = document.querySelector(".discount");
-        diskon.addEventListener("input", function() {
-            var disc = diskon.value;
-            var rep = disc.replace(/\,/g, "");
-            var discint = parseFloat(rep);
-            discount = dpp - discint;
-            console.log(discount);
-            $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
-            $(".total").val(new Intl.NumberFormat('en-IN').format(discount));
-    })
-
-    var checkbox = document.querySelector(".check-box");
-
-    checkbox.addEventListener('change', (event) => {
-        var totalppn = 0;
-        if (event.currentTarget.checked) {                  // PPN
-            totalppn = discount * 11 / 100;
-            ppntotal2 = discount + totalppn;
-            console.log(discount);
-            console.log(ppntotal2);
-            $(".ppn").text(totalppn.toLocaleString('en-US'));
-            $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
-
-            var ongkir = document.querySelector(".ongkir");
-            ongkir.addEventListener("input", function(){
-                var ongkos = ongkir.value;
-                var replace = ongkos.replace(/\,/g, "");
-                var ongkoskirim = parseFloat(replace);
-                console.log(ongkoskirim);
-                grandtotal = ongkoskirim  + ppntotal2;
-                $(".total").val(grandtotal);
-                console.log(grandtotal);
+                    // Show the corresponding form based on selected payment type
+                    if (selectedValue === "Bank") {
+                        bankForm.style.display = "block";
+                    } else if (selectedValue === "Va") {
+                        vaForm.style.display = "block";
+                    }
+                });
             });
-            var adminfee = document.querySelector(".adminfee");
-            adminfee.addEventListener("input", function(){
-                var admin = adminfee.value;
-                var replace = admin.replace(/\,/g, "");
-                var biayaAdmin = parseFloat(replace);
-                grandtotal2 = biayaAdmin  + grandtotal ;
-                $(".total").val(grandtotal2);
+        </script>
+
+        <script>
+            const dollars = document.querySelectorAll('.dollar');
+            dollars.forEach(dollar => {
+                new AutoNumeric(dollar,'dotDecimalCharCommaSeparator');
+            })
+
+        </script>
+
+        <script type="text/javascript">
+            //Math
+            document.querySelectorAll('.form-row').forEach(row => {
+                row.addEventListener('input', (e) => updateFileds(e, row));
+            })
+
+            function updateFileds(event, row) {
+                const qty = row.querySelector('.form-qty').value;
+                const price = row.querySelector('.form-cost').value.replace(/\,/g, "");
+                const totalElmnt = row.querySelector('.form-line');
+
+                totalElmnt.value = new Intl.NumberFormat('en-IN').format(qty *  price);
+                var dpp = 0;
+                $('.form-line').each(function(key, item){
+                    // console.log(item);
+                    dpp += new Number(item.value.replace(/\,/g, ""));
+                });
+                $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
+                $(".total").val(new Intl.NumberFormat('en-IN').format(dpp));
+
+
+            var discount = 0 ;
+                var diskon = document.querySelector(".discount");
+                diskon.addEventListener("input", function() {
+                    var disc = diskon.value;
+                    var rep = disc.replace(/\,/g, "");
+                    var discint = parseFloat(rep);
+                    discount = dpp - discint;
+                    console.log(discount);
+                    $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
+                    $(".total").val(new Intl.NumberFormat('en-IN').format(discount));
+            })
+
+            var checkbox = document.querySelector(".check-box");
+
+            checkbox.addEventListener('change', (event) => {
+                var totalppn = 0;
+                if (event.currentTarget.checked) {                  // PPN
+                    totalppn = discount * 11 / 100;
+                    ppntotal2 = discount + totalppn;
+                    console.log(discount);
+                    console.log(ppntotal2);
+                    $(".ppn").text(totalppn.toLocaleString('en-US'));
+                    $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
+
+                    var ongkir = document.querySelector(".ongkir");
+                    ongkir.addEventListener("input", function(){
+                        var ongkos = ongkir.value;
+                        var replace = ongkos.replace(/\,/g, "");
+                        var ongkoskirim = parseFloat(replace);
+                        console.log(ongkoskirim);
+                        grandtotal = ongkoskirim  + ppntotal2;
+                        $(".total").val(grandtotal);
+                        console.log(grandtotal);
+                    });
+                    var adminfee = document.querySelector(".adminfee");
+                    adminfee.addEventListener("input", function(){
+                        var admin = adminfee.value;
+                        var replace = admin.replace(/\,/g, "");
+                        var biayaAdmin = parseFloat(replace);
+                        grandtotal2 = biayaAdmin  + grandtotal ;
+                        $(".total").val(grandtotal2);
+                    });
+                } else {                                            // Non PPN
+                    totalppn = discount * 0;
+                    ppntotal2 = discount + totalppn;
+                    $(".ppn").text(totalppn);
+                    console.log(ppntotal2);
+                    $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
+
+                    var ongkir = document.querySelector(".ongkir");
+                    ongkir.addEventListener("input", function(){
+                        var ongkos = ongkir.value;
+                        var replace = ongkos.replace(/\,/g, "");
+                        var ongkoskirim = parseFloat(replace);
+                        console.log(ongkoskirim);
+                        grandtotal = ongkoskirim  + ppntotal2 ;
+                        $(".total").val(grandtotal);
+                        console.log(grandtotal);
+                    });
+                    var adminfee = document.querySelector(".adminfee");
+                    adminfee.addEventListener("input", function(){
+                        var admin = adminfee.value;
+                        var replace = admin.replace(/\,/g, "");
+                        var biayaAdmin = parseFloat(replace);
+                        grandtotal2 = biayaAdmin  + grandtotal ;
+                        $(".total").val(grandtotal2);
+                    });
+                }
             });
-        } else {                                            // Non PPN
-            totalppn = discount * 0;
-            ppntotal2 = discount + totalppn;
-            $(".ppn").text(totalppn);
-            console.log(ppntotal2);
-            $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
+            };
 
-            var ongkir = document.querySelector(".ongkir");
-            ongkir.addEventListener("input", function(){
-                var ongkos = ongkir.value;
-                var replace = ongkos.replace(/\,/g, "");
-                var ongkoskirim = parseFloat(replace);
-                console.log(ongkoskirim);
-                grandtotal = ongkoskirim  + ppntotal2 ;
-                $(".total").val(grandtotal);
-                console.log(grandtotal);
+
+            $(document).on('click', '.remove-input-field', function() {
+                $(this).parents('tr').remove();
             });
-            var adminfee = document.querySelector(".adminfee");
-            adminfee.addEventListener("input", function(){
-                var admin = adminfee.value;
-                var replace = admin.replace(/\,/g, "");
-                var biayaAdmin = parseFloat(replace);
-                grandtotal2 = biayaAdmin  + grandtotal ;
-                $(".total").val(grandtotal2);
+            var rupiah = document.querySelectorAll(".rupiah");
+            rupiah.forEach((item) => {
+                item.addEventListener('keyup', function(e) {
+                    item.value = formatRupiah(this.value, "");
+                });
             });
-        }
-    });
-    };
+
+        </script>
 
 
-    $(document).on('click', '.remove-input-field', function() {
-        $(this).parents('tr').remove();
-    });
-    var rupiah = document.querySelectorAll(".rupiah");
-    rupiah.forEach((item) => {
-        item.addEventListener('keyup', function(e) {
-            item.value = formatRupiah(this.value, "");
-        });
-    });
+        <script type="text/javascript">
+            var pageSelector = document.querySelector('.pageSelector');
+            var customInput = document.querySelector('.customInput');
+            pageSelector.addEventListener('change', function() {
+                if (this.value == "custom") {
+                    customInput.classList.remove('hide');
+                } else {
+                    customInput.classList.add('hide');
+                }
+            })
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var perusahaanSelect = $('.perusahaan_0');
+                var privatepersonSelect = $('.privateperson_0');
+                var ecommerceSelect = $('.ecommerce_0');
+                var rekeningSelect = $('#rekeningSelect');
+                var pageSelect = $('.pageSelect');
 
-</script>
+                // Function to check if Select2 is initialized
+                function isSelect2Initialized(element) {
+                    return element.data('select2') !== undefined;
+                }
+
+                // Event listener for pageSelect change
+                pageSelect.on('change', function() {
+                    var selectedValue = $(this).val();
+
+                    // Hide all and destroy Select2 if initialized
+                    if (isSelect2Initialized(perusahaanSelect)) {
+                        perusahaanSelect.select2('destroy');
+                    }
+                    perusahaanSelect.addClass('hide');
+
+                    if (isSelect2Initialized(privatepersonSelect)) {
+                        privatepersonSelect.select2('destroy');
+                    }
+                    privatepersonSelect.addClass('hide');
+
+                    if (isSelect2Initialized(ecommerceSelect)) {
+                        ecommerceSelect.select2('destroy');
+                    }
+                    ecommerceSelect.addClass('hide');
+
+                    rekeningSelect.empty().append('<option value="" disabled selected hidden>Select Rekening</option>');
+
+                    // Show and initialize the selected element with Select2
+                    if (selectedValue === "company") {
+                        perusahaanSelect.removeClass('hide').select2();
+                    } else if (selectedValue === "privateperson") {
+                        privatepersonSelect.removeClass('hide').select2();
+                    } else if (selectedValue === "ecommerce") {
+                        ecommerceSelect.removeClass('hide').select2();
+                    }
+                });
 
 
-<script type="text/javascript">
-    var pageSelector = document.querySelector('.pageSelector');
-    var customInput = document.querySelector('.customInput');
-    pageSelector.addEventListener('change', function() {
-        if (this.value == "custom") {
-            customInput.classList.remove('hide');
-        } else {
-            customInput.classList.add('hide');
-        }
-    })
-</script>
-<script type="text/javascript">
-    var pageSelect = document.querySelector('.pageSelect');
-    var selectedInput = document.querySelector('.perusahaan_0');
-    var selectedInput2 = document.querySelector('.privateperson_0');
-    var selectedInput3 = document.querySelector('.ecommerce_0');
-    // Company
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "company") {
-            selectedInput.classList.remove('hide');
-            $(selectedInput).select2();
-        } else {
-            selectedInput.classList.add('hide');
-            $(selectedInput).select2('destroy');
-        }
-    })
-    // Private Person
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "privateperson") {
-            selectedInput2.classList.remove('hide');
-            $(selectedInput2).select2();
-        }  else {
-            selectedInput2.classList.add('hide');
-            $(selectedInput2).select2('destroy');
-        }
-    })
-    // Ecommerce
-    pageSelect.addEventListener('change', function() {
-        if (this.value == "ecommerce") {
-            selectedInput3.classList.remove('hide');
-            $(selectedInput3).select2();
-        }  else {
-            selectedInput3.classList.add('hide');
-            $(selectedInput3).select2('destroy');
-        }
-    })
-</script>
+                // Function to fetch rekening data
+                function fetchRekeningData(type, id) {
+                    $.ajax({
+                        url: '/menu-purchase-order/get-data',
+                        type: 'POST',
+                        data: {
+                            type: type,
+                            id: id,
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            rekeningSelect.empty().append('<option value="" disabled selected hidden>Select Rekening</option>');
+                            $.each(response.data, function(index, rekening) {
+                                rekeningSelect.append('<option value="' + rekening.id + '| ' + rekening.rel_bank.name + ' ' + rekening.no_rekening + ' ('+ rekening.nama_penerima +')">' + rekening.rel_bank.name + ' ' + rekening.no_rekening + ' ('+ rekening.nama_penerima +')</option>');
+                            });
+                        },
+                        error: function(xhr) {
+                            console.error('Failed to fetch rekening data', xhr);
+                        }
+                    });
+                }
+
+                // Event listeners for select changes
+                    perusahaanSelect.on('change', function() {
+                        fetchRekeningData('company', $(this).val());
+                    });
+
+                    privatepersonSelect.on('change', function() {
+                        fetchRekeningData('privateperson', $(this).val());
+                    });
+
+                    ecommerceSelect.on('change', function() {
+                        fetchRekeningData('ecommerce', $(this).val());
+                    });
+            });
+        </script>
 
     </section>
 @endsection

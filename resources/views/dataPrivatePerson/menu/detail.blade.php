@@ -74,6 +74,40 @@
                                     </tbody>
                                 </table>
 
+                                <div class="table-responsive">
+                                    <table class="table table-bordered item order-entry mt-4">
+                                        <tr style="text-align: center;">
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                No</th>
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Bank</th>
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Rekening</th>
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Penerima</th>
+                                        </tr>
+                                        @php
+                                        $no = 1;
+                                        @endphp
+                                        @foreach ($data_person->vendorBanks as $bank)
+                                        <tr class="form-row">
+                                            <td style="text-align:center;">
+                                                {{ $no++ }}
+                                            </td>
+                                            <td class="text">
+                                                {{ $bank->rel_bank->name }}
+                                            </td>
+                                            <td>
+                                                {{ $bank->no_rekening }}
+                                            </td>
+                                            <td>
+                                                {{ $bank->nama_penerima }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
+
+                                    </table>
+
                                 <a type="reset" class="btn btn-dark mt-3" href="{{ url('/menu-private-person/') }}"
                                     style="float: right;">Back</a>
 

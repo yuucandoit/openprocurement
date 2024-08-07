@@ -17,31 +17,6 @@
                         </ol>
                     </div>
                     <div class="col-sm-6 mt-4">
-                        <!-- Bookmark Start-->
-                        <div class="bookmark">
-                            <ul>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Tables"><i
-                                            data-feather="inbox"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Chat"><i
-                                            data-feather="message-square"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Icons"><i
-                                            data-feather="command"></i></a></li>
-                                <li><a href="javascript:void(0)" data-container="body" data-bs-toggle="popover"
-                                        data-placement="top" title="" data-original-title="Learning"><i
-                                            data-feather="layers"></i></a></li>
-                                <li><a href="javascript:void(0)"><i class="bookmark-search" data-feather="star"></i></a>
-                                    <form class="form-inline search-form">
-                                        <div class="form-group form-control-search">
-                                            <input type="text" placeholder="Search..">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Bookmark Ends-->
                     </div>
                 </div>
             </div>
@@ -102,24 +77,43 @@
                                             <td>Business Fields</td>
                                             <td>{{ $data_perusahaan->bidang_usaha }}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Account Number</td>
-                                            <td>{{ $data_perusahaan->no_rekening }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bank</td>
-                                            <td>{{ $data_perusahaan->bank }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bank Branch</td>
-                                            <td>{{ $data_perusahaan->cabang_bank }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Recipient's Name</td>
-                                            <td>{{ $data_perusahaan->nama_penerima }}</td>
-                                        </tr>
                                     </tbody>
                                 </table>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered item order-entry mt-4">
+                                        <tr style="text-align: center;">
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                No</th>
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Bank</th>
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Rekening</th>
+                                            <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                                Penerima</th>
+                                        </tr>
+                                        @php
+                                        $no = 1;
+                                        @endphp
+                                        @foreach ($data_perusahaan->vendorBanks as $bank)
+                                        <tr class="form-row">
+                                            <td style="text-align:center;">
+                                                {{ $no++ }}
+                                            </td>
+                                            <td class="text">
+                                                {{ $bank->rel_bank->name }}
+                                            </td>
+                                            <td>
+                                                {{ $bank->no_rekening }}
+                                            </td>
+                                            <td>
+                                                {{ $bank->nama_penerima }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
+
+                                    </table>
+                                </div>
 
                                 <a type="reset" class="btn btn-dark mt-3" href="{{ url('/menu-perusahaan/') }}"
                                     style="float: right;">Back</a>

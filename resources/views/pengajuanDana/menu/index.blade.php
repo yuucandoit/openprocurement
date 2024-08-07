@@ -224,7 +224,7 @@
                                                                     Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? ' - ' }}
                                                                     @endif
                                                                 </li>
-                                                                <li> Quotation : {{ $po2->quotation }}</li>
+                                                                <li> No Invoice : {{ $po2->quotation }}</li>
                                                             </a>
                                                         </ul>
                                                     </td>

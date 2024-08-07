@@ -95,6 +95,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'menu-perusahaan'], function () {
         Route::get('/', [CategoryPTController::class, 'index'])->name('menu-perusahaan.index');
         Route::get('/detail/{id}', [CategoryPTController::class, 'detail'])->name('menu-perusahaan.detail');
+        Route::get('/create', [CategoryPTController::class, 'create'])->name('menu-perusahaan.create');
         Route::post('/store', [CategoryPTController::class, 'store'])->name('menu-perusahaan.store');
         Route::get('/edit/{id}', [CategoryPTController::class, 'edit'])->name('menu-perusahaan.edit');
         Route::post('/update/{id}', [CategoryPTController::class, 'update'])->name('menu-perusahaan.update');
@@ -102,21 +103,22 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/company',[CategoryPTController::class, 'SearchPT'])->name('menu-perusahaan.SearchPT');
     });
 
-    // Route untuk vendor Private Person
-    Route::group(['prefix' => 'private-person'], function () {
-        Route::get('/{id}', [PrivatePersonController::class, 'index'])->name('private-person.index');
-        Route::get('/detail/{id}', [PrivatePersonController::class, 'detail'])->name('perusahaan.detail');
-        Route::get('/create/{id}', [PrivatePersonController::class, 'create'])->name('private-person.create');
-        Route::post('/store/{id}', [PrivatePersonController::class, 'store'])->name('private-person.store');
-        Route::get('/show/{id_company}/{id}', [PrivatePersonController::class, 'show'])->name('private-person.show');
-        Route::post('/update/{id}', [PrivatePersonController::class, 'update'])->name('private-person.update');
-        Route::delete('/destroy/{id}', [PrivatePersonController::class, 'destroy'])->name('private-person.destroy');
-        // Route::get('/search/pp',[CategoryPengajuanPembelianController::class, 'SearchPP'])->name('private-person.SearchP');
-    });
+    // // Route untuk vendor Private Person
+    // Route::group(['prefix' => 'private-person'], function () {
+    //     Route::get('/{id}', [PrivatePersonController::class, 'index'])->name('private-person.index');
+    //     Route::get('/detail/{id}', [PrivatePersonController::class, 'detail'])->name('perusahaan.detail');
+    //     Route::get('/create/{id}', [PrivatePersonController::class, 'create'])->name('private-person.create');
+    //     Route::post('/store/{id}', [PrivatePersonController::class, 'store'])->name('private-person.store');
+    //     Route::get('/show/{id_company}/{id}', [PrivatePersonController::class, 'show'])->name('private-person.show');
+    //     Route::post('/update/{id}', [PrivatePersonController::class, 'update'])->name('private-person.update');
+    //     Route::delete('/destroy/{id}', [PrivatePersonController::class, 'destroy'])->name('private-person.destroy');
+    //     // Route::get('/search/pp',[CategoryPengajuanPembelianController::class, 'SearchPP'])->name('private-person.SearchP');
+    // });
 
     // Menu vendor menu Private Person
     Route::group(['prefix' => 'menu-private-person'], function () {
         Route::get('/', [CategoryPPController::class, 'index'])->name('menu-private-person.index');
+        Route::get('/create', [CategoryPPController::class, 'create'])->name('menu-private-person.create');
         Route::get('/detail/{id}', [CategoryPPController::class, 'detail'])->name('menu-private-person.detail');
         Route::post('/store', [CategoryPPController::class, 'store'])->name('menu-private-person.store');
         Route::get('/edit/{id}', [CategoryPPController::class, 'edit'])->name('menu-private-person.edit');
@@ -498,6 +500,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history/search/HistoryPO',[CategoryPOController::class, 'SearchHistoryPO'])->name('menu-purchase-order.SearchHistoryPO');
         Route::delete('/deletePOAll/{id}', [CategoryPOController::class, 'deletePOAll'])->name('menu-purchase-order.deletePOAll');
         Route::get('/history/sortPO',[CategoryPOController::class, 'SortHistoryPO'])->name('menu-purchase-order.SortHistoryPO');
+        Route::post('/get-data',[CategoryPOController::class, 'getVendorRekening'])->name('menu-purchase-order.getVendorRekening');
     });
 
     // Menu Pengajuan dana Purchase Order
@@ -562,6 +565,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/history/search/delivery',[DeliveryController::class, 'SearchHistoryDelivery'])->name('delivery.SearchHistoryDelivery');
         Route::get('/history/sortDelivery',[DeliveryController::class, 'SortHistoryDelivery'])->name('delivery.SortHistoryDelivery');
         Route::post('/statusDeliveryStore/{id}', [DeliveryController::class, 'deliverystatus'])->name('delivery.deliverystatus');
+        Route::post('/startShippy/{id}', [DeliveryController::class, 'startShip'])->name('delivery.startShip');
+        Route::post('/endShippy/{id}', [DeliveryController::class, 'endShip'])->name('delivery.endShip');
+        Route::post('/setBackShippy/{id}', [DeliveryController::class, 'setBackShippy'])->name('delivery.setBackShippy');
         // Route::get('/track-dhl',[DeliveryController::class, 'trackDHL'])->name('`delivery.trackDHL`');
         // Route::get('/track-fedex',[DeliveryController::class, 'trackFedex'])->name('delivery.trackFedex');
     });
@@ -643,7 +649,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-    Route::get('/timeline/{id}',[DeliveryController::class, 'track'])->name('delivery.track');
+    Route::get('/timeline-deliver/{id}',[DeliveryController::class, 'track_po'])->name('delivery.track_po');
 
     //Route Send Email Pengajuan
     Route::get('/send/{id}',[NotifPengajuanController::class, 'index']);

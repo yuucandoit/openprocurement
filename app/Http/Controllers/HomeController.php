@@ -50,9 +50,13 @@ class HomeController extends Controller
         $task_bod_po         = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('atasan_po',Auth::user()->id)->get();
         $task_bod_py         = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('atasan_py',Auth::user()->id)->get();
         $payment_request     = Invoicing::where('created_at','like',$this_year.'%')->get();
-        $delivery            = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', 'Delivery Success')->get();
-        $task_finance        = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', '!=','Payment Approved')->get();
-        $payment_process     = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status','Paid' && 'Delivery Success')->get();
+        // $delivery            = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', 'Delivery Success')->get();
+        $task_finance        = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->whereHas('quot',function($i){
+            $i->whereIn('status',['Payment Approved','PO & Payment Approved']);
+        })->where('status', 'not like', '%Rejected%')->get();
+        $payment_process     = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->whereHas('quot',function($i){
+            $i->where('status','Unpaid');
+        })->where('status', 'not like', '%Rejected%')->get();
         $delivery            = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', 'Delivery Success')->get();
         $logistCheck         = CategoryPengajuanPembelian::where('created_at','like',$this_year.'%')->where('status', 'Awaiting Purchase Request Approval')->where('purpose_type', ReferensiNamaProject::class)->where('logistic_check', 0)->get();
 

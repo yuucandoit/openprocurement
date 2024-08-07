@@ -74,8 +74,18 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Quotation</td>
+                                                <td>No Invoice</td>
                                                 <td>{{ $po->quotation }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>File Invoice</td>
+                                                <td>
+                                                    @if (empty($po->path_quotation))
+                                                    -
+                                                    @else
+                                                        <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank">{!! nl2br($po->path_quotation) !!}</a>
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Nama Vendor</td>

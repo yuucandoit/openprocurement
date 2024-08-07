@@ -162,12 +162,11 @@
                             <h5>List Of Private Person Data</h5>
                         </div>
                         <div class="card-body">
-                            <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd"> Add
-                                <i class="icofont icofont-ui-add"></i></button>
+                            <a class="btn btn-primary mb-3" href="{{ route('menu-private-person.create') }}"> Add
+                                <i class="icofont icofont-ui-add"></i></a>
                             <a href={{ url('/export_excel/private_person') }} class="btn btn-success mb-3 mr-1"
                                 style="align-self: flex-end"><i class="icon-export"></i> Export to Excel</a>
-                            <a href={{ url('file-import-pp') }} class="btn btn-danger mb-3 mr-1"
-                                style="align-self: flex-end"><i class="icon-import"></i> Import From Excel</a>
+                            {{-- <a href={{ url('file-import-pp') }} class="btn btn-danger mb-3 mr-1" style="align-self: flex-end"><i class="icon-import"></i> Import From Excel</a> --}}
                                     <div class="pull-right">
                                         <form action="{{ route('menu-private-person.SearchPP') }}" method="get"
                                             class="input-group">

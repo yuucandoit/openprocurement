@@ -8,6 +8,7 @@ use App\Imports\PrivatePersonImport;
 use App\Models\Bank;
 use App\Models\CategoryPP;
 use App\Models\Role;
+use App\Models\VendorBank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -74,7 +75,14 @@ class CategoryPPController extends Controller
      */
     public function create(Request $request)
     {
-
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
+            $bank = Bank::orderBy('name')->get();
+            return view('dataPrivatePerson.menu.create')
+                ->with('bank', $bank);
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -85,6 +93,7 @@ class CategoryPPController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $this->validate($request,[
@@ -99,7 +108,40 @@ class CategoryPPController extends Controller
 
             $dv = $request->except(['_token']);
             $dv['user_id'] = Auth::user()->id;
-            CategoryPP::insert($dv);
+            $pp = CategoryPP::create([
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'nik' => $request->nik,
+                'npwp_pp' => $request->npwp_pp,
+                'pkp' => $request->pkp,
+                'email' => $request->email,
+                'contact' => $request->contact,
+                'no_rekening' => $request->no_rekening[0] ?? '-',
+                'bank' => $request->bank[0] ?? '-',
+                'cabang_bank' => $request->cabang_bank ?? '-',
+            ]);
+
+
+            $bankData = $request->input('bank');
+            $noRekeningData = $request->input('no_rekening');
+            $namaPenerimaData = $request->input('nama_penerima');
+
+            // Iterate over the bank data and save each record
+            foreach ($bankData as $index => $bankName) {
+                $noRekening = $noRekeningData[$index];
+                $namaPenerima = $namaPenerimaData[$index];
+
+                // Create a new instance of VendorBank and fill the fields
+                $vendorBank = new VendorBank();
+                $vendorBank->vendor_id = $pp->id;
+                $vendorBank->vendor_type = CategoryPP::class; // Set the class name as vendor_type
+                $vendorBank->bank_id = $bankName;
+                $vendorBank->no_rekening = $noRekening;
+                $vendorBank->nama_penerima = $namaPenerima;
+
+                // Save the record to the database
+                $vendorBank->save();
+            }
             return redirect('menu-private-person/')->with('success', 'Task Created Successfully!');
         } else {
             return redirect()->route('dashboard');
@@ -172,6 +214,53 @@ class CategoryPPController extends Controller
                 "contact"   => $request->contact,
                 "email"     => $request->email,
             ]);
+
+
+            $existingVendorBanks = VendorBank::where('vendor_id', $id)
+                                      ->where('vendor_type', CategoryPP::class)
+                                      ->get()
+                                      ->keyBy('id'); // Key by ID for easier comparison
+
+            // Collect data from the request
+            $bankData = $request->input('bank');
+            $noRekeningData = $request->input('no_rekening');
+            $namaPenerimaData = $request->input('nama_penerima');
+
+            // Iterate over the bank data and process each record
+            foreach ($bankData as $index => $bankName) {
+                $noRekening = $noRekeningData[$index];
+                $namaPenerima = $namaPenerimaData[$index];
+
+                // Check if we need to update an existing record or create a new one
+                $existingVendorBank = $existingVendorBanks->firstWhere('bank_id', $bankName);
+
+                if ($existingVendorBank) {
+                    // Update existing record
+                    $existingVendorBank->update([
+                        'no_rekening'    => $noRekening,
+                        'nama_penerima'  => $namaPenerima,
+                    ]);
+
+                    // Remove from existing records to track for deletion
+                    $existingVendorBanks->forget($existingVendorBank->id);
+                } else {
+                    // Create a new record
+                    VendorBank::create([
+                        'vendor_id'       => $id,
+                        'vendor_type'     => CategoryPP::class,
+                        'bank_id'         => $bankName,
+                        'no_rekening'     => $noRekening,
+                        'nama_penerima'   => $namaPenerima,
+                    ]);
+                }
+            }
+
+            // Delete records that were not included in the current request
+            foreach ($existingVendorBanks as $vendorBank) {
+                $vendorBank->delete();
+            }
+
+
             return redirect("menu-private-person/");
         }else {
             return redirect()->route('dashboard');

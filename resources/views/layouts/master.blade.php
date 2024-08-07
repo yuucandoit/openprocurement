@@ -9,6 +9,7 @@
         content="viho admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords"
         content="admin template, viho admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="{{ asset('assets/images/LogoSII.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/images/LogoSII.png') }}" type="image/x-icon">
@@ -410,7 +411,7 @@
                                 $checkpo     =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Cross Check PO');})->count();
                                 $pyreq       =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','PO Approved');})->where('status', 'not like', '%Rejected%')->count();
                                 $pyprocess   =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Unpaid');})->where('status', 'not like', '%Rejected%')->count();
-                                $delivery    =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Paid');})->where('status', 'not like', '%Rejected%')->count();
+                                $delivery    =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');})->where('status', 'not like', '%Rejected%')->count();
                                 $checkpr     =  App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)->count();
                                 @endphp
                                 @hasrole('super purchase|purchasing|super admin')
@@ -1667,7 +1668,7 @@
                                     </li>
                                 @endhasrole
 
-                                @hasrole('finance|super admin')
+                                {{-- @hasrole('finance|super admin')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav {{ request()->is('payment_request/history') ? 'active' : '' }}"
                                             href="{{ url('/payment_request/history') }}">
@@ -1675,7 +1676,7 @@
                                             <span>History Payment Reqs</span>
                                         </a>
                                     </li>
-                                @endhasrole
+                                @endhasrole --}}
 
                                 @hasrole('finance|super admin')
                                     <li

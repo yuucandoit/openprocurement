@@ -173,8 +173,7 @@
                                     <div class="row">
                                             <div class="col-md-6 ">
                                                 <div class="form-group">
-                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                            data-feather="database"></i>
+                                                    <label class="form-label" style="font-weight: bold;">
                                                         Vendor &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                                         &nbsp; &nbsp;:
                                                         @if (empty($po->vendorable->nama))
@@ -187,8 +186,7 @@
 
                                             <div class="col-md-6 ">
                                                 <div class="form-group">
-                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                            data-feather="database"></i>
+                                                    <label class="form-label" style="font-weight: bold;">
                                                         Quotation  :
                                                         @if (empty($po->quotation))
                                                         @else
@@ -200,8 +198,7 @@
 
                                             <div class="col-md-6 ">
                                                 <div class="form-group">
-                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                            data-feather="database"></i>
+                                                    <label class="form-label" style="font-weight: bold;">
                                                         Terms conditions :
                                                         @if (empty($po->term->term_condition))
                                                         @else
@@ -215,13 +212,54 @@
 
                                             <div class="col-md-6 ">
                                                 <div class="form-group">
-                                                    <label class="form-label" style="font-weight: bold;"><i
-                                                            data-feather="database"></i>
+                                                    <label class="form-label" style="font-weight: bold;">
                                                         File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
                                                         @if (empty($po->path_quotation))
                                                             -
                                                         @else
                                                             <a href="/upload_quotation/{!! nl2br($po->path_quotation) !!}" target="_blank">{!! nl2br($po->path_quotation) !!}</a>
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            @if($po->payment_type == 'Bank')
+                                                <div class="col-md-6 ">
+                                                    <div class="form-group">
+                                                        <label class="form-label" style="font-weight: bold;">
+                                                            Rekening :
+                                                            @if (empty($po->vendorRek))
+                                                            <br>
+                                                                {{ $po->no_rekening ?? '-' }}
+                                                            @else
+                                                            <br>
+                                                                {{ $po->vendorRek->no_rekening ?? '-' }} {{ $po->vendorRek->rel_bank->name ?? '' }}  "{{ $po->vendorRek->nama_penerima ?? '-' }}"
+                                                            @endif
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @elseif($po->payment_type == 'Va')
+                                                <div class="col-md-6 ">
+                                                    <div class="form-group">
+                                                        <label class="form-label" style="font-weight: bold;">
+                                                            VA :
+                                                            <br>
+                                                            @if (!empty($po->va_code))
+                                                            {{ $po->va_code }}
+                                                            @endif
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @endif
+
+                                            <div class="col-md-6 ">
+                                                <div class="form-group">
+                                                    <label class="form-label" style="font-weight: bold;">
+                                                        Invoice &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
+                                                        @if (empty($po->path_invoice))
+                                                            -
+                                                        @else
+                                                            <a href="/upload_invoice/{!! nl2br($po->path_invoice) !!}" target="_blank">{!! nl2br($po->path_invoice) !!}</a>
                                                         @endif
                                                     </label>
                                                 </div>
