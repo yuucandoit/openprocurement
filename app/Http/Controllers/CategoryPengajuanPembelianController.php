@@ -132,7 +132,7 @@ class CategoryPengajuanPembelianController extends Controller
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
-        // $delivery           = Delivery::where('ppb_id', $id)->get();
+        $delivery           = Delivery::where('ppb_id', $id)->get();
         $datacpo            = CategoryPO::where('ppb_id', $id)->first();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -148,7 +148,7 @@ class CategoryPengajuanPembelianController extends Controller
             return view('pengajuanPembelian.menu.detail')
                 ->with('atasan', $atasan)
                 ->with('pengajuan', $pengajuan)
-                // ->with('delivery', $delivery)
+                ->with('delivery', $delivery)
                 ->with('dpp', $dpp)
                 ->with('ppn', $ppn)
                 ->with('datacpo', $datacpo)
@@ -167,7 +167,7 @@ class CategoryPengajuanPembelianController extends Controller
             return view('pengajuanPembelian.menu.detail')
                 ->with('atasan', $atasan)
                 ->with('pengajuan', $pengajuan)
-                // ->with('delivery', $delivery)
+                ->with('delivery', $delivery)
                 ->with('dpp', $dpp)
                 ->with('ppn', $ppn)
                 ->with('datacpo', $datacpo)
