@@ -32,6 +32,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use Illuminate\Support\Facades\Session;
@@ -131,7 +132,7 @@ class CategoryPengajuanPembelianController extends Controller
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
-        $delivery           = Delivery::where('ppb_id', $id)->get();
+        // $delivery           = Delivery::where('ppb_id', $id)->get();
         $datacpo            = CategoryPO::where('ppb_id', $id)->first();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
@@ -147,7 +148,7 @@ class CategoryPengajuanPembelianController extends Controller
             return view('pengajuanPembelian.menu.detail')
                 ->with('atasan', $atasan)
                 ->with('pengajuan', $pengajuan)
-                ->with('delivery', $delivery)
+                // ->with('delivery', $delivery)
                 ->with('dpp', $dpp)
                 ->with('ppn', $ppn)
                 ->with('datacpo', $datacpo)
@@ -166,7 +167,7 @@ class CategoryPengajuanPembelianController extends Controller
             return view('pengajuanPembelian.menu.detail')
                 ->with('atasan', $atasan)
                 ->with('pengajuan', $pengajuan)
-                ->with('delivery', $delivery)
+                // ->with('delivery', $delivery)
                 ->with('dpp', $dpp)
                 ->with('ppn', $ppn)
                 ->with('datacpo', $datacpo)
@@ -456,7 +457,7 @@ class CategoryPengajuanPembelianController extends Controller
                     }
                 }
 
-                $logisticCheck;
+                $logisticCheck = 0;
                 // dd($request->category_purpose == "project");
                 if ($request->category_purpose == "project") {
                     $logisticCheck = 1;
@@ -692,7 +693,7 @@ class CategoryPengajuanPembelianController extends Controller
                     $old_file_path = public_path('upload_file_pr/' . $old_file);
 
                     if (file_exists($old_file_path)) {
-                        \File::delete($old_file_path);
+                        File::delete($old_file_path);
                     }
                 }
             }
@@ -887,7 +888,7 @@ class CategoryPengajuanPembelianController extends Controller
         // $data['atasan'] = CategoryPengajuanPembelian::where('id',$id)->first();
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->get()->first();
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
-        $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();   
+        $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
         // $data['day'] = Carbon::now()->format('d');
         // $data['year2'] = Carbon::now()->format('Y');
         $data['year'] = Carbon::now()->format('y');
@@ -900,19 +901,10 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function getDataPrePR($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 3){
-            $prepr = Pre_pr::with('partItem')->where('project_id',$id)->first();
-            return response()->json([
-                'message' => 'Success Get Data',
-                'data' => $prepr,
-            ]);
-        } else {
-            $prepr = Pre_pr::where('user_id',Auth::user()->id)->with('partItem')->where('project_id',$id)->first();
-            return response()->json([
-                'message' => 'Success Get Data',
-                'data' => $prepr,
-            ]);
-        }
+        $prepr = Pre_pr::with('partItem')->where('project_id',$id)->first();
+        return response()->json([
+            'message' => 'Success Get Data',
+            'data' => $prepr,
+        ]);
     }
 }
