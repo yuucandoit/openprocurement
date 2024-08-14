@@ -326,7 +326,7 @@ class CategoryPengajuanPembelianController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 1 || $check->role_id == 2){
 
-        $prepr              = Pre_pr::where('user_id',Auth::user()->id)->orderBy('id','DESC')->get();
+        $prepr              = Pre_pr::orderBy('id','DESC')->get();
         $atasan             = User::find(7);
         // dd($atasan);
         $dataws             = WhoSubmitted::all();
