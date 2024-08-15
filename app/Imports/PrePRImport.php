@@ -26,24 +26,28 @@ class PrePRImport implements  ToModel, WithHeadingRow
     {
         // dd($this->due_date);
         // dd($row);
+        $normalizedRow = array_change_key_case($row, CASE_LOWER);
 
         $existProject = Pre_pr::where('project_id',$this->project)->first();
         if($existProject){
-            $qty = $row['qty'];
-            $buffer =  $row['buffer'];
+            $qty = $normalizedRow['qty'] ?? null;
+            $buffer = $normalizedRow['buffer'] ?? null;
             $total = $qty + $buffer;
+            $item = $normalizedRow['part name'] ?? null;
+            $desc = $normalizedRow['desc'] ?? null;
+            $link = $normalizedRow['link'] ?? null;
 
             $data1 = array(
-                'child_item'        => $row['part_name'],
-                'desc'              => $row['desc'],
-                'link'              => $row['link'],
+                'child_item'        => $item,
+                'desc'              => $desc,
+                'link'              => $link,
                 'qty'               => $qty ?? 0 ,
                 'buffer'            => $buffer ?? 0,
                 'total'             => $total,
                 'creator_id'        => null,
                 'creator_name'      => null,
             );
-            $record = PartItem_Pre_pr::firstOrNew(['pre_pr_id' => $existProject->id, 'child_item' => $row['part_name']]);
+            $record = PartItem_Pre_pr::firstOrNew(['pre_pr_id' => $existProject->id, 'child_item' => $item]);
 
             // Set creator fields only if the record is new
             if (!$record->exists) {
@@ -67,15 +71,18 @@ class PrePRImport implements  ToModel, WithHeadingRow
                 'due_date'=> $this->due_date
             ]);
 
-            $qty = $row['qty'];
-            $buffer =  $row['buffer'];
+            $qty = $normalizedRow['qty'] ?? null;
+            $buffer = $normalizedRow['buffer'] ?? null;
             $total = $qty + $buffer;
+            $item = $normalizedRow['part name'] ?? null;
+            $desc = $normalizedRow['desc'] ?? null;
+            $link = $normalizedRow['link'] ?? null;
 
             $data2 = array(
                 'pre_pr_id'         => $pre_pr->id,
-                'child_item'        => $row['part_name'],
-                'desc'              => $row['desc'],
-                'link'              => $row['link'],
+                'child_item'        => $item,
+                'desc'              => $desc,
+                'link'              => $link,
                 'qty'               => $qty ?? 0 ,
                 'buffer'            => $buffer ?? 0,
                 'total'             => $total,
