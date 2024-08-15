@@ -698,7 +698,6 @@ class CategoryPengajuanPembelianController extends Controller
                 }
             }
             $pengajuan->update([
-                'user_id' =>  Auth::user()->id,
                 'date_ps' => $request->date_ps,
                 'dateline' => $request->dateline,
                 'ws' => $request->ws,
