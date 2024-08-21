@@ -376,7 +376,7 @@
                             <div class="modal-body mb-3">
                                 <div class="form-group">
                                     <label for="">No. Resi <span style="color: red;">*</span></label>
-                                    <input type="text" name="no_resi" class="form-control" id="" placeholder="Resi Number" required>
+                                    <input type="text" name="no_resi" class="form-control" id="" placeholder="Resi Number">
                                 </div>
                                 <div class="row">
                                     <label for="" class="mb-2">Estimated Arrival of Goods <hr style="opacity:10; background-color:rgb(99, 99, 99);"></label>
