@@ -42,6 +42,9 @@ class CategoryPO extends Model
         'atasan_py',
         'approved_at',
         'flag_delivery',
+        'no_resi',
+        'first_estimate',
+        'last_estimate',
         'approved_at_py',
         'note_bod_po',
         'note_bod_py',
@@ -89,6 +92,11 @@ class CategoryPO extends Model
     public function vendorRek()
     {
         return $this->belongsTo(VendorBank::class, 'id_vendor_bank');
+    }
+
+    public function deliveryss()
+    {
+        return $this->hasMany(Delivery::class,'po_id');
     }
 
     protected static $logFillable = true;

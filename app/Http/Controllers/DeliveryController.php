@@ -35,11 +35,18 @@ class DeliveryController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
-            $datappb = CategoryPengajuanPembelian::where('status','Paid')->orWhereHas('quot',function($i){
-                $i->where('status','Paid');
-            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');
+            })
+            ->where('status', 'not like', '%Rejected%')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('dateline', 'asc')
+            ->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
             return view('delivery.menu.index')
-                    ->with('datappb',$datappb);
+            ->with('datappb',$datappb);
+
         }else {
             return redirect()->route('dashboard');
         }
@@ -49,22 +56,38 @@ class DeliveryController extends Controller
     {
      $cari = $request->cariIn;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where('status','Purchase Proses')->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
-     ->orWhere('id','like',"%".$cari."%")
-     ->orWhere('status','like',"%".$cari."%")
-     ->orWhere('desc','like',"%".$cari."%")
-     ->orWhereHas('whosubmit', function($q) use($cari){
-          $q->where('name','like',"%".$cari."%");
+
+     $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
+        $query->whereHas('quot', function($q) {
+                $q->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');
+            })
+            ->where('status', 'not like', '%Rejected%')
+            ->where(function($q) use ($cari) {
+                $q->where('id', 'like', "%" . $cari . "%")
+                ->orWhere('status', 'like', "%" . $cari . "%")
+                ->orWhere('desc', 'like', "%" . $cari . "%")
+                ->orWhere('code_pengajuan', 'like', "%" . $cari . "%")
+                ->orWhereHas('whosubmit', function($q) use ($cari) {
+                    $q->where('name', 'like', "%" . $cari . "%");
+                })
+                ->orWhereHas('itemppn', function($q) use ($cari) {
+                    $q->where('item', 'like', "%" . $cari . "%");
+                })
+                ->orWhereHas('quot', function($q) use ($cari) {
+                    $q->where('id', 'like', "%" . $cari . "%")
+                    ->orWhere('code_po', 'like', "%" . $cari . "%")
+                    ->orWhere('status', 'like', "%" . $cari . "%")
+                    ->orWhere('no_resi', 'like', "%" . $cari . "%");
+                });
+            });
      })
+     ->orderBy('created_at', 'desc')
+     ->orderBy('dateline', 'asc')
+     ->orderBy('approved_at','asc')
      ->paginate(10, ['*'], 'in');
 
-     $datappb2 = CategoryPengajuanPembelian::where('status','Delivery Success')
-     ->orderBy('status', 'asc')->orderBy('dateline', 'asc')
-     ->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-
      return view('delivery.menu.index')
-     ->with('datappb',$datappb)
-     ->with('datappb2',$datappb2);
+     ->with('datappb',$datappb);
     }
     public function out()
     {
@@ -168,11 +191,9 @@ class DeliveryController extends Controller
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $data_pengajuan     = CategoryPengajuanPembelian::find($id);
             $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
-            $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
             $vendor             = CategoryPO::where('ppb_id',$id)->first();
             $items              = CategoryPO::where('ppb_id',$id)->get();
             $groupedItem        = ItemPO::groupBy('po_id')->get();
-            $itempurchase       = ItemPO::groupBy('po_id')->first();
             $dataws             = WhoSubmitted::all();
             $datadepartment     = Department::all();
             $delivery           = Delivery::where('ppb_id', $id)->get();
@@ -189,7 +210,6 @@ class DeliveryController extends Controller
             ->with('vendor',$vendor)
             ->with('items', $items)
             ->with('groupedItem', $groupedItem)
-            ->with('itempurchase', $itempurchase)
             ->with('dataws', $dataws)
             ->with('datadepartment', $datadepartment)
             ->with('ppn', $ppn)
@@ -203,9 +223,10 @@ class DeliveryController extends Controller
         }
     }
 
-    public function track($id)
+    public function track_po($id)
     {
-        return view('delivery.menu.tracking.index');
+        $po = CategoryPO::find($id);
+        return view('delivery.menu.tracking.index',compact('po'));
     }
     public function po_detail($id)
     {
@@ -214,8 +235,6 @@ class DeliveryController extends Controller
             $datapo             = CategoryPO::where('id', $id)->get();
             $datacpo            = CategoryPO::find($id);
             $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
-            $dataws             = WhoSubmitted::all();
-            $datadepartment     = Department::all();
             $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
             $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
             $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
@@ -227,9 +246,7 @@ class DeliveryController extends Controller
                 ->with('pengajuan', $pengajuan)
                 ->with('dpp', $dpp)
                 ->with('datapo', $datapo)
-                ->with('dataws', $dataws)
                 ->with('datacpo', $datacpo)
-                ->with('datadepartment', $datadepartment)
                 ->with('ppn', $ppn)
                 ->with('total', $total)
                 ->with('total_tnpa_ppn', $total_tnpa_ppn)
@@ -241,6 +258,38 @@ class DeliveryController extends Controller
     }
 
 
+    public function startShip(Request $request, $id)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
+            $request->validate([
+                'no_resi' => 'required',
+                'first_estimate' => 'required',
+                'last_estimate' => 'required',
+            ]);
+
+            $cpo = CategoryPO::find($id);
+            $ppb = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
+
+            DeliveryTrack::create([
+                'po_id'         => $cpo->id,
+                'ppb_id'        => $ppb->id,
+                'status'        => 'Start Shipping',
+                'creator_id'    => Auth::user()->id,
+                'creator_name'  => Auth::user()->name,
+            ]);
+
+            $cpo->no_resi = $request->no_resi;
+            $cpo->first_estimate = $request->first_estimate;
+            $cpo->last_estimate = $request->last_estimate;
+            $cpo->flag_delivery = 1; //Waiting For Delivery
+            $cpo->save();
+            return redirect()->back();
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
     public function deliverystatus(Request $request, $id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
@@ -248,16 +297,92 @@ class DeliveryController extends Controller
             $cpo = CategoryPO::find($id);
             $ppb = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
             DeliveryTrack::create([
-                'po_id'  => $cpo->id,
-                'ppb_id' => $ppb->id,
-                'status' => $request->status,
+                'po_id'         => $cpo->id,
+                'ppb_id'        => $ppb->id,
+                'status'        => $request->status,
+                'creator_id'    => Auth::user()->id,
+                'creator_name'  => Auth::user()->name,
             ]);
+            if($cpo->flag_delivery == 0){
+                $cpo->flag_delivery = 1; //Waiting For Delivery
+                $cpo->save();
+            }
             return redirect()->back();
         }else {
             return redirect()->route('dashboard');
         }
     }
 
+    public function endShip(Request $request, $id)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
+            $cpo = CategoryPO::find($id);
+            $ppb = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
+
+            $request->validate([
+                'path_image' => 'file|mimes:jpg,png,jpeg,gif,svg,pdf,docx|max:2048',
+                'receiver' => 'required',
+            ]);
+
+            DeliveryTrack::create([
+                'po_id'         => $cpo->id,
+                'ppb_id'        => $ppb->id,
+                'status'        => 'Package has arrivved',
+                'creator_id'    => Auth::user()->id,
+                'creator_name'  => Auth::user()->name,
+            ]);
+
+            $cpo->flag_delivery = 2; //Waiting For Delivery
+            $cpo->save();
+
+
+
+            $pengajuan        = $ppb->id;
+            $path_name        = $request->file('path_image');
+            $name             = $path_name->getClientOriginalName();
+            $path_name->move('images', $name);
+            $receiver         = $request->receiver;
+
+
+            // Savings Report Delivery
+            $save = new Delivery;
+            $save->ppb_id     = $pengajuan;
+            $save->po_id      = $cpo->id;
+            $save->path_image = $name;
+            $save->receiver   = $receiver;
+            $save->save();
+
+
+            return redirect()->back();
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
+    //setBackShippy
+
+    public function setBackShippy($id)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
+            $cpo = CategoryPO::find($id);
+            $ppb = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
+
+            DeliveryTrack::create([
+                'po_id'         => $cpo->id,
+                'ppb_id'        => $ppb->id,
+                'status'        => 'The status has been reset to waiting delivery again',
+                'creator_id'    => Auth::user()->id,
+                'creator_name'  => Auth::user()->name,
+            ]);
+
+            $cpo->flag_delivery = 1; //Waiting For Delivery
+            $cpo->save();
+            return redirect()->back();
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
 
     public function store(Request $request, $id )
     {

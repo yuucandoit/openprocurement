@@ -41,13 +41,39 @@
                                 @endphp
                                 <tbody>
                                     @foreach ($data as $a)
-                                        <tr style="text-align: center;">
+                                    @php
+                                        $properties = json_decode($a->properties, true);
+                                    @endphp
+                                        <tr>
                                             <td>{{ $i++ }}</td>
                                             <td>{{ $a->log_name }}</td>
                                             <td>{{ $a->description }}</td>
                                             <td>{{ $a->causer->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($a->created_at)->format('d-M-Y') }}</td>
-                                            <td>{{ $a->properties }}</td>
+                                            <td>
+                                                @if(is_array($properties))
+                                                    @foreach($properties as $key => $value)
+                                                        <!-- Memeriksa apakah nilai adalah array atau null, dan menanganinya dengan benar -->
+                                                        <strong>{{ ucfirst($key) }}:</strong>
+                                                        @if (is_array($value))
+                                                            <ul>
+                                                                @foreach ($value as $subkey => $subvalue)
+                                                                    <li>
+                                                                        {{ ucfirst($subkey) }}: {{ $subvalue }}
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @elseif (is_null($value))
+                                                            <em>Null</em> <!-- Jika value adalah null, tampilkan Null -->
+                                                        @else
+                                                            {{ $value }} <!-- Jika value adalah string atau numerik, tampilkan langsung -->
+                                                        @endif
+                                                        <br>
+                                                    @endforeach
+                                                @else
+                                                    {{ $a->properties }}
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
