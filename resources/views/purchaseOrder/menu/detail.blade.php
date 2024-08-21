@@ -25,8 +25,8 @@
     </div>
 @endif
 <section>
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css"> --}}
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@latest/dist/css/select2.min.css"> --}}
+
+    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@latest/dist/css/select2.min.css" rel="stylesheet" /> --}}
     <style>
         .tutup {
             width: 0;
@@ -239,7 +239,7 @@
                                 }
                             </style>
                             {{-- Modal Finish --}}
-                            <div class="modal fade" id="modalSelesai" tabindex="-1" aria-hidden="true">
+                            <div class="modal fade" id="modalSelesai"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-danger">
@@ -269,7 +269,7 @@
                                 </div>
                             </div>
                             {{-- Modal Create PO --}}
-                            <div class="modal fade" id="modalCreatePO" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+                            <div class="modal fade" id="modalCreatePO"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -612,7 +612,7 @@
                                         </div>
                             </div>
                             {{-- Modal Reject --}}
-                            <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
+                            <div class="modal fade" id="reject"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -647,7 +647,7 @@
                                 </div>
                            </div>
                             {{-- Modal Edit PR --}}
-                            <div class="modal fade" id="EditPR" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editlable" aria-hidden="true">
+                            <div class="modal fade" id="EditPR"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editlable" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -1246,8 +1246,9 @@
 
 </section>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
 {{-- <script src="https://cdn.jsdelivr.net/npm/select2@latest/dist/js/select2.min.js"></script> --}}
+<script src="{{ asset('assets/AutoNumeric/dist/autoNumeric.min.js') }}"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/select2@latest/dist/js/select2.min.js"></script>   --}}
 
 
 <script>
@@ -1427,6 +1428,10 @@
     })
 </script>
 
+
+@endsection
+
+@section('scripts')
 <script type="text/javascript">
     $(document).ready(function() {
         var perusahaanSelect = $('.perusahaan_0');
@@ -1437,7 +1442,7 @@
 
         // Function to check if Select2 is initialized
         function isSelect2Initialized(element) {
-            return element.data('select2') !== undefined;
+            return element.hasClass('select2-hidden-accessible');
         }
 
         // Event listener for pageSelect change
@@ -1464,14 +1469,26 @@
 
             // Show and initialize the selected element with Select2
             if (selectedValue === "company") {
-                perusahaanSelect.removeClass('hide').select2();
+                perusahaanSelect.removeClass('hide').select2({dropdownParent: $('#modalCreatePO')});
             } else if (selectedValue === "privateperson") {
-                privatepersonSelect.removeClass('hide').select2();
+                privatepersonSelect.removeClass('hide').select2({dropdownParent: $('#modalCreatePO')});
             } else if (selectedValue === "ecommerce") {
-                ecommerceSelect.removeClass('hide').select2();
+                ecommerceSelect.removeClass('hide').select2({dropdownParent: $('#modalCreatePO')});
             }
         });
 
+        // Event listeners for select changes
+        perusahaanSelect.on('change', function() {
+            fetchRekeningData('company', $(this).val());
+        });
+
+        privatepersonSelect.on('change', function() {
+            fetchRekeningData('privateperson', $(this).val());
+        });
+
+        ecommerceSelect.on('change', function() {
+            fetchRekeningData('ecommerce', $(this).val());
+        });
 
         // Function to fetch rekening data
         function fetchRekeningData(type, id) {
@@ -1484,7 +1501,6 @@
                     _token: $('meta[name="csrf-token"]').attr('content'),
                 },
                 success: function(response) {
-                    console.log(response);
                     rekeningSelect.empty().append('<option value="" disabled selected hidden>Select Rekening</option>');
                     $.each(response.data, function(index, rekening) {
                         rekeningSelect.append('<option value="' + rekening.id + '| ' + rekening.rel_bank.name + ' ' + rekening.no_rekening + ' ('+ rekening.nama_penerima +')">' + rekening.rel_bank.name + ' ' + rekening.no_rekening + ' ('+ rekening.nama_penerima +')</option>');
@@ -1495,30 +1511,14 @@
                 }
             });
         }
-
-        // Event listeners for select changes
-            perusahaanSelect.on('change', function() {
-                fetchRekeningData('company', $(this).val());
-            });
-
-            privatepersonSelect.on('change', function() {
-                fetchRekeningData('privateperson', $(this).val());
-            });
-
-            ecommerceSelect.on('change', function() {
-                fetchRekeningData('ecommerce', $(this).val());
-            });
     });
 </script>
 
-@endsection
-
-@section('scripts')
 <script>
     var terms = document.querySelector('.terms');
     var pageSelector = document.querySelector('.pageSelector');
     var customInput = document.querySelector('.customInput');
-    $(terms).select2();
+    $(terms).select2({dropdownParent: $('#modalCreatePO')});
 
     $(terms).on('change', function(e) {
         if($(terms).select2("val") == "custom"){
