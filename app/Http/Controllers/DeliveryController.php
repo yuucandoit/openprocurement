@@ -466,9 +466,12 @@ class DeliveryController extends Controller
 
 
             $pengajuan        = $ppb->id;
-            $path_name        = $request->file('path_image');
-            $name             = $path_name->getClientOriginalName();
-            $path_name->move('images', $name);
+
+            if($request->hasFile('path_image')){
+                $path_name        = $request->file('path_image');
+                $name             = $path_name->getClientOriginalName();
+                $path_name->move('images', $name);
+            }
             $receiver         = $request->receiver;
 
 
@@ -476,7 +479,7 @@ class DeliveryController extends Controller
             $save = new Delivery;
             $save->ppb_id     = $pengajuan;
             $save->po_id      = $cpo->id;
-            $save->path_image = $name;
+            $save->path_image = $name ?? '';
             $save->receiver   = $receiver;
             $save->save();
 
@@ -710,7 +713,7 @@ class DeliveryController extends Controller
             if($response->successful()) {
 
             }else {
-                dd($response);
+                
             }
         }
     }
