@@ -1537,7 +1537,7 @@
                                         </div>
                                     </li>
                                     <li class="dropdown">
-                                        <a class="nav-link menu-title {{ request()->is('delivery') ? 'active' : '' }} {{ request()->is('delivery/out') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title {{ request()->is('delivery')  || request()->is('delivery/search/delivery_in*') || request()->is('delivery/search/delivery_out*') ? 'active' : '' }} {{ request()->is('delivery/out') ? 'active' : '' }}"
                                             href="javascript:void(0)">
                                             <i data-feather="truck"></i>
                                             <span>Delivery</span>
@@ -1547,18 +1547,18 @@
                                             <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $delivery }}</span>
                                             @endif
                                         </a>
-                                        @if (request()->is('delivery') || request()->is('delivery/out') ? 'active' : '')
+                                        @if (request()->is('delivery') || request()->is('delivery/out') || request()->is('delivery/search/delivery_in*') || request()->is('delivery/search/delivery_out*') ? 'active' : '')
                                             <ul class="nav-submenu menu-content" style="display: block">
                                                 <li
                                                     class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('delivery') ? 'active' : '' }}"
+                                                    <a class="{{ request()->is('delivery') || request()->is('delivery/search/delivery_in*') ? 'active' : '' }}"
                                                         href="{{ url('/delivery') }}">
                                                         <span>&nbsp;&nbsp;&nbsp;&nbsp;Delivery In</span>
                                                     </a>
                                                 </li>
                                                 <li
                                                     class="dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('delivery/out') ? 'active' : '' }}"
+                                                    <a class="{{ request()->is('delivery/out') || request()->is('delivery/search/delivery_out*') ? 'active' : '' }}"
                                                         href="{{ url('/delivery/out') }}">
                                                         <span>&nbsp;&nbsp;&nbsp;&nbsp;Delivery Out</span>
                                                     </a>
@@ -1660,7 +1660,7 @@
 
                                 @hasrole('super purchase|super admin')
                                     <li class=" dropdown {{ request()->is('/check_po/history') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('check_po/history') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('check_po/history*') ? 'active' : '' }}"
                                             href="{{ route('check_po.history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Check PO</span>
@@ -1681,7 +1681,7 @@
                                 @hasrole('finance|super admin')
                                     <li
                                         class=" dropdowns {{ request()->is('*menu-tasklist-finance*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-tasklist-finance/history') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('menu-tasklist-finance/history*') ? 'active' : '' }}"
                                             href="{{ url('/menu-tasklist-finance/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Finance Task</span>
@@ -1700,8 +1700,8 @@
                                 @endhasrole
 
                                 @hasrole('Logistic Checker|super admin|purchasing|super purchase')
-                                    <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('delivery/history') ? 'active' : '' }}"
+                                    <li class=" dropdown {{ request()->is('*delivery/history*') ? 'active' : '' }} ">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('delivery/history*') ? 'active' : '' }}"
                                             href="{{ url('/delivery/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Delivery</span>
@@ -1711,7 +1711,7 @@
 
                                 @hasrole('super admin|Logistic Checker')
                                     <li class=" dropdown {{ request()->is('*check-logistic/history*') ? 'active' : '' }}">
-                                        <a class="nav-link menu-title link-nav {{ request()->is('check-logistic/history') ? 'active' : '' }}"
+                                        <a class="nav-link menu-title link-nav {{ request()->is('check-logistic/history*') ? 'active' : '' }}"
                                             href="{{ url('/check-logistic/history') }}">
                                             <i data-feather="activity"></i>
                                             <span>History Inventory Check</span>

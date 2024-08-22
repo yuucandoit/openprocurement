@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -97,6 +98,15 @@ class CategoryPO extends Model
     public function deliveryss()
     {
         return $this->hasMany(Delivery::class,'po_id');
+    }
+
+    public function generateTheCode($id,$created_date)
+    {
+        $year = Carbon::parse($created_date)->format('y');
+        $month = Carbon::parse($created_date)->format('m');
+        $po_id = str_pad($id,5,'0', STR_PAD_LEFT);
+        $generatecode = strtoupper($po_id."/PO/SII/".$month."/".$year);
+        return $generatecode;
     }
 
     protected static $logFillable = true;

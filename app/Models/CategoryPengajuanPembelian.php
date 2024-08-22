@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Support\Carbon;
 
 class CategoryPengajuanPembelian extends Model
 {
@@ -132,6 +133,15 @@ class CategoryPengajuanPembelian extends Model
     public function signaturepo()
     {
         return $this->hasMany(POSignature::class,'ppb_id');
+    }
+
+    public function generateTheCode($id,$created_date)
+    {
+        $year = Carbon::parse($created_date)->format('y');
+        $month = Carbon::parse($created_date)->format('m');
+        $ppb_id = str_pad($id,5,'0', STR_PAD_LEFT);
+        $generatecode = strtoupper($ppb_id."/PPB/SII/".$month."/".$year);
+        return $generatecode;
     }
 
     protected static $logFillable = true;

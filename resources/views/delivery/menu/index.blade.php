@@ -410,4 +410,4 @@
 
         initCountdown(datadelivery);
     </script>
-@endsection
+    @endsection

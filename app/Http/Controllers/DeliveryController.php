@@ -36,13 +36,30 @@ class DeliveryController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
 
-            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
-                $i->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');
-            })
-            ->where('status', 'not like', '%Rejected%')
-            ->orderBy('created_at', 'desc')
-            ->orderBy('dateline', 'asc')
-            ->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            if($check->role_id == 20){
+                $datappb = CategoryPengajuanPembelian::select('category_pengajuan_pembelian.*')
+                ->join('category_po as quot', 'quot.ppb_id', '=', 'category_pengajuan_pembelian.id')
+                ->whereIn('quot.status', ['PO & Payment Approved', 'Unpaid', 'Paid'])
+                ->where('quot.status', 'not like', '%Rejected%')
+                ->where('category_pengajuan_pembelian.status', 'not like', '%Rejected%')
+                ->orderByRaw('ISNULL(quot.first_estimate), quot.first_estimate ASC')
+                ->orderBy('category_pengajuan_pembelian.dateline', 'asc')
+                ->orderBy('category_pengajuan_pembelian.approved_at', 'asc')
+                ->groupBy('category_pengajuan_pembelian.id')
+                ->paginate(10, ['*'], 'in');
+                // dd($datappb);
+            }else {
+                $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                    $i->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');
+                })
+                ->where('status', 'not like', '%Rejected%')
+                ->orderBy('created_at', 'desc')
+                ->orderBy('dateline', 'asc')
+                ->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            }
+
+
+
 
             return view('delivery.menu.index')
             ->with('datappb',$datappb);
@@ -54,40 +71,81 @@ class DeliveryController extends Controller
 
     public function SearchDeliveryIn(Request $request)
     {
+
+
+     $check = Role::where('model_id', Auth::user()->id)->first();
      $cari = $request->cariIn;
      //dd($cari);
 
-     $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
-        $query->whereHas('quot', function($q) {
-                $q->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');
-            })
-            ->where('status', 'not like', '%Rejected%')
-            ->where(function($q) use ($cari) {
-                $q->where('id', 'like', "%" . $cari . "%")
-                ->orWhere('status', 'like', "%" . $cari . "%")
-                ->orWhere('desc', 'like', "%" . $cari . "%")
-                ->orWhere('code_pengajuan', 'like', "%" . $cari . "%")
-                ->orWhereHas('whosubmit', function($q) use ($cari) {
-                    $q->where('name', 'like', "%" . $cari . "%");
-                })
-                ->orWhereHas('itemppn', function($q) use ($cari) {
-                    $q->where('item', 'like', "%" . $cari . "%");
-                })
-                ->orWhereHas('quot', function($q) use ($cari) {
-                    $q->where('id', 'like', "%" . $cari . "%")
-                    ->orWhere('code_po', 'like', "%" . $cari . "%")
-                    ->orWhere('status', 'like', "%" . $cari . "%")
-                    ->orWhere('no_resi', 'like', "%" . $cari . "%");
-                });
-            });
-     })
-     ->orderBy('created_at', 'desc')
-     ->orderBy('dateline', 'asc')
-     ->orderBy('approved_at','asc')
-     ->paginate(10, ['*'], 'in');
+        if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
 
-     return view('delivery.menu.index')
-     ->with('datappb',$datappb);
+            if($check->role_id == 20){
+                $datappb = CategoryPengajuanPembelian::select('category_pengajuan_pembelian.*')
+                ->join('category_po as quot', 'quot.ppb_id', '=', 'category_pengajuan_pembelian.id')
+                ->whereIn('quot.status', ['PO & Payment Approved', 'Unpaid', 'Paid'])
+                ->where('quot.status', 'not like', '%Rejected%')
+                ->where('category_pengajuan_pembelian.status', 'not like', '%Rejected%')
+                ->where(function($query) use ($cari) {
+                    $query->where('category_pengajuan_pembelian.id', 'like', "%" . $cari . "%")
+                        ->orWhere('category_pengajuan_pembelian.status', 'like', "%" . $cari . "%")
+                        ->orWhere('category_pengajuan_pembelian.desc', 'like', "%" . $cari . "%")
+                        ->orWhere('category_pengajuan_pembelian.code_pengajuan', 'like', "%" . $cari . "%")
+                        ->orWhereHas('whosubmit', function($query) use ($cari) {
+                            $query->where('name', 'like', "%" . $cari . "%");
+                        })
+                        ->orWhereHas('itemppn', function($query) use ($cari) {
+                            $query->where('item', 'like', "%" . $cari . "%");
+                        })
+                        ->orWhereHas('quot', function($query) use ($cari) {
+                            $query->where('quot.id', 'like', "%" . $cari . "%")
+                                ->orWhere('quot.code_po', 'like', "%" . $cari . "%")
+                                ->orWhere('quot.status', 'like', "%" . $cari . "%")
+                                ->orWhere('quot.no_resi', 'like', "%" . $cari . "%")
+                                ->where('quot.status', 'not like', '%Rejected%');
+                        });
+                })
+                ->orderByRaw('ISNULL(quot.first_estimate), quot.first_estimate ASC')
+                ->orderBy('category_pengajuan_pembelian.dateline', 'asc')
+                ->orderBy('category_pengajuan_pembelian.approved_at', 'asc')
+                ->groupBy('category_pengajuan_pembelian.id')
+                ->paginate(10, ['*'], 'in');
+            }else {
+                $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
+                    $query->whereHas('quot', function($q) {
+                            $q->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');
+                        })
+                        ->where('status', 'not like', '%Rejected%')
+                        ->where(function($q) use ($cari) {
+                            $q->where('id', 'like', "%" . $cari . "%")
+                            ->orWhere('status', 'like', "%" . $cari . "%")
+                            ->orWhere('desc', 'like', "%" . $cari . "%")
+                            ->orWhere('code_pengajuan', 'like', "%" . $cari . "%")
+                            ->orWhereHas('whosubmit', function($q) use ($cari) {
+                                $q->where('name', 'like', "%" . $cari . "%");
+                            })
+                            ->orWhereHas('itemppn', function($q) use ($cari) {
+                                $q->where('item', 'like', "%" . $cari . "%");
+                            })
+                            ->orWhereHas('quot', function($q) use ($cari) {
+                                $q->where('id', 'like', "%" . $cari . "%")
+                                ->orWhere('code_po', 'like', "%" . $cari . "%")
+                                ->orWhere('status', 'like', "%" . $cari . "%")
+                                ->orWhere('no_resi', 'like', "%" . $cari . "%");
+                            });
+                        });
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->orderBy('dateline', 'asc')
+                    ->orderBy('approved_at','asc')
+                    ->paginate(10, ['*'], 'in');
+            }
+
+            return view('delivery.menu.index')
+            ->with('datappb',$datappb);
+        }else {
+            return redirect()->back();
+        }
+
     }
     public function out()
     {
@@ -131,7 +189,35 @@ class DeliveryController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 20 || $check->role_id == 3 || $check->role_id == 4 || $check->role_id == 17) {
-            $datappb = CategoryPengajuanPembelian::where('status','Delivery Success')->paginate(10);
+            // kalau PR Status Belum Delivery Success
+            // Tapi PO nya sudah punya flag 2 atau statusnya sudah delivery sucess maka tampilkan
+            // sisanya yang sudah delivery sucess PRnya tampilin walau POnya masi nyangkut dan diannggap selesai POnya
+
+            $datappb = CategoryPengajuanPembelian::select('category_pengajuan_pembelian.*')
+            ->join('category_po as quot', 'quot.ppb_id', '=', 'category_pengajuan_pembelian.id')
+            ->where('quot.status', 'not like', '%Rejected%')
+            ->where('category_pengajuan_pembelian.status', 'not like', '%Rejected%')
+            ->where(function($query) {
+                // Jika PR belum "Delivery Success" tapi PO sudah punya flag 2 atau status PO sudah "Delivery Success"
+                $query->where(function($q) {
+                    $q->where('category_pengajuan_pembelian.status', '!=', 'Delivery Success')
+                      ->where(function($subQuery) {
+                          $subQuery->where('quot.flag_delivery', 2)
+                                   ->orWhere('quot.status', 'Delivery Success');
+                      });
+                })
+                // Atau PR sudah "Delivery Success", ditampilkan meskipun PO belum selesai
+                ->orWhere('category_pengajuan_pembelian.status', 'Delivery Success');
+            })
+            ->orderByRaw('ISNULL(quot.first_estimate), quot.first_estimate ASC')
+            ->orderBy('category_pengajuan_pembelian.created_at', 'desc')
+            ->orderBy('category_pengajuan_pembelian.dateline', 'asc')
+            ->orderBy('category_pengajuan_pembelian.approved_at', 'asc')
+            ->groupBy('category_pengajuan_pembelian.id')
+            // ->get();
+            ->paginate(10, ['*'], 'in');
+            // dd(json_encode($datappb,JSON_PRETTY_PRINT));
+            // $datappb = CategoryPengajuanPembelian::where('status','Delivery Success')->paginate(10);
             $pt = CategoryPT::all();
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
@@ -151,13 +237,54 @@ class DeliveryController extends Controller
     {
      $cari = $request->cari;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
-     ->orWhere('status','like',"%".$cari."%")
-     ->orWhere('desc','like',"%".$cari."%")
-     ->orWhereHas('whosubmit', function($q) use($cari){
-          $q->where('name','like',"%".$cari."%");
+     $datappb = CategoryPengajuanPembelian::select('category_pengajuan_pembelian.*')
+     ->join('category_po as quot', 'quot.ppb_id', '=', 'category_pengajuan_pembelian.id')
+     ->where('quot.status', 'not like', '%Rejected%')
+     ->where('category_pengajuan_pembelian.status', 'not like', '%Rejected%')
+     ->where(function($query) {
+         // Jika PR belum "Delivery Success" tapi PO sudah punya flag 2 atau status PO sudah "Delivery Success"
+         $query->where(function($q) {
+             $q->where('category_pengajuan_pembelian.status', '!=', 'Delivery Success')
+               ->where(function($subQuery) {
+                   $subQuery->where('quot.flag_delivery', 2)
+                            ->orWhere('quot.status', 'Delivery Success');
+               });
+         })
+         // Atau PR sudah "Delivery Success", ditampilkan meskipun PO belum selesai
+         ->orWhere('category_pengajuan_pembelian.status', 'Delivery Success');
      })
+     ->where(function($search) use($cari) {
+        $search->where('category_pengajuan_pembelian.id', 'like', "%" . $cari . "%")
+            ->orWhere('category_pengajuan_pembelian.status', 'like', "%" . $cari . "%")
+            ->orWhere('category_pengajuan_pembelian.desc', 'like', "%" . $cari . "%")
+            ->orWhere('category_pengajuan_pembelian.code_pengajuan', 'like', "%" . $cari . "%")
+            ->orWhereHas('whosubmit', function($search) use ($cari) {
+                $search->where('name', 'like', "%" . $cari . "%");
+            })
+            ->orWhereHas('itemppn', function($search) use ($cari) {
+                $search->where('item', 'like', "%" . $cari . "%");
+            })
+            ->orWhereHas('quot', function($search) use ($cari) {
+                $search->where('quot.id', 'like', "%" . $cari . "%")
+                    ->orWhere('quot.code_po', 'like', "%" . $cari . "%")
+                    ->orWhere('quot.status', 'like', "%" . $cari . "%")
+                    ->orWhere('quot.no_resi', 'like', "%" . $cari . "%")
+                    ->where('quot.status', 'not like', '%Rejected%');
+            });
+     })
+     ->orderByRaw('ISNULL(quot.first_estimate), quot.first_estimate ASC')
+     ->orderBy('category_pengajuan_pembelian.created_at', 'desc')
+     ->orderBy('category_pengajuan_pembelian.dateline', 'asc')
+     ->orderBy('category_pengajuan_pembelian.approved_at', 'asc')
+     ->groupBy('category_pengajuan_pembelian.id')
      ->paginate(10);
+    //  $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
+    //  ->orWhere('status','like',"%".$cari."%")
+    //  ->orWhere('desc','like',"%".$cari."%")
+    //  ->orWhereHas('whosubmit', function($q) use($cari){
+    //       $q->where('name','like',"%".$cari."%");
+    //  })
+    //  ->paginate(10);
 
      return view('delivery.menu.history')
      ->with('datappb',$datappb);
@@ -600,14 +727,14 @@ class DeliveryController extends Controller
                 'status' => 'Delivery Success'
             ]);
 
-            // $itemPO = ItemPO::where('po_id', $id)->get();
+            $itemPO = ItemPO::where('po_id', $id)->get();
 
-            // foreach($itemPO as $itemp){
-            //     // dd($itemp->product_id);
-            //     if(!empty($itemp->product_id)){
-            //         $this->pushStocky($itemp->product_id, $itemp->qty);
-            //     }
-            // }
+            foreach($itemPO as $itemp){
+                // dd($itemp->product_id);
+                if(!empty($itemp->product_id)){
+                    $this->pushStocky($itemp->product_id, $itemp->qty);
+                }
+            }
 
             if($cpo->id == $lastQuot->id && $pr->status == $cpo->status){
                 $data = CategoryPengajuanPembelian::where('id', $cpo->ppb->id)->update([
