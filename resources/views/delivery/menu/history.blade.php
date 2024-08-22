@@ -4,39 +4,6 @@
 
 @section('main')
     <section>
-        {{-- <div class="modal fade" id="modalSort" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-
-                        <h4 class="modal-title">Sort </h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('delivery.SortHistoryDelivery') }}" method="get" class="input-group" >
-                        <div class="modal-body ">
-                            @php
-                                $i = 1;
-                            @endphp
-                            <h4>Sort by status </h4>
-                            <div class="row">
-                                <div class="col-sm-12" >
-                                    <ul>
-                                        <li>
-                                            <label style="white-space: nowrap; margin-left:auto;"><input {{ request('sort[]') == 'Delivery Success' ? 'checked': '' }} style="margin-left:auto;" name="sort[]" type="checkbox" value="Delivery Success">&nbsp;Delivery Success
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Sort</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div> --}}
         @foreach ($datappb as $ppb)
             <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -155,20 +122,6 @@
                 <div class="card card-absolute">
                     <div class="row">
                         <div class="col-sm-8">
-                            {{-- <div style="margin-bottom:-30px; margin-top:20px; margin-left:30px;">
-                                <label data-bs-toggle="modal" data-bs-target="#modalSort"><i data-feather="filter" style="font-size:20px"></i> Sort</label>
-                                @if(empty($sort))
-
-                                @else
-                                    @foreach ($sort as $s)
-                                        @if(empty($s))
-
-                                        @else
-                                        <a class="badge badge-success" style="font-size: 10; color:white;">{{ $s }}</a>
-                                        @endif
-                                    @endforeach
-                                @endif
-                            </div> --}}
                         </div>
                         <div class="col-sm-4">
                         <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
@@ -189,6 +142,7 @@
                                         <th>Requester</th>
                                         <th>Item</th>
                                         <th>Deadline</th>
+                                        <th>Progress</th>
                                         <th style="text-align: center;">Status</th>
                                     </tr>
                                 </thead>
@@ -234,6 +188,120 @@
                                                             @elseif ($ppb->dateline == '≤336Jam')
                                                             <strong><p>7 sd 14 Hari</p></strong>
                                                             @endif
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td style="white-space: nowrap;">
+                                                    <ul>
+                                                        <li>
+                                                            <p><strong>Purchase&nbsp;:</strong>
+
+                                                            @if ($ppb->status == 'Awaiting Purchase Request Approval')
+                                                            -
+                                                            @elseif ($ppb->status == 'Waiting For PO Approval')
+                                                            <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Process PO</a>
+                                                            @elseif($ppb->status == 'Invoicing Process')
+                                                            <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
+                                                            @elseif ($ppb->status == 'Purchase Request Approved' )
+                                                            <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
+
+                                                            @elseif( $ppb->status == 'Purchase Proses')
+                                                            <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Process PO</a>
+
+                                                            @elseif( $ppb->status == 'Cross Check PO')
+                                                            -
+                                                            @elseif( $ppb->status == 'Rejected From Logistics')
+                                                            -
+
+                                                            @elseif( $ppb->status == 'PO Approved')
+                                                            <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
+
+                                                            @elseif($ppb->status == 'Payment Approved' )
+                                                            <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process</a>
+
+                                                            @elseif ($ppb->status == 'PO & Payment Approved' || $ppb->status == 'Unpaid' || $ppb->status == 'Paid' || $ppb->status == 'Delivery process' || $ppb->status == 'Delivery Success')
+                                                            <a class="badge bg-success mt-1" style="color:white; font-size:8;">Done</a>
+                                                            @endif
+                                                            @if ($ppb->status == 'Rejected by Purchasing')
+                                                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                                                            @endif
+                                                            @if ($ppb->status == 'Purchase Request Rejected By BOD')
+                                                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                                                            @endif
+                                                            @if ($ppb->status == 'PO Rejected by BOD')
+                                                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected PO</a>
+                                                            @endif
+                                                            </p>
+
+                                                        </li>
+                                                        <li>
+                                                            <p><strong>Payment&nbsp; :</strong>
+                                                            @if ($ppb->status == 'Unpaid' || $ppb->status == 'PO & Payment Approved')
+                                                            <a class="badge bg-warning mt-1" style="color: white; font-size:8">Unpaid</a>
+                                                            @elseif ($ppb->status == 'Paid' || $ppb->status == 'Delivery Success' )
+                                                            <a class="badge bg-success mt-1" style="color: white; font-size:8">Done</a>
+                                                            @elseif ($ppb->status == 'Purchase Request Approved' || $ppb->status == 'Purchase Proses'  || $ppb->status == 'Payment Approved' )
+                                                            -
+                                                            @elseif ($ppb->status == 'PO Approved')
+                                                            <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
+                                                            @elseif ($ppb->status == 'Awaiting Purchase Request Approval')
+                                                            -
+                                                            @elseif ($ppb->status == 'Waiting For PO Approval')
+                                                            -
+                                                            @elseif( $ppb->status == 'Rejected From Logistics')
+                                                            -
+                                                            @elseif($ppb->status == 'Invoicing Process')
+                                                            <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >On-Process</a>
+                                                            @elseif ($ppb->status == 'Payment Rejected By BOD')
+                                                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                                                            @elseif ($ppb->status == 'Rejected by Finance')
+                                                            <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                                                            -
+                                                            @elseif ($ppb->status == 'Rejected by Purchasing')
+                                                            -
+                                                            @elseif ($ppb->status == 'Purchase Request Rejected By BOD')
+                                                            -
+                                                            @elseif ($ppb->status == 'Payment Rejected By BOD')
+                                                            -
+                                                            @elseif ($ppb->status == 'PO Rejected by BOD')
+                                                            -
+                                                            @elseif ($ppb->status == 'Rejected by Finance')
+                                                            -
+                                                            @elseif( $ppb->status == 'Cross Check PO')
+                                                            -
+                                                            @endif
+                                                            </p>
+                                                        </li>
+                                                        <li>
+                                                            <p><strong>Delivery&nbsp;&nbsp;&nbsp;:</strong>
+                                                                @if ($ppb->status == 'Paid')
+                                                                <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> On The Way</a>
+                                                                @elseif ($ppb->status == 'Delivery Success')
+                                                                <a class="badge bg-success mt-1" style="color: white; font-size:8">Delivered</a>
+                                                                @elseif ($ppb->status == 'Purchase Request Approved' || $ppb->status == 'Purchase Proses' || $ppb->status == 'PO Approved'  || $ppb->status == 'Payment Approved' )
+                                                                -
+                                                                @elseif ($ppb->status == 'Awaiting Purchase Request Approval' || $ppb->status == 'PO & Payment Approved')
+                                                                -
+                                                                @elseif ($ppb->status == 'Waiting For PO Approval')
+                                                                -
+                                                                @elseif($ppb->status == 'Invoicing Process')
+                                                                -
+                                                                @elseif ($ppb->status == 'Rejected by Purchasing')
+                                                                -
+                                                                @elseif( $ppb->status == 'Rejected From Logistics')
+                                                                -
+                                                                @elseif ($ppb->status == 'Purchase Request Rejected By BOD')
+                                                                -
+                                                                @elseif ($ppb->status == 'Payment Rejected By BOD')
+                                                                -
+                                                                @elseif ($ppb->status == 'PO Rejected by BOD')
+                                                                -
+                                                                @elseif ($ppb->status == 'Rejected by Finance')
+                                                                -
+                                                                @elseif ($ppb->status == 'Cross Check PO')
+                                                                -
+                                                                @endif
+                                                            </p>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -295,6 +363,120 @@
                                                                 {{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}
                                                             </label>
                                                             @endforeach
+                                                        </td>
+                                                        <td>
+                                                            <ul>
+                                                                <li>
+                                                                    <p><strong>Purchase&nbsp;:</strong>
+
+                                                                    @if ($po->status == 'Awaiting Purchase Request Approval')
+                                                                    -
+                                                                    @elseif ($po->status == 'Waiting For PO Approval')
+                                                                    <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Process PO</a>
+                                                                    @elseif($po->status == 'Invoicing Process')
+                                                                    <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
+                                                                    @elseif ($po->status == 'Purchase Request Approved' )
+                                                                    <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
+
+                                                                    @elseif( $po->status == 'Purchase Proses')
+                                                                    <a class="badge bg-warning mt-1" style="color:white; font-size:8;" >Process PO</a>
+
+                                                                    @elseif( $po->status == 'Cross Check PO')
+                                                                    -
+                                                                    @elseif( $po->status == 'Rejected From Logistics')
+                                                                    -
+
+                                                                    @elseif( $po->status == 'PO Approved')
+                                                                    <a class="badge mt-1" style="background-color:#006516; color:white; font-size:8;" >Done</a>
+
+                                                                    @elseif($po->status == 'Payment Approved' )
+                                                                    <a class="badge bg-success mt-1" style="color:white; font-size:8;" >On Process</a>
+
+                                                                    @elseif ($po->status == 'PO & Payment Approved' || $po->status == 'Unpaid' || $po->status == 'Paid' || $po->status == 'Delivery process' || $po->status == 'Delivery Success')
+                                                                    <a class="badge bg-success mt-1" style="color:white; font-size:8;">Done</a>
+                                                                    @endif
+                                                                    @if ($po->status == 'Rejected by Purchasing')
+                                                                    <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                                                                    @endif
+                                                                    @if ($po->status == 'Purchase Request Rejected By BOD')
+                                                                    <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                                                                    @endif
+                                                                    @if ($po->status == 'PO Rejected by BOD')
+                                                                    <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected PO</a>
+                                                                    @endif
+                                                                    </p>
+
+                                                                </li>
+                                                                <li>
+                                                                    <p><strong>Payment&nbsp; :</strong>
+                                                                    @if ($po->status == 'Unpaid' || $po->status == 'PO & Payment Approved')
+                                                                    <a class="badge bg-warning mt-1" style="color: white; font-size:8">Unpaid</a>
+                                                                    @elseif ($po->status == 'Paid' || $po->status == 'Delivery Success' )
+                                                                    <a class="badge bg-success mt-1" style="color: white; font-size:8">Done</a>
+                                                                    @elseif ($po->status == 'Purchase Request Approved' || $po->status == 'Purchase Proses'  || $po->status == 'Payment Approved' )
+                                                                    -
+                                                                    @elseif ($po->status == 'PO Approved')
+                                                                    <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >Waiting</a>
+                                                                    @elseif ($po->status == 'Awaiting Purchase Request Approval')
+                                                                    -
+                                                                    @elseif ($po->status == 'Waiting For PO Approval')
+                                                                    -
+                                                                    @elseif( $po->status == 'Rejected From Logistics')
+                                                                    -
+                                                                    @elseif($po->status == 'Invoicing Process')
+                                                                    <a class="badge mt-1" style="background-color:#FF8C00; color:white; font-size:8;" >On-Process</a>
+                                                                    @elseif ($po->status == 'Payment Rejected By BOD')
+                                                                    <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                                                                    @elseif ($po->status == 'Rejected by Finance')
+                                                                    <a class="badge bg-danger mt-1" style="color: white; font-size:8">Rejected</a>
+                                                                    -
+                                                                    @elseif ($po->status == 'Rejected by Purchasing')
+                                                                    -
+                                                                    @elseif ($po->status == 'Purchase Request Rejected By BOD')
+                                                                    -
+                                                                    @elseif ($po->status == 'Payment Rejected By BOD')
+                                                                    -
+                                                                    @elseif ($po->status == 'PO Rejected by BOD')
+                                                                    -
+                                                                    @elseif ($po->status == 'Rejected by Finance')
+                                                                    -
+                                                                    @elseif( $po->status == 'Cross Check PO')
+                                                                    -
+                                                                    @endif
+                                                                    </p>
+                                                                </li>
+                                                                <li>
+                                                                    <p><strong>Delivery&nbsp;&nbsp;&nbsp;:</strong>
+                                                                        @if ($po->status == 'Paid' || (!empty($po->flag_delivery) && $po->flag_delivery == 1) )
+                                                                        <a class="badge bg-warning mt-1 btn btn-warning" style="color: white; font-size:8"> On The Way</a>
+                                                                        @elseif ($po->status == 'Delivery Success' || (!empty($po->flag_delivery) && $po->flag_delivery == 2))
+                                                                        <a class="badge bg-success mt-1" style="color: white; font-size:8">Delivered</a>
+                                                                        @elseif ($po->status == 'Purchase Request Approved' || $po->status == 'Purchase Proses' || $po->status == 'PO Approved'  || $po->status == 'Payment Approved' )
+                                                                        -
+                                                                        @elseif ($po->status == 'Awaiting Purchase Request Approval' || $po->status == 'PO & Payment Approved')
+                                                                        -
+                                                                        @elseif ($po->status == 'Waiting For PO Approval')
+                                                                        -
+                                                                        @elseif($po->status == 'Invoicing Process')
+                                                                        -
+                                                                        @elseif ($po->status == 'Rejected by Purchasing')
+                                                                        -
+                                                                        @elseif( $po->status == 'Rejected From Logistics')
+                                                                        -
+                                                                        @elseif ($po->status == 'Purchase Request Rejected By BOD')
+                                                                        -
+                                                                        @elseif ($po->status == 'Payment Rejected By BOD')
+                                                                        -
+                                                                        @elseif ($po->status == 'PO Rejected by BOD')
+                                                                        -
+                                                                        @elseif ($po->status == 'Rejected by Finance')
+                                                                        -
+                                                                        @elseif ($po->status == 'Cross Check PO')
+                                                                        -
+                                                                        @endif
+                                                                    </p>
+                                                                </li>
+                                                            </ul>
                                                         </td>
                                                         <td  class="text-center">
                                                             <a class="badge bg-secondary mt-1"
