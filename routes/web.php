@@ -294,6 +294,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/delete/{id}',[PrePrController::class, 'destroy'])->name('prepr.delete');
         Route::get('/export/{id}',[PrePrController::class, 'exportPrePR'])->name('prepr.export');
         Route::post('/import',[PrePrController::class, 'importPrePR'])->name('prepr.import');
+        Route::post('/add-pr-item',[PrePrController::class, 'addItemPR'])->name('prepr.addItemPR');
     });
 
     //PrePRComment
