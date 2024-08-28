@@ -59,13 +59,66 @@ class PrePrController extends Controller
                 });
             }])->find($id);
 
+            $uom  = Uom::all();
+
             return view('PrePR.detail')
-            ->with('pre_pr', $pre_pr);
+            ->with('pre_pr', $pre_pr)
+            ->with('uom', $uom);
 
         }else {
             return redirect()->route('dashboard');
         }
 
+    }
+
+
+    public function addItemPR(Request $request)
+    {
+        $data = $request->all();
+        foreach ($data['item'] as $item => $value) {
+            $file = null;
+            if($path = $request->file('path_file')[$item] ?? null) {
+                $file = $path->getClientOriginalName();
+                $path->move(public_path('upload_pengajuan'), $file);
+            }
+            $preprItems2 = PartItem_Pre_pr::find($data['item'][$item]);
+            if($preprItems2){
+                if($preprItems2->total < $data['qty'][$item]){
+                    Session::flashInput($request->input());
+                    return redirect()->back()->with('error','Request qty > prepr total');
+                }
+                $preprItems2->total -= $data['qty'][$item];
+                $preprItems2->save();
+            }
+
+            // Update or create logic
+            $pengajuan = PengajuanPembelian::where('pp_id', $request->pr)
+                                            ->where('item', $preprItems2->child_item ?? $data['item'][$item])
+                                            ->where('prepr_id',$preprItems2->id)
+                                            ->first();
+
+            if ($pengajuan) {
+                // If the item already exists, update it by adding the new qty to the existing qty
+                $pengajuan->qty += $data['qty'][$item];
+                $pengajuan->kategori = $data['kategori'][$item];
+                $pengajuan->path_file = $file ?? $pengajuan->path_file;
+                $pengajuan->save();
+            } else {
+                // If the item doesn't exist, create a new entry
+                $data2 = array(
+                    'pp_id'             => $request->pr,
+                    'product_id'        => $preprItems2->product_id ?? null,
+                    'prepr_id'          => $preprItems2->id ?? null,
+                    'item'              => $preprItems2->child_item ?? $data['item'][$item] ?? '-',
+                    'qty'               => $data['qty'][$item],
+                    'kategori'          => $data['kategori'][$item],
+                    'path_file'         => $file,
+                );
+                PengajuanPembelian::create($data2);
+            }
+        }
+
+        return redirect()->back()->with('sucess','Succesfull adding Item to PR');
     }
 
     /**
@@ -101,7 +154,7 @@ class PrePrController extends Controller
         ->with('pre_pr', $pre_pr);
     }
 
-//Generate Token Gerry
+    //Generate Token Gerry
     private function getToken()
     {
         $loginServiceUrl = env('LOGIN_SERVICE_URL');
@@ -116,11 +169,12 @@ class PrePrController extends Controller
                 $token = $response['token'];
                 // dd($response);
                 Session::put('token', $token);
+                return $token;
             }
         }
     }
 
-//Check Token US
+    //Check Token US
     private function CheckToken($token)
     {
         if($token){
@@ -133,17 +187,23 @@ class PrePrController extends Controller
                 return true;
             }else {
                 return false;
+                $this->getToken();
             }
         }
     }
 
-//Get Product From Stocky
+    //Get Product From Stocky
     private function getProducts($bearer)
     {
         // dd($bearer);
+        if($bearer){
+            $token = $bearer;
+        }else {
+            $token = $this->getToken();
+        }
         $url = env('URL_STOCKY').'/get_products_api';
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer '. $bearer,
+            'Authorization' => 'Bearer '. $token,
         ])->get($url);
         // dd($response);
 
@@ -165,11 +225,11 @@ class PrePrController extends Controller
 
         // $checking = $this->CheckToken($tokenGerry);
 
-        // dd($checking);
+        // // dd($checking);
         // $items= [];
 
         // if(!$checking){
-        //     $this->getToken();
+        //     $products =   $this->getProducts($tokenGerry);
         // }else {
         //   $products =   $this->getProducts($tokenGerry);
         // }
@@ -211,11 +271,22 @@ class PrePrController extends Controller
             $buffer =  $data['buffer'][$item];
             $total = $qty + $buffer;
 
-            // list($id, $name) = explode(':', $data['item'][$item]);
+            // list($id, $name, $type) = explode(':', $data['item'][$item]);
+            // $product_type = '';
+            // $is_check = 0;
+            // if($type == 'is_single'){
+            //     $product_type = 'Product';
+            //     $is_check = 1;
+            // }else if($type == 'is_service'){
+            //     $product_type = 'Non Product';
+            //     $is_check = 0;
+            // }
 
             $data2 = array(
                 'pre_pr_id'         => $pre_pr->id,
                 'product_id'        => $id ?? null,
+                // 'is_check'          => $is_check ?? 0,
+                // 'type_product'      => $product_type ?? null,
                 'child_item'        => $name ?? $data['item'][$item] ,
                 'desc'              => $data['desc'][$item],
                 'link'              => $data['link'][$item],
@@ -258,9 +329,25 @@ class PrePrController extends Controller
             });
         }])->find($id);
         $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
+
+        // $tokenGerry = Session::get('token');
+
+        // $checking = $this->CheckToken($tokenGerry);
+
+        // // dd($checking);
+        // $items= [];
+
+        // if(!$checking){
+        //     $products =   $this->getProducts($tokenGerry);
+        // }else {
+        //   $products =   $this->getProducts($tokenGerry);
+        // }
+
+
         return view('PrePR.edit')
         ->with('purpose',$purpose)
         ->with('pre_pr', $pre_pr);
+        // ->with('products', $products);
     }
 
     /**
@@ -274,16 +361,33 @@ class PrePrController extends Controller
     {
         $data = $request->all();
 
+        // dd($data);
         $pre_pr = Pre_pr::where('id',$id)->update([
             'user_id' =>  Auth::user()->id,
             'due_date'=> $request->due_date
         ]);
+
+        $itemNamesInRequest = [];
 
         foreach ($data['item'] as $item => $value) {
             $qty = $data['qty'][$item];
             $buffer =  $data['buffer'][$item];
             $purchased = $data['purchased'][$item] ?? 0;
             $total = $qty + $buffer - $purchased;
+            // If the item is in the format "id:name:type", split it to get the name
+            if (strpos($value, ':') !== false) {
+                list($idItem, $name, $type) = explode(':', $value);
+            } else {
+                $name = $value;
+            }
+
+            // Keep track of the item names to prevent deletion later
+            $itemNamesInRequest[] = $name;
+
+
+
+            $record = PartItem_Pre_pr::firstOrNew(['pre_pr_id' => $id, 'child_item' => $value]);
+
 
             $data2 = array(
                 'child_item'        => $data['item'][$item],
@@ -295,11 +399,28 @@ class PrePrController extends Controller
                 'total'             => $total,
                 'creator_id'        => null,
                 'creator_name'      => null,
+                // 'product_type'      => '',
+                // 'is_check'          => 0,
             );
-            $record = PartItem_Pre_pr::firstOrNew(['pre_pr_id' => $id, 'child_item' => $value]);
 
-            // Set creator fields only if the record is new
+            // Add new data if they not exist on database
             if (!$record->exists) {
+                // list($idItem, $name, $type) = explode(':', $data['item'][$item]);
+                // $product_type = '';
+                // $is_check = 0;
+                // if($type == 'is_single'){
+                //     $product_type = 'Product';
+                //     $is_check = 1;
+                // }else if($type == 'is_service'){
+                //     $product_type = 'Non Product';
+                //     $is_check = 0;
+                // }
+
+                // $record->pre_pr_id = $id;
+                // $record->product_id = $idItem;
+                // $record->child_item = $name;
+                // $record->type_product = $product_type;
+                // $record->is_check = $is_check;
                 $record->creator_id = Auth::user()->id;
                 $record->creator_name = Auth::user()->name;
             }
@@ -316,7 +437,7 @@ class PrePrController extends Controller
         }
 
         $itemsToDelete = PartItem_Pre_pr::where('pre_pr_id', $id)
-        ->whereNotIn('child_item', $data['item'])
+        ->whereNotIn('child_item', $itemNamesInRequest)
         ->get();
 
         $itemsToDelete->each(function ($item) {
@@ -366,6 +487,19 @@ class PrePrController extends Controller
 
     public function check_logistic()
     {
+        // $preprItem = Pre_pr::whereDoesntHave('partItem', function ($query) {
+        //     $query->where('status', 'Rejected From Logistics'); // Sesuaikan dengan nama kolom yang tepat untuk status
+        // })
+        // ->whereHas('partItem', function($p) {
+        //     $p->where('is_check', 1);
+        // })
+        // ->withCount(['partItem' => function ($query) {
+        //     $query->where('is_check', 1);
+        // }])
+        // ->paginate(10);
+        // return view('check_logistic.index')
+        // ->with('preprItem', $preprItem);
+
         $pengajuan = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)
         ->orderBy('status', 'desc')->orderBy('dateline', 'asc')
         ->with('itemppn')
@@ -377,6 +511,16 @@ class PrePrController extends Controller
 
     public function history_check_logistic()
     {
+        // $preprItem = Pre_pr::whereHas('partItem', function($p) {
+        //     $p->where('is_check', 0);
+        // })
+        // ->withCount(['partItem' => function ($query) {
+        //     $query->where('is_check', 0);
+        // }])
+        // ->paginate(10);
+        // return view('check_logistic.history')
+        // ->with('preprItem', $preprItem);
+
         $pengajuan = CategoryPengajuanPembelian::whereNot('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 0)->where('purpose_type', ReferensiNamaProject::class)
         ->orderBy('id', 'desc')
         ->with('itemppn')
@@ -387,6 +531,34 @@ class PrePrController extends Controller
 
     public function SearchHistoryCheckLogistic(Request $request)
     {
+        // $cari = $request->cariIn;
+        // //dd($cari);
+        // $preprItem = Pre_Pr::where(function($query) use ($cari) {
+        //     $query->where('id', 'like', "%" . $cari . "%")
+        //           ->orWhereHas('partItem', function($q) use ($cari) {
+        //               $q->where('child_item', 'like', "%" . $cari . "%")
+        //                 ->orWhere('qty', 'like', "%" . $cari . "%")
+        //                 ->orWhere('buffer', 'like', "%" . $cari . "%")
+        //                 ->orWhere('desc', 'like', "%" . $cari . "%")
+        //                 ->orWhere('creator_name', 'like', "%" . $cari . "%")
+        //                 ->orWhere('status', 'like', "%" . $cari . "%");
+        //           })
+        //           ->orWhereHas('project', function($p) use ($cari) {
+        //               $p->where('name', 'like', "%" . $cari . "%");
+        //           })
+        //           ->orWhere('due_date', 'like', "%" . $cari . "%");
+        // })
+        // ->whereHas('partItem', function($p) {
+        //     $p->where('is_check', 0);
+        // })
+        // ->withCount(['partItem' => function ($query) {
+        //     $query->where('is_check', 0);
+        // }])
+        // ->paginate(10);
+
+        // return view('check_logistic.history')
+        // ->with('preprItem', $preprItem);
+
         $cariIn = $request->cariIn;
         //dd($cari);
         $pengajuan = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)
@@ -484,6 +656,37 @@ class PrePrController extends Controller
 
     public function search_check_logistic(Request $request)
     {
+        // $cari = $request->cariIn;
+        // //dd($cari);
+        // $preprItem = Pre_Pr::whereDoesntHave('partItem', function ($query) {
+        //     $query->where('status', 'Rejected From Logistics');
+        // })
+        // ->where(function($query) use ($cari) {
+        //     $query->where('id', 'like', "%" . $cari . "%")
+        //           ->orWhereHas('partItem', function($q) use ($cari) {
+        //               $q->where('child_item', 'like', "%" . $cari . "%")
+        //                 ->orWhere('qty', 'like', "%" . $cari . "%")
+        //                 ->orWhere('buffer', 'like', "%" . $cari . "%")
+        //                 ->orWhere('desc', 'like', "%" . $cari . "%")
+        //                 ->orWhere('creator_name', 'like', "%" . $cari . "%")
+        //                 ->orWhere('status', 'like', "%" . $cari . "%");
+        //           })
+        //           ->orWhereHas('project', function($p) use ($cari) {
+        //               $p->where('name', 'like', "%" . $cari . "%");
+        //           })
+        //           ->orWhere('due_date', 'like', "%" . $cari . "%");
+        // })
+        // ->whereHas('partItem', function($p) {
+        //     $p->where('is_check', 1);
+        // })
+        // ->withCount(['partItem' => function ($query) {
+        //     $query->where('is_check', 1);
+        // }])
+        // ->paginate(10);
+
+        // return view('check_logistic.index')
+        // ->with('preprItem', $preprItem);
+
         $cariIn = $request->cariIn;
         //dd($cari);
         $pengajuan = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)
@@ -501,6 +704,9 @@ class PrePrController extends Controller
 
     public function detail_check_logistic($id)
     {
+        // $preprItem = Pre_pr::find($id);
+        // return view('check_logistic.detail')
+        // ->with('preprItem',$preprItem);
         $pengajuan = CategoryPengajuanPembelian::find($id);
         $comments  = Comment::where('ppb_id',$id)->get();
         return view('check_logistic.detail')
@@ -511,6 +717,16 @@ class PrePrController extends Controller
 
     public function approve_check_logistic(Request $request,$id)
     {
+        // $check = Role::where('model_id', Auth::user()->id)->first();
+        // if ($check->role_id == 20 || $check->role_id == 3) {
+        //     $data = PartItem_Pre_pr::find($id);
+        //     $data->is_check = 0;
+        //     $data->notes = $request->notes;
+        //     $data->save();
+
+        //     return redirect()->back()->with('message','Success Approved');
+        // }
+
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 20) {
             $data = CategoryPengajuanPembelian::find($id);
@@ -526,7 +742,14 @@ class PrePrController extends Controller
     {
         // dd($request);
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 20) {
+        if ($check->role_id == 20 || $check->role_id == 3) {
+            // $ids = explode(',', $request->ids);
+            // $data = PartItem_Pre_pr::whereIn('id',$ids)->get();
+            // foreach($data as $d) {
+            //     $d->is_check = 0;
+            //     $d->save();
+            // }
+            // return redirect()->route('logistic.index')->with('message','Success Approved');
             $ids = explode(',', $request->ids);
             $data = CategoryPengajuanPembelian::whereIn('id',$ids)->get();
             foreach($data as $d) {
@@ -541,7 +764,12 @@ class PrePrController extends Controller
     {
         // dd($request);
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 20) {
+        if ($check->role_id == 20 || $check->role_id == 3) {
+            // $data = PartItem_Pre_pr::find($id);
+            // $data->is_check = 1;
+            // $data->status = 'Rejected From Logistics';
+            // $data->notes = $request->notes;
+            // $data->save();
             $data = CategoryPengajuanPembelian::find($id);
 
             foreach ($data->itemppn as $item => $value) {
@@ -581,7 +809,7 @@ class PrePrController extends Controller
     public function reject_check_logistic_selected(Request $request)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 20) {
+        if ($check->role_id == 20 || $check->role_id == 3) {
             $ids = explode(',', $request->ids);
             $data = CategoryPengajuanPembelian::whereIn($ids)->get();
             foreach($data as $d) {

@@ -45,7 +45,6 @@ class Pre_pr extends Model
     {
         return LogOptions::defaults()
         ->logOnly(['id',
-        'id',
         'user_id',
         'project_id',
         'deleted_at'
