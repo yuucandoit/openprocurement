@@ -185,7 +185,7 @@
                                             @foreach ($pre_pr->partItem as $p)
                                                 <tr class="part-item-row" data-child-item="{{ $p->child_item }}" data-has-comments="{{ $p->comments->isNotEmpty() ? 'true' : 'false' }}">
                                                     @if(Auth::user()->roles->pluck('name')[0] != 'purchasing')
-                                                    <td><input type="checkbox" class="child-cb" value="{{ $p->id }}" {{ $p->status == 'Rejected From Logistics' || $p->is_check == 1 ? 'disabled' : '' }}></td>
+                                                    <td><input type="checkbox" class="child-cb" value="{{ $p->id }}" {{ $p->status == 'Rejected From Logistics' || $p->is_check == 1 || $p->total == 0 ? 'disabled' : '' }}></td>
                                                     @endif
                                                     <td style="text-align: center;">{!! nl2br($p->child_item) !!}</td>
                                                     <td style="text-align: center;">{{ $p->qty }}</td>
