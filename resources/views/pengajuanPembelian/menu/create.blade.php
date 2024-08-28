@@ -526,7 +526,7 @@
                                     </button>
                                 </div>
                                 <br>
-                                <div class="modal-footer">
+                               <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary btn_add mt-3" id="submitBtn">Submit</button>
                                     <a href="{{ route('menu-pengajuan-pembelian.index') }}" class="btn btn-dark mt-3">Back</a>
                                 </div>
@@ -677,12 +677,12 @@
                 let result = data.data.part_item;
 
                 result.forEach(function(item) {
-                    if(item.is_check == 0){
+                    //if(item.is_check == 0){
                         var option = document.createElement('option');
                         option.value = item.id;
                         option.textContent = item.child_item;
                         selectElement.appendChild(option);
-                    }
+                    //}
                 });
             }
         }
@@ -692,11 +692,11 @@
             let result = data.data.part_item;
 
             result.forEach(function(item) {
-                if(item.is_check == 0){
+                //if(item.is_check == 0){
                 options += `<option value="${item.id}">${item.child_item}</option>`;
-                } else {
+                //} else {
 
-                }
+                //}
             });
 
             return options;
