@@ -3,7 +3,104 @@
 @extends('layouts.master')
 
 @section('main')
+
     <section>
+        <div class="modal fade" id="modalAddItemPR" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header bg-secondary">
+                  <h2 class="modal-title" style="color: white">Add Pr Item</h2>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+                </div>
+                <form action="{{ url('/pre-pr/add-pr-item') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        @php
+                            $prs = \App\Models\CategoryPengajuanPembelian::where('purpose_type', App\Models\ReferensiNamaProject::class)
+                            ->where('purpose_id', $pre_pr->project->id) // Ganti '123' dengan ID yang ingin dicari
+                            ->where('status','Awaiting Purchase Request Approval')
+                            ->get();
+                        @endphp
+                        <div class="form-group">
+                            <label for="">PR</label>
+                            <select name="pr" id="" class="pr js-example-basic-single">
+                                @foreach ($prs as $pr)
+                                <option value="{{ $pr->id }}">{{ $pr->code_pengajuan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                    <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                        No</th>
+                                    <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                        Item</th>
+                                    <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                        Qty</th>
+                                    <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                        Unit</th>
+                                    <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                        File</th>
+                                    <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                        Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dynamicTable">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <select name="item[]" id="" class="pr js-example-basic-single">
+                                                @foreach ($pre_pr->partItem as $item)
+                                                    {{-- Jika Barang ada status rejected from logistic maka jangan tampilkan apa apa.. --}}
+                                                    @if($item->status == 'Rejected From Logistics')
+
+                                                    @else
+                                                    <option value="{{ $item->id }}">{{ $item->child_item }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="width: 60px;" required/>
+                                        </td>
+                                        <td>
+                                            <select class="form-select " placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
+                                                @foreach ($uom as $u)
+                                                    <option value="{{ $u->name }}">{{ $u->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                                            @error('path_file')
+                                            <div class='mt-1'>
+                                                <span class="text-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            </div>
+                                            @enderror
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button type="button" name="add" id="addRow" class="btn btn-success">
+                                                <i class="icofont icofont-ui-add"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+        </div>
+
         <style>
             .AllComment {
                 box-sizing: border-box;
@@ -37,6 +134,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Created By</td>
+                                            {{-- {{ dd(Auth::user()->roles->pluck('name')[0] ?? '-') }} --}}
                                             <td>{{ $pre_pr->user->name }}</td>
                                         </tr>
                                         <tr>
@@ -56,10 +154,20 @@
                                     </tbody>
                                 </table>
 
-                                <div class="order-history table-responsive wishlist">
+                                <div class="mt-4">
+                                    <div class="input-group">
+                                        <input class="form-control" id="search-input" type="text" placeholder="search item">
+                                        <button class="btn btn-disabled" style=" background-color: rgb(164, 164, 164); color:white;" disabled><i class="icon-search"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="order-history table-responsive wishlist prepritems">
                                     <table class="table table-bordered mt-4 mb-4">
                                         <thead>
                                             <tr class="text-center" style="font-size: 17; font-weight: bold;">
+                                                @if(Auth::user()->roles->pluck('name')[0] != 'purchasing')
+                                                <th><input type="checkbox" id="head-cb"></th>
+                                                @endif
                                                 <th>Item</th>
                                                 <th>Qty</th>
                                                 <th>Buffer</th>
@@ -69,12 +177,16 @@
                                                 <th>Description</th>
                                                 <th>Link</th>
                                                 <th>Creator</th>
+                                                {{-- <th>Status</th> --}}
                                                 <th>Comment</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="part-item-table">
                                             @foreach ($pre_pr->partItem as $p)
-                                                <tr class="part-item-row" data-has-comments="{{ $p->comments->isNotEmpty() ? 'true' : 'false' }}">
+                                                <tr class="part-item-row" data-child-item="{{ $p->child_item }}" data-has-comments="{{ $p->comments->isNotEmpty() ? 'true' : 'false' }}">
+                                                    @if(Auth::user()->roles->pluck('name')[0] != 'purchasing')
+                                                    <td><input type="checkbox" class="child-cb" value="{{ $p->id }}" {{ $p->status == 'Rejected From Logistics' || $p->is_check == 1 ? 'disabled' : '' }}></td>
+                                                    @endif
                                                     <td style="text-align: center;">{!! nl2br($p->child_item) !!}</td>
                                                     <td style="text-align: center;">{{ $p->qty }}</td>
                                                     <td style="text-align: center;">{{ $p->buffer }}</td>
@@ -85,22 +197,29 @@
                                                             @if($p->prItems)
                                                                 @foreach ($p->prItems as $pr)
                                                                     @if($pr->ppb)
-                                                                    <a target="_blank" href="{{ route('menu-pengajuan-pembelian.detail',$pr->ppb->id) }}">
+                                                                    <a target="_blank" href="{{ route('menu-pengajuan-pembelian.detail', $pr->ppb->id) }}">
                                                                         <li>PR {{ $pr->ppb->code_pengajuan }} : (-{{ $pr->qty }})</li>
                                                                     </a>
-                                                                    @else
-
                                                                     @endif
                                                                 @endforeach
-                                                            @else
-
                                                             @endif
                                                         </ul>
                                                     </td>
-
                                                     <td style="text-align: center;">{{ $p->desc }}</td>
-                                                    <td style="text-align: center;"><a  target="_blank" href="{!! $p->link !!}">{{ $p->link }}</a></td>
-                                                    <td style="text-align: center;">{{ $p->creator->name ?? $p->creator_name  ?? '-' }}</td>
+                                                    <td style="text-align: center;"><a target="_blank" href="{!! $p->link !!}">{{ $p->link }}</a></td>
+                                                    <td style="text-align: center;">{{ $p->creator->name ?? $p->creator_name ?? '-' }}</td>
+                                                    {{-- <td style="text-align: center;">
+                                                        @if($p->is_check == 1)
+                                                            @if($p->status == 'Rejected From Logistics')
+                                                            <a class="badge bg-danger mt-1"style="color: white; font-size:12">{{ $p->status }}</a>
+                                                            <a class="badge bg-secondary mt-1"style="color: white; font-size:12">{{ $p->notes ?? '' }}</a>
+                                                            @else
+                                                            <a class="badge bg-warning mt-1" style="color: white; font-size:12">Waiting Approval Inventory Check</a>
+                                                            @endif
+                                                        @else
+                                                        <a class="badge mt-1" style="background-color:green; color: white; font-size:12">Ready</a>
+                                                        @endif
+                                                    </td> --}}
                                                     <td style="text-align: center; white-space:nowrap;">
                                                         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalSeeComment{{ $p->id }}" onclick="markAsRead({{ $p->id }}, {{ $p->comments }})">
                                                             See
@@ -112,12 +231,10 @@
                                                                     <span class="badge rounded-pill badge-danger">{{ $unreadCount }}</span>
                                                                 @endif
                                                             @endif
-
                                                         </button>
                                                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddComment{{ $p->id }}">Add</button>
                                                     </td>
                                                 </tr>
-
                                                 <div class="modal fade" id="modalAddComment{{ $p->id }}" tabindex="-1" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                       <div class="modal-content">
@@ -189,16 +306,18 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                </div>
+                                <hr>
+                                <div class="button" style="float: right;">
+                                    @if(Auth::user()->roles->pluck('name')[0] != 'purchasing')
+                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalAddItemPR">Add Item PR</button>
+                                    <button type="button" id="button-generate-selected" disabled class="btn btn-danger" onclick="generatePR()">Generate PR</button>
+                                    @endif
+                                    <a href="{{ route('prepr.export',$pre_pr->id) }}"
+                                        class="btn btn-success" style="align-self: flex-end;" target="_blank"> Export to Excel</a>
 
-                                    <hr>
-                                    <div class="button" style="float: right;">
-                                        <a href="{{ route('prepr.export',$pre_pr->id) }}"
-                                            class="btn btn-success" style="align-self: flex-end;" target="_blank"> Export to Excel</a>
-
-                                        <a type="reset" class="btn btn-dark"
-                                            href="{{ url('pre-pr/') }}">Back</a>
-                                    </div>
-                                   <!-- Container-fluid Ends-->
+                                    <a type="reset" class="btn btn-dark"
+                                        href="{{ url('pre-pr/') }}">Back</a>
                                 </div>
                             </div>
                         </div>
@@ -226,6 +345,7 @@
         });
     }
 </script>
+
 <script>
     function markAsRead(itemId, comments) {
         comments.forEach(comment => {
@@ -258,5 +378,167 @@
         });
         });
     }
-    </script>
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search-input');
+        const tableBody = document.getElementById('part-item-table');
+        const rows = tableBody.getElementsByClassName('part-item-row');
+
+        // Event listener untuk pencarian
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.toLowerCase();
+
+            Array.from(rows).forEach(row => {
+                const childItem = row.dataset.childItem.toLowerCase();
+
+                if (childItem.includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+@endsection
+
+@section('scripts')
+
+<script>
+    $(document).ready(function() {
+        //Checkbox Check All
+        $("#head-cb").on('click', function() {
+            var isChecked = $('#head-cb').prop('checked');
+
+            $(".child-cb").each(function() {
+                if (!$(this).prop('disabled')) {  // Only check if not disabled
+                    $(this).prop('checked', isChecked);
+                }
+            });
+
+            // Enable or disable the button based on checkboxes that are not disabled
+            let hasChecked = $(".child-cb:checked").not(':disabled').length > 0;
+            $("#button-generate-selected").prop('disabled', !hasChecked);
+        });
+
+        $(".prepritems").on('click', '.child-cb', function() {
+            if (!$(this).prop('checked')) {
+                $("#head-cb").prop('checked', false);
+            }
+
+            // Enable or disable the button based on checkboxes that are not disabled
+            let hasChecked = $(".child-cb:checked").not(':disabled').length > 0;
+            $("#button-generate-selected").prop('disabled', !hasChecked);
+        });
+
+        function generatePR() {
+            let checkbox_terpilih = $(".prepritems .child-cb:checked").not(':disabled');
+            let semua_id = [];
+            $.each(checkbox_terpilih, function(index, elm) {
+                semua_id.push(elm.value);
+            });
+            let ids = semua_id.join(',');
+
+            // Get project value from Blade
+            let project = "{{ $pre_pr->project->id }}";
+
+            // Form the URL and redirect
+            let url = `/menu-pengajuan-pembelian/create?project=${encodeURIComponent(project)}&items=${ids}`;
+            window.location.href = url;
+        }
+
+        // Generate PR button event listener
+        $("#button-generate-selected").on('click', generatePR);
+    });
+
+</script>
+{{-- <script>
+    $(document).ready(function() {
+        //Checkbox Cek All
+        $("#head-cb").on('click', function() {
+            var isChecked = $('#head-cb').prop('checked');
+            $(".child-cb").prop('checked', isChecked);
+            $("#button-generate-selected").prop('disabled', !isChecked);
+        });
+
+        $(".prepritems").on('click', '.child-cb', function() {
+            if (!$(this).prop('checked')) {
+                $("#head-cb").prop('checked', false);
+            }
+            let semua_checkbox = $(".prepritems .child-cb:checked");
+            let button_approve_selected = (semua_checkbox.length > 0);
+
+            $("#button-generate-selected").prop('disabled', !button_approve_selected);
+        });
+
+        function generatePR() {
+            let checkbox_terpilih = $(".prepritems .child-cb:checked");
+            let semua_id = [];
+            $.each(checkbox_terpilih, function(index, elm) {
+                semua_id.push(elm.value);
+            });
+            let ids = semua_id.join(',');
+
+            // Dapatkan nilai project dari elemen Blade
+            let project = "{{ $pre_pr->project->id }}";
+
+            // Bentuk URL dan redirect
+            let url = `/menu-pengajuan-pembelian/create?project=${encodeURIComponent(project)}&items=${ids}`;
+            window.location.href = url;
+        }
+
+        // Tombol generate PR event listener
+        $("#button-generate-selected").on('click', generatePR);
+    });
+
+</script> --}}
+
+<script>
+    $(document).ready(function () {
+    let i = 1; // Counter untuk row ID
+
+    $('#addRow').click(function () {
+        i++;
+        let newRow = `
+            <tr>
+                <td>${i}</td>
+                <td>
+                    <select name="item[]" id="" class="pr js-example-basic-single">
+                        @foreach ($pre_pr->partItem as $item)
+                        <option value="{{ $item->id }}">{{ $item->child_item }}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
+                    <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="width: 60px;" required/>
+                </td>
+                <td>
+                    <select class="form-select " placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
+                        @foreach ($uom as $u)
+                            <option value="{{ $u->name }}">{{ $u->name }}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
+                    <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                </td>
+                <td style="text-align: center;">
+                    <button type="button" name="add" class="btn btn-danger remove-input-field">
+                        <i class="icofont icofont-ui-close"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+
+        $('#dynamicTable').append(newRow);
+        $('#dynamicTable .js-example-basic-single').select2();
+    });
+
+    $(document).on('click', '.remove-input-field', function () {
+        $(this).closest('tr').remove();
+    });
+});
+</script>
 @endsection
