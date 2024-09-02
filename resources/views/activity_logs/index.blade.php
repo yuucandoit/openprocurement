@@ -53,25 +53,34 @@
                                             <td>
                                                 @if(is_array($properties))
                                                     @foreach($properties as $key => $value)
-                                                        <!-- Memeriksa apakah nilai adalah array atau null, dan menanganinya dengan benar -->
                                                         <strong>{{ ucfirst($key) }}:</strong>
                                                         @if (is_array($value))
                                                             <ul>
                                                                 @foreach ($value as $subkey => $subvalue)
                                                                     <li>
-                                                                        {{ ucfirst($subkey) }}: {{ $subvalue }}
+                                                                        @if (is_array($subvalue))
+                                                                            <!-- Handle nested arrays if needed -->
+                                                                            <strong>{{ ucfirst($subkey) }}:</strong>
+                                                                            <ul>
+                                                                                @foreach ($subvalue as $nestedKey => $nestedValue)
+                                                                                    <li>{{ ucfirst($nestedKey) }}: {{ $nestedValue }}</li>
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        @else
+                                                                            {{ ucfirst($subkey) }}: {{ $subvalue }}
+                                                                        @endif
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
                                                         @elseif (is_null($value))
-                                                            <em>Null</em> <!-- Jika value adalah null, tampilkan Null -->
+                                                            <em>Null</em> <!-- If the value is null, display Null -->
                                                         @else
-                                                            {{ $value }} <!-- Jika value adalah string atau numerik, tampilkan langsung -->
+                                                            {{ $value }} <!-- If the value is a string or numeric, display directly -->
                                                         @endif
                                                         <br>
                                                     @endforeach
                                                 @else
-                                                    {{ $a->properties }}
+                                                    {{ $properties }} <!-- Directly output the properties if it's not an array -->
                                                 @endif
                                             </td>
                                         </tr>
