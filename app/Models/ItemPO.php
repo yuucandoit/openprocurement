@@ -19,7 +19,6 @@ class ItemPO extends Model
         'product_id',
         'po_id',
         'pr_item_id',
-        'prepr_item_id',
         'item',
         'qty',
         'kategori',
