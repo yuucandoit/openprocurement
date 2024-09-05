@@ -18,6 +18,7 @@ class PengajuanPembelian extends Model
         'prepr_id',
         'path_file',
         'item',
+        'description',
         'qty',
         'kategori',
         'unit_price',

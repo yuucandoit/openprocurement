@@ -18,6 +18,8 @@ class ItemPO extends Model
         'ppb_id',
         'product_id',
         'po_id',
+        'pr_item_id',
+        'prepr_item_id',
         'item',
         'qty',
         'kategori',
@@ -36,6 +38,21 @@ class ItemPO extends Model
     public function po()
     {
         return $this->belongsTo(CategoryPO::class, 'po_id');
+    }
+
+    public function itemPrePrByProductID()
+    {
+        return $this->belongsTo(PartItem_Pre_pr::class,'product_id','product_id');
+    }
+
+    public function itemPrePrByName()
+    {
+        return $this->belongsTo(PartItem_Pre_pr::class,'child_item','item');
+    }
+
+    public function itemPRByID()
+    {
+        return $this->belongsTo(PengajuanPembelian::class,'pr_item_id');
     }
 
     protected static $logFillable = true;
