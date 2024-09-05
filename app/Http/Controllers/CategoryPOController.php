@@ -434,7 +434,7 @@ class CategoryPOController extends Controller
                     $product_ids = PengajuanPembelian::where('pp_id',$data->id)->where('item',$data2['item'][$key])->first();
                     $update = array(
                         'ppb_id'            => $ppn->id,
-                        'pr_item_id'        => $data2['pr_item_id'][$key],
+                        'pr_item_id'        => $data2['pr_item_id'][$key] ?? null,
                         'product_id'        => $product_ids->product_id ?? null,
                         'po_id'             => $purchase->id,
                         'item'              => $data2['item'][$key],
@@ -523,7 +523,7 @@ class CategoryPOController extends Controller
                     $update = array(
                         'ppb_id'            => $ppn->id,
                         'product_id'        => $product_ids->product_id ?? null,
-                        'pr_item_id'        => $data2['pr_item_id'][$key],
+                        'pr_item_id'        => $data2['pr_item_id'][$key] ?? null,
                         'po_id'             => $purchase->id,
                         'item'              => $data2['item'][$key],
                         'qty'               => $data2['qty'][$key],
