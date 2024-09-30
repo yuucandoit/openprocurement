@@ -47,8 +47,10 @@ class CategoryPPController extends Controller
      ->orWhere('npwp_pp','like',"%".$cari."%")
      ->orWhere('pkp','like',"%".$cari."%")
      ->paginate(10);
+     $bank = Bank::orderBy('name')->get();
 
      return view('dataPrivatePerson.menu.index')
+     ->with('bank',$bank)
      ->with('datadv',$datadv);
     }
 
