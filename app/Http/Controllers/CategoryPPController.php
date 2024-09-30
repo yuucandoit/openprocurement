@@ -278,7 +278,7 @@ class CategoryPPController extends Controller
     public function destroy($id)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 17 || $check->role_id == 3 ) {
+        if ($check->role_id == 17 || $check->role_id == 3 || $check->role_id == 4 ) {
         $data = CategoryPP::find($id);
         $data->delete();
         return redirect('/menu-private-person')->with('success', 'Task Deleted Successfully!');
