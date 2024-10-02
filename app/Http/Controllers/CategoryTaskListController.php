@@ -162,11 +162,11 @@ class CategoryTaskListController extends Controller
             ->orWhere('status', 'Invoicing Process')->orWhere('status', 'Payment Approved')
             ->orWhere('status', 'Unpaid')->orWhere('status', 'Paid')->orWhere('status', 'Delivery Process')
             ->orWhere('status','Delivery Success')->orWhere('status','PO Rejected by BOD')->orWhere('status','Rejected by Purchasing')->orWhere('status','Payment Rejected By BOD')
-            ->orWhere('status','Rejected by Finance')->orderBy('approved_at','desc')->paginate(20);
-            $datapo = CategoryPO::get();
+            ->orWhere('status','Rejected by Finance')->orderBy('approved_at','desc')->paginate(10);
+            $purpose = ReferensiNamaProject::all();
             return view('taskList.menu.history')
             ->with('datappb', $datappb)
-            ->with('datapo', $datapo);
+            ->with('purpose', $purpose);
         } else {
             return redirect()->route('dashboard');
         }

@@ -171,6 +171,44 @@
             </div>
         </div>
 
+
+        <div class="modal fade" id="modalExportSpesific" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+
+                        <h4 class="modal-title">Export Spesific </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('export-historyPO-spesific') }}" method="POST" class="input-group" >
+                    @csrf
+                    <div class="modal-body ">
+                        <div class="row" >
+                            <div class="col-sm-12" >
+                                <div class="form-group">
+                                    <label class="form-label" style="font-weight: bold;"> Select Project ID</label>
+                                    <select class="form-select js-example-basic-single" placeholder="Purpose ID" name="purpose_id" required>
+                                        <option value="" disabled selected hidden>
+                                            Select Project
+                                        </option>
+                                        @foreach ($purpose as $p)
+                                            <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-warning">Export</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -411,6 +449,7 @@
                                 </div>
                                 <div class="mt-2">
                                     <a href="{{ route('export-historyPO') }}" class="btn btn-success">Export Data</a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modalExportSpesific" class="btn btn-warning">Export Spesific Data</a>
                                 </div>
                             </div>
                         </div>

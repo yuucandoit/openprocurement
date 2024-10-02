@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DBPurchaseHistoryExport;
 use App\Models\CategoryPO;
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
@@ -11,6 +12,7 @@ use App\Exports\PoPDFExport;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
+use App\Models\Role;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -202,5 +204,19 @@ class PurchaseOrderController extends Controller
         $pdf = PDF::loadView('purchaseOrder.export-pdf.purchase_id', $data)->setpaper('A4', 'potrait');
         return $pdf->stream('PurchaseOrder.pdf');
 
+    }
+
+
+    public function exportExcelSpesific(Request $request)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
+            $purposeId = $request->input('purpose_id', null);
+            // $purposeType = $request->input('purpose_type', null);
+            return Excel::download(new DBPurchaseHistoryExport($purposeId), 'Database Purchase History.xlsx');
+        }else {
+            return redirect()->route('dashboard');
+        }
     }
 }

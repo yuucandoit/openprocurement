@@ -568,7 +568,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/statusDeliveryStore/{id}', [DeliveryController::class, 'deliverystatus'])->name('delivery.deliverystatus');
         Route::post('/startShippy/{id}', [DeliveryController::class, 'startShip'])->name('delivery.startShip');
         Route::post('/endShippy/{id}', [DeliveryController::class, 'endShip'])->name('delivery.endShip');
-        Route::post('/setBackShippy/{id}', [DeliveryController::class, 'setBackShippy'])->name('delivery.setBackShippy');
+        // Route::post('/setBackShippy/{id}', [DeliveryController::class, 'setBackShippy'])->name('delivery.setBackShippy');
         // Route::get('/track-dhl',[DeliveryController::class, 'trackDHL'])->name('`delivery.trackDHL`');
         // Route::get('/track-fedex',[DeliveryController::class, 'trackFedex'])->name('delivery.trackFedex');
     });
@@ -646,6 +646,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/pengajuan_pembelian/{id}', [CategoryPengajuanPembelianController::class, 'export'])->name('export-ppb');
     Route::get('/export_excel/barang', [DeliveryController::class, 'export'])->name('export-pembelian');
     Route::get('/export_excel/history_purchase', [CategoryPOController::class, 'export'])->name('export-historyPO');
+    Route::post('/export_excel/history_purchase/spesific', [PurchaseOrderController::class, 'exportExcelSpesific'])->name('export-historyPO-spesific');
     Route::get('/export/roles',[RoleController::class,'export'])->name('export-roles');
 
 
