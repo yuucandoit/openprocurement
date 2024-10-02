@@ -12,6 +12,7 @@ use App\Exports\PoPDFExport;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
+use App\Models\ReferensiNamaProject;
 use App\Models\Role;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -213,8 +214,12 @@ class PurchaseOrderController extends Controller
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $purposeId = $request->input('purpose_id', null);
+            if(empty($purposeId)){
+                return redirect()->back()->withErrors(['Not Found Project ID']);
+            }
             // $purposeType = $request->input('purpose_type', null);
-            return Excel::download(new DBPurchaseHistoryExport($purposeId), 'Database Purchase History.xlsx');
+            $referenceProject = ReferensiNamaProject::find($purposeId);
+            return Excel::download(new DBPurchaseHistoryExport($purposeId), $referenceProject->name .' Purchase History.xlsx');
         }else {
             return redirect()->route('dashboard');
         }
