@@ -190,10 +190,10 @@ class CategoryTaskListController extends Controller
         ->whereIn('status',['Purchase Proses','Waiting For PO Approval','PO Approved','Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process',
         'Delivery Success','PO Rejected by BOD','Rejected by Purchasing','Payment Rejected By BOD','Rejected by Finance'])
         ->paginate(10);
-        $datapo = CategoryPO::get();
+        $purpose = ReferensiNamaProject::all();
         return view('taskList.menu.history')
         ->with('datappb',$datappb)
-        ->with('datapo',$datapo);
+        ->with('purpose',$purpose);
     }
 
     public function SortTaskPOHistory(Request $request)
