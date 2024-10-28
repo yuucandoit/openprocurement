@@ -57,7 +57,11 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-6 mt-4">
-                    <h3>Details {{ $data_pengajuan->code_pengajuan }}</h3>
+                    <h3>Details {{ $data_pengajuan->code_pengajuan }}
+                        @if($data_pengajuan->type_pr == 'SPKBased')
+                            <a class="badge" style="background-color:darkorange; font-size:8;">SPKBased</a>
+                        @endif
+                    </h3>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{{ url('/menu-purchase-order/') }}">Purchase Order</a></li>
@@ -109,6 +113,16 @@
                                                     <td>{{ $data_pengajuan->dateline }}</td>
                                                 </tr>
                                                 <tr>
+                                                    <td style="font-weight: 600;">SPK</td>
+                                                    <td>
+                                                        @if (empty($data_pengajuan->file_spk))
+                                                            -
+                                                        @else
+                                                            <a href="/upload_spk/{{ $data_pengajuan->file_spk }}" target="_blank" style="color: rgb(226, 43, 43); text-decoration:underline;">{{ $data_pengajuan->file_spk }}</a>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td>Approver Note</td>
                                                     <td>
                                                         @if (empty($data_pengajuan->note_bod_pr))
@@ -138,6 +152,17 @@
                                                         @endif
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td><strong>Status</strong> </td>
+                                                    <td>
+                                                        @if (empty($data_pengajuan->status))
+                                                            -
+                                                        @else
+                                                            {{ $data_pengajuan->status }}
+                                                        @endif
+                                                    </td>
+                                                </tr>
+
                                             </tbody>
                                         </table>
                                 </div>
@@ -185,32 +210,61 @@
                                             </a> --}}
                                         </div>
                                         <div class="col-md-3 mt-3">
-                                            <button type="button" class="btn btn-outline-danger text-center w-100" data-bs-toggle="modal" data-bs-target="#reject">Reject PO</button>
+                                            <button type="button" class="btn btn-outline-danger text-center w-100" data-bs-toggle="modal" data-bs-target="#reject">Reject PR</button>
                                         </div>
                                         <div class="col-md-3 mt-3">
-                                            @if ($data_pengajuan->status == 'Waiting For PO Approval')
-                                            <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
-                                                data-bs-target="#modalSelesai" disabled>Finished
-                                            </button>
-                                            @elseif ($data_pengajuan->status == 'Purchase Proses' || 'Cross Check PO')
-                                            @if (empty($data_pengajuan->atasans->name))
-                                                <div class="text-center">
-                                                    <button class="btn btn-outline-success disabled  w-100" data-bs-toggle="modal"
-                                                        data-bs-target="#modalSelesai">Finish</button>
-                                                </div>
+                                            @if($data_pengajuan->type_pr != 'SPKBased')
+                                                {{-- strpos($data_pengajuan->status, 'reject') === false --}}
+                                                @if(strpos($data_pengajuan->status, 'reject') === false)
+                                                    @if ($data_pengajuan->status == 'Purchase Proses' || $data_pengajuan->status == 'Cross Check PO')
+                                                        @if (empty($data_pengajuan->atasans->name))
+                                                            <div class="text-center">
+                                                                <button class="btn btn-outline-success disabled w-100" data-bs-toggle="modal"
+                                                                        data-bs-target="#modalSelesai">Finish</button>
+                                                            </div>
+                                                        @else
+                                                            @if($data_pengajuan->status == 'Cross Check PO')
+                                                                <div class="text-center">
+                                                                    <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                                                                            data-bs-target="#modalSelesai" disabled>Finished </button>
+                                                                </div>
+                                                            @else
+                                                                <div class="text-center">
+                                                                    <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                                                                            data-bs-target="#modalSelesai">Finish</button>
+                                                                </div>
+                                                            @endif
+                                                        @endif
+                                                    @else
+                                                        <div class="text-center">
+                                                            <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                                                                    data-bs-target="#modalSelesai" disabled>Finish </button>
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    @if ($data_pengajuan->status == 'Purchase Proses')
+                                                        <div class="text-center">
+                                                            <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                                                                    data-bs-target="#modalSelesaiSpkBase">Finish</button>
+                                                        </div>
+                                                    @else
+                                                        <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                                                                data-bs-target="#modalSelesaiSpkBase" disabled>Finish
+                                                        </button>
+                                                    @endif
+                                                @endif
+
                                             @else
-                                            @if($data_pengajuan->status == 'Cross Check PO')
-                                            <div class="text-center">
-                                                <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
-                                                    data-bs-target="#modalSelesai" disabled>Finished</button>
-                                            </div>
-                                            @else
-                                            <div class="text-center">
-                                                <button class="btn btn-outline-success  w-100" data-bs-toggle="modal"
-                                                    data-bs-target="#modalSelesai">Finish</button>
-                                            </div>
-                                            @endif
-                                            @endif
+                                                @if ($data_pengajuan->status == 'Purchase Proses')
+                                                    <div class="text-center">
+                                                        <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                                                            data-bs-target="#modalSelesaiSpkBase">Finish </button>
+                                                    </div>
+                                                @else
+                                                    <button class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                                                        data-bs-target="#modalSelesaiSpkBase" disabled>Finish
+                                                    </button>
+                                                @endif
                                             @endif
                                         </div>
                                     </div>
@@ -247,7 +301,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body mx-5 mb-3">
+                                        <div class="modal-body mx-5 mb-3 text-center">
                                             <span class="warning">
                                                 <img src="{{ asset('assets/images/warning.png') }}">
                                             </span>
@@ -256,10 +310,38 @@
                                         <div class="modal-footer">
                                             @if ($data_pengajuan->status == 'Purchase Proses')
 
-                                                <form class="text-center" style="text-align: center;"
-                                                    action="{{ url('menu-purchase-order/check_po/'.$data_pengajuan->id) }}">
-                                                    <button type="submit" class="btn btn-outline-danger "><i
-                                                            class="bx bx-trash"></i>
+                                                <form class="text-center" style="text-align: center;" action="{{ url('menu-purchase-order/check_po/'.$data_pengajuan->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-outline-danger "><i class="bx bx-trash"></i>
+                                                        Finish
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Modal Finish SPK BAse --}}
+                            <div class="modal fade" id="modalSelesaiSpkBase"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger">
+                                            <h2 class="modal-title" style="color: white">Warning</h2>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body mx-5 mb-3">
+                                            <span class="warning">
+                                                <img src="{{ asset('assets/images/warning.png') }}">
+                                            </span>
+                                            <h2 style="text-align: center">Make sure the data is correct!</h2>
+                                        </div>
+                                        <div class="modal-footer">
+                                            @if ($data_pengajuan->status == 'Purchase Proses')
+                                                <form class="text-center" style="text-align: center;" method="POST" action="{{ url('menu-purchase-order/spk_base/'.$data_pengajuan->id) }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-outline-danger">
                                                         Finish
                                                     </button>
                                                 </form>
@@ -491,7 +573,7 @@
                                                         {{ $no++ }}
                                                     </td>
                                                     <td class="text">
-
+                                                        <input type="text" style="opacity: 0;display:none;" name="pr_item_id[]" value="{{ $i->id }}">
                                                         <textarea type="text" placeholder="Input Item" class="form-control" name="item[]"
                                                             style="text-align: center;">{{ $i->item }}</textarea>
                                                     </td>
@@ -826,6 +908,8 @@
                                                             </div> --}}
                                                     </div>
                                                     @php
+
+                                                    $isRejected = str_contains(strtolower($po->status), 'reject');
                                                         foreach($po->itempo as $i)
                                                     {
                                                         $e = $i->po_id;
@@ -1019,18 +1103,34 @@
                                                                 @endforeach
                                                                 </tbody>
                                                         </table>
-                                                        @if ($po->status == 'Waiting For PO Approval')
-                                                            <button class="btn btn-success mt-3" data-bs-toggle="modal"
-                                                                data-bs-target="#modalCheckPo" disabled>Check PO Done
-                                                            </button>
-                                                        @elseif ($po->status == 'Purchase Proses')
-                                                                @if (empty($data_pengajuan->atasans->name))
+                                                        @if($po->ppb->type_pr != 'SPKBased')
+                                                            @if ($po->status == 'Waiting For PO Approval')
+                                                                <button class="btn btn-success mt-3" data-bs-toggle="modal"
+                                                                    data-bs-target="#modalCheckPo" disabled>Check PO Done
+                                                                </button>
+                                                            @elseif ($po->status == 'Purchase Proses')
+                                                                    @if (empty($data_pengajuan->atasans->name))
+                                                                            <button class="btn btn-success mt-3 " data-bs-toggle="modal"
+                                                                                data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
+                                                                    @else
                                                                         <button class="btn btn-success mt-3 " data-bs-toggle="modal"
                                                                             data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
+                                                                    @endif
+                                                            @endif
+                                                        @else
+                                                            @if ($po->status == 'Purchase Proses')
+                                                                @if (empty($data_pengajuan->atasans->name))
+                                                                    <button class="btn btn-success mt-3 " data-bs-toggle="modal"
+                                                                        data-bs-target="#modalSpkPo{{ $po->id }}">Request Approval PO</button>
                                                                 @else
                                                                     <button class="btn btn-success mt-3 " data-bs-toggle="modal"
-                                                                        data-bs-target="#modalCheckPo{{ $po->id }}">Check PO</button>
+                                                                        data-bs-target="#modalSpkPo{{ $po->id }}">Request Approval PO</button>
                                                                 @endif
+                                                            @else
+                                                                <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#modalSpkPo" disabled>
+                                                                    Approval Requested
+                                                                </button>
+                                                            @endif
                                                         @endif
                                                         <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                                             target="_blank" style="font-size:12;">Export PDF PO</i>
@@ -1081,13 +1181,13 @@
                                                                 <li>PO Submitted At {{ $po->created_at }}</li>
                                                                 <li>PO Check At {{ $data_pengajuan->w_approval_po_timestamp }}</li>
                                                                 <li>
-                                                                    PO
                                                                     @if($po->status == 'PO Rejected by BOD')
-                                                                    Reject At {{ $po->updated_at }} - {{ $data_pengajuan->atasans->name }}
+                                                                    PO Reject At {{ $po->updated_at }} - {{ $data_pengajuan->atasans->name }}
+                                                                    @elseif(empty($isRejected))
+                                                                    PO Approve At {{ $po->approved_at ?? '-' }}
                                                                     @else
-                                                                    Approve At {{ $po->approved_at }}
-                                                                    @endif
 
+                                                                    @endif
                                                                 </li>
                                                                 @if($po->status == 'PO Rejected by BOD')
                                                                     <li>
@@ -1096,6 +1196,13 @@
                                                                 @elseif($po->status == 'Rejected by Finance')
                                                                     <li style="color: red;">
                                                                         Rejected by Finance : {{ $po->rejected_at ?? $po->updated_at ?? '-' }}
+                                                                    </li>
+                                                                    <li style="color: red;">
+                                                                        Reason : "{{ $po->notes }}"
+                                                                    </li>
+                                                                @elseif($po->status == 'Rejected')
+                                                                    <li style="color: red;">
+                                                                        Rejected : {{ $po->rejected_at ?? $po->updated_at ?? '-' }}
                                                                     </li>
                                                                     <li style="color: red;">
                                                                         Reason : "{{ $po->notes }}"
@@ -1109,6 +1216,7 @@
                                             </div>
                                         </div>
 
+                                        {{-- Modal CheckPO --}}
                                         <div class="modal fade" id="modalCheckPo{{ $po->id }}" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
@@ -1124,11 +1232,10 @@
                                                         <h2 style="text-align: center">Make sure the data is correct!</h2>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <form class="text-center" style="text-align: center;"
-                                                            action="{{ url('menu-purchase-order/check_po2/' .$po->id) }}">
+                                                        <form class="text-center" style="text-align: center;" action="{{ url('menu-purchase-order/check_po2/' .$po->id) }}" method="POST">
+                                                            @csrf
                                                             <input type="hidden" name="ppb_id" value="{{ $po->id }}">
-                                                            <button type="submit" class="btn btn-outline-danger "><i
-                                                                    class="bx bx-trash"></i>
+                                                            <button type="submit" class="btn btn-outline-danger "><i class="bx bx-trash"></i>
                                                                 Check PO
                                                             </button>
                                                         </form>
@@ -1137,7 +1244,35 @@
                                             </div>
                                         </div>
 
-                                        <div class="modal fade" id="modalDeletePO{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                                        {{-- Modal SPK PO --}}
+                                        <div class="modal fade" id="modalSpkPo{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-danger">
+                                                        <h2 class="modal-title" style="color: white">Warning</h2>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body mx-5 mb-3" style="text-align: center;">
+                                                        <span class="warning">
+                                                            <img src="{{ asset('assets/images/warning.png') }}" >
+                                                        </span>
+                                                        <h2 style="text-align: center">Make sure the data is correct!</h2>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form class="text-center" style="text-align: center;" method="POST" action="{{ route('menu-purchase-order-spk_base2',$po->id) }}">
+                                                            @csrf
+                                                            <input type="hidden" name="ppb_id" value="{{ $po->id }}">
+                                                            <button type="submit" class="btn btn-outline-danger "><i class="bx bx-trash"></i>
+                                                                Request for approval
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- <div class="modal fade" id="modalDeletePO{{ $po->id }}" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-danger">
@@ -1164,7 +1299,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     @endforeach
                                 </div>
                             @endif
@@ -1195,6 +1330,7 @@
             </div>
         </div>
 
+        {{-- Comment Section --}}
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
@@ -1210,33 +1346,58 @@
                                         </div>
                                     </form>
                                 <div class="AllComment" id="comment">
-                                    <div class="container">
-                                        @foreach ($comments as $c)
-                                            <ul>
-                                                <li>
-                                                    <p>
-                                                        <strong>
-                                                            @if (empty($c->users->name))
-                                                            @else
-                                                                - {{ $c->users->name }}
-                                                            @endif
-                                                        </strong>
-                                                        @if (empty($c->created_at))
+                                    @foreach ($comments as $c)
+                                        @if($c->user_id == Auth::user()->id)
+                                        <ul style="text-align: end; padding-right:10px;">
+                                            <li>
+                                                <p>
+                                                    <strong>
+                                                        @if (empty($c->users->name))
                                                         @else
-                                                            &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
+                                                            You
                                                         @endif
-                                                    </p>
-                                                </li>
-                                                <li>
-                                                    @if (empty($c->comment))
+                                                    </strong>
+                                                    @if (empty($c->created_at))
                                                     @else
-                                                        <p>{{ $c->comment }}</p>
+                                                    &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
                                                     @endif
-                                                </li>
-                                                <hr>
-                                            </ul>
-                                        @endforeach
-                                    </div>
+                                                </p>
+                                            </li>
+                                            <li>
+                                                @if (empty($c->comment))
+                                                @else
+                                                    <p>{{ $c->comment }}</p>
+                                                @endif
+                                            </li>
+                                            <hr>
+                                        </ul>
+                                        @else
+                                        <ul style="padding-left:10px;">
+                                            <li>
+                                                <p>
+                                                    <strong>
+                                                        @if (empty($c->users->name))
+                                                        @else
+                                                            {{ $c->users->name }}
+                                                        @endif
+                                                    </strong>
+                                                    @if (empty($c->created_at))
+                                                    @else
+                                                        &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
+                                                    @endif
+                                                </p>
+                                            </li>
+                                            <li>
+                                                @if (empty($c->comment))
+                                                @else
+                                                    <p>{{ $c->comment }}</p>
+                                                @endif
+                                            </li>
+                                            <hr>
+                                        </ul>
+                                        @endif
+
+                                    @endforeach
                                 </div>
                         </div>
                     </div>

@@ -27,12 +27,17 @@ use App\Models\TermsAndConditions;
 use App\Models\User;
 use App\Models\WhoSubmitted;
 use App\Models\Currency;
+use App\Models\PartItem_Pre_pr;
+use App\Models\POSignature;
 use App\Models\Uom;
 use App\Models\VendorBank;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CategoryPOController extends Controller
 {
@@ -62,6 +67,7 @@ class CategoryPOController extends Controller
     // dd($cariIn);
     $datappb = CategoryPengajuanPembelian::where(function($query) use ($cariIn) {
         $query->where('id', 'like', "%".$cariIn."%")
+              ->orWhere('type_pr','like', "%".$cariIn."%")
               ->orWhere('code_pengajuan','like', "%".$cariIn."%")
               ->orWhere('status', 'like', "%".$cariIn."%")
               ->orWhere('desc', 'like', "%".$cariIn."%")
@@ -347,17 +353,17 @@ class CategoryPOController extends Controller
             $pt = CategoryPT::find($id);
             $pp = CategoryPP::find($id);
             $ec = CategoryEcommerce::find($id);
-            foreach ($data2['item'] as $key => $item) {
-                $existingItemPO = ItemPO::where('ppb_id', $id)
-                    ->where('item', $data2['item'][$key])
-                    ->where('qty', $data2['qty'][$key])
-                    ->where('is_reject', 0)
-                    ->first();
+            // foreach ($data2['item'] as $key => $item) {
+            //     $existingItemPO = ItemPO::where('ppb_id', $id)
+            //         ->where('item', $data2['item'][$key])
+            //         ->where('qty', $data2['qty'][$key])
+            //         ->where('is_reject', 0)
+            //         ->first();
 
-                if ($existingItemPO) {
-                    return redirect()->back()->with('error', 'Item PO with the same item and quantity already exists.');
-                }
-            }
+            //     if ($existingItemPO) {
+            //         return redirect()->back()->with('error', 'Item PO with the same item and quantity already exists.');
+            //     }
+            // }
 
             if($request->no_rekening){
                 $parts = explode('|', $request->no_rekening);
@@ -941,15 +947,23 @@ class CategoryPOController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4 ) {
             $data = CategoryPengajuanPembelian::find($id);
+            $po = CategoryPO::where('ppb_id', $data->id)->latest('created_at')->first();
 
+            // dd($po);
             if(empty($data->atasan_po)){
                 return redirect()->back()->withErrors(["Approver Not Found"]);
             }else{
-            $data->status = 'Cross Check PO';
-            $data->check_po_timestamp = now();
-            $data->save();
+                if($po && strpos($po->status, 'reject') === false){
+                    $data->status = $po->status;
+                    $data->check_po_timestamp = now();
+                    $data->save();
+                }else {
+                    $data->status = 'Purchase Proses';
+                    $data->save();
+                }
 
-            return redirect()->back();
+
+                return redirect()->back();
             }
         }else{
             return redirect()->route('dashboard');
@@ -962,7 +976,6 @@ class CategoryPOController extends Controller
             $data = CategoryPO::where('id',$id)->update([
                 'status' => 'Cross Check PO',
             ]);
-            $data2 = CategoryPO::where('id',$id)->first();
 
             return redirect()->back();
         }else{
@@ -970,8 +983,6 @@ class CategoryPOController extends Controller
         }
 
     }
-
-
 
 
     public function Reject($id)
@@ -1150,4 +1161,364 @@ class CategoryPOController extends Controller
             return redirect()->route('dashboard');
         }
     }
+
+
+    // -------------------------------------- PO SPK -------------------------------------- //
+
+    public function index_spk(){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17) {
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('status','Waiting Approval PO SPK');
+            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+
+            return view('purchaseOrder.menu.po-spk.index')
+                ->with('datappb',$datappb);
+        } else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function detailspk($id){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17) {
+            $datappb    = CategoryPengajuanPembelian::find($id);
+            $comments   = Comment::where('ppb_id',$id)->get();
+            return view('purchaseOrder.menu.po-spk.detail')
+                ->with('comments',$comments)
+                ->with('datappb',$datappb);
+        } else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function po_detail_spk($id){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17) {
+            $datacpo    = CategoryPO::find($id);
+            $comments   = Comment::where('ppb_id',$id)->get();
+            return view('purchaseOrder.menu.po-spk.po')
+                ->with('comments',$comments)
+                ->with('datacpo',$datacpo);
+        } else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function check_spk($id){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4 ) {
+            $data = CategoryPengajuanPembelian::find($id);
+            $data->status = 'Delivery Success';
+            $data->check_po_timestamp = now();
+            $data->save();
+
+            return redirect()->back();
+
+        }else{
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function check_po_spk($id){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4 ) {
+            $data = CategoryPO::where('id',$id)->update([
+                'status' => 'Waiting Approval PO SPK',
+            ]);
+
+            return redirect()->back();
+        }else{
+            return redirect()->route('dashboard');
+        }
+    }
+
+
+    public function approve_spk(Request $request, $id){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
+            $data = CategoryPengajuanPembelian::find($id);
+
+            //Cari yang waiting approval SPK aja po nya..
+            $cpo = CategoryPO::where('ppb_id',$id)->where('status','Waiting Approval PO SPK')->get();
+            // dd($cpo);
+            $sig = new POSignature();
+
+            foreach($cpo as $po){
+                $isRejectedPo = str_contains(strtolower($po->status), 'reject');
+
+                if($po->atasan_po == 3){
+                    $signature = 'superadmin.png';
+                }elseif($po->atasan_po == 6){
+                    $signature = 'sinduirawan.png';
+                }elseif($po->atasan_po == 7){
+                    $signature = 'bayu.png';
+                }elseif($po->atasan_po == 8){
+                    $signature = 'victor.png';
+                }elseif($po->atasan_po == 9){
+                    $signature = 'erwin.png';
+                }elseif($po->atasan_po == 24){
+                    $signature = 'Triyani.png';
+                }
+                // Kalau dia po nya ga kereject maka dia otomatis keganti statusnya
+                if(!$isRejectedPo){
+                    $po->signature = $signature;
+                    $po->approved_at = Carbon::now();
+                    $po->flag_delivery = 2;
+                    $po->save();
+
+                    $sig->ppb_id = $id;
+                    $sig->signature = $signature;
+                    $sig->approved_at = Carbon::now();
+                    $sig->save();
+                    CategoryPO::where('id', $po->id)->update([
+                        'status' => 'Delivery Success'
+                    ]);
+                }
+
+            }
+
+
+            return redirect()->route('pospk.index');
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function approve_po_spk(Request $request,$id){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17) {
+            $data = CategoryPO::find($id);
+            if($data->atasan_po == 3){
+                $signature = 'superadmin.png';
+            }elseif($data->atasan_po == 6){
+                $signature = 'sinduirawan.png';
+            }elseif($data->atasan_po == 7){
+                $signature ='bayu.png';
+            }elseif($data->atasan_po == 8){
+                $signature = 'victor.png';
+            }elseif($data->atasan_po == 9){
+                $signature = 'erwin.png';
+            }elseif($data->atasan_po == 24){
+                $signature = 'Triyani.png';
+            }
+            $data->status = 'Delivery Success';
+            $data->signature = $signature;
+            $data->approved_at = Carbon::now();
+            $data->flag_delivery = 2;
+            $data->save();
+
+            $sig = new POSignature();
+            $sig->ppb_id = $data->ppb_id;
+            $sig->signature = $signature;
+            $sig->approved_at = Carbon::now();
+            $sig->save();
+
+            return redirect()->route('pospk.index');
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function spk_selected_approve(Request $request)
+    {
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
+            // dd($request->all());
+            $ids = explode(',', $request->ids);
+
+            $data = CategoryPO::whereIn('id',$ids)->get();
+
+            foreach($data as $d){
+                if($d->atasan_po == 3){
+                    $signature = 'superadmin.png';
+                }elseif($d->atasan_po == 6){
+                    $signature = 'sinduirawan.png';
+                }elseif($d->atasan_po == 7){
+                    $signature ='bayu.png';
+                }elseif($d->atasan_po == 8){
+                    $signature = 'victor.png';
+                }elseif($d->atasan_po == 9){
+                    $signature = 'erwin.png';
+                }elseif($d->atasan_po == 24){
+                    $signature = 'Triyani.png';
+                }
+                CategoryPO::where('id',$d->id)->update([
+                    'signature'     => $signature,
+                    'approved_at'   => Carbon::now(),
+                    'status'        => 'Delivery Success',
+                    'flag_delivery' => 2,
+                ]);
+
+                $sig = new POSignature();
+                $sig->ppb_id = $d->ppb_id;
+                $sig->signature = $signature;
+                $sig->approved_at = Carbon::now();
+                $sig->save();
+
+            }
+
+                return redirect()->back()->with('message','Success Approve PO');
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function reject_pr_spk(Request $request,$id){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17) {
+            $ppb = CategoryPengajuanPembelian::find($id);
+
+            //sum ulang product ke prepr kalau purposenya project
+            if($ppb->purpose_type == 'App\Models\ReferensiNamaProject'){
+                foreach ($ppb->itemppn as $item => $value) {
+                    if(!empty($ppb->itemppn[$item]->id)){
+                    $pengajuanItems = PengajuanPembelian::find($ppb->itemppn[$item]->id); // Kalau id nya ada maka get
+                    }else {
+                    $pengajuanItems = null; // kalau idnnya ga ada maka dbkin null
+                    }
+
+                    if($pengajuanItems){
+                        $preprOldItems = PartItem_Pre_pr::where('id',$pengajuanItems->prepr_id)->first(); //kalau item oldnya ada maka get data old
+                    } else {
+                        $preprOldItems = null; //bikin null kalau item pr nya ga ada
+                    }
+
+                    // dd($preprOldItems->id);
+                    if($preprOldItems){
+                        //Update Data
+                        $sumskuy = $preprOldItems->total + $pengajuanItems->qty; //Kalau minus dia ngurang jadi misal 10 + -(8); jadi 2
+                        PartItem_Pre_pr::where('id', $preprOldItems->id)->update([
+                            'total' => $sumskuy,
+                        ]);
+                    }
+                }
+            }
+
+            $ppb->status = 'Rejected PO SPK Base';
+            $ppb->note_purchase = $request->reason . ' * '. Auth::user()->name .'-'. Carbon::now();
+            $ppb->save();
+
+            $data = CategoryPO::where('ppb_id',$id)->get();
+            foreach($data as $d){
+                $d->status = 'Rejected';
+                $d->rejected_at = Carbon::now();
+                $d->notes = $request->reason . '- Rejected By : ' . Auth::user()->name .' - '. Carbon::now();
+                $d->save();
+            }
+
+
+            return redirect()->route('pospk.index');
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function reject_po_spk(Request $request,$id){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 3 || $check->role_id == 17) {
+            $data = CategoryPO::find($id);
+            $data->status = 'Rejected';
+            $data->rejected_at = Carbon::now();
+            $data->notes = $request->reason . '- Rejected By : ' . Auth::user()->name .' - '. Carbon::now();
+            $data->save();
+
+            return redirect()->route('pospk.index');
+        }else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function search_spk(Request $request){
+        $cariIn = $request->cari;
+        // dd($cariIn);
+        $datappb = CategoryPengajuanPembelian::whereHas('quot', function($i) {
+            $i->where('status', 'Waiting Approval PO SPK');
+            })
+            ->where('status', 'not like', '%Rejected%')
+            ->where(function($query) use ($cariIn) {
+                $query->where('id', 'like', "%".$cariIn."%")
+                    ->orWhere('status', 'like', "%".$cariIn."%")
+                    ->orWhere('desc', 'like', "%".$cariIn."%")
+                    ->orWhere('code_pengajuan','like', "%".$cariIn."%")
+                    ->orWhereHas('whosubmit', function($w) use ($cariIn) {
+                        $w->where('name', 'like', "%".$cariIn."%");
+                    })
+                    ->orWhereHas('itemppn', function($i) use ($cariIn) {
+                        $i->where('item', 'like', "%".$cariIn."%");
+                    })
+                    ->orWhereHas('quot', function($q) use ($cariIn) {
+                        $q->where('id', 'like', "%".$cariIn."%")
+                        ->orWhere('status','like', "%".$cariIn."%")
+                        ->orWhere('code_po','like', "%".$cariIn."%");
+                    });
+            })
+        ->orderBy('status', 'asc')
+        ->orderBy('dateline', 'asc')
+        ->orderBy('approved_at', 'asc')
+        ->paginate(10);
+
+        return view('purchaseOrder.menu.po-spk.index')
+        ->with('datappb',$datappb);
+    }
+
+    public function history_spk(){
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 4 || $check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::whereIn('status',['Purchase Proses','PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base'])
+            ->where('type_pr','SPKBased')
+            ->whereHas('quot', function($q) {
+                $q->whereIn('status',['PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base']);
+            })
+            ->orderBy('updated_at','desc')->paginate(10);
+            return view('purchaseOrder.menu.po-spk.history')
+            ->with('datappb', $datappb);
+        }
+    }
+
+    public function SearchHistorySpk(Request $request){
+        $cariIn = $request->cari;
+        // dd($cariIn);
+        $datappb = CategoryPengajuanPembelian::where(function($query) use ($cariIn) {
+            $query->where('id', 'like', "%".$cariIn."%")
+                  ->orWhere('code_pengajuan','like', "%".$cariIn."%")
+                  ->orWhere('desc', 'like', "%".$cariIn."%")
+                  ->orWhere('note_purchase', 'like', "%".$cariIn."%")
+                  ->orWhereHas('itemppn', function($i) use ($cariIn) {
+                      $i->where('item', 'like', "%".$cariIn."%");
+                  })
+                  ->orWhereHas('whosubmit', function($q) use ($cariIn) {
+                      $q->where('name', 'like', "%".$cariIn."%");
+                  })
+                  ->orWhereHas('quot', function($posearch) use ($cariIn) {
+                      $posearch->where('id', 'like', "%".$cariIn."%")
+                      ->orWhere('status', 'like', "%".$cariIn."%")
+                      ->orWhere('notes', 'like', "%".$cariIn."%")
+                      ->orWhere('code_po', 'like', "%".$cariIn."%")
+                      ->orWhereHasMorph(
+                        'vendorable',
+                        [CategoryPT::class, CategoryPP::class, CategoryEcommerce::class],
+                        function (Builder $query) use ($cariIn) {
+                            $query->where('nama', 'like', "%" . $cariIn . "%");
+                        }
+                    );
+                  });
+        })
+        ->whereHas('quot',function($i){
+            $i->whereIn('status',['PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base']);
+        })
+        ->where('type_pr','SPKBased')
+        ->orderBy('status', 'desc')
+        ->orderBy('dateline', 'asc')
+        ->orderBy('approved_at', 'asc')
+        ->paginate(10, ['*'], 'in');
+
+        return view('purchaseOrder.menu.po-spk.history')
+        ->with('datappb',$datappb);
+    }
+
+    // public function SortHistorySpk(){
+
+    // }
+
 }

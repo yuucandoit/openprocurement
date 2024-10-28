@@ -111,6 +111,7 @@ class CategoryPengajuanPembelianController extends Controller
     //dd($cari);
     $dataws = WhoSubmitted::all();
     $datadv = CategoryPengajuanPembelian::Where('id','like',"%".$cari."%")
+    ->orWhere('type_pr','like',"%".$cari."%")
     ->orWhere('status','like',"%".$cari."%")
     ->orWhere('desc','like',"%".$cari."%")
     ->orWhereHas('whosubmit', function($q) use($cari){
@@ -420,7 +421,9 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 1 || $check->role_id = 2 || $check->role_id == 3){
-            $data = $request->all();
+            $data =  $request->all();
+            // dd($fileSpk = 1200 .'_'. $request->file('file_spk')->getClientOriginalName());
+            // dd($request->hasFile('file_pr'),$request->hasFile('file_spk'), $data);
             // dd($data);
             $request->validate([
                 'category_purpose' => 'required',
@@ -431,7 +434,8 @@ class CategoryPengajuanPembelianController extends Controller
                 'desc'  => 'required',
                 'atasan' => 'required',
                 'send_to' => 'required',
-                // 'path_file.*' => 'max:8192',
+                'file_pr' => 'nullable|file|mimes:pdf|max:2048',
+                'file_spk' => 'nullable|file|mimes:pdf|max:2048',
             ], [
                 'category_purpose.required' => 'The Purpose field is required.',
                 'date_ps.required' => 'The Date field is required.',
@@ -442,28 +446,57 @@ class CategoryPengajuanPembelianController extends Controller
                 'atasan.required' => 'The Super User field is required.',
                 'send_to.required' => 'The Send To field is required.',
                 'ppn.required' => 'The PPN To field is required.',
-                // 'path_file.*.max' => 'Maximum File Size Is 2MB ',
+                'file_spk.uploaded' => 'There was an error uploading the file. Please ensure the file size is under 2MB or consider compressing it.',
+                'file_spk.max' => 'Maximum File Size Is 2MB',
+                'file_spk.mimes' => 'File must be a PDF',
+                'file_spk.file' => 'The input must be a valid file.',
+                'file_pr.uploaded' => 'There was an error uploading the file. Please ensure the file size is under 2MB or consider compressing it.',
+                'file_pr.max' => 'Maximum File Size Is 2MB',
+                'file_pr.mimes' => 'File must be a PDF',
+                'file_pr.file' => 'The input must be a valid file.',
             ]);
 
             try {
-                // dd($data);
                 foreach($data['item'] as $item => $value){
                     $preprItems = PartItem_Pre_pr::find($data['item'][$item]);
                     if($preprItems){
                         if($preprItems->total < $data['qty'][$item]){
-                            Session::flashInput($request->input());
                             return redirect()->back()->with('error','Request qty > prepr total item '.$preprItems->child_item.' Request qty = '.$data['qty'][$item].' total required in prePR = '.$preprItems->total);
                         }
                     }
                 }
-
+                // Pengecekan Logistic Check & Type PR
                 $logisticCheck = 0;
-                // dd($request->category_purpose == "project");
-                if ($request->category_purpose == "project") {
+                $status = 'Awaiting Purchase Request Approval';
+                $signature = null;
+                $approved_at = null;
+                $dateline_time = null;
+                if ($request->category_purpose == "project" && $request->type != "SPKBased") {
                     $logisticCheck = 1;
+                    $status = 'Awaiting Purchase Request Approval';
                 }else {
                     $logisticCheck = 0;
+                    if($request->type == "SPKBased"){
+                        $status = 'Purchase Request Approved';
+                        $signature = 'bayu.png';
+                        $approved_at = now();
+                        if($request->dateline == '≤24Jam'){
+                            $dateline_time = ('24:00:00');
+                        }elseif($request->dateline == '≤48Jam'){
+                            $dateline_time = ('49:00:00');
+                        }elseif($request->dateline == '≤72Jam'){
+                            $dateline_time = ('73:00:00');
+                        }elseif($request->dateline == '≤96Jam'){
+                            $dateline_time = ('97:00:00');
+                        }elseif($request->dateline == '≤168Jam'){
+                            $dateline_time = ('169:00:00');
+                        }elseif($request->dateline == '≤336Jam'){
+                            $dateline_time = ('338:00:00');
+                        }
+                    }
+
                 }
+
 
                 $pengajuan = new CategoryPengajuanPembelian([
                     'logistic_check' => $logisticCheck,
@@ -476,6 +509,11 @@ class CategoryPengajuanPembelianController extends Controller
                     'atasan' => $request->atasan,
                     'send_to' => $request->send_to,
                     'ppn' => $request->ppn,
+                    'status' => $status,
+                    'signature' => $signature,
+                    'approved_at' => $approved_at,
+                    'type_pr'=> $request->type ?? null,
+                    'dateline_time' => $dateline_time,
                 ]);
 
 
@@ -506,18 +544,30 @@ class CategoryPengajuanPembelianController extends Controller
                 $month = Carbon::parse($pengajuan->created_at)->format('m');
                 $ppb_id = str_pad($pengajuan->id,5,'0', STR_PAD_LEFT);
                 $generateppb = strtoupper($ppb_id."/PPB/SII/".$month."/".$year);
+
                 $file_pr = null;
-                if($path_pr = $request->file('file_pr') ?? null) {
-                    $file_pr = $ppb_id .'_'. $path_pr->getClientOriginalName();
-                    $path_pr->move(public_path('upload_file_pr'), $file_pr);
+                if ($request->hasFile('file_pr')) {
+                    $file_pr_name = $ppb_id . '_' . $request->file('file_pr')->getClientOriginalName();
+                    $request->file('file_pr')->move(public_path('upload_file_pr'), $file_pr_name);
+                    // Simpan nama file ke sesi, bukan objek file
+                    session(['file_pr_name' => $file_pr_name]);
                 }
+
+                $fileSpk = null;
+
+                if ($request->hasFile('file_spk')) {
+                    $fileSpk = $ppb_id . '_' . $request->file('file_spk')->getClientOriginalName();
+                    $request->file('file_spk')->move(public_path('upload_spk'), $fileSpk);
+                }
+
+
                 CategoryPengajuanPembelian::where('id',$pengajuan->id)->update([
                     'code_pengajuan' => $generateppb,
                     'file_pr' => $file_pr,
+                    'file_spk' => $fileSpk,
                 ]);
 
-
-
+                // Looping Insert Item
                 foreach ($data['item'] as $item => $value) {
                     $file = null;
                     if($path = $request->file('path_file')[$item] ?? null) {
@@ -527,7 +577,6 @@ class CategoryPengajuanPembelianController extends Controller
                     $preprItems2 = PartItem_Pre_pr::find($data['item'][$item]);
                     if($preprItems2){
                         if($preprItems2->total < $data['qty'][$item]){
-                            Session::flashInput($request->input());
                             return redirect()->back()->with('error','Request qty > prepr total');
                         }
                         $preprItems2->total -= $data['qty'][$item];
@@ -545,16 +594,18 @@ class CategoryPengajuanPembelianController extends Controller
                     );
                     PengajuanPembelian::create($data2);
 
-
                 }
 
-        // }
-
             } catch (Exception $err) {
-                dd($err);
+                return redirect()->back()->with('error',$err);
+            }
+            // dd(!empty($request->type_pr) && $request->type_pr == 'SPKBased');
+            if(!empty($request->type_pr) && $request->type_pr == 'SPKBased'){
+                return redirect('menu-pengajuan-pembelian/')->with(['success' => true, 'message' => ' PR Created Successfully']);
+            }else {
+                return redirect('send/'.$pengajuan->id)->with('success', 'Task Created Successfully!');
             }
 
-            return redirect('send/'.$pengajuan->id)->with('success', 'Task Created Successfully!');
         } else {
             return redirect()->route('dashboard');
         }

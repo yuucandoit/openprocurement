@@ -1,4 +1,4 @@
-<title>Purchase Request</title>
+<title>Edit PrePR</title>
 @extends('layouts.master')
 
 @section('main')
@@ -205,7 +205,7 @@
                                                 </ul>
                                             </td>
                                             <td>
-                                                <input type="text" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" value="{{ $items->total }}"/>
+                                                <input type="text" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" value="{{ $items->total }}" readonly/>
                                             </td>
                                             <td style="text-align: center;">
                                                 <button type="button" name="add" class="btn btn-danger remove-input-field">
@@ -281,7 +281,7 @@
                             </ul>
                         </td>
                         <td>
-                            <input type="number" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" />
+                            <input type="number" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" readonly/>
                         </td>
                         <td style="text-align: center;">
                             <button type="button" class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button>

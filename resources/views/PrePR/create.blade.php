@@ -1,4 +1,4 @@
-<title>Purchase Request</title>
+<title>Create PrePR</title>
 @extends('layouts.master')
 
 @section('main')
@@ -168,7 +168,7 @@
                                             <td><input type="text" name="link[]" placeholder="Link Item" class="form-control" style="text-align: center;" value="{{ old('link.' . $index) }}"/></td>
                                             <td><input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-qty" style="text-align: center;" value="{{ old('qty.' . $index) }}"/></td>
                                             <td><input type="number" name="buffer[]" placeholder="Input Buffer" class="form-control form-buff" style="text-align: center;" value="{{ old('buffer.' . $index) }}"/></td>
-                                            <td><input type="text" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" value="{{ old('total.' . $index) }}"/></td>
+                                            <td><input type="text" name="total[]" placeholder="Total" class="form-control total" style="text-align: center;" value="{{ old('total.' . $index) }}" readonly /></td>
                                             <td style="text-align: center;">
                                                 <button type="button" name="add" class="btn btn-danger remove-input-field">
                                                     <i class="icofont icofont-ui-close"></i>
@@ -208,11 +208,25 @@
         });
 
         function updateFileds(event, row) {
-            const total = row.querySelector('.total');
-            const qty = parseInt(row.querySelector('.form-qty').value) || 0;
-            const buffer = parseInt(row.querySelector('.form-buff').value) || 0;
+            const qtyInput = row.querySelector('.form-qty');
+            const bufferInput = row.querySelector('.form-buff');
+            const totalInput = row.querySelector('.total');
 
-            total.value = qty + buffer;
+            // Menambahkan pemrosesan untuk menggantikan karakter non-numerik secara langsung di input
+            function filterNonNumeric(input) {
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            }
+
+            // Filter input saat ini
+            filterNonNumeric(qtyInput);
+            filterNonNumeric(bufferInput);
+
+            // Pastikan total dihitung berdasarkan nilai input saat ini
+            const qty = parseInt(qtyInput.value) || 0;
+            const buffer = parseInt(bufferInput.value) || 0;
+            totalInput.value = qty + buffer;
 
         }
 
@@ -246,7 +260,7 @@
                         <input type="number" name="buffer[]" placeholder="Input Buffer" class="form-control form-calc form-buff" style="text-align: center;" />
                     </td>
                     <td>
-                        <input type="number" name="total[]" placeholder="Total" class="form-control form-calc total" style="text-align: center;" />
+                        <input type="number" name="total[]" placeholder="Total" class="form-control form-calc total" style="text-align: center;" readonly />
                     </td>
                     <td style="text-align: center;">
                     <button type="button"  class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button>

@@ -105,7 +105,7 @@
                                 <div class="col-sm-8"></div>
                                     <div class="col-sm-4">
                                         <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
-                                            <form action="{{ route('menu-taskList-atasan-payment.SearchTaskPYIn') }}" method="get" class="input-group" >
+                                            <form action="{{ route('menu-taskList-atasan-po.SearchAtasanPOIn') }}" method="get" class="input-group" >
                                                 <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
                                                 <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                             </form>
@@ -188,7 +188,7 @@
                                                             <td style="text-align: center"><input type="checkbox" class="child-po-cb po-cb-{{ $po2->ppb_id }}" value="{{ $po2->id }}"></td>
                                                             <td>{{ $po->code_po }}</td>
                                                             <td>
-                                                                <a href="{{ route('menu-taskList-atasan-payment.po_detail',$po->id) }}">
+                                                                <a href="{{ route('menu-taskList-atasan-po.po_detail',$po->id) }}">
                                                                 <ul>
                                                                     <li>
                                                                         @if($po2->vendorable_id == 0)

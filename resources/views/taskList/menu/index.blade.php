@@ -154,6 +154,11 @@
                                                                     @endif
                                                                 </a>
                                                             </li>
+                                                            @if($ppb->type_pr == 'SPKBased')
+                                                            <li>
+                                                                <a class="badge" style="background-color:#ff5500; font-size:10px;">SPKBase</a>
+                                                            </li>
+                                                            @endif
                                                         </ul>
                                                     </td>
                                                 </tr>

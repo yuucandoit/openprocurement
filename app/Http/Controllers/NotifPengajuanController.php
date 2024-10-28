@@ -17,35 +17,19 @@ class NotifPengajuanController extends Controller
     public function index($id)
     {
 
-        $pengajuan = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('id',$id)->get();
+        $pengajuan = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('id',$id)->first();
+        // dd($pengajuan);
+        if(!empty($pengajuan)){
+                // dd($p->bod->email);
+                if(!empty($pengajuan->atasan)){
+                    dispatch(new SendEmailPengajuanJob($pengajuan->bod->email , $id));
+                    return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
+                }else {
+                    return redirect('menu-pengajuan-pembelian/')->with('status','PR Success Created');
+                }
 
-        foreach($pengajuan as $p){
-            // dd($p->bod->email);
-            if($p->atasan == 3){
-                dispatch(new SendEmailPengajuanJob($p->bod->email , $id));
-                return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
-            }
-            elseif($p->atasan == 6){
-                dispatch(new SendEmailPengajuanJob($p->bod->email, $id));
-                return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
-            }
-            elseif($p->atasan == 7){
-                dispatch(new SendEmailPengajuanJob($p->bod->email, $id));
-                return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
-            }
-            elseif($p->atasan == 8){
-                dispatch(new SendEmailPengajuanJob('victor01@intek.co.id', $id));
-                return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
-            }
-            elseif($p->atasan == 9){
-                dispatch(new SendEmailPengajuanJob($p->bod->email, $id));
-                return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
-            }
-            elseif($p->atasan == 24){
-                dispatch(new SendEmailPengajuanJob($p->bod->email, $id));
-                return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');
-            }
-
+        }else {
+            return redirect('menu-pengajuan-pembelian/')->with('status','PR Success Created');
         }
 
     }
