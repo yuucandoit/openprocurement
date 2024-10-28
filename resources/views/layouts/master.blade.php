@@ -1771,6 +1771,7 @@
                             <p class="pull-right mb-0" style="color: green;">
                                 <mark
                                     style="background-color: black; color: #FFFFFF; font-weight: bold; font-size:10px;">E-Procurement</mark>
+                                V 2.2
                             </p>
                         </div>
                     </div>
