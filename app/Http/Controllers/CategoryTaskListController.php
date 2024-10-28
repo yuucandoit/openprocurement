@@ -6,6 +6,7 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryTL;
 use App\Models\ItemPO;
+use App\Models\PartItem_Pre_pr;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\Role;
@@ -330,6 +331,33 @@ class CategoryTaskListController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 ||$check->role_id == 3||$check->role_id == 17) {
             $data = CategoryPengajuanPembelian::find($id);
+             //sum ulang product ke prepr kalau purposenya project
+            if($data->purpose_type == 'App\Models\ReferensiNamaProject'){
+                foreach ($data->itemppn as $item => $value) {
+                    if(!empty($data->itemppn[$item]->id)){
+                    $pengajuanItems = PengajuanPembelian::find($data->itemppn[$item]->id); // Kalau id nya ada maka get
+                    }else {
+                    $pengajuanItems = null; // kalau idnnya ga ada maka dbkin null
+                    }
+
+                    if($pengajuanItems){
+                        $preprOldItems = PartItem_Pre_pr::where('id',$pengajuanItems->prepr_id)->first(); //kalau item oldnya ada maka get data old
+                    } else {
+                        $preprOldItems = null; //bikin null kalau item pr nya ga ada
+                    }
+
+                    // dd($preprOldItems->id);
+                    if($preprOldItems){
+                        //Update Data
+                        $sumskuy = $preprOldItems->total + $pengajuanItems->qty; //Kalau minus dia ngurang jadi misal 10 + -(8); jadi 2
+                        PartItem_Pre_pr::where('id', $preprOldItems->id)->update([
+                            'total' => $sumskuy,
+                        ]);
+                    }
+                }
+            }
+
+
             //jika ada request image dia masuk kalo ngga skip
             if($request->hasFile('path_img')){
             $path_name        = $request->file('path_img');

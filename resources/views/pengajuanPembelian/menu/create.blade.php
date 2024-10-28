@@ -1,4 +1,4 @@
-<title>Purchase Request</title>
+<title>Create Purchase Request</title>
 @extends('layouts.master')
 
 @section('main')
@@ -47,25 +47,25 @@
 <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 <section>
     @if(session('error'))
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-    {{ session('error') }}
-</div>
-@elseif ($errors->any())
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <ul>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@elseif(session()->has('message'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-        {{ session()->get('message') }}
-    </div>
-@endif
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{ session('error') }}
+        </div>
+    @elseif ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul>
+                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @elseif(session()->has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{ session()->get('message') }}
+        </div>
+    @endif
     <div class="container-fluid">
         <div class="page-header">
             <div class="row">
@@ -98,7 +98,7 @@
                             @csrf
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <label for="floatingTanggal"><i data-feather="calendar"></i> Date <span style="color: red">*</span></label>
+                                    <label for="floatingTanggal"><i style="width: 15px; padding-top: 10px;" data-feather="calendar"></i> Date <span style="color: red">*</span></label>
                                     <div class="form-group">
                                         <input type="date" class="form-control @error('date_ps') is-invalid @enderror" id="floatingTanggal" placeholder="Tanggal" name="date_ps" value="{{ old('date_ps', date('Y-m-d')) }}">
                                         @error('date_ps')
@@ -112,7 +112,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingdateline"><i data-feather="clock"></i> Deadline <span style="color: red">*</span></label>
+                                        <label for="floatingdateline"><i style="width: 15px; padding-top: 10px;" data-feather="clock"></i> Deadline <span style="color: red">*</span></label>
                                         <select class="form-select @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" required="">
                                             @if(old('dateline'))
                                             <option selected="" disabled="" value="{{ old('dateline') }}">{{ old('dateline') }}</option>
@@ -139,7 +139,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="" for="pageSelector"><i  data-feather="send"></i> Send To <span style="color: red">*</span></label>
+                                        <label class="" for="pageSelector"><i  style="width: 15px; padding-top: 10px;" data-feather="send"></i> Send To <span style="color: red">*</span></label>
                                         <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to">
                                             <option value="{{ old('send_to')  }}" selected>{{ old('send_to') ?? 'Select Send To'   }}</option>
                                             <option value="Tebet">Tebet</option>
@@ -153,7 +153,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingrequestby"><i data-feather="user"></i> Request By <span style="color: red">*</span></label>
+                                        <label for="floatingrequestby"><i style="width: 15px; padding-top: 10px;" data-feather="user"></i> Request By <span style="color: red">*</span></label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingrequestby" placeholder="Who Submitted" name="ws" required="" data-live-search="true">
 
                                             @foreach ($dataws as $ws)
@@ -178,7 +178,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingdepartment"><i data-feather="briefcase"></i> Department <span style="color: red">*</span></label>
+                                        <label for="floatingdepartment"><i style="width: 15px; padding-top: 10px;" data-feather="briefcase"></i> Department <span style="color: red">*</span></label>
                                         <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
                                             @foreach ($datadepartment as $dp)
                                             @if(Auth::user()->department == $dp->name)
@@ -200,7 +200,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Send Approval To <span style="color: red">*</span></label>
+                                        <label class="" style="font-weight: bold;"><i style="width: 15px; padding-top: 10px;" data-feather="user-check"></i> Send Approval To <span style="color: red">*</span></label>
                                         <select class="form-select" id="floatingproposedto" placeholder="Proposed To" name="atasan" required="">
                                             <option selected value="{{ $atasan->id }}">{{ $atasan->name }}</option>
                                         </select>
@@ -214,25 +214,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label for="floatingNoTelpon"><i data-feather="link"></i> Description <span style="color: red">*</span></label>
-                                        <div class="">
-                                            <textarea name="desc" id="floatingNoTelpon" class="form-control" rows="4" required>{{ old('desc') }}</textarea>
-                                            @error('desc')
-                                            <div class='mt-1'>
-                                                <span class=" text-danger">
-                                                    {{ $message }}
-                                                </span>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="row mb-2">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="floatingwhosubmitted"><i class="icofont icofont-macbook"></i>
+                                        <label for="floatingtype"><i style="width: 15px; padding-top: 10px;" data-feather="tag"></i> Type PR <span style="color: red">*</span></label>
+                                        <select class="form-select type_pr" placeholder="Select Type" name="type" required>
+                                            <option value="">Select Type</option>
+                                            <option value="Standard">Standard</option>
+                                            <option value="SPKBased">SPK Base</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 spk-upload hide">
+                                    <div class="form-group">
+                                        <label><i style="width: 15px; padding-top: 10px;" data-feather="file-text"></i> Attach File SPK <span style="color: red">*</span></label>
+                                        <input type="file" placeholder="Choose File" class="form-control"  name="file_spk">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="floatingwhosubmitted"><i style="width: 15px; padding-top: 10px;" data-feather="target"></i>
                                             Purpose
                                             <span style="color: red">*</span>
                                         </label>
@@ -330,6 +334,23 @@
                                             {{-- End Travel Dropdown --}}
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="floatingNoTelpon"><i style="width: 15px; padding-top: 10px;" data-feather="link"></i> Description <span style="color: red">*</span></label>
+                                        <div class="">
+                                            <textarea name="desc" id="floatingNoTelpon" class="form-control" rows="4" required>{{ old('desc') }}</textarea>
+                                            @error('desc')
+                                            <div class='mt-1'>
+                                                <span class=" text-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -345,7 +366,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label> Attach File PR </label>
-                                        <input type="file" placeholder="Choose File" class="form-control" enctype="multipart/form-data" name="file_pr">
+                                        <input type="file" placeholder="Choose File" class="form-control"  name="file_pr">
                                     </div>
                                 </div>
 
@@ -400,7 +421,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                                            <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" >
                                             @error('path_file')
                                             <div class='mt-1'>
                                                 <span class="text-danger">
@@ -456,7 +477,7 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="file" name="path_file[]" class="form-control" enctype="multipart/form-data">
+                                                    <input type="file" name="path_file[]" class="form-control" >
                                                     @error('path_file')
                                                     <div class='mt-1'>
                                                         <span class="text-danger">
@@ -500,7 +521,7 @@
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" enctype="multipart/form-data">
+                                                        <input type="file" name="path_file[]" placeholder="Choose File" class="form-control" >
                                                         @error('path_file')
                                                         <div class='mt-1'>
                                                             <span class=" text-danger" >
@@ -855,6 +876,22 @@
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Processing';
      });
+    </script>
+
+
+{{-- Script buat Show And Hide Upload File --}}
+    <script>
+        const typePR = document.querySelector('.type_pr');
+        const spkUpload = document.querySelector('.spk-upload');
+        console.log(typePR);
+        typePR.addEventListener('change', function(){
+            console.log(this.value);
+            if(this.value == 'SPKBased'){
+                spkUpload.classList.remove('hide');
+            }else {
+                spkUpload.classList.add('hide');
+            }
+        })
     </script>
 
 </section>

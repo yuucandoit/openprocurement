@@ -69,6 +69,7 @@ Route::get('/',function () {
     return redirect()->route('login');
 });
 
+
 Route::group(['middleware' => ['auth']], function () {
      //forceReset
      Route::get('/resetPage',[ForceResetPassword::class,'showForm'])->name('resetPage');
@@ -129,6 +130,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Route untuk vendor Ecommerce
     Route::group(['prefix' => 'ecommerce'], function () {
+        
         Route::get('/{id}', [EcommerceController::class, 'index'])->name('ecommerce.index');
         Route::get('/detail/{id}', [EcommerceController::class, 'detail'])->name('perusahaan.detail');
         Route::get('/create/{id}', [EcommerceController::class, 'create'])->name('ecommerce.create');
@@ -492,8 +494,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update/{id}', [CategoryPOController::class, 'update'])->name('menu-purchase-order.update');
         Route::get('/edit/{id}', [CategoryPOController::class, 'edit'])->name('menu-purchase-order.edit');
         // Route::delete('/destroy/{id}', [CategoryPOController::class, 'destroy'])->name('menu-purchase-order.destroy');
-        Route::get('/check_po/{id}', [CategoryPOController::class, 'checkPO'])->name('menu-purchase-order-checkPO');
-        Route::get('/check_po2/{id}', [CategoryPOController::class, 'checkPO2'])->name('menu-purchase-order-checkPO2');
+        Route::post('/check_po/{id}', [CategoryPOController::class, 'checkPO'])->name('menu-purchase-order-checkPO');
+        Route::post('/check_po2/{id}', [CategoryPOController::class, 'checkPO2'])->name('menu-purchase-order-checkPO2');
+        Route::post('/spk_base/{id}', [CategoryPOController::class, 'check_spk'])->name('menu-purchase-order-spk_base');
+        Route::post('/spk_base_selected',[CategoryPOController::class, 'spk_selected_approve'])->name('menu-purchase-order.spk_selected_approve');
+        Route::post('/spk_base2/{id}', [CategoryPOController::class, 'check_po_spk'])->name('menu-purchase-order-spk_base2');
         Route::get('/ajukan_dana/{id}', [CategoryPOController::class, 'ajukan_dana'])->name('menu-purchase-order-ajukan_dana');
         Route::get('/denied/{id}', [CategoryPOController::class, 'denied'])->name('menu-purchase-order-denied');
         Route::get('/search/po_in',[CategoryPOController::class, 'SearchPOIn'])->name('menu-purchase-order.SearchPOIn');
@@ -587,6 +592,22 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/history/checkpo',[CheckPOController::class, 'SearchHistoryCheckPO'])->name('check_po.SearchHistoryCheckPO');
         Route::get('/history/sortCP',[CheckPOController::class, 'SortHistoryCheckPO'])->name('check_po.SortHistoryCheckPO');
     });
+
+    // Menu PO SPK Base (Manager Purchase)
+    Route::group(['prefix' => 'po_spk'], function () {
+        Route::get('/', [CategoryPOController::class, 'index_spk'])->name('pospk.index');
+        Route::get('/detail/{id}', [CategoryPOController::class, 'detailspk'])->name('pospk.detail');
+        Route::get('/po_detail/{id}', [CategoryPOController::class, 'po_detail_spk'])->name('pospk.po_detail');
+        Route::post('/approve/{id}', [CategoryPOController::class, 'approve_spk'])->name('pospk-approve');
+        Route::post('/approve_po/{id}', [CategoryPOController::class, 'approve_po_spk'])->name('pospk-approve-po');
+        Route::post('/reject/{id}', [CategoryPOController::class, 'reject_pr_spk'])->name('pospk.reject.pr');
+        Route::post('/reject_po/{id}', [CategoryPOController::class, 'reject_po_spk'])->name('pospk.reject.po');
+        Route::get('/search',[CategoryPOController::class, 'search_spk'])->name('pospk.search');
+        Route::get('/history', [CategoryPOController::class, 'history_spk'])->name('pospk.history');
+        Route::get('/search/history',[CategoryPOController::class, 'SearchHistorySpk'])->name('pospk.SearchHistorySpk');
+        // Route::get('/history/sort',[CategoryPOController::class, 'SortHistorySpk'])->name('pospk.SortHistorySpk');
+    });
+
 
     //admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

@@ -400,7 +400,7 @@ class TasklistAtasanPoController extends Controller
             $cpo = CategoryPO::where('ppb_id',$id)->first();
             // dd($cpo);
             $sig = new POSignature();
-        //dd($cpo);
+        
             if($data->atasan_po == 3){
                 $cpo->signature = 'superadmin.png';
                 $cpo->approved_at = Carbon::now();

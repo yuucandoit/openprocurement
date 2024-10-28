@@ -107,10 +107,6 @@
                 @endforeach
             @endforeach
 
-
-
-
-
             <!-- Page Sidebar Ends-->
             <div class="container-fluid">
                 <div class="page-header">
@@ -239,6 +235,13 @@
                                                                             Complete This Task!
                                                                         </a>
                                                                     </li>
+                                                                    @if($ppb->type_pr == 'SPKBased')
+                                                                    <li>
+                                                                        <a class="badge" style="background-color:coral; font-size: 11;">
+                                                                            SPK Based
+                                                                        </a>
+                                                                    </li>
+                                                                    @endif
                                                                 </ul>
                                                             </td>
                                                             {{-- <td>
@@ -272,6 +275,9 @@
                                                                     $po2 = \App\Models\CategoryPO::find($po->id);
                                                                     $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
                                                                     $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
+                                                                    $isRejected = str_contains(strtolower($po2->status), 'reject');
+                                                                    $badgeClass = $isRejected ? 'bg-danger' :
+                                                                                ($po2->status == 'Waiting For PO Approval' ? 'bg-warning' : 'bg-success');
                                                                 @endphp
 
                                                                 @if(empty($po2))
@@ -308,15 +314,16 @@
                                                                 @endforeach
                                                                 </td>
                                                                 <td  class="text-center">
-                                                                    @if($po2->status == 'Reject PO')
-                                                                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">
+                                                                    @if($isRejected)
+                                                                    <a class="badge  {{ $badgeClass }} mt-1" style="color: white; font-size:12">
                                                                         {{ $po2->status }}
                                                                     </a>
-                                                                    <a class="badge bg-danger mt-1" style="color: white; font-size:12">
+                                                                    <br>
+                                                                    <a class="badge  {{ $badgeClass }} mt-1" style="color: white; font-size:12">
                                                                         {{ $po2->notes ?? '-' }}
                                                                     </a>
                                                                     @else
-                                                                    <a class="badge {{ $po2->status == 'Waiting For PO Approval' ? 'bg-warning' : ($po2->status == 'Reject PO' ? 'bg-danger' : 'bg-success') }} mt-1"
+                                                                    <a class="badge {{ $badgeClass }} mt-1"
                                                                         style="color: white; font-size:12">{{ $po2->status }}</a>
                                                                     @endif
                                                                 </td>

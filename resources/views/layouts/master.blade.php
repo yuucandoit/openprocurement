@@ -116,8 +116,8 @@
                         </li>
                         @php
                            $coment_ppb = App\Models\Comment::groupBy('ppb_id')->get();
-                           $comment_id = App\Models\CommentRead::orderBy('created_at','DESC')->     groupBy('comment_id')->get();
-                           $comment_user_id = App\Models\CommentRead::where('id', '!=', auth()->id())->get();
+                           $comment_id = App\Models\CommentRead::orderBy('created_at','DESC')->groupBy('comment_id')->get();
+                           $comment_user_id = App\Models\CommentRead::where('user_id', '=', auth()->id())->get();
                         @endphp
                         <style>
                             .my-custom-scrollbar {
@@ -141,9 +141,7 @@
                                         <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
                                     </li>
                                     @foreach ($comment_id as $cid)
-                                    @if(!empty($cid->comment->ppb->user_id))
-                                    @if($cid->comment->ppb->user_id == Auth::user()->id)
-                                    @if($cid->is_read_user == 1)
+                                    @if(!empty($cid->comment->ppb->user_id) && $cid->comment->ppb->user_id == Auth::user()->id && $cid->is_read_user == 1)
 
                                     @else
                                     <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-user" method="post" enctype="multipart/form-data">
@@ -153,7 +151,7 @@
                                             <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
                                                 <div class="media-body" style="font-size: 8;">
                                                 <p style="font-size: 10;">{{ $cid->comment->users->name }}</p>
-                                                <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
+                                                <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name ?? '-' }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
 
                                                 </div>
                                                 <i data-feather="chevron-right" class="mt-3"><button type="submit" style="opacity: 0;"></button></i>
@@ -164,9 +162,6 @@
 
                                         </a>
                                     </form>
-                                    @endif
-                                    @endif
-                                    @else
                                     @endif
                                     @endforeach
                                 </div>
@@ -413,6 +408,7 @@
                                 $pyprocess   =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Unpaid');})->where('status', 'not like', '%Rejected%')->count();
                                 $delivery    =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');})->where('status', 'not like', '%Rejected%')->count();
                                 $checkpr     =  App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)->count();
+                                $poSpkBase   =  App\Models\CategoryPengajuanPembelian::where('type_pr','SPKBased')->whereHas('quot',function($i){$i->where('status','Waiting Approval PO SPK');})->count();
                                 @endphp
                                 @hasrole('super purchase|purchasing|super admin')
 
@@ -636,6 +632,25 @@
 
                                             @else
                                             <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $checkpo }}</span>
+                                            @endif
+                                        </a>
+                                    </li>
+
+                                    <li class="sidebar-main-title">
+                                        <div>
+                                            <h6>PO SPK Approval</h6>
+                                        </div>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('po_spk') || request()->is('po_spk/detail/*')|| request()->is('po_spk/po_detail/*') || request()->is('po_spk/search') ? 'active' : '' }}"
+                                            href="{{ url('/po_spk') }}">
+                                            <i data-feather="check-circle"></i>
+                                            <span>PO SPK Based</span>
+                                            @if($poSpkBase == 0)
+
+                                            @else
+                                            <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $poSpkBase }}</span>
                                             @endif
                                         </a>
                                     </li>
@@ -1659,6 +1674,14 @@
                                 @endhasrole
 
                                 @hasrole('super purchase|super admin')
+                                    <li class=" dropdown {{ request()->is('po_spk/history*') || request()->is('search/history*') ? 'active' : '' }}">
+                                        <a class="nav-link menu-title link-nav {{ request()->is('po_spk/history*') || request()->is('po_spk/search/history*') ? 'active' : '' }}"
+                                            href="{{ route('pospk.history') }}">
+                                            <i data-feather="activity"></i>
+                                            <span>History PO SPK Base</span>
+                                        </a>
+                                    </li>
+
                                     <li class=" dropdown {{ request()->is('/check_po/history') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav {{ request()->is('check_po/history*') ? 'active' : '' }}"
                                             href="{{ route('check_po.history') }}">

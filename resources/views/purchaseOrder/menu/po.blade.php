@@ -112,6 +112,16 @@
                                                     @endif
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td>Status</td>
+                                                <td style="font-weight:600;">
+                                                    @if (empty($po->ppb->status))
+                                                        -
+                                                    @else
+                                                        {{ $po->ppb->status }}
+                                                    @endif
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

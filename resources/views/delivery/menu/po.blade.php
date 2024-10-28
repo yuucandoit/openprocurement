@@ -464,12 +464,12 @@
                         {{-- End Modal Approval --}}
 
                         <div class="modal-footer">
-                            <form class="text-center" action="{{ route('delivery.setBackShippy',$datacpo->id) }}" method="POST">
+                            {{-- <form class="text-center" action="{{ route('delivery.setBackShippy',$datacpo->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-outline-danger">
                                     Yes, Proceed!
                                 </button>
-                            </form>
+                            </form> --}}
                         </div>
                     </div>
                 </div>
@@ -510,7 +510,7 @@
                         @elseif($datacpo->deliveryStatus->isNotEmpty() && $datacpo->flag_delivery == 2)
                             <div style="text-align: center;">
                                 <h3>Package Arrived !</h3>
-                                <button class="btn btn-warning mt-3" data-bs-target="#modalSetBackDelivery" data-bs-toggle="modal">Undo</button>
+                                {{-- <button class="btn btn-warning mt-3" data-bs-target="#modalSetBackDelivery" data-bs-toggle="modal">Undo</button> --}}
                             </div>
                         @else
                             <div style="text-align: center;">

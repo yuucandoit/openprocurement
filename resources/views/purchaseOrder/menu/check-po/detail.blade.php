@@ -96,15 +96,6 @@
                                             <tbody>
 
                                                 @foreach ($pengajuan as $p)
-                                                {{-- @php
-                                                    foreach ($items as $item) {
-                                                        foreach ($item->itempo as $i) {
-                                                            $qtypo = $i->qty;
-                                                            $qtypp = $p->qty;
-                                                            $sum = $qtypo - $qtypp;
-                                                        }
-                                                    }
-                                                @endphp --}}
                                                     <tr>
                                                         <td style="text-align: center;">{!! nl2br($p->item) !!}</td>
                                                         <td style="text-align: center;">{{ $p->qty }}</td>
@@ -141,9 +132,9 @@
             </div>
 
             @php
-            $year = Carbon\Carbon::now()->format('y');
-            $month = Carbon\Carbon::now()->format('m');
-        @endphp
+                $year = Carbon\Carbon::now()->format('y');
+                $month = Carbon\Carbon::now()->format('m');
+            @endphp
 
 
             <div class="container-fluid">
@@ -569,7 +560,8 @@
                   </div>
                 </div>
             </div>
-              <div class="container-fluid">
+            {{-- Comment Section --}}
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
@@ -584,39 +576,65 @@
                                             </div>
                                         </form>
                                     <div class="AllComment" id="comment">
-                                        <div class="container">
-                                            @foreach ($comments as $c)
-                                                <ul>
-                                                    <li>
-                                                        <p>
-                                                            <strong>
-                                                                @if (empty($c->users->name))
-                                                                @else
-                                                                    - {{ $c->users->name }}
-                                                                @endif
-                                                            </strong>
-                                                            @if (empty($c->created_at))
+                                        @foreach ($comments as $c)
+                                            @if($c->user_id == Auth::user()->id)
+                                            <ul style="text-align: end; padding-right:10px;">
+                                                <li>
+                                                    <p>
+                                                        <strong>
+                                                            @if (empty($c->users->name))
                                                             @else
-                                                                &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
+                                                                You
                                                             @endif
-                                                        </p>
-                                                    </li>
-                                                    <li>
-                                                        @if (empty($c->comment))
+                                                        </strong>
+                                                        @if (empty($c->created_at))
                                                         @else
-                                                            <p>{{ $c->comment }}</p>
+                                                        &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
                                                         @endif
-                                                    </li>
-                                                    <hr>
-                                                </ul>
-                                            @endforeach
-                                        </div>
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    @if (empty($c->comment))
+                                                    @else
+                                                        <p>{{ $c->comment }}</p>
+                                                    @endif
+                                                </li>
+                                                <hr>
+                                            </ul>
+                                            @else
+                                            <ul style="padding-left:10px;">
+                                                <li>
+                                                    <p>
+                                                        <strong>
+                                                            @if (empty($c->users->name))
+                                                            @else
+                                                                {{ $c->users->name }}
+                                                            @endif
+                                                        </strong>
+                                                        @if (empty($c->created_at))
+                                                        @else
+                                                            &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
+                                                        @endif
+                                                    </p>
+                                                </li>
+                                                <li>
+                                                    @if (empty($c->comment))
+                                                    @else
+                                                        <p>{{ $c->comment }}</p>
+                                                    @endif
+                                                </li>
+                                                <hr>
+                                            </ul>
+                                            @endif
+
+                                        @endforeach
                                     </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
                 <style>
                     .tutup {
