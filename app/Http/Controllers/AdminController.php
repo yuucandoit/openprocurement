@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Roles;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\WhoSubmitted;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -94,7 +95,7 @@ class AdminController extends Controller
                 "role" => 'required',
             ]);
             $data2 = $request->all();
-            // dd($data2);
+            
             try {
                 $data = new User();
                 $data->name = $request->name;
@@ -104,6 +105,18 @@ class AdminController extends Controller
                 $data->location = $request->location;
                 $data->save();
                 $data->assignRole($request->role);
+
+                // Kalau user baru rolenya user dia tambahin who submit
+                if ($request->role == 'user') {
+                    $exists = WhoSubmitted::where('name', $request->name)->exists();
+
+                    if (!$exists) {
+                        WhoSubmitted::create([
+                            'name' => $request->name,
+                        ]);
+                    }
+                }
+
             } catch (\Exception $err) {
             dd($err);
             }
