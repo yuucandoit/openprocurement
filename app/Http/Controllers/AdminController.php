@@ -95,7 +95,7 @@ class AdminController extends Controller
                 "role" => 'required',
             ]);
             $data2 = $request->all();
-            dd($data2);
+            
             try {
                 $data = new User();
                 $data->name = $request->name;
