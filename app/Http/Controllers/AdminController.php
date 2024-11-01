@@ -95,7 +95,7 @@ class AdminController extends Controller
                 "role" => 'required',
             ]);
             $data2 = $request->all();
-            
+
             try {
                 $data = new User();
                 $data->name = $request->name;
@@ -169,12 +169,17 @@ class AdminController extends Controller
             $data2 = $request->all();
 
             $data = User::find($id);
-            $data->name = $request->name;
-            $data->email = $request->email;
-            $data->password = Hash::make($request->password);
-            $data->department = $request->department;
-            $data->location = $request->location;
+            $data->name = $request->name ?  $request->name : $data->name;
+            $data->email = $request->email ? $request->email : $data->email;
+            $data->password = $request->password ? Hash::make($request->password) : $data->password;
+            $data->department = $request->department ? $request->department : $data->department;
+            $data->location = $request->location ? $request->location : $data->location;
             $data->save();
+            if($request->role){
+                $data->roles()->detach();
+                $data->assignRole($request->role);
+            }
+
 
             return redirect()->route('admin.index')->with('success', 'Task Created Successfully!');
 
