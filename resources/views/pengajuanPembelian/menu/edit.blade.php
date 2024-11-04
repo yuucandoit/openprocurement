@@ -143,11 +143,11 @@
                                     <div class="form-group">
                                         <label class="" style="font-weight: bold;"><i class="icofont icofont-stamp"></i> Send Approval To:</label>
                                         <select class="form-select" id="floatingproposedto" placeholder="Proposed To" name="atasan" required="">
-                                            <option selected=""  value="{{ $dv->atasan }}">{{ $dv->bod->name }}
-                                            </option>
-                                            @foreach ($atasan as $sui)
-                                            <option value="{{ $sui->id }}">{{ $sui->name }}</option>
-                                            @endforeach
+                                            @if($dv->atasan == $atasan->id)
+                                            <option value="{{ $atasan->id }}" selected>{{ $atasan->name }}</option>
+                                            @else
+                                            <option value="{{ $dv->atasan }}" selected>{{ $dv->bod->name }}</option>
+                                            @endif
                                         </select>
                                         @error('atasan')
                                         <div class="invalid-feedback">

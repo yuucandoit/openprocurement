@@ -631,7 +631,7 @@ class CategoryPengajuanPembelianController extends Controller
     public function edit(Request $request, $id)
     {
         $check              = Role::where('model_id', Auth::user()->id)->first();
-        $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
+        $atasan             = User::find(7);
         $datapt             = CategoryPT::all();
         $dv                 = CategoryPengajuanPembelian::find($id);
         $dataws             = WhoSubmitted::all();
