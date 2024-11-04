@@ -147,6 +147,7 @@
                                             <option value="{{ $atasan->id }}" selected>{{ $atasan->name }}</option>
                                             @else
                                             <option value="{{ $dv->atasan }}" selected>{{ $dv->bod->name }}</option>
+                                            <option value="{{ $atasan->id }}">{{ $atasan->name }}</option>
                                             @endif
                                         </select>
                                         @error('atasan')
