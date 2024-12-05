@@ -164,7 +164,7 @@ class CategoryPengajuanPembelianController extends Controller
             } else {
                 return redirect()->route('dashboard');
             }
-        }else if ($check->role_id == 1 || $check->role_id == 3) {
+        }else if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4 || $check->role_id == 17) {
             return view('pengajuanPembelian.menu.detail')
                 ->with('atasan', $atasan)
                 ->with('pengajuan', $pengajuan)
@@ -326,14 +326,19 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 1 || $check->role_id == 2){
-
+        
+        $purposePermitted = Department::where('name', Auth::user()->department)
+        ->pluck('permitted_purposes')
+        ->first(); // Ambil data pertama dari hasil pluck
+    
+        // Decode JSON menjadi array (jika diperlukan)
+        $purposesArray = $purposePermitted ? json_decode($purposePermitted, true) : [];
+        $lowercasePurposes = array_map('strtolower', $purposesArray);
         $prepr              = Pre_pr::orderBy('id','DESC')->get();
         $atasan             = User::find(7);
-        // dd($atasan);
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose            = ReferensiNamaProject::get();
-
         $purpose_office     = Office::all();
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
@@ -365,15 +370,21 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('uom', $uom)
             ->with('oldInput', $oldInput)
             ->with('ItemsProject', $ItemsProject)
-            ->with('ppb_old', $ppb_old);
+            ->with('ppb_old', $ppb_old)
+            ->with('permitted_purpose', $lowercasePurposes);
         }elseif ($check->role_id == 3){
+        $purposePermitted = Department::where('name', Auth::user()->department)
+        ->pluck('permitted_purposes')
+        ->first(); // Ambil data pertama dari hasil pluck
+    
+        // Decode JSON menjadi array (jika diperlukan)
+        $purposesArray = $purposePermitted ? json_decode($purposePermitted, true) : [];
+        $lowercasePurposes = array_map('strtolower', $purposesArray);
         $prepr              = Pre_pr::orderBy('id','DESC')->get();
         $atasan             = User::find(7);
-        // dd($atasan);
         $dataws             = WhoSubmitted::all();
         $datadepartment     = Department::all();
         $purpose            = ReferensiNamaProject::get();
-
         $purpose_office     = Office::all();
         $purpose_inventory  = Inventory::all();
         $purpose_workshop   = Workshop::all();
@@ -405,7 +416,8 @@ class CategoryPengajuanPembelianController extends Controller
             ->with('uom', $uom)
             ->with('oldInput', $oldInput)
             ->with('ItemsProject', $ItemsProject)
-            ->with('ppb_old', $ppb_old);
+            ->with('ppb_old', $ppb_old)
+            ->with('permitted_purpose', $lowercasePurposes);
         }else {
             return redirect()->route('dashboard');
         }
@@ -457,34 +469,38 @@ class CategoryPengajuanPembelianController extends Controller
             ]);
 
             try {
-                foreach($data['item'] as $item => $value){
-                    $preprItems = PartItem_Pre_pr::find($data['item'][$item]);
-                    if($preprItems){
-                        if($preprItems->total < $data['qty'][$item]){
-                            return redirect()->back()->with('error','Request qty > prepr total item '.$preprItems->child_item.' Request qty = '.$data['qty'][$item].' total required in prePR = '.$preprItems->total);
+                if($request->category_purpose == "project"){
+                    foreach($data['item'] as $item => $value){
+                        $preprItems = PartItem_Pre_pr::find($data['item'][$item]);
+                        if($preprItems){
+                            if($preprItems->total < $data['qty'][$item]){
+                                return redirect()->back()->with('error','Request qty > prepr total item '.$preprItems->child_item.' Request qty = '.$data['qty'][$item].' total required in prePR = '.$preprItems->total);
+                            }
                         }
                     }
                 }
+                
                 // Pengecekan Logistic Check & Type PR
                 $logisticCheck = 0;
                 $status = 'Awaiting Purchase Request Approval';
                 $signature = null;
                 $approved_at = null;
                 $dateline_time = null;
-                if ($request->category_purpose == "project" && $request->type != "SPKBased") {
+                if ($request->category_purpose == "project" && $request->type != "SPKBased" && $request->type != "SPK_Normal") {
                     $logisticCheck = 1;
                     $status = 'Awaiting Purchase Request Approval';
                 }else {
                     $logisticCheck = 0;
-                    if($request->type == "SPKBased"){
+                    if($request->type == "SPKBased" || $request->type == "SPK_Normal"){
                         $status = 'Purchase Request Approved';
-                        $signature = 'bayu.png';
+                        $signature = '';
+                        if($request->atasan == '6'){
+                            $signature = 'sinduirawan.png';
+                        }else {
+                            $signature = 'bayu.png';
+                        }
                         $approved_at = now();
-                        if($request->dateline == '≤24Jam'){
-                            $dateline_time = ('24:00:00');
-                        }elseif($request->dateline == '≤48Jam'){
-                            $dateline_time = ('49:00:00');
-                        }elseif($request->dateline == '≤72Jam'){
+                        if($request->dateline == '≤72Jam'){
                             $dateline_time = ('73:00:00');
                         }elseif($request->dateline == '≤96Jam'){
                             $dateline_time = ('97:00:00');
@@ -513,6 +529,7 @@ class CategoryPengajuanPembelianController extends Controller
                     'signature' => $signature,
                     'approved_at' => $approved_at,
                     'type_pr'=> $request->type ?? null,
+                    'process_by' => $request->process_by ? $request->process_by : 'Tebet',
                     'dateline_time' => $dateline_time,
                 ]);
 
@@ -548,9 +565,7 @@ class CategoryPengajuanPembelianController extends Controller
                 $file_pr = null;
                 if ($request->hasFile('file_pr')) {
                     $file_pr_name = $ppb_id . '_' . $request->file('file_pr')->getClientOriginalName();
-                    $request->file('file_pr')->move(public_path('upload_file_pr'), $file_pr_name);
-                    // Simpan nama file ke sesi, bukan objek file
-                    session(['file_pr_name' => $file_pr_name]);
+                    $request->file('file_pr')->move(public_path('upload_file_pr'), $file_pr_name);  
                 }
 
                 $fileSpk = null;
@@ -574,13 +589,15 @@ class CategoryPengajuanPembelianController extends Controller
                         $file = $path->getClientOriginalName();
                         $path->move(public_path('upload_pengajuan'), $file);
                     }
-                    $preprItems2 = PartItem_Pre_pr::find($data['item'][$item]);
-                    if($preprItems2){
-                        if($preprItems2->total < $data['qty'][$item]){
-                            return redirect()->back()->with('error','Request qty > prepr total');
+                    if($request->category_purpose == "project"){
+                        $preprItems2 = PartItem_Pre_pr::find($data['item'][$item]);
+                        if($preprItems2){
+                            if($preprItems2->total < $data['qty'][$item]){
+                                return redirect()->back()->with('error','Request qty > prepr total');
+                            }
+                            $preprItems2->total -= $data['qty'][$item];
+                            $preprItems2->save();
                         }
-                        $preprItems2->total -= $data['qty'][$item];
-                        $preprItems2->save();
                     }
 
                     $data2 = array(

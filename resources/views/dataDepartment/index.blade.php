@@ -42,6 +42,7 @@
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th>Name</th>
+                                            <th>Permitted Purpose</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -51,17 +52,25 @@
                                             $i = 1 + $data->currentPage() * $data->perPage() - $data->perPage();
                                         @endphp
                                         @foreach ($data as $dpr)
+                                        @php
+                                            $label = $dpr->permitted_purposes ? json_decode($dpr->permitted_purposes, true) : [];
+                                        @endphp
                                             <tr>
                                                 <td style="text-align: center;">{{ $i++ }}</td>
                                                 <td>{{ $dpr->name }}</td>
+                                                <td style="text-align: center;"> 
+                                                    @foreach ($label as $l)
+                                                    <span class="badge badge-primary">{{ $l }}</span>
+                                                    @endforeach
+                                                </td>
                                                 <td style="text-align: center;">
                                                     <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;"
                                                         href="{{ url('/department/edit/' . $dpr->id) }}"><i
                                                             class="icon-pencil-alt" title="Edit"></i>
                                                     </a>
-                                                    <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
+                                                    <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000; color:white;"
                                                     data-bs-toggle="modal" data-bs-target="#modalDelete{{ $dpr->id }}">
-                                                    <i data-feather="trash-2" title="Delete"></i>
+                                                        <i data-feather="trash-2" title="Delete" style="height: 15px;"></i>
                                                     </button>
                                                 </td>
                                             </tr>

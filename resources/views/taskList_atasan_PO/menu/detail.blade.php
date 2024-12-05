@@ -62,6 +62,20 @@
                                         <td>{{ $data_pengajuan->dateline }}</td>
                                     </tr>
                                     <tr>
+                                        <td>Processer</td>
+                                        <td>{{ $data_pengajuan->process_by ?? 'Tebet' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: 600;">SPK</td>
+                                        <td>
+                                            @if (empty($data_pengajuan->file_spk))
+                                                -
+                                            @else
+                                                <a href="/upload_spk/{{ $data_pengajuan->file_spk }}" target="_blank" style="color: rgb(226, 43, 43); text-decoration:underline;">{{ $data_pengajuan->file_spk }}</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>File PR</td>
                                         <td><a href="{{ asset('upload_file_pr/'.$data_pengajuan->file_pr) }}" target="_blank">{{ $data_pengajuan->file_pr }}</a></td>
                                     </tr>

@@ -394,7 +394,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mt-3" style="text-align: center;">
-                                            @hasrole('finance|super admin')
+                                            @hasrole('finance|super admin|super purchase')
                                             <form action="{{ url('menu-tasklist-finance/approve_tpy', $datacpo->id) }}" method="POST">
                                                 @csrf
                                                 {{-- <a href="{{ url()->previous() }}" class="btn" style=" color:white; background-color:black">Back</a>     --}}

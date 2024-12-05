@@ -122,7 +122,7 @@
                                             <th>Description</th>
                                             <th>Item</th>
                                             <th>Deadline</th>
-                                            @hasrole('finance|super admin')
+                                            @hasrole('finance|super admin|super purchase')
                                                 <th style="text-align: center;">Status</th>
                                             @endhasrole
                                         </tr>
@@ -157,7 +157,7 @@
                                                         <strong><p>7 sd 14 Hari</p></strong>
                                                         @endif
                                                     </td>
-                                                    @hasrole('finance|super admin')
+                                                    @hasrole('finance|super admin|super purchase')
                                                         <td class="text-center">
                                                             <a class="badge {{ $ppb->status == 'pending' ? 'bg-warning' : ($ppb->status == 'Rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
                                                                 style="color: white; font-size:10">{{ $ppb->status }}</a>

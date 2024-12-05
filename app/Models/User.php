@@ -28,6 +28,7 @@ class User extends Authenticatable
         'password',
         'department',
         'location',
+        'is_fast_track',
         'force_password_reset',
         'deleted_at'
     ];

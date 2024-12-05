@@ -498,6 +498,7 @@
                   </a>
                 </div>
 
+                @hasrole('purchasing')
                 <div class="col-sm-6 col-xl-3 col-lg-6">
                     <a href="{{ url('/menu-purchase-order') }}">
                     <div class="card o-hidden border-0">
@@ -519,6 +520,30 @@
                     </div>
                     </a>
                 </div>
+                @endhasrole
+                @hasrole('super purchase')
+                <div class="col-sm-6 col-xl-3 col-lg-6">
+                    <a href="{{ url('/menu-purchase-order') }}">
+                    <div class="card o-hidden border-0">
+                        <div class="b-r-4 card-body shadow h-100 py-3" style="border-left: 10px solid  rgba(87, 212, 255, 0.9);">
+                            <div class="media static-top-widget">
+                                <div class="align-self-center text-center mb-3"><i data-feather="shopping-cart"
+                                        style="color:  rgba(87, 212, 255, 0.9);"></i>
+                                </div>
+                                <div class="media-body">
+                                    <h6 style="color:  rgba(87, 212, 255, 0.9); font-family: 'Times New Roman', Times, serif;">
+                                        PURCHASE <br>
+                                        ORDER</h6>
+                                    <h2 class="mb-0 counter" style="color:  rgba(87, 212, 255, 0.9);">
+                                        {{ \App\Models\CategoryPengajuanPembelian::whereIn('status',['Purchase Proses','Cross Check PO'])->count() }}</h2>
+                                    <i class="icon-bg" data-feather="shopping-cart"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                @endhasrole
 
                 <div class="container-fluid">
                     <div class="row">

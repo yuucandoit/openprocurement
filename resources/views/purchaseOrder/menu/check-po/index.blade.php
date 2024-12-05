@@ -81,9 +81,7 @@
             </div>
             @endforeach
         @endforeach
-
-
-
+        
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -276,120 +274,127 @@
                     </div>
                 </div>
             </div>
-      </div>
+        </div>
 
     </section>
 @endsection
 @section('scripts')
-{{-- <script src="{{  }}"></script> --}}
-<script>
-    const dataCpo = @json($approvedPPB);
-    const item = dataCpo[0];
+    <script>
+        const dataCpo = @json($approvedPPB);
+        const item = dataCpo[0];
 
-    // FOR CALCULATE REMAINING DEADLINE TIME 😃
-    const remainingTime = (dataCpo, elmnt) => {
-        const {
-            approved_at,
-            dateline_time,
-            datetime
-        } = dataCpo;
+        // FOR CALCULATE REMAINING DEADLINE TIME 😃
+        const remainingTime = (dataCpo, elmnt) => {
+            const {
+                approved_at,
+                dateline_time,
+                datetime
+            } = dataCpo;
 
-        const dateline = {
-            day     : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])/24.1) || 1),
-            hours   : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])%24.1)),
-            minutes : () => dateline.split()[1],
-            seconds : () => dateline.split()[2],
-            time    : () => `${dateline.hours()}:${dateline.minutes()}:${dateline.seconds()}`,
-            split   : () => dateline_time.split(':'),
-            toDigit : (val) => val > 9 ? val : '0'+val,
+            const dateline = {
+                day     : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])/24.1) || 1),
+                hours   : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])%24.1)),
+                minutes : () => dateline.split()[1],
+                seconds : () => dateline.split()[2],
+                time    : () => `${dateline.hours()}:${dateline.minutes()}:${dateline.seconds()}`,
+                split   : () => dateline_time.split(':'),
+                toDigit : (val) => val > 9 ? val : '0'+val,
+            }
+
+            const approvedAt = new Date(approved_at);
+            const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
+            const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
+            const dueExpDateAt = new Date(approvedAt.getTime() - dueDateTime.getTime());
+            const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+            const expiredTime = new Date(dueExpDateAt.getTime() + Date.now());
+            const lable = elmnt.querySelector('.badge-lable');
+
+            if (remainingTime.getTime() < 1) {
+
+            lable.classList.remove('bg-dark');
+            lable.classList.add('bg-dark');
+            var currentTimeExp = new Date();
+            var remainingTimeExpired = Math.floor((currentTimeExp - dueDateAt.getTime()) / 1000);
+
+            var expWeeks = Math.floor(remainingTimeExpired / (7 * 24 * 3600));
+            remainingTimeExpired -= expWeeks * (7 * 24 * 3600);
+
+            var expDays = Math.floor(remainingTimeExpired / (24 * 3600));
+            remainingTimeExpired -= expDays * (24 * 3600);
+
+            var expHours = Math.floor(remainingTimeExpired / 3600);
+            remainingTimeExpired -= expHours * 3600;
+
+            var expMinutes = Math.floor(remainingTimeExpired / 60);
+            remainingTimeExpired -= expMinutes * 60;
+
+            var expSeconds = remainingTimeExpired;
+
+            var weeksDisplay = expWeeks > 0 ? `${expWeeks} week${expWeeks > 1 ? "s" : ""} ` : "";
+            var daysDisplay = expDays > 0 ? `${expDays} day${expDays > 1 ? "s" : ""} ` : "";
+            var hoursDisplay = expHours < 10 ? "0" + expHours : expHours;
+            var minutesDisplay = expMinutes < 10 ? "0" + expMinutes : expMinutes;
+            var secondsDisplay = expSeconds < 10 ? "0" + expSeconds : expSeconds;
+
+            let countdown = `-${weeksDisplay}${daysDisplay}${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`;
+            return countdown;
+            }
+
+            let colors = [];
+            const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
+            const hours = remainingTime.getUTCHours().toString();
+            const minutes = remainingTime.getUTCMinutes().toString();
+            const seconds = remainingTime.getUTCSeconds().toString();
+
+            lable.classList.remove('bg-danger');
+            lable.classList.remove('bg-warning');
+            lable.classList.remove('bg-success');
+
+            // SUDAH OTOMATIS HITUNG DISINI YAAAAA 😁
+            lable.classList.add((() => {
+                const dueDate   = dueDateTime.getTime();
+                const remaining = remainingTime.getTime();
+
+                if(remaining <= 60*60*1000) return 'bg-dark';
+                if(remaining <= dueDate*1/3) return'bg-danger';
+                if(remaining <= dueDate*2/3) return'bg-warning';
+                if(remaining <= dueDate*3/3) return'bg-success';
+            })());
+
+            return (
+                (days.length == 1 ? `0${days}:` : `${days}:`)+
+                (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
+                (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
+                (seconds.length == 1 ? `0${seconds}` : `${seconds}`)
+            );
         }
 
-        const approvedAt = new Date(approved_at);
-        const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
-        const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
-        const dueExpDateAt = new Date(approvedAt.getTime() - dueDateTime.getTime());
-        const remainingTime = new Date(dueDateAt.getTime() - Date.now());
-        const expiredTime = new Date(dueExpDateAt.getTime() + Date.now());
-        const lable = elmnt.querySelector('.badge-lable');
+        // FOR HANDLE REWRITE ELEMENT 😃
+        const countdownHandle = (elmnt, item) => {
+            const countdownElmnt = elmnt.querySelector('.ppb-countdown');
+            const remaining = remainingTime(item, elmnt);
+            
+            if (remaining.startsWith('-')) { // Check if time has passed
+                countdownElmnt.style.color = 'red';
+                countdownElmnt.style.fontWeight = '600';
+            } else {
+                countdownElmnt.style.color = 'blue';
+                countdownElmnt.style.fontWeight = '600';
+            }
 
-        console.log(dateline_time, remainingTime.getTime());
-
-        if (remainingTime.getTime() < 1) {
-
-        lable.classList.remove('bg-dark');
-        lable.classList.add('bg-dark');
-        var currentTimeExp = new Date();
-        var remainingTimeExpired = Math.floor((currentTimeExp - dueDateAt.getTime()) / 1000);
-
-        var expWeeks = Math.floor(remainingTimeExpired / (7 * 24 * 3600));
-        remainingTimeExpired -= expWeeks * (7 * 24 * 3600);
-
-        var expDays = Math.floor(remainingTimeExpired / (24 * 3600));
-        remainingTimeExpired -= expDays * (24 * 3600);
-
-        var expHours = Math.floor(remainingTimeExpired / 3600);
-        remainingTimeExpired -= expHours * 3600;
-
-        var expMinutes = Math.floor(remainingTimeExpired / 60);
-        remainingTimeExpired -= expMinutes * 60;
-
-        var expSeconds = remainingTimeExpired;
-
-        var weeksDisplay = expWeeks > 0 ? `${expWeeks} week${expWeeks > 1 ? "s" : ""} ` : "";
-        var daysDisplay = expDays > 0 ? `${expDays} day${expDays > 1 ? "s" : ""} ` : "";
-        var hoursDisplay = expHours < 10 ? "0" + expHours : expHours;
-        var minutesDisplay = expMinutes < 10 ? "0" + expMinutes : expMinutes;
-        var secondsDisplay = expSeconds < 10 ? "0" + expSeconds : expSeconds;
-
-        let countdown = `-${weeksDisplay}${daysDisplay}${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`;
-        return countdown;
+            countdownElmnt.innerText = remainingTime(item, elmnt);
         }
 
-        let colors = [];
-        const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
-        const hours = remainingTime.getUTCHours().toString();
-        const minutes = remainingTime.getUTCMinutes().toString();
-        const seconds = remainingTime.getUTCSeconds().toString();
+        // FOR INITIALIZE COUNTDOWN 😃
+        const initCountdown = (dataCpo) => {
+            dataCpo.forEach(item => {
+                if (!item.approved_at) return;
+                setInterval(() => countdownHandle(document.querySelector(
+                    `#ppb-${item.id}`
+                ), item), 1000);
+            });
+        }
 
-        lable.classList.remove('bg-danger');
-        lable.classList.remove('bg-warning');
-        lable.classList.remove('bg-success');
-
-        // SUDAH OTOMATIS HITUNG DISINI YAAAAA 😁
-        lable.classList.add((() => {
-            const dueDate   = dueDateTime.getTime();
-            const remaining = remainingTime.getTime();
-
-            if(remaining <= 60*60*1000) return 'bg-dark';
-            if(remaining <= dueDate*1/3) return'bg-danger';
-            if(remaining <= dueDate*2/3) return'bg-warning';
-            if(remaining <= dueDate*3/3) return'bg-success';
-        })());
-
-        return (
-            (days.length == 1 ? `0${days}:` : `${days}:`)+
-            (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
-            (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
-            (seconds.length == 1 ? `0${seconds}` : `${seconds}`)
-        );
-    }
-
-    // FOR HANDLE REWRITE ELEMENT 😃
-    const countdownHandle = (elmnt, item) => {
-        const countdownElmnt = elmnt.querySelector('.ppb-countdown');
-        countdownElmnt.innerText = remainingTime(item, elmnt);
-    }
-
-    // FOR INITIALIZE COUNTDOWN 😃
-    const initCountdown = (dataCpo) => {
-        dataCpo.forEach(item => {
-            if (!item.approved_at) return;
-            setInterval(() => countdownHandle(document.querySelector(
-                `#ppb-${item.id}`
-            ), item), 1000);
-        });
-    }
-
-    initCountdown(dataCpo);
-</script>
+        initCountdown(dataCpo);
+    </script>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\CategoryPO;
 use App\Models\CategoryTL;
+use App\Models\Comment;
 use App\Models\ItemPO;
 use App\Models\PartItem_Pre_pr;
 use App\Models\PengajuanPembelian;
@@ -20,17 +21,99 @@ class CategoryTaskListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 ||$check->role_id == 3||$check->role_id == 17) {
-            $datappb = CategoryPengajuanPembelian::where('status','Purchase Request Approved')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datappb2 = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')->orWhere('status','Payment Approved')->orWhere('status','Unpaid')->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-            $purpose = ReferensiNamaProject::all();
+        $arrayFilter = ['All','Tebet','Cikunir'];
+        $filter = $request->filter ?? '';
+        $cariIn = $request->cari ?? '';
+
+        // Redirect jika role tidak sesuai
+        if (!in_array($check->role_id, [3, 4, 17])) {
+            return redirect()->route('dashboard');
+        }
+        $query = CategoryPengajuanPembelian::query()
+        ->where('status','Purchase Request Approved')
+        ->orderBy('dateline', 'asc')
+        ->orderBy('approved_at', 'asc');
+
+        if (in_array($check->role_id, [3, 17])) {
+            // Tidak ada tambahan filter untuk role_id 3 dan 17
+        } elseif ($check->role_id == 4) {
+            if (!empty(Auth::user()->location) && Auth::user()->location == 'Cikunir') {
+                $query->where('process_by', 'Cikunir');
+            } else {
+                $query->where(function ($q) {
+                    $q->where('process_by', 'Tebet')
+                      ->orWhereNull('process_by');
+                });
+            }
+        }
+
+         // Filter lokasi (filter)
+        if (!empty($filter) && in_array($filter, ['Tebet', 'Cikunir'])) {
+            if($filter == 'Tebet'){
+                $query->where(function ($q) use($filter) {
+                    $q->where('process_by', $filter)
+                      ->orWhereNull('process_by');
+                });
+            }else{
+                $query->where('process_by', $filter);
+            }
+        }
+
+        // Pencarian (cariIn)
+        if (!empty($cariIn)) {
+            $query->where(function($q) use ($cariIn) {
+                $q->where('id', 'like', "%$cariIn%")
+                ->orWhere('type_pr', 'like', "%$cariIn%")
+                ->orWhere('code_pengajuan', 'like', "%$cariIn%")
+                ->orWhere('status', 'like', "%$cariIn%")
+                ->orWhere('desc', 'like', "%$cariIn%")
+                ->orWhereHas('itemppn', function($i) use ($cariIn) {
+                    $i->where('item', 'like', "%$cariIn%");
+                })
+                ->orWhereHas('whosubmit', function($q) use ($cariIn) {
+                    $q->where('name', 'like', "%$cariIn%");
+                })
+                ->orWhereHas('quot', function($posearch) use ($cariIn) {
+                    $posearch->where('id', 'like', "%$cariIn%")
+                            ->orWhere('code_po', 'like', "%$cariIn%");
+                });
+            });
+        }
+
+        // Paginasi data
+        $datappb = $query->paginate(10, ['*'], 'in');
+
             return view('taskList.menu.index')
-            ->with('purpose', $purpose)
             ->with('datappb', $datappb)
-            ->with('datappb2', $datappb2);
+            ->with('filter' , $filter)
+            ->with('arrayFilter', $arrayFilter);
+    }
+
+    public function filterIndex(Request $request) 
+    {
+        $filter = $request->filter;
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        $arrayFilter = ['All','Tebet','Cikunir'];
+
+        $query = CategoryPengajuanPembelian::where('status','Purchase Request Approved')
+            ->orderBy('dateline', 'asc')
+            ->orderBy('approved_at', 'asc');
+
+        if($filter == 'Cikunir'){
+            $query->where('process_by','Cikunir');
+        }elseif($filter == 'Tebet'){
+            $query->where('process_by','Tebet');
+        }
+        $datappb = $query->paginate(10, ['*'],'in');
+
+        if($check->role_id == 17){
+            return view('taskList.menu.index')
+                ->with('filter', $filter)
+                ->with('arrayFilter', $arrayFilter)
+                ->with('datappb', $datappb);
         }else {
             return redirect()->route('dashboard');
         }
@@ -38,14 +121,21 @@ class CategoryTaskListController extends Controller
 
     public function SearchtaskPOIn(Request $request)
     {
+        $check = Role::where('model_id', Auth::user()->id)->first();
         $cari = $request->cari;
+        $userLocation = null;
+        if($check->role_id != 3){
+            $userLocation = Auth::user()->location;
+        }
+       
+        $arrayFilter = ['All','Tebet','Cikunir'];
         //dd($cari);
         $datappb = CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')
         ->orderBy('status', 'desc')
         ->orderBy('dateline', 'asc')
         ->orderBy('approved_at', 'asc')
         ->where(function($query) use ($cari) {
-            $query->orWhere('id', 'like', "%".$cari."%")
+            $query->whereRaw('CAST(id AS CHAR) LIKE ?', ["%{$cari}%"])  // Ensure id is compared as a string
                 ->orWhere('status', 'like', "%".$cari."%")
                 ->orWhere('code_pengajuan', 'like', "%".$cari."%")
                 ->orWhere('send_to', 'like', "%".$cari."%")
@@ -57,9 +147,21 @@ class CategoryTaskListController extends Controller
                     $q->where('name', 'like', "%".$cari."%");
                 });
         })
+        ->when(!empty($userLocation) && $userLocation == 'Cikunir', function ($query) use ($userLocation) {
+            // Kondisi untuk lokasi Cikunir
+            $query->where('process_by', $userLocation);
+        }, function ($query) {
+            // Kondisi untuk lokasi Tebet atau Null
+            $query->where(function ($query) {
+                $query->where('process_by', 'Tebet')
+                      ->orWhereNull('process_by');
+            });
+        })
+        
         ->paginate(10);
         return view('taskList.menu.index')
-        ->with('datappb',$datappb);
+        ->with('datappb',$datappb)
+        ->with('arrayFilter',$arrayFilter);
     }
 
     public function upComing()
@@ -227,6 +329,8 @@ class CategoryTaskListController extends Controller
             $groupedItem        = ItemPO::groupBy('po_id')->get();
             $itempurchase       = ItemPO::groupBy('po_id')->first();
             $disc               = PengajuanPembelian::where('pp_id',$id)->first();
+            $comments           = Comment::where('ppb_id',$id)->get();
+
             return view('taskList.menu.detail')
             ->with('purpose',$purpose)
             ->with('pengajuan', $pengajuan)
@@ -239,6 +343,7 @@ class CategoryTaskListController extends Controller
             ->with('vendor', $vendor)
             ->with('groupedItem', $groupedItem)
             ->with('disc', $disc)
+            ->with('comments',$comments)
             ->with('itempurchase', $itempurchase);
         }else {
             return redirect()->route('dashboard');

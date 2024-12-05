@@ -50,6 +50,7 @@ use App\Http\Controllers\PrePRCommentsController;
 use App\Http\Controllers\IsReadPrePRCommentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,12 +63,17 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/info',function(){
+    phpinfo();
+});
+
 Route::get('/',function () {
     return redirect()->route('login');
 });
+
+Route::get('/forgot_password',function(){
+    return view('auth.passwords.email');
+})->name('forget_password');
 
 
 Route::group(['middleware' => ['auth']], function () {
@@ -436,6 +442,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Task list po
     Route::group(['prefix' => 'menu-task-list'], function () {
         Route::get('/', [CategoryTaskListController::class, 'index'])->name('menu-task-list.index');
+        Route::get('/filter',[CategoryTaskListController::class,'filterIndex'])->name('menu-task-list.filter');
         Route::get('/upcoming', [CategoryTaskListController::class, 'upComing'])->name('menu-task-list.upComing');
         Route::get('/upcoming/detail/{id}',[CategoryTaskListController::class, 'upComingDetail'])->name('menu-task-list.upComing.detail');
         Route::get('/history', [CategoryTaskListController::class, 'history'])->name('menu-task-list.history');
@@ -485,6 +492,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Menu Purchase Order
     Route::group(['prefix' => 'menu-purchase-order'], function () {
         Route::get('/', [CategoryPOController::class, 'index'])->name('menu-purchase-order.index');
+        Route::get('/filter',[CategoryPOController::class, 'filterIndex'])->name('menu-purchase-order.filter');
         Route::get('/history', [CategoryPOController::class, 'history'])->name('menu-purchase-order.history');
         Route::get('/out', [CategoryPOController::class, 'out'])->name('menu-purchase-order.out');
         Route::get('/po_detail/{id}', [CategoryPOController::class, 'po_detail'])->name('menu-purchase-order.po_detail');
@@ -667,7 +675,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/export_excel/pengajuan_pembelian/{id}', [CategoryPengajuanPembelianController::class, 'export'])->name('export-ppb');
     Route::get('/export_excel/barang', [DeliveryController::class, 'export'])->name('export-pembelian');
     Route::get('/export_excel/history_purchase', [CategoryPOController::class, 'export'])->name('export-historyPO');
-    Route::post('/export_excel/history_purchase/spesific', [PurchaseOrderController::class, 'exportExcelSpesific'])->name('export-historyPO-spesific');
+    Route::post('/export_excel/spesific_project', [PurchaseOrderController::class, 'exportExcelSpesific'])->name('export-po-spesific');
     Route::get('/export/roles',[RoleController::class,'export'])->name('export-roles');
 
 

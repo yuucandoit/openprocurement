@@ -46,51 +46,138 @@ class CategoryPOController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
+        $arrayFilter = ['All','Tebet','Cikunir'];
+        $filter = $request->filter ?? '';
+        $cariIn = $request->cariIn ?? '';
 
-        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
-            $datappb         = CategoryPengajuanPembelian::where('status','Purchase Proses')->orWhere('status','Cross Check PO')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->paginate(10, ['*'],'in');
-            // $datapo          = CategoryPO::get();
+        // Redirect jika role tidak sesuai
+        if (!in_array($check->role_id, [3, 4, 17])) {
+            return redirect()->route('dashboard');
+        }
+        $query = CategoryPengajuanPembelian::query()
+        ->whereIn('status', ['Purchase Proses', 'Cross Check PO'])
+        ->orderBy('dateline', 'asc')
+        ->orderBy('approved_at', 'asc');
+
+        if (in_array($check->role_id, [3, 17])) {
+            // Tidak ada tambahan filter untuk role_id 3 dan 17
+        } elseif ($check->role_id == 4) {
+            if (!empty(Auth::user()->location) && Auth::user()->location == 'Cikunir') {
+                $query->where('process_by', 'Cikunir');
+            } else {
+                $query->where(function ($q) {
+                    $q->where('process_by', 'Tebet')
+                      ->orWhereNull('process_by');
+                });
+            }
+        }
+
+         // Filter lokasi (filter)
+        if (!empty($filter) && in_array($filter, ['Tebet', 'Cikunir'])) {
+            if($filter == 'Tebet'){
+                $query->where(function ($q) use($filter) {
+                    $q->where('process_by', $filter)
+                      ->orWhereNull('process_by');
+                });
+            }else{
+                $query->where('process_by', $filter);
+            }
+        }
+
+        // Pencarian (cariIn)
+        if (!empty($cariIn)) {
+            $query->where(function($q) use ($cariIn) {
+                $q->where('id', 'like', "%$cariIn%")
+                ->orWhere('type_pr', 'like', "%$cariIn%")
+                ->orWhere('code_pengajuan', 'like', "%$cariIn%")
+                ->orWhere('status', 'like', "%$cariIn%")
+                ->orWhere('desc', 'like', "%$cariIn%")
+                ->orWhereHas('itemppn', function($i) use ($cariIn) {
+                    $i->where('item', 'like', "%$cariIn%");
+                })
+                ->orWhereHas('whosubmit', function($q) use ($cariIn) {
+                    $q->where('name', 'like', "%$cariIn%");
+                })
+                ->orWhereHas('quot', function($posearch) use ($cariIn) {
+                    $posearch->where('id', 'like', "%$cariIn%")
+                            ->orWhere('code_po', 'like', "%$cariIn%");
+                });
+            });
+        }
+
+        // Paginasi data
+        $datappb = $query->paginate(10, ['*'], 'in');
+
+        // Render view
+        return view('purchaseOrder.menu.index', [
+            'datappb' => $datappb,
+            'filter' => $filter,
+            'arrayFilter' => $arrayFilter,
+        ]);
+    }
+
+    public function filterIndex(Request $request) 
+    {
+        $filter = $request->filter;
+        $check = Role::where('model_id', Auth::user()->id)->first();
+        $arrayFilter = ['All','Tebet','Cikunir'];
+
+        $query = CategoryPengajuanPembelian::whereIn('status', ['Purchase Proses','Cross Check PO'])
+            ->orderBy('dateline', 'asc')
+            ->orderBy('approved_at', 'asc');
+
+        if($filter == 'Cikunir'){
+            $query->where('process_by','Cikunir');
+        }elseif($filter == 'Tebet'){
+            $query->where('process_by','Tebet');
+        }
+        $datappb = $query->paginate(10, ['*'],'in');
+
+        if($check->role_id == 17){
             return view('purchaseOrder.menu.index')
+                ->with('filter', $filter)
+                ->with('arrayFilter', $arrayFilter)
                 ->with('datappb', $datappb);
-                // ->with('datapo', $datapo);
-        } else {
+        }else {
             return redirect()->route('dashboard');
         }
     }
 
     public function SearchPOIn(Request $request)
-   {
-    $cariIn = $request->cariIn;
-    // dd($cariIn);
-    $datappb = CategoryPengajuanPembelian::where(function($query) use ($cariIn) {
-        $query->where('id', 'like', "%".$cariIn."%")
-              ->orWhere('type_pr','like', "%".$cariIn."%")
-              ->orWhere('code_pengajuan','like', "%".$cariIn."%")
-              ->orWhere('status', 'like', "%".$cariIn."%")
-              ->orWhere('desc', 'like', "%".$cariIn."%")
-              ->orWhereHas('itemppn', function($i) use ($cariIn) {
-                  $i->where('item', 'like', "%".$cariIn."%");
-              })
-              ->orWhereHas('whosubmit', function($q) use ($cariIn) {
-                  $q->where('name', 'like', "%".$cariIn."%");
-              })
-              ->orWhereHas('quot', function($posearch) use ($cariIn) {
-                  $posearch->where('id', 'like', "%".$cariIn."%")
-                  ->orWhere('code_po', 'like', "%".$cariIn."%");
-              });
-    })
-    ->orderBy('status', 'desc')
-    ->orderBy('dateline', 'asc')
-    ->orderBy('approved_at', 'asc')
-    ->paginate(10, ['*'], 'in');
+    {
+        $cariIn = $request->cariIn;
+        $arrayFilter = ['All','Tebet','Cikunir'];
+        // dd($cariIn);
+        $datappb = CategoryPengajuanPembelian::where(function($query) use ($cariIn) {
+            $query->where('id', 'like', "%".$cariIn."%")
+                ->orWhere('type_pr','like', "%".$cariIn."%")
+                ->orWhere('code_pengajuan','like', "%".$cariIn."%")
+                ->orWhere('status', 'like', "%".$cariIn."%")
+                ->orWhere('desc', 'like', "%".$cariIn."%")
+                ->orWhereHas('itemppn', function($i) use ($cariIn) {
+                    $i->where('item', 'like', "%".$cariIn."%");
+                })
+                ->orWhereHas('whosubmit', function($q) use ($cariIn) {
+                    $q->where('name', 'like', "%".$cariIn."%");
+                })
+                ->orWhereHas('quot', function($posearch) use ($cariIn) {
+                    $posearch->where('id', 'like', "%".$cariIn."%")
+                    ->orWhere('code_po', 'like', "%".$cariIn."%");
+                });
+        })
+        ->orderBy('status', 'desc')
+        ->orderBy('dateline', 'asc')
+        ->orderBy('approved_at', 'asc')
+        ->paginate(10, ['*'], 'in');
 
 
-    return view('purchaseOrder.menu.index')
-    ->with('datappb',$datappb);
-   }
+        return view('purchaseOrder.menu.index')
+        ->with('datappb',$datappb)
+        ->with('arrayFilter',$arrayFilter);
+    }
 
    public function out()
    {
@@ -133,10 +220,10 @@ class CategoryPOController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 4 || $check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
-            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orWhere('status','Rejected by Purchasing')->orWhere('status','PO Rejected by BOD')
-            ->orWhere('status','Payment Rejected By BOD')->orWhere('status','Rejected by Finance')->orderBy('updated_at','desc')->paginate(10);
+            $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO Approved',
+            'Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success',
+            'Rejected by Purchasing','PO Rejected by BOD','Payment Rejected By BOD','Rejected by Finance'])
+            ->orderBy('id','desc')->paginate(10);
             $pt = CategoryPT::all();
             $op = CategoryPP::all();
             $ec = CategoryEcommerce::all();
@@ -154,7 +241,7 @@ class CategoryPOController extends Controller
     {
      $cari = $request->cari;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
+     $datappb = CategoryPengajuanPembelian::orderBy('id', 'desc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
@@ -485,6 +572,8 @@ class CategoryPOController extends Controller
                     "ppb_id" => $data->id,
                     "term_conditions" => $request->term_conditions,
                     "quotation" => $request->quotation,
+                    "creator_id" =>Auth::user()->id,
+                    "creator_name" => Auth::user()->name,
                     "atasan_po" => $request->atasan_po,
                     "path_quotation" => $path_file ?? null,
                     "path_invoice" => $pathfile2 ?? null,

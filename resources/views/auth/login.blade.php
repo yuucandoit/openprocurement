@@ -125,24 +125,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-block" type="submit"
-                                            style="font-size: 14px;">Sign in <i
-                                                class="icofont icofont-login"></i></button>
+                                        <a href="{{ route('forget_password') }}">Forget Password ?</a>
+                                        <button class="btn btn-primary btn-block" type="submit" style="font-size: 14px;">
+                                            Sign in 
+                                            <i class="icofont icofont-login"></i>
+                                        </button>
                                     </div>
-                                    {{-- <div class="login-social-title">
-                        <h5>Sign in with</h5>
-                      </div>
-                      <div class="form-group">
-                        <ul class="login-social">
-                          <li><a href="https://www.linkedin.com/login" target="_blank"><i data-feather="linkedin"></i></a></li>
-                          <li><a href="https://www.linkedin.com/login" target="_blank"><i data-feather="twitter"></i></a></li>
-                          <li><a href="https://www.linkedin.com/login" target="_blank"><i data-feather="facebook"></i></a></li>
-                          <li><a href="https://www.instagram.com/login" target="_blank"><i data-feather="instagram">                  </i></a></li>
-                        </ul>
-                      </div> --}}
-                                    {{-- <p style="">Don't have account?<a class="ms-2"
-                                            href="{{ route('register') }}" style="">Create
-                                            Account</a></p> --}}
                                 </form>
                             </div>
                         </div>

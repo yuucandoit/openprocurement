@@ -42,6 +42,56 @@
         </div>
         @endforeach
 
+        <div class="modal fade" id="modalFilter" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h2 class="modal-title" style="color: white">Filter Purchase Order</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('menu-task-list.index') }}" method="GET">
+                        <input type="hidden" name="cari" value="{{ request('cari') }}">
+                        <div class="modal-body">
+                            <div class="row form-builder-2">
+                                <div class="col-md-12">
+                                    <div class="mb-3 ui-draggable-handle" style="position: static;">
+                                        <label>Filter Options</label>
+                                        <div class="col">
+                                            <div class="m-checkbox-inline">
+                                                @foreach ($arrayFilter as $index => $afilter)
+                                                    @if (!empty($filter) && $filter == $afilter)
+                                                        <div class="radio radio-theme">
+                                                            <input id="radioinline{{ $index }}" type="radio" name="filter" value="{{ $afilter }}" title="" checked>
+                                                            <label for="radioinline{{ $index }}">{{ $afilter }}</label>
+                                                        </div>
+                                                    @else   
+                                                        <div class="radio radio-theme">
+                                                            <input id="radioinline{{ $index }}" type="radio" name="filter" value="{{ $afilter }}" title="">
+                                                            <label for="radioinline{{ $index }}">{{ $afilter }}</label>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            @if(!empty($filter))
+                                <a href="{{ route('menu-purchase-order.index', ['cariIn' => request('cariIn')]) }}" 
+                                class="btn btn-danger" style="margin-left: 10px;">
+                                    Reset Filter
+                                </a>
+                            @endif
+                            <button type="submit" class="btn btn-success">Filter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Page Sidebar Ends-->
         <div class="container-fluid">
             <div class="page-header">
@@ -63,10 +113,22 @@
                 <div class="col-sm-12">
                     <div class="card card-absolute">
                         <div class="row">
-                            <div class="col-sm-8"></div>
+                            <div class="col-sm-8">
+                                @hasrole('super purchase')
+                                    <div style="margin-top: 40px; margin-left:30px;">
+                                        <label data-bs-toggle="modal" data-bs-target="#modalFilter"><i data-feather="filter" style="font-size:20px"></i> Filter</label>
+                                        @if(empty($filter))
+
+                                        @else
+                                            <a class="badge badge-success" style="font-size: 10; color:white;">{{ $filter }}</a>
+                                        @endif
+                                    </div>
+                                @endhasrole
+                            </div>
                             <div class="col-sm-4">
                             <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
-                                <form action="{{ route('menu-task-list.SearchtaskPOIn') }}" method="get" class="input-group" >
+                                <form action="{{ route('menu-task-list.index') }}" method="get" class="input-group" >
+                                    <input type="hidden" name="filter" value="{{ request('filter') }}">
                                     <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
@@ -88,7 +150,7 @@
                                         </tr>
                                     </thead>
                                     @php
-                                        $no = 1;
+                                        $no = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                         $approvedPPB = [];
                                     @endphp
                                     @foreach ($datappb as $ppb)
@@ -117,7 +179,7 @@
                                                             @endphp
                                                         @endforeach
                                                         <ul>
-                                                            <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ipb->qty }} Item </label></li>
+                                                            <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ !empty($ipb) ? $ipb->qty : '-' }} Item </label></li>
                                                         </ul>
 
                                                     </td>
@@ -156,7 +218,11 @@
                                                             </li>
                                                             @if($ppb->type_pr == 'SPKBased')
                                                             <li>
-                                                                <a class="badge" style="background-color:#ff5500; font-size:10px;">SPKBase</a>
+                                                                <a class="badge" style="background-color:#ff5500; font-size:10px;">SPK Complete</a>
+                                                            </li>
+                                                            @elseif($ppb->type_pr == 'SPK_Normal')
+                                                            <li>
+                                                                <a class="badge" style="background-color:#dacf00; font-size:10px;">SPK</a>
                                                             </li>
                                                             @endif
                                                         </ul>
@@ -183,14 +249,14 @@
     {{-- <script src="{{  }}"></script> --}}
     <script>
         const dataTask = @json($approvedPPB);
+        console.log(dataTask);
         const item = dataTask[0];
 
         // FOR CALCULATE REMAINING DEADLINE TIME 😃
         const remainingTime = (dataTask, elmnt) => {
             const {
                 approved_at,
-                dateline_time,
-                datetime
+                dateline_time
             } = dataTask;
 
             const dateline = {
@@ -209,7 +275,6 @@
             const remainingTime = new Date(dueDateAt.getTime() - Date.now());
             const lable = elmnt.querySelector('.badge-lable');
 
-            console.log(dateline_time, remainingTime.getTime());
 
             if (remainingTime.getTime() < 1) {
 
@@ -274,6 +339,16 @@
         // FOR HANDLE REWRITE ELEMENT 😃
         const countdownHandle = (elmnt, item) => {
             const countdownElmnt = elmnt.querySelector('.ppb-countdown');
+            const remaining = remainingTime(item, elmnt);
+            
+            if (remaining.startsWith('-')) { // Check if time has passed
+                countdownElmnt.style.color = 'red';
+                countdownElmnt.style.fontWeight = '600';
+            } else {
+                countdownElmnt.style.color = 'blue';
+                countdownElmnt.style.fontWeight = '600';
+            }
+
             countdownElmnt.innerText = remainingTime(item, elmnt);
         }
 

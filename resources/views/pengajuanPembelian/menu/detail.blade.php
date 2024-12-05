@@ -59,13 +59,25 @@
                                         <td>{{ $data_pengajuan->dateline }}</td>
                                     </tr>
                                     <tr>
+                                        <td>Processer</td>
+                                        <td>{{ $data_pengajuan->process_by ?? 'Tebet' }}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Approver</td>
                                         <td>{{ $data_pengajuan->bod->name }}</td>
                                     </tr>
                                     <tr>
-                                    <td>File PR</td>
-                                    <td><a href="{{ asset('upload_file_pr/'.$data_pengajuan->file_pr) }}" target="_blank">{{ $data_pengajuan->file_pr }}</a></td>
-                                </tr>
+                                        <td>File PR</td>
+                                        <td>
+                                            <a href="{{ asset('upload_file_pr/'.$data_pengajuan->file_pr) }}" target="_blank">{{ $data_pengajuan->file_pr }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>File SPK</td>
+                                        <td>
+                                            <a href="{{ asset('upload_spk/'.$data_pengajuan->file_spk) }}" target="_blank">{{ $data_pengajuan->file_spk ? $data_pengajuan->file_spk : '' }}</a>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
 
@@ -115,9 +127,10 @@
 
                                     <a href="{{ url('/export_excel/pengajuan_pembelian/' . $data_pengajuan->id) }}"
                                         class="btn btn-warning" style="align-self: flex-end"> Export to Excel</a>
-
+                                    @hasrole('user'|'super admin')
                                     <a type="reset" class="btn btn-dark"
                                         href="{{ url('/menu-pengajuan-pembelian/') }}">Back</a>
+                                    @endhasrole
 
                                 </div>
                             <!-- Container-fluid Ends-->

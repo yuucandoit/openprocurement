@@ -44,7 +44,7 @@
 
 
 </style>
-<link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+{{-- <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"> --}}
 <section>
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -113,19 +113,11 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="floatingdateline"><i style="width: 15px; padding-top: 10px;" data-feather="clock"></i> Deadline <span style="color: red">*</span></label>
-                                        <select class="form-select @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" value="{{ old('dateline') }}" name="dateline" required="">
-                                            @if(old('dateline'))
-                                            <option selected="" disabled="" value="{{ old('dateline') }}">{{ old('dateline') }}</option>
-                                            @else
-                                            <option selected="" disabled="" value="">Select Deadline</option>
-                                            @endif
-                                            <option value="≤24Jam">1 hari</option>
-                                            {{-- <option value="≤48Jam">2 hari</option> --}}
-                                            <option value="≤72Jam">2 sd 3 hari</option>
-                                            {{-- <option value="≤96Jam">4 hari</option> --}}
-                                            <option value="≤168Jam">4 sd 7 hari</option>
-                                            <option value="≤336Jam">8 sd 14 hari</option>
-
+                                        <select class="form-select @error('dateline') is-invalid @enderror" id="floatingdateline" placeholder="Dateline" name="dateline" required="">
+                                            <option disabled="" value="">Select Deadline</option>
+                                            <option value="≤72Jam" {{ old('dateline') == '≤72Jam' ? 'selected' : '' }}>2 sd 3 hari</option>
+                                            <option value="≤168Jam" {{ old('dateline') == '≤168Jam' ? 'selected' : '' }}>4 sd 7 hari</option>
+                                            <option value="≤336Jam" {{ old('dateline') == '≤336Jam' ? 'selected' : '' }}>8 sd 14 hari</option>
                                         </select>
                                         @error('dateline')
                                         <div class='mt-1'>
@@ -140,11 +132,10 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="" for="pageSelector"><i  style="width: 15px; padding-top: 10px;" data-feather="send"></i> Send To <span style="color: red">*</span></label>
-                                        <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to">
-                                            <option value="{{ old('send_to')  }}" selected>{{ old('send_to') ?? 'Select Send To'   }}</option>
-                                            <option value="Tebet">Tebet</option>
-                                            <option value="Cikunir">Cikunir</option>
-                                            <option value="other">Other Option</option>
+                                        <select class="form-select" id="pageSelector" placeholder="Send To" name="send_to" required>
+                                            <option value="Tebet" {{ old('send_to') == 'Tebet' ? 'selected' : '' }}>Tebet</option>
+                                            <option value="Cikunir" {{ old('send_to') == 'Cikunir' ? 'selected' : '' }}>Cikunir</option>
+                                            <option value="other" {{ old('send_to') == 'other' ? 'selected' : '' }}>Other Option</option>
                                         </select>
                                         <input class="hide form-control mt-1" type="text" id="customOther" placeholder="Input Send To">
                                     </div>
@@ -161,7 +152,7 @@
                                             @if(Auth::user()->name == $ws->name)
                                                 <option value="{{ $ws->id }}"  selected>{{ $ws->name }}</option>
                                             @else
-                                            <option value="{{ $ws->id }}">{{ $ws->name }}</option>
+                                            <option value="{{ $ws->id }}" {{ old('ws') == $ws->id ? 'selected' : '' }}>{{ $ws->name }}</option>
                                             @endif
                                             @endforeach
                                         </select>
@@ -179,12 +170,12 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="floatingdepartment"><i style="width: 15px; padding-top: 10px;" data-feather="briefcase"></i> Department <span style="color: red">*</span></label>
-                                        <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="">
+                                        <select class="form-select @error('purpose') is-invalid @enderror" id="floatingdepartment" placeholder="department" name="department" required="" style="pointer-events: none; background-color: #e9ecef; cursor: not-allowed;">
                                             @foreach ($datadepartment as $dp)
                                             @if(Auth::user()->department == $dp->name)
                                             <option value="{{ $dp->id }}" selected>{{ $dp->name }}</option>
                                             @else
-                                            <option value="{{ $dp->id }}">{{ $dp->name }}</option>
+                                            <option value="{{ $dp->id }}" {{ old('department') == $dp->id ? 'selected' : '' }}>{{ $dp->name }}</option>
                                             @endif
                                             @endforeach
                                         </select>
@@ -200,9 +191,27 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                        <label for="floatingtype"><i style="width: 15px; padding-top: 10px;" data-feather="tag"></i> Type PR <span style="color: red">*</span></label>
+                                        <select class="form-select type_pr" placeholder="Select Type" name="type" required>
+                                            <option value="">Select Type</option>
+                                            <option value="Standard"  {{ old('type') == 'Standard' ? 'selected' : '' }}>Standard</option>
+                                            <option value="SPK_Normal" {{ old('type') == 'SPK_Normal' ? 'selected' : '' }}>SPK</option>
+                                            @if (Auth::user()->is_fast_track)
+                                            <option value="SPKBased" {{ old('type') == 'SPKBased' ? 'selected' : '' }}>SPK Completed</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-4">
+                                    <div class="form-group">
                                         <label class="" style="font-weight: bold;"><i style="width: 15px; padding-top: 10px;" data-feather="user-check"></i> Send Approval To <span style="color: red">*</span></label>
-                                        <select class="form-select" id="floatingproposedto" placeholder="Proposed To" name="atasan" required="">
-                                            <option selected value="{{ $atasan->id }}">{{ $atasan->name }}</option>
+                                        <select class="form-select approver" id="floatingproposedto" placeholder="Proposed To" name="atasan" required="">
+                                            <option selected value="{{ $atasan->id }}" {{ old('atasan') == $atasan->id ? 'selected' : '' }}>{{ $atasan->name }}</option>
+                                            @if(old('atasan') == '6')
+                                                <option value="6" selected>Sindu Irawan</option>
+                                            @endif
                                         </select>
                                         @error('atasan')
                                         <div class='mt-1'>
@@ -213,46 +222,31 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="floatingtype"><i style="width: 15px; padding-top: 10px;" data-feather="tag"></i> Type PR <span style="color: red">*</span></label>
-                                        <select class="form-select type_pr" placeholder="Select Type" name="type" required>
-                                            <option value="">Select Type</option>
-                                            <option value="Standard">Standard</option>
-                                            <option value="SPKBased">SPK Base</option>
-                                        </select>
-                                    </div>
-                                </div>
 
 
-                                <div class="col-md-4 spk-upload hide">
+                                <div class="col-md-4 spk-upload {{ old('type') == 'SPK_Normal' || old('type') == 'SPKBased' ? '' : 'hide' }}">
                                     <div class="form-group">
                                         <label><i style="width: 15px; padding-top: 10px;" data-feather="file-text"></i> Attach File SPK <span style="color: red">*</span></label>
                                         <input type="file" placeholder="Choose File" class="form-control"  name="file_spk">
                                     </div>
                                 </div>
-
+                                {{-- {{ dd(old('category_purpose'), old('category_purpose') == 'project') }} --}}
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="floatingwhosubmitted"><i style="width: 15px; padding-top: 10px;" data-feather="target"></i>
                                             Purpose
                                             <span style="color: red">*</span>
                                         </label>
-                                        <select class="form-select pageSelect" id="pageSelect" placeholder="Purpose" name="category_purpose" data-live-search="true">
-                                            @if(old('category_purpose'))
-                                            <option value="{{ old('category_purpose') }}">{{ old('category_purpose') }}</option>
-                                            @else
-                                            <option value="">Select Category Purpose</option>
+                                        <select class="form-select pageSelect" id="pageSelect" name="category_purpose" data-live-search="true" placeholder="Purpose">
+                                            <!-- Tampilkan nilai lama jika ada -->
+                                            @if (!old('category_purpose'))
+                                                <option value="">Select Category Purpose</option>
                                             @endif
-
-                                            <option value="project">Project</option>
-                                            <option value="office">Office</option>
-                                            <option value="workshop">Workshop</option>
-                                            <option value="inventory">Inventory</option>
-                                            <option value="rnd">R&D</option>
-                                            <option value="travel">Travel</option>
+                                        
+                                            <!-- Looping permitted purposes -->
+                                            @foreach ($permitted_purpose as $purpose)
+                                                <option value="{{ strtolower($purpose) }}" {{ old('category_purpose') == strtolower($purpose) ? 'selected' : '' }}>{{ ucfirst($purpose) }}</option>
+                                            @endforeach
                                         </select>
                                         @error('category_purpose')
                                         <div class='mt-1'>
@@ -261,13 +255,8 @@
                                             </span>
                                         </div>
                                         @enderror
-                                        {{-- @error('category_purpose')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror --}}
                                         {{-- Project Dropdown --}}
-                                        <div class="hide mt-2" id="selectedInput">
+                                        <div class="mt-2 {{ old('category_purpose') != 'project' ? 'hide' : '' }}" id="selectedInput">
                                         <select class="prepr mt-2 projectList" id="projectlist" name="project" data-live-search="true">
                                             @if(!old('category_purpose'))
                                             <option value="" selected>Select Project</option>
@@ -284,7 +273,7 @@
                                         {{-- End Project Dropdown --}}
 
                                         {{-- Office Dropdown --}}
-                                        <div class="hide" id="selectedInput2">
+                                        <div class="{{ old('category_purpose') == 'office' ? '' : 'hide' }}" id="selectedInput2">
                                         <select class="js-example-basic-single" name="company">
                                             @foreach ($purpose_office as $o)
                                             <option value="{{ $o->id }}">{{ $o->name }}</option>
@@ -294,7 +283,7 @@
                                         {{-- End Office Dropdown --}}
 
                                         {{-- Workshop Dropdown --}}
-                                        <div class="hide" id="selectedInput3">
+                                        <div class="{{ old('category_purpose') == 'workshop' ? '' : 'hide' }}" id="selectedInput3">
                                         <select class="js-example-basic-single" name="workshop">
                                             @foreach ($purpose_workshop as $e)
                                             <option value="{{ $e->id }}">{{ $e->name }}</option>
@@ -304,7 +293,7 @@
                                         {{-- End Workshop Dropdown --}}
 
                                         {{-- Inventory Dropdown --}}
-                                        <div class="hide" id="selectedInput4">
+                                        <div class="{{ old('category_purpose') == 'inventory' ? '' : 'hide' }}" id="selectedInput4">
                                         <select class="js-example-basic-single" name="inventory">
                                             @foreach ($purpose_inventory as $pi)
                                             <option value="{{ $pi->id }}">{{ $pi->name }}</option>
@@ -314,7 +303,7 @@
                                         {{-- End Inventory Dropdown --}}
 
                                         {{-- RND Dropdown --}}
-                                        <div class="hide" id="selectedInput5">
+                                        <div class="{{ old('category_purpose') == 'rnd' ? '' : 'hide' }}" id="selectedInput5">
                                         <select class="js-example-basic-single" name="rnd">
                                             @foreach ($purpose_rnd as $rnd)
                                             <option value="{{ $rnd->id }}">{{ $rnd->name }}</option>
@@ -324,7 +313,7 @@
                                         {{-- End RND Dropdown --}}
 
                                           {{-- Travel Dropdown --}}
-                                          <div class="hide" id="selectedInput6">
+                                          <div class="{{ old('category_purpose') == 'travel' ? '' : 'hide' }}" id="selectedInput6">
                                             <select class="js-example-basic-single" name="travel">
                                                 @foreach ($purpose_travel as $travel)
                                                 <option value="{{ $travel->id }}">{{ $travel->name }}</option>
@@ -352,7 +341,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <select class="form-select mt-4 @if (old('project') != null) hide @endif" placeholder="Purpose" name="-" data-live-search="true" id="pengajuan-select">
                                             <option value="">Select Pengajuan</option>
@@ -363,7 +352,18 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="form-group process_by_form hide">
+                                        <label> Process By <span style="color: red;">*</span></label>
+                                        <select class="form-select" placeholder="Process By" name="process_by">
+                                            <option value="{{ old('process_location')  }}" selected>{{ old('process_location') ?? 'Select Processor'   }}</option>
+                                            <option value="Tebet">Tebet</option>
+                                            <option value="Cikunir">Cikunir</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label> Attach File PR </label>
                                         <input type="file" placeholder="Choose File" class="form-control"  name="file_pr">
@@ -390,6 +390,8 @@
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             Item</th>
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
+                                            Link</th>
+                                        <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             Qty</th>
                                         <th style="background-color: rgba(150, 148, 255, 0.9); font-weight: bold; font-size: 17px; border: 2px solid black;">
                                             UOM</th>
@@ -410,11 +412,14 @@
                                                 <select class="js-example-basic-single itemprePR miaw1 " name="item[]"></select>
                                             </div>
                                         </td>
+                                        <td class="td-link wave1">
+                                            <input type="text" class="form-control form-link" name="link[]" placeholder="Link (Not Mandatory)">
+                                        </td>
                                         <td>
                                             <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
                                         </td>
-                                        <td>
-                                            <select class="form-select " placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
+                                        <td class="td-uom wave1">
+                                            <select class="form-select form-uom" placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
                                                 @foreach ($uom as $u)
                                                     <option value="{{ $u->name }}">{{ $u->name }}</option>
                                                 @endforeach
@@ -465,12 +470,16 @@
                                                         {{-- Jika bukan project, tampilkan textarea --}}
                                                         <textarea name="item[]" class="form-control item-text" rows="2" style="min-width: 300px">{{ $oldItem }}</textarea>
                                                     @endif
+                                                    <textarea name="item[]" class="form-control item-text hide" rows="2" style="min-width: 300px">{{ $oldItem }}</textarea>
+                                                </td>
+                                                <td class="td-link wave2"> 
+                                                    <input type="text" class="form-control form-link" name="link[]" placeholder="Link (Not Mandatory)" value="{{ old('link.' . $index) }}">
                                                 </td>
                                                 <td>
                                                     <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required value="{{ old('qty.' . $index) }}"/>
                                                 </td>
-                                                <td>
-                                                    <select class="form-select " name="kategori[]" required style="min-width: 100px">
+                                                <td class="td-uom wave2">
+                                                    <select class="form-select form-uom" name="kategori[]" required style="min-width: 100px">
                                                         @foreach ($uom as $u)
                                                             <option value="{{ $u->name }}" {{ old('kategori.' . $index) == $u->name ? 'selected' : '' }}>{{ $u->name }}</option>
                                                         @endforeach
@@ -507,10 +516,13 @@
                                                         <textarea name="item[]" id="" class="form-control" rows="2" style="min-width: 300px">{{ $item->item }}</textarea>
                                                         {{-- <input type="text" name="item[]" placeholder="Input Item" class="form-control" style="text-align: center;" required /> --}}
                                                     </td>
+                                                    <td class="td-link wave3">
+                                                        <input type="text" class="form-control form-link" name="link[]" placeholder="Link (Not Mandatory)" value="{{ $item->link }}">
+                                                    </td>
                                                     <td><input type="number" name="qty[]" placeholder="Input Quantity" value="{{ $item->qty }}" class="form-control form-calc form-qty" style="text-align: center;" required />
                                                     </td>
-                                                    <td>
-                                                        <select class="form-select " placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
+                                                    <td class="td-uom wave3">
+                                                        <select class="form-select form-uom" placeholder="Kategori" name="kategori[]" required style="min-width: 100px">
                                                             @foreach ($uom as $u)
                                                                 @if($item->kategori == $u->name)
                                                                 <option value="{{ $item->kategori }}" selected>{{ $item->kategori }} </option>
@@ -558,11 +570,12 @@
         </div>
     </div>
     <!-- JavaScript Item -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script> --}}
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js"></script>
 
     <script>
+       let itemsDataMap = {};
        document.addEventListener('DOMContentLoaded', function() {
         var pageSelect = document.getElementById('pageSelect');
         var selectElement = document.querySelector('.itemprePR');
@@ -579,6 +592,7 @@
         var selectedValueProject = {!! json_encode(old('project')) ?? 'null' !!};
         let formItem;
         var selectItemsOptions;
+        var oldCategoryPurpose = @json(old('category_purpose', ''));
         var selectedInputs = [
             document.getElementById('selectedInput2'),
             document.getElementById('selectedInput3'),
@@ -587,6 +601,8 @@
             document.getElementById('selectedInput6')
         ];
         var selectedPage = '';
+
+        const form_processBy = document.querySelector('.process_by_form');
 
         // Check URL parameters for project and items
         var urlParams = new URLSearchParams(window.location.search);
@@ -628,7 +644,6 @@
         // Event listener for pageSelect change
         pageSelect.addEventListener('change', function() {
             selectedPage = this.value;
-            console.log('Selected page:', selectedPage);
             showSelectedInput(selectedPage);
         });
 
@@ -680,6 +695,13 @@
                     });
                 }
 
+                data.data.part_item.forEach(function(item) {
+                    itemsDataMap[item.id] = {
+                        uom: item.uom, 
+                        link: item.link 
+                    };
+                });
+
                 // Set selected project value and trigger change
                 selectpreprList.value = value;
                 $(selectpreprList).trigger('change.select2');
@@ -696,31 +718,56 @@
                 console.log(data);
                 selectElement.innerHTML = ''; // Now this should work without throwing an error
                 let result = data.data.part_item;
+                let parentTR = selectElement.closest('tr');
+                // Get references to the UOM select and description input
+                let uomSelect = parentTR.querySelector('.form-uom');
+                let linkform = parentTR.querySelector('.form-link');
 
-                result.forEach(function(item) {
-                    //if(item.is_check == 0){
-                        var option = document.createElement('option');
-                        option.value = item.id;
-                        option.textContent = item.child_item;
-                        selectElement.appendChild(option);
-                    //}
+                result.forEach(function(item,index) {
+                    console.log(item.is_check + item.child_item);
+                    var option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = item.child_item;
+                    if (index === 0) {
+                        option.selected = true;
+                        // Set the initial UOM and description
+                        updateDetails(item, uomSelect, linkform);
+                    }
+                    selectElement.appendChild(option);
+                    
                 });
+                 // Add an onchange event listener to update data on selection change
+                selectElement.onchange = function() {
+                    let selectedItem = result.find(item => item.id == selectElement.value);
+                    if (selectedItem) {
+                        updateDetails(selectedItem, uomSelect, linkform);
+                    }
+                };
+            }
+
+            // Function to update the UOM and description fields
+            function updateDetails(item, uomSelect, linkform) {
+                linkform.value = item.link;
             }
         }
 
         function updateSelectOptionAppend(data) {
             let options = ''; // Variabel options didefinisikan di sini
             let result = data.data.part_item;
-
             result.forEach(function(item) {
-                //if(item.is_check == 0){
                 options += `<option value="${item.id}">${item.child_item}</option>`;
-                //} else {
-
-                //}
+                if(projectParam){
+                    itemsDataMap[item.id] = {
+                        uom: item.uom, // Assuming 'uom' is available in the fetched data
+                        link: item.link // Assuming 'description' is available in the fetched data
+                    };
+                }
+                
             });
 
             return options;
+
+        
         }
 
         function addItem(itemId = null) {
@@ -729,7 +776,7 @@
             console.log(selectItemsOptions);
             if (selectedPage) {
                 if (selectedPage === 'project') {
-                    formItem = `<select class="js-example-basic-single itemprePR miaw2" name="item[]">` + selectItemsOptions + `</select>`;
+                    formItem = `<select class="js-example-basic-single itemprePR miaw2" name="item[]" onchange="generateUomDesc(this);">` + selectItemsOptions + `</select>`;
                     if (itemId) {
                         formItem = formItem.replace(`<option value="${itemId}">`, `<option value="${itemId}" selected>`);
                     }
@@ -738,7 +785,7 @@
                 }
             } else if ({!! json_encode(old('category_purpose')) ?? 'null' !!} !== 'null') {
                 if ({!! json_encode(old('category_purpose')) ?? null !!} === 'project') {
-                    formItem = `<select class="js-example-basic-single itemprePR" name="item[]">
+                    formItem = `<select class="js-example-basic-single itemprePR" name="item[]" onchange="generateUomDesc(this);">
                         @if(!empty($ItemsProject->partItem) || !empty($ItemsProject))
                             @foreach ($ItemsProject->partItem as $itemp)
                                 <option value="{{ $itemp->id }}">
@@ -764,11 +811,14 @@
                         <td class="item-text">
                             `+ formItem +`
                         </td>
+                        <td class="td-link waveappend">
+                            <input type="text" class="form-control form-link" name="link[]" placeholder="Link (Not Mandatory)">
+                        </td>
                         <td>
                             <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
                         </td>
-                        <td>
-                            <select class="form-select" placeholder="Kategori" name="kategori[]" >
+                        <td class="td-uom waveappend">
+                            <select class="form-select form-uom" placeholder="Kategori" name="kategori[]" >
                                 @foreach ($uom as $u)
                                     <option value="{{ $u->name }}">{{ $u->name }}</option>
                                 @endforeach
@@ -784,6 +834,13 @@
                             <button type="button"  class="btn btn-danger remove-input-field"><i class="icofont icofont-ui-close"></i></button>
                         </td> `;
             $(".item").append(item)
+            let newSelectElements = document.querySelectorAll(".itemprePR");
+                if (newSelectElements.length > 0) {
+                    newSelectElements.forEach(function(element) {
+                        console.log(element)
+                        generateUomDesc(element);
+                    });
+                }
             $(".js-example-basic-single").select2();
             $i++
         }
@@ -793,53 +850,102 @@
         });
 
         // Show And Hide Form Purpose
-        function hideAllSelectedInputs() {
-            selectedInput.classList.add('hide');
-            selectedInputs.forEach(function(input) {
-                input.classList.add('hide');
-            });
-        }
+        // function hideAllSelectedInputs() {
+        //     selectedInput.classList.add('hide');
+        //     selectedInputs.forEach(function(input) {
+        //         input.classList.add('hide');
+        //     });
+        // }
 
         function showSelectedInput(page) {
-            hideAllSelectedInputs();
+            // hideAllSelectedInputs();
             if (page === "project") {
                 selectedInput.classList.remove('hide');
+                selectedInput2.classList.add('hide');
+                selectedInput3.classList.add('hide');
+                selectedInput4.classList.add('hide');
+                selectedInput5.classList.add('hide');
+                selectedInput6.classList.add('hide');
                 textareanormal.classList.add('hide');
                 document.querySelector('#pengajuan-select').classList.add('hide');
                 textareanormal.disabled = true;
                 selectprepr.classList.remove('hide');
                 selectprepr.classList.disabled = false;
+                form_processBy.classList.add('hide');
+                form_processBy.removeAttribute("required");
+
             } else if(page === "office") {
                 selectedInput2.classList.remove('hide');
+                selectedInput.classList.add('hide');
+                selectedInput3.classList.add('hide');
+                selectedInput4.classList.add('hide');
+                selectedInput5.classList.add('hide');
+                selectedInput6.classList.add('hide');
                 selectprepr.classList.add('hide');
                 selectprepr.classList.disabled = true;
+                document.querySelector('#pengajuan-select').classList.remove('hide');
+                document.querySelector('#pengajuan-select').classList.remove('hide');
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
+                form_processBy.classList.add('hide');
+                form_processBy.removeAttribute("required");
 
             } else if(page === "workshop") {
                 selectedInput3.classList.remove('hide');
+                selectedInput.classList.add('hide');
+                selectedInput2.classList.add('hide');
+                selectedInput4.classList.add('hide');
+                selectedInput5.classList.add('hide');
+                selectedInput6.classList.add('hide');
                 selectprepr.classList.add('hide');
                 selectprepr.classList.disabled = true;
+                document.querySelector('#pengajuan-select').classList.remove('hide');
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
+                form_processBy.classList.remove('hide');
+                form_processBy.setAttribute("required","required");
             } else if(page === "inventory") {
                 selectedInput4.classList.remove('hide');
+                selectedInput.classList.add('hide');
+                selectedInput2.classList.add('hide');
+                selectedInput3.classList.add('hide');
+                selectedInput5.classList.add('hide');
+                selectedInput6.classList.add('hide');;
                 selectprepr.classList.add('hide');
                 selectprepr.classList.disabled = true;
+                document.querySelector('#pengajuan-select').classList.remove('hide');
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
+                form_processBy.classList.remove('hide');
+                form_processBy.setAttribute("required","required");
             } else if(page === "rnd") {
                 selectedInput5.classList.remove('hide');
+                selectedInput.classList.add('hide');
+                selectedInput2.classList.add('hide');
+                selectedInput4.classList.add('hide');
+                selectedInput3.classList.add('hide');
+                selectedInput6.classList.add('hide');
                 selectprepr.classList.add('hide');
                 selectprepr.classList.disabled = true;
+                document.querySelector('#pengajuan-select').classList.remove('hide');
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
+                form_processBy.classList.remove('hide');
+                form_processBy.setAttribute("required","required");
             } else if(page === "travel") {
                 selectedInput6.classList.remove('hide');
+                selectedInput.classList.add('hide');
+                selectedInput2.classList.add('hide');
+                selectedInput4.classList.add('hide');
+                selectedInput5.classList.add('hide');
+                selectedInput3.classList.add('hide');
                 selectprepr.classList.add('hide');
                 selectprepr.classList.disabled = true;
+                document.querySelector('#pengajuan-select').classList.remove('hide');
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
+                form_processBy.classList.add('hide');
+                form_processBy.removeAttribute("required");
             } else {
                 if (page !== "") {
                     var index = parseInt(page) - 2; // Assuming IDs start from 2
@@ -852,6 +958,41 @@
 
         showSelectedInput(selectedPage);
        });
+
+       function generateUomDesc(elementOrEvent) {
+            var selectedElement = elementOrEvent.target || elementOrEvent;
+            console.log(selectedElement);
+            let selectedValue = selectedElement.value;
+            console.log(selectedValue);
+            let parentTd = selectedElement.closest('tr');
+            let uomSelect = parentTd.querySelector('.form-uom');
+            let formlink = parentTd.querySelector('.form-link');
+            let uomData = selectedElement.getAttribute('data-uom');
+            let linkData = selectedElement.getAttribute('data-link');
+            console.log(itemsDataMap);
+            // Assuming itemsDataMap is populated correctly from fetchProjectData
+            if (itemsDataMap[selectedValue]) {
+                let selectedData = itemsDataMap[selectedValue];
+
+                // uomSelect.innerHTML = ''; // Clear existing options
+                // let option = document.createElement('option');
+                // option.value = selectedData.uom;
+                // option.textContent = selectedData.uom;
+                // option.selected = true;
+                // uomSelect.appendChild(option);
+                console.log(selectedData)
+                formlink.value = selectedData.link || null;
+            } else if(uomData || linkData) {
+                // uomSelect.innerHTML = ''; // Clear existing options
+                // let option = document.createElement('option');
+                // option.value = uomData;
+                // option.textContent = uomData;
+                // option.selected = true;
+                // uomSelect.appendChild(option);
+
+                formlink.value = linkData;
+            } 
+        }
     </script>
 
     <script type="text/javascript">
@@ -879,21 +1020,34 @@
     </script>
 
 
-{{-- Script buat Show And Hide Upload File --}}
+    {{-- Script buat Show And Hide Upload File --}}
     <script>
         const typePR = document.querySelector('.type_pr');
         const spkUpload = document.querySelector('.spk-upload');
-        console.log(typePR);
-        typePR.addEventListener('change', function(){
-            console.log(this.value);
-            if(this.value == 'SPKBased'){
-                spkUpload.classList.remove('hide');
-            }else {
-                spkUpload.classList.add('hide');
-            }
-        })
-    </script>
+        const sendApproval = document.querySelector('.approver');
+        let existingOption = sendApproval.querySelector("option[value='6']");
+        let opt = document.createElement('option');
 
+        typePR.addEventListener('change', function() {
+            console.log(this.value);
+            if (this.value == 'SPKBased' || this.value == 'SPK_Normal') {
+                spkUpload.classList.remove('hide');
+                if (!existingOption) {
+                    opt.value = 6;
+                    opt.text = 'Sindu Irawan';
+                    sendApproval.appendChild(opt);
+                    existingOption = opt; // Update existingOption to point to the newly added option
+                }
+                
+            } else {
+                spkUpload.classList.add('hide');
+                if (existingOption) {
+                    sendApproval.removeChild(existingOption);
+                    existingOption = null; // Reset existingOption after removal
+                }
+            }
+        });
+    </script>
 </section>
 @endsection
 

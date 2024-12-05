@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Support\Carbon;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class CategoryPengajuanPembelian extends Model
 {
@@ -37,6 +38,7 @@ class CategoryPengajuanPembelian extends Model
         'purpose',
         'department',
         'type_pr',
+        'process_by',
         'file_spk',
         'file_pr',
         'send_to',
@@ -129,6 +131,15 @@ class CategoryPengajuanPembelian extends Model
     public function quot()
     {
         return $this->hasMany(CategoryPO::class,'ppb_id');
+    }
+
+    public function has_po()
+    {
+        return $this->hasMany(CategoryPO::class, 'ppb_id')
+                ->where(function($query) {
+                    $query->where('flag_delivery', '!=', 2)
+                          ->orWhereNull('flag_delivery'); // Hanya ambil yang bukan 2 atau null
+                });
     }
 
     public function signature()

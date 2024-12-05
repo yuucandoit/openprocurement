@@ -12,6 +12,7 @@ class Department extends Model
     protected $fillable = [
         'id',
         'name',
+        'permitted_purposes',
     ];
     public function dp()
     {

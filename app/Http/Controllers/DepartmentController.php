@@ -47,9 +47,9 @@ class DepartmentController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3) {
-            $data = Department::all();
+            $purposes = ['Project','Office','Workshop','Inventory','RND','Travel'];
             return view('dataDepartment.create')
-            ->with('data',$data);
+            ->with('purposes', $purposes);
         }else {
             return redirect()->route('dashboard');
         }
@@ -68,10 +68,12 @@ class DepartmentController extends Controller
         //validasi formnya
         $this->validate($request,[
             'name' => 'required',
+            'permitted_purposes' => 'required|array',
         ]);
 
        Department::create([
-            "name" => $request->name,
+            "name"      => $request->name,
+            "permitted_purposes"  => json_encode($request->purposes),
         ]);
 
         return redirect("department/")->with('success', 'Created Successfully!');
@@ -102,8 +104,12 @@ class DepartmentController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3) {
         $data = Department::find($id);
+        $selectedPurposes = $data->permitted_purposes ? json_decode($data->permitted_purposes, true) : [];
+        $purposes = ['Project','Office','Workshop','Inventory','RND','Travel'];
         return view('dataDepartment.edit')
-        ->with('data', $data);
+        ->with('data', $data)
+        ->with('selectedPurposes',$selectedPurposes)
+        ->with('purposes',$purposes);
         }else{
             return redirect()->route('dashboard');
         }
@@ -123,6 +129,7 @@ class DepartmentController extends Controller
             $data = Department::find($id);
             $tes = Department::where("id", $id)->update([
                 "name" => $request->name,
+                "permitted_purposes"  => json_encode($request->purposes),
             ]);
             return redirect("department/")->with('success', 'Updated Successfully!');
         }else {

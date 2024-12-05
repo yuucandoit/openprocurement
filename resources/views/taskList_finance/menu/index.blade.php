@@ -4,8 +4,8 @@
 
 @section('main')
     <section>
-        @foreach ($datappb as $ppb)
-            <div class="modal fade" id="modalItem{{ $ppb->id }}" tabindex="-1" aria-hidden="true">
+        @foreach ($datappb as $pb)
+            <div class="modal fade" id="modalItem{{ $pb->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-danger">
@@ -27,7 +27,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($ppb->itemppn as $item)
+                                    @foreach ($pb->itemppn as $item)
                                     <tr>
                                         <td> {{ $item->item }}</td>
                                         <td> {{ $item->qty }}</td>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            @foreach ($ppb->quot as $po)
+            @foreach ($pb->quot as $po)
                 <div class="modal fade" id="modalItemVendor{{ $po->id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -128,9 +128,17 @@
                                     </thead>
                                     @php
                                         $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
+                                        $approvedPPB = $datappb->map(function ($ppb) {
+                                            return [
+                                                'id' => $ppb->id,
+                                                'approved_at' => $ppb->approved_at,
+                                                'dateline' => $ppb->dateline,
+                                                'dateline_time' => $ppb->dateline_time,
+                                            ];
+                                        });
                                     @endphp
                                     @foreach ($datappb as $ppb)
-                                        <tr style="background-color:#F1F6F5;">
+                                        <tr style="background-color:#F1F6F5;" id="ppb-{{ $ppb->id }}">
                                             <td style="text-align: center;">{{ $i++ }}</td>
                                             <td>{{ $ppb->code_pengajuan }}</td>
                                             <td>
@@ -142,24 +150,36 @@
                                                 </a>
                                             </td>
                                             <td>
+                                                @foreach ($ppb->itemppn as $ice)
+                                                    @php
+                                                    $ipb = \App\Models\PengajuanPembelian::select(DB::raw('pp_id,SUM(qty) as qty'))->where('pp_id',$ice->pp_id)->groupBy('pp_id')->first();
+                                                    @endphp
+                                                @endforeach
                                                 <ul>
-                                                    <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>
+                                                    <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{  $ipb->qty }} Item </label></li>
                                                 </ul>
                                             </td>
                                             <td style="text-align: center; white-space:nowrap;">
-                                                @if($ppb->dateline == '≤24Jam')
-                                                <strong><p>1 Hari</p></strong>
-                                                @elseif ($ppb->dateline == '≤72Jam')
-                                                <strong><p>2 sd 3 Hari</p></strong>
-                                                @elseif ($ppb->dateline == '≤168Jam')
-                                                <strong><p>4 sd 7 Hari</p></strong>
-                                                @elseif ($ppb->dateline == '≤336Jam')
-                                                <strong><p>7 sd 14 Hari</p></strong>
-                                                @endif
+                                                <ul>
+                                                    <li style="white-space: nowrap;">
+                                                        <p class="ppb-countdown"></p>
+                                                    </li>
+                                                    <li>
+                                                        @if($ppb->dateline == '≤24Jam')
+                                                        <strong><p>1 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤72Jam')
+                                                        <strong><p>2 sd 3 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤168Jam')
+                                                        <strong><p>4 sd 7 Hari</p></strong>
+                                                        @elseif ($ppb->dateline == '≤336Jam')
+                                                        <strong><p>7 sd 14 Hari</p></strong>
+                                                        @endif
+                                                    </li>
+                                                </ul>
                                             </td>
-                                            <td style="text-align: center;"> <a class="badge {{ $ppb->status == 'Invoicing Process' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                    style="color: white; font-size:12">{{ $ppb->status }}</a></td>
-
+                                            <td style="text-align: center;"> <a class="badge badge-lable mt-1"
+                                                    style="color: white; font-size:12">{{ $ppb->status }}</a>
+                                            </td>
                                         </tr>
                                         @foreach ($ppb->quot as $po)
                                         @if($po->status == 'Payment Approved' || $po->status =='PO & Payment Approved')
@@ -224,7 +244,7 @@
                                         @endif
                                         @endforeach
                                     @endforeach
-                                    </tbody>
+                                    </tbody>                                
                                 </table>
                                 {{ $datappb->appends(['in'=> request('in')],'in')->withQueryString()->links('pagination::bootstrap-5') }}
                             </div>
@@ -234,7 +254,128 @@
                 <!-- Zero Configuration  Ends-->
             </div>
         </div>
-
-
     </section>
+
+@endsection
+@section('scripts')
+<script>
+    
+    const dataTask = @json($approvedPPB);
+    const item = dataTask[0];
+
+
+    // FOR CALCULATE REMAINING DEADLINE TIME 😃
+    const remainingTime = (dataTask, elmnt) => {
+        const {
+            approved_at,
+            dateline_time,
+            datetime
+        } = dataTask;
+        if (!approved_at || !dateline_time) return 'Invalid Data';
+
+        const dateline = {
+            day     : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])/24.1) || 1),
+            hours   : () => dateline.toDigit(Math.floor(parseInt(dateline.split()[0])%24.1)),
+            minutes : () => dateline.split()[1],
+            seconds : () => dateline.split()[2],
+            time    : () => `${dateline.hours()}:${dateline.minutes()}:${dateline.seconds()}`,
+            split   : () => dateline_time.split(':'),
+            toDigit : (val) => val > 9 ? val : '0'+val,
+        }
+
+        const approvedAt = new Date(approved_at);
+        const dueDateTime = new Date(`1970-01-${dateline.day()}T${dateline.time()}Z`);
+        const dueDateAt = new Date(approvedAt.getTime() + dueDateTime.getTime());
+        const remainingTime = new Date(dueDateAt.getTime() - Date.now());
+        const lable = elmnt.querySelector('.badge-lable');
+
+
+        if (remainingTime.getTime() < 1) {
+
+        lable.classList.remove('bg-dark');
+        lable.classList.add('bg-dark');
+        var currentTimeExp = new Date();
+        var remainingTimeExpired = Math.floor((currentTimeExp - dueDateAt.getTime()) / 1000);
+
+        var expWeeks = Math.floor(remainingTimeExpired / (7 * 24 * 3600));
+        remainingTimeExpired -= expWeeks * (7 * 24 * 3600);
+
+        var expDays = Math.floor(remainingTimeExpired / (24 * 3600));
+        remainingTimeExpired -= expDays * (24 * 3600);
+
+        var expHours = Math.floor(remainingTimeExpired / 3600);
+        remainingTimeExpired -= expHours * 3600;
+
+        var expMinutes = Math.floor(remainingTimeExpired / 60);
+        remainingTimeExpired -= expMinutes * 60;
+
+        var expSeconds = remainingTimeExpired;
+
+        var weeksDisplay = expWeeks > 0 ? `${expWeeks} week${expWeeks > 1 ? "s" : ""} ` : "";
+        var daysDisplay = expDays > 0 ? `${expDays} day${expDays > 1 ? "s" : ""} ` : "";
+        var hoursDisplay = expHours < 10 ? "0" + expHours : expHours;
+        var minutesDisplay = expMinutes < 10 ? "0" + expMinutes : expMinutes;
+        var secondsDisplay = expSeconds < 10 ? "0" + expSeconds : expSeconds;
+
+        let countdown = `-${weeksDisplay}${daysDisplay}${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`;
+        return countdown;
+        }
+
+        let colors = [];
+        const days  = dateline.split()[0] == 24 ? (remainingTime.getDate()-2).toString() : (remainingTime.getDate()-1).toString();
+        const hours = remainingTime.getUTCHours().toString();
+        const minutes = remainingTime.getUTCMinutes().toString();
+        const seconds = remainingTime.getUTCSeconds().toString();
+
+        lable.classList.remove('bg-danger');
+        lable.classList.remove('bg-warning');
+        lable.classList.remove('bg-success');
+
+        // SUDAH OTOMATIS HITUNG DISINI YAAAAA 😁
+        lable.classList.add((() => {
+            const dueDate   = dueDateTime.getTime();
+            const remaining = remainingTime.getTime();
+
+            if(remaining <= 60*60*1000) return 'bg-dark';
+            if(remaining <= dueDate*1/3) return'bg-danger';
+            if(remaining <= dueDate*2/3) return'bg-warning';
+            if(remaining <= dueDate*3/3) return'bg-success';
+        })());
+
+        return (
+            (days.length == 1 ? `0${days}:` : `${days}:`)+
+            (hours.length == 1 ? `0${hours}:` : `${hours}:`) +
+            (minutes.length == 1 ? `0${minutes}:` : `${minutes}:`) +
+            (seconds.length == 1 ? `0${seconds}` : `${seconds}`)
+        );
+    }
+
+    // FOR HANDLE REWRITE ELEMENT 😃
+    const countdownHandle = (elmnt, item) => {
+        const countdownElmnt = elmnt.querySelector('.ppb-countdown');
+        const remaining = remainingTime(item, elmnt);
+        
+        if (remaining.startsWith('-')) { // Check if time has passed
+            countdownElmnt.style.color = 'red';
+            countdownElmnt.style.fontWeight = '600';
+        } else {
+            countdownElmnt.style.color = 'blue';
+            countdownElmnt.style.fontWeight = '600';
+        }
+
+        countdownElmnt.innerText = remainingTime(item, elmnt);
+    }
+
+    // FOR INITIALIZE COUNTDOWN 😃
+    const initCountdown = (dataTask) => {
+        dataTask.forEach(item => {
+            if (!item || !item.approved_at || !item.dateline_time) return;
+            setInterval(() => countdownHandle(document.querySelector(
+                `#ppb-${item.id}`
+            ), item), 1000);
+        });
+    }
+
+    initCountdown(dataTask);
+</script>
 @endsection
