@@ -25,7 +25,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <a href="{{ url('/RnD/create/') }}" class="btn btn-primary mb-3"></i> Add <i
+                            <a href="{{ route('RnD.create') }}" class="btn btn-primary mb-3"></i> Add <i
                                     class="icofont icofont-ui-add"></i></a>
                                     <div class="pull-right">
                                         <form action="{{ route('RnD.SearchRND') }}" method="get"
@@ -56,7 +56,7 @@
                                                 <td>{{ $rnd->name }}</td>
                                                 <td style="text-align: center;">
                                                     <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;"
-                                                        href="{{ url('/RnD/edit/' . $rnd->id) }}"><i class="icon-pencil-alt"
+                                                        href="{{ route('RnD.edit',$rnd->id) }}"><i class="icon-pencil-alt"
                                                             title="Edit"></i>
                                                     </a>
                                                     <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
