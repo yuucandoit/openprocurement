@@ -1535,120 +1535,120 @@
                                             <ul class="nav-submenu menu-content" style="display: block;">
                                                 <li
                                                     class="dropdown {{ request()->is('*who-submitted*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('who-submitted') ? 'active' : '' }}"
+                                                    <a style="white-space:nowrap;" class="{{ request()->is('who-submitted') ? 'active' : '' }}"
                                                         href="{{ url('/who-submitted') }}">
                                                         <i data-feather="user"></i>
-                                                        <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Who Submitted</span>
+                                                        <span>Who Submitted</span>
                                                     </a>
                                                 </li>
                                                 <li
                                                     class="dropdown {{ request()->is('*project-reference*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('project-reference') ? 'active' : '' }}"
+                                                    <a style="white-space:nowrap;" class="{{ request()->is('project-reference') ? 'active' : '' }}"
                                                         href="{{ url('/project-reference') }}">
                                                         <i data-feather="airplay"></i>
-                                                        <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Project</span>
+                                                        <span>Purpose Project</span>
                                                     </a>
                                                 </li>
                                                 <li class="dropdown {{ request()->is('*office*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('office') ? 'active' : '' }}"
+                                                    <a style="white-space:nowrap;" class="{{ request()->is('office') ? 'active' : '' }}"
                                                         href="{{ url('/office') }}">
-                                                        <i class="icofont icofont-building-alt"></i>
-                                                        <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Office</span>
+                                                        <i data-feather="printer"></i>
+                                                        <span>Purpose Office</span>
                                                     </a>
                                                 </li>
                                                 <li class="dropdown {{ request()->is('*workshop*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('workshop') ? 'active' : '' }}"
+                                                    <a style="white-space:nowrap;" class="{{ request()->is('workshop') ? 'active' : '' }}"
                                                         href="{{ url('/workshop') }}">
-                                                        <i class="icofont icofont-people"></i>
-                                                        <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Workshop</span>
+                                                        <i data-feather="users"></i>
+                                                        <span>Purpose Workshop</span>
                                                     </a>
                                                 </li>
                                                 <li class="dropdown {{ request()->is('*inventory*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('invetory') ? 'active' : '' }}"
+                                                    <a style="white-space:nowrap;" class="{{ request()->is('invetory') ? 'active' : '' }}"
                                                         href="{{ url('/inventory') }}">
-                                                        <i class="icofont icofont-list"></i>
-                                                        <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Inventory</span>
+                                                        <i data-feather="file-text"></i>
+                                                        <span>Purpose Inventory</span>
                                                     </a>
                                                 </li>
                                                 <li class="dropdown {{ request()->is('*RnD*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('RnD') ? 'active' : '' }}"
+                                                    <a style="white-space:nowrap;" class="{{ request()->is('RnD') ? 'active' : '' }}"
                                                         href="{{ url('/RnD') }}">
-                                                        <i class="icofont icofont-presentation-alt  "></i>
-                                                        <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose R&D</span>
+                                                        <i data-feather="package"></i>
+                                                        <span>Purpose R&D</span>
                                                     </a>
                                                 </li>
                                                 <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('department') ? 'active' : '' }}"
+                                                    <a style="white-space:nowrap;" class="{{ request()->is('department') ? 'active' : '' }}"
                                                         href="{{ url('/department') }}">
                                                         <i data-feather="briefcase"></i>
-                                                        <span>&nbsp;&nbsp;&nbsp;&nbsp; Department</span>
+                                                        <span>Department</span>
                                                     </a>
                                                 </li>
                                                 <li class="dropdown {{ request()->is('*travel*') ? 'active' : '' }}">
-                                                    <a class="{{ request()->is('travel') ? 'active' : '' }}"
+                                                    <a style="white-space:nowrap;" class="{{ request()->is('travel') ? 'active' : '' }}"
                                                         href="{{ url('/travel') }}">
-                                                        <i class="icofont icofont-airplane-alt"></i>
-                                                        <span>&nbsp;&nbsp;&nbsp;&nbsp; Travel</span>
+                                                        <i data-feather="navigation"></i>
+                                                        <span>Travel</span>
                                                     </a>
                                                 </li>
                                             </ul>
                                         @endif
                                         <ul class="nav-submenu menu-content">
                                             <li class="dropdown {{ request()->is('*who-submitted*') ? 'active' : '' }}">
-                                                <a class="{{ request()->is('who-submitted') ? 'active' : '' }}"
+                                                <a style="white-space:nowrap;" class="{{ request()->is('who-submitted') ? 'active' : '' }}"
                                                     href="{{ url('/who-submitted') }}">
                                                     <i data-feather="user"></i>
-                                                    <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Who Submitted</span>
+                                                    <span>Who Submitted</span>
                                                 </a>
                                             </li>
                                             <li
                                                 class="dropdown {{ request()->is('*project-reference*') ? 'active' : '' }}">
-                                                <a class="{{ request()->is('project-reference') ? 'active' : '' }}"
+                                                <a style="white-space:nowrap;" class="{{ request()->is('project-reference') ? 'active' : '' }}"
                                                     href="{{ url('/project-reference') }}">
                                                     <i data-feather="airplay"></i>
-                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Project</span>
+                                                    <span>Purpose Project</span>
                                                 </a>
                                             </li>
                                             <li class="dropdown {{ request()->is('*office*') ? 'active' : '' }}">
-                                                <a class="{{ request()->is('office') ? 'active' : '' }}"
+                                                <a style="white-space:nowrap;" class="{{ request()->is('office') ? 'active' : '' }}"
                                                     href="{{ url('/office') }}">
-                                                    <i class="icofont icofont-building-alt"></i>
-                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Office</span>
+                                                    <i data-feather="printer"></i>
+                                                    <span>Purpose Office</span>
                                                 </a>
                                             </li>
                                             <li class="dropdown {{ request()->is('*workshop*') ? 'active' : '' }}">
-                                                <a class="{{ request()->is('workshop') ? 'active' : '' }}"
+                                                <a style="white-space:nowrap;" class="{{ request()->is('workshop') ? 'active' : '' }}"
                                                     href="{{ url('/workshop') }}">
-                                                    <i class="icofont icofont-people"></i>
-                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Workshop</span>
+                                                    <i data-feather="users"></i>
+                                                    <span>Purpose Workshop</span>
                                                 </a>
                                             </li>
                                             <li class="dropdown {{ request()->is('*inventory*') ? 'active' : '' }}">
-                                                <a class="{{ request()->is('invetory') ? 'active' : '' }}"
+                                                <a style="white-space:nowrap;" class="{{ request()->is('invetory') ? 'active' : '' }}"
                                                     href="{{ url('/inventory') }}">
-                                                    <i class="icofont icofont-list"></i>
-                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Inventory</span>
+                                                    <i data-feather="file-text"></i>
+                                                    <span>Purpose Inventory</span>
                                                 </a>
                                             </li>
                                             <li class="dropdown {{ request()->is('*RnD*') ? 'active' : '' }}">
-                                                <a class="{{ request()->is('RnD') ? 'active' : '' }}"
+                                                <a style="white-space:nowrap;" class="{{ request()->is('RnD') ? 'active' : '' }}"
                                                     href="{{ url('/RnD') }}">
-                                                    <i class="icofont icofont-presentation-alt  "></i>
-                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose R&D</span>
+                                                    <i data-feather="package"></i>
+                                                    <span>Purpose R&D</span>
                                                 </a>
                                             </li>
                                             <li class="dropdown {{ request()->is('*department*') ? 'active' : '' }}">
-                                                <a class="{{ request()->is('department') ? 'active' : '' }}"
+                                                <a style="white-space:nowrap;" class="{{ request()->is('department') ? 'active' : '' }}"
                                                     href="{{ url('/department') }}">
                                                     <i data-feather="briefcase"></i>
-                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;Department</span>
+                                                    <span>Department</span>
                                                 </a>
                                             </li>
                                             <li class="dropdown {{ request()->is('*travel*') ? 'active' : '' }}">
-                                                <a class="{{ request()->is('travel') ? 'active' : '' }}"
+                                                <a style="white-space:nowrap;" class="{{ request()->is('travel') ? 'active' : '' }}"
                                                     href="{{ url('/travel') }}">
-                                                    <i class="icofont icofont-airplane-alt"></i>
-                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp; Purpose Travel</span>
+                                                    <i data-feather="navigation"></i>
+                                                    <span>Purpose Travel</span>
                                                 </a>
                                             </li>
                                         </ul>
