@@ -11,7 +11,7 @@
                   <h1>Edit RnD</h1>
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('RnD-reference.index') }}">Purpose</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('RnD.index') }}">Purpose</a></li>
                     <li class="breadcrumb-item">Form Edit RnD</li>
                   </ol>
                 </div>
