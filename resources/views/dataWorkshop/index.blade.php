@@ -61,8 +61,8 @@
                                                     </a>
                                                     <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
                                                     data-bs-toggle="modal" data-bs-target="#modalDelete{{ $wo->id }}">
-                                                    <i data-feather="trash-2" title="Delete."></i>
-                                                </button>
+                                                    <i class="icon-trash" title="Delete"></i>
+                                                    </button>
                                                 </td>
 
                                             </tr>
