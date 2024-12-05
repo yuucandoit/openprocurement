@@ -46,6 +46,8 @@ class CategoryPO extends Model
         'no_resi',
         'first_estimate',
         'last_estimate',
+        'creator_id',
+        'creator_name',
         'approved_at_py',
         'note_bod_po',
         'note_bod_py',
@@ -54,6 +56,11 @@ class CategoryPO extends Model
         'deleted_at'
     ];
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class,'creator_id');
+    }
+    
     public function ppb()
     {
         return $this->belongsTo(CategoryPengajuanPembelian::class);

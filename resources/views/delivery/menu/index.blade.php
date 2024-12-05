@@ -222,7 +222,7 @@
                                                         <a class="badge bg-warning mt-1" style="color: white; font-size:12">{{ $ppb->status }}</a>
                                                     </td>
                                                 </tr>
-                                                @foreach ($ppb->quot as $po)
+                                                @foreach ($ppb->has_po as $po)
                                                 @if($po->status != 'Reject PO')
                                                     <tr>
 

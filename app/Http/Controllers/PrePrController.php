@@ -561,14 +561,18 @@ class PrePrController extends Controller
 
         $cariIn = $request->cariIn;
         //dd($cari);
-        $pengajuan = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)
-        ->orderBy('status', 'desc')->orderBy('dateline', 'asc')
-        ->where('id','like',"%".$cariIn."%")
-        ->orWhere('status','like',"%".$cariIn."%")
-        ->orWhere('desc','like',"%".$cariIn."%")
-        ->orWhereHas('whosubmit', function($q) use($cariIn){
-            $q->where('name','like',"%".$cariIn."%");
+        $pengajuan = CategoryPengajuanPembelian::whereNot('status', 'Awaiting Purchase Request Approval')
+        ->where('logistic_check', 0)
+        ->where('purpose_type', ReferensiNamaProject::class)
+        ->where(function($query) use ($cariIn) {
+            $query->where('id','like',"%".$cariIn."%")
+            ->orWhere('status','like',"%".$cariIn."%")
+            ->orWhere('desc','like',"%".$cariIn."%")
+            ->orWhereHas('whosubmit', function($q) use($cariIn){
+                $q->where('name','like',"%".$cariIn."%");
+            });
         })
+        ->orderBy('id', 'desc')
         ->paginate(10);
         return view('check_logistic.history')
         ->with('pengajuan', $pengajuan);

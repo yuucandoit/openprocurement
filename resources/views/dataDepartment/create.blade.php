@@ -52,6 +52,15 @@
                             <label for="floatingName">Name</label>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                      <div class="form-floating">
+                        <select name="purposes[]"  id="purposes-select" class="js-example-basic-multiple form-control" multiple="multiple">
+                          @foreach ($purposes as $p)
+                            <option value="{{ $p }}">{{ $p }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
                     <div class="text-end">
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <a type="reset" class="btn btn-danger" href="{{ url('/department/') }}">back</a>

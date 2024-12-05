@@ -355,7 +355,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mt-3 mb-3" style="text-align: center;">
-                                            @hasrole('finance|super admin')
+                                            @hasrole('finance|super admin|super purchase')
                                                 @if ($datacpo->status == 'Paid' || $datacpo->status == 'Delivery Process' || $datacpo->status == 'Delivery Success')
                                                     <div>
                                                         <a style=" cursor: not-allowed; opacity: 0.5; text-decoration: none;"
@@ -434,7 +434,7 @@
                                 <!-- Floating Labels Form -->
                                 <form class="row g-2 mt-4" action="{{ url('/menu-pengajuan-dana/store/'.$datacpo->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    @hasrole('finance|super admin')
+                                    @hasrole('finance|super admin|super purchase')
                                     <div class="col-md-12 mt-4">
                                         <label for="path_image">Enter payment proof</label>
                                         <div class="form-group">
@@ -465,7 +465,7 @@
                                         @endif
                                     </div>
 
-                                    @hasrole('finance|super admin')
+                                    @hasrole('finance|super admin|super purchase')
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary btn_add mt-3">Submit</button>
                                         <a href="{{ route('menu-pengajuan-dana.index') }}" class="btn btn-dark mt-3">Back</a>
@@ -477,7 +477,7 @@
                     </div>
                 </div>
             </div>
-            @hasrole('finance|super admin')
+            @hasrole('finance|super admin|super purchase')
             <div class="modal fade" id="paid" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rejectLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -517,8 +517,8 @@
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-danger">Paid</button>
+                                    {{-- <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button> --}}
+                                    <button type="submit" class="btn btn-success">Paid</button>
                                 </div>
                             </form>
                         </div>

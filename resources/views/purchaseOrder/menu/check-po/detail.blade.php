@@ -60,6 +60,20 @@
                                                         <td>{{ $data_pengajuan->dateline }}</td>
                                                     </tr>
                                                     <tr>
+                                                        <td>Processer</td>
+                                                        <td>{{ $data_pengajuan->process_by ?? 'Tebet' }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-weight: 600;">SPK</td>
+                                                        <td>
+                                                            @if (empty($data_pengajuan->file_spk))
+                                                                -
+                                                            @else
+                                                                <a href="/upload_spk/{{ $data_pengajuan->file_spk }}" target="_blank" style="color: rgb(226, 43, 43); text-decoration:underline;">{{ $data_pengajuan->file_spk }}</a>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td>Approver Note</td>
                                                         <td>
                                                             @if (empty($data_pengajuan->note_bod_pr))
@@ -204,7 +218,7 @@
                                             <div class="col-md-6 ">
                                                 <div class="form-group">
                                                     <label class="form-label" style="font-weight: bold;">
-                                                        File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
+                                                        File&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :
                                                         @if (empty($po->path_quotation))
                                                             -
                                                         @else
@@ -251,6 +265,19 @@
                                                             -
                                                         @else
                                                             <a href="/upload_invoice/{!! nl2br($po->path_invoice) !!}" target="_blank">{!! nl2br($po->path_invoice) !!}</a>
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 ">
+                                                <div class="form-group">
+                                                    <label class="form-label" style="font-weight: bold;">
+                                                        Creator &nbsp; &nbsp; :
+                                                        @if (empty($po->creator_id) || empty($po->creator_name))
+                                                            -
+                                                        @else
+                                                            <a>{{ $po->creator->name  ?? $po->creator_name ?? '-'}}</a>
                                                         @endif
                                                     </label>
                                                 </div>

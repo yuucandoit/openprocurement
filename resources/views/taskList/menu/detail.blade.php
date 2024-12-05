@@ -61,6 +61,10 @@
                                                     <td>{{ $data_pengajuan->dateline }}</td>
                                                 </tr>
                                                 <tr>
+                                                    <td>Processer</td>
+                                                    <td>{{ $data_pengajuan->process_by ?? 'Tebet' }}</td>
+                                                </tr>
+                                                <tr>
                                                     <td>Approver Note</td>
                                                     <td>
                                                         @if(empty($data_pengajuan->note_bod_pr))
@@ -520,6 +524,81 @@
                 </div>
                 </div>
               </div>
+            </div>
+        </div>
+
+        {{-- Comment Section --}}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Comment</h4>
+                                    <form action="{{ route('comment.store', $data_pengajuan->id) }}" method="POST">
+                                        @csrf
+                                        <textarea class="form-control" name="comment" placeholder='Add Your Comment'></textarea>
+                                        <div style="text-align: right; margin-top:20px;">
+                                            <input type="submit" class="btn btn-primary" value="Comment">
+                                            <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
+                                        </div>
+                                    </form>
+                                <div class="AllComment" id="comment">
+                                    @foreach ($comments as $c)
+                                        @if($c->user_id == Auth::user()->id)
+                                        <ul style="text-align: end; padding-right:10px;">
+                                            <li>
+                                                <p>
+                                                    <strong>
+                                                        @if (empty($c->users->name))
+                                                        @else
+                                                            You
+                                                        @endif
+                                                    </strong>
+                                                    @if (empty($c->created_at))
+                                                    @else
+                                                    &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
+                                                    @endif
+                                                </p>
+                                            </li>
+                                            <li>
+                                                @if (empty($c->comment))
+                                                @else
+                                                    <p>{{ $c->comment }}</p>
+                                                @endif
+                                            </li>
+                                            <hr>
+                                        </ul>
+                                        @else
+                                        <ul style="padding-left:10px;">
+                                            <li>
+                                                <p>
+                                                    <strong>
+                                                        @if (empty($c->users->name))
+                                                        @else
+                                                            {{ $c->users->name }}
+                                                        @endif
+                                                    </strong>
+                                                    @if (empty($c->created_at))
+                                                    @else
+                                                        &nbsp;&nbsp;{{ \Carbon\Carbon::parse($c->created_at)->format('| l | d-m-Y | H:i:s |') }}
+                                                    @endif
+                                                </p>
+                                            </li>
+                                            <li>
+                                                @if (empty($c->comment))
+                                                @else
+                                                    <p>{{ $c->comment }}</p>
+                                                @endif
+                                            </li>
+                                            <hr>
+                                        </ul>
+                                        @endif
+
+                                    @endforeach
+                                </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         </div>

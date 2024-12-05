@@ -184,7 +184,7 @@
                                                         </li>
                                                     </ul>
                                                 </td>
-                                                @hasrole('finance|super admin')
+                                                @hasrole('finance|super admin|super purchase')
 
                                                     <td class="text-center" style="white-space: nowrap;">
                                                         <a class="btn btn-iconsolid mt-1"
@@ -240,9 +240,20 @@
                                                             </label>
                                                             @endforeach
                                                     </td>
-                                                    <td colspan="2"  class="text-center"><a
+                                                    <td class="text-center"><a
                                                         class="badge {{ $ppb->status == 'Unpaid' ? 'bg-warning' : ($ppb->status == 'rejected' ? 'bg-danger' : 'bg-success') }} mt-1"
-                                                        style="color: white; font-size:12">{{ $po2->status }}</a></td>
+                                                        style="color: white; font-size:12">{{ $po2->status }}</a>
+                                                    </td>
+                                                    @hasrole('finance|super admin|super purchase')
+
+                                                    <td class="text-center" style="white-space: nowrap;">
+                                                        <a class="btn btn-iconsolid mt-1"
+                                                            style="background-color: #f50808; font-size:10"
+                                                            href="{{ url('/exportpdf/po_id/' . $po->id) }}" target="_blank">
+                                                            <i class="icon-eye" title="Preview PDF"></i>
+                                                        </a>
+                                                    </td>
+                                                    @endhasrole
 
                                                     @endif
                                                 </tr>
@@ -263,7 +274,6 @@
     </section>
 @endsection
 @section('scripts')
-    {{-- <script src="{{  }}"></script> --}}
     <script>
         const dataPD = @json($approvedPPB);
         const item = dataPD[0];
@@ -357,6 +367,16 @@
         // FOR HANDLE REWRITE ELEMENT 😃
         const countdownHandle = (elmnt, item) => {
             const countdownElmnt = elmnt.querySelector('.ppb-countdown');
+            const remaining = remainingTime(item, elmnt);
+            
+            if (remaining.startsWith('-')) { // Check if time has passed
+                countdownElmnt.style.color = 'red';
+                countdownElmnt.style.fontWeight = '600';
+            } else {
+                countdownElmnt.style.color = 'blue';
+                countdownElmnt.style.fontWeight = '600';
+            }
+
             countdownElmnt.innerText = remainingTime(item, elmnt);
         }
 

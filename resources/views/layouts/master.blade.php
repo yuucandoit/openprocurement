@@ -74,10 +74,10 @@
                                 alt=""></a>
                         <div class="eproc"
                             style="font-size: 10px; padding-left:40px; font-weight:bolder; user-select:none;
-        -moz-user-select:none;
-        -ms-user-select:none;
-        -khtml-user-select:none;
-        -webkit-user-select:none">
+                            -moz-user-select:none;
+                            -ms-user-select:none;
+                            -khtml-user-select:none;
+                            -webkit-user-select:none">
                             E-Procurement</div>
                     </div>
                     <div class="dark-logo-wrapper"><a href="{{ route('dashboard') }}"><img class="img-fluid"
@@ -85,10 +85,10 @@
                                 alt=""></a>
                         <div class="eproc"
                             style="font-size: 10px; padding-left:40px; font-weight:bolder; user-select:none;
-        -moz-user-select:none;
-        -ms-user-select:none;
-        -khtml-user-select:none;
-        -webkit-user-select:none">
+                            -moz-user-select:none;
+                            -ms-user-select:none;
+                            -khtml-user-select:none;
+                            -webkit-user-select:none">
                             E-Procurement</div>
                     </div>
                     <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center"
@@ -115,9 +115,8 @@
                         <li id="clock" style="font-weight: bold; font-size: 14px;">
                         </li>
                         @php
-                           $coment_ppb = App\Models\Comment::groupBy('ppb_id')->get();
                            $comment_id = App\Models\CommentRead::orderBy('created_at','DESC')->groupBy('comment_id')->get();
-                           $comment_user_id = App\Models\CommentRead::where('user_id', '=', auth()->id())->get();
+                           $comment_user_id = App\Models\CommentRead::where('user_id', '=', auth()->id())->orderBy('created_at','DESC')->get();
                         @endphp
                         <style>
                             .my-custom-scrollbar {
@@ -131,82 +130,44 @@
                         </style>
 
             @hasrole('user|admin project')
+                <li class="onhover-dropdown">
+                    <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
+                    <ul class="notification-dropdown onhover-show-div">
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                            <li>
+                                <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
+                            </li>
+                            @foreach ($comment_id as $cid)
+                            @if(!empty($cid->comment->ppb->user_id) && $cid->comment->ppb->user_id == Auth::user()->id && $cid->is_read_user == 1)
 
-                    <li class="onhover-dropdown">
-                            <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
+                            @else
+                            <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-user" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <a onclick="document.getElementById('form-user').submit();">
+                                    <li class="noti-success" style="overflow:scroll;">
+                                    <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
+                                        <div class="media-body" style="font-size: 8;">
+                                        <p style="font-size: 10;">{{ $cid->comment->users->name }}</p>
+                                        <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name ?? '-' }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
 
-                            <ul class="notification-dropdown onhover-show-div">
-                                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                                    <li>
-                                        <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
+                                        </div>
+                                        <i data-feather="chevron-right" class="mt-3"><button type="submit" style="opacity: 0;"></button></i>
+                                    </div>
+
                                     </li>
-                                    @foreach ($comment_id as $cid)
-                                    @if(!empty($cid->comment->ppb->user_id) && $cid->comment->ppb->user_id == Auth::user()->id && $cid->is_read_user == 1)
+                                    <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
 
-                                    @else
-                                    <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-user" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <a onclick="document.getElementById('form-user').submit();">
-                                            <li class="noti-success" style="overflow:scroll;">
-                                            <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
-                                                <div class="media-body" style="font-size: 8;">
-                                                <p style="font-size: 10;">{{ $cid->comment->users->name }}</p>
-                                                <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name ?? '-' }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
-
-                                                </div>
-                                                <i data-feather="chevron-right" class="mt-3"><button type="submit" style="opacity: 0;"></button></i>
-                                            </div>
-
-                                            </li>
-                                            <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
-
-                                        </a>
-                                    </form>
-                                    @endif
-                                    @endforeach
-                                </div>
-                             </ul>
-                        </li>
+                                </a>
+                            </form>
+                            @endif
+                            @endforeach
+                        </div>
+                    </ul>
+                </li>
             @endhasrole
 
             @hasrole('purchasing')
                     <li class="onhover-dropdown">
-                            <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
-                            <ul class="notification-dropdown onhover-show-div">
-                                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                                    <li>
-                                        <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
-                                    </li>
-                                    @foreach ($comment_id as $cid)
-                                    @if(!empty($cid))
-                                    @if($cid->is_read_purchase == 1)
-
-                                    @else
-                                    <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-purchase" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                    <a onclick="document.getElementById('form-purchase').submit();">
-                                        <li class="noti-success" style="overflow:scroll;">
-                                        <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
-                                            <div class="media-body" style="font-size: 8;">
-                                            <p style="font-size: 10;">{{ $cid->comment->users->name ?? '-' }}</p>
-                                            <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name ?? '-' }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
-
-                                            </div>
-                                        </div>
-                                        </li>
-                                        <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
-                                    </a>
-                                    </form>
-                                    @endif
-                                    @endif
-                                    @endforeach
-                                </div>
-                             </ul>
-                        </li>
-            @endhasrole
-
-            @hasrole('finance')
-                <li class="onhover-dropdown">
                         <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
                         <ul class="notification-dropdown onhover-show-div">
                             <div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -214,39 +175,75 @@
                                     <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
                                 </li>
                                 @foreach ($comment_id as $cid)
-                                @if($cid->is_read_finance == 1)
+                                @if(!empty($cid))
+                                @if($cid->is_read_purchase == 1)
 
                                 @else
-                                    <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-finance" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                        <a onclick="document.getElementById('form-finance').submit();">
-                                            <li class="noti-success" style="overflow:scroll;">
-                                                <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
-                                                    <div class="media-body" style="font-size: 8;">
-                                                    <p style="font-size: 10;">{{ $cid->comment->users->name ?? '-' }}</p>
-                                                    <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name ?? '-' }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
+                                <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-purchase" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                <a onclick="document.getElementById('form-purchase').submit();">
+                                    <li class="noti-success" style="overflow:scroll;">
+                                    <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
+                                        <div class="media-body" style="font-size: 8;">
+                                        <p style="font-size: 10;">{{ $cid->comment->users->name ?? '-' }}</p>
+                                        <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name ?? '-' }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
 
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
-                                        </a>
-                                    </form>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
+                                </a>
+                                </form>
+                                @endif
                                 @endif
                                 @endforeach
                             </div>
-                         </ul>
+                        </ul>
                     </li>
             @endhasrole
 
+            @hasrole('finance')
+                <li class="onhover-dropdown">
+                    <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
+                    <ul class="notification-dropdown onhover-show-div">
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                            <li>
+                                <p class="f-w-700 mb-0">You have {{ $comment_id->count() }} Notifications<span class="pull-right badge badge-primary badge-pill">4</span></p>
+                            </li>
+                            @foreach ($comment_id as $cid)
+                            @if($cid->is_read_finance == 1)
+
+                            @else
+                                <form action="{{ url('/comment/is_read/'.$cid->id) }}" id="form-finance" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                    <a onclick="document.getElementById('form-finance').submit();">
+                                        <li class="noti-success" style="overflow:scroll;">
+                                            <div class="media"><span class="notification-bg bg-light-success"><i data-feather="file-text"> </i></span>
+                                                <div class="media-body" style="font-size: 8;">
+                                                <p style="font-size: 10;">{{ $cid->comment->users->name ?? '-' }}</p>
+                                                <p style="font-size: 10;">{{ $cid->comment->ppb->purpose->name ?? '-' }}</p><span style="font-size: 10">{{ $cid->comment->comment }} </span>
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <input type="hidden" name="role" value="{{ Auth::user()->roles->pluck('name')->implode(',') }}">
+                                    </a>
+                                </form>
+                            @endif
+                            @endforeach
+                        </div>
+                    </ul>
+                </li>
+            @endhasrole
+
             @hasrole('super user|General Manager Business|super admin')
-                    <li class="onhover-dropdown">
+                <li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
 
                     <ul class="notification-dropdown onhover-show-div">
                         <div class="table-wrapper-scroll-y my-custom-scrollbar">
                             <li>
-                                <p class="f-w-700 mb-0">You have Notifications {{ $comment_user_id->count() }}<span class="pull-right badge badge-primary badge-pill"></span></p>
+                                <p class="f-w-700 mb-0">You have Notifications {{ $comment_id->count() }}<span class="pull-right badge badge-primary badge-pill"></span></p>
 
                             </li>
                                 @foreach ($comment_id as $c)
@@ -272,9 +269,9 @@
                                 </form>
                                 @endif
                                 @endforeach
-                            </div>
-                            </ul>
-                        </li>
+                        </div>
+                    </ul>
+                </li>
 
             @endhasrole
 
@@ -301,7 +298,7 @@
                 <div class="d-lg-none mobile-toggle pull-right w-auto"><i data-feather="more-horizontal"></i></div>
             </div>
         </div>
-        <!-- Page Header Ends                              -->
+        <!-- Page Header Ends -->
         <!-- Page Body Start-->
         <div class="page-body-wrapper sidebar-icon">
             <!-- Page Sidebar Start-->
@@ -402,13 +399,73 @@
                                     </li>
                                 @endhasrole
                                 @php
-                                $po          =  App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count();
-                                $checkpo     =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Cross Check PO');})->count();
-                                $pyreq       =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','PO Approved');})->where('status', 'not like', '%Rejected%')->count();
-                                $pyprocess   =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Unpaid');})->where('status', 'not like', '%Rejected%')->count();
-                                $delivery    =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');})->where('status', 'not like', '%Rejected%')->count();
-                                $checkpr     =  App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)->count();
-                                $poSpkBase   =  App\Models\CategoryPengajuanPembelian::where('type_pr','SPKBased')->whereHas('quot',function($i){$i->where('status','Waiting Approval PO SPK');})->count();
+                                $checkRole      = App\Models\Role::where('model_id', Auth::user()->id)->first();
+                                if($checkRole->role_id == 3 || $checkRole->role_id == 17){
+                                    $po = App\Models\CategoryPengajuanPembelian::whereIn('status', ['Purchase Proses','Cross Check PO'])->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->count();
+                                }else {
+                                    if(!empty(Auth::user()->location) && Auth::user()->location == 'Cikunir'){
+                                        $po = App\Models\CategoryPengajuanPembelian::where('process_by', Auth::user()->location)
+                                            ->whereIn('status', ['Purchase Proses','Cross Check PO'])
+                                            ->orderBy('dateline', 'asc')
+                                            ->orderBy('approved_at', 'asc')
+                                            ->count();
+                                    }else {
+                                        $po = App\Models\CategoryPengajuanPembelian::where(function ($query) {
+                                            $query->where('process_by', 'Tebet')
+                                                ->orWhereNull('process_by');
+                                        })->whereIn('status', ['Purchase Proses','Cross Check PO'])
+                                        ->orderBy('dateline', 'asc')
+                                        ->orderBy('approved_at', 'asc')
+                                        ->count();
+                                    }
+                                }
+                                // $po             =  App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Proses')->count();
+                                $userLocation   = Auth::user()->location;
+                                $checkpo        =  App\Models\CategoryPengajuanPembelian::when(!empty($userLocation) && $userLocation == 'Cikunir', function ($query) use ($userLocation) {
+                                                        // Kondisi untuk lokasi Cikunir
+                                                        $query->where('process_by', $userLocation);
+                                                    }, function ($query) {
+                                                        // Kondisi untuk lokasi Tebet atau Null
+                                                        $query->where(function ($query) {
+                                                            $query->where('process_by', 'Tebet')
+                                                                ->orWhereNull('process_by');
+                                                        });
+                                                    })->whereHas('quot',function($i){$i->where('status','Cross Check PO');})->count();
+                                $poSpkBase      =  App\Models\CategoryPengajuanPembelian::when(!empty($userLocation) && $userLocation == 'Cikunir', function ($query) use ($userLocation) {
+                                                        // Kondisi untuk lokasi Cikunir
+                                                        $query->where('process_by', $userLocation);
+                                                    }, function ($query) {
+                                                        // Kondisi untuk lokasi Tebet atau Null
+                                                        $query->where(function ($query) {
+                                                            $query->where('process_by', 'Tebet')
+                                                                ->orWhereNull('process_by');
+                                                        });
+                                                    })->where('type_pr','SPKBased')->whereHas('quot',function($i){$i->where('status','Waiting Approval PO SPK');})->count();
+                                if ($checkRole->role_id == 5 || $checkRole->role_id == 3) {
+                                    $pyprocess      =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Unpaid');})->where('status', 'not like', '%Rejected%')->where(function ($q) {
+                                                            $q->where('process_by', 'Tebet')
+                                                            ->orWhereNull('process_by');
+                                                        })->count();
+                                    $pyreq          =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','PO Approved');})->where('status', 'not like', '%Rejected%')
+                                                        ->where(function ($q) {
+                                                            $q->where('process_by', 'Tebet')
+                                                            ->orWhereNull('process_by');
+                                                        })->count();
+                                }elseif ($checkRole->role_id == 17 && Auth::user()->location == 'Cikunir'){
+                                    $pyreq          =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','PO Approved');})->where('status', 'not like', '%Rejected%')->where('process_by','Cikunir')->count();
+                                    $pyprocess      =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('status','Unpaid');})->where('status', 'not like', '%Rejected%')->where('process_by','Cikunir')->count();
+                                }
+                                
+                                $delivery       =  App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i)
+                                                    { $i->whereIn('status',['PO & Payment Approved','Unpaid','Paid','Delivery Success'])
+                                                    ->where(function($query) {
+                                                        $query->where('flag_delivery', '!=', 2)
+                                                            ->orWhereNull('flag_delivery'); // Hanya ambil yang bukan 2 atau null
+                                                    })
+                                                        ->where('status', 'not like', '%Rejected%');
+                                                    })->where('status', 'not like', '%Rejected%')->count();
+                                $checkpr        =  App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)->count();
+                                
                                 @endphp
                                 @hasrole('super purchase|purchasing|super admin')
 
@@ -422,16 +479,16 @@
                                             <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $po }}</span>
                                             @endif
                                         </a>
-                                        @if (request()->is('menu-purchase-order') || request()->is('menu-purchase-order/out') || request()->is('menu-purchase-order/detail/*') ? 'active' : '')
+                                        @if (request()->is('menu-purchase-order') || request()->is('menu-purchase-order/out') || request()->is('menu-purchase-order/detail/*') || request()->is('menu-purchase-order/filter*') ? 'active' : '')
                                             <ul class="nav-submenu menu-content " style="display: block">
                                                 <li>
-                                                    <a class=" {{ request()->is('menu-purchase-order') || request()->is('menu-purchase-order/detail/*') ? 'active' : '' }}"
+                                                    <a class=" {{ request()->is('menu-purchase-order') || request()->is('menu-purchase-order/detail/*') || request()->is('menu-purchase-order/filter*') ? 'active' : '' }}"
                                                         href="{{ url('/menu-purchase-order') }}">
                                                         <span>Purchase Order In</span>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class=" {{ request()->is('menu-purchase-order/out') || request()->is('menu-purchase-order/detail/*') ? 'active' : '' }}"
+                                                    <a class=" {{ request()->is('menu-purchase-order/out') || request()->is('menu-purchase-order/detail/*') || request()->is('menu-purchase-order/filter*') ? 'active' : '' }}"
                                                         href="{{ url('/menu-purchase-order/out') }}">
                                                         <span>Purchase Order Out</span>
                                                     </a>
@@ -453,6 +510,92 @@
                                             </li>
                                         </ul>
                                     </li>
+
+                                    <li class="dropdown">
+                                        @if (request()->is('payment_request') || request()->is('payment_request/out') || request()->is('payment_request/search/paymentreq_in') || request()->is('payment_request/out/search/paymentreq_out') ? 'active' : '')
+                                            <ul class="nav-submenu menu-content" style="display: block;">
+                                                <li
+                                                    class="dropdown {{ request()->is('*payment_request*') ? 'active' : '' }}">
+                                                    <a class="{{ request()->is('payment_request') || request()->is('payment_request/search/paymentreq_in') ? 'active' : '' }}"
+                                                        href="{{ url('/payment_request') }}">
+                                                        <span>Payment Request In</span>
+                                                    </a>
+                                                </li>
+                                                <li
+                                                    class="dropdown {{ request()->is('*payment_request*') ? 'active' : '' }}">
+                                                    <a class="{{ request()->is('payment_request/out') || request()->is('payment_request/out/search/paymentreq_out') ? 'active' : '' }}"
+                                                        href="{{ url('/payment_request/out') }}">
+                                                        <span>Payment Request Out</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        @endif
+                                        <ul class="nav-submenu menu-content">
+                                            <li class="dropdown {{ request()->is('*payment_request*') ? 'active' : '' }}">
+                                                <a class="{{ request()->is('payment_request') ? 'active' : '' }}"
+                                                    href="{{ url('/payment_request') }}">
+                                                    <span>Payment Request In</span>
+                                                </a>
+                                            </li>
+                                            <li class="dropdown {{ request()->is('*payment_request*') ? 'active' : '' }}">
+                                                <a class="{{ request()->is('payment_request/out') ? 'active' : '' }}"
+                                                    href="{{ url('/payment_request/out') }}">
+                                                    <span>Payment Request Out</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    {{-- Payment Process Super Purchase Cikunir --}}
+                                    @hasrole('super purchase')
+                                    @if (Auth::user()->location == 'Cikunir')
+                                        <li class="dropdown">
+                                            <a class="nav-link menu-title {{ request()->is('menu-pengajuan-dana') ? 'active' : '' }} {{ request()->is('menu-pengajuan-dana/out') ? 'active' : '' }}
+                                                {{ request()->is('menu-pengajuan-dana/search/pd_in') ? 'active' : '' }} {{ request()->is('menu-pengajuan-dana/search/pd_out') ? 'active' : '' }} "
+                                                href="javascript:void(0)" style="white-space: nowrap;">
+                                                <i data-feather="dollar-sign"></i>
+                                                <span>Payment Process</span>
+                                                @if($pyprocess == 0)
+
+                                                @else
+                                                <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $pyprocess }}</span>
+                                                @endif
+                                            </a>
+
+                                            @if (request()->is('menu-pengajuan-dana') || request()->is('menu-pengajuan-dana/out') || request()->is('menu-pengajuan-dana/search/pd_in') || request()->is('menu-pengajuan-dana/search/pd_out') ? 'active' : '')
+                                                <ul class="nav-submenu menu-content" style="display: block;">
+                                                    <li
+                                                        class="dropdown {{ request()->is('*pengajuan-dana*') || request()->is('*pengajuan-dana/search/*')  ? 'active' : '' }} ">
+                                                        <a class="{{ request()->is('menu-pengajuan-dana') || request()->is('*pengajuan-dana/search/pd_in') ? 'active' : '' }}"
+                                                            href="{{ url('/menu-pengajuan-dana') }}">
+                                                            <span> Payment Process In</span>
+                                                        </a>
+                                                    </li>
+                                                    <li
+                                                        class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
+                                                        <a class="{{ request()->is('menu-pengajuan-dana/out') || request()->is('*pengajuan-dana/search/pd_out') ? 'active' : '' }}"
+                                                            href="{{ url('/menu-pengajuan-dana/out') }}">
+                                                            <span> Payment Process Out</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            @endif
+                                            <ul class="nav-submenu menu-content">
+                                                <li class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
+                                                    <a class="{{ request()->is('menu-pengajuan-dana') ? 'active' : '' }}"
+                                                        href="{{ url('/menu-pengajuan-dana') }}">
+                                                        <span> Payment Process In</span>
+                                                    </a>
+                                                </li>
+                                                <li class="dropdown {{ request()->is('*pengajuan-dana*') ? 'active' : '' }}">
+                                                    <a class="{{ request()->is('menu-pengajuan-dana/out') ? 'active' : '' }}"
+                                                        href="{{ url('/menu-pengajuan-dana/out') }}">
+                                                        <span> Payment Process Out</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    @endif
+                                    @endhasrole
 
 
                                 @endhasrole
@@ -478,18 +621,6 @@
                                 @hasrole('finance|super admin')
 
                                     <li class="dropdown">
-                                        {{-- <a class="nav-link menu-title {{ request()->is('payment_request') ? 'active' : '' }} {{ request()->is('payment_request/out') ? 'active' : '' }}
-                                            {{ request()->is('payment_request/search/paymentreq_in') ? 'active' : '' }} {{ request()->is('payment_request/out/search/paymentreq_out') ? 'active' : '' }}"
-                                            href="javascript:void(0)">
-                                            <i data-feather="dollar-sign"></i>
-
-                                            <span>Payment Request</span>
-                                            @if($pyreq == 0)
-
-                                            @else
-                                            <span class="badge rounded-pill badge-danger" style="font-size: 8">{{ $pyreq }}</span>
-                                            @endif
-                                        </a> --}}
                                         @if (request()->is('payment_request') || request()->is('payment_request/out') || request()->is('payment_request/search/paymentreq_in') || request()->is('payment_request/out/search/paymentreq_out') ? 'active' : '')
                                             <ul class="nav-submenu menu-content" style="display: block;">
                                                 <li
@@ -684,6 +815,7 @@
 
 
                                         @php
+                                            $checkRole = App\Models\Role::where('model_id', Auth::user()->id)->first();
                                             $taskpr         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',Auth::user()->id)->get();
                                             $taskpo         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', Auth::user()->id)->where('status','Waiting For PO Approval');})->get();
                                             $taskpd         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', Auth::user()->id)->where('status','Invoicing Process');})->get();
@@ -709,8 +841,15 @@
                                             $taskpdtriyani         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', 24)->where('status','Invoicing Process');})->get();
 
                                             $taskpurchase   = App\Models\CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')->get();
-                                            $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->whereIn('status',['Payment Approved','PO & Payment Approved']);})->where('status', 'not like', '%Rejected%')->get();
-                                            // $pendingProjectCode = App\Models\ProjectCodeCreates::where('status','Waiting Approval')->count();
+                                            
+                                            if ($checkRole->role_id == 3 ||$checkRole->role_id == 5) {
+                                            $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->whereIn('status',['Payment Approved','PO & Payment Approved']);})->where(function ($q) {
+                                                $q->where('process_by', 'Tebet')
+                                                ->orWhereNull('process_by');
+                                            })->where('status', 'not like', '%Rejected%')->get();
+                                            }elseif ($checkRole->role_id == 17 && Auth::user()->location == 'Cikunir'){
+                                            $taskfinance    = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->whereIn('status',['Payment Approved','PO & Payment Approved']);})->where('process_by', 'Cikunir')->where('status', 'not like', '%Rejected%')->get();
+                                            }
 
                                         @endphp
 
@@ -754,24 +893,6 @@
                                                     </a>
                                                 </li>
                                         @endhasrole
-                                        @hasrole('super admin|General Manager Business')
-                                            {{-- <li class="sidebar-main-title">
-                                                <div>
-                                                <h6>Task List Project Code</h6>
-                                                </div>
-                                            </li>
-                                            <li class="dropdown">
-                                                <a class="nav-link menu-title link-nav {{ request()->is('*project-code/approval*') ? 'active' : '' }}"
-                                                href="{{ url('project-code/approval') }}">
-                                                <i data-feather="home"></i>
-                                                    Task List Code
-                                                    @if($pendingProjectCode == 0)
-                                                    @else
-                                                    <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $pendingProjectCode }}</span>
-                                                    @endif
-                                                </a>
-                                            </li> --}}
-                                        @endhasrole
                                     <li class="dropdown">
                                         @hasrole('super purchase|purchasing|super admin|finance')
                                                 <a class="nav-link menu-title
@@ -779,7 +900,7 @@
                                                         {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}
                                                         {{ request()->is('menu-tasklist-finance/search/task-finance') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance/out/search/task-finance-Out') ? 'active' : '' }}
                                                         {{ request()->is('menu-tasklist-finance/po_detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/upcoming') ? 'active' : '' }} {{ request()->is('menu-task-list/upcoming/detail/*') ? 'active' : '' }}
-                                                        {{ request()->is('menu-task-list/search/upcoming*') ? 'active' : '' }}"
+                                                        {{ request()->is('menu-task-list/search/upcoming*') ? 'active' : '' }} {{ request()->is('menu-task-list/filter*') ? 'active' : '' }}"
                                                         href="javascript:void(0)">
                                                         <i data-feather="check-circle"></i>
                                                         <span>Task List</span></a>
@@ -790,12 +911,14 @@
                                                     request()->is('menu-task-list/upcoming') ||
                                                     request()->is('menu-task-list/upcoming/detail/*') ||
                                                     request()->is('menu-task-list/search/upcoming*')||
-                                                    request()->is('menu-tasklist-finance/po_detail/*')? 'active': '')
+                                                    request()->is('menu-tasklist-finance/po_detail/*') ||
+                                                    request()->is('menu-task-list/filter*') ? 'active' : '' )
+                                                    
                                                         <ul class="nav-submenu menu-content" style="display: block">
 
                                                             @hasrole('super purchase|purchasing|super admin')
                                                                 <li class="dropdown">
-                                                                    <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }}{{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/search/taskPOIn') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }} {{ request()->is('menu-task-list/upcoming') ? 'active' : '' }} {{ request()->is('menu-task-list/upcoming/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/search/upcoming*') ? 'active' : '' }}"
+                                                                    <a class="submenu-title {{ request()->is('menu-task-list') ? 'active' : '' }}{{ request()->is('menu-task-list/filter*') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/search/taskPOIn') ? 'active' : '' }} {{ request()->is('menu-task-list/out') ? 'active' : '' }} {{ request()->is('menu-task-list/upcoming') ? 'active' : '' }} {{ request()->is('menu-task-list/upcoming/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/search/upcoming*') ? 'active' : '' }}"
                                                                         href="javascript:void(0)">
                                                                         Task List Purchasing
                                                                         {{-- @dd($taskpurchase) --}}
@@ -806,7 +929,7 @@
                                                                         @endif
                                                                         <span class="sub-arrow"><i
                                                                                 data-feather="chevron-right"></i></span></a>
-                                                                    @if (request()->is('menu-task-list') || request()->is('menu-task-list/out') || request()->is('menu-task-list/upcoming')  || request()->is('menu-task-list/detail/*')  || request()->is('menu-task-list/upcoming/detail/*') || request()->is('menu-task-list/search/upcoming*') ? 'active' : '')
+                                                                    @if (request()->is('menu-task-list') || request()->is('menu-task-list/out') || request()->is('menu-task-list/filter')|| request()->is('menu-task-list/upcoming')  || request()->is('menu-task-list/detail/*')  || request()->is('menu-task-list/upcoming/detail/*') || request()->is('menu-task-list/search/upcoming*') ? 'active' : '')
                                                                         <ul class="nav-sub-childmenu submenu-content"
                                                                             style="display: block;">
                                                                             @hasrole('super purchase|super admin')
@@ -820,9 +943,9 @@
                                                                             </li>
                                                                             @endhasrole
                                                                             <li
-                                                                                class=" {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/search/taskPOIn') ? 'active' : '' }}">
+                                                                                class=" {{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/filter*') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/search/taskPOIn') ? 'active' : '' }}">
                                                                                 <a href="{{ url('/menu-task-list') }}"
-                                                                                    class="{{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/search/taskPOIn') ? 'active' : '' }}">
+                                                                                    class="{{ request()->is('menu-task-list') ? 'active' : '' }} {{ request()->is('menu-task-list/filter*') ? 'active' : '' }} {{ request()->is('menu-task-list/detail/*') ? 'active' : '' }} {{ request()->is('menu-task-list/search/taskPOIn') ? 'active' : '' }}">
                                                                                     <span>Task List In</span>
                                                                                 </a>
                                                                             </li>
@@ -862,7 +985,7 @@
                                                                     </ul>
                                                                 </li>
                                                             @endhasrole
-                                                            @hasrole('finance|super admin')
+                                                            @hasrole('finance|super admin|super purchase')
                                                                 <li class="dropdown">
                                                                     <a class="submenu-title {{ request()->is('menu-tasklist-finance') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}"
                                                                         href="javascript:void(0)">
@@ -912,6 +1035,7 @@
                                                                     </ul>
                                                                 </li>
                                                             @endhasrole
+                                                          
                                                         </ul>
                                                     @endif
                                                 </a>
@@ -984,6 +1108,37 @@
                                                         </li>
                                                     </ul>
                                                 </li>
+                                            @endhasrole
+                                            @hasrole('super purchase')
+                                                @if (Auth::user()->location == 'Cikunir')
+                                                    <li class="dropdown">
+                                                        <a class="submenu-title {{ request()->is('menu-tasklist-finance') ? 'active' : '' }} {{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}"
+                                                            href="javascript:void(0)">
+                                                            Task List Finance
+                                                            @if($taskfinance->count() == 0)
+
+                                                            @else
+                                                            <span class="badge rounded-pill badge-danger" style="font-size: 10">{{ $taskfinance->count() }}</span>
+                                                            @endif
+                                                            <span class="sub-arrow"><i data-feather="chevron-right"></i></span></a>
+                                                        <ul class="nav-sub-childmenu submenu-content">
+                                                            <li
+                                                                class=" {{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
+                                                                <a href="{{ url('/menu-tasklist-finance') }}"
+                                                                    class="{{ request()->is('menu-tasklist-finance') ? 'active' : '' }}">
+                                                                    <span>Task List In</span>
+                                                                </a>
+                                                            </li>
+                                                            <li
+                                                                class=" {{ request()->is('/menu-tasklist-finance/out') ? 'active' : '' }}">
+                                                                <a href="{{ url('/menu-tasklist-finance/out') }}"
+                                                                    class="{{ request()->is('menu-tasklist-finance/out') ? 'active' : '' }}">
+                                                                    <span>Task List Out</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                @endif
                                             @endhasrole
                                         </ul>
                                     </li>
@@ -1653,7 +1808,7 @@
                                     </li>
                                 @endhasrole
 
-                                @hasrole('purchasing|super admin')
+                                @hasrole('purchasing|super admin|super purchase')
                                     <li class=" dropdown {{ request()->is('*menu-task-list*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav {{ request()->is('menu-task-list/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-task-list/history') }}">
@@ -1663,7 +1818,7 @@
                                     </li>
                                 @endhasrole
 
-                                @hasrole('purchasing|super admin')
+                                @hasrole('purchasing|super admin|super purchase')
                                     <li class=" dropdown {{ request()->is('*purchase-order*') ? 'active' : '' }}">
                                         <a class="nav-link menu-title link-nav {{ request()->is('menu-purchase-order/history') ? 'active' : '' }}"
                                             href="{{ url('/menu-purchase-order/history') }}">
@@ -1790,7 +1945,6 @@
     <!-- Bootstrap js-->
     <script src="{{ asset('../assets/js/bootstrap/popper.min.js') }}"></script>
     <script src="{{ asset('../assets/js/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('../assets/js/dashboard/default.js') }}"></script>
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.js') }}"></script>
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
     <script src="{{ asset('../assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>

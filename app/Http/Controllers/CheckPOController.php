@@ -15,6 +15,7 @@ use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
 use App\Models\WhoSubmitted;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,15 +30,26 @@ class CheckPOController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 || $check->role_id == 17) {
-            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
-                $i->where('status','Cross Check PO');
-            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
-            $datapo = CategoryPO::get();
-
-            return view('purchaseOrder.menu.check-po.index')
-                ->with('datappb',$datappb)
-                // ->with('datappb2',$datappb2)
-                ->with('datapo', $datapo);
+            if($check->role_id == 3){
+                $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                    $i->where('status','Cross Check PO');
+                })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            }else {
+                if(!empty(Auth::user()->location) && Auth::user()->location == 'Cikunir'){
+                    $datappb = CategoryPengajuanPembelian::where('process_by', Auth::user()->location)
+                    ->whereHas('quot',function($i){
+                        $i->where('status','Cross Check PO');
+                    })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+                }else{
+                    $datappb = CategoryPengajuanPembelian::where(function ($query) {
+                        $query->where('process_by', 'Tebet')
+                              ->orWhereNull('process_by');
+                    })->whereHas('quot',function($i){
+                        $i->where('status','Cross Check PO');
+                    })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+                }
+            }
+            return view('purchaseOrder.menu.check-po.index')->with('datappb',$datappb);
         } else {
             return redirect()->route('dashboard');
         }
@@ -128,10 +140,12 @@ class CheckPOController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 || $check->role_id == 17) {
-            $data = CategoryPO::find($id);
+            $data = CategoryPO::find($id);            
             $data->status = 'Waiting For PO Approval';
             $data->save();
+
             $ppb = CategoryPengajuanPembelian::where('id',$data->ppb->id)->first();
+            
             if($ppb->status == 'Cross Check PO'){
                 CategoryPengajuanPembelian::where('id', $data->ppb->id)->update([
                     'status' => 'Waiting For PO Approval',

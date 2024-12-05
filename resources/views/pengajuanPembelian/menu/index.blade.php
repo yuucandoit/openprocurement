@@ -213,7 +213,9 @@
                         <li><strong>{{ Carbon\Carbon::parse($ppembelian->date_ps)->format('d-m-Y') }}</strong></li>
                         <li>{{ $ppembelian->whosubmit->name }}
                         @if($ppembelian->type_pr == 'SPKBased')
-                        <a class="badge" style="background-color:#ff5500; font-size:10px;">SPKBase</a>
+                        <a class="badge" style="background-color:#ff5500; font-size:10px;">SPK Complete</a>
+                        @elseif($ppembelian->type_pr == 'SPK_Normal')
+                        <a class="badge" style="background-color:#dacf00; font-size:10px;">SPK</a>
                         @endif
                         </li>
                         <li>{{ $ppembelian->userid->department }}</li>

@@ -103,6 +103,7 @@ class AdminController extends Controller
                 $data->password = Hash::make($request->password);
                 $data->department = $request->department;
                 $data->location = $request->location;
+                $data->is_fast_track = $request->is_fast_track;
                 $data->save();
                 $data->assignRole($request->role);
 
@@ -174,6 +175,7 @@ class AdminController extends Controller
             $data->password = $request->password ? Hash::make($request->password) : $data->password;
             $data->department = $request->department ? $request->department : $data->department;
             $data->location = $request->location ? $request->location : $data->location;
+            $data->is_fast_track = $request->is_fast_track ? $request->is_fast_track : $data->is_fast_track;
             $data->save();
             if($request->role){
                 $data->roles()->detach();

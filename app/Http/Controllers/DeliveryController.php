@@ -39,7 +39,11 @@ class DeliveryController extends Controller
             if($check->role_id == 20){
                 $datappb = CategoryPengajuanPembelian::select('category_pengajuan_pembelian.*')
                 ->join('category_po as quot', 'quot.ppb_id', '=', 'category_pengajuan_pembelian.id')
-                ->whereIn('quot.status', ['PO & Payment Approved', 'Unpaid', 'Paid'])
+                ->whereIn('quot.status', ['PO & Payment Approved', 'Unpaid', 'Paid','Delivery Success'])
+                ->where(function($query) {
+                    $query->where('quot.flag_delivery', '!=', 2)
+                        ->orWhereNull('quot.flag_delivery'); // Ambil yang bukan 2 atau yang null
+                })
                 ->where('quot.status', 'not like', '%Rejected%')
                 ->where('category_pengajuan_pembelian.status', 'not like', '%Rejected%')
                 ->orderByRaw('ISNULL(quot.first_estimate), quot.first_estimate ASC')
@@ -47,19 +51,21 @@ class DeliveryController extends Controller
                 ->orderBy('category_pengajuan_pembelian.approved_at', 'asc')
                 ->groupBy('category_pengajuan_pembelian.id')
                 ->paginate(10, ['*'], 'in');
-                // dd($datappb);
             }else {
                 $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
-                    $i->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');
+                    $i->whereIn('status',['PO & Payment Approved','Unpaid','Paid','Delivery Success'])
+                    ->where(function($query) {
+                        $query->where('flag_delivery', '!=', 2)
+                            ->orWhereNull('flag_delivery'); // Ambil yang bukan 2 atau yang null
+                    })
+                    ->where('status', 'not like', '%Rejected%');
                 })
                 ->where('status', 'not like', '%Rejected%')
-                ->orderBy('created_at', 'desc')
+                ->orderBy('created_at','desc')
                 ->orderBy('dateline', 'asc')
-                ->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+                ->orderBy('approved_at','asc')
+                ->paginate(10, ['*'],'in');
             }
-
-
-
 
             return view('delivery.menu.index')
             ->with('datappb',$datappb);
@@ -84,6 +90,10 @@ class DeliveryController extends Controller
                 ->join('category_po as quot', 'quot.ppb_id', '=', 'category_pengajuan_pembelian.id')
                 ->whereIn('quot.status', ['PO & Payment Approved', 'Unpaid', 'Paid'])
                 ->where('quot.status', 'not like', '%Rejected%')
+                ->where(function($query) {
+                    $query->where('quot.flag_delivery', '!=', 2)
+                        ->orWhereNull('quot.flag_delivery'); // Ambil yang bukan 2 atau yang null
+                })
                 ->where('category_pengajuan_pembelian.status', 'not like', '%Rejected%')
                 ->where(function($query) use ($cari) {
                     $query->where('category_pengajuan_pembelian.id', 'like', "%" . $cari . "%")
@@ -112,7 +122,12 @@ class DeliveryController extends Controller
             }else {
                 $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
                     $query->whereHas('quot', function($q) {
-                            $q->whereIn('status',['PO & Payment Approved','Unpaid','Paid'])->where('status', 'not like', '%Rejected%');
+                            $q->whereIn('status',['PO & Payment Approved','Unpaid','Paid','Delivery Success'])
+                            ->where(function($query) {
+                                $query->where('flag_delivery', '!=', 2)
+                                    ->orWhereNull('flag_delivery'); // Ambil yang bukan 2 atau yang null
+                            })
+                            ->where('status', 'not like', '%Rejected%');
                         })
                         ->where('status', 'not like', '%Rejected%')
                         ->where(function($q) use ($cari) {

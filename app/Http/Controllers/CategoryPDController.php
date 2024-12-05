@@ -30,16 +30,21 @@ class CategoryPDController extends Controller
     public function index()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 5) {
+        if ($check->role_id == 5 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','Unpaid');
-            })->where('status', 'not like', '%Rejected%')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            })->where('status', 'not like', '%Rejected%')
+            ->where(function ($q) {
+                $q->where('process_by', 'Tebet')
+                  ->orWhereNull('process_by');
+            })->orderBy('id','DESC')->paginate(10, ['*'],'in');
             return view('pengajuanDana.menu.index')
-                ->with('datappb',$datappb);
-        } else if ($check->role_id == 3 || $check->role_id == 5 || $check->role_id == 2) {
+            ->with('datappb',$datappb);
+        }elseif($check->role_id == 17 && Auth::user()->location == 'Cikunir'){
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','Unpaid');
-            })->where('status', 'not like', '%Rejected%')->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            })->where('status', 'not like', '%Rejected%')
+            ->where('process_by', 'Cikunir')->orderBy('id','DESC')->paginate(10, ['*'],'in');
             return view('pengajuanDana.menu.index')
             ->with('datappb',$datappb);
         }
@@ -69,30 +74,62 @@ class CategoryPDController extends Controller
 
     public function SearchPDIn(Request $request)
     {
+        
      $cari = $request->cariIn;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
-        $query->whereHas('quot', function($q) {
-                $q->where('status', 'Unpaid');
-            })
-            ->where('status', 'not like', '%Rejected%')
-            ->where(function($q) use ($cari) {
-                $q->where('id', 'like', "%" . $cari . "%")
-                    ->orWhere('status', 'like', "%" . $cari . "%")
-                    ->orWhere('desc', 'like', "%" . $cari . "%")
-                    ->orWhere('code_pengajuan', 'like', "%" . $cari . "%")
-                    ->orWhereHas('whosubmit', function($q) use ($cari) {
-                        $q->where('name', 'like', "%" . $cari . "%");
+     $check = Role::where('model_id', Auth::user()->id)->first();
+        if ($check->role_id == 5 || $check->role_id == 3) {
+            $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
+                $query->whereHas('quot', function($q) {
+                        $q->where('status', 'Unpaid');
                     })
-                    ->orWhereHas('itemppn', function($q) use ($cari) {
-                        $q->where('item', 'like', "%" . $cari . "%");
+                ->where('status', 'not like', '%Rejected%')
+                ->where(function ($w) {
+                    $w->where('process_by', 'Tebet')
+                      ->orWhereNull('process_by');
+                })
+                ->where(function($q) use ($cari) {
+                    $q->where('id', 'like', "%" . $cari . "%")
+                        ->orWhere('status', 'like', "%" . $cari . "%")
+                        ->orWhere('desc', 'like', "%" . $cari . "%")
+                        ->orWhere('code_pengajuan', 'like', "%" . $cari . "%")
+                        ->orWhereHas('whosubmit', function($q) use ($cari) {
+                            $q->where('name', 'like', "%" . $cari . "%");
+                        })
+                        ->orWhereHas('itemppn', function($q) use ($cari) {
+                            $q->where('item', 'like', "%" . $cari . "%");
+                        })
+                        ->orWhereHas('quot', function($q) use ($cari) {
+                            $q->where('id', 'like', "%" . $cari . "%")
+                            ->orWhere('code_po', 'like', "%" . $cari . "%");
+                        });
+                });
+            })->paginate(10, ['*'], 'in');
+        }elseif($check->role_id == 17 && Auth::user()->location == 'Cikunir'){
+            $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
+                $query->whereHas('quot', function($q) {
+                        $q->where('status', 'Unpaid');
                     })
-                    ->orWhereHas('quot', function($q) use ($cari) {
-                        $q->where('id', 'like', "%" . $cari . "%")
-                        ->orWhere('code_po', 'like', "%" . $cari . "%");
-                    });
-            });
-        })->paginate(10, ['*'], 'in');
+                ->where('status', 'not like', '%Rejected%')
+                ->where(function($q) use ($cari) {
+                    $q->where('id', 'like', "%" . $cari . "%")
+                        ->orWhere('status', 'like', "%" . $cari . "%")
+                        ->orWhere('desc', 'like', "%" . $cari . "%")
+                        ->orWhere('code_pengajuan', 'like', "%" . $cari . "%")
+                        ->orWhereHas('whosubmit', function($q) use ($cari) {
+                            $q->where('name', 'like', "%" . $cari . "%");
+                        })
+                        ->orWhereHas('itemppn', function($q) use ($cari) {
+                            $q->where('item', 'like', "%" . $cari . "%");
+                        })
+                        ->orWhereHas('quot', function($q) use ($cari) {
+                            $q->where('id', 'like', "%" . $cari . "%")
+                            ->orWhere('code_po', 'like', "%" . $cari . "%");
+                        });
+                })
+                ->where('process_by', 'Cikunir');
+            })->paginate(10, ['*'], 'in');
+        }
         return view('pengajuanDana.menu.index')
         ->with('datappb',$datappb);
     }
@@ -104,16 +141,12 @@ class CategoryPDController extends Controller
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','Paid');
             })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
-            $pt = CategoryPT::all();
-            $op = CategoryPP::all();
-            $ec = CategoryEcommerce::all();
-            $datapo = CategoryPO::all();
-            return view('pengajuanDana.menu.out')
-                ->with('pt',$pt)
-                ->with('op',$op)
-                ->with('ec',$ec)
-                ->with('datappb',$datappb)
-                ->with('datapo', $datapo);
+            return view('pengajuanDana.menu.out')->with('datappb',$datappb);
+        }elseif($check->role_id == 17 && Auth::user()->location == 'Cikunir'){
+            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
+                $i->where('status','Paid');
+            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
+            return view('pengajuanDana.menu.out')->with('datappb',$datappb);
         }
     }
 

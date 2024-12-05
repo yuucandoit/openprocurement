@@ -59,6 +59,20 @@
                                         <td>{{ $data_pengajuan->dateline }}</td>
                                     </tr>
                                     <tr>
+                                        <td>Processer</td>
+                                        <td>{{ $data_pengajuan->process_by ?? 'Tebet' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: 600;">SPK</td>
+                                        <td>
+                                            @if (empty($data_pengajuan->file_spk))
+                                                -
+                                            @else
+                                                <a href="/upload_spk/{{ $data_pengajuan->file_spk }}" target="_blank" style="color: rgb(226, 43, 43); text-decoration:underline;">{{ $data_pengajuan->file_spk }}</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Approver Note</td>
                                         <td>
                                             @if(empty($data_pengajuan->note_bod_py))
@@ -94,6 +108,7 @@
                             $item_po = $var_i;
                         }
                         @endphp
+                        @if(!str_contains($po->status, 'Reject'))
                             <div class="default-according" id="accordionclose{{ $po->id }}">
                                 <div class="card">
                                     <div class="card-header" id="heading{{ $po->id }}">
@@ -381,6 +396,7 @@
                                     </div>
                                 </div>
                             </div>
+                        @endif
                         @endforeach
                         @endif
                     </div>

@@ -113,6 +113,21 @@
                                                     <td>{{ $data_pengajuan->dateline }}</td>
                                                 </tr>
                                                 <tr>
+                                                    <td>Type</td>
+                                                    <td>@if (!empty($data_pengajuan) && $data_pengajuan->type_pr == 'SPK_Normal')
+                                                        SPK 
+                                                        @elseif (!empty($data_pengajuan) && $data_pengajuan->type_pr == 'SPKBased')
+                                                        SPK Completed
+                                                        @else
+                                                        -
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Processer</td>
+                                                    <td>{{ $data_pengajuan->process_by ?? 'Tebet' }}</td>
+                                                </tr>
+                                                <tr>
                                                     <td style="font-weight: 600;">SPK</td>
                                                     <td>
                                                         @if (empty($data_pengajuan->file_spk))
@@ -676,8 +691,7 @@
                                                         <td colspan="4" class="text-end" style="font-weight: bold;">Grand Total
                                                             :</td>
                                                         <td colspan="3">
-                                                            <input class="form-control text-end total"
-                                                                type="text" name="grand_total" value="0">
+                                                            <input class="form-control text-end total" type="text" name="grand_total" value="0" readonly>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -893,19 +907,18 @@
                                                                 </div>
                                                             @endif
 
-
-                                                            {{-- <div class="col-md-6 ">
+                                                            <div class="col-md-6 ">
                                                                 <div class="form-group">
                                                                     <label class="form-label" style="font-weight: bold;">
-                                                                        Invoice &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
-                                                                        @if (empty($po->path_invoice))
+                                                                        Creator &nbsp; &nbsp; :
+                                                                        @if (empty($po->creator_id) || empty($po->creator_name))
                                                                             -
                                                                         @else
-                                                                            <a href="/upload_invoice/{!! nl2br($po->path_invoice) !!}" target="_blank">{!! nl2br($po->path_invoice) !!}</a>
+                                                                            <a>{{ $po->creator->name  ?? $po->creator_name ?? '-'}}</a>
                                                                         @endif
                                                                     </label>
                                                                 </div>
-                                                            </div> --}}
+                                                            </div>
                                                     </div>
                                                     @php
 
@@ -1058,14 +1071,10 @@
                                                                         </td>
                                                                     <td style="text-align:right;">
                                                                         @if ($value->ppn == 1)
-
-
-                                                                        {{-- @dd($value->ppn) --}}
                                                                         @php
                                                                             $dpp = $value->dpp;
                                                                             $disc = $value->discount;
                                                                             $afterdisc = $dpp - $disc;
-                                                                            // dd($dpp);
                                                                             $ppn = $afterdisc *11 /100;
                                                                         @endphp
                                                                             {{ $value->matauang }} {{ number_format($ppn,2) }}
@@ -1135,23 +1144,10 @@
                                                         <a class="btn btn-danger mt-3" href="{{ url('/exportpdf/po_id/' . $po->id) }}"
                                                             target="_blank" style="font-size:12;">Export PDF PO</i>
                                                         </a>
-
-                                                        {{-- <a href="{{ url('/export_excel/purchase_order/' . $po->id) }}"
-                                                            class="btn btn-success mt-3" style="align-self: flex-end"> Export Excel PO</a> --}}
-
                                                         <a class="btn btn-danger mt-3" href="{{ route('export_py_id.pdf',$po->id) }}"
                                                             target="_blank" style="font-size:12;">Export PDF PD</i>
                                                         </a>
-
-                                                        {{-- <a href="{{ url('/export_excel/pengajuan_dana/' . $po->id) }}"
-                                                            class="btn btn-success mt-3" style="align-self: flex-end"> Export Excel PD</a> --}}
-
                                                         <a href="{{ url('menu-purchase-order/edit/'.$po->id) }}" type="button" name="add" class=" btn btn-warning mt-3"> Edit PO <i class="icofont icofont-ui-add"></i></a>
-
-                                                        {{-- <a data-bs-toggle="modal"
-                                                        data-bs-target="#modalDeletePO{{ $po->id }}" class="btn btn-danger mt-3">
-                                                            Delete
-                                                        </a> --}}
                                                         <div class="mt-3">
                                                             <h6>Payment Status :</h6>
                                                             <ul>
@@ -1271,35 +1267,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {{-- <div class="modal fade" id="modalDeletePO{{ $po->id }}" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header bg-danger">
-                                                        <h2 class="modal-title" style="color: white">Warning</h2>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body mx-5 mb-3" style="text-align: center;">
-                                                        <span class="warning">
-                                                            <img src="{{ asset('assets/images/warning.png') }}" >
-                                                        </span>
-                                                        <h2 style="text-align: center">Are you sure Delete PO?</h2>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <form class="text-center" style="text-align: center;"
-                                                        action="{{ route('menu-purchase-order.deletePOAll',$po->id) }}" method="POST">
-                                                        @csrf @method('DELETE')
-                                                            <input type="hidden" name="id" value="{{ $po->id }}">
-                                                            <button type="submit" class="btn btn-outline-danger "><i
-                                                                    class="bx bx-trash"></i>
-                                                                Delete PO
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> --}}
                                     @endforeach
                                 </div>
                             @endif
@@ -1457,18 +1424,18 @@
         const price = row.querySelector('.form-cost').value.replace(/\,/g, "");
         const totalElmnt = row.querySelector('.form-line');
 
-        totalElmnt.value = new Intl.NumberFormat('en-IN').format(qty *  price);
+        totalElmnt.value = new Intl.NumberFormat().format(qty *  price);
         var dpp = 0;
         $('.form-line').each(function(key, item){
             // console.log(item);
             dpp += new Number(item.value.replace(/\,/g, ""));
         });
-        $(".total_A").val(new Intl.NumberFormat('en-IN').format(dpp));
-        $(".total").val(new Intl.NumberFormat('en-IN').format(dpp));
+        $(".total_A").val(new Intl.NumberFormat().format(dpp));
+        $(".total").val(new Intl.NumberFormat().format(dpp));
 
 
         var discount = dpp;
-        $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
+        $(".total_disc").val(new Intl.NumberFormat().format(discount));
         var diskon = document.querySelector(".discount");
         diskon.addEventListener("input", function() {
             var disc = diskon.value;
@@ -1479,8 +1446,8 @@
             }
             discount = dpp - discint;
             checker_ppn(discount,checkbox);
-            $(".total_disc").val(new Intl.NumberFormat('en-IN').format(discount));
-            $(".total").val(new Intl.NumberFormat('en-IN').format(discount));
+            $(".total_disc").val(new Intl.NumberFormat().format(discount));
+            $(".total").val(new Intl.NumberFormat().format(discount));
 
         })
         console.log(discount);
@@ -1497,7 +1464,7 @@
                 console.log(discount);
                 console.log(ppntotal2);
                 $(".ppn").text(totalppn.toLocaleString('en-US'));
-                $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
+                $(".total").val(new Intl.NumberFormat().format(ppntotal2));
 
                 var ongkir = document.querySelector(".ongkir");
                 ongkir.addEventListener("input", function(){
@@ -1526,7 +1493,7 @@
                 ppntotal2 = discount + totalppn;
                 $(".ppn").text(totalppn);
                 console.log(ppntotal2);
-                $(".total").val(new Intl.NumberFormat('en-IN').format(ppntotal2));
+                $(".total").val(new Intl.NumberFormat().format(ppntotal2));
 
                 var ongkir = document.querySelector(".ongkir");
                 ongkir.addEventListener("input", function(){
