@@ -56,7 +56,7 @@
                                                 <td>{{ $inv->name }}</td>
                                                 <td style="text-align: center;">
                                                     <a class="btn btn-iconsolid mt-1" style="background-color: #FF8C00;"
-                                                        href="{ url('/inventory/edit/' . $inv->id) }}"><i
+                                                        href="{{ url('/inventory/edit/' . $inv->id) }}"><i
                                                             class="icon-pencil-alt" title="Edit"></i>
                                                     </a>
                                                     <button class="btn btn-iconsolid mt-1" style="background-color: #ff0000;"
