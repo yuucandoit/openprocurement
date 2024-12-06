@@ -245,6 +245,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/update/{id}', [DepartmentController::class, 'update'])->name('department.update');
         Route::delete('/destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
         Route::get('/search/department',[DepartmentController::class, 'SearchDepartment'])->name('department.SearchDepartment');
+        Route::get('/get-permitted-purposes/{departmentId}', [DepartmentController::class, 'getPermittedPurposes']);
     });
 
     Route::group(['prefix' => 'travel'], function () {

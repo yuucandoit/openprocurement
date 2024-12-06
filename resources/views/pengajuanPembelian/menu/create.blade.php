@@ -227,7 +227,7 @@
                                 <div class="col-md-4 spk-upload {{ old('type') == 'SPK_Normal' || old('type') == 'SPKBased' ? '' : 'hide' }}">
                                     <div class="form-group">
                                         <label><i style="width: 15px; padding-top: 10px;" data-feather="file-text"></i> Attach File SPK <span style="color: red">*</span></label>
-                                        <input type="file" placeholder="Choose File" class="form-control"  name="file_spk">
+                                        <input type="file" placeholder="Choose File" class="form-upload-spk form-control"  name="file_spk">
                                     </div>
                                 </div>
                                 {{-- {{ dd(old('category_purpose'), old('category_purpose') == 'project') }} --}}
@@ -355,7 +355,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group process_by_form hide">
                                         <label> Process By <span style="color: red;">*</span></label>
-                                        <select class="form-select" placeholder="Process By" name="process_by">
+                                        <select class="form-select form-select-process-by" placeholder="Process By" name="process_by">
                                             <option value="{{ old('process_location')  }}" selected>{{ old('process_location') ?? 'Select Processor'   }}</option>
                                             <option value="Tebet">Tebet</option>
                                             <option value="Cikunir">Cikunir</option>
@@ -603,6 +603,7 @@
         var selectedPage = '';
 
         const form_processBy = document.querySelector('.process_by_form');
+        const selectProcessBy = document.querySelector('.form-select-process-by');
 
         // Check URL parameters for project and items
         var urlParams = new URLSearchParams(window.location.search);
@@ -872,7 +873,7 @@
                 selectprepr.classList.remove('hide');
                 selectprepr.classList.disabled = false;
                 form_processBy.classList.add('hide');
-                form_processBy.removeAttribute("required");
+                selectProcessBy.removeAttribute("required");
 
             } else if(page === "office") {
                 selectedInput2.classList.remove('hide');
@@ -888,7 +889,7 @@
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
                 form_processBy.classList.add('hide');
-                form_processBy.removeAttribute("required");
+                selectProcessBy.removeAttribute("required");
 
             } else if(page === "workshop") {
                 selectedInput3.classList.remove('hide');
@@ -903,7 +904,7 @@
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
                 form_processBy.classList.remove('hide');
-                form_processBy.setAttribute("required","required");
+                selectProcessBy.setAttribute('required', '');
             } else if(page === "inventory") {
                 selectedInput4.classList.remove('hide');
                 selectedInput.classList.add('hide');
@@ -917,7 +918,7 @@
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
                 form_processBy.classList.remove('hide');
-                form_processBy.setAttribute("required","required");
+                selectProcessBy.setAttribute('required', '');
             } else if(page === "rnd") {
                 selectedInput5.classList.remove('hide');
                 selectedInput.classList.add('hide');
@@ -931,7 +932,7 @@
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
                 form_processBy.classList.remove('hide');
-                form_processBy.setAttribute("required","required");
+                selectProcessBy.setAttribute('required', '');
             } else if(page === "travel") {
                 selectedInput6.classList.remove('hide');
                 selectedInput.classList.add('hide');
@@ -945,7 +946,7 @@
                 textareanormal.classList.remove('hide');
                 textareanormal.disabled = false;
                 form_processBy.classList.add('hide');
-                form_processBy.removeAttribute("required");
+                selectProcessBy.removeAttribute("required");
             } else {
                 if (page !== "") {
                     var index = parseInt(page) - 2; // Assuming IDs start from 2
@@ -1019,32 +1020,91 @@
      });
     </script>
 
+    <script>
+        document.getElementById('floatingdepartment').addEventListener('change', function () {
+            const departmentId = this.value;
+
+            // Clear the category_purpose select
+            const pageSelect = document.getElementById('pageSelect');
+            pageSelect.innerHTML = '<option value="">Loading...</option>';
+
+            // Fetch permitted_purposes from server
+            fetch(`/department/get-permitted-purposes/${departmentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                        pageSelect.innerHTML = '<option value="">No permitted purposes available</option>';
+                        return;
+                    }
+
+                    // Populate the category_purpose select with the fetched data
+                    if (Array.isArray(data) && data.length > 0) {
+                        let options = '<option value="">Select Category Purpose</option>';
+                        data.forEach(purpose => {
+                            options += `<option value="${purpose.toLowerCase()}">${purpose.charAt(0).toUpperCase() + purpose.slice(1)}</option>`;
+                        });
+                        pageSelect.innerHTML = options;
+                    } else {
+                        // Jika data kosong
+                        pageSelect.innerHTML = '<option value="">No permitted purposes available</option>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    pageSelect.innerHTML = '<option value="">Error loading data</option>';
+                });
+        });
+    </script>
+
+
 
     {{-- Script buat Show And Hide Upload File --}}
     <script>
         const typePR = document.querySelector('.type_pr');
         const spkUpload = document.querySelector('.spk-upload');
+        const formSpk = document.querySelector('.form-upload-spk');
         const sendApproval = document.querySelector('.approver');
         let existingOption = sendApproval.querySelector("option[value='6']");
+        const selectDepartment = document.getElementById('floatingdepartment');
         let opt = document.createElement('option');
 
         typePR.addEventListener('change', function() {
-            console.log(this.value);
             if (this.value == 'SPKBased' || this.value == 'SPK_Normal') {
                 spkUpload.classList.remove('hide');
+                if (formSpk && formSpk.tagName.toLowerCase() === 'input') {
+                    formSpk.setAttribute('required', ''); // Tambahkan atribut required
+                } else {
+                    console.error('Element is not an input or does not exist');
+                }
                 if (!existingOption) {
                     opt.value = 6;
                     opt.text = 'Sindu Irawan';
                     sendApproval.appendChild(opt);
-                    existingOption = opt; // Update existingOption to point to the newly added option
+                    existingOption = opt; // Update existingOption to point to the newly added option                
                 }
+                if(this.value == 'SPKBased'){
+                    selectDepartment.style.pointerEvents = "";
+                    selectDepartment.style.backgroundColor = "";
+                    selectDepartment.style.cursor = "";
+                }else{
+                    selectDepartment.style.pointerEvents = "none";
+                    selectDepartment.style.backgroundColor = "#e9ecef";
+                    selectDepartment.style.cursor = "not-allowed";
+                }
+                    
+
                 
             } else {
                 spkUpload.classList.add('hide');
+                document.querySelector('.form-upload-spk').removeAttribute('required');
                 if (existingOption) {
                     sendApproval.removeChild(existingOption);
                     existingOption = null; // Reset existingOption after removal
                 }
+                selectDepartment.style.pointerEvents = "none";
+                selectDepartment.style.backgroundColor = "#e9ecef";
+                selectDepartment.style.cursor = "not-allowed";
             }
         });
     </script>

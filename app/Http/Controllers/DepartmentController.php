@@ -26,8 +26,22 @@ class DepartmentController extends Controller
         }
     }
 
+    public function getPermittedPurposes($departmentId)
+    {
+        $department = Department::find($departmentId);
+
+        if (!$department) {
+            return response()->json(['error' => 'Department not found'], 404);
+        }
+
+        // Ambil permitted_purposes
+        $permittedPurposes = json_decode($department->permitted_purposes, true);;
+
+        return response()->json($permittedPurposes);
+    }
+
     public function SearchDepartment(Request $request)
-   {
+    {
     $cari = $request->cari;
     //dd($cari);
     $data = Department::Where('id','like',"%".$cari."%")
@@ -36,7 +50,7 @@ class DepartmentController extends Controller
 
     return view('dataDepartment.index')
     ->with('data',$data);
-   }
+    }
 
     /**
      * Show the form for creating a new resource.
