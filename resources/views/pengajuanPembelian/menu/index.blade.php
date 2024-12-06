@@ -218,7 +218,7 @@
                         <a class="badge" style="background-color:#dacf00; font-size:10px;">SPK</a>
                         @endif
                         </li>
-                        <li>{{ $ppembelian->userid->department }}</li>
+                        <li>{{ $ppembelian->dps->name ?? $ppembelian->userid->department ?? '-' }}</li>
                         <li class="mt-4" style="font-weight: 500;">{{ $ppembelian->purpose->name }}</li>
                     </ul>
                 </td>

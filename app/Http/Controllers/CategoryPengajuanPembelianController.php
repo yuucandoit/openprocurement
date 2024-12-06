@@ -434,9 +434,6 @@ class CategoryPengajuanPembelianController extends Controller
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 1 || $check->role_id = 2 || $check->role_id == 3){
             $data =  $request->all();
-            // dd($fileSpk = 1200 .'_'. $request->file('file_spk')->getClientOriginalName());
-            // dd($request->hasFile('file_pr'),$request->hasFile('file_spk'), $data);
-            // dd($data);
             $request->validate([
                 'category_purpose' => 'required',
                 'date_ps' => 'required',
@@ -566,13 +563,14 @@ class CategoryPengajuanPembelianController extends Controller
                 if ($request->hasFile('file_pr')) {
                     $file_pr_name = $ppb_id . '_' . $request->file('file_pr')->getClientOriginalName();
                     $request->file('file_pr')->move(public_path('upload_file_pr'), $file_pr_name);  
+                    $file_pr = $file_pr_name; // Pastikan variabel hanya menyimpan nama file
                 }
 
                 $fileSpk = null;
-
                 if ($request->hasFile('file_spk')) {
-                    $fileSpk = $ppb_id . '_' . $request->file('file_spk')->getClientOriginalName();
-                    $request->file('file_spk')->move(public_path('upload_spk'), $fileSpk);
+                    $fileSpk_name = $ppb_id . '_' . $request->file('file_spk')->getClientOriginalName();
+                    $request->file('file_spk')->move(public_path('upload_spk'), $fileSpk_name);
+                    $fileSpk = $fileSpk_name; // Pastikan variabel hanya menyimpan nama file
                 }
 
 
