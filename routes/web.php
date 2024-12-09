@@ -63,9 +63,9 @@ use PhpOffice\PhpSpreadsheet\Calculation\Category;
 |
 */
 
-Route::get('/info',function(){
-    phpinfo();
-});
+// Route::get('/info',function(){
+//     phpinfo();
+// });
 
 Route::get('/',function () {
     return redirect()->route('login');
