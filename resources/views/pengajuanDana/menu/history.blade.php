@@ -66,7 +66,7 @@
                             <div class="col-sm-4">
                             <div style="margin-top:20px; margin-bottom:-30px; margin-right: 30px;">
                                 <form action="{{ route('menu-pengajuan-dana.SearchHistoryPD') }}" method="get" class="input-group" >
-                                    <input type="text" name="cariOut" class="form-control " placeholder="Search ..." value="{{ request('cariOut') }}">
+                                    <input type="text" name="cari" class="form-control " placeholder="Search ..." value="{{ request('cari') }}">
                                     <span class="input-group-btn "><input type="submit" class="btn btn-primary" value="Go"></span>
                                 </form>
                             </div>
@@ -78,8 +78,8 @@
                                     <thead class="bg-primary">
                                         <tr >
                                             <th>No</th>
+                                            <th>No.Pengajuan</th>
                                             <th>Name</th>
-                                            <th>Description</th>
                                             <th>Item</th>
                                             <th>Deadline</th>
                                             <th style="text-align: center;">Status</th>
@@ -94,8 +94,13 @@
                                             @php $approvedPPB[] =$ppb; @endphp
                                             <tr style="background-color:#F1F6F5;">
                                                 <td style="text-align: center;">{{ $i++ }}</td>
-                                                <td>{{ $ppb->whosubmit->name }}</td>
-                                                <td><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->desc }}</a></td>
+                                                <td><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}">{{ $ppb->code_pengajuan }}</a></td>
+                                                <td>
+                                                    <ul>
+                                                        <li><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}" style="font-weight: 600;">{{ $ppb->whosubmit->name }}</a></li>
+                                                        <li style="margin-top: 5px;"><a href="{{ url('/menu-pengajuan-dana/detail/' . $ppb->id) }}" >{!! nl2br($ppb->desc) !!}</a></li>
+                                                    </ul>
+                                                </td>
                                                 <td>
                                                     <ul>
                                                         <li style="margin-top:4px; white-space:nowrap;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{ $ppb->itemppn->count() }} Item </label></li>

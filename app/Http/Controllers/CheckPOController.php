@@ -16,6 +16,7 @@ use App\Models\TermsAndConditions;
 use App\Models\User;
 use App\Models\WhoSubmitted;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -234,20 +235,14 @@ class CheckPOController extends Controller
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 17 || $check->role_id == 3) {
-            $datappb = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->orWhere('status','PO Approved')->orWhere('status','Invoicing Process')
-            ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
-            ->orWhere('status','Paid')->orWhere('status','Delivery Process')->orWhere('status','Delivery Success')->orWhere('status','Rejected by Purchasing')->orWhere('status','PO Rejected by BOD')
-            ->orWhere('status','Payment Rejected By BOD')->orWhere('status','Rejected by Finance')->orderBy('updated_at','desc')->paginate(10);
-            $pt = CategoryPT::all();
-            $op = CategoryPP::all();
-            $ec = CategoryEcommerce::all();
-            $datapo = CategoryPO::all();
+            $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO Approved','Invoicing Process',
+            'Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success','Rejected by Purchasing','PO Rejected by BOD',
+            'Payment Rejected By BOD','Rejected by Finance'])
+            ->orderBy('updated_at','desc')
+            ->paginate(10);
+            
             return view('purchaseOrder.menu.check-po.history')
-                ->with('pt', $pt)
-                ->with('op', $op)
-                ->with('ec', $ec)
-                ->with('datappb', $datappb)
-                ->with('datapo', $datapo);
+                ->with('datappb', $datappb);
         }else {
             return redirect()->route('dashboard');
         }
@@ -257,22 +252,44 @@ class CheckPOController extends Controller
     {
      $cari = $request->cari;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
-     ->orWhere('id','like',"%".$cari."%")
-     ->orWhere('status','like',"%".$cari."%")
-     ->orWhere('desc','like',"%".$cari."%")
-     ->orWhereHas('itemppn', function($i) use($cari){
-         $i->where('item','like',"%".$cari."%");
-     })
-     ->orWhereHas('whosubmit', function($q) use($cari){
-          $q->where('name','like',"%".$cari."%");
-     })
-     ->paginate(10);
-     $datapo          = CategoryPO::get();
+     if($cari){
+        $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
+            $query->where('id', 'like', "%".$cari."%")
+                  ->orWhere('code_pengajuan','like', "%".$cari."%")
+                  ->orWhere('desc', 'like', "%".$cari."%")
+                  ->orWhere('note_purchase', 'like', "%".$cari."%")
+                  ->orWhereHas('itemppn', function($i) use ($cari) {
+                      $i->where('item', 'like', "%".$cari."%");
+                  })
+                  ->orWhereHas('whosubmit', function($q) use ($cari) {
+                      $q->where('name', 'like', "%".$cari."%");
+                  })
+                  ->orWhereHas('quot', function($posearch) use ($cari) {
+                      $posearch->where('id', 'like', "%".$cari."%")
+                      ->orWhere('status', 'like', "%".$cari."%")
+                      ->orWhere('notes', 'like', "%".$cari."%")
+                      ->orWhere('code_po', 'like', "%".$cari."%")
+                      ->orWhere('quotation', 'like', "%" . $cari . "%")
+                      ->orWhereHasMorph(
+                        'vendorable',
+                        [CategoryPT::class, CategoryPP::class, CategoryEcommerce::class],
+                        function (Builder $query) use ($cari) {
+                            $query->where('nama', 'like', "%" . $cari . "%");
+                        }
+                    );
+                  });
+        })
+        ->paginate(10);
+     }else{
+        $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO Approved','Invoicing Process',
+            'Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success','Rejected by Purchasing','PO Rejected by BOD',
+            'Payment Rejected By BOD','Rejected by Finance'])
+            ->orderBy('updated_at','desc')
+            ->paginate(10);
+     }
 
      return view('purchaseOrder.menu.check-po.history')
-     ->with('datappb',$datappb)
-     ->with('datapo', $datapo);
+     ->with('datappb',$datappb);
     }
     public function SortHistoryCheckPO(Request $request)
     {

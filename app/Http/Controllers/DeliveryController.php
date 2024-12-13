@@ -19,6 +19,7 @@ use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\Role;
 use App\Models\WhoSubmitted;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Http;
@@ -284,6 +285,13 @@ class DeliveryController extends Controller
                     ->orWhere('quot.code_po', 'like', "%" . $cari . "%")
                     ->orWhere('quot.status', 'like', "%" . $cari . "%")
                     ->orWhere('quot.no_resi', 'like', "%" . $cari . "%")
+                    ->orWhereHasMorph(
+                        'vendorable',
+                        [CategoryPT::class, CategoryPP::class, CategoryEcommerce::class],
+                        function ($query) use ($cari) {
+                            $query->where('nama', 'like', "%" . $cari . "%");
+                        }
+                    )
                     ->where('quot.status', 'not like', '%Rejected%');
             });
      })
@@ -293,13 +301,6 @@ class DeliveryController extends Controller
      ->orderBy('category_pengajuan_pembelian.approved_at', 'asc')
      ->groupBy('category_pengajuan_pembelian.id')
      ->paginate(10);
-    //  $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
-    //  ->orWhere('status','like',"%".$cari."%")
-    //  ->orWhere('desc','like',"%".$cari."%")
-    //  ->orWhereHas('whosubmit', function($q) use($cari){
-    //       $q->where('name','like',"%".$cari."%");
-    //  })
-    //  ->paginate(10);
 
      return view('delivery.menu.history')
      ->with('datappb',$datappb);

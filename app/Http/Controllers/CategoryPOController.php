@@ -219,7 +219,7 @@ class CategoryPOController extends Controller
     public function history()
     {
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 || $check->role_id == 3) {
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO Approved',
             'Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success',
             'Rejected by Purchasing','PO Rejected by BOD','Payment Rejected By BOD','Rejected by Finance'])
@@ -241,22 +241,41 @@ class CategoryPOController extends Controller
     {
      $cari = $request->cari;
      //dd($cari);
-     $datappb = CategoryPengajuanPembelian::orderBy('id', 'desc')
-     ->orWhere('id','like',"%".$cari."%")
-     ->orWhere('status','like',"%".$cari."%")
-     ->orWhere('desc','like',"%".$cari."%")
-     ->orWhereHas('itemppn', function($i) use($cari){
-         $i->where('item','like',"%".$cari."%");
-     })
-     ->orWhereHas('whosubmit', function($q) use($cari){
-          $q->where('name','like',"%".$cari."%");
-     })
-     ->paginate(10);
-     $datapo          = CategoryPO::get();
+     if($cari){
+        $datappb = CategoryPengajuanPembelian::where('id', 'like', "%" . $request->cari . "%")
+        ->orWhere('desc', 'like', "%" . $request->cari . "%")
+        ->orWhereHas('itemppn', function ($i) use ($request) {
+            $i->where('item', 'like', "%" . $request->cari . "%");
+        })
+        ->orWhereHas('whosubmit', function ($q) use ($request) {
+            $q->where('name', 'like', "%" . $request->cari . "%");
+        })
+        ->orWhereHas('quot', function ($po) use ($request) {
+            $po->where('id', 'like', "%" . $request->cari . "%")
+            ->orWhere('quotation', 'like', "%" . $request->cari . "%")
+            ->orWhereHasMorph(
+                'vendorable', 
+                ['App\Models\CategoryPT', 'App\Models\CategoryPP', 'App\Models\CategoryEcommerce'], 
+                function ($vendor) use ($request) {
+                    $vendor->where('nama', 'like', "%" . $request->cari . "%");
+                }
+            );
+        })
+        ->whereIn('status',['Waiting For PO Approval','PO Approved',
+        'Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success',
+        'Rejected by Purchasing','PO Rejected by BOD','Payment Rejected By BOD','Rejected by Finance'])
+        ->orderBy('id','desc')
+        ->paginate(10);
+     }else{
+        $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO Approved',
+            'Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success',
+            'Rejected by Purchasing','PO Rejected by BOD','Payment Rejected By BOD','Rejected by Finance'])
+            ->orderBy('id','desc')->paginate(10);
+     }
+     
 
      return view('purchaseOrder.menu.history')
-     ->with('datappb',$datappb)
-     ->with('datapo', $datapo);
+     ->with('datappb',$datappb);
     }
     public function SortHistoryPO(Request $request)
     {
@@ -1257,9 +1276,28 @@ class CategoryPOController extends Controller
     public function index_spk(){
         $check = Role::where('model_id', Auth::user()->id)->first();
         if ($check->role_id == 3 || $check->role_id == 17) {
-            $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
-                $i->where('status','Waiting Approval PO SPK');
-            })->orderBy('status', 'asc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'in');
+            $datappb = CategoryPengajuanPembelian::when(
+                !empty(Auth::user()->location) && Auth::user()->location == 'Cikunir',
+                function ($query) {
+                    // Kondisi untuk lokasi Cikunir
+                    $query->where('process_by', Auth::user()->location);
+                },
+                function ($query) {
+                    // Kondisi untuk lokasi Tebet atau Null
+                    $query->where(function ($query) {
+                        $query->where('process_by', 'Tebet')
+                              ->orWhereNull('process_by');
+                    });
+                }
+            )
+            ->where('type_pr', 'SPKBased')
+            ->whereHas('quot', function ($query) {
+                $query->where('status', 'Waiting Approval PO SPK');
+            })
+            ->orderBy('status', 'asc')
+            ->orderBy('dateline', 'asc')
+            ->orderBy('approved_at', 'asc')
+            ->paginate(10, ['*'], 'in');
 
             return view('purchaseOrder.menu.po-spk.index')
                 ->with('datappb',$datappb);
@@ -1525,6 +1563,20 @@ class CategoryPOController extends Controller
             $i->where('status', 'Waiting Approval PO SPK');
             })
             ->where('status', 'not like', '%Rejected%')
+            ->when(
+                !empty(Auth::user()->location) && Auth::user()->location == 'Cikunir',
+                function ($query) {
+                    // Kondisi untuk lokasi Cikunir
+                    $query->where('process_by', Auth::user()->location);
+                },
+                function ($query) {
+                    // Kondisi untuk lokasi Tebet atau Null
+                    $query->where(function ($query) {
+                        $query->where('process_by', 'Tebet')
+                              ->orWhereNull('process_by');
+                    });
+                }
+            )
             ->where(function($query) use ($cariIn) {
                 $query->where('id', 'like', "%".$cariIn."%")
                     ->orWhere('status', 'like', "%".$cariIn."%")
@@ -1553,13 +1605,28 @@ class CategoryPOController extends Controller
 
     public function history_spk(){
         $check = Role::where('model_id', Auth::user()->id)->first();
-        if ($check->role_id == 4 || $check->role_id == 3) {
+        if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::whereIn('status',['Purchase Proses','PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base'])
             ->where('type_pr','SPKBased')
+            ->when(
+                !empty(Auth::user()->location) && Auth::user()->location == 'Cikunir',
+                function ($query) {
+                    // Kondisi untuk lokasi Cikunir
+                    $query->where('process_by', Auth::user()->location);
+                },
+                function ($query) {
+                    // Kondisi untuk lokasi Tebet atau Null
+                    $query->where(function ($query) {
+                        $query->where('process_by', 'Tebet')
+                              ->orWhereNull('process_by');
+                    });
+                }
+            )
             ->whereHas('quot', function($q) {
                 $q->whereIn('status',['PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base']);
             })
-            ->orderBy('updated_at','desc')->paginate(10);
+            ->orderBy('id','desc')
+            ->paginate(10);
             return view('purchaseOrder.menu.po-spk.history')
             ->with('datappb', $datappb);
         }
@@ -1567,40 +1634,50 @@ class CategoryPOController extends Controller
 
     public function SearchHistorySpk(Request $request){
         $cariIn = $request->cari;
-        // dd($cariIn);
-        $datappb = CategoryPengajuanPembelian::where(function($query) use ($cariIn) {
-            $query->where('id', 'like', "%".$cariIn."%")
-                  ->orWhere('code_pengajuan','like', "%".$cariIn."%")
-                  ->orWhere('desc', 'like', "%".$cariIn."%")
-                  ->orWhere('note_purchase', 'like', "%".$cariIn."%")
-                  ->orWhereHas('itemppn', function($i) use ($cariIn) {
-                      $i->where('item', 'like', "%".$cariIn."%");
-                  })
-                  ->orWhereHas('whosubmit', function($q) use ($cariIn) {
-                      $q->where('name', 'like', "%".$cariIn."%");
-                  })
-                  ->orWhereHas('quot', function($posearch) use ($cariIn) {
-                      $posearch->where('id', 'like', "%".$cariIn."%")
-                      ->orWhere('status', 'like', "%".$cariIn."%")
-                      ->orWhere('notes', 'like', "%".$cariIn."%")
-                      ->orWhere('code_po', 'like', "%".$cariIn."%")
-                      ->orWhereHasMorph(
-                        'vendorable',
-                        [CategoryPT::class, CategoryPP::class, CategoryEcommerce::class],
-                        function (Builder $query) use ($cariIn) {
-                            $query->where('nama', 'like', "%" . $cariIn . "%");
-                        }
-                    );
-                  });
-        })
-        ->whereHas('quot',function($i){
-            $i->whereIn('status',['PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base']);
-        })
-        ->where('type_pr','SPKBased')
-        ->orderBy('status', 'desc')
-        ->orderBy('dateline', 'asc')
-        ->orderBy('approved_at', 'asc')
-        ->paginate(10, ['*'], 'in');
+        dd($cariIn);
+        if($cariIn){
+            $datappb = CategoryPengajuanPembelian::where(function($query) use ($cariIn) {
+                $query->where('id', 'like', "%".$cariIn."%")
+                      ->orWhere('code_pengajuan','like', "%".$cariIn."%")
+                      ->orWhere('desc', 'like', "%".$cariIn."%")
+                      ->orWhere('note_purchase', 'like', "%".$cariIn."%")
+                      ->orWhereHas('itemppn', function($i) use ($cariIn) {
+                          $i->where('item', 'like', "%".$cariIn."%");
+                      })
+                      ->orWhereHas('whosubmit', function($q) use ($cariIn) {
+                          $q->where('name', 'like', "%".$cariIn."%");
+                      })
+                      ->orWhereHas('quot', function($posearch) use ($cariIn) {
+                          $posearch->where('id', 'like', "%".$cariIn."%")
+                          ->orWhere('status', 'like', "%".$cariIn."%")
+                          ->orWhere('notes', 'like', "%".$cariIn."%")
+                          ->orWhere('code_po', 'like', "%".$cariIn."%")
+                          ->orWhere('quotation', 'like', "%" . $cariIn . "%")
+                          ->orWhereHasMorph(
+                            'vendorable',
+                            [CategoryPT::class, CategoryPP::class, CategoryEcommerce::class],
+                            function (Builder $query) use ($cariIn) {
+                                $query->where('nama', 'like', "%" . $cariIn . "%");
+                            }
+                        );
+                      });
+            })
+            ->whereHas('quot',function($i){
+                $i->whereIn('status',['PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base']);
+            })
+            ->where('type_pr','SPKBased')
+            ->orderBy('id','desc')
+            ->paginate(10);
+        }else{
+            $datappb = CategoryPengajuanPembelian::whereIn('status',['Purchase Proses','PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base'])
+            ->where('type_pr','SPKBased')
+            ->whereHas('quot', function($q) {
+                $q->whereIn('status',['PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base']);
+            })
+            ->orderBy('id','desc')
+            ->paginate(10);
+        }
+        
 
         return view('purchaseOrder.menu.po-spk.history')
         ->with('datappb',$datappb);
