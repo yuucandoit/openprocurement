@@ -19,6 +19,7 @@ use App\Models\Role;
 use App\Models\WhoSubmitted;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class CategoryPDController extends Controller
 {
@@ -192,30 +193,48 @@ class CategoryPDController extends Controller
     public function SearchHistoryPD(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
-
-     $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
-        $query->whereHas('quot', function($q) {
-                $q->whereIn('status',['Paid','Delivery Process','Delivery Success']);
-            })
-            ->where('status', 'not like', '%Rejected%')
-            ->where(function($q) use ($cari) {
-                $q->where('id', 'like', "%" . $cari . "%")
-                    ->orWhere('status', 'like', "%" . $cari . "%")
-                    ->orWhere('desc', 'like', "%" . $cari . "%")
-                    ->orWhere('code_pengajuan', 'like', "%" . $cari . "%")
-                    ->orWhereHas('whosubmit', function($q) use ($cari) {
-                        $q->where('name', 'like', "%" . $cari . "%");
-                    })
-                    ->orWhereHas('itemppn', function($q) use ($cari) {
-                        $q->where('item', 'like', "%" . $cari . "%");
-                    })
-                    ->orWhereHas('quot', function($q) use ($cari) {
-                        $q->where('id', 'like', "%" . $cari . "%")
-                        ->orWhere('code_po', 'like', "%" . $cari . "%");
-                    });
-            });
-     })->paginate(10);
+    //  dd($cari);
+    if($cari){
+        $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
+            $query->whereHas('quot', function($q) {
+                    $q->whereIn('status',['Paid','Delivery Process','Delivery Success']);
+                })
+                ->where('status', 'not like', '%Rejected%')
+                ->where(function($q) use ($cari) {
+                    $q->where('id', 'like', "%" . $cari . "%")
+                        ->orWhere('status', 'like', "%" . $cari . "%")
+                        ->orWhere('desc', 'like', "%" . $cari . "%")
+                        ->orWhere('code_pengajuan', 'like', "%" . $cari . "%")
+                        ->orWhereHas('whosubmit', function($q) use ($cari) {
+                            $q->where('name', 'like', "%" . $cari . "%");
+                        })
+                        ->orWhereHas('itemppn', function($q) use ($cari) {
+                            $q->where('item', 'like', "%" . $cari . "%");
+                        })
+                        ->orWhereHas('quot', function($q) use ($cari) {
+                            $q->where('id', 'like', "%".$cari."%")
+                            ->orWhere('status', 'like', "%".$cari."%")
+                            ->orWhere('notes', 'like', "%".$cari."%")
+                            ->orWhere('code_po', 'like', "%".$cari."%")
+                            ->orWhere('quotation', 'like', "%" . $cari . "%")
+                            ->orWhereHasMorph(
+                              'vendorable',
+                              [CategoryPT::class, CategoryPP::class, CategoryEcommerce::class],
+                              function (Builder $query) use ($cari) {
+                                  $query->where('nama', 'like', "%" . $cari . "%");
+                              }
+                            );
+                        });
+                });
+         })->paginate(10);
+    }else {
+        $datappb = CategoryPengajuanPembelian::whereHas('quot', function($q){
+            $q->whereIn('status',['Paid','Delivery Process','Delivery Success'])->where('status', 'not like', '%Rejected%')->orderBy('updated_at','ASC');
+        })
+        ->where('status', 'not like', '%Rejected%')
+        ->orderBy('created_at','DESC')->paginate(10);
+    }
+     
 
      return view('pengajuanDana.menu.history')
      ->with('datappb',$datappb);

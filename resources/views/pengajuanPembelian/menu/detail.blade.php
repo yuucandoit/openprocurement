@@ -1,4 +1,4 @@
- <title>Detail Purchase Submission</title>
+ <title>Detail Purchase Request</title>
 
  @extends('layouts.master')
 
@@ -30,8 +30,12 @@
                             {{-- <p>{{ $data_pengajuan->status }}</p> --}}
                             <table class="table table-bordered" style="">
                                 <tbody>
-                                    <tr>
+                                    <tr>    
                                         <td>Who Submitted</td>
+                                        <td>{{ $data_pengajuan->userid->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Requester</td>
                                         <td>{{ $data_pengajuan->whosubmit->name }}</td>
                                     </tr>
                                     <tr>
@@ -49,7 +53,7 @@
                                     <tr>
                                         <td>Purpose</td>
                                         <td>{{ $data_pengajuan->purpose->name }}</td>
-                                    </tr>
+                                      </tr>
                                     <tr>
                                         <td>Send To</td>
                                         <td>{{ $data_pengajuan->send_to }}</td>

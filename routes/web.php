@@ -69,14 +69,14 @@ use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 Route::get('/',function () {
     return redirect()->route('login');
-});
+})->middleware('maintenance.mode');
 
 Route::get('/forgot_password',function(){
     return view('auth.passwords.email');
-})->name('forget_password');
+})->name('forget_password')->middleware('maintenance.mode');
 
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','maintenance.mode']], function () {
      //forceReset
      Route::get('/resetPage',[ForceResetPassword::class,'showForm'])->name('resetPage');
      Route::post('/pushResetPassword',[ForceResetPassword::class,'resetPassword'])->name('pushReset');
@@ -454,7 +454,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/search/upcoming',[CategoryTaskListController::class, 'SearchtaskUpComming'])->name('menu-task-list.SearchtaskUpComming');
         Route::get('/search/taskPOIn',[CategoryTaskListController::class, 'SearchtaskPOIn'])->name('menu-task-list.SearchtaskPOIn');
         Route::get('/out/search/taskPOOut',[CategoryTaskListController::class, 'SearchtaskPOOut'])->name('menu-task-list.SearchtaskPOOut');
-        Route::get('/history/search/taskPOHistory',[CategoryTaskListController::class, 'SearchtaskPOHistory'])->name('menu-task-list.SearchtaskPOHistory');
+        Route::get('/history/search',[CategoryTaskListController::class, 'SearchtaskPOHistory'])->name('menu-task-list.SearchtaskPOHistory');
         Route::get('/history/sort',[CategoryTaskListController::class, 'SortTaskPOHistory'])->name('menu-task-list.SortTaskPOHistory');
     });
     //End Task List po
@@ -598,7 +598,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/reject/{id}', [CheckPOController::class, 'reject_po'])->name('check_po.reject_po');
         Route::get('/search/checkpo',[CheckPOController::class, 'SearchCheckPO'])->name('check_po.SearchCheckPO');
         Route::get('/history', [CheckPOController::class, 'history'])->name('check_po.history');
-        Route::get('/search/history/checkpo',[CheckPOController::class, 'SearchHistoryCheckPO'])->name('check_po.SearchHistoryCheckPO');
+        Route::get('/history/search',[CheckPOController::class, 'SearchHistoryCheckPO'])->name('check_po.SearchHistoryCheckPO');
         Route::get('/history/sortCP',[CheckPOController::class, 'SortHistoryCheckPO'])->name('check_po.SortHistoryCheckPO');
     });
 

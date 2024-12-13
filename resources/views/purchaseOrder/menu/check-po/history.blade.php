@@ -145,102 +145,178 @@
                                 <table class="table table-bordered table-hover">
                                     <thead class="bg-primary">
                                         <tr>
-                                            <th style="text-align: center;">No</th>
+                                            <th>No</th>
+                                            <th>No.Pengajuan</th>
                                             <th>Name</th>
-                                            <th style="text-align: center;">Deadline</th>
+                                            <th>Item</th>
+                                            <th>Deadline</th>
                                             <th style="text-align: center;">Status</th>
-                                            <th>Action</th>
+                                            <th style="text-align: center;">Action</th>
                                         </tr>
                                     </thead>
 
                                     @php
-                                        $no = 1;
+                                         $i = 1 + $datappb->currentPage() * $datappb->perPage() - $datappb->perPage();
                                     @endphp
                                     <tbody>
                                         @foreach ($datappb as $ppb)
-                                                <tr>
-                                                    <td style="text-align: center;">{{ $no++ }}</td>
-                                                    <td>
-                                                        <ul><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">
-                                                            <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
-                                                            <li>{{ $ppb->desc }}</li>
-                                                        </a></ul>
-                                                    </td>
-                                                    <td style="text-align: center;">
-                                                        <ul>
-                                                            <li style="white-space: nowrap;">
-                                                                    @if($ppb->dateline == '≤24Jam')
-                                                                    <strong><p>1 Hari</p></strong>
-                                                                    @elseif ($ppb->dateline == '≤72Jam')
-                                                                    <strong><p>2 sd 3 Hari</p></strong>
-                                                                    @elseif ($ppb->dateline == '≤168Jam')
-                                                                    <strong><p>4 sd 7 Hari</p></strong>
-                                                                    @elseif ($ppb->dateline == '≤336Jam')
-                                                                    <strong><p>7 sd 14 Hari</p></strong>
-                                                                    @endif
-                                                                </li>
-                                                            </ul>
-                                                    </td>
-                                                    <td style="text-align: center;">
-                                                        <ul>
-                                                            @if($ppb->status == 'PO Rejected by BOD')
-                                                            <li>
-                                                                <a class="badge badge-danger mt-1 "
-                                                                    style="color: white; font-size:10">{{ $ppb->status }}
-                                                                </a>
-                                                            </li>
-                                                            <li class="badge badge-danger mt-2">{{ $ppb->note_bod_po }}</li>
-                                                            @elseif($ppb->status == 'Rejected by Purchasing')
-                                                            <li>
-                                                                <a class="badge badge-danger mt-1 "
-                                                                    style="color: white; font-size:10">{{ $ppb->status }}
-                                                                </a>
-                                                            </li>
-                                                            <li class="badge badge-danger mt-2">{{ $ppb->note_purchase }}</li>
-                                                            @elseif($ppb->status == 'Payment Rejected By BOD')
-                                                            <li>
-                                                                <a class="badge badge-danger mt-1 "
-                                                                    style="color: white; font-size:10">{{ $ppb->status }}
-                                                                </a>
-                                                            </li>
-                                                            <li class="badge badge-danger mt-2">{{ $ppb->note_bod_py }}</li>
-                                                            @elseif($ppb->status == 'Rejected by Finance')
-                                                            <li>
-                                                                <a class="badge badge-danger mt-1 "
-                                                                    style="color: white; font-size:10">{{ $ppb->status }}
-                                                                </a>
-                                                            </li>
-                                                            <li class="badge badge-danger mt-2">{{ $ppb->note_finance }}</li>
-                                                            @else
-                                                            <li><a class="badge badge-success mt-1 "
+                                            <tr id="ppb-{{ $ppb->id }}" style="background-color:#F1F6F5;">
+                                                <td style="text-align: center;">{{ $i++ }}</td>
+                                                <td>{{ $ppb->code_pengajuan }}</td>
+                                                <td>
+                                                    <ul><a href="{{ url('/menu-purchase-order/detail/' . $ppb->id) }}">
+                                                        <li style="font-weight: 600;">{{ $ppb->whosubmit->name }}</li>
+                                                        <li>{{ $ppb->desc }}</li>
+                                                    </a></ul>
+                                                </td>
+                                                <td>
+                                                    @foreach ($ppb->itemppn as $ice)
+                                                        @php
+                                                        $ipb = \App\Models\PengajuanPembelian::select(DB::raw('pp_id,SUM(qty) as qty'))->where('pp_id',$ice->pp_id)->groupBy('pp_id')->first();
+                                                        @endphp
+                                                    @endforeach
+                                                    <ul>
+                                                        <li style="margin-top:4px;"><label data-bs-toggle="modal" data-bs-target="#modalItem{{ $ppb->id }}">{{  $ipb->qty }} Item </label></li>
+                                                    </ul>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <ul>
+                                                        <li style="white-space: nowrap;">
+                                                            @if($ppb->dateline == '≤24Jam')
+                                                            <strong><p>1 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤72Jam')
+                                                            <strong><p>2 sd 3 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤168Jam')
+                                                            <strong><p>4 sd 7 Hari</p></strong>
+                                                            @elseif ($ppb->dateline == '≤336Jam')
+                                                            <strong><p>7 sd 14 Hari</p></strong>
+                                                            @endif
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <ul>
+                                                        @if($ppb->status == 'PO Rejected by BOD')
+                                                        <li>
+                                                            <a class="badge badge-danger mt-1 "
                                                                 style="color: white; font-size:10">{{ $ppb->status }}
                                                             </a>
                                                         </li>
-                                                            @endif
-                                                            <li></li>
+                                                        <li class="badge badge-danger mt-2">{{ $ppb->note_bod_po }}</li>
+                                                        @elseif($ppb->status == 'Rejected by Purchasing')
+                                                        <li>
+                                                            <a class="badge badge-danger mt-1 "
+                                                                style="color: white; font-size:10">{{ $ppb->status }}
+                                                            </a>
+                                                        </li>
+                                                        <li class="badge badge-danger mt-2">{{ $ppb->note_purchase }}</li>
+                                                        @elseif($ppb->status == 'Payment Rejected By BOD')
+                                                        <li>
+                                                            <a class="badge badge-danger mt-1 "
+                                                                style="color: white; font-size:10">{{ $ppb->status }}
+                                                            </a>
+                                                        </li>
+                                                        <li class="badge badge-danger mt-2">{{ $ppb->note_bod_py }}</li>
+                                                        @elseif($ppb->status == 'Rejected by Finance')
+                                                        <li>
+                                                            <a class="badge badge-danger mt-1 "
+                                                                style="color: white; font-size:10">{{ $ppb->status }}
+                                                            </a>
+                                                        </li>
+                                                        <li class="badge badge-danger mt-2">{{ $ppb->note_finance }}</li>
+                                                        @else
+                                                        <li><a class="badge badge-success mt-1 "
+                                                            style="color: white; font-size:10">{{ $ppb->status }}
+                                                        </a>
+                                                    </li>
+                                                        @endif
+                                                        <li></li>
+                                                    </ul>
+                                                </td>
+                                                @hasrole('purchasing|super admin|super purchase')
+                                                <td style="text-align: center;">
+
+                                                    <a class="btn btn-iconsolid mt-1"
+                                                    style="background-color: #B1D0E0; font-size:10;"
+                                                    href="{{ url('/exportpdf/ppb/' . $ppb->id) }}" target="_blank"><i
+                                                        class="icon-eye" title="Preview Purchase Request    "></i>
+                                                    </a>
+                                                </td>
+                                                @endhasrole
+                                            </tr>
+                                            @foreach ($ppb->quot as $po)
+                                                <tr>
+
+                                                    @php
+                                                        $po2 = \App\Models\CategoryPO::find($po->id);
+                                                        $po3 = \App\Models\ItemPO::select(DB::raw('po_id,SUM(qty) as qty'))->where('po_id',$po->id)->groupBy('po_id')->get();
+                                                        $po4 = \App\Models\ItemPO::where('po_id',$po->id)->groupBy('po_id')->get();
+                                                        $isRejected = str_contains(strtolower($po2->status), 'reject');
+                                                        $badgeClass = $isRejected ? 'bg-danger' :
+                                                                    ($po2->status == 'Waiting For PO Approval' ? 'bg-warning' : 'bg-success');
+                                                        $month = \Carbon\Carbon::parse($po->created_at)->format('m');
+                                                        $year = \Carbon\Carbon::parse($po->created_at)->format('y');
+                                                    @endphp
+
+                                                    @if(empty($po2))
+
+                                                    @else
+                                                    <td style="text-align: center">-</td>
+                                                    <td>
+                                                        <a href="{{ route('menu-purchase-order.po_detail',$po->id) }}">
+                                                        {{ $po->id }}/PO/SII/{{ $month }}/{{ $year }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <ul>
+                                                            <a href="{{ route('menu-purchase-order.po_detail',$po->id) }}">
+                                                                <li style="white-space: nowrap;">
+                                                                    @if($po2->vendorable_id == 0)
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: -
+                                                                    @else
+                                                                    Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $po2->vendorable->nama ?? '' }}
+                                                                    @endif
+                                                                </li>
+                                                                <li> No Invoice : {{ $po2->quotation }}</li>
+                                                            </a>
                                                         </ul>
                                                     </td>
-                                                    @hasrole('purchasing||super admin')
-                                                        <td style="white-space: nowrap;">
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                                style=" font-size:10; background-color: #0014FF;"
-                                                                href="{{ url('/exportpdf/ppb/' . $ppb->id) }}"><i
-                                                                    class="icon-eye" title="Preview PDF Purchase request"></i>
-                                                                </a>
-
-                                                                <a class="btn btn-iconsolid mt-1"
-                                                                style=" font-size:10; background-color: #B1D0E0;"
-                                                                href="{{ url('/exportpdf/po/' . $ppb->id) }}"><i
-                                                                    class="icon-eye" title="Preview Purchase Order"></i>
-                                                            </a>
-                                                            <a class="btn btn-iconsolid mt-1"
-                                                            style=" font-size:10; background-color: #c713e7;"
-                                                            href="{{ url('/exportpdf/pymnt/' . $ppb->id) }}"><i
-                                                                class="icon-eye" title="Preview PDF"></i>
+                                                    <td style="font-weight: 700;">
+                                                        @foreach ($po3 as $ipo)
+                                                        <label data-bs-toggle="modal" data-bs-target="#modalItemVendor{{ $po->id }}">{{ $ipo->qty }} Item</label>
+                                                        @endforeach
+                                                    </td>
+                                                    <td style="white-space: nowrap;">
+                                                    @foreach ($po4 as $ipo)
+                                                        <label>{{ $ipo->matauang }} {{ number_format($ipo->grand_total ,2) }}</label>
+                                                    @endforeach
+                                                    </td>
+                                                    <td  class="text-center">
+                                                        @if($isRejected)
+                                                        <a class="badge  {{ $badgeClass }} mt-1" style="color: white; font-size:12">
+                                                            {{ $po2->status }}
                                                         </a>
-                                                        </td>
-                                                    @endhasrole
+                                                        <br>
+                                                        <a class="badge  {{ $badgeClass }} mt-1" style="color: white; font-size:12">
+                                                            {{ $po2->notes ?? '-' }}
+                                                        </a>
+                                                        @else
+                                                        <a class="badge {{ $badgeClass }} mt-1"
+                                                            style="color: white; font-size:12">{{ $po2->status }}</a>
+                                                        @endif
+                                                    </td>
+                                                    <td style="text-align: center;">
+
+                                                        <a class="btn btn-iconsolid mt-1"
+                                                        style="background-color: #f63900; font-size:10;"
+                                                        href="{{ url('/exportpdf/po/' . $po->id) }}" target="_blank"><i
+                                                            class="icon-eye" title="Preview Purchase Order"></i>
+                                                        </a>
+                                                    </td>
+
+                                                    @endif
                                                 </tr>
+                                            @endforeach
                                         @endforeach
                                     </tbody>
                                 </table>

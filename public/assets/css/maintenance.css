@@ -1,0 +1,84 @@
+.full-text{
+    width: 446px;
+    height: 170ppx;
+    top: 439px;
+    left: 277px;
+    gap: 16px;
+    opacity: 0px;
+    text-align: center;
+}
+
+.body-text{
+    width: 426px;
+    height: 96px;
+    gap: 16px;
+    opacity: 0px;
+
+}
+
+.extra-margin{
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .card{
+        max-width: 400px;
+        max-height: 400px;
+    }
+    img{
+        max-width: 200px;
+    }
+    h1 {
+        font-size: calc(1.375rem + 0.2vw);
+    }
+    p {
+        font-size: 10px;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .card{
+        max-width: fit-content;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .card{
+        max-width: fit-content;
+    }
+    .img {
+        max-width: 400px;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .card{
+        max-width: 700px;
+        max-height: 700px;
+    }
+    img{
+        max-width: 700px;
+    }
+    h1 {
+        font-size: calc(1.375rem + 1.75vw);;
+    }
+    p {
+        font-size: 14px;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .card{
+        max-width: 1200px;
+        max-height: 1200px;
+    }
+    .img {
+        max-width: 700px;
+    }
+}

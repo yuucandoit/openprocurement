@@ -593,6 +593,7 @@
         let formItem;
         var selectItemsOptions;
         var oldCategoryPurpose = @json(old('category_purpose', ''));
+        var formtypePR = document.querySelector('.type_pr');
         var selectedInputs = [
             document.getElementById('selectedInput2'),
             document.getElementById('selectedInput3'),
@@ -642,10 +643,24 @@
             window.location.href = url;
         });
 
-        // Event listener for pageSelect change
+        let currentTypePR = "";
+
+        formtypePR.addEventListener('change', function () {
+            currentTypePR = this.value; // Simpan nilai formtypePR
+            if(this.value == 'SPKBased'){
+                form_processBy.classList.remove('hide');
+                selectProcessBy.setAttribute('required', '');
+            }else {
+                form_processBy.classList.add('hide');
+                selectProcessBy.removeAttribute("required");
+            }
+            console.log("Type PR:", currentTypePR);
+        });
+
         pageSelect.addEventListener('change', function() {
             selectedPage = this.value;
-            showSelectedInput(selectedPage);
+            showSelectedInput(selectedPage,currentTypePR);
+            console.log("Type PR:", currentTypePR);
         });
 
         $('#projectlist').on("select2:select", function(e) {
@@ -858,103 +873,191 @@
         //     });
         // }
 
-        function showSelectedInput(page) {
+        function showSelectedInput(page,typePR) {
             // hideAllSelectedInputs();
-            if (page === "project") {
-                selectedInput.classList.remove('hide');
-                selectedInput2.classList.add('hide');
-                selectedInput3.classList.add('hide');
-                selectedInput4.classList.add('hide');
-                selectedInput5.classList.add('hide');
-                selectedInput6.classList.add('hide');
-                textareanormal.classList.add('hide');
-                document.querySelector('#pengajuan-select').classList.add('hide');
-                textareanormal.disabled = true;
-                selectprepr.classList.remove('hide');
-                selectprepr.classList.disabled = false;
-                form_processBy.classList.add('hide');
-                selectProcessBy.removeAttribute("required");
+                const typePRValue = typePR; // Ambil value dari dropdown formtypePR
+                if (typePRValue === "SPKBased") {
+                    console.log('SPKBASED Activated');
+                    if (page === "project") {
+                        selectedInput.classList.remove('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput6.classList.add('hide');
+                        textareanormal.classList.add('hide');
+                        document.querySelector('#pengajuan-select').classList.add('hide');
+                        textareanormal.disabled = true;
+                        selectprepr.classList.remove('hide');
+                        selectprepr.classList.disabled = false;
+                    } else if(page === "office") {
+                        selectedInput2.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput6.classList.add('hide');
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
 
-            } else if(page === "office") {
-                selectedInput2.classList.remove('hide');
-                selectedInput.classList.add('hide');
-                selectedInput3.classList.add('hide');
-                selectedInput4.classList.add('hide');
-                selectedInput5.classList.add('hide');
-                selectedInput6.classList.add('hide');
-                selectprepr.classList.add('hide');
-                selectprepr.classList.disabled = true;
-                document.querySelector('#pengajuan-select').classList.remove('hide');
-                document.querySelector('#pengajuan-select').classList.remove('hide');
-                textareanormal.classList.remove('hide');
-                textareanormal.disabled = false;
-                form_processBy.classList.add('hide');
-                selectProcessBy.removeAttribute("required");
+                    } else if(page === "workshop") {
+                        selectedInput3.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput6.classList.add('hide');
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
+                    } else if(page === "inventory") {
+                        selectedInput4.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput6.classList.add('hide');;
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
+                    } else if(page === "rnd") {
+                        selectedInput5.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectedInput6.classList.add('hide');
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
+                    } else if(page === "travel") {
+                        selectedInput6.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
+                    } else {
+                        if (page !== "") {
+                            var index = parseInt(page) - 2; // Assuming IDs start from 2
+                            if (index >= 0 && index < selectedInputs.length) {
+                                selectedInputs[index].classList.remove('hide');
+                            }
+                        }
+                    }
+                }else {
+                    console.log('Normal Flow Activated');
+                    if (page === "project") {
+                        selectedInput.classList.remove('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput6.classList.add('hide');
+                        textareanormal.classList.add('hide');
+                        document.querySelector('#pengajuan-select').classList.add('hide');
+                        textareanormal.disabled = true;
+                        selectprepr.classList.remove('hide');
+                        selectprepr.classList.disabled = false;
+                        form_processBy.classList.add('hide');
+                        selectProcessBy.removeAttribute("required");
 
-            } else if(page === "workshop") {
-                selectedInput3.classList.remove('hide');
-                selectedInput.classList.add('hide');
-                selectedInput2.classList.add('hide');
-                selectedInput4.classList.add('hide');
-                selectedInput5.classList.add('hide');
-                selectedInput6.classList.add('hide');
-                selectprepr.classList.add('hide');
-                selectprepr.classList.disabled = true;
-                document.querySelector('#pengajuan-select').classList.remove('hide');
-                textareanormal.classList.remove('hide');
-                textareanormal.disabled = false;
-                form_processBy.classList.remove('hide');
-                selectProcessBy.setAttribute('required', '');
-            } else if(page === "inventory") {
-                selectedInput4.classList.remove('hide');
-                selectedInput.classList.add('hide');
-                selectedInput2.classList.add('hide');
-                selectedInput3.classList.add('hide');
-                selectedInput5.classList.add('hide');
-                selectedInput6.classList.add('hide');;
-                selectprepr.classList.add('hide');
-                selectprepr.classList.disabled = true;
-                document.querySelector('#pengajuan-select').classList.remove('hide');
-                textareanormal.classList.remove('hide');
-                textareanormal.disabled = false;
-                form_processBy.classList.remove('hide');
-                selectProcessBy.setAttribute('required', '');
-            } else if(page === "rnd") {
-                selectedInput5.classList.remove('hide');
-                selectedInput.classList.add('hide');
-                selectedInput2.classList.add('hide');
-                selectedInput4.classList.add('hide');
-                selectedInput3.classList.add('hide');
-                selectedInput6.classList.add('hide');
-                selectprepr.classList.add('hide');
-                selectprepr.classList.disabled = true;
-                document.querySelector('#pengajuan-select').classList.remove('hide');
-                textareanormal.classList.remove('hide');
-                textareanormal.disabled = false;
-                form_processBy.classList.remove('hide');
-                selectProcessBy.setAttribute('required', '');
-            } else if(page === "travel") {
-                selectedInput6.classList.remove('hide');
-                selectedInput.classList.add('hide');
-                selectedInput2.classList.add('hide');
-                selectedInput4.classList.add('hide');
-                selectedInput5.classList.add('hide');
-                selectedInput3.classList.add('hide');
-                selectprepr.classList.add('hide');
-                selectprepr.classList.disabled = true;
-                document.querySelector('#pengajuan-select').classList.remove('hide');
-                textareanormal.classList.remove('hide');
-                textareanormal.disabled = false;
-                form_processBy.classList.add('hide');
-                selectProcessBy.removeAttribute("required");
-            } else {
-                if (page !== "") {
-                    var index = parseInt(page) - 2; // Assuming IDs start from 2
-                    if (index >= 0 && index < selectedInputs.length) {
-                        selectedInputs[index].classList.remove('hide');
+                    } else if(page === "office") {
+                        selectedInput2.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput6.classList.add('hide');
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
+                        form_processBy.classList.add('hide');
+                        selectProcessBy.removeAttribute("required");
+
+                    } else if(page === "workshop") {
+                        selectedInput3.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput6.classList.add('hide');
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
+                        form_processBy.classList.remove('hide');
+                        selectProcessBy.setAttribute('required', '');
+                    } else if(page === "inventory") {
+                        selectedInput4.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput6.classList.add('hide');;
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
+                        form_processBy.classList.remove('hide');
+                        selectProcessBy.setAttribute('required', '');
+                    } else if(page === "rnd") {
+                        selectedInput5.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectedInput6.classList.add('hide');
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
+                        form_processBy.classList.remove('hide');
+                        selectProcessBy.setAttribute('required', '');
+                    } else if(page === "travel") {
+                        selectedInput6.classList.remove('hide');
+                        selectedInput.classList.add('hide');
+                        selectedInput2.classList.add('hide');
+                        selectedInput4.classList.add('hide');
+                        selectedInput5.classList.add('hide');
+                        selectedInput3.classList.add('hide');
+                        selectprepr.classList.add('hide');
+                        selectprepr.classList.disabled = true;
+                        document.querySelector('#pengajuan-select').classList.remove('hide');
+                        textareanormal.classList.remove('hide');
+                        textareanormal.disabled = false;
+                        form_processBy.classList.add('hide');
+                        selectProcessBy.removeAttribute("required");
+                    } else {
+                        if (page !== "") {
+                            var index = parseInt(page) - 2; // Assuming IDs start from 2
+                            if (index >= 0 && index < selectedInputs.length) {
+                                selectedInputs[index].classList.remove('hide');
+                            }
+                        }
                     }
                 }
-            }
         }
 
         showSelectedInput(selectedPage);

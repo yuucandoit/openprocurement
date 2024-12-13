@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \RealRashid\SweetAlert\ToSweetAlert::class,
+            \App\Http\Middleware\CheckMaintenanceMode::class
 
         ],
 
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\Role::class,
         'force_password_reset' => \App\Http\Middleware\ForceResetPassword::class,
+        'maintenance.mode' => \App\Http\Middleware\CheckMaintenanceMode::class,
     ];
 }
