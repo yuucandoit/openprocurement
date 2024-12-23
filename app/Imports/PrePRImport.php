@@ -30,17 +30,17 @@ class PrePRImport implements  WithHeadingRow,ToCollection
         foreach ($rows as $row) {
             $firstKey = $row->keys()->first();
 
-            // Lakukan transformasi pada row
-            $row = $row->mapWithKeys(function ($value, $key) use ($firstKey) {
-                // Jika kunci pertama adalah string, ganti dengan 0
-                return $key === $firstKey && is_string($key) ? [0 => $value] : [$key => $value];
+            // Lakukan transformasi pada row dari name jadi 0 .... total 4
+            $row = $row->values()->mapWithKeys(function ($value, $index) use ($firstKey) {
+                return [$index => $value];
             });
+
 
             $existProject = Pre_pr::where('project_id',$this->project)->first();
             if($existProject){
                 $qty = $row[1]; // Ambil data QTY dari kolom ke-2
                 $buffer = $row[2]; // Ambil data Buffer dari kolom ke-3
-                $total = $qty + $buffer;
+                $total = intval($qty) + intval($buffer);
                 $item = $row[0]; // Ambil data Part Name dari kolom ke-1
                 $desc = $row[3]; // Ambil data Desc dari kolom ke-4
                 $link = $row[4]; // Ambil data Link dari kolom ke-5
@@ -78,10 +78,11 @@ class PrePRImport implements  WithHeadingRow,ToCollection
                     'project_id' => $this->project,
                     'due_date'=> $this->due_date
                 ]);
+                // dd($row[2]);
 
                 $qty = $row[1]; // Ambil data QTY dari kolom ke-2
                 $buffer = $row[2]; // Ambil data Buffer dari kolom ke-3
-                $total = $qty + $buffer;
+                $total = intval($qty) + intval($buffer);
                 $item = $row[0]; // Ambil data Part Name dari kolom ke-1
                 $desc = $row[3]; // Ambil data Desc dari kolom ke-4
                 $link = $row[4]; // Ambil data Link dari kolom ke-5
