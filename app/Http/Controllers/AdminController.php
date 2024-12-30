@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\CategoryEcommerce;
+use App\Models\CategoryPP;
+use App\Models\CategoryPT;
 use App\Models\Department;
 use App\Models\Role;
 use App\Models\Roles;
@@ -206,5 +209,47 @@ class AdminController extends Controller
         }else {
             return redirect()->route('dashboard');
         }
+    }
+
+
+    public function suppliers_Api(){
+        try {
+            $supplier_company = CategoryPT::get()->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->nama,
+                    'supp_type' => 'Company'
+                ];
+            })->toArray();
+            
+            $supplier_person = CategoryPP::get()->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->nama,
+                    'supp_type' => 'Private Person'
+                ];
+            })->toArray();
+            
+            $supplier_ecommerce = CategoryEcommerce::get()->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->nama,
+                    'supp_type' => 'Ecommerce'
+                ];
+            })->toArray();
+    
+            $data = array_merge($supplier_company,$supplier_person,$supplier_ecommerce);
+    
+            return response()->json([
+                'status' => 'success get suppliers',
+                'data' => $data
+            ],200);
+        } catch (\Exception $except) {
+            return response()->json([
+                'status' => 'Something wong',
+                'err' => $except
+            ],500);
+        }
+    
     }
 }
