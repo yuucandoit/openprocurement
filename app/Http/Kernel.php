@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\Role::class,
         'force_password_reset' => \App\Http\Middleware\ForceResetPassword::class,
         'maintenance.mode' => \App\Http\Middleware\CheckMaintenanceMode::class,
+        'check.token.exp.api' => \App\Http\Middleware\CheckTokenExpAPI::class,
     ];
 }
