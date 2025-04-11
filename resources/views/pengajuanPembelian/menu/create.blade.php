@@ -227,7 +227,7 @@
                                 <div class="col-md-4 spk-upload {{ old('type') == 'SPK_Normal' || old('type') == 'SPKBased' ? '' : 'hide' }}">
                                     <div class="form-group">
                                         <label><i style="width: 15px; padding-top: 10px;" data-feather="file-text"></i> Attach File SPK <span style="color: red">*</span></label>
-                                        <input type="file" placeholder="Choose File" class="form-upload-spk form-control"  name="file_spk">
+                                        <input type="file" placeholder="Choose File" class="form-upload-spk form-control"  name="file_spk" accept="application/pdf">
                                     </div>
                                 </div>
                                 {{-- {{ dd(old('category_purpose'), old('category_purpose') == 'project') }} --}}
@@ -574,9 +574,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js"></script>
 
-    <script>
-       let itemsDataMap = {};
-       document.addEventListener('DOMContentLoaded', function() {
+<script>
+    let itemsDataMap = {};
+    document.addEventListener('DOMContentLoaded', function() {
         var pageSelect = document.getElementById('pageSelect');
         var selectElement = document.querySelector('.itemprePR');
         var selectpreprList = document.querySelector('#projectlist');
@@ -654,18 +654,18 @@
                 form_processBy.classList.add('hide');
                 selectProcessBy.removeAttribute("required");
             }
-            console.log("Type PR:", currentTypePR);
+            // console.log("Type PR:", currentTypePR);
         });
 
         pageSelect.addEventListener('change', function() {
             selectedPage = this.value;
             showSelectedInput(selectedPage,currentTypePR);
-            console.log("Type PR:", currentTypePR);
+            // console.log("Type PR:", currentTypePR);
         });
 
         $('#projectlist').on("select2:select", function(e) {
-            console.log(e);
-            console.log(selectedValueProject);
+            // console.log(e);
+            // console.log(selectedValueProject);
 
             // Jika ada nilai 'old', maka lakukan fetch data
             if (selectedValueProject !== null) {
@@ -686,7 +686,7 @@
 
 
         function fetchProjectData(value) {
-            console.log(value);
+            // console.log(value);
             fetch("{{ route('menu-pengajuan-pembelian.getDataPrePR', ':selectedValue') }}".replace(':selectedValue', value), {
                 method: 'GET',
                 headers: {
@@ -696,7 +696,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log(!itemsParam);
+                // console.log(!itemsParam);
                 if(!itemsParam){
                 updateSelectOptions(data);
                 }
@@ -713,6 +713,7 @@
 
                 data.data.part_item.forEach(function(item) {
                     itemsDataMap[item.id] = {
+                        qty: item.qty,
                         uom: item.uom, 
                         link: item.link 
                     };
@@ -728,10 +729,10 @@
         }
 
         if (!selectElement) {
-            console.log("selectElement not found in the DOM");
+            // console.log("selectElement not found in the DOM");
         } else {
             function updateSelectOptions(data) {
-                console.log(data);
+                // console.log(data);
                 selectElement.innerHTML = ''; // Now this should work without throwing an error
                 let result = data.data.part_item;
                 let parentTR = selectElement.closest('tr');
@@ -740,7 +741,7 @@
                 let linkform = parentTR.querySelector('.form-link');
 
                 result.forEach(function(item,index) {
-                    console.log(item.is_check + item.child_item);
+                    // console.log(item.is_check + item.child_item);
                     var option = document.createElement('option');
                     option.value = item.id;
                     option.textContent = item.child_item;
@@ -774,6 +775,7 @@
                 options += `<option value="${item.id}">${item.child_item}</option>`;
                 if(projectParam){
                     itemsDataMap[item.id] = {
+                        qty: item.qty,
                         uom: item.uom, // Assuming 'uom' is available in the fetched data
                         link: item.link // Assuming 'description' is available in the fetched data
                     };
@@ -789,7 +791,7 @@
         function addItem(itemId = null) {
             var item;
             var selectedProject = {!! json_encode(old('project')) ?? null !!};
-            console.log(selectItemsOptions);
+            // console.log(selectItemsOptions);
             if (selectedPage) {
                 if (selectedPage === 'project') {
                     formItem = `<select class="js-example-basic-single itemprePR miaw2" name="item[]" onchange="generateUomDesc(this);">` + selectItemsOptions + `</select>`;
@@ -819,7 +821,7 @@
                 formItem = `<textarea name="item[]" id="" class="form-control item-text" rows="2" style="min-width: 300px"></textarea>`;
             }
 
-            console.log(formItem);
+            // console.log(formItem);
             item = `<tr>
                         <td style="text-align:center;">
                             `+ $i +`
@@ -830,8 +832,9 @@
                         <td class="td-link waveappend">
                             <input type="text" class="form-control form-link" name="link[]" placeholder="Link (Not Mandatory)">
                         </td>
-                        <td>
+                        <td class="td-qty">
                             <input type="number" name="qty[]" placeholder="Input Quantity" class="form-control form-calc form-qty" style="text-align: center;" required/>
+                            <small class="text-danger qty-alert" style="display:none;"></small>
                         </td>
                         <td class="td-uom waveappend">
                             <select class="form-select form-uom" placeholder="Kategori" name="kategori[]" >
@@ -1061,43 +1064,69 @@
         }
 
         showSelectedInput(selectedPage);
-       });
 
-       function generateUomDesc(elementOrEvent) {
-            var selectedElement = elementOrEvent.target || elementOrEvent;
-            console.log(selectedElement);
-            let selectedValue = selectedElement.value;
-            console.log(selectedValue);
-            let parentTd = selectedElement.closest('tr');
-            let uomSelect = parentTd.querySelector('.form-uom');
-            let formlink = parentTd.querySelector('.form-link');
-            let uomData = selectedElement.getAttribute('data-uom');
-            let linkData = selectedElement.getAttribute('data-link');
-            console.log(itemsDataMap);
-            // Assuming itemsDataMap is populated correctly from fetchProjectData
-            if (itemsDataMap[selectedValue]) {
-                let selectedData = itemsDataMap[selectedValue];
+    });
 
-                // uomSelect.innerHTML = ''; // Clear existing options
-                // let option = document.createElement('option');
-                // option.value = selectedData.uom;
-                // option.textContent = selectedData.uom;
-                // option.selected = true;
-                // uomSelect.appendChild(option);
-                console.log(selectedData)
-                formlink.value = selectedData.link || null;
-            } else if(uomData || linkData) {
-                // uomSelect.innerHTML = ''; // Clear existing options
-                // let option = document.createElement('option');
-                // option.value = uomData;
-                // option.textContent = uomData;
-                // option.selected = true;
-                // uomSelect.appendChild(option);
+    // alert kalau 
+    $(document).on('input', '.form-qty', function () {
+        const qtyInput = this;
+        const tr = qtyInput.closest('tr');
+        const select = tr.querySelector('.itemprePR');
+        const alertDiv = tr.querySelector('.qty-alert');
 
-                formlink.value = linkData;
-            } 
+        if (select && itemsDataMap[select.value]) {
+            const maxQty = parseFloat(itemsDataMap[select.value].qty);
+            const currentQty = parseFloat(qtyInput.value);
+
+            if (!isNaN(currentQty) && currentQty > maxQty) {
+                alertDiv.style.display = 'block';
+                alertDiv.textContent = `Qty tidak boleh lebih dari ${maxQty}`;
+                this.style.backgroundColor = '#fd9999';
+            } else {
+                alertDiv.style.display = 'none';
+                this.style.backgroundColor = '';
+            }
         }
-    </script>
+    });
+
+    function generateUomDesc(elementOrEvent) {
+        var selectedElement = elementOrEvent.target || elementOrEvent;
+        // console.log(selectedElement);
+        let selectedValue = selectedElement.value;
+        let parentTd = selectedElement.closest('tr');
+        console.log(parentTd);
+        let uomSelect = parentTd.querySelector('.form-uom');
+        let formlink = parentTd.querySelector('.form-link');
+        let formqty = parentTd.querySelector('.form-qty');
+        let uomData = selectedElement.getAttribute('data-uom');
+        let linkData = selectedElement.getAttribute('data-link');
+        // console.log(itemsDataMap[selectedValue]);
+        // Assuming itemsDataMap is populated correctly from fetchProjectData
+        if (itemsDataMap[selectedValue]) {
+            let selectedData = itemsDataMap[selectedValue];
+
+            // uomSelect.innerHTML = ''; // Clear existing options
+            // let option = document.createElement('option');
+            // option.value = selectedData.uom;
+            // option.textContent = selectedData.uom;
+            // option.selected = true;
+            // uomSelect.appendChild(option);
+            console.log(formqty)
+            formlink.value = selectedData.link || null;
+            formqty.value = selectedData.qty || 0;
+            
+        } else if(uomData || linkData) {
+            // uomSelect.innerHTML = ''; // Clear existing options
+            // let option = document.createElement('option');
+            // option.value = uomData;
+            // option.textContent = uomData;
+            // option.selected = true;
+            // uomSelect.appendChild(option);
+
+            formlink.value = linkData;
+        } 
+    }
+</script>
 
     <script type="text/javascript">
         var pageSelector = document.getElementById('pageSelector');
