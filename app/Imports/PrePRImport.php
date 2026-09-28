@@ -50,7 +50,7 @@ class PrePRImport implements  WithHeadingRow,ToCollection
                     'desc'              => $desc,
                     'link'              => $link,
                     'qty'               => $qty ?? 0 ,
-                    'buffer'            => $buffer ?? 0,
+                    'buffer'            => $buffer ?? 0,    
                     'total'             => $total,
                     'creator_id'        => null,
                     'creator_name'      => null,

@@ -24,7 +24,9 @@
             <th style="border: 1px solid black"><strong>Admin Fee</strong></th>
             <th style="border: 1px solid black"><strong>PPN 11%</strong></th>
             <th style="border: 1px solid black"><strong>Grand Total</strong></th>
-            <th style="border: 1px solid black"><strong>Status</strong></th>
+            <th style="border: 1px solid black"><strong>Status PO</strong></th>
+            <th style="border: 1px solid black"><strong>Status PR</strong></th>
+            
         </tr>
     </thead>
     <tbody>
@@ -116,6 +118,9 @@
 
                             <td style="border: 1px solid black">
                                 {{ $i->matauang }} {{ number_format($i->grand_total) }}
+                            </td>
+                            <td style="border: 1px solid black">
+                                {{ $p->status ? $p->status : '-' }}
                             </td>
                             <td style="border: 1px solid black">
                                 {{ $p->ppb->status }}
