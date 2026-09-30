@@ -43,7 +43,6 @@ class QuotationController extends Controller
     public function create($id)
     {
         $data_company = CategoryQuotation::find($id);
-        // dd($data_company);
         return view('quotation.create')
             ->with('data_company', $data_company);
     }
@@ -57,7 +56,6 @@ class QuotationController extends Controller
     public function store(Request $request, $id)
     {
         $data = $request->except(['_token']);
-        // dd($data);
         Q_Quotation::insert([
             "category_id" => $id,
             "type" => $request->type,
@@ -78,9 +76,7 @@ class QuotationController extends Controller
     public function show(Request $request, $id_company, $id)
     {
         $data_company = CategoryQuotation::find($id_company);
-        // dd($data_company);
         $data = Q_Quotation::where('id', $id)->first();
-        // dd($data);
         return view('quotation.show')
             ->with('data', $data)
             ->with('data_company', $data_company);
@@ -107,7 +103,6 @@ class QuotationController extends Controller
     public function update(Request $request, $id)
     {
         $data_company = Q_Quotation::find($id);
-        // dd($data_company);
         Q_Quotation::where('id', $id)->update([
             "type" => $request->type,
             "qty" => $request->qty,

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\WhoSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +28,6 @@ class WhoSubmittedController extends Controller
     public function SearchWS(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $data = WhoSubmitted::Where('id','like',"%".$cari."%")
      ->orWhere('name','like',"%".$cari."%")
      ->paginate(10);
@@ -122,7 +120,6 @@ class WhoSubmittedController extends Controller
         if ($check->role_id == 3) {
             $data = WhoSubmitted::where('id',$id);
 
-            // dd($data);
             $tes = WhoSubmitted::where("id", $id)->update([
                 "name" => $request->name,
             ]);

@@ -14,7 +14,6 @@ class NotifPaymentController extends Controller
     public function index($id)
     {
         $pengajuan = CategoryPengajuanPembelian::where('status', 'Invoicing Process')->where('id',$id)->get();
-        //dd($pengajuan);
 
             foreach($pengajuan as $p)
             if ($p->atasan_py == 3){

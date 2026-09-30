@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\RND;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +28,6 @@ class RNDController extends Controller
     public function SearchRND(Request $request)
    {
     $cari = $request->cari;
-    //dd($cari);
     $data = RND::Where('id','like',"%".$cari."%")
     ->orWhere('name','like',"%".$cari."%")
     ->paginate(10);
@@ -122,7 +120,6 @@ class RNDController extends Controller
         if ( $check->role_id == 3) {
             $data = RND::find($id);
 
-            // dd($data);
             $tes = RND::where("id", $id)->update([
                 "name" => $request->name,
             ]);

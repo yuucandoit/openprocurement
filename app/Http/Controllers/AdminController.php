@@ -7,7 +7,6 @@ use App\Models\CategoryEcommerce;
 use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\Department;
-use App\Models\Role;
 use App\Models\Roles;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -47,7 +46,6 @@ class AdminController extends Controller
     public function SearchUsers(Request $request)
    {
     $cari = $request->cari;
-    //dd($cari);
     $admin = User::Where('id','like',"%".$cari."%")
     ->orWhere('name','like',"%".$cari."%")
     ->orWhere('email','like',"%".$cari."%")
@@ -139,7 +137,6 @@ class AdminController extends Controller
     public function show($id)
     {
         $admin = User::find($id);
-        // dd($admin);
         return view('admin.show')
             ->with('admin', $admin);
     }

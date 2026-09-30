@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Office;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +28,6 @@ class OfficeController extends Controller
     public function SearchOffice(Request $request)
    {
     $cari = $request->cari;
-    //dd($cari);
     $data = Office::Where('id','like',"%".$cari."%")
     ->orWhere('name','like',"%".$cari."%")
     ->paginate(10);
@@ -122,7 +120,6 @@ class OfficeController extends Controller
         if ( $check->role_id == 3) {
             $data = Office::find($id);
 
-            // dd($data);
             $tes = Office::where("id", $id)->update([
                 "name" => $request->name,
             ]);

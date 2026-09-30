@@ -98,7 +98,6 @@ class PengajuanDanaController extends Controller
     public function update(Request $request, $id)
     {
         $item = PengajuanDana::find($id);
-        // dd($item);
         PengajuanDana::where('id', $id)->update([
             "item" => $request->item,
             "qty" => $request->qty,

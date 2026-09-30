@@ -12,7 +12,6 @@ use App\Models\PengajuanPembelian;
 use App\Models\POSignature;
 use App\Models\PurchaseOrder;
 use App\Models\ReferensiNamaProject;
-use App\Models\Role;
 use App\Models\User;
 use App\Models\WhoSubmitted;
 use Carbon\Carbon;
@@ -41,7 +40,6 @@ class TasklistAtasanPoController extends Controller
 
             $datapo = CategoryPO::get();
 
-            // dd($datappb);
             return view('taskList_atasan_PO.menu.index')
             ->with('datapo', $datapo)
             ->with('datappb', $datappb);
@@ -127,7 +125,6 @@ class TasklistAtasanPoController extends Controller
     public function SearchAtasanPOIn(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $datappb = CategoryPengajuanPembelian::where('status','PO Approved')->where('atasan_po', Auth::user()->id)->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
@@ -158,7 +155,6 @@ class TasklistAtasanPoController extends Controller
     public function SearchAtasanPOOut(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
@@ -176,7 +172,6 @@ class TasklistAtasanPoController extends Controller
     public function SearchHistoryAtasanPO(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
@@ -193,7 +188,6 @@ class TasklistAtasanPoController extends Controller
     public function SortHistoryPoBod(Request $request)
     {
      $sort = $request->sort;
-    //  dd($cari);
      $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
      $datapo = CategoryPO::get();
      return view('taskList_atasan_PO.menu.history')
@@ -254,7 +248,6 @@ class TasklistAtasanPoController extends Controller
             $comments           = Comment::where('ppb_id',$id)->get();
             $disc               = PengajuanPembelian::where('pp_id',$id)->first();
 
-            //dd($datacpo);
             return view('taskList_atasan_PO.menu.po')
                 ->with('pengajuan', $pengajuan)
                 ->with('dpp', $dpp)
@@ -326,7 +319,6 @@ class TasklistAtasanPoController extends Controller
                     ]);
 
                     $data2 = $request->all();
-                    //dd($data2);
 
                     if ($request->purpose == "custom") {
                         $project = ReferensiNamaProject::where("id", $id)->update([
@@ -398,7 +390,6 @@ class TasklistAtasanPoController extends Controller
             $data->save();
 
             $cpo = CategoryPO::where('ppb_id',$id)->first();
-            // dd($cpo);
             $sig = new POSignature();
         
             if($data->atasan_po == 3){
@@ -586,7 +577,6 @@ class TasklistAtasanPoController extends Controller
     {
         $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
-            // dd($id);
             $cpo = CategoryPO::find($id);
 
             CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->update([
@@ -597,9 +587,7 @@ class TasklistAtasanPoController extends Controller
             // $data->status = 'PO Approved';
             // $data->save();
 
-            // dd($data->atasan_po);
             $sig = new POSignature();
-        // dd($data);
             if($cpo->atasan_po == 3){
                 $cpo->signature = 'superadmin.png';
                 $cpo->approved_at = Carbon::now();
@@ -726,15 +714,11 @@ class TasklistAtasanPoController extends Controller
     {
         $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
-                // dd($request->ids);
                 $ids = explode(',', $request->ids);
-                // dd($ids);
                 $data = CategoryPO::find($ids);
                 // $ppb = CategoryPengajuanPembelian::whereIn('id', $data->ppb_id)->get();
-                // dd($data->ppb);
 
                 foreach($data as $d){
-                    // dd($d->ppb->atasan_po == 3);
                     if($d->atasan_po == 3){
                         CategoryPO::whereIn('id',$ids)->update([
                         // 'status' =>    'PO Approved',

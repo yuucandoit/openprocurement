@@ -20,7 +20,6 @@ class ForceResetPassword extends Controller
         $request->validate([
             'password' => ['required','confirmed',Password::min(8)->mixedCase()->symbols()->letters()->numbers()],
         ]);
-        // dd($request->all());
         $user = User::find(Auth::user()->id);
         $newPassword = $request->password;
         $user->password = Hash::make($newPassword);

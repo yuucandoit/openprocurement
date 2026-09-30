@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Imports\UomImport;
 use App\Models\Uom;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -26,7 +25,6 @@ class UomController extends Controller
     public function SearchUom(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $data = Uom::Where('id','like',"%".$cari."%")
      ->orWhere('name','like',"%".$cari."%")
      ->paginate(10);
@@ -45,7 +43,6 @@ class UomController extends Controller
         if ($request->hasFile('file')) {
             //UPLOAD FILE
             $file = $request->file('file'); //GET FILE
-            // dd($file);
             Excel::import(new UomImport, $file); //IMPORT FILE
             return redirect()->back()->with(['success' => 'Upload file data !']);
         }

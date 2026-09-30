@@ -39,7 +39,6 @@ class PrivatePersonController extends Controller
     {
         /*$perusahaan*/  $person = PrivatePerson::all();
         /*$data_perusahaan*/ $data_person = CategoryPP::find($id);
-        // dd($data_company_po);
         return view('dataVendor.create')
             ->with('data_perusahaan', $data_person)
             ->with('perusahaan', $person);
@@ -63,7 +62,6 @@ class PrivatePersonController extends Controller
         // ]);
 
         $dv = $request->except(['_token']);
-        // dd($po);
        PrivatePerson::insert([
             "pp_id" => $id,
             "npwp" => $request->npwp,
@@ -85,7 +83,6 @@ class PrivatePersonController extends Controller
         $data = CategoryPP::find($pp_id);
 
         $dv = PrivatePerson::where('id', $id)->first();
-        // dd($po);
         return view('dataVendor.show')
         ->with('dv', $dv)
         ->with('data', $data);
@@ -113,14 +110,12 @@ class PrivatePersonController extends Controller
     {
         $data = PrivatePerson::find($id);
 
-        // dd($data);
         $tes = PrivatePerson::where("id", $id)->update([
             "npwp" => $request->npwp,
             "Pkp" => $request->Pkp,
             "jenis_usaha" => $request->jenis_usaha,
         ]);
         return redirect("data-vendor/" . $data->pp_id);
-        // dd($data);
     }
 
     /**

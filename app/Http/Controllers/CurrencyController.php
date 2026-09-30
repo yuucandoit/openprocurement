@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Imports\CurrencyImport;
 use App\Models\Currency;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -31,7 +30,6 @@ class CurrencyController extends Controller
     public function SearchCurrency(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $data = Currency::Where('id','like',"%".$cari."%")
      ->orWhere('name','like',"%".$cari."%")
      ->orWhere('code','like',"%".$cari."%")
@@ -51,7 +49,6 @@ class CurrencyController extends Controller
         if ($request->hasFile('file')) {
             //UPLOAD FILE
             $file = $request->file('file'); //GET FILE
-            // dd($file);
             Excel::import(new CurrencyImport, $file); //IMPORT FILE
             return redirect()->back()->with(['success' => 'Upload file data !']);
         }

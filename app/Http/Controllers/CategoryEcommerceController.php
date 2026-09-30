@@ -6,7 +6,6 @@ use App\Exports\DvExport;
 use App\Exports\EcExport;
 use App\Imports\EcommerceImport;
 use App\Models\CategoryEcommerce;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -33,7 +32,6 @@ class CategoryEcommerceController extends Controller
     public function SearchEC(Request $request)
     {
      $cari = $request->cari;
-        //dd($cari);
      $datadv = CategoryEcommerce::Where('id','like',"%".$cari."%")
      ->orWhere('nama','like',"%".$cari."%")
      ->orWhere('link','like',"%".$cari."%")
@@ -120,7 +118,6 @@ class CategoryEcommerceController extends Controller
         if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         $data = CategoryEcommerce::find($id);
 
-        // dd($data);
         $tes = CategoryEcommerce::where("id", $id)->update([
             "nama" => $request->nama,
             "link" => $request->link,

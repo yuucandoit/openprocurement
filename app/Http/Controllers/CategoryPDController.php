@@ -15,7 +15,6 @@ use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Role;
 use App\Models\WhoSubmitted;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -61,7 +60,6 @@ class CategoryPDController extends Controller
         $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
         $comments           = Comment::where('ppb_id',$id)->get();
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
-        //dd($datacpo);
         return view('pengajuanDana.menu.po')
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
@@ -77,7 +75,6 @@ class CategoryPDController extends Controller
     {
         
      $cari = $request->cariIn;
-     //dd($cari);
      $check = Auth::user();
         if ($check->role_id == 5 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
@@ -154,7 +151,6 @@ class CategoryPDController extends Controller
     public function SearchPDOut(Request $request)
     {
      $cari = $request->cariOut;
-     //dd($cari);
 
      $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
@@ -193,7 +189,6 @@ class CategoryPDController extends Controller
     public function SearchHistoryPD(Request $request)
     {
      $cari = $request->cari;
-    //  dd($cari);
     if($cari){
         $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
             $query->whereHas('quot', function($q) {
@@ -243,7 +238,6 @@ class CategoryPDController extends Controller
     public function SortHistoryPD(Request $request)
     {
      $sort = $request->sort;
-    //  dd($cari);
      $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
      $datapo = CategoryPO::get();
      return view('pengajuanDana.menu.history')

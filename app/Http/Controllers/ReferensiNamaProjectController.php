@@ -6,7 +6,6 @@ use App\Imports\EcommerceImport;
 use App\Imports\ProjectImport;
 use App\Exports\ProjectCode;
 use App\Models\ReferensiNamaProject;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -33,7 +32,6 @@ class ReferensiNamaProjectController extends Controller
     public function SearchProject(Request $request)
    {
     $cari = $request->cari;
-    //dd($cari);
     $data = ReferensiNamaProject::Where('id','like',"%".$cari."%")
     ->orWhere('name','like',"%".$cari."%")
     ->paginate(10);
@@ -126,7 +124,6 @@ class ReferensiNamaProjectController extends Controller
         if ( $check->role_id == 3) {
             $data = ReferensiNamaProject::find($id);
 
-            // dd($data);
             $tes = ReferensiNamaProject::where("id", $id)->update([
                 "name" => $request->name,
             ]);

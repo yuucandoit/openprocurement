@@ -50,7 +50,6 @@ class PerusahaanController extends Controller
     {
        /*$vendor*/  $perusahaan = Perusahaan::all();
         /*$data_vendor*/ $data_perusahaan = CategoryPT::find($id);
-        // dd($data_company_po);
         return view('dataVendor.create')
             ->with('data_perusahaan', $data_perusahaan)
             ->with('perusahaan', $perusahaan);
@@ -73,7 +72,6 @@ class PerusahaanController extends Controller
         ]);
 
         $dv = $request->except(['_token']);
-        // dd($po);
        Perusahaan::insert([
             "pt_id" => $id,
             "npwp" => $request->npwp,
@@ -95,7 +93,6 @@ class PerusahaanController extends Controller
         $data = CategoryPT::find($pt_id);
 
         $dv = Perusahaan::where('id', $id)->first();
-        // dd($po);
         return view('dataVendor.show')
         ->with('dv', $dv)
         ->with('data', $data);
@@ -125,14 +122,12 @@ class PerusahaanController extends Controller
 
         $data = Perusahaan::find($id);
 
-        // dd($data);
         $tes = Perusahaan::where("id", $id)->update([
             "npwp" => $request->npwp,
             "Pkp" => $request->Pkp,
             "jenis_usaha" => $request->jenis_usaha,
         ]);
         return redirect("data-vendor/" . $data->pt_id);
-        // dd($data);
     }
 
     /**
@@ -153,7 +148,6 @@ class PerusahaanController extends Controller
 
     public function export($id)
     {
-        // dd('hallo');
         return Excel::download(new PTExport($id), 'perusahaan.xlsx');
     }
 }

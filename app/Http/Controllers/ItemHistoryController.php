@@ -31,7 +31,6 @@ class ItemHistoryController extends Controller
         if ($request->hasFile('file')) {
             //UPLOAD FILE
             $file = $request->file('file'); //GET FILE
-            // dd($file);
             Excel::import(new ItemHistoryImport, $file); //IMPORT FILE
             return redirect()->back()->with(['success' => 'Upload file data !']);
         }

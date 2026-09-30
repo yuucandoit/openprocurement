@@ -38,7 +38,6 @@ class CommentController extends Controller
      */
     public function store(Request $request,$id)
     {
-        // dd($request->all());
         $pengajuan = CategoryPengajuanPembelian::find($id);
         $comments =  Comment::create([
             'ppb_id' => $pengajuan->id,
@@ -131,13 +130,11 @@ class CommentController extends Controller
             'comment' => $request->comment,
         ]);
 
-        dd($data);
         return redirect()->back();
     }
 
     public function is_read(Request $request,$id)
     {
-        // dd($request->all());
         if($request->role == 'super user' || 'super admin'){
             $data = CommentRead::find($id);
             $data->is_read_bod = 1;

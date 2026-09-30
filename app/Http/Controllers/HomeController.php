@@ -149,8 +149,6 @@ class HomeController extends Controller
             $check=explode('-',$lc->created_at)[1];
             $data_checkInven[(int)$check]+=1;
         }
-        // dd($data_pb);
-        // dd($data_month);
         return view('dashboard')
             ->with('data_qu', $data_qu)
             ->with('data_pd', $data_pd)

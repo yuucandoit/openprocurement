@@ -11,7 +11,6 @@ use App\Models\Comment;
 use App\Models\Department;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
-use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
 use App\Models\WhoSubmitted;
@@ -73,7 +72,6 @@ class CheckPOController extends Controller
             $disc               = PengajuanPembelian::where('pp_id',$id)->first();
             $comments           = Comment::where('ppb_id',$id)->get();
 
-            //dd($datacpo);
             return view('purchaseOrder.menu.check-po.po')
                 ->with('pengajuan', $pengajuan)
                 ->with('dpp', $dpp)
@@ -94,7 +92,6 @@ class CheckPOController extends Controller
     public function SearchCheckPO(Request $request)
     {
         $cariIn = $request->cariIn;
-        //dd($cari);
         $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->
         orWhere('id','like',"%".$cariIn."%")
         ->orWhere('status','like',"%".$cariIn."%")
@@ -206,7 +203,6 @@ class CheckPOController extends Controller
             $disc               = PengajuanPembelian::where('pp_id',$id)->first();
             $comments           = Comment::where('ppb_id',$id)->get();
 
-            //dd($datacpo);
             return view('purchaseOrder.menu.check-po.detail')
                 ->with('pt', $pt)
                 ->with('op', $op)
@@ -251,7 +247,6 @@ class CheckPOController extends Controller
     public function SearchHistoryCheckPO(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      if($cari){
         $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
             $query->where('id', 'like', "%".$cari."%")

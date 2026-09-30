@@ -15,7 +15,6 @@ use App\Models\Uom;
 use App\Models\CategoryPengajuanPembelian;
 use App\Models\PengajuanPembelian;
 use App\Models\Comment;
-use App\Models\Role;
 use Illuminate\Support\Facades\Http;
 
 class PrePrController extends Controller
@@ -167,7 +166,6 @@ class PrePrController extends Controller
             if ($response['status'] == 200) {
                 $userData = $response['user'];
                 $token = $response['token'];
-                // dd($response);
                 Session::put('token', $token);
                 return $token;
             }
@@ -181,7 +179,6 @@ class PrePrController extends Controller
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token,
             ])->get('https://gerry.intek.co.id/api/check-token');
-            // dd($token);
             if ($response->successful() && $response['valid']) {
                 // Token masih valid, lanjutkan ke rute yang diminta
                 return true;
@@ -195,7 +192,6 @@ class PrePrController extends Controller
     //Get Product From Stocky
     private function getProducts($bearer)
     {
-        // dd($bearer);
         if($bearer){
             $token = $bearer;
         }else {
@@ -205,12 +201,10 @@ class PrePrController extends Controller
         $response = Http::withHeaders([
             'Authorization' => 'Bearer '. $token,
         ])->get($url);
-        // dd($response);
 
         if($response->successful()) {
             $resjson = $response->json();
             $products = $resjson['products'];
-            // dd($resjson['products']);
             return $products;
         }else {
             return $products = [];
@@ -225,7 +219,6 @@ class PrePrController extends Controller
 
         // $checking = $this->CheckToken($tokenGerry);
 
-        // // dd($checking);
         // $items= [];
 
         // if(!$checking){
@@ -233,7 +226,6 @@ class PrePrController extends Controller
         // }else {
         //   $products =   $this->getProducts($tokenGerry);
         // }
-        // dd($products);
         $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
         $oldInput = Session::getOldInput();
         return view('PrePR.create')
@@ -250,9 +242,7 @@ class PrePrController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $data = $request->all();
-        // dd($data);
         $existProject = Pre_pr::where('project_id',$request->project)->first();
         if($existProject){
             Session::flashInput($request->input());
@@ -264,7 +254,6 @@ class PrePrController extends Controller
             'project_id' => $request->project,
             'due_date'=> $request->due_date
         ]);
-        // dd($data);
 
         foreach ($data['item'] as $item => $value) {
             $qty = $data['qty'][$item];
@@ -334,7 +323,6 @@ class PrePrController extends Controller
 
         // $checking = $this->CheckToken($tokenGerry);
 
-        // // dd($checking);
         // $items= [];
 
         // if(!$checking){
@@ -361,7 +349,6 @@ class PrePrController extends Controller
     {
         $data = $request->all();
 
-        // dd($data);
         $pre_pr = Pre_pr::where('id',$id)->update([
             'user_id' =>  Auth::user()->id,
             'due_date'=> $request->due_date
@@ -471,7 +458,6 @@ class PrePrController extends Controller
         if ($request->hasFile('file')) {
             //UPLOAD FILE
             $file = $request->file('file'); //GET FILE
-            // dd($file);
             Excel::import(new PrePRImport($project, $due_date), $file); //IMPORT FILE
             return redirect()->back()->with(['success' => 'Upload file data !']);
         }
@@ -532,7 +518,6 @@ class PrePrController extends Controller
     public function SearchHistoryCheckLogistic(Request $request)
     {
         // $cari = $request->cariIn;
-        // //dd($cari);
         // $preprItem = Pre_Pr::where(function($query) use ($cari) {
         //     $query->where('id', 'like', "%" . $cari . "%")
         //           ->orWhereHas('partItem', function($q) use ($cari) {
@@ -560,7 +545,6 @@ class PrePrController extends Controller
         // ->with('preprItem', $preprItem);
 
         $cariIn = $request->cariIn;
-        //dd($cari);
         $pengajuan = CategoryPengajuanPembelian::whereNot('status', 'Awaiting Purchase Request Approval')
         ->where('logistic_check', 0)
         ->where('purpose_type', ReferensiNamaProject::class)
@@ -595,7 +579,6 @@ class PrePrController extends Controller
 
     public function check_logistic_update(Request $request,$id)
     {
-        // dd($request);
         $data = $request->all();
         $preprOldItems = null;
         $oldItemPr = PengajuanPembelian::where('pp_id',$id)->pluck('id');
@@ -621,7 +604,6 @@ class PrePrController extends Controller
                 $preprOldItems = null; //bikin null kalau item pr nya ga ada
             }
 
-            // dd($preprOldItems);
             if($preprOldItems){
                 //Update Data
                 PengajuanPembelian::where('id',$pengajuanItems->id)->update([
@@ -661,7 +643,6 @@ class PrePrController extends Controller
     public function search_check_logistic(Request $request)
     {
         // $cari = $request->cariIn;
-        // //dd($cari);
         // $preprItem = Pre_Pr::whereDoesntHave('partItem', function ($query) {
         //     $query->where('status', 'Rejected From Logistics');
         // })
@@ -692,7 +673,6 @@ class PrePrController extends Controller
         // ->with('preprItem', $preprItem);
 
         $cariIn = $request->cariIn;
-        //dd($cari);
         $pengajuan = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('logistic_check', 1)
         ->orderBy('status', 'desc')->orderBy('dateline', 'asc')
         ->where('id','like',"%".$cariIn."%")
@@ -744,7 +724,6 @@ class PrePrController extends Controller
 
     public function approve_check_logistic_selected(Request $request)
     {
-        // dd($request);
         $check = Auth::user();
         if ($check->role_id == 20 || $check->role_id == 3) {
             // $ids = explode(',', $request->ids);
@@ -766,7 +745,6 @@ class PrePrController extends Controller
 
     public function reject_check_logistic(Request $request, $id)
     {
-        // dd($request);
         $check = Auth::user();
         if ($check->role_id == 20 || $check->role_id == 3) {
             // $data = PartItem_Pre_pr::find($id);
@@ -789,7 +767,6 @@ class PrePrController extends Controller
                     $preprOldItems = null; //bikin null kalau item pr nya ga ada
                 }
 
-                // dd($preprOldItems->id);
                 if($preprOldItems){
                     //Update Data
                     $sumskuy = $preprOldItems->total + $pengajuanItems->qty; //Kalau minus dia ngurang jadi misal 10 + -(8); jadi 2

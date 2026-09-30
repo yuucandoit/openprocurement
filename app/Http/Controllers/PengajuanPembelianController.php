@@ -10,7 +10,6 @@ use App\Models\CategoryPP;
 use App\Models\CategoryPT;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -149,7 +148,6 @@ class PengajuanPembelianController extends Controller
     public function update(Request $request, $id)
     {
         $item = PengajuanPembelian::find($id);
-        // dd($item);
         PengajuanPembelian::where('id', $id)->update([
             "matauang" => $request->matauang,
             "item" => $request->item,

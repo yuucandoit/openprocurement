@@ -22,7 +22,6 @@ use App\Models\PrivatePerson;
 use App\Models\PurchaseOrder;
 use App\Models\ReferensiNamaProject;
 use Illuminate\Http\Request;
-use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
 use App\Models\WhoSubmitted;
@@ -150,7 +149,6 @@ class CategoryPOController extends Controller
     {
         $cariIn = $request->cariIn;
         $arrayFilter = ['All','Tebet','Cikunir'];
-        // dd($cariIn);
         $datappb = CategoryPengajuanPembelian::where(function($query) use ($cariIn) {
             $query->where('id', 'like', "%".$cariIn."%")
                 ->orWhere('type_pr','like', "%".$cariIn."%")
@@ -194,7 +192,6 @@ class CategoryPOController extends Controller
    public function SearchPOOut(Request $request)
    {
     $cariOut = $request->cariOut;
-    //dd($cari);
     $datappb = CategoryPengajuanPembelian::orderBy('updated_at','DESC')->orderBy('id', 'desc')
     ->orWhere('id','like',"%".$cariOut."%")
     ->orWhere('status','like',"%".$cariOut."%")
@@ -240,7 +237,6 @@ class CategoryPOController extends Controller
     public function SearchHistoryPO(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      if($cari){
         $datappb = CategoryPengajuanPembelian::where('id', 'like', "%" . $request->cari . "%")
         ->orWhere('desc', 'like', "%" . $request->cari . "%")
@@ -336,7 +332,6 @@ class CategoryPOController extends Controller
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
         $comments           = Comment::where('ppb_id',$id)->get();
 
-        //dd($datacpo);
         return view('purchaseOrder.menu.detail')
             ->with('pt', $pt)
             ->with('op', $op)
@@ -381,7 +376,6 @@ class CategoryPOController extends Controller
         $disc               = PengajuanPembelian::where('pp_id',$datacpo->ppb_id)->first();
         $comments           = Comment::where('ppb_id',$id)->get();
 
-        //dd($datacpo);
         return view('purchaseOrder.menu.po')
             ->with('pengajuan', $pengajuan)
             ->with('dpp', $dpp)
@@ -417,7 +411,6 @@ class CategoryPOController extends Controller
         $vendors            = CategoryPO::where('ppb_id',$id)->groupBy('vendorable_type')->groupBy('vendorable_id')->get();
         $items              = CategoryPO::where('ppb_id',$id)->get();
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
-        // dd($id_item);
 
         return view('purchaseOrder.menu.create')
             ->with('pt', $pt)
@@ -448,7 +441,6 @@ class CategoryPOController extends Controller
             // $item = PengajuanPembelian::all();
 
             $data2 = $request->all();
-            // dd($data2);
             $request->validate([
                 'term_conditions' => 'required',
             ], [
@@ -514,7 +506,6 @@ class CategoryPOController extends Controller
                     "va_code"=> $request->va_code ?? null,
                     "status" => 'Purchase Proses',
                 ]);
-                // dd($purchase);
                 if ($request->vendor == "company") {
                     $vendor1 = CategoryPT::find($request->perusahaan);
                     $purchase = $vendor1->vendors()->save($purchase);
@@ -538,7 +529,6 @@ class CategoryPOController extends Controller
                     $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
                     $sum = str_replace(",", "" , $data2['total'][$key]);
                     $dpp = str_replace(",", "" , $data2['dpp']);
-                    // dd($price_unit);
                     $diskon = str_replace(",", "", $data2['discount']);
                     $grand_total = str_replace(",","", $data2['grand_total']);
                     $ongkir     = str_replace(",", "", $data2['ongkir']);
@@ -602,7 +592,6 @@ class CategoryPOController extends Controller
                     "va_code"=> $request->va_code ?? null,
                     "status" => 'Purchase Proses',
                 ]);
-                // dd($purchase->id);
                 if ($request->vendor == "company") {
                     $vendor1 = CategoryPT::find($request->perusahaan);
                     $purchase = $vendor1->vendors()->save($purchase);
@@ -627,13 +616,11 @@ class CategoryPOController extends Controller
                     $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
                     $sum = str_replace(",", "" , $data2['total'][$key]);
                     $dpp = str_replace(",", "" , $data2['dpp']);
-                    // dd($price_unit);
                     $diskon = str_replace(",", "", $data2['discount']);
                     $grand_total = str_replace(",","", $data2['grand_total']);
                     $ongkir     = str_replace(",", "", $data2['ongkir']);
                     $admin     = str_replace(",", "", $data2['admin_fee']);
                     $product_ids = PengajuanPembelian::where('pp_id',$data->id)->where('item',$data2['item'][$key])->first();
-                    // dd($ppn->id);
                     $update = array(
                         'ppb_id'            => $ppn->id,
                         'product_id'        => $product_ids->product_id ?? null,
@@ -734,7 +721,6 @@ class CategoryPOController extends Controller
             $datapo = CategoryPO::where('id',$id)->first();
             $data = CategoryPengajuanPembelian::find($id);
             $data2 = $request->all();
-            // dd($data2);
 
             if ($request->term_conditions == "custom") {
                 $term = TermsAndConditions::create([
@@ -775,10 +761,8 @@ class CategoryPOController extends Controller
                     "no_rekening" => $string_rekening ?? null,
                     "va_code"=> $request->va_code ?? null,
                 ]);
-                // dd($purchase);
                 if(isset($request->vendor)){
                     if($request->vendor == "company") {
-                        // dd($purchase->vendorable_id == $request->perusahaan);
                         if ($purchase->vendorable_id == $request->perusahaan){
 
                         }else {
@@ -797,7 +781,6 @@ class CategoryPOController extends Controller
                             }
                         }
                     } elseif ($request->vendor == "privateperson") {
-                        // dd($purchase->vendorable_id == $request->orangpribadi);
                         if ($purchase->vendorable_id == $request->orangpribadi){
 
                         }else {
@@ -816,7 +799,6 @@ class CategoryPOController extends Controller
                             }
                         }
                     } elseif ($request->vendor == "ecommerce") {
-                        // dd($purchase->vendorable_id == $request->ecommerce);
                         if ($purchase->vendorable_id == $request->ecommerce){
 
                         }else {
@@ -915,7 +897,6 @@ class CategoryPOController extends Controller
 
                 if(isset($request->vendor)){
                     if($request->vendor == "company") {
-                        // dd($purchase->vendorable_id == $request->perusahaan);
                         if ($purchase->vendorable_id == $request->perusahaan){
 
                         }else {
@@ -934,7 +915,6 @@ class CategoryPOController extends Controller
                             }
                         }
                     } elseif ($request->vendor == "privateperson") {
-                        // dd($purchase->vendorable_id == $request->orangpribadi);
                         if ($purchase->vendorable_id == $request->orangpribadi){
 
                         }else {
@@ -953,7 +933,6 @@ class CategoryPOController extends Controller
                             }
                         }
                     } elseif ($request->vendor == "ecommerce") {
-                        // dd($purchase->vendorable_id == $request->ecommerce);
                         if ($purchase->vendorable_id == $request->ecommerce){
 
                         }else {
@@ -985,7 +964,6 @@ class CategoryPOController extends Controller
                     $price_unit = str_replace("," ,"", $data2['unit_price'][$key]);
                     $sum = str_replace(",", "" , $data2['total'][$key]);
                     $dpp = str_replace(",", "" , $data2['dpp']);
-                    // dd($price_unit);
                     $diskon = str_replace(",", "", $data2['discount']);
                     $grand_total = str_replace(",","", $data2['grand_total']);
                     $ongkir     = str_replace(",", "", $data2['ongkir']);
@@ -1057,7 +1035,6 @@ class CategoryPOController extends Controller
             $data = CategoryPengajuanPembelian::find($id);
             $po = CategoryPO::where('ppb_id', $data->id)->latest('created_at')->first();
 
-            // dd($po);
             if(empty($data->atasan_po)){
                 return redirect()->back()->withErrors(["Approver Not Found"]);
             }else{
@@ -1368,7 +1345,6 @@ class CategoryPOController extends Controller
 
             //Cari yang waiting approval SPK aja po nya..
             $cpo = CategoryPO::where('ppb_id',$id)->where('status','Waiting Approval PO SPK')->get();
-            // dd($cpo);
             $sig = new POSignature();
 
             foreach($cpo as $po){
@@ -1451,7 +1427,6 @@ class CategoryPOController extends Controller
     {
         $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
-            // dd($request->all());
             $ids = explode(',', $request->ids);
 
             $data = CategoryPO::whereIn('id',$ids)->get();
@@ -1511,7 +1486,6 @@ class CategoryPOController extends Controller
                         $preprOldItems = null; //bikin null kalau item pr nya ga ada
                     }
 
-                    // dd($preprOldItems->id);
                     if($preprOldItems){
                         //Update Data
                         $sumskuy = $preprOldItems->total + $pengajuanItems->qty; //Kalau minus dia ngurang jadi misal 10 + -(8); jadi 2
@@ -1558,7 +1532,6 @@ class CategoryPOController extends Controller
 
     public function search_spk(Request $request){
         $cariIn = $request->cari;
-        // dd($cariIn);
         $datappb = CategoryPengajuanPembelian::whereHas('quot', function($i) {
             $i->where('status', 'Waiting Approval PO SPK');
             })
@@ -1634,7 +1607,6 @@ class CategoryPOController extends Controller
 
     public function SearchHistorySpk(Request $request){
         $cariIn = $request->cari;
-        dd($cariIn);
         if($cariIn){
             $datappb = CategoryPengajuanPembelian::where(function($query) use ($cariIn) {
                 $query->where('id', 'like', "%".$cariIn."%")

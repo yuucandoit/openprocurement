@@ -10,7 +10,6 @@ use App\Models\ItemPO;
 use App\Models\PartItem_Pre_pr;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,7 +62,6 @@ class CategoryTaskListController extends Controller
         }
 
         // Pencarian (cariIn)
-        // dd(!empty($cariIn));
         if (!empty($cariIn)) {
             $query->where(function($q) use ($cariIn) {
                 $q->where('id', 'like', "%$cariIn%")
@@ -130,7 +128,6 @@ class CategoryTaskListController extends Controller
         }
        
         $arrayFilter = ['All','Tebet','Cikunir'];
-        //dd($cari);
         $datappb = CategoryPengajuanPembelian::where('status', 'Purchase Request Approved')
         ->orderBy('status', 'desc')
         ->orderBy('dateline', 'asc')
@@ -182,7 +179,6 @@ class CategoryTaskListController extends Controller
     public function SearchtaskUpComming(Request $request)
     {
         $cari = $request->cari;
-        //dd($cari);
         $datappb = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')
         ->where(function($query) use ($cari) {
             $query->where('id', 'like', "%".$cari."%")
@@ -235,7 +231,6 @@ class CategoryTaskListController extends Controller
     public function SearchtaskPOOut(Request $request)
     {
         $cari = $request->cari;
-        //dd($cari);
         $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
         ->orWhere('status','like',"%".$cari."%")
         ->orWhere('desc','like',"%".$cari."%")
@@ -273,7 +268,6 @@ class CategoryTaskListController extends Controller
     public function SearchtaskPOHistory(Request $request)
     {
         $cari = $request->cari;
-        //dd($cari);
         if ($request->cari) {
             $datappb = CategoryPengajuanPembelian::where('id', 'like', "%" . $request->cari . "%")
                 ->orWhere('desc', 'like', "%" . $request->cari . "%")
@@ -320,7 +314,6 @@ class CategoryTaskListController extends Controller
     public function SortTaskPOHistory(Request $request)
     {
         $sort = $request->sort;
-        //  dd($sort);
         $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->orWhereHas('quot', function($i) use($sort){
             $i->whereIn('status',$sort);
         })->orderBy('approved_at','desc')->paginate(10);
@@ -438,7 +431,6 @@ class CategoryTaskListController extends Controller
         $check = Auth::user();
         if ($check->role_id == 4 ||$check->role_id == 3||$check->role_id == 17) {
             $data = CategoryPengajuanPembelian::find($id);
-            // dd($data);
             $data->note_purchase = $request->note_purchase;
             $data->updated_at = now();
             $data->status = 'Purchase Proses';
@@ -469,7 +461,6 @@ class CategoryTaskListController extends Controller
                         $preprOldItems = null; //bikin null kalau item pr nya ga ada
                     }
 
-                    // dd($preprOldItems->id);
                     if($preprOldItems){
                         //Update Data
                         $sumskuy = $preprOldItems->total + $pengajuanItems->qty; //Kalau minus dia ngurang jadi misal 10 + -(8); jadi 2

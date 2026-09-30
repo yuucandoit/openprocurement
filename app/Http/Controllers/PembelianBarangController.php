@@ -49,8 +49,6 @@ class PembelianBarangController extends Controller
         $pb = $request->except(['_token']);
         $pb['user_id'] = Auth::user()->id;
         $category = CategoryPB::where('id', $id)->firstOrFail();
-        // dd($category);
-        // dd($pb);
 
         PembelianBarang::insert([
             'pb_id' => $id,
@@ -71,7 +69,6 @@ class PembelianBarangController extends Controller
             'harga_satuan' => $request->harga_satuan,
             'total' => $request->jumlah_quantity * $request->harga_satuan
         ]);
-        // dd($cek);
         return redirect("pembelian-barang/" . $id)->with('success', 'Task Created Successfully!');
     }
     /**
@@ -84,7 +81,6 @@ class PembelianBarangController extends Controller
     {
         $menu_pb = CategoryPB::find($pb_id);
         $pb = PembelianBarang::where('id', $id)->first();
-        // dd($pb);
         return view('pembelianBarang.show')
             ->with('pb', $pb)
             ->with('menu_pb', $menu_pb);
@@ -141,13 +137,11 @@ class PembelianBarangController extends Controller
     {
         $item = PembelianBarang::find($id);
         $item->delete();
-        // dd($item);
         return redirect('pembelian-barang/' . $item->pb_id)->with('success', 'Task Deleted Successfully!');
     }
 
     public function export($id)
     {
-        // dd('hallo');
         return Excel::download(new PbExport($id), 'pembelian.xlsx');
     }
 

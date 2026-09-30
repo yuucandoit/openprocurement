@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exports\DBRolesExport;
-use App\Models\Role;
 use App\Models\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +30,6 @@ class RoleController extends Controller
     public function SearchRoles(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $role = Roles::Where('id','like',"%".$cari."%")
      ->orWhere('name','like',"%".$cari."%")
      ->orWhere('email','like',"%".$cari."%")

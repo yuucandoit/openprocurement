@@ -14,7 +14,6 @@ class SendWaController extends Controller
         $po  = CategoryPengajuanPembelian::where('status','Waiting For PO Approval')->get();
         $pd  = CategoryPengajuanPembelian::where('status','Invoicing Process')->get();
         // $user = User::whereIn([3,6,7,8,9]);
-        dd($pr);
         $url = "http://127.0.0.1:3000/send/message";
 
         $purchaserequest = '';
@@ -25,7 +24,6 @@ class SendWaController extends Controller
 
 
         foreach ($pr as $preq) {
-            // dd($preq->atasan);
             if ($preq->atasan == 3) {
                 if(empty($preq)){
                     $purchaserequest ='-';
@@ -142,7 +140,6 @@ class SendWaController extends Controller
              }
             // $paymentrequest .='-'. $pdana->code_pengajuan.' '. $pdana->whosubmit->name ."\n";
         }
-        // dd($phone_number);
 
 if(empty($pr)){
     $response = Http::post($url, [

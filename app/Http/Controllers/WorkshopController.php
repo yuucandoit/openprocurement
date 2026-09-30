@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +28,6 @@ class WorkshopController extends Controller
     public function SearchWorkshop(Request $request)
    {
     $cari = $request->cari;
-    //dd($cari);
     $data = Workshop::Where('id','like',"%".$cari."%")
     ->orWhere('name','like',"%".$cari."%")
     ->paginate(10);
@@ -122,7 +120,6 @@ class WorkshopController extends Controller
         if ($check->role_id == 3) {
             $data = Workshop::find($id);
 
-            // dd($data);
             $tes = Workshop::where("id", $id)->update([
                 "name" => $request->name,
             ]);

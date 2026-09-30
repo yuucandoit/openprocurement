@@ -18,9 +18,7 @@ class NotifPengajuanController extends Controller
     {
 
         $pengajuan = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('id',$id)->first();
-        // dd($pengajuan);
         if(!empty($pengajuan)){
-                // dd($p->bod->email);
                 if(!empty($pengajuan->atasan)){
                     dispatch(new SendEmailPengajuanJob($pengajuan->bod->email , $id));
                     return redirect('menu-pengajuan-pembelian/')->with('status','Mail Sent Success');

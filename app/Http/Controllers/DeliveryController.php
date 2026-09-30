@@ -17,7 +17,6 @@ use App\Models\DeliveryTrack;
 use App\Models\Department;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
-use App\Models\Role;
 use App\Models\WhoSubmitted;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -82,7 +81,6 @@ class DeliveryController extends Controller
 
      $check = Auth::user();
      $cari = $request->cariIn;
-     //dd($cari);
 
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
 
@@ -186,7 +184,6 @@ class DeliveryController extends Controller
     public function SearchDeliveryOut(Request $request)
     {
      $cari = $request->cariOut;
-     //dd($cari);
      $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->orWhere('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
@@ -232,7 +229,6 @@ class DeliveryController extends Controller
             ->groupBy('category_pengajuan_pembelian.id')
             // ->get();
             ->paginate(10, ['*'], 'in');
-            // dd(json_encode($datappb,JSON_PRETTY_PRINT));
             // $datappb = CategoryPengajuanPembelian::where('status','Delivery Success')->paginate(10);
             $pt = CategoryPT::all();
             $op = CategoryPP::all();
@@ -252,7 +248,6 @@ class DeliveryController extends Controller
     public function SearchHistoryDelivery(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $datappb = CategoryPengajuanPembelian::select('category_pengajuan_pembelian.*')
      ->join('category_po as quot', 'quot.ppb_id', '=', 'category_pengajuan_pembelian.id')
      ->where('quot.status', 'not like', '%Rejected%')
@@ -547,7 +542,6 @@ class DeliveryController extends Controller
             $receiver         = $request->receiver;
 
             //    $data = $request->all();
-            //     dd($data);
 
             $save = new Delivery;
             $save->ppb_id     = $pengajuan;
@@ -696,7 +690,6 @@ class DeliveryController extends Controller
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token,
             ])->get('https://gerry.intek.co.id/api/check-token');
-            // dd($token);
             if ($response->successful() && $response['valid']) {
                 // Token masih valid, lanjutkan ke rute yang diminta
                 return true;
@@ -713,18 +706,15 @@ class DeliveryController extends Controller
 
         $checking = $this->CheckToken($tokenGerry);
 
-        // dd($checking);
         $items= [];
 
         if(!$checking){
             $this->getToken();
         }else {
-          // dd($bearer);
             $url = env('URL_STOCKY').'/incoming_product_api/'.$id;
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer '. $tokenGerry,
             ])->post($url,['qty'=>$qty]);
-            // dd($response);
 
             if($response->successful()) {
 
@@ -749,7 +739,6 @@ class DeliveryController extends Controller
             $itemPO = ItemPO::where('po_id', $id)->get();
 
             foreach($itemPO as $itemp){
-                // dd($itemp->product_id);
                 if(!empty($itemp->product_id)){
                     $this->pushStocky($itemp->product_id, $itemp->qty);
                 }

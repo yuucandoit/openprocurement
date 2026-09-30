@@ -12,7 +12,6 @@ use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\PartItem_Pre_pr;
 use App\Models\RND;
-use App\Models\Role;
 use App\Models\TaskListAtasan;
 use App\Models\User;
 use App\Models\WhoSubmitted;
@@ -150,7 +149,6 @@ class TaskListAtasanController extends Controller
     public function SearchTaskRequestBodIn(Request $request)
     {
      $cariIn = $request->cariIn;
-     //dd($cari);
      $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->orWhere('id','like',"%".$cariIn."%")
      ->orWhere('status','like',"%".$cariIn."%")
@@ -160,7 +158,6 @@ class TaskListAtasanController extends Controller
      })
      ->paginate(10,['*'],'in');
      $cariOut = $request->cariOut;
-     //dd($cari);
      $datappb2 = CategoryPengajuanPembelian::
      orWhere('id','like',"%".$cariOut."%")
      ->orWhere('status','like',"%".$cariOut."%")
@@ -183,7 +180,6 @@ class TaskListAtasanController extends Controller
             ->paginate(10);
             $datapo  = CategoryPO::get();
 
-            // dd($datappb);
             $datadv = TaskListAtasan::all();
             return view('taskList_atasan.menu.history')
             ->with('datappb', $datappb)
@@ -197,7 +193,6 @@ class TaskListAtasanController extends Controller
     public function SearchHistoryRequestTask(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $datappb = CategoryPengajuanPembelian::
      orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
      ->where('id','like',"%".$cari."%")
@@ -215,7 +210,6 @@ class TaskListAtasanController extends Controller
     public function SortHistoryPrBod(Request $request)
     {
      $sort = $request->sort;
-    //  dd($cari);
      $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
      $datapo = CategoryPO::get();
      return view('taskList_atasan.menu.history')
@@ -277,7 +271,6 @@ class TaskListAtasanController extends Controller
             $comments           = Comment::where('ppb_id',$id)->get();
             $disc               = PengajuanPembelian::where('pp_id',$id)->first();
 
-            //dd($datacpo);
             return view('taskList_atasan.menu.po')
                 ->with('pengajuan', $pengajuan)
                 ->with('dpp', $dpp)
@@ -379,7 +372,6 @@ class TaskListAtasanController extends Controller
         $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data = $request->all();
-            // dd($data);
             // PengajuanPembelian::where('pp_id',$id)->delete();
 
             $request->validate([
@@ -609,7 +601,6 @@ class TaskListAtasanController extends Controller
                 }
 
             }
-            //dd($data);
             $data->save();
             return redirect("menu-taskList-atasan");
         }else {
@@ -623,14 +614,12 @@ class TaskListAtasanController extends Controller
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $ids = explode(',', $request->ids);
             $data = CategoryPengajuanPembelian::find($ids);
-            // dd($data);
             // if($data->dateline == '≤3Jam'){
             //     $data->dateline_time = ('03:00:00');
             //     $data->updated_at = Carbon::now();
             //     $data->approved_at = now();
             //     $data->status = 'Purchase Submission Approved' ;
             // }
-            // dd($data);
             foreach($data as $d) {
             if($d->dateline == '≤24Jam'){
                 $d->dateline_time = ('24:00:00');
@@ -782,7 +771,6 @@ class TaskListAtasanController extends Controller
                         $preprOldItems = null; //bikin null kalau item pr nya ga ada
                     }
 
-                    // dd($preprOldItems->id);
                     if($preprOldItems){
                         //Update Data
                         $sumskuy = $preprOldItems->total + $pengajuanItems->qty; //Kalau minus dia ngurang jadi misal 10 + -(8); jadi 2

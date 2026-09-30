@@ -17,7 +17,6 @@ use App\Http\Controllers\CategoryPPController;
 use App\Http\Controllers\CategoryPTController;
 use App\Http\Controllers\CategoryTaskListController;
 use App\Http\Controllers\CheckPOController;
-use App\Http\Controllers\DataVendorController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EcommerceController;
@@ -50,7 +49,6 @@ use App\Http\Controllers\PrePRCommentsController;
 use App\Http\Controllers\IsReadPrePRCommentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,10 +60,6 @@ use PhpOffice\PhpSpreadsheet\Calculation\Category;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/info',function(){
-//     phpinfo();
-// });
 
 Route::get('/',function () {
     return redirect()->route('login');
@@ -109,18 +103,6 @@ Route::group(['middleware' => ['auth','maintenance.mode']], function () {
         Route::delete('/destroy/{id}', [CategoryPTController::class, 'destroy'])->name('menu-perusahaan.destroy');
         Route::get('/search/company',[CategoryPTController::class, 'SearchPT'])->name('menu-perusahaan.SearchPT');
     });
-
-    // // Route untuk vendor Private Person
-    // Route::group(['prefix' => 'private-person'], function () {
-    //     Route::get('/{id}', [PrivatePersonController::class, 'index'])->name('private-person.index');
-    //     Route::get('/detail/{id}', [PrivatePersonController::class, 'detail'])->name('perusahaan.detail');
-    //     Route::get('/create/{id}', [PrivatePersonController::class, 'create'])->name('private-person.create');
-    //     Route::post('/store/{id}', [PrivatePersonController::class, 'store'])->name('private-person.store');
-    //     Route::get('/show/{id_company}/{id}', [PrivatePersonController::class, 'show'])->name('private-person.show');
-    //     Route::post('/update/{id}', [PrivatePersonController::class, 'update'])->name('private-person.update');
-    //     Route::delete('/destroy/{id}', [PrivatePersonController::class, 'destroy'])->name('private-person.destroy');
-    //     // Route::get('/search/pp',[CategoryPengajuanPembelianController::class, 'SearchPP'])->name('private-person.SearchP');
-    // });
 
     // Menu vendor menu Private Person
     Route::group(['prefix' => 'menu-private-person'], function () {
@@ -725,15 +707,6 @@ Route::group(['middleware' => ['auth','maintenance.mode']], function () {
 
     Route::get('send-wa', [SendWaController::class,'send'])->name('send-wa');
     });
-
-    // Route::get('/info',function(){
-    //     $check = App\Models\Role::where('model_id', Auth::user()->id)->first();
-    //     if($check->role_id == 3){
-    //         phpinfo();
-    //     }else {
-    //         return redirect()->back();
-    //     }
-    // });
 
 });
 

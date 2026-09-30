@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,7 +42,6 @@ class DepartmentController extends Controller
     public function SearchDepartment(Request $request)
     {
     $cari = $request->cari;
-    //dd($cari);
     $data = Department::Where('id','like',"%".$cari."%")
     ->orWhere('name','like',"%".$cari."%")
     ->paginate(10);

@@ -7,7 +7,6 @@ use App\Models\CategoryPO;
 use App\Models\Comment;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
-use App\Models\Role;
 use App\Models\TaskListFinance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +46,6 @@ class TaskListFinanceController extends Controller
     public function SearchTaskFinance(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
 
      $check = Auth::user();
         if ($check->role_id == 3 ||$check->role_id == 5) {
@@ -144,7 +142,6 @@ class TaskListFinanceController extends Controller
     public function SearchTaskFinanceOut(Request $request)
     {
      $cari = $request->cariout;
-     //dd($cari);
      $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
@@ -200,7 +197,6 @@ class TaskListFinanceController extends Controller
     public function SearchHistoryTaskFinance(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $datappb = CategoryPengajuanPembelian::where('id','like',"%".$cari."%")
      ->orWhere('status','like',"%".$cari."%")
      ->orWhere('desc','like',"%".$cari."%")
@@ -218,7 +214,6 @@ class TaskListFinanceController extends Controller
     public function SortHistoryFinance(Request $request)
     {
      $sort = $request->sort;
-    //  dd($cari);
      $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
      $datapo = CategoryPO::get();
      return view('taskList_finance.menu.history')

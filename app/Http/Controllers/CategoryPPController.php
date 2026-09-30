@@ -7,7 +7,6 @@ use App\Exports\PPExport;
 use App\Imports\PrivatePersonImport;
 use App\Models\Bank;
 use App\Models\CategoryPP;
-use App\Models\Role;
 use App\Models\VendorBank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +38,6 @@ class CategoryPPController extends Controller
     public function SearchPP(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $datadv = CategoryPP::Where('id','like',"%".$cari."%")
      ->orWhere('nama','like',"%".$cari."%")
      ->orWhere('alamat','like',"%".$cari."%")
@@ -95,7 +93,6 @@ class CategoryPPController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $this->validate($request,[

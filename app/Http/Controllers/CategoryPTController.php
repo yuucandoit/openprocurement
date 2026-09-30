@@ -9,7 +9,6 @@ use App\Models\CategoryDV;
 use App\Models\CategoryPT;
 use App\Models\DataVendor;
 use App\Models\Perusahaan;
-use App\Models\Role;
 use App\Models\VendorBank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +39,6 @@ class CategoryPTController extends Controller
     public function SearchPT(Request $request)
     {
      $cari = $request->cari;
-     //dd($cari);
      $datadv = CategoryPT::Where('id','like',"%".$cari."%")
      ->orWhere('nama','like',"%".$cari."%")
      ->orWhere('alamat','like',"%".$cari."%")
@@ -85,7 +83,6 @@ class CategoryPTController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $this->validate($request,[
@@ -100,7 +97,6 @@ class CategoryPTController extends Controller
                 'bidang_usaha' => 'required',
                 'no_telp_kantor' => 'required'
             ]);
-            // dd($request->no_rekening[0]);
 
             $pt = CategoryPT::create([
                 'user_id'               => Auth::user()->id,
@@ -189,7 +185,6 @@ class CategoryPTController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $data = CategoryPT::find($id);

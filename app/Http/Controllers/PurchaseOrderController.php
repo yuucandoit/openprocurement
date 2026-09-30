@@ -13,7 +13,6 @@ use App\Models\CategoryPengajuanPembelian;
 use App\Models\ItemPO;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
-use App\Models\Role;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -52,7 +51,6 @@ class PurchaseOrderController extends Controller
     {
         $data_po = PurchaseOrder::all();
         $data_company_po = CategoryPO::find($id);
-        // dd($data_company_po);
         return view('purchaseOrder.create')
             ->with('data_company_po', $data_company_po)
             ->with('data_po', $data_po);
@@ -67,7 +65,6 @@ class PurchaseOrderController extends Controller
     public function store(Request $request, $id)
     {
         $po = $request->except(['_token']);
-        // dd($po);
         PurchaseOrder::insert([
             "po_id" => $id,
             "keterangan" => $request->keterangan,
@@ -89,7 +86,6 @@ class PurchaseOrderController extends Controller
         $data = CategoryPO::find($po_id);
 
         $po = PurchaseOrder::where('id', $id)->first();
-        // dd($po);
         return view('purchaseOrder.show')
             ->with('po', $po)
             ->with('data', $data);
@@ -117,7 +113,6 @@ class PurchaseOrderController extends Controller
     {
         $data = PurchaseOrder::find($id);
 
-        // dd($data);
         $tes = PurchaseOrder::where("id", $id)->update([
             "keterangan" => $request->keterangan,
             "qty" => $request->qty,
@@ -126,7 +121,6 @@ class PurchaseOrderController extends Controller
             "amount" => $request->qty * $request->unit_price
         ]);
         return redirect("purchase-order/" . $data->po_id);
-        // dd($data);
     }
 
     /**
@@ -149,13 +143,11 @@ class PurchaseOrderController extends Controller
 
     public function exportpdf($id)
     {
-        // dd($id);
         $data['cpp'] = CategoryPengajuanPembelian::find($id);
         // $data['cpo'] = CategoryPO::where('ppb_id', $id)->get();
         // $data['item_po'] = CategoryPO::where('ppb_id',$id)->orderBy('vendorable_type','ASC')->get();
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->first();
         // foreach($data['cpo'] as $po){
-        // dd($po);
         // }
         $data['id'] = PengajuanPembelian::where('pp_id', $id)->first();
         $data['category_q'] = PengajuanPembelian::where('pp_id', $id)->get();
@@ -174,7 +166,6 @@ class PurchaseOrderController extends Controller
 
     public function exportmultipdf($id)
     {
-        // dd($id);
         // $data['cpp'] = CategoryPengajuanPembelian::find($id);
         $data['cpo'] = CategoryPO::where('ppb_id', $id)->groupBy('vendorable_type')->groupBy('vendorable_id')->get();
         $data['items'] = CategoryPO::where('ppb_id', $id)->get();

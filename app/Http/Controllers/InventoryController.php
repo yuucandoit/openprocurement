@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +28,6 @@ class InventoryController extends Controller
     public function SearchInventory(Request $request)
    {
     $cari = $request->cari;
-    //dd($cari);
     $data = Inventory::Where('id','like',"%".$cari."%")
     ->orWhere('name','like',"%".$cari."%")
     ->paginate(10);
@@ -122,7 +120,6 @@ class InventoryController extends Controller
         if ($check->role_id == 3) {
             $data = Inventory::find($id);
 
-            // dd($data);
             $tes = Inventory::where("id", $id)->update([
                 "name" => $request->name,
             ]);

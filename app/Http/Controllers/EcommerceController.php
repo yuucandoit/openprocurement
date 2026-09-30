@@ -39,7 +39,6 @@ class EcommerceController extends Controller
     {
          /*$perusahaan*/  $ecommerce = Ecommerce::all();
         /*$data_perusahaan*/ $data_ecommerce = CategoryEcommerce::find($id);
-        // dd($data_company_po);
         return view('dataVendor.create')
             ->with('data_ecommerce', $data_ecommerce)
             ->with('ecommerce', $ecommerce);
@@ -55,7 +54,6 @@ class EcommerceController extends Controller
     {
 
         $dv = $request->except(['_token']);
-        // dd($po);
        Ecommerce::insert([
             "ec_id" => $id,
             "nama" => $request->nama,
@@ -76,7 +74,6 @@ class EcommerceController extends Controller
         $data = CategoryEcommerce::find($ec_id);
 
         $dv = Ecommerce::where('id', $id)->first();
-        // dd($po);
         return view('dataVendor.show')
         ->with('dv', $dv)
         ->with('data', $data);
@@ -104,13 +101,11 @@ class EcommerceController extends Controller
     {
         $data = Ecommerce::find($id);
 
-        // dd($data);
         $tes = Ecommerce::where("id", $id)->update([
             "nama" => $request->nama,
             "link" => $request->link,
         ]);
         return redirect("#" . $data->pp_id);
-        // dd($data);
     }
 
     /**

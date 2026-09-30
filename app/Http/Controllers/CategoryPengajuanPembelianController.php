@@ -18,7 +18,6 @@ use App\Models\Office;
 use App\Models\PengajuanPembelian;
 use App\Models\ReferensiNamaProject;
 use App\Models\RND;
-use App\Models\Role;
 use App\Models\Travel;
 use App\Models\User;
 use App\Models\WhoSubmitted;
@@ -60,7 +59,6 @@ class CategoryPengajuanPembelianController extends Controller
             // $datapo = CategoryPO::get();
             // $count  = \App\Models\CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->count();
             $comments = Comment::where('user_id',Auth::user()->id)->count();
-            // dd($count);
            // $progress = Delivery::where('ppb_id');
             return view('pengajuanPembelian.menu.index')
                 ->with('user', $user)
@@ -87,7 +85,6 @@ class CategoryPengajuanPembelianController extends Controller
             $datadv = CategoryPengajuanPembelian::orderBy('date_ps','DESC')->paginate(10);
 
             $comments = Comment::where('user_id',Auth::user()->id)->count();
-            // dd($comments);
 
 
             return view('pengajuanPembelian.menu.index')
@@ -108,7 +105,6 @@ class CategoryPengajuanPembelianController extends Controller
     public function SearchPRQ(Request $request)
    {
     $cari = $request->cari;
-    //dd($cari);
     $dataws = WhoSubmitted::all();
     $datadv = CategoryPengajuanPembelian::Where('id','like',"%".$cari."%")
     ->orWhere('type_pr','like',"%".$cari."%")
@@ -199,7 +195,6 @@ class CategoryPengajuanPembelianController extends Controller
         $comments           = Comment::where('ppb_id',$id)->get();
         $disc               = PengajuanPembelian::where('pp_id',$id)->first();
 
-        //dd($datacpo);
         if ($check->role_id == 2 || $check->role_id == 18) {
             if(!empty($code->ppb->user_id )){
                 if($code->ppb->user_id == Auth::user()->id){
@@ -354,7 +349,6 @@ class CategoryPengajuanPembelianController extends Controller
         }
 
         $oldInput = Session::getOldInput();
-        // dd($ppb_old);
         return view('pengajuanPembelian.menu.create')
             ->with('atasan', $atasan)
             ->with('purpose', $purpose)
@@ -400,7 +394,6 @@ class CategoryPengajuanPembelianController extends Controller
         }
 
         $oldInput = Session::getOldInput();
-        // dd($ppb_old);
         return view('pengajuanPembelian.menu.create')
             ->with('atasan', $atasan)
             ->with('purpose', $purpose)
@@ -551,7 +544,6 @@ class CategoryPengajuanPembelianController extends Controller
                     $purpose6 = Travel::find($request->travel);
                     $pengajuan = $purpose6->purposes()->save($pengajuan);
                 }
-                // dd($pengajuan);
 
 
                 $year = Carbon::parse($pengajuan->created_at)->format('y');
@@ -614,7 +606,6 @@ class CategoryPengajuanPembelianController extends Controller
             } catch (Exception $err) {
                 return redirect()->back()->with('error',$err);
             }
-            // dd(!empty($request->type_pr) && $request->type_pr == 'SPKBased');
             if(!empty($request->type_pr) && $request->type_pr == 'SPKBased'){
                 return redirect('menu-pengajuan-pembelian/')->with(['success' => true, 'message' => ' PR Created Successfully']);
             }else {
@@ -712,7 +703,6 @@ class CategoryPengajuanPembelianController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        // dd($data);
         $request->validate([
             'date_ps' => 'required',
             'dateline' => 'required',
@@ -733,7 +723,6 @@ class CategoryPengajuanPembelianController extends Controller
 
         try {
             foreach ($data['item'] as $item => $value) {
-                // dd($data['item']);
                 $pengajuanItems = PengajuanPembelian::find($data['item'][$item]);
                 $preprItems = PartItem_Pre_pr::find($data['item'][$item]);
                     if($preprItems){
@@ -824,7 +813,6 @@ class CategoryPengajuanPembelianController extends Controller
 
                 $preprItemsNew = PartItem_Pre_pr::find($data['item'][$item]);
 
-                // dd($preprOldItems);
                 if($preprOldItems){
                     //Update Data
                     PengajuanPembelian::where('id',$pengajuanItems->id)->update([
@@ -885,16 +873,12 @@ class CategoryPengajuanPembelianController extends Controller
     public function destroy($id)
     {
         $data = CategoryPengajuanPembelian::find($id);
-        // dd($data);
         $check = Auth::user();
-        // dd($check->role_id == 2 || $check->role_id == 18);
         if ($check->role_id == 2 || $check->role_id == 18) {
                 $itemPr = PengajuanPembelian::where('pp_id',$id)->get();
                 foreach($itemPr as $item){
-                    // dd($item->prepr_id);
                     if($item->prepr_id){
                         $preprItem = PartItem_Pre_pr::find($item->prepr_id);
-                        // dd($preprItem);
                         $sumPreprtotal = $preprItem->qty + $preprItem->buffer;
                         $sumValue = $preprItem->total + $item->qty;
                         if($sumPreprtotal < $sumValue){
@@ -913,12 +897,9 @@ class CategoryPengajuanPembelianController extends Controller
                 return redirect('/menu-pengajuan-pembelian')->with('success', 'Task Deleted Successfully!');
         }else if ($check->role_id == 1 || $check->role_id == 3) {
             $itemPr = PengajuanPembelian::where('pp_id',$id)->get();
-            // dd($itemPr);
             foreach($itemPr as $item){
-                // dd($item->prepr_id);
                 if($item->prepr_id){
                     $preprItem = PartItem_Pre_pr::find($item->prepr_id);
-                    // dd($preprItem);
                     $sumPreprtotal = $preprItem->qty + $preprItem->buffer;
                     $sumValue = $preprItem->total + $item->qty;
                     if($sumPreprtotal < $sumValue){

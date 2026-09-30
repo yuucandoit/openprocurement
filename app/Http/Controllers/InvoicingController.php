@@ -15,7 +15,6 @@ use App\Models\PengajuanPembelian;
 use App\Models\PurchaseOrder;
 use App\Models\ReferensiNamaProject;
 use Illuminate\Http\Request;
-use App\Models\Role;
 use App\Models\TermsAndConditions;
 use App\Models\User;
 use App\Models\WhoSubmitted;
@@ -65,7 +64,6 @@ class InvoicingController extends Controller
             $atasan2            = User::whereIn('id', [3, 8, 9, 24])->get();
             $atasan3            = User::whereIn('id', [3, 8, 24])->get();
 
-            //dd($datacpo);
             return view('payment_request.menu.po')
                 ->with('atasan', $atasan)
                 ->with('atasan1', $atasan1)
@@ -90,7 +88,6 @@ class InvoicingController extends Controller
     public function SearchPaymentreq_in(Request $request)
    {
     $cariIn = $request->caripyIn;
-    //dd($cari);
     $datappb = CategoryPengajuanPembelian::
     orWhere('id','like',"%".$cariIn."%")
     ->orWhere('status','like',"%".$cariIn."%")
@@ -131,7 +128,6 @@ class InvoicingController extends Controller
    public function SearchPaymentreq_out(Request $request)
    {
     $cariOut = $request->caripyOut;
-    //dd($cari);
     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
     ->orWhere('id','like',"%".$cariOut."%")
     ->orWhere('status','like',"%".$cariOut."%")
@@ -172,7 +168,6 @@ class InvoicingController extends Controller
     public function SortHistoryPaymentReq(Request $request)
     {
      $sort = $request->sort;
-    //  dd($cari);
      $datappb = CategoryPengajuanPembelian::whereIn('status',$sort)->paginate(10);
      $datapo = CategoryPO::get();
      return view('payment_request.menu.history')
@@ -184,7 +179,6 @@ class InvoicingController extends Controller
     public function SearchHistoryPaymentReq(Request $request)
    {
     $cari = $request->cari;
-    //dd($cari);
     $datappb = CategoryPengajuanPembelian::orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')
     ->orWhere('id','like',"%".$cari."%")
     ->orWhere('status','like',"%".$cari."%")
@@ -265,7 +259,6 @@ class InvoicingController extends Controller
             $ppn                = PengajuanPembelian::selectRaw('pp_id,SUM(total *11/100) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
             $total              = PengajuanPembelian::selectRaw('pp_id,SUM((total)+(total*11/100)) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
             $total_tnpa_ppn     = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $id)->get();
-        //    dd($itempurchase);
 
             return view('payment_request.menu.create')
                 ->with('data_pengajuan',$data_pengajuan)
@@ -301,7 +294,6 @@ class InvoicingController extends Controller
         $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $all = $request->all();
-            // dd($all);
             $cpo = CategoryPO::find($id);
             $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->update([
                 'atasan_py' => $request->atasan_py,
@@ -439,7 +431,6 @@ class InvoicingController extends Controller
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $po = CategoryPO::find($id);
             $data = CategoryPengajuanPembelian::where('id',$po->ppb_id)->first();
-            // dd($data);
             if(empty($po->atasan_py)){
                 return redirect()->back()->withErrors(["Approver Not Found"]);
             }else{
