@@ -210,7 +210,7 @@ class PurchaseOrderController extends Controller
 
     public function exportExcelSpesific(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $purposeId = $request->input('purpose_id', null);

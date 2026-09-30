@@ -18,7 +18,7 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         $data = Currency::orderBy('name','asc')->paginate(10);
         return view('dataCurrency.index')
@@ -61,7 +61,7 @@ class CurrencyController extends Controller
 
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         Currency::create([
             'name' => $request->name,
@@ -104,7 +104,7 @@ class CurrencyController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         Currency::where('id',$id)->update([
             'name' => $request->name,
@@ -124,7 +124,7 @@ class CurrencyController extends Controller
      */
     public function destroy($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3) {
         $data = Currency::find($id);
         $data->delete();

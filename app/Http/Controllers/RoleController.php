@@ -18,7 +18,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $role = Roles::orderBy('name', 'ASC')->paginate(10);
             return view('admin_role.index')
@@ -62,7 +62,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $this->validate($request, [
                 "name" => 'required',
@@ -109,7 +109,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $this->validate($request, [
                 "name" => 'required',

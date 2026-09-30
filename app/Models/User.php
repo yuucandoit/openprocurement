@@ -58,13 +58,34 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'is_fast_track' => 'boolean',
+            'force_password_reset' => 'boolean',
+        ];
+    }
+
+    /**
+     * Get the first role id of the user (for backward compatibility).
+     */
+    public function getRoleIdAttribute(): ?int
+    {
+        return $this->roles->first()?->id;
+    }
+
+    /**
+     * Check if user has any of the given roles (supports role names or role IDs).
+     */
+    public function checkRole(array|int|string $roles): bool
+    {
+        return $this->hasAnyRole($roles);
+    }
 
     protected static $logFillable = true;
     protected static $logName = 'Users';

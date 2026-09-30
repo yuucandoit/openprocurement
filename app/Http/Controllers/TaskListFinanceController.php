@@ -21,7 +21,7 @@ class TaskListFinanceController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->whereIn('status',['Payment Approved','PO & Payment Approved']);
@@ -49,7 +49,7 @@ class TaskListFinanceController extends Controller
      $cari = $request->cari;
      //dd($cari);
 
-     $check = Role::where('model_id', Auth::user()->id)->first();
+     $check = Auth::user();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot', function($i) {
                 $i->whereIn('status', ['Payment Approved', 'PO & Payment Approved']);
@@ -115,7 +115,7 @@ class TaskListFinanceController extends Controller
 
     public function out()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','Unpaid');
@@ -167,7 +167,7 @@ class TaskListFinanceController extends Controller
 
     public function history()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::where('status','Unpaid')->
             orWhere('status','Paid')->
@@ -229,7 +229,7 @@ class TaskListFinanceController extends Controller
 
     public function detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $datacpo            = CategoryPO::where('ppb_id',$id)->first();
@@ -280,7 +280,7 @@ class TaskListFinanceController extends Controller
 
     public function po_detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         $datacpo            = CategoryPO::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $datacpo->ppb_id)->get();
         $dpp                = PengajuanPembelian::selectRaw('pp_id,SUM(total) as total')->groupBy('pp_id')->where('pp_id', $datacpo->ppb_id)->get();
@@ -382,7 +382,7 @@ class TaskListFinanceController extends Controller
 
     public function approve(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $data = CategoryPengajuanPembelian::find($id);
             $data->status = 'Unpaid';
@@ -411,7 +411,7 @@ class TaskListFinanceController extends Controller
 
     public function approve_po(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $cpo = CategoryPO::find($id);
             $pr = CategoryPengajuanPembelian::find($cpo->ppb_id);
@@ -453,7 +453,7 @@ class TaskListFinanceController extends Controller
 
     public function reject(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $data = CategoryPengajuanPembelian::find($id);
             $data->status = 'Rejected by Finance';
@@ -482,7 +482,7 @@ class TaskListFinanceController extends Controller
 
     public function reject_po(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 ||$check->role_id == 5) {
             $cpo = CategoryPO::find($id);
             CategoryPO::where('id',$id)->update([

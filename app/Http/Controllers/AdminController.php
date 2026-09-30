@@ -30,7 +30,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3) {
         $admin      = User::orderBy('name', 'ASC')->paginate(10);
         $department = Department::all();
@@ -73,7 +73,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3) {
         return view('admin.create');
         } else {
@@ -89,7 +89,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3) {
             $this->validate($request, [
                 "name" => 'required',
@@ -164,7 +164,7 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3) {
             $this->validate($request, [
                 "name" => 'required',
@@ -201,7 +201,7 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3)  {
             $item = User::find($id);
             $item->delete();

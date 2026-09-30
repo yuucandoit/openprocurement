@@ -30,7 +30,7 @@ class CategoryPDController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 5 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','Unpaid');
@@ -78,7 +78,7 @@ class CategoryPDController extends Controller
         
      $cari = $request->cariIn;
      //dd($cari);
-     $check = Role::where('model_id', Auth::user()->id)->first();
+     $check = Auth::user();
         if ($check->role_id == 5 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where(function($query) use ($cari) {
                 $query->whereHas('quot', function($q) {
@@ -137,7 +137,7 @@ class CategoryPDController extends Controller
 
     public function out()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 5 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','Paid');
@@ -178,7 +178,7 @@ class CategoryPDController extends Controller
 
     public function history()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 5 || $check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot', function($q){
                 $q->whereIn('status',['Paid','Delivery Process','Delivery Success'])->where('status', 'not like', '%Rejected%')->orderBy('updated_at','ASC');

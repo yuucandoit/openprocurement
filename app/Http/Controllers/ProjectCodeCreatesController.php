@@ -17,7 +17,7 @@ class ProjectCodeCreatesController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 18) {
             $list = ProjectCodeCreates::orderBy('created_at','DESC')->paginate(10);
             return view('code_project_admin.index')
@@ -104,7 +104,7 @@ class ProjectCodeCreatesController extends Controller
 
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 18) {
             return view('code_project_admin.create');
         }else {
@@ -114,7 +114,7 @@ class ProjectCodeCreatesController extends Controller
 
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 18) {
             $code = ProjectCodeCreates::create([
                 'user_id'       => Auth::user()->id,
@@ -136,7 +136,7 @@ class ProjectCodeCreatesController extends Controller
 
     public function edit($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 18) {
             $list = ProjectCodeCreates::find($id);
             return view('code_project_admin.edit')
@@ -148,7 +148,7 @@ class ProjectCodeCreatesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 18) {
             $list = ProjectCodeCreates::find($id);
             if($list->status == 'Waiting Approval'){

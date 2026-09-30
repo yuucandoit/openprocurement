@@ -16,7 +16,7 @@ class WhoSubmittedController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = WhoSubmitted::paginate(10);
             return view('dataWhoSubmitted.index')
@@ -45,7 +45,7 @@ class WhoSubmittedController extends Controller
      */
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = WhoSubmitted::all();
             return view('dataWhoSubmitted.create')
@@ -63,7 +63,7 @@ class WhoSubmittedController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             //validasi formnya
             $this->validate($request,[
@@ -99,7 +99,7 @@ class WhoSubmittedController extends Controller
      */
     public function edit(WhoSubmitted $whoSubmitted, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = WhoSubmitted::find($id);
             return view('dataWhoSubmitted.edit')
@@ -118,7 +118,7 @@ class WhoSubmittedController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = WhoSubmitted::where('id',$id);
 
@@ -140,7 +140,7 @@ class WhoSubmittedController extends Controller
      */
     public function destroy(WhoSubmitted $whoSubmitted,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = WhoSubmitted::find($id);
             $data->delete();

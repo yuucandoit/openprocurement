@@ -17,7 +17,7 @@ class CategoryPBController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 2 || $check->role_id == 18) {
             $datapb = CategoryPB::where('user_id', Auth::user()->id)->get();
             return view('pembelianBarang.menu.index')

@@ -48,7 +48,7 @@ class CategoryPOController extends Controller
      */
     public function index(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         $arrayFilter = ['All','Tebet','Cikunir'];
         $filter = $request->filter ?? '';
         $cariIn = $request->cariIn ?? '';
@@ -122,7 +122,7 @@ class CategoryPOController extends Controller
     public function filterIndex(Request $request) 
     {
         $filter = $request->filter;
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         $arrayFilter = ['All','Tebet','Cikunir'];
 
         $query = CategoryPengajuanPembelian::whereIn('status', ['Purchase Proses','Cross Check PO'])
@@ -181,7 +181,7 @@ class CategoryPOController extends Controller
 
    public function out()
    {
-       $check = Role::where('model_id', Auth::user()->id)->first();
+       $check = Auth::user();
        if ($check->role_id == 4 || $check->role_id == 3 ||$check->role_id == 17) {
         $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO & Payment Approved','PO Approved','Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success'])->orderBy('updated_at','DESC')->orderBy('id', 'desc')->paginate(10, ['*'],'out');
         // $datapo = CategoryPO::get();
@@ -218,7 +218,7 @@ class CategoryPOController extends Controller
 
     public function history()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO Approved',
             'Invoicing Process','Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success',
@@ -311,7 +311,7 @@ class CategoryPOController extends Controller
 
     public function detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
         $pt                 = CategoryPT::orderBy('nama')->get();
@@ -366,7 +366,7 @@ class CategoryPOController extends Controller
 
     public function po_detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
         $datapo             = CategoryPO::where('id', $id)->get();
@@ -441,7 +441,7 @@ class CategoryPOController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $data = CategoryPengajuanPembelian::find($id);
@@ -680,7 +680,7 @@ class CategoryPOController extends Controller
      */
     public function edit($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $atasan             = User::whereIn('id', [3, 6, 7, 8, 9, 24])->get();
@@ -728,7 +728,7 @@ class CategoryPOController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datapo = CategoryPO::where('id',$id)->first();
@@ -1034,7 +1034,7 @@ class CategoryPOController extends Controller
 
     public function deletePOAll($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 3 || $check->role_id == 17) {
         $item = ItemPO::where('po_id', $id)->get();
@@ -1052,7 +1052,7 @@ class CategoryPOController extends Controller
 
     public function checkPO($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4 ) {
             $data = CategoryPengajuanPembelian::find($id);
             $po = CategoryPO::where('ppb_id', $data->id)->latest('created_at')->first();
@@ -1079,7 +1079,7 @@ class CategoryPOController extends Controller
     }
     public function checkPO2(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4 ) {
             $data = CategoryPO::where('id',$id)->update([
                 'status' => 'Cross Check PO',
@@ -1095,7 +1095,7 @@ class CategoryPOController extends Controller
 
     public function Reject($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
         $data = CategoryPengajuanPembelian::find($id);
@@ -1117,7 +1117,7 @@ class CategoryPOController extends Controller
     }
     public function export()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
         return Excel::download(new DBPurchaseHistoryExport, 'Database Purchase History.xlsx');
@@ -1128,7 +1128,7 @@ class CategoryPOController extends Controller
 
     public function EditPRPurchase()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $purchaseRequest = CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->orderBy('created_at','DESC')->paginate(10);
@@ -1141,7 +1141,7 @@ class CategoryPOController extends Controller
 
     public function SearchEditPRPurchase(Request $request)
    {
-    $check = Role::where('model_id', Auth::user()->id)->first();
+    $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $cari = $request->cari;
@@ -1170,7 +1170,7 @@ class CategoryPOController extends Controller
 
     public function ShowEditPRPurchase($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $purchaseRequest = CategoryPengajuanPembelian::where('id',$id)->orderBy('created_at','DESC')->first();
@@ -1208,7 +1208,7 @@ class CategoryPOController extends Controller
 
     public function ShowPRPurchaseDetail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
@@ -1247,7 +1247,7 @@ class CategoryPOController extends Controller
 
     public function UpdatePRPurchase(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $data = $request->all();
@@ -1274,7 +1274,7 @@ class CategoryPOController extends Controller
     // -------------------------------------- PO SPK -------------------------------------- //
 
     public function index_spk(){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::when(
                 !empty(Auth::user()->location) && Auth::user()->location == 'Cikunir',
@@ -1307,7 +1307,7 @@ class CategoryPOController extends Controller
     }
 
     public function detailspk($id){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $datappb    = CategoryPengajuanPembelian::find($id);
             $comments   = Comment::where('ppb_id',$id)->get();
@@ -1320,7 +1320,7 @@ class CategoryPOController extends Controller
     }
 
     public function po_detail_spk($id){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $datacpo    = CategoryPO::find($id);
             $comments   = Comment::where('ppb_id',$id)->get();
@@ -1333,7 +1333,7 @@ class CategoryPOController extends Controller
     }
 
     public function check_spk($id){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4 ) {
             $data = CategoryPengajuanPembelian::find($id);
             $data->status = 'Delivery Success';
@@ -1348,7 +1348,7 @@ class CategoryPOController extends Controller
     }
 
     public function check_po_spk($id){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17 || $check->role_id == 4 ) {
             $data = CategoryPO::where('id',$id)->update([
                 'status' => 'Waiting Approval PO SPK',
@@ -1362,7 +1362,7 @@ class CategoryPOController extends Controller
 
 
     public function approve_spk(Request $request, $id){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data = CategoryPengajuanPembelian::find($id);
 
@@ -1413,7 +1413,7 @@ class CategoryPOController extends Controller
     }
 
     public function approve_po_spk(Request $request,$id){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $data = CategoryPO::find($id);
             if($data->atasan_po == 3){
@@ -1449,7 +1449,7 @@ class CategoryPOController extends Controller
 
     public function spk_selected_approve(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             // dd($request->all());
             $ids = explode(',', $request->ids);
@@ -1492,7 +1492,7 @@ class CategoryPOController extends Controller
     }
 
     public function reject_pr_spk(Request $request,$id){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $ppb = CategoryPengajuanPembelian::find($id);
 
@@ -1542,7 +1542,7 @@ class CategoryPOController extends Controller
     }
 
     public function reject_po_spk(Request $request,$id){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $data = CategoryPO::find($id);
             $data->status = 'Rejected';
@@ -1604,7 +1604,7 @@ class CategoryPOController extends Controller
     }
 
     public function history_spk(){
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 4 || $check->role_id == 3 || $check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::whereIn('status',['Purchase Proses','PO & Payment Approved','PO Approved','Unpaid','Paid','Delivery Success','Rejected by Purchasing','Rejected by Finance','Rejected','Rejected PO SPK Base'])
             ->where('type_pr','SPKBased')

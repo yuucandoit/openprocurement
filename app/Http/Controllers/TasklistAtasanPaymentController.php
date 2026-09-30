@@ -29,7 +29,7 @@ class TasklistAtasanPaymentController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_py', Auth::user()->id)->where('status','Invoicing Process');
@@ -49,7 +49,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function taskPySindu()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_py', 6)->where('status','Invoicing Process');
@@ -69,7 +69,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function taskPyBayu()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_py', 7)->where('status','Invoicing Process');
@@ -89,7 +89,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function taskPyVictor()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_py', 8)->where('status','Invoicing Process');
@@ -109,7 +109,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function taskPyErwin()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_py', 9)->where('status','Invoicing Process');
@@ -129,7 +129,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function taskPyTriyani()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('atasan_py', 24)->where('status','Invoicing Process');
@@ -186,7 +186,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function history()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where('atasan_py', Auth::user()->id)->orderBy('status', 'desc')->orderBy('dateline', 'asc')->orderBy('approved_at','asc')->paginate(10, ['*'],'out');
             $datapo = CategoryPO::get();
@@ -232,7 +232,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $data_pengajuan     = CategoryPengajuanPembelian::find($id);
             $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
@@ -268,7 +268,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function po_detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $datapo             = CategoryPO::where('id', $id)->get();
             $datacpo            = CategoryPO::find($id);
@@ -340,7 +340,7 @@ class TasklistAtasanPaymentController extends Controller
      */
     public function edit(TasklistAtasanPayment $tasklistAtasanPayment,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $atasan = User::whereIn('id', [3,6, 7, 8, 9])->get();
             $datapt = CategoryPT::all();
@@ -371,7 +371,7 @@ class TasklistAtasanPaymentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
                 PengajuanPembelian::where('pp_id',$id)->delete();
                 $request->validate([
@@ -471,7 +471,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function approve_payment_py(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $cpo = CategoryPO::find($id);
             CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->update([
@@ -523,7 +523,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function accept_atasan_selected_pymnt(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $ids = explode(',', $request->ids);
             // dd($ids);
@@ -635,7 +635,7 @@ class TasklistAtasanPaymentController extends Controller
 
     public function reject(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 6 || $check->role_id == 19 ||$check->role_id == 3) {
             $cpo = CategoryPO::find($id);
             $cpo->status = 'Payment Rejected by BOD';

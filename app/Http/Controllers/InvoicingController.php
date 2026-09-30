@@ -31,7 +31,7 @@ class InvoicingController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','PO Approved');
@@ -47,7 +47,7 @@ class InvoicingController extends Controller
 
     public function po_detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $datapo             = CategoryPO::where('id', $id)->get();
             $datacpo            = CategoryPO::find($id);
@@ -115,7 +115,7 @@ class InvoicingController extends Controller
 
    public function out()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 5) {
             $datappb =  CategoryPengajuanPembelian::whereHas('quot',function($i){
                 $i->where('status','Payment Approved');
@@ -155,7 +155,7 @@ class InvoicingController extends Controller
 
     public function history()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 5 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::where('status','Invoicing Process')
             ->orWhere('status','Payment Approved')->orWhere( 'status','Unpaid')
@@ -206,7 +206,7 @@ class InvoicingController extends Controller
 
     public function detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $data_pengajuan = CategoryPengajuanPembelian::find($id);
             $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
@@ -247,7 +247,7 @@ class InvoicingController extends Controller
      */
     public function create($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $data_pengajuan     = CategoryPengajuanPembelian::find($id);
             $atasan             = User::whereIn('id', [3,6, 7, 8, 9, 24])->get();
@@ -298,7 +298,7 @@ class InvoicingController extends Controller
      */
     public function store(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $all = $request->all();
             // dd($all);
@@ -356,7 +356,7 @@ class InvoicingController extends Controller
      */
     public function edit($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();
@@ -415,7 +415,7 @@ class InvoicingController extends Controller
 
     public function ajukan_dana($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $data = CategoryPengajuanPembelian::find($id);
             if(empty($data->atasan_po)){
@@ -435,7 +435,7 @@ class InvoicingController extends Controller
     }
     public function ajukan_dana_ppo($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $po = CategoryPO::find($id);
             $data = CategoryPengajuanPembelian::where('id',$po->ppb_id)->first();
@@ -469,7 +469,7 @@ class InvoicingController extends Controller
 
     public function Reject($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3 || $check->role_id == 5) {
             $data = CategoryPO::find($id);
             $data->status = 'Rejected By Purchasing';

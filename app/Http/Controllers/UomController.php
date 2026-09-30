@@ -13,7 +13,7 @@ class UomController extends Controller
 {
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         $data = Uom::orderBy('name','asc')->paginate(10);
         return view('dataUom.index')
@@ -55,7 +55,7 @@ class UomController extends Controller
 
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         Uom::create([
             'name' => $request->name,
@@ -78,7 +78,7 @@ class UomController extends Controller
 
     public function update(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3 || $check->role_id == 4) {
         Uom::where('id',$id)->update([
             'name' => $request->name,
@@ -92,7 +92,7 @@ class UomController extends Controller
 
     public function destroy($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 3) {
         $data = Str::createUuidsNormally()::find($id);
         $data->delete();

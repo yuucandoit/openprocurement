@@ -20,7 +20,7 @@ class ReferensiNamaProjectController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = ReferensiNamaProject::paginate(10);
             return view('dataReferenceProject.index')
@@ -49,7 +49,7 @@ class ReferensiNamaProjectController extends Controller
      */
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = ReferensiNamaProject::all();
             return view('dataReferenceProject.create')
@@ -67,7 +67,7 @@ class ReferensiNamaProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             //validasi formnya
             $this->validate($request,[
@@ -103,7 +103,7 @@ class ReferensiNamaProjectController extends Controller
      */
     public function edit($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = ReferensiNamaProject::find($id);
             return view('dataReferenceProject.edit')
@@ -122,7 +122,7 @@ class ReferensiNamaProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = ReferensiNamaProject::find($id);
 
@@ -167,7 +167,7 @@ class ReferensiNamaProjectController extends Controller
 
     public function destroy($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = ReferensiNamaProject::find($id);
             $data->delete();

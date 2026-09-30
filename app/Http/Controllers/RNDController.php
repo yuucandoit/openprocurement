@@ -16,7 +16,7 @@ class RNDController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = RND::paginate(10);
             return view('dataRnD.index')
@@ -45,7 +45,7 @@ class RNDController extends Controller
      */
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = RND::all();
             return view('dataRnD.create')
@@ -63,7 +63,7 @@ class RNDController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
          //validasi formnya
             $this->validate($request,[
@@ -99,7 +99,7 @@ class RNDController extends Controller
      */
     public function edit(RND $rND,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = RND::find($id);
             return view('dataRnD.edit')
@@ -118,7 +118,7 @@ class RNDController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = RND::find($id);
 
@@ -140,7 +140,7 @@ class RNDController extends Controller
      */
     public function destroy(RND $rND,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = RND::find($id);
             $data->delete();

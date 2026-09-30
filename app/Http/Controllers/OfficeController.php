@@ -16,7 +16,7 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = Office::paginate(10);
             return view('dataOffice.index')
@@ -45,7 +45,7 @@ class OfficeController extends Controller
      */
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = Office::all();
             return view('dataOffice.create')
@@ -63,7 +63,7 @@ class OfficeController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             //validasi formnya
             $this->validate($request,[
@@ -99,7 +99,7 @@ class OfficeController extends Controller
      */
     public function edit(Office $office,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = Office::find($id);
             return view('dataOffice.edit')
@@ -118,7 +118,7 @@ class OfficeController extends Controller
      */
     public function update(Request $request, Office $office,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = Office::find($id);
 
@@ -140,7 +140,7 @@ class OfficeController extends Controller
      */
     public function destroy(Office $office,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ( $check->role_id == 3) {
             $data = Office::find($id);
             $data->delete();

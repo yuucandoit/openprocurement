@@ -29,7 +29,7 @@ class CheckPOController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             if($check->role_id == 3){
                 $datappb = CategoryPengajuanPembelian::whereHas('quot',function($i){
@@ -58,7 +58,7 @@ class CheckPOController extends Controller
 
     public function po_detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3||$check->role_id == 17) {
 
             $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
@@ -118,7 +118,7 @@ class CheckPOController extends Controller
 
     public function ajukan_keatasan($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $data = CategoryPengajuanPembelian::find($id);
             if(empty($data->atasan_po)){
@@ -139,7 +139,7 @@ class CheckPOController extends Controller
 
     public function ajukan_keatasan_po($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $data = CategoryPO::find($id);            
             $data->status = 'Waiting For PO Approval';
@@ -163,7 +163,7 @@ class CheckPOController extends Controller
 
     public function reject_po(Request $request,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $data = CategoryPO::find($id);
 
@@ -185,7 +185,7 @@ class CheckPOController extends Controller
 
     public function detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 17) {
             $pt                 = CategoryPT::all();
             $op                 = CategoryPP::all();
@@ -233,7 +233,7 @@ class CheckPOController extends Controller
 
     public function history()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3) {
             $datappb = CategoryPengajuanPembelian::whereIn('status',['Waiting For PO Approval','PO Approved','Invoicing Process',
             'Payment Approved','Unpaid','Paid','Delivery Process','Delivery Success','Rejected by Purchasing','PO Rejected by BOD',

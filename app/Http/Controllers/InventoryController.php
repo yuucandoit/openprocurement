@@ -16,7 +16,7 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
         $data = Inventory::paginate(10);
         return view('dataInventory.index')
@@ -45,7 +45,7 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Inventory::all();
             return view('dataInventory.create')
@@ -63,7 +63,7 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             //validasi formnya
             $this->validate($request,[
@@ -99,7 +99,7 @@ class InventoryController extends Controller
      */
     public function edit(Inventory $inventory,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Inventory::find($id);
             return view('dataInventory.edit')
@@ -118,7 +118,7 @@ class InventoryController extends Controller
      */
     public function update(Request $request, Inventory $inventory,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Inventory::find($id);
 
@@ -140,7 +140,7 @@ class InventoryController extends Controller
      */
     public function destroy(Inventory $inventory,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Inventory::find($id);
             $data->delete();

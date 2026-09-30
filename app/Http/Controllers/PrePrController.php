@@ -27,7 +27,7 @@ class PrePrController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 2 || $check->role_id == 3 ||  $check->role_id == 4 || $check->role_id == 17) {
             $pre_pr = Pre_pr::orderBy('created_at', 'DESC')->paginate(10);
             $purpose = ReferensiNamaProject::orderBy('created_at','DESC')->get();
@@ -48,7 +48,7 @@ class PrePrController extends Controller
     public function detail($id)
     {
 
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 2 || $check->role_id == 3 ||  $check->role_id == 4 || $check->role_id == 17) {
 
             $pre_pr = Pre_pr::with(['partItem' => function ($query) {
@@ -721,7 +721,7 @@ class PrePrController extends Controller
 
     public function approve_check_logistic(Request $request,$id)
     {
-        // $check = Role::where('model_id', Auth::user()->id)->first();
+        // $check = Auth::user();
         // if ($check->role_id == 20 || $check->role_id == 3) {
         //     $data = PartItem_Pre_pr::find($id);
         //     $data->is_check = 0;
@@ -731,7 +731,7 @@ class PrePrController extends Controller
         //     return redirect()->back()->with('message','Success Approved');
         // }
 
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 20) {
             $data = CategoryPengajuanPembelian::find($id);
             $data->logistic_check = 0;
@@ -745,7 +745,7 @@ class PrePrController extends Controller
     public function approve_check_logistic_selected(Request $request)
     {
         // dd($request);
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 20 || $check->role_id == 3) {
             // $ids = explode(',', $request->ids);
             // $data = PartItem_Pre_pr::whereIn('id',$ids)->get();
@@ -767,7 +767,7 @@ class PrePrController extends Controller
     public function reject_check_logistic(Request $request, $id)
     {
         // dd($request);
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 20 || $check->role_id == 3) {
             // $data = PartItem_Pre_pr::find($id);
             // $data->is_check = 1;
@@ -812,7 +812,7 @@ class PrePrController extends Controller
 
     public function reject_check_logistic_selected(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 20 || $check->role_id == 3) {
             $ids = explode(',', $request->ids);
             $data = CategoryPengajuanPembelian::whereIn($ids)->get();

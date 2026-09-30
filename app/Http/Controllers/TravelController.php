@@ -16,7 +16,7 @@ class TravelController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Travel::paginate(10);
             return view('dataTravel.index')
@@ -45,7 +45,7 @@ class TravelController extends Controller
      */
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             return view('dataTravel.create');
         }else {
@@ -61,7 +61,7 @@ class TravelController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $this->validate($request,[
                 'name' => 'required',
@@ -96,7 +96,7 @@ class TravelController extends Controller
      */
     public function edit(Travel $travel,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Travel::find($id);
             return view('dataTravel.edit')
@@ -115,7 +115,7 @@ class TravelController extends Controller
      */
     public function update(Request $request, Travel $travel,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $this->validate($request,[
                 'name' => 'required',
@@ -139,7 +139,7 @@ class TravelController extends Controller
      */
     public function destroy(Travel $travel,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Travel::find($id);
             $data->delete();

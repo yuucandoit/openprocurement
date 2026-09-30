@@ -399,8 +399,8 @@
                                     </li>
                                 @endhasrole
                                 @php
-                                $checkRole      = App\Models\Role::where('model_id', Auth::user()->id)->first();
-                                if($checkRole->role_id == 3 || $checkRole->role_id == 17){
+                                $checkRole      = Auth::user();
+                                if($checkRole && ($checkRole->role_id == 3 || $checkRole->role_id == 17)){
                                     $po = App\Models\CategoryPengajuanPembelian::whereIn('status', ['Purchase Proses','Cross Check PO'])->orderBy('dateline', 'asc')->orderBy('approved_at', 'asc')->count();
                                 }else {
                                     if(!empty(Auth::user()->location) && Auth::user()->location == 'Cikunir'){
@@ -815,7 +815,7 @@
 
 
                                         @php
-                                            $checkRole = App\Models\Role::where('model_id', Auth::user()->id)->first();
+                                            $checkRole = Auth::user();
                                             $taskpr         = App\Models\CategoryPengajuanPembelian::where('status', 'Awaiting Purchase Request Approval')->where('atasan',Auth::user()->id)->get();
                                             $taskpo         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_po', Auth::user()->id)->where('status','Waiting For PO Approval');})->get();
                                             $taskpd         = App\Models\CategoryPengajuanPembelian::whereHas('quot',function($i){$i->where('atasan_py', Auth::user()->id)->where('status','Invoicing Process');})->get();

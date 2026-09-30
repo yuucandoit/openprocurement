@@ -24,7 +24,7 @@ class CategoryPPController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $bank = Bank::orderBy('name')->get();
             $datadv = CategoryPP::orderBy('nama')->paginate(10);
@@ -56,7 +56,7 @@ class CategoryPPController extends Controller
 
     public function detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
 
@@ -77,7 +77,7 @@ class CategoryPPController extends Controller
      */
     public function create(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $bank = Bank::orderBy('name')->get();
             return view('dataPrivatePerson.menu.create')
@@ -96,7 +96,7 @@ class CategoryPPController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $this->validate($request,[
                 'nama' => 'required',
@@ -169,7 +169,7 @@ class CategoryPPController extends Controller
      */
     public function edit($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 || $check->role_id == 4) {
             $bank = Bank::orderBy('name')->get();
             $dv = CategoryPP::find($id);
@@ -190,7 +190,7 @@ class CategoryPPController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $this->validate($request,[
                 'nama' => 'required',
@@ -277,7 +277,7 @@ class CategoryPPController extends Controller
      */
     public function destroy($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 || $check->role_id == 4 ) {
         $data = CategoryPP::find($id);
         $data->delete();
@@ -289,7 +289,7 @@ class CategoryPPController extends Controller
 
     public function fileImportPP()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
         return view('dataPrivatePerson.menu.import');
         }else {
@@ -299,7 +299,7 @@ class CategoryPPController extends Controller
 
     public function fileImport(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
         // validasi
 		$this->validate($request, [
@@ -327,7 +327,7 @@ class CategoryPPController extends Controller
 
     public function export()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
         return Excel::download(new PPExport, 'PrivatePerson.xlsx');
         }return redirect()->route('dashboard');

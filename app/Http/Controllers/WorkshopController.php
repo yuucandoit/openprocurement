@@ -16,7 +16,7 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Workshop::paginate(10);
             return view('dataWorkshop.index')
@@ -45,7 +45,7 @@ class WorkshopController extends Controller
      */
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Workshop::all();
             return view('dataWorkshop.create')
@@ -63,7 +63,7 @@ class WorkshopController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             //validasi formnya
             $this->validate($request,[
@@ -99,7 +99,7 @@ class WorkshopController extends Controller
      */
     public function edit(Workshop $workshop,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Workshop::find($id);
             return view('dataWorkshop.edit')
@@ -118,7 +118,7 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, Workshop $workshop,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Workshop::find($id);
 
@@ -140,7 +140,7 @@ class WorkshopController extends Controller
      */
     public function destroy($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3) {
             $data = Workshop::find($id);
             $data->delete();

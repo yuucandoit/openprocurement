@@ -24,7 +24,7 @@ class CategoryPTController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
 
         if ($check->role_id == 17 || $check->role_id == 3 || $check->role_id == 4 ) {
             $datadv = CategoryPT::orderBy('nama')->paginate(10);
@@ -56,7 +56,7 @@ class CategoryPTController extends Controller
 
     public function detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
         $data_perusahaan = CategoryPT::find($id);
         return view('dataPerusahaan.menu.detail')
@@ -86,7 +86,7 @@ class CategoryPTController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $this->validate($request,[
                 'nama' => 'required',
@@ -168,7 +168,7 @@ class CategoryPTController extends Controller
      */
     public function edit(Request $request ,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $bank = Bank::orderBy('name')->get();
             $dv = CategoryPT::find($id);
@@ -190,7 +190,7 @@ class CategoryPTController extends Controller
     public function update(Request $request, $id)
     {
         // dd($request->all());
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ||$check->role_id == 4) {
             $data = CategoryPT::find($id);
             $tes = CategoryPT::where("id", $id)->update([
@@ -264,7 +264,7 @@ class CategoryPTController extends Controller
      */
     public function destroy($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ) {
             $data = CategoryPT::find($id);
             $data->delete();
@@ -276,7 +276,7 @@ class CategoryPTController extends Controller
 
     public function fileImportPT()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 ) {
         return view('dataPerusahaan.menu.import');
         }else {
@@ -309,7 +309,7 @@ class CategoryPTController extends Controller
 
     public function export()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 17 || $check->role_id == 3 || $check->role_id == 4) {
         return Excel::download(new PTExport, 'data_pt.xlsx');
         }

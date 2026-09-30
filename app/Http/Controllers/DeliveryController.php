@@ -34,7 +34,7 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
 
             if($check->role_id == 20){
@@ -80,7 +80,7 @@ class DeliveryController extends Controller
     {
 
 
-     $check = Role::where('model_id', Auth::user()->id)->first();
+     $check = Auth::user();
      $cari = $request->cariIn;
      //dd($cari);
 
@@ -165,7 +165,7 @@ class DeliveryController extends Controller
     }
     public function out()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 20 || $check->role_id == 3 || $check->role_id == 4 || $check->role_id == 17) {
             $datappb = CategoryPengajuanPembelian::where('status','Delivery Success')
             ->orderBy('status', 'asc')->orderBy('dateline', 'asc')
@@ -203,7 +203,7 @@ class DeliveryController extends Controller
 
     public function history()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 20 || $check->role_id == 3 || $check->role_id == 4 || $check->role_id == 17) {
             // kalau PR Status Belum Delivery Success
             // Tapi PO nya sudah punya flag 2 atau statusnya sudah delivery sucess maka tampilkan
@@ -319,7 +319,7 @@ class DeliveryController extends Controller
 
     public function create($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $dv = CategoryPengajuanPembelian::find($id);
             return view('delivery.menu.create')
@@ -330,7 +330,7 @@ class DeliveryController extends Controller
     }
     public function detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $data_pengajuan     = CategoryPengajuanPembelian::find($id);
             $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
@@ -373,7 +373,7 @@ class DeliveryController extends Controller
     }
     public function po_detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $datapo             = CategoryPO::where('id', $id)->get();
             $datacpo            = CategoryPO::find($id);
@@ -403,7 +403,7 @@ class DeliveryController extends Controller
 
     public function startShip(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $request->validate([
                 'no_resi' => 'required',
@@ -435,7 +435,7 @@ class DeliveryController extends Controller
 
     public function deliverystatus(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $cpo = CategoryPO::find($id);
             $ppb = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
@@ -458,7 +458,7 @@ class DeliveryController extends Controller
 
     public function endShip(Request $request, $id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $cpo = CategoryPO::find($id);
             $ppb = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
@@ -509,7 +509,7 @@ class DeliveryController extends Controller
 
     public function setBackShippy($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $cpo = CategoryPO::find($id);
             $ppb = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
@@ -532,7 +532,7 @@ class DeliveryController extends Controller
 
     public function store(Request $request, $id )
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $cpo = CategoryPO::find($id);
             $data = CategoryPengajuanPembelian::where('id',$cpo->ppb->id)->first();
@@ -582,7 +582,7 @@ class DeliveryController extends Controller
      */
     public function edit(Delivery $delivery,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $dv  = CategoryPengajuanPembelian::find($id);
             $delivery = Delivery::where('ppb_id',$id)->get();
@@ -604,7 +604,7 @@ class DeliveryController extends Controller
      */
     public function update(Request $request, Delivery $delivery,$id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $data = CategoryPengajuanPembelian::find($id);
             $request->validate([
@@ -640,7 +640,7 @@ class DeliveryController extends Controller
 
     public function complete($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $data = CategoryPengajuanPembelian::find($id);
             $data->status = 'Delivery Success';
@@ -656,7 +656,7 @@ class DeliveryController extends Controller
 
     public function denied($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $data = CategoryPO::find($id);
             $data->status = 'Rejected By Purchasing';
@@ -736,7 +736,7 @@ class DeliveryController extends Controller
 
     public function complete_2($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $cpo = CategoryPO::find($id);
             $pr = CategoryPengajuanPembelian::find($cpo->ppb_id);
@@ -768,7 +768,7 @@ class DeliveryController extends Controller
 
     public function denied_2($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 3 || $check->role_id == 20 || $check->role_id == 4 || $check->role_id == 17) {
             $data = CategoryPO::find($id);
             $data->status = 'Rejected By Purchasing';

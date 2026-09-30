@@ -46,7 +46,7 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function index()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 2 || $check->role_id == 18) {
             $user   = User::where('id', Auth::user()->id)->get();
             $datapt = CategoryPT::all();
@@ -129,7 +129,7 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         $data_pengajuan     = CategoryPengajuanPembelian::find($id);
         $pengajuan          = PengajuanPembelian::where('pp_id', $id)->get();
         $atasan             = User::whereIn('id', [3, 6, 7, 8, 9])->get();
@@ -185,7 +185,7 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function po_detail($id)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         $code               = CategoryPO::find($id);
         $datapo             = CategoryPO::where('id', $id)->get();
         $datacpo            = CategoryPO::where('id', $id)->first();
@@ -254,7 +254,7 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function history()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         $datappb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->where('status','Delivery Success')->paginate(10);
         if ($check->role_id == 2 || $check->role_id == 18 ){
             $ppb = CategoryPengajuanPembelian::where('user_id',Auth::user()->id)->first();
@@ -324,7 +324,7 @@ class CategoryPengajuanPembelianController extends Controller
 
     public function create()
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id == 2){
         
         $purposePermitted = Department::where('name', Auth::user()->department)
@@ -431,7 +431,7 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function store(Request $request)
     {
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         if ($check->role_id == 1 || $check->role_id = 2 || $check->role_id == 3){
             $data =  $request->all();
             $request->validate([
@@ -645,7 +645,7 @@ class CategoryPengajuanPembelianController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $check              = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         $atasan             = User::find(7);
         $datapt             = CategoryPT::all();
         $dv                 = CategoryPengajuanPembelian::find($id);
@@ -886,7 +886,7 @@ class CategoryPengajuanPembelianController extends Controller
     {
         $data = CategoryPengajuanPembelian::find($id);
         // dd($data);
-        $check = Role::where('model_id', Auth::user()->id)->first();
+        $check = Auth::user();
         // dd($check->role_id == 2 || $check->role_id == 18);
         if ($check->role_id == 2 || $check->role_id == 18) {
                 $itemPr = PengajuanPembelian::where('pp_id',$id)->get();
