@@ -56,6 +56,43 @@ class CategoryPO extends Model
         'deleted_at'
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'payment_date' => 'date',
+            'approved_at' => 'datetime',
+            'approved_at_py' => 'datetime',
+            'first_estimate' => 'date',
+            'last_estimate' => 'date',
+            'nilai' => 'float',
+            'flag_delivery' => 'integer',
+        ];
+    }
+
+    /**
+     * Check if this PO has successfully delivered.
+     */
+    public function isDelivered(): bool
+    {
+        return $this->status === 'Delivery Success';
+    }
+
+    /**
+     * Check if all other sibling POs under the same PR are also delivered.
+     */
+    public function areAllSiblingPosDelivered(): bool
+    {
+        return !self::where('ppb_id', $this->ppb_id)
+            ->where('id', '!=', $this->id)
+            ->where('status', '!=', 'Delivery Success')
+            ->exists();
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class,'creator_id');

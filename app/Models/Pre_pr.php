@@ -10,10 +10,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Pre_pr extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
-    use LogsActivity;
-    use HasFactory;
+    use HasFactory, SoftDeletes, LogsActivity;
+
     protected $table = 'pre_prs';
     protected $fillable = [
         'id',
@@ -22,6 +20,18 @@ class Pre_pr extends Model
         'due_date',
         'deleted_at'
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'due_date' => 'date',
+        ];
+    }
 
     public function partItem()
     {

@@ -57,6 +57,118 @@ class CategoryPengajuanPembelian extends Model
         'deleted_at'
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'approved_at' => 'datetime',
+            'check_po_timestamp' => 'datetime',
+            'w_approval_po_timestamp' => 'datetime',
+            'w_finance_pay_timestamp' => 'datetime',
+            'p_finance_timestamp' => 'datetime',
+            'dateline' => 'date',
+            'logistic_check' => 'integer',
+        ];
+    }
+
+    /**
+     * Standard relationship name for Purchase Orders under this PR.
+     */
+    public function purchaseOrders()
+    {
+        return $this->hasMany(CategoryPO::class, 'ppb_id');
+    }
+
+    /**
+     * Real-time breakdown of all POs under this PR.
+     * Tracks delivered, in-transit, and pending check POs to prevent forgotten items.
+     */
+    public function getPoProgressAttribute(): array
+    {
+        $allPo = $this->quot;
+        $total = $allPo->count();
+
+        if ($total === 0) {
+            return [
+                'total' => 0,
+                'delivered' => 0,
+                'otw' => 0,
+                'pending_check' => 0,
+                'waiting_approval' => 0,
+                'percentage' => 0,
+                'is_all_delivered' => false,
+                'has_pending_actions' => false,
+                'status_label' => 'No POs Created',
+                'badge_class' => 'badge-light',
+            ];
+        }
+
+        $delivered = $allPo->where('status', 'Delivery Success')->count();
+        $pendingCheck = $allPo->where('status', 'Cross Check PO')->count();
+        $waitingApproval = $allPo->where('status', 'Waiting For PO Approval')->count();
+        $rejected = $allPo->filter(fn($p) => str_contains(strtolower($p->status ?? ''), 'reject'))->count();
+        $otw = max(0, $total - $delivered - $pendingCheck - $waitingApproval - $rejected);
+
+        $percentage = $total > 0 ? (int) round(($delivered / $total) * 100) : 0;
+        $isAllDelivered = ($total > 0 && $delivered === $total);
+        $hasPendingActions = ($pendingCheck > 0 || ($delivered > 0 && !$isAllDelivered));
+
+        $statusLabel = match (true) {
+            $isAllDelivered => 'All POs Delivered (100%)',
+            $delivered > 0 => "Partial Delivery ({$delivered}/{$total} POs)",
+            $pendingCheck > 0 => "Needs Check PO ({$pendingCheck} POs)",
+            $waitingApproval > 0 => "Waiting Approval ({$waitingApproval} POs)",
+            default => "In Progress ({$delivered}/{$total})",
+        };
+
+        $badgeClass = match (true) {
+            $isAllDelivered => 'badge-success',
+            $delivered > 0 => 'badge-warning',
+            $pendingCheck > 0 => 'badge-danger',
+            default => 'badge-info',
+        };
+
+        return [
+            'total' => $total,
+            'delivered' => $delivered,
+            'otw' => $otw,
+            'pending_check' => $pendingCheck,
+            'waiting_approval' => $waitingApproval,
+            'rejected' => $rejected,
+            'percentage' => $percentage,
+            'is_all_delivered' => $isAllDelivered,
+            'has_pending_actions' => $hasPendingActions,
+            'status_label' => $statusLabel,
+            'badge_class' => $badgeClass,
+        ];
+    }
+
+    /**
+     * Scope to find PRs with partial deliveries (at least 1 delivered, but not all delivered).
+     */
+    public function scopeWithIncompleteDelivery($query)
+    {
+        return $query->whereHas('quot', function ($q) {
+            $q->where('status', 'Delivery Success');
+        })->whereHas('quot', function ($q) {
+            $q->where('status', '!=', 'Delivery Success');
+        });
+    }
+
+    /**
+     * Scope to find PRs that have POs waiting for Check PO.
+     */
+    public function scopeWithPendingCheckPo($query)
+    {
+        return $query->whereHas('quot', function ($q) {
+            $q->where('status', 'Cross Check PO');
+        });
+    }
+
     public function pt()
     {
         return $this->belongsTo(CategoryPT::class);

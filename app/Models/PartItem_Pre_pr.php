@@ -10,10 +10,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class PartItem_Pre_pr extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
-    use LogsActivity;
-    use HasFactory;
+    use HasFactory, SoftDeletes, LogsActivity;
+
     protected $table = 'part_item__pre_prs';
     protected $fillable = [
         'id',
@@ -34,6 +32,21 @@ class PartItem_Pre_pr extends Model
         'creator_id',
         'creator_name',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_check' => 'boolean',
+            'qty' => 'float',
+            'buffer' => 'float',
+            'total' => 'float',
+        ];
+    }
 
     public function prItems()
     {

@@ -744,8 +744,9 @@ class DeliveryController extends Controller
                 }
             }
 
-            if($cpo->id == $lastQuot->id && $pr->status == $cpo->status){
-                $data = CategoryPengajuanPembelian::where('id', $cpo->ppb->id)->update([
+            // If all POs under this PR are now delivered, automatically complete the PR!
+            if ($cpo->areAllSiblingPosDelivered()) {
+                CategoryPengajuanPembelian::where('id', $cpo->ppb_id)->update([
                     'status' => 'Delivery Success',
                 ]);
             }

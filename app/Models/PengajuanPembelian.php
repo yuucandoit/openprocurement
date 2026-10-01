@@ -28,6 +28,22 @@ class PengajuanPembelian extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'qty' => 'float',
+            'unit_price' => 'float',
+            'total' => 'float',
+            'grand_total' => 'float',
+        ];
+    }
+
     public function ppb()
     {
         return $this->belongsTo(CategoryPengajuanPembelian::class,'pp_id');
